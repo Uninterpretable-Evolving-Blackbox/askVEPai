@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Local tooling / models / large artifacts (machine-specific)
+tools_local/
+*.tar.gz
+
+# Bulky raw run logs (regenerable; keep the .md / aggregated .json reports)
+**/results/raw/
+**/results/_archive/
+*_raw.jsonl
+*.log
+
+# Documents (regenerated from markdown)
+*.docx

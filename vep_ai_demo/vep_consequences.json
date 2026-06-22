@@ -1,0 +1,248 @@
+{
+  "transcript_ablation": {
+    "impact": "HIGH",
+    "so_accession": "SO:0001893",
+    "so_description": "A feature ablation whereby the deleted region includes a transcript feature.",
+    "explanation": "The entire transcript is deleted by a structural variant. The gene product cannot be made at all — this is the most severe consequence VEP can assign."
+  },
+  "splice_acceptor_variant": {
+    "impact": "HIGH",
+    "so_accession": "SO:0001574",
+    "so_description": "A splice variant that changes the 2 base region at the 3' end of an intron.",
+    "explanation": "The variant disrupts the conserved AG dinucleotide at the 3' splice site of an intron. Without a functional acceptor, the spliceosome cannot recognise the exon boundary, likely causing exon skipping or intron retention and a non-functional protein."
+  },
+  "splice_donor_variant": {
+    "impact": "HIGH",
+    "so_accession": "SO:0001575",
+    "so_description": "A splice variant that changes the 2 base region at the 5' end of an intron.",
+    "explanation": "The variant disrupts the conserved GT dinucleotide at the 5' splice site of an intron. This prevents normal splicing, typically leading to exon skipping, intron retention, or activation of cryptic splice sites."
+  },
+  "stop_gained": {
+    "impact": "HIGH",
+    "so_accession": "SO:0001587",
+    "so_description": "A sequence variant whereby at least one base of a codon is changed, resulting in a premature stop codon.",
+    "explanation": "The variant introduces a premature termination codon (PTC). The resulting truncated protein is usually non-functional. Transcripts with PTCs may also be degraded by nonsense-mediated mRNA decay (NMD), reducing gene expression."
+  },
+  "frameshift_variant": {
+    "impact": "HIGH",
+    "so_accession": "SO:0001589",
+    "so_description": "A sequence variant which causes a disruption of the translational reading frame.",
+    "explanation": "An insertion or deletion that is not a multiple of 3 bases shifts the reading frame, altering all downstream amino acids and usually introducing a premature stop codon. Almost always results in a non-functional protein."
+  },
+  "stop_lost": {
+    "impact": "HIGH",
+    "so_accession": "SO:0001578",
+    "so_description": "A sequence variant where at least one base of the terminator codon (stop) is changed.",
+    "explanation": "The normal stop codon is disrupted, causing translation to continue into the 3' UTR until the next in-frame stop codon. The extended protein typically has altered function or stability."
+  },
+  "start_lost": {
+    "impact": "HIGH",
+    "so_accession": "SO:0002012",
+    "so_description": "A codon variant that changes at least one base of the canonical start codon.",
+    "explanation": "The initiator methionine codon (ATG) is disrupted. Translation may not initiate, or may start at a downstream alternative start codon, producing a truncated protein."
+  },
+  "transcript_amplification": {
+    "impact": "HIGH",
+    "so_accession": "SO:0001889",
+    "so_description": "A feature amplification of a region containing a transcript.",
+    "explanation": "A structural variant duplicates a region containing an entire transcript. This can lead to increased gene dosage, which may be pathogenic for dosage-sensitive genes."
+  },
+  "feature_elongation": {
+    "impact": "HIGH",
+    "so_accession": "SO:0001907",
+    "so_description": "A sequence variant that causes the extension of a genomic feature.",
+    "explanation": "A structural variant extends a genomic feature (transcript or regulatory element) beyond its normal boundaries. The functional impact depends on the feature affected."
+  },
+  "feature_truncation": {
+    "impact": "HIGH",
+    "so_accession": "SO:0001906",
+    "so_description": "A sequence variant that causes the reduction of a genomic feature.",
+    "explanation": "A structural variant shortens a genomic feature (transcript or regulatory element). Partial deletion of a transcript can remove critical exons or regulatory sequences."
+  },
+  "inframe_insertion": {
+    "impact": "MODERATE",
+    "so_accession": "SO:0001821",
+    "so_description": "An inframe non synonymous variant that inserts bases into the coding sequence.",
+    "explanation": "One or more amino acids are inserted without disrupting the reading frame. Impact varies — insertions in functional domains or conserved regions are more likely to be damaging."
+  },
+  "inframe_deletion": {
+    "impact": "MODERATE",
+    "so_accession": "SO:0001822",
+    "so_description": "An inframe non synonymous variant that deletes bases from the coding sequence.",
+    "explanation": "One or more amino acids are removed without disrupting the reading frame. Like inframe insertions, impact depends on whether the deleted residues are in functionally important regions."
+  },
+  "missense_variant": {
+    "impact": "MODERATE",
+    "so_accession": "SO:0001583",
+    "so_description": "A sequence variant, that changes one or more bases, resulting in a different amino acid sequence.",
+    "explanation": "A single nucleotide change results in a different amino acid. The functional impact depends on the biochemical difference between the original and substituted amino acids, and whether the position is in a conserved or functional domain. Use SIFT, PolyPhen-2, CADD, AlphaMissense, or REVEL to predict pathogenicity."
+  },
+  "protein_altering_variant": {
+    "impact": "MODERATE",
+    "so_accession": "SO:0001818",
+    "so_description": "A sequence_variant which is predicted to change the protein encoded in the coding sequence.",
+    "explanation": "A catch-all term for variants that alter the protein but don't fit neatly into missense, inframe insertion, or inframe deletion categories. Includes complex substitutions affecting multiple codons."
+  },
+  "splice_donor_5th_base_variant": {
+    "impact": "LOW",
+    "so_accession": "SO:0001787",
+    "so_description": "A sequence variant that causes a change at the 5th base pair after the start of the intron.",
+    "explanation": "The variant affects the 5th nucleotide of the intron (position +5 relative to the exon-intron junction). This position contributes to splice donor strength but is not part of the essential GT dinucleotide. May weaken splicing; use SpliceAI or MaxEntScan to assess."
+  },
+  "splice_region_variant": {
+    "impact": "LOW",
+    "so_accession": "SO:0001630",
+    "so_description": "A sequence variant in which a change has occurred within the region of the splice site.",
+    "explanation": "The variant is near a splice site but not at the canonical GT/AG dinucleotides. Defined as 1-3 bases into the exon or 3-8 bases into the intron from the splice junction. May affect splicing efficiency — check with SpliceAI or MaxEntScan for quantitative predictions."
+  },
+  "splice_donor_region_variant": {
+    "impact": "LOW",
+    "so_accession": "SO:0002170",
+    "so_description": "A sequence variant that falls in the region between the 3rd and 6th base after splice junction.",
+    "explanation": "The variant falls in the donor splice region (positions +3 to +6 of the intron). These positions contribute to splice site recognition but are less critical than the GT dinucleotide at +1/+2."
+  },
+  "splice_polypyrimidine_tract_variant": {
+    "impact": "LOW",
+    "so_accession": "SO:0002169",
+    "so_description": "A sequence variant that falls in the polypyrimidine tract at 3' end of intron.",
+    "explanation": "The variant is in the polypyrimidine tract, a pyrimidine-rich region near the 3' end of the intron required for spliceosome assembly. Disruption can impair splice acceptor recognition."
+  },
+  "incomplete_terminal_codon_variant": {
+    "impact": "LOW",
+    "so_accession": "SO:0001626",
+    "so_description": "A sequence variant where at least one base of the final codon of an incompletely annotated transcript is changed.",
+    "explanation": "The variant affects the final codon of a transcript whose annotation does not end with a complete codon. This is typically a transcript annotation issue rather than a biologically significant variant."
+  },
+  "start_retained_variant": {
+    "impact": "LOW",
+    "so_accession": "SO:0002019",
+    "so_description": "A sequence variant where at least one base in the start codon is changed, but the start remains.",
+    "explanation": "A change in the start codon that still encodes methionine (ATG). The protein sequence is unchanged, but translation initiation efficiency could potentially be affected by surrounding sequence context changes."
+  },
+  "stop_retained_variant": {
+    "impact": "LOW",
+    "so_accession": "SO:0001567",
+    "so_description": "A sequence variant where at least one base in the terminator codon is changed, but the terminator remains.",
+    "explanation": "A change in the stop codon that still results in a stop codon (e.g., TAA→TAG). The protein sequence is unchanged. Generally considered benign."
+  },
+  "synonymous_variant": {
+    "impact": "LOW",
+    "so_accession": "SO:0001819",
+    "so_description": "A sequence variant where there is no resulting change to the encoded amino acid.",
+    "explanation": "The codon changes but encodes the same amino acid due to genetic code degeneracy. Usually benign, but can occasionally affect splicing (exonic splice enhancers/silencers), mRNA stability, or translation speed through codon usage bias."
+  },
+  "coding_sequence_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001580",
+    "so_description": "A sequence variant that changes the coding sequence.",
+    "explanation": "A variant in the coding sequence whose specific effect on the protein cannot be determined, typically because the variant is complex or the transcript annotation is incomplete."
+  },
+  "mature_miRNA_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001620",
+    "so_description": "A transcript variant located with the sequence of the mature miRNA.",
+    "explanation": "The variant falls within a mature microRNA sequence. This could alter miRNA target recognition and gene silencing activity, potentially affecting regulation of many downstream target genes."
+  },
+  "5_prime_UTR_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001623",
+    "so_description": "A UTR variant of the 5' UTR.",
+    "explanation": "The variant falls in the 5' untranslated region. May affect mRNA stability, translation efficiency, or upstream open reading frames (uORFs). Use the UTRAnnotator plugin for detailed 5' UTR variant effects."
+  },
+  "3_prime_UTR_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001624",
+    "so_description": "A UTR variant of the 3' UTR.",
+    "explanation": "The variant falls in the 3' untranslated region. May affect mRNA stability, polyadenylation, or microRNA binding sites that regulate post-transcriptional gene expression."
+  },
+  "non_coding_transcript_exon_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001792",
+    "so_description": "A sequence variant that changes non-coding exon sequence in a non-coding transcript.",
+    "explanation": "The variant is in an exon of a non-coding RNA gene (e.g., lncRNA, snRNA). The functional impact depends on whether the affected region has known regulatory or structural roles."
+  },
+  "intron_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001627",
+    "so_description": "A transcript variant occurring within an intron.",
+    "explanation": "The variant is in an intron, away from splice sites. Most intronic variants are benign. However, deep intronic variants can create cryptic splice sites or disrupt intronic regulatory elements — check with SpliceAI if the variant is in a disease-associated gene."
+  },
+  "NMD_transcript_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001621",
+    "so_description": "A variant in a transcript that is the target of NMD.",
+    "explanation": "The variant is in a transcript predicted to undergo nonsense-mediated mRNA decay (NMD). NMD transcripts are typically non-functional and degraded by the cell's quality control machinery. Variants in NMD transcripts are less likely to have phenotypic consequences."
+  },
+  "non_coding_transcript_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001619",
+    "so_description": "A transcript variant of a non coding RNA gene.",
+    "explanation": "The variant overlaps a non-coding RNA transcript (e.g., lncRNA, miRNA, snRNA) but is not in an exon. The functional significance depends on the specific non-coding RNA and whether the affected region has a known role."
+  },
+  "coding_transcript_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001968",
+    "so_description": "A transcript variant of a protein coding gene.",
+    "explanation": "The variant overlaps a protein-coding transcript but the specific coding consequence cannot be determined. This is a general annotation when more specific terms do not apply."
+  },
+  "upstream_gene_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001631",
+    "so_description": "A sequence variant located 5' of a gene.",
+    "explanation": "The variant is upstream of a gene (within 5kb by default). May overlap the gene's promoter region. Check regulatory annotations (--regulatory) to see if it falls in a known regulatory element."
+  },
+  "downstream_gene_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001632",
+    "so_description": "A sequence variant located 3' of a gene.",
+    "explanation": "The variant is downstream of a gene (within 5kb by default). Usually benign, but could affect downstream regulatory elements or 3' UTR extensions."
+  },
+  "TFBS_ablation": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001895",
+    "so_description": "A feature ablation whereby the deleted region includes a transcription factor binding site.",
+    "explanation": "A structural variant deletes a transcription factor binding site entirely. This could disrupt gene regulation by preventing transcription factor binding. Requires --regulatory to be enabled."
+  },
+  "TFBS_amplification": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001892",
+    "so_description": "A feature amplification of a region containing a transcription factor binding site.",
+    "explanation": "A structural variant duplicates a region containing a transcription factor binding site. May lead to increased transcription factor binding and altered gene regulation."
+  },
+  "TF_binding_site_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001782",
+    "so_description": "A sequence variant located within a transcription factor binding site.",
+    "explanation": "The variant is within a known transcription factor binding site from the Ensembl Regulatory Build. VEP can report whether the variant increases or decreases the motif match score. Requires --regulatory to be enabled."
+  },
+  "regulatory_region_ablation": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001894",
+    "so_description": "A feature ablation whereby the deleted region includes a regulatory region.",
+    "explanation": "A structural variant deletes an entire regulatory region (promoter, enhancer, or other regulatory element). This can cause loss of gene regulation and is particularly relevant for structural variant analysis."
+  },
+  "regulatory_region_amplification": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001891",
+    "so_description": "A feature amplification of a region containing a regulatory region.",
+    "explanation": "A structural variant duplicates a region containing a regulatory element. May lead to gene dosage effects through duplicated regulatory sequences."
+  },
+  "regulatory_region_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001566",
+    "so_description": "A sequence variant located within a regulatory region.",
+    "explanation": "The variant overlaps a regulatory feature from the Ensembl Regulatory Build (promoter, enhancer, CTCF binding site, open chromatin region). The variant may affect gene regulation — check eQTL data and tissue-specific activity. Requires --regulatory to be enabled."
+  },
+  "intergenic_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001628",
+    "so_description": "A sequence variant located in the intergenic region, between genes.",
+    "explanation": "The variant does not overlap any gene. No transcript-level consequence applies. It may still fall in regulatory elements — enable --regulatory to check for overlaps with the Ensembl Regulatory Build."
+  },
+  "sequence_variant": {
+    "impact": "MODIFIER",
+    "so_accession": "SO:0001060",
+    "so_description": "A sequence_variant is a non exact copy of a sequence_feature or genome exhibiting sequence_alteration.",
+    "explanation": "A generic fallback term when VEP cannot assign a more specific consequence. This typically indicates the variant could not be mapped to a transcript or regulatory feature."
+  }
+}

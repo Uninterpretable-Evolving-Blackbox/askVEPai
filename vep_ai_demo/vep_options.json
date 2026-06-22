@@ -1,0 +1,793 @@
+[
+  {
+    "id": "transcript_set",
+    "name": "Transcript set",
+    "cli_flag": "--gencode_basic / --refseq / --merged",
+    "web_form_section": "Transcript set",
+    "category": "transcript_selection",
+    "description": "Choose which gene annotation set to use: Ensembl/GENCODE (default, most comprehensive), GENCODE Basic (high-quality subset), GENCODE Primary (minimal set covering all human exons without transcript duplication), RefSeq (NCBI-aligned), or merged (both Ensembl and RefSeq combined).",
+    "when_to_use": "Always required. Choose Ensembl/GENCODE for most analyses. Use RefSeq when downstream tools or clinical databases require NCBI transcript IDs. Use merged when you need both Ensembl and RefSeq annotations.",
+    "when_not_to_use": "Never skip this decision \u2014 a transcript set is always used. Avoid merged unless necessary, as it doubles output volume.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "regulatory",
+      "population_genetics",
+      "structural_variants"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "critical",
+      "regulatory_noncoding": "critical",
+      "population_genetics": "critical",
+      "structural_variants": "critical",
+      "non_human": "critical",
+      "quick_lookup": "critical"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "RefSeq coverage is patchy for non-human species. Merged mode significantly increases output."
+  },
+  {
+    "id": "mane_select",
+    "name": "MANE Select transcripts",
+    "cli_flag": "--mane_select",
+    "web_form_section": "Identifiers and transcript information",
+    "category": "transcript_selection",
+    "description": "Flags transcripts that are MANE (Matched Annotation from NCBI and EBI) Select \u2014 a single representative transcript per human protein-coding gene, jointly agreed upon by NCBI and Ensembl. Available for ~97% of human protein-coding genes.",
+    "when_to_use": "Clinical and rare disease analysis where a single representative transcript per gene is needed. Reduces noise by identifying the community-agreed default transcript. Standard for clinical reporting.",
+    "when_not_to_use": "Non-human species (MANE is human-only). Cancer analysis where multiple transcripts may be needed for different oncology databases. GRCh37 assembly (MANE is GRCh38 only).",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "missense"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human GRCh38 only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only adds a flag \u2014 does not filter transcripts. Use with --pick or downstream filtering to limit to MANE transcripts only."
+  },
+  {
+    "id": "canonical",
+    "name": "Canonical transcript flag",
+    "cli_flag": "--canonical",
+    "web_form_section": "Identifiers and transcript information",
+    "category": "transcript_selection",
+    "description": "Adds a flag indicating whether each transcript is the canonical transcript for its gene. Canonical transcripts are selected by Ensembl based on length, conservation, and clinical relevance.",
+    "when_to_use": "When you want to identify the primary transcript per gene, especially for non-human species where MANE is not available.",
+    "when_not_to_use": "For human clinical analysis, prefer MANE Select over canonical, as MANE is the community standard.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "non_human"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only adds a flag \u2014 does not filter output."
+  },
+  {
+    "id": "pick",
+    "name": "Pick one consequence per variant",
+    "cli_flag": "--pick",
+    "web_form_section": "Filtering options",
+    "category": "output_filtering",
+    "description": "Selects one line or block of consequence data per variant, using a ranking system (MANE Select > canonical > APPRIS > TSL > biotype > CCDS > rank > length). Dramatically reduces output volume.",
+    "when_to_use": "When you want a single representative consequence per variant to reduce output. Useful for large-scale analyses or when downstream tools expect one annotation per variant.",
+    "when_not_to_use": "When you need to see all affected transcripts (e.g., cancer analysis where different databases use different transcripts). Not suitable when variant affects multiple genes and you need all.",
+    "use_case_tags": [
+      "rare_disease",
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "recommended",
+      "structural_variants": "optional",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "May miss clinically relevant annotations on non-picked transcripts."
+  },
+  {
+    "id": "per_gene",
+    "name": "One consequence per gene",
+    "cli_flag": "--per_gene",
+    "web_form_section": "Filtering options",
+    "category": "output_filtering",
+    "description": "Outputs only the most severe consequence per gene for each variant. Unlike --pick, this retains one result per gene rather than one per variant, so multi-gene overlaps are preserved.",
+    "when_to_use": "When a variant overlaps multiple genes and you want the worst consequence from each gene, but don't need every transcript.",
+    "when_not_to_use": "When you need all transcripts per gene, or when using --pick is sufficient.",
+    "use_case_tags": [
+      "rare_disease",
+      "population_genetics"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "recommended",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "not_applicable"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Reduces output significantly but preserves multi-gene overlaps."
+  },
+  {
+    "id": "most_severe",
+    "name": "Most severe consequence only",
+    "cli_flag": "--most_severe",
+    "web_form_section": "Filtering options",
+    "category": "output_filtering",
+    "description": "Outputs only the single most severe consequence term per variant (e.g., 'missense_variant'). Does not include transcript-specific details like SIFT/PolyPhen scores.",
+    "when_to_use": "Quick overview of variant consequences without detailed annotations. Useful for initial triage of large variant sets.",
+    "when_not_to_use": "Clinical analysis, any case where you need SIFT/PolyPhen scores, HGVS notation, or other transcript-level annotations (all are incompatible).",
+    "use_case_tags": [
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "not_applicable",
+      "somatic_cancer": "not_applicable",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "pick",
+      "summary",
+      "sift",
+      "polyphen",
+      "canonical",
+      "mane_select",
+      "hgvs",
+      "symbol",
+      "protein",
+      "domains"
+    ],
+    "side_effects": "Loses all transcript-level annotation. Incompatible with most detailed annotation options."
+  },
+  {
+    "id": "summary",
+    "name": "Summary consequence per variant",
+    "cli_flag": "--summary",
+    "web_form_section": "Filtering options",
+    "category": "output_filtering",
+    "description": "Outputs a comma-separated list of all observed consequence types per variant on a single line, instead of per-transcript output. Like --most_severe, it suppresses transcript-specific annotations (SIFT, PolyPhen, HGVS, etc.).",
+    "when_to_use": "When you want a quick overview of all consequence types affecting a variant without per-transcript detail. Useful for initial triage.",
+    "when_not_to_use": "Clinical analysis, any case where you need detailed per-transcript annotations. Incompatible with the same options as --most_severe.",
+    "use_case_tags": [
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "not_applicable",
+      "somatic_cancer": "not_applicable",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "pick",
+      "sift",
+      "polyphen",
+      "canonical",
+      "mane_select",
+      "hgvs",
+      "symbol",
+      "protein",
+      "domains"
+    ],
+    "side_effects": "Loses all transcript-level annotation. Shows all consequence types as a comma-separated list."
+  },
+  {
+    "id": "sift",
+    "name": "SIFT predictions",
+    "cli_flag": "--sift b",
+    "web_form_section": "Predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Predicts whether a missense amino acid substitution affects protein function based on sequence homology and the physical properties of amino acids. Outputs prediction (tolerated/deleterious) and/or score (0-1, lower = more deleterious).",
+    "when_to_use": "Analysing coding variants where you want to assess functional impact of missense changes. Use 'b' (both) to get prediction and score.",
+    "when_not_to_use": "Non-coding variant analysis, regulatory variant studies, structural variant annotation. Only works on missense variants.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "missense"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human and selected model organisms with precomputed data",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only produces output for missense variants. Minimal runtime impact."
+  },
+  {
+    "id": "polyphen",
+    "name": "PolyPhen-2 predictions",
+    "cli_flag": "--polyphen b",
+    "web_form_section": "Predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Predicts possible impact of amino acid substitutions on protein structure and function using sequence, phylogenetic, and structural features. Outputs prediction (benign/possibly_damaging/probably_damaging) and/or score (0-1, higher = more damaging). Uses HumVar model by default.",
+    "when_to_use": "Analysing coding variants for functional impact. Complementary to SIFT \u2014 best used together for missense variant assessment.",
+    "when_not_to_use": "Non-coding or regulatory analysis. Non-human species (human only). Structural variants.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "missense"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only produces output for missense variants. Minimal runtime impact."
+  },
+  {
+    "id": "cadd",
+    "name": "CADD scores",
+    "cli_flag": "--plugin CADD,snv=/path/to/SNVs.tsv.gz,indels=/path/to/InDels.tsv.gz",
+    "web_form_section": "Predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Combined Annotation Dependent Depletion \u2014 a framework that integrates multiple annotations into a single deleteriousness score for both coding and non-coding variants. PHRED-scaled scores where higher = more deleterious (scores >= 20 are in top 1% of deleterious variants).",
+    "when_to_use": "When you need a single integrated pathogenicity score that works on both coding and non-coding variants. Particularly useful for prioritising variants of uncertain significance.",
+    "when_not_to_use": "When you only have structural variants (CADD is designed for SNVs and small indels). When detailed mechanistic prediction is needed (CADD is integrative, not mechanistic).",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "regulatory",
+      "missense"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human (GRCh37 and GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Requires downloading large data files (~80GB for whole genome). Available on web interface without download."
+  },
+  {
+    "id": "alphamissense",
+    "name": "AlphaMissense predictions",
+    "cli_flag": "--plugin AlphaMissense,file=/path/to/AlphaMissense_hg38.tsv.gz",
+    "web_form_section": "Predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Google DeepMind's AI model that classifies missense variants as likely pathogenic, likely benign, or ambiguous. Outputs a continuous score (0-1, higher = more pathogenic) and classification (likely_benign < 0.34, ambiguous 0.34-0.564, likely_pathogenic > 0.564).",
+    "when_to_use": "Assessing missense variant pathogenicity with state-of-the-art deep learning predictions. Strong complement to SIFT and PolyPhen-2.",
+    "when_not_to_use": "Non-coding variants (missense only). Non-human species. Structural variants.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "missense"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only (GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Only produces output for missense variants."
+  },
+  {
+    "id": "revel",
+    "name": "REVEL scores",
+    "cli_flag": "--plugin REVEL,file=/path/to/revel_scores.tsv.gz",
+    "web_form_section": "Predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Rare Exome Variant Ensemble Learner \u2014 an ensemble method that combines 13 individual pathogenicity prediction tools (including SIFT, PolyPhen, MutationTaster, FATHMM, etc.) into a single score for missense variants. Score range 0-1, higher = more pathogenic.",
+    "when_to_use": "Clinical variant interpretation where a consensus pathogenicity score is desired. REVEL has been shown to outperform individual predictors for distinguishing pathogenic from benign missense variants.",
+    "when_not_to_use": "Non-coding variants (missense only). Non-human species.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "missense"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Only produces output for missense variants. Requires data file download."
+  },
+  {
+    "id": "clinvar",
+    "name": "ClinVar clinical significance",
+    "cli_flag": "--check_existing",
+    "web_form_section": "Variants and frequency data",
+    "category": "variant_frequency",
+    "description": "Checks for co-located known variants and reports ClinVar clinical significance (CLIN_SIG field). ClinVar is NCBI's public archive of variant-disease relationships with classifications like pathogenic, likely_pathogenic, benign, likely_benign, uncertain_significance.",
+    "when_to_use": "Any clinical or diagnostic analysis. Essential for checking if variants have existing pathogenicity assertions from clinical laboratories.",
+    "when_not_to_use": "Non-human species (ClinVar is human-only). Note: ClinVar data is included via --check_existing which also enables other co-located variant features.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "recommended",
+      "non_human": "not_applicable",
+      "quick_lookup": "critical"
+    },
+    "species_restriction": "human only",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Part of --check_existing output. Also returns SOMATIC, PHENO, and Existing_variation fields."
+  },
+  {
+    "id": "check_existing",
+    "name": "Co-located known variants",
+    "cli_flag": "--check_existing",
+    "web_form_section": "Variants and frequency data",
+    "category": "variant_frequency",
+    "description": "Checks for known variants co-located with input variants. Reports existing variant IDs (e.g., rsIDs), ClinVar clinical significance (CLIN_SIG), somatic status (SOMATIC), and phenotype association status (PHENO).",
+    "when_to_use": "Almost always useful. Identifies whether your variants are known and have existing annotations in public databases.",
+    "when_not_to_use": "Rarely skipped. May be omitted for speed in very large-scale population analyses where only consequence annotation is needed.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "critical",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "recommended",
+      "structural_variants": "recommended",
+      "non_human": "recommended",
+      "quick_lookup": "critical"
+    },
+    "species_restriction": "all species (but ClinVar data is human-only)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Enables ClinVar, rsID, somatic, and phenotype lookups."
+  },
+  {
+    "id": "gnomad_af",
+    "name": "gnomAD allele frequencies",
+    "cli_flag": "--af_gnomade / --af_gnomadg",
+    "web_form_section": "Variants and frequency data",
+    "category": "variant_frequency",
+    "description": "Adds allele frequency data from gnomAD (Genome Aggregation Database). gnomAD exome (--af_gnomade) covers exonic regions with deeper coverage; gnomAD genome (--af_gnomadg) covers the whole genome. Reports global AF and population-specific frequencies (AFR, AMR, ASJ, EAS, FIN, NFE, SAS).",
+    "when_to_use": "Essential for rare disease analysis to filter common variants. Use gnomAD exome for exome/panel data, gnomAD genome for WGS data, or both for comprehensive coverage.",
+    "when_not_to_use": "Non-human species (gnomAD is human-only). May not be needed for somatic cancer analysis where driver mutations can be common in the population.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "population_genetics"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "critical",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "critical"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Requires cache mode. Adds multiple frequency columns to output."
+  },
+  {
+    "id": "af_1kg",
+    "name": "1000 Genomes allele frequencies",
+    "cli_flag": "--af_1kg",
+    "web_form_section": "Variants and frequency data",
+    "category": "variant_frequency",
+    "description": "Adds allele frequency from continental populations of 1000 Genomes Phase 3 data. Reports global AF and five super-population frequencies: AFR_AF, AMR_AF, EAS_AF, EUR_AF, SAS_AF.",
+    "when_to_use": "Population genetics studies comparing allele frequencies across continental populations. Useful alongside gnomAD for comprehensive frequency assessment.",
+    "when_not_to_use": "Not needed if gnomAD frequencies are sufficient. Non-human species.",
+    "use_case_tags": [
+      "population_genetics",
+      "rare_disease"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "not_applicable",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "critical",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Requires cache mode. Adds population-specific frequency columns."
+  },
+  {
+    "id": "gnomad_sv",
+    "name": "gnomAD structural variant frequencies",
+    "cli_flag": "--custom file=gnomad.v4.1.sv.sites.vcf.gz,short_name=gnomad_sv,format=vcf,type=overlap",
+    "web_form_section": "N/A (CLI custom annotation)",
+    "category": "variant_frequency",
+    "description": "Annotates structural variants with allele frequencies from gnomAD SV database. New in Ensembl release 115. Supports configurable overlap thresholds: exact match (default), 100% overlap, or percentage-based overlap (e.g., 80%). Reports ancestry-specific SV frequencies.",
+    "when_to_use": "Structural variant analysis from WGS data. Essential for filtering common SVs and prioritising rare structural variants that may be disease-causing.",
+    "when_not_to_use": "SNV/indel-only analysis. Non-human species. Variants larger than 10 Mbp (web interface limit).",
+    "use_case_tags": [
+      "structural_variants",
+      "rare_disease",
+      "clinical"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "critical",
+      "non_human": "not_applicable",
+      "quick_lookup": "not_applicable"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Large SVs overlapping many features can slow rendering. 10 Mbp size limit on web interface."
+  },
+  {
+    "id": "clinvar_sv",
+    "name": "ClinVar structural variant clinical significance",
+    "cli_flag": "--custom file=nstd102.GRCh38.variant_call.vcf.gz,short_name=clinvar_sv,format=vcf,type=overlap",
+    "web_form_section": "N/A (CLI custom annotation)",
+    "category": "variant_frequency",
+    "description": "Annotates structural variants with ClinVar clinical significance classifications. New in Ensembl release 115. Supports configurable overlap thresholds similar to gnomAD SV. Reports CLNSIG (clinical significance) and CLNACC (ClinVar accession with link).",
+    "when_to_use": "Structural variant analysis where you want to check if SVs have existing clinical assertions in ClinVar.",
+    "when_not_to_use": "SNV/indel analysis (use standard ClinVar via --check_existing). Non-human species.",
+    "use_case_tags": [
+      "structural_variants",
+      "rare_disease",
+      "clinical"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "not_applicable",
+      "structural_variants": "critical",
+      "non_human": "not_applicable",
+      "quick_lookup": "not_applicable"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Requires downloading ClinVar SV VCF and tabix index files."
+  },
+  {
+    "id": "regulatory",
+    "name": "Regulatory annotations",
+    "cli_flag": "--regulatory",
+    "web_form_section": "Additional annotations",
+    "category": "regulatory",
+    "description": "Looks for overlaps with regulatory regions from Ensembl's Regulatory Build, which includes promoters, enhancers, CTCF binding sites, open chromatin regions, and transcription factor binding sites from ENCODE, IHEC, and Blueprint data. Reports consequence types like regulatory_region_variant.",
+    "when_to_use": "Non-coding variant analysis, GWAS follow-up, regulatory variant interpretation. Essential when variants fall in intergenic or intronic regions where coding consequence prediction is not applicable.",
+    "when_not_to_use": "Purely coding/exome analysis (adds runtime without benefit). Large-scale analyses where speed is critical (reduces max buffer size to 500).",
+    "use_case_tags": [
+      "regulatory",
+      "gwas",
+      "noncoding"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "critical",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human and selected species with regulatory build data",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Reduces maximum buffer size to 500 on web interface. Adds regulatory consequence types to output."
+  },
+  {
+    "id": "hgvs",
+    "name": "HGVS notation",
+    "cli_flag": "--hgvs",
+    "web_form_section": "Identifiers and transcript information",
+    "category": "output_format",
+    "description": "Adds HGVS (Human Genome Variation Society) nomenclature to output based on Ensembl stable identifiers. Generates HGVSc (coding DNA) and HGVSp (protein) notations. Standard nomenclature for clinical variant reporting.",
+    "when_to_use": "Clinical reporting, variant database submissions, any analysis requiring standardised variant nomenclature. Essential for ACMG-compliant reporting.",
+    "when_not_to_use": "Quick exploratory analyses where standard identifiers are not needed. May add processing time for very large datasets.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Requires FASTA file in cache/offline mode. Adds HGVSc and HGVSp columns."
+  },
+  {
+    "id": "symbol",
+    "name": "Gene symbol",
+    "cli_flag": "--symbol",
+    "web_form_section": "Identifiers and transcript information",
+    "category": "output_format",
+    "description": "Adds the gene symbol (e.g., HGNC symbol like BRCA1, TP53) to the output. Makes results much more readable compared to Ensembl gene IDs alone.",
+    "when_to_use": "Almost always useful. Gene symbols are the most human-readable gene identifiers and essential for interpreting results.",
+    "when_not_to_use": "Rarely skipped. Only omit for minimal output or when only Ensembl IDs are needed.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "regulatory",
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "recommended",
+      "structural_variants": "recommended",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Minimal overhead. Adds SYMBOL column to output."
+  },
+  {
+    "id": "protein",
+    "name": "Protein identifiers",
+    "cli_flag": "--protein",
+    "web_form_section": "Identifiers and transcript information",
+    "category": "output_format",
+    "description": "Adds the Ensembl protein identifier (ENSP) to the output. Useful for linking to protein-level databases and structural analysis.",
+    "when_to_use": "When downstream analysis involves protein databases, structural modelling, or protein-level annotation.",
+    "when_not_to_use": "Non-coding variant analysis. Quick lookups where protein IDs are not needed.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "missense"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds ENSP column to output."
+  },
+  {
+    "id": "domains",
+    "name": "Protein domains",
+    "cli_flag": "--domains",
+    "web_form_section": "Additional annotations",
+    "category": "output_format",
+    "description": "Adds names of overlapping protein domains from InterPro, Pfam, PROSITE, and other domain databases. Shows which functional domain a coding variant falls in.",
+    "when_to_use": "Missense variant interpretation \u2014 knowing a variant falls in a known functional domain (e.g., kinase domain, DNA-binding domain) is strong evidence for functional impact.",
+    "when_not_to_use": "Non-coding variant analysis. Large-scale population studies where domain information is not needed.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "missense"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "recommended",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds DOMAINS column with domain names."
+  },
+  {
+    "id": "spliceai",
+    "name": "SpliceAI predictions",
+    "cli_flag": "--plugin SpliceAI,snv=/path/to/spliceai_scores.vcf.gz,indel=/path/to/spliceai_scores.vcf.gz",
+    "web_form_section": "Predictions",
+    "category": "splicing_prediction",
+    "description": "Deep learning model that predicts splice-altering effects of variants. Provides delta scores for four splice event types: acceptor gain (AG), acceptor loss (AL), donor gain (DG), donor loss (DL). Scores range 0-1, where higher = more likely to affect splicing. Scores >= 0.5 are high confidence, >= 0.2 are suggestive.",
+    "when_to_use": "When variants near splice sites or in exonic/intronic regions may affect splicing. Particularly valuable for variants of uncertain significance in rare disease.",
+    "when_not_to_use": "Purely intergenic variants far from any gene. Structural variants. Non-human species without precomputed scores.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "splicing"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human (precomputed scores for GRCh37 and GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Requires downloading large precomputed score files. Available on web interface."
+  },
+  {
+    "id": "maxentscan",
+    "name": "MaxEntScan splice site scores",
+    "cli_flag": "--plugin MaxEntScan,/path/to/maxentscan/fordownload",
+    "web_form_section": "Predictions",
+    "category": "splicing_prediction",
+    "description": "Scores splice sites using maximum entropy models. Compares reference and alternate allele splice site scores to predict if a variant disrupts normal splicing. Reports reference score, alternate score, and the difference (negative difference = weaker splice site).",
+    "when_to_use": "Splice-site variant analysis, especially canonical splice site variants and nearby intronic variants. Complementary to SpliceAI.",
+    "when_not_to_use": "Variants far from splice sites. Non-coding regulatory analysis. Quick lookups.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "splicing"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "optional",
+      "quick_lookup": "not_applicable"
+    },
+    "species_restriction": "all species (model is sequence-based)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Requires MaxEntScan software download."
+  },
+  {
+    "id": "gene_phenotype",
+    "name": "Gene-phenotype associations",
+    "cli_flag": "--gene_phenotype",
+    "web_form_section": "Phenotype data and citations",
+    "category": "phenotype",
+    "description": "Indicates if the overlapped gene is associated with a phenotype, disease, or trait in databases including OMIM, Orphanet, ClinVar, NHGRI-EBI GWAS Catalog, and others. Adds GENE_PHENO flag to output.",
+    "when_to_use": "Rare disease analysis to prioritise variants in known disease genes. GWAS follow-up to check if candidate genes have existing phenotype associations.",
+    "when_not_to_use": "When phenotype information is not relevant to the analysis. Non-human species have limited phenotype data.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "gwas"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species (but most data is human)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds GENE_PHENO flag column."
+  }
+]

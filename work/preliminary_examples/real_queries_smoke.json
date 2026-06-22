@@ -1,0 +1,16 @@
+[
+  {
+    "id": "real_rd_clinvar",
+    "query": "How do I get the CLIN_SIG / ClinVar clinical significance for a variant using Ensembl VEP, to flag a variant as damaging?",
+    "use_case_human": "rare_disease_germline",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/438518/"
+  },
+  {
+    "id": "real_nonhuman_sift_mouse",
+    "query": "Can I run SIFT and PolyPhen for mouse and other non-human species variants? Which are available and how do I enable them?",
+    "use_case_human": "non_human",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/85923/"
+  }
+]

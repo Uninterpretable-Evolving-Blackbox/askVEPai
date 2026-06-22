@@ -1,0 +1,224 @@
+{
+  "faithfulness_rate": 0.765625,
+  "mode": "combined",
+  "seed": 42,
+  "concurrency": 1,
+  "n_recs": 128,
+  "per_option": {
+    "biotype": 0.7777777777777778,
+    "check_existing": 0.5555555555555556,
+    "distance": 0.0,
+    "symbol": 0.85,
+    "af_gnomade": 0.8,
+    "cadd": 0.8,
+    "canonical": 0.3333333333333333,
+    "clinvar": 1.0,
+    "hgvs": 0.9090909090909091,
+    "mane": 0.5,
+    "pick": 0.6666666666666666,
+    "polyphen": 0.6,
+    "protein": 1.0,
+    "sift": 0.8333333333333334,
+    "transcript_version": 1.0,
+    "af_gnomadg": 0.5,
+    "core_type": 1.0,
+    "per_gene": 1.0,
+    "numbers": 1.0,
+    "regulatory": 1.0,
+    "af": 1.0,
+    "af_1kg": 1.0,
+    "gnomad_sv": 0.0
+  },
+  "per_query": {
+    "real_reg_flanking_distance": 0.25,
+    "real_reg_everything_norows": 0.8461538461538461,
+    "real_som_rna_expressed_transcript": 1.0,
+    "real_som_clinvar_somatic": 0.875,
+    "real_pop_gnomad_custom_chm13": 0.75,
+    "real_sv_clinvar_custom": 0.7142857142857143,
+    "real_quick_wgs_perf": 0.8,
+    "real_nonhuman_mouse_delly_sv": 0.875,
+    "real_rd_dbnsfp_gene": 0.5,
+    "real_rd_transcript": 0.8,
+    "real_pop_gnomad_build": 0.25,
+    "real_pop_gnomad_popfreq": 0.5,
+    "real_pop_gnomad_genomes": 0.6,
+    "real_rd_clinvar": 0.875,
+    "real_som_cosmic": 0.8,
+    "real_som_annotate": 1.0,
+    "real_sv_gnomadsv_af": 0.8571428571428571,
+    "real_sv_annotate": 0.8571428571428571,
+    "real_nonhuman_sift_mouse": 0.8,
+    "real_quick_rsid_offline": 0.4
+  },
+  "baselines": {
+    "real_reg_flanking_distance": [
+      "biotype",
+      "check_existing",
+      "distance",
+      "symbol"
+    ],
+    "real_reg_everything_norows": [
+      "af_gnomade",
+      "biotype",
+      "cadd",
+      "canonical",
+      "check_existing",
+      "clinvar",
+      "hgvs",
+      "mane",
+      "pick",
+      "polyphen",
+      "protein",
+      "sift",
+      "symbol"
+    ],
+    "real_som_rna_expressed_transcript": [
+      "biotype",
+      "hgvs",
+      "protein",
+      "symbol",
+      "transcript_version"
+    ],
+    "real_som_clinvar_somatic": [
+      "af_gnomade",
+      "af_gnomadg",
+      "cadd",
+      "check_existing",
+      "hgvs",
+      "polyphen",
+      "sift",
+      "symbol"
+    ],
+    "real_pop_gnomad_custom_chm13": [
+      "biotype",
+      "check_existing",
+      "hgvs",
+      "symbol"
+    ],
+    "real_sv_clinvar_custom": [
+      "biotype",
+      "canonical",
+      "check_existing",
+      "core_type",
+      "mane",
+      "per_gene",
+      "symbol"
+    ],
+    "real_quick_wgs_perf": [
+      "af_gnomade",
+      "check_existing",
+      "core_type",
+      "pick",
+      "symbol"
+    ],
+    "real_nonhuman_mouse_delly_sv": [
+      "biotype",
+      "check_existing",
+      "core_type",
+      "hgvs",
+      "numbers",
+      "per_gene",
+      "regulatory",
+      "symbol"
+    ],
+    "real_rd_dbnsfp_gene": [
+      "check_existing",
+      "symbol"
+    ],
+    "real_rd_transcript": [
+      "canonical",
+      "hgvs",
+      "pick",
+      "protein",
+      "symbol"
+    ],
+    "real_pop_gnomad_build": [
+      "af_gnomade",
+      "af_gnomadg",
+      "check_existing",
+      "symbol"
+    ],
+    "real_pop_gnomad_popfreq": [
+      "af",
+      "af_1kg",
+      "af_gnomade",
+      "af_gnomadg",
+      "check_existing",
+      "symbol"
+    ],
+    "real_pop_gnomad_genomes": [
+      "af",
+      "af_gnomade",
+      "af_gnomadg",
+      "check_existing",
+      "symbol"
+    ],
+    "real_rd_clinvar": [
+      "af_gnomade",
+      "cadd",
+      "check_existing",
+      "clinvar",
+      "hgvs",
+      "polyphen",
+      "sift",
+      "symbol"
+    ],
+    "real_som_cosmic": [
+      "af_gnomade",
+      "af_gnomadg",
+      "cadd",
+      "check_existing",
+      "clinvar",
+      "core_type",
+      "hgvs",
+      "polyphen",
+      "sift",
+      "symbol"
+    ],
+    "real_som_annotate": [
+      "af_gnomade",
+      "af_gnomadg",
+      "cadd",
+      "check_existing",
+      "clinvar",
+      "core_type",
+      "hgvs",
+      "polyphen",
+      "sift",
+      "symbol"
+    ],
+    "real_sv_gnomadsv_af": [
+      "biotype",
+      "check_existing",
+      "core_type",
+      "gnomad_sv",
+      "per_gene",
+      "regulatory",
+      "symbol"
+    ],
+    "real_sv_annotate": [
+      "biotype",
+      "check_existing",
+      "core_type",
+      "gnomad_sv",
+      "per_gene",
+      "regulatory",
+      "symbol"
+    ],
+    "real_nonhuman_sift_mouse": [
+      "biotype",
+      "check_existing",
+      "hgvs",
+      "sift",
+      "symbol"
+    ],
+    "real_quick_rsid_offline": [
+      "af",
+      "af_gnomade",
+      "check_existing",
+      "hgvs",
+      "symbol"
+    ]
+  }
+}

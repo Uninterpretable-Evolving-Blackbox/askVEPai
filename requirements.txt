@@ -1,0 +1,4 @@
+# Python dependencies for both the demo (vep_ai_demo/) and the experiment harness (work/).
+# Inference is served locally by Ollama (https://ollama.com/) — not a pip dependency.
+openai>=1.0.0                 # OpenAI-compatible client for the local Ollama API
+sentence-transformers>=2.2.0  # BAAI/bge-small-en-v1.5 embeddings for --semantic retrieval

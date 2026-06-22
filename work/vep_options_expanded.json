@@ -1,0 +1,2074 @@
+[
+  {
+    "id": "core_type",
+    "name": "Transcript database to use",
+    "cli_flag": "--refseq | --merged | --gencode_basic | --gencode_primary (no flag for core)",
+    "web_form_section": "advanced",
+    "category": "transcript_selection",
+    "description": "Radiolist choosing which transcript/gene annotation set drives consequence calculation: Ensembl/GENCODE core (default, no CLI flag), GENCODE Basic (--gencode_basic, fragmented/problematic transcripts removed), GENCODE Primary (--gencode_primary, minimal set covering all human exons without transcript duplication, human GRCh38 only), RefSeq (--refseq, NCBI-aligned cache, adds REFSEQ_MATCH/BAM_EDIT), or merged (--merged, Ensembl+RefSeq combined, adds SOURCE per transcript). The five values are mutually exclusive (one control). The field is only displayed for species that have a RefSeq cache available.",
+    "when_to_use": "Always choose a transcript database. Use Ensembl/GENCODE for most analyses. Use RefSeq when downstream clinical tools or databases require NCBI transcript IDs. Use merged when both Ensembl and RefSeq annotations are needed in one run. Use GENCODE Basic/Primary to reduce transcript redundancy.",
+    "when_not_to_use": "Avoid merged unless you genuinely need both sources, as it roughly doubles output volume. Avoid GENCODE Primary outside human GRCh38 (not available). RefSeq coverage is patchy for non-human species.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "regulatory",
+      "population_genetics",
+      "structural_variants",
+      "non_human"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "critical",
+      "regulatory_noncoding": "critical",
+      "population_genetics": "critical",
+      "structural_variants": "critical",
+      "non_human": "critical",
+      "quick_lookup": "critical"
+    },
+    "species_restriction": "all species (field only shown when a species has RefSeq data)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "RefSeq/merged add REFSEQ_MATCH and BAM_EDIT columns; merged also adds a SOURCE column and roughly doubles output volume. The five sub-options are mutually exclusive (--refseq, --merged, --gencode_basic, --gencode_primary cannot be combined). GENCODE Primary only valid for human GRCh38.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Transcript database",
+    "web_default": "Ensembl/GENCODE core (no flag)",
+    "provenance": "InputForm.pm _build_core_type pre-section + Object_VEP.pm get_form_details; confirmed against ensembl.org vep_options.html (--refseq/--merged/--gencode_basic/--gencode_primary). CORRECTED from demo transcript_set; adds gencode_primary; default core has no CLI flag. [NOTE: rendered as a top-level/pre-section radiolist in get_cacheable_form_node, not inside any of the 6 CONFIG_SECTIONS; mapped to 'advanced' as least-wrong within the enum]"
+  },
+  {
+    "id": "hgvs",
+    "name": "HGVS",
+    "cli_flag": "--hgvs",
+    "web_form_section": "identifiers",
+    "category": "identifiers",
+    "description": "Adds HGVS (Human Genome Variation Society) nomenclature based on Ensembl stable identifiers to the output. Both coding (HGVSc) and protein (HGVSp) sequence names are added where appropriate, along with HGVS_OFFSET. This is the standard nomenclature used in clinical variant reporting.",
+    "when_to_use": "Clinical reporting, variant database submissions, and any analysis requiring standardised variant nomenclature (e.g. ACMG-compliant reporting). Strongly recommended for rare-disease germline and diagnostic workflows.",
+    "when_not_to_use": "Quick exploratory lookups where standardised nomenclature is not needed, and large-scale population scans where the extra processing and FASTA requirement add overhead. Cannot be combined with most_severe or summary (transcript-specific columns are blanked).",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds HGVSc, HGVSp and HGVS_OFFSET columns. In --cache/--offline mode requires a FASTA file (--fasta) to generate HGVS identifiers; the web service supplies this automatically. Adds processing time for very large datasets.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Identifiers",
+    "web_default": "off",
+    "provenance": "InputForm.pm identifiers section + ensembl.org vep_options.html (--hgvs: 'Not used by default', requires FASTA). Default OFF per InputForm (no checked key) - corrects brief's 'ON'; CORRECTED section to identifiers."
+  },
+  {
+    "id": "af_gnomade",
+    "name": "gnomAD (exomes) allele frequencies",
+    "cli_flag": "--af_gnomade",
+    "web_form_section": "variants_frequency_data",
+    "category": "frequency_data",
+    "description": "Includes allele frequencies from the gnomAD (Genome Aggregation Database) exome populations. Reports global and population-specific exome frequencies (gnomADe_AF plus AFR, AMR, ASJ, EAS, FIN, NFE, OTH, SAS). Only exome data is included; the genome dataset is retrieved separately via af_gnomadg.",
+    "when_to_use": "Essential for rare-disease germline analysis to filter out common variants, particularly for exome and gene-panel data where gnomAD exomes give the deepest coverage. Core to population-genetics frequency assessment.",
+    "when_not_to_use": "Non-human species (gnomAD is human-only). Less critical for somatic cancer where driver mutations can be population-common. For WGS data, prefer or add the genome frequencies (af_gnomadg).",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "population_genetics"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "critical",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Must be used with cache mode (incompatible with --database). Adds multiple gnomADe_* frequency columns to output. Relies on co-located variant lookup (check_existing).",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Variants and frequency data",
+    "web_default": "off",
+    "provenance": "InputForm.pm variants_frequency_data (human-only field) + ensembl.org vep_options.html (--af_gnomade exome populations, must be used with --cache). CORRECTED - split from demo gnomad_af (exomes half)."
+  },
+  {
+    "id": "tsl",
+    "name": "Transcript support level",
+    "cli_flag": "--tsl",
+    "web_form_section": "additional_annotations",
+    "category": "transcript_annotation",
+    "description": "Adds the Transcript Support Level (TSL) for each transcript to the output. TSL ranks transcripts by how well their structure is supported by experimental evidence (e.g. mRNA and EST alignments). It is one of the criteria used by the --pick ranking system.",
+    "when_to_use": "Human GRCh38 analyses where you want evidence-based confidence in transcript models, and whenever using --pick so that better-supported transcripts are preferred. Useful for rare-disease and clinical transcript selection.",
+    "when_not_to_use": "Non-human species and GRCh37 (TSL is human GRCh38 only). Cannot be combined with most_severe or summary, which blank transcript-specific columns.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds a TSL column. Available only for human on GRCh38. Feeds into the --pick / --pick_order ranking (position 5 in the default order).",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Transcript annotation",
+    "web_default": "on",
+    "provenance": "InputForm.pm additional_annotations/Transcript annotation (human-only, default ON) + ensembl.org vep_options.html (--tsl, GRCh38 only, incompatible with --most_severe/--summary) + vep_other.html pick_order (TSL is criterion 5)."
+  },
+  {
+    "id": "domains",
+    "name": "Protein matches",
+    "cli_flag": "--domains",
+    "web_form_section": "additional_annotations",
+    "category": "protein_annotation",
+    "description": "Adds the names of overlapping protein matches/domains to the output, drawn from databases such as Pfam, PROSITE and InterPro. Shows which functional protein domain a coding variant falls within.",
+    "when_to_use": "Missense variant interpretation, where knowing a variant falls in a known functional domain (e.g. a kinase or DNA-binding domain) is strong supporting evidence of functional impact. Useful across rare-disease, clinical and somatic coding analyses.",
+    "when_not_to_use": "Non-coding/regulatory variant analysis where protein domains are irrelevant, and large population studies where domain detail is not needed. Cannot be combined with most_severe or summary.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "recommended",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds a DOMAINS column with overlapping domain names. Minimal runtime impact. Incompatible with --most_severe and --summary.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Protein annotation",
+    "web_default": "off",
+    "provenance": "InputForm.pm additional_annotations/Protein annotation (label 'Protein matches', default off) + ensembl.org vep_options.html (--domains: 'Adds names of overlapping protein domains', incompatible with --most_severe/--summary). CORRECTED label 'Protein matches' and section additional_annotations."
+  },
+  {
+    "id": "frequency",
+    "name": "Filter by frequency",
+    "cli_flag": "--check_frequency (+ --freq_pop/--freq_freq/--freq_gt_lt/--freq_filter)",
+    "web_form_section": "filters",
+    "category": "filtering",
+    "description": "Turns on frequency-based pre-filtering: includes or excludes input variants based on the allele frequency of co-located known variants in the Ensembl Variation database. The web control is a radiolist (No / exclude common / advanced); the advanced mode exposes the sub-controls freq_filter (exclude vs include-only), freq_gt_lt (greater-than vs less-than), freq_freq (a float threshold 0-1) and freq_pop (the reference population, e.g. 1KG_ALL, gnomADe/gnomADg subpopulations).",
+    "when_to_use": "Human analyses where you want VEP itself to drop common (or conversely keep only rare) variants before reporting, e.g. quickly removing high-frequency benign variants in rare-disease or population workflows.",
+    "when_not_to_use": "Non-human species (control is human-only). Somatic cancer, where population frequency does not necessarily indicate benignity. When you prefer to retain all variants and filter downstream by the reported AF columns instead.",
+    "use_case_tags": [
+      "rare_disease",
+      "population_genetics",
+      "clinical"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "not_applicable",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "recommended",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Adds a FREQS column with the frequencies used in filtering. Removes variants from the output (it is a hard pre-filter, not just an annotation). Requires all four --freq_* sub-flags to be set when enabled.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Filtering options",
+    "web_default": "no",
+    "provenance": "InputForm.pm filters section + ensembl.org vep_options.html (--check_frequency, --freq_pop/--freq_freq/--freq_gt_lt/--freq_filter; FREQS output). Human-only per InputForm field_class."
+  },
+  {
+    "id": "most_severe",
+    "name": "Most severe consequence only",
+    "cli_flag": "--most_severe",
+    "web_form_section": "filters",
+    "category": "output_control",
+    "description": "A value of the single 'Restrict results' dropdown. Outputs only the most severe consequence term per variant according to the consequence rank table; all transcript-specific columns are left blank. Regulatory consequences can be included by also enabling the regulatory option.",
+    "when_to_use": "Quick overview / triage of large variant sets where you only need the worst consequence per variant and no per-transcript detail. Suited to coarse population scans and quick lookups.",
+    "when_not_to_use": "Clinical or rare-disease analysis, or any case needing SIFT/PolyPhen, HGVS, domains, TSL/APPRIS/MANE or other transcript-level annotation (all incompatible). Choose a different 'Restrict results' value if you need detail.",
+    "use_case_tags": [
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "not_applicable",
+      "somatic_cancer": "not_applicable",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "pick",
+      "pick_allele",
+      "per_gene",
+      "summary",
+      "sift",
+      "polyphen",
+      "hgvs",
+      "domains",
+      "symbol",
+      "protein",
+      "ccds",
+      "uniprot",
+      "biotype",
+      "numbers",
+      "tsl",
+      "appris",
+      "mane",
+      "canonical"
+    ],
+    "side_effects": "Suppresses all per-transcript detail (transcript-specific columns blanked). Mutually exclusive with the other 'Restrict results' values (pick, pick_allele, per_gene, summary) since they are one dropdown control, and incompatible with most per-transcript annotation options.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Restrict results",
+    "web_default": "no (the 'Restrict results' dropdown defaults to 'all/no restriction')",
+    "provenance": "InputForm.pm filters 'Restrict results' dropdown (one control, mutually-exclusive values) + ensembl.org vep_options.html (--most_severe: 'Output only the most severe consequence per variant. Transcript-specific columns will be left blank.', long incompatibility list)."
+  },
+  {
+    "id": "dbnsfp",
+    "name": "dbNSFP",
+    "cli_flag": "--plugin dbNSFP",
+    "web_form_section": "predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Plugin that retrieves data for missense variants from a tabix-indexed dbNSFP file, a meta-resource aggregating many in-silico predictors and annotations (e.g. SIFT, PolyPhen-2, FATHMM, MutationTaster, LRT, GERP++ and other conservation/pathogenicity scores). The user selects which dbNSFP columns to report.",
+    "when_to_use": "Missense variant interpretation where you want many pre-computed predictor scores at once instead of running each tool separately. Valuable for rare-disease and clinical pathogenicity assessment and for somatic missense review.",
+    "when_not_to_use": "Non-coding/regulatory or structural variants (dbNSFP covers missense only). Non-human species. Cannot be combined with most_severe or summary.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only produces output for missense variants. Requires a large tabix-indexed dbNSFP data file (supplied by the web service); adds many user-selected score columns. Supports transcript_match for transcript-specific scores. Available for GRCh37 and GRCh38.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (dbNSFP available) + ensembl.org vep_plugins.html (dbNSFP: missense variants, tabix-indexed file, user-selectable columns, GRCh37+GRCh38). Plugin exposed under predictions."
+  },
+  {
+    "id": "loeuf",
+    "name": "LOEUF",
+    "cli_flag": "--plugin LOEUF",
+    "web_form_section": "additional_annotations",
+    "category": "gene_constraint",
+    "description": "Plugin that adds the gnomAD LOEUF (loss-of-function observed/expected upper-bound fraction) score to VEP output. LOEUF is a gene-level constraint metric: lower values indicate genes more intolerant to loss-of-function variation. A single score is reported per gene (most severe when multiple transcripts exist).",
+    "when_to_use": "Prioritising variants in loss-of-function-intolerant genes, especially for rare-disease germline analysis (haploinsufficiency, dominant disorders). Useful complement to per-variant pathogenicity scores.",
+    "when_not_to_use": "Non-human species (gnomAD-derived). When gene-level constraint is not relevant to the question, or for purely somatic driver analysis where gene constraint is less informative.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "population_genetics"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds a single LOEUF column per gene (most severe score when multiple transcripts exist). Available for GRCh37 (gnomAD v2.1.1) and GRCh38 (gnomAD v4.1). Can match by gene or transcript.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Gene tolerance to change",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (LOEUF available) + ensembl.org vep_plugins.html (LOEUF: gnomAD LoF observed/expected upper bound, gene constraint, GRCh37 v2.1.1 / GRCh38 v4.1). Plugin exposed under additional_annotations."
+  },
+  {
+    "id": "mastermind",
+    "name": "Mastermind",
+    "cli_flag": "--plugin Mastermind",
+    "web_form_section": "variants_frequency_data",
+    "category": "literature_citation",
+    "description": "Plugin that reports variants with clinical evidence cited in the medical literature, via the Mastermind Genomic Search Engine. For co-located variants it returns article counts at three matching levels (MMCNT1/2/3) and a Mastermind variant identifier (MMID3) enabling links into the Mastermind database.",
+    "when_to_use": "Clinical and rare-disease variant interpretation where literature support is valuable evidence (e.g. checking whether a variant has prior clinical citations). Also useful for reviewing somatic variants reported in the literature.",
+    "when_not_to_use": "Non-human species (human data only, GRCh37+GRCh38). Large population scans where literature counts add little, or when no internet/citation lookup is desired.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only (GRCh37+GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds MMCNT1, MMCNT2, MMCNT3 (article counts at three matching levels) and MMID3 columns. Requires the Mastermind cited-variants VCF (separate file per assembly).",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Variant data",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (Mastermind available) + ensembl.org vep_plugins.html (Mastermind Genomic Search Engine, clinical literature citations, MMCNT1/2/3 + MMID3, GRCh37+GRCh38). Plugin exposed under variants_frequency_data."
+  },
+  {
+    "id": "symbol",
+    "name": "Gene symbol",
+    "cli_flag": "--symbol",
+    "web_form_section": "identifiers",
+    "category": "identifiers",
+    "description": "Adds the gene symbol (e.g. HGNC symbol such as BRCA1, TP53) to the output where available. Makes results far more human-readable than Ensembl gene IDs alone. Some gene symbols are only available in the merged and Ensembl/GENCODE caches.",
+    "when_to_use": "Almost always useful. Gene symbols are the most human-readable gene identifiers and are essential for interpreting results in any clinical, research, or exploratory context. Default ON in the web form.",
+    "when_not_to_use": "Rarely skipped. Only omit for minimal machine-parsed output or when only Ensembl stable IDs are needed. Suppressed automatically by the summary/most_severe restrict-results modes, which drop per-transcript detail.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "regulatory",
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "recommended",
+      "structural_variants": "recommended",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Minimal overhead. Adds the SYMBOL column to output. Output is suppressed when the restrict-results dropdown is set to summary or most_severe.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Identifiers",
+    "web_default": "on",
+    "provenance": "InputForm.pm identifiers section + Object_VEP.pm get_form_details (label 'Gene symbol'); description confirmed from Ensembl VEP options docs (vep_options.html, --symbol). Default ON per native dossier."
+  },
+  {
+    "id": "check_existing",
+    "name": "Find co-located short variants",
+    "cli_flag": "--check_existing",
+    "web_form_section": "variants_frequency_data",
+    "category": "variant_data",
+    "description": "Checks for known short variants co-located with the input and reports them. Returns existing variant IDs (e.g. rsIDs), ClinVar clinical significance (CLIN_SIG), somatic status (SOMATIC) and phenotype association status (PHENO). The web control is a dropdown with three options: No / Yes / 'Yes but don't compare alleles'. By default (Yes) alleles are compared so matches are allele-specific; the third option reports co-located variants without comparing alleles (positional overlap only).",
+    "when_to_use": "Almost always useful. Identifies whether your variants are already known and carry existing annotations (rsIDs, ClinVar significance, somatic flags) from public databases. This is the gateway control that gates the downstream human frequency and citation block (gnomAD AF, 1000 Genomes AF, PubMed citations).",
+    "when_not_to_use": "May be omitted for raw speed in very large-scale population analyses where only fresh consequence annotation is needed and known-variant lookup is unnecessary. The 'don't compare alleles' mode is for when you only care about positional overlap, not the specific allele.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "critical",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "recommended",
+      "structural_variants": "recommended",
+      "non_human": "recommended",
+      "quick_lookup": "critical"
+    },
+    "species_restriction": "species with variation data",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Enables rsID, ClinVar (CLIN_SIG), somatic (SOMATIC) and phenotype (PHENO) lookups, and is the prerequisite that activates the human allele-frequency and PubMed citation fields. Adds a database/cache lookup cost per variant.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Variant data",
+    "web_default": "yes",
+    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details (label 'Find co-located short variants', dropdown values); description confirmed from Ensembl VEP options docs (vep_options.html, --check_existing). Available only for species with variation data."
+  },
+  {
+    "id": "af_gnomadg",
+    "name": "gnomAD (genomes) allele frequencies",
+    "cli_flag": "--af_gnomadg",
+    "web_form_section": "variants_frequency_data",
+    "category": "frequency_data",
+    "description": "Includes allele frequency from the Genome Aggregation Database (gnomAD) genome populations. Only data derived from gnomAD genomes are included (whole-genome coverage, useful for WGS and non-coding regions). Reports global and population-specific gnomAD genome frequencies. CORRECTED: split from the demo's combined gnomad_af option; this is the genomes half.",
+    "when_to_use": "Whole-genome sequencing analyses and any work touching non-coding regions where genome-wide population frequencies are needed to filter common variants. Essential for rare disease filtering of WGS data. Pair with af_gnomade when you want both exome and genome coverage.",
+    "when_not_to_use": "Non-human species (gnomAD is human-only). For exome/panel data where gnomAD exome (af_gnomade) has deeper coverage, prefer that. May not be needed for somatic cancer where driver mutations can be common in the population.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "population_genetics",
+      "regulatory"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "critical",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Requires co-located variant lookup to be enabled. Adds multiple gnomAD genome frequency columns (global plus population breakdowns) to output.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Variants and frequency data",
+    "web_default": "off",
+    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details (label 'gnomAD (exomes/genomes) allele frequencies'); description confirmed from Ensembl VEP options docs (vep_options.html, --af_gnomadg). Human-only per InputForm field_class _stt_Homo_sapiens. Corrects demo gnomad_af split."
+  },
+  {
+    "id": "appris",
+    "name": "APPRIS",
+    "cli_flag": "--appris",
+    "web_form_section": "additional_annotations",
+    "category": "transcript_annotation",
+    "description": "Adds the APPRIS isoform annotation to each transcript. APPRIS is a system that annotates the principal (functionally most relevant) isoform of a gene using protein structural information, functional data and cross-species conservation. Human-only.",
+    "when_to_use": "Human transcript-level interpretation where identifying the principal isoform helps prioritise the biologically most relevant transcript. APPRIS annotation feeds the --pick ranking system (MANE > canonical > APPRIS > TSL > biotype > CCDS > rank > length). Default ON for human.",
+    "when_not_to_use": "Non-human species (APPRIS annotation is human-only in the form). Suppressed by the summary/most_severe restrict-results modes, which drop per-transcript detail. Not needed for purely positional or summary-level analyses.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds the APPRIS column. Only a flag/annotation, it does not filter transcripts, but it contributes to --pick isoform ranking. Suppressed when restrict-results is summary or most_severe.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Transcript annotation",
+    "web_default": "on",
+    "provenance": "InputForm.pm additional_annotations Transcript annotation subsection + Object_VEP.pm get_form_details (label 'APPRIS'); description confirmed from Ensembl VEP options docs (vep_options.html, --appris). Human-only per InputForm field_class _stt_Homo_sapiens; default ON per native dossier."
+  },
+  {
+    "id": "regulatory",
+    "name": "Get regulatory region consequences",
+    "cli_flag": "--regulatory",
+    "web_form_section": "additional_annotations",
+    "category": "regulatory",
+    "description": "Looks for overlaps with regulatory regions from Ensembl's Regulatory Build (promoters, enhancers, CTCF binding sites, open chromatin and transcription factor binding sites), and can report whether a variant falls in a high-information position within a TF binding site. The web control is a per-species dropdown: No / Yes / Yes and limit by cell type. CORRECTED: source default value is reg (=Yes), not the demo's 'no'.",
+    "when_to_use": "Non-coding variant analysis, GWAS follow-up and regulatory variant interpretation, especially when variants fall in intergenic or intronic regions where coding consequence prediction does not apply. Use the 'limit by cell type' mode (cell_type) to restrict to specific tissues/cell lines.",
+    "when_not_to_use": "Purely coding/exome analysis where regulatory overlap adds runtime without benefit. Species without a regulatory build. Note that enabling it caps the web buffer_size at 500, slowing very large submissions.",
+    "use_case_tags": [
+      "regulatory",
+      "rare_disease",
+      "population_genetics"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "critical",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "species with regulatory build",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Auto-caps the web buffer_size to 500, reducing throughput on large jobs. Adds regulatory_region_variant and TF binding consequence types to output. The 'limit by cell type' value activates the cell_type sub-control.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Regulatory data",
+    "web_default": "reg (Yes)",
+    "provenance": "InputForm.pm additional_annotations Regulatory data subsection + Object_VEP.pm get_form_details (label 'Get regulatory region consequences', dropdown values, default reg); description confirmed from Ensembl VEP options docs (vep_options.html, --regulatory). Buffer-cap behaviour from web InputForm logic. Corrects demo default 'no' -> reg/Yes."
+  },
+  {
+    "id": "coding_only",
+    "name": "Return results for variants in coding regions only",
+    "cli_flag": "--coding_only",
+    "web_form_section": "filters",
+    "category": "filtering",
+    "description": "Restricts output to only those consequences that fall in the coding regions of transcripts. Per the Ensembl source helptip, this excludes results in intronic and intergenic regions. A post-annotation output filter.",
+    "when_to_use": "Exome or coding-panel workflows where only protein-coding consequences are of interest, and you want to cut output volume by removing non-coding annotations. Useful for triaging large WGS call sets down to coding impact only.",
+    "when_not_to_use": "Any non-coding, regulatory, splice-region or structural-variant interpretation, where coding-only filtering would discard the variants of interest. Leave off when you need a complete consequence picture. Default off.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Removes non-coding consequence lines (per source: intronic and intergenic) from output; variants with no coding-region consequence may disappear entirely from results.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Filtering options",
+    "web_default": "off",
+    "provenance": "InputForm.pm filters section + Object_VEP.pm get_form_details (label 'Return results for variants in coding regions only'); description confirmed from Ensembl VEP options docs (vep_options.html, --coding_only). Available all species; default off per native dossier."
+  },
+  {
+    "id": "buffer_size",
+    "name": "Buffer size",
+    "cli_flag": "--buffer_size",
+    "web_form_section": "advanced",
+    "category": "advanced",
+    "description": "Sets the internal buffer size, i.e. the number of variants read into memory and processed simultaneously. On the web form this is a dropdown ranging from 5000 down to 100. Larger values use more memory but improve throughput; smaller values reduce memory usage.",
+    "when_to_use": "Tune down when running memory-constrained jobs or when many features overlap each variant (e.g. dense regions). Leave at the default 5000 for most submissions to maximise throughput.",
+    "when_not_to_use": "Rarely needs changing for standard runs. Note that enabling regulatory annotation automatically caps the effective buffer at 500 regardless of this setting on the web interface.",
+    "use_case_tags": [
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Higher values increase memory footprint; lower values slow throughput. Automatically capped at 500 on the web interface when the regulatory option is enabled.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Advanced options",
+    "web_default": "5000",
+    "provenance": "InputForm.pm advanced section + Object_VEP.pm get_form_details (label 'Buffer size', dropdown 5000..100); description and default 5000 confirmed from Ensembl VEP options docs (vep_options.html, --buffer_size). Regulatory cap-to-500 from web InputForm logic."
+  },
+  {
+    "id": "clinpred",
+    "name": "ClinPred",
+    "cli_flag": "--plugin ClinPred",
+    "web_form_section": "predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Plugin that adds pre-calculated ClinPred scores, a prediction tool that identifies disease-relevant nonsynonymous single-nucleotide variants. Scores only the variant types it covers: missense, stop lost, stop gained and start lost. Higher scores indicate greater likelihood of being pathogenic/disease-relevant.",
+    "when_to_use": "Clinical and rare disease interpretation of nonsynonymous/missense coding variants, as an additional pathogenicity prediction alongside SIFT, PolyPhen, REVEL and AlphaMissense for building a consensus.",
+    "when_not_to_use": "Non-coding, synonymous, splice or structural variants (no score produced). Non-human species. Suppressed by the summary/most_severe restrict-results modes, which drop per-transcript predictions.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only produces output for missense / stop_lost / stop_gained / start_lost variants. Adds the ClinPred column. On the standalone CLI requires a bgzipped, tabix-indexed ClinPred data file (file= argument); served preconfigured on the web interface. Supports GRCh37 and GRCh38.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (ClinPred available=>1) injected into predictions; description and covered consequence types from VEP_plugins ClinPred.pm header (github.com/Ensembl/VEP_plugins/blob/main/ClinPred.pm). Human-only data; GRCh37/GRCh38 prep documented."
+  },
+  {
+    "id": "dosage_sensitivity",
+    "name": "DosageSensitivity",
+    "cli_flag": "--plugin DosageSensitivity",
+    "web_form_section": "additional_annotations",
+    "category": "gene_constraint",
+    "description": "Plugin that annotates variants with per-gene dosage sensitivity scores from the Collins rCNV 2022 catalogue: pHaplo, the probability of haploinsufficiency (deletion intolerance), and pTriplo, the probability of triplosensitivity (duplication intolerance). High scores flag genes intolerant to copy-number change. GRCh38.",
+    "when_to_use": "Rare disease and structural/copy-number variant interpretation where you want to know whether an affected gene is dosage-sensitive (intolerant to deletion or duplication). Useful for prioritising CNVs and large deletions/duplications affecting constrained genes. The optional cover=1 mode restricts to variants fully overlapping the gene, useful for SV analysis.",
+    "when_not_to_use": "Non-human species. Workflows that do not consider gene-level dosage tolerance. Not informative for variants that do not affect a scored gene.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "structural_variants"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "recommended",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds two columns (pHaplo, pTriplo) per affected gene. On the standalone CLI requires the Collins_rCNV_2022 dosage-sensitivity TSV from Zenodo (file= argument); served preconfigured on the web interface. Optional cover=1 restricts output to variants completely overlapping the gene/transcript.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Gene tolerance to change",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (DosageSensitivity available=>1) injected into additional_annotations; pHaplo/pTriplo definitions, Collins rCNV 2022 source, GRCh38 support and cover=1 option from VEP_plugins DosageSensitivity.pm header (github.com/Ensembl/VEP_plugins/blob/main/DosageSensitivity.pm)."
+  },
+  {
+    "id": "geno2mp",
+    "name": "Geno2MP",
+    "cli_flag": "--plugin Geno2MP",
+    "web_form_section": "variants_frequency_data",
+    "category": "variant_data",
+    "description": "Plugin that annotates variants with data from Geno2MP, a web-accessible database of rare variant genotypes linked to phenotypic information. By default it reports HPO_CT (the number of HPO phenotypic profiles associated with each variant); additional INFO columns can be requested via the cols parameter. Coordinates are GRCh37-based.",
+    "when_to_use": "Rare disease analysis where you want to see whether a variant has been observed in individuals with phenotype profiles (HPO terms) in the Geno2MP cohort, providing supporting phenotypic evidence for candidate variants.",
+    "when_not_to_use": "Non-human species. GRCh38-only workflows that cannot map to GRCh37 coordinates (Geno2MP locations and links are GRCh37-based). Analyses where rare-variant phenotype cohort data is not relevant.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only (GRCh37)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds HPO_count (and any cols-configured columns) to output, plus optional GRCh37-based URL links to the Geno2MP variant page. On the standalone CLI requires a bgzipped, tabix-indexed Geno2MP VCF (file= argument); GRCh37 coordinate basis.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Variant data",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (Geno2MP available=>1) injected into variants_frequency_data; HPO_CT/HPO_count default field, cols parameter, GRCh37 coordinate basis and url option from VEP_plugins Geno2MP.pm header (github.com/Ensembl/VEP_plugins/blob/main/Geno2MP.pm)."
+  },
+  {
+    "id": "transcript_version",
+    "name": "Transcript version",
+    "cli_flag": "--transcript_version",
+    "web_form_section": "identifiers",
+    "category": "identifiers",
+    "description": "Appends version numbers to Ensembl transcript stable identifiers in the output (e.g. ENST00000380152.7 rather than ENST00000380152). The version number records which release of the transcript model the annotation was built against, ensuring reproducible, unambiguous transcript references.",
+    "when_to_use": "Whenever transcript identifiers must be reproducible across Ensembl releases or matched against external databases that store versioned IDs. Recommended for clinical reporting and any pipeline where the exact transcript model matters.",
+    "when_not_to_use": "Quick lookups where the bare stable ID is sufficient, or when a downstream tool expects unversioned identifiers and cannot strip the suffix.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "recommended",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Cosmetic change to identifier strings only; appends a '.N' version suffix to the Feature/transcript column. No measurable runtime impact.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Identifiers",
+    "web_default": "ON",
+    "provenance": "InputForm.pm identifiers section + Object_VEP.pm get_form_details (label 'Transcript version', default ON); confirmed by vep_options.html (--transcript_version: 'Add version numbers to Ensembl transcript identifiers')."
+  },
+  {
+    "id": "clinvar",
+    "name": "Find co-located short variants",
+    "cli_flag": "--check_existing (derived; no standalone flag)",
+    "web_form_section": "variants_frequency_data",
+    "category": "variant_frequency",
+    "description": "ClinVar clinical significance (the CLIN_SIG field, e.g. pathogenic, likely_pathogenic, benign, uncertain_significance) is DERIVED from the co-located known-variant lookup rather than from a dedicated control. On the web form there is no standalone 'ClinVar' checkbox: enabling 'Find co-located short variants' (--check_existing) reports ClinVar significance alongside rsIDs, SOMATIC and PHENO status for matching co-located variants.",
+    "when_to_use": "Any clinical or diagnostic interpretation where you need to know if a variant already carries a ClinVar pathogenicity assertion. It is automatically available once co-located variant checking is on, which is the default for species with variation data.",
+    "when_not_to_use": "Non-human species (ClinVar is human-only). Pure consequence-only runs over very large cohorts where the co-located lookup is disabled for speed. Note it cannot be requested independently of check_existing.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "recommended",
+      "non_human": "not_applicable",
+      "quick_lookup": "critical"
+    },
+    "species_restriction": "human only (data)",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Not an independent control: it is one field of the --check_existing output and cannot be toggled on its own. CORRECTED from the demo, which wrongly modelled ClinVar as a separate native checkbox; source_type is native/derived-from-check_existing.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Variants and frequency data",
+    "web_default": "yes (via check_existing)",
+    "provenance": "Authoritative dossier: ClinVar significance on the web comes via check_existing/co-located variants, not a standalone checkbox. vep_options.html (--check_existing 'Checks for the existence of known variants that are co-located with your input'). Corrects demo modelling issue."
+  },
+  {
+    "id": "pubmed",
+    "name": "PubMed IDs for citations of co-located variants",
+    "cli_flag": "--pubmed",
+    "web_form_section": "variants_frequency_data",
+    "category": "variant_frequency",
+    "description": "Reports PubMed identifiers for publications that cite a known variant co-located with the input variant. Surfaces the existing literature on a variant directly in the output, helping triage whether a candidate has prior published evidence. Default ON for human.",
+    "when_to_use": "Clinical and rare-disease interpretation where prior literature on a variant accelerates curation, and any review workflow that benefits from direct links to citing publications. Requires co-located variant checking to be enabled.",
+    "when_not_to_use": "Non-human species (the citation data is human). Large-scale population scans where literature links add noise. Has no effect if check_existing is off.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Adds a PUBMED column of comma-separated PMIDs. Effective only when co-located variant checking is active; requires cache mode (incompatible with --database).",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Variants and frequency data",
+    "web_default": "ON",
+    "provenance": "InputForm.pm variants_frequency_data section (label 'PubMed IDs for citations of co-located variants', default ON, Homo_sapiens). vep_options.html (--pubmed: 'Report Pubmed IDs for publications that cite existing variant'; must be used with --cache, incompatible with --database)."
+  },
+  {
+    "id": "mane",
+    "name": "MANE",
+    "cli_flag": "--mane",
+    "web_form_section": "additional_annotations",
+    "category": "transcript_selection",
+    "description": "Adds a flag indicating whether each transcript is MANE Select or MANE Plus Clinical (Matched Annotation from NCBI and EBI), and, with cache/database sources, the equivalent RefSeq transcript ID. MANE Select is a single representative transcript per human protein-coding gene jointly agreed by NCBI and Ensembl; MANE Plus Clinical adds further transcripts of clinical relevance. Sits at the top of the --pick selection ranking.",
+    "when_to_use": "Human clinical and rare-disease reporting where the community-standard representative transcript is required. Default ON for human GRCh38; pairs naturally with --pick to focus on the agreed transcript.",
+    "when_not_to_use": "Non-human species and GRCh37 (MANE is human GRCh38 only). Summary outputs such as --most_severe and --summary, which suppress transcript-level flags.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds MANE_SELECT and MANE_PLUS_CLINICAL flag columns; does not filter transcripts on its own. CORRECTED from the demo (mane_select/--mane_select, section 'Identifiers and transcript information') to the native field id mane/--mane in additional_annotations, which covers both MANE Select and MANE Plus Clinical.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Transcript annotation",
+    "web_default": "ON",
+    "provenance": "InputForm.pm additional_annotations / Transcript annotation (label 'MANE', default ON, Homo_sapiens). vep_options.html (--mane: flags MANE Select or MANE Plus Clinical, human GRCh38 only, incompatible with --most_severe/--summary). Corrects demo mane_select modelling issue."
+  },
+  {
+    "id": "cell_type",
+    "name": "Limit to cell type(s)",
+    "cli_flag": "--cell_type",
+    "web_form_section": "additional_annotations",
+    "category": "regulatory",
+    "description": "Restricts regulatory-region results to one or more named epigenomes / cell types, reported as a comma-separated list, so that only regulatory features active in the tissues of interest are returned. On the web form it is exposed only when the regulatory dropdown is set to limit results by cell type. Available cell types can be listed with --cell_type list.",
+    "when_to_use": "Tissue- or cell-type-specific regulatory interpretation, e.g. focusing GWAS or non-coding follow-up on enhancers and promoters active in a disease-relevant cell type. Requires the regulatory build to be enabled.",
+    "when_not_to_use": "When you want all regulatory features regardless of cell type, in coding-only analyses, or for species without a regulatory build. Has no effect unless --regulatory is on.",
+    "use_case_tags": [
+      "regulatory",
+      "non_human"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "species with regulatory build",
+    "depends_on": [
+      "regulatory"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Filters regulatory output to the selected cell type(s); an unrecognised cell-type name yields no regulatory annotation. Adds a CELL_TYPE qualifier to regulatory results.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Regulatory data",
+    "web_default": "n/a (only shown when regulatory = cell)",
+    "provenance": "InputForm.pm additional_annotations / Regulatory data (label 'Limit to cell type(s)', gated by _stt_cell on the regulatory dropdown). vep_options.html (--cell_type: 'Report only regulatory regions that are found in the given cell type(s)'; --cell_type list)."
+  },
+  {
+    "id": "pick",
+    "name": "Restrict results",
+    "cli_flag": "--pick",
+    "web_form_section": "filters",
+    "category": "filtering",
+    "description": "A value of the single 'Restrict results' (summary) dropdown that selects one line or block of consequence data per variant using a defined ranking: MANE > canonical > APPRIS > TSL > biotype > CCDS > consequence rank > transcript length (order customisable via --pick_order). Unlike the summary outputs, --pick keeps full per-transcript annotation columns for the chosen transcript.",
+    "when_to_use": "When you need exactly one representative consequence per variant to reduce output volume while retaining detailed annotation, e.g. large germline cohorts, population scans, or quick triage where the top-ranked transcript suffices.",
+    "when_not_to_use": "When every affected transcript matters, such as somatic cancer interpretation where different oncology databases reference different transcripts, or multi-gene loci where you need each gene's consequence (consider per_gene instead).",
+    "use_case_tags": [
+      "rare_disease",
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "recommended",
+      "structural_variants": "optional",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "pick_allele",
+      "per_gene",
+      "summary",
+      "most_severe"
+    ],
+    "side_effects": "May hide clinically relevant annotation on non-picked transcripts. As one mutually-exclusive value of the single 'Restrict results' dropdown it cannot be combined with the other restrict-results values (pick_allele, per_gene, summary, most_severe). Does NOT suppress per-transcript columns.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Restrict results",
+    "web_default": "no",
+    "provenance": "InputForm.pm filters: one 'Restrict results'/summary dropdown with mutually-exclusive values (pick=--pick, pick_allele, per_gene, summary, most_severe, all). vep_options.html (--pick ranking; --pick_order; incompatible with summary-style filtering). Corrects demo modelling of these as separate checkboxes."
+  },
+  {
+    "id": "shift_3prime",
+    "name": "Right align variants prior to consequence calculation",
+    "cli_flag": "--shift_3prime 1",
+    "web_form_section": "advanced",
+    "category": "advanced",
+    "description": "Right-aligns (3'-shifts) variants such as indels relative to their associated transcript before consequence calculation, so that an insertion or deletion within a repeat region is reported at the most 3' equivalent position on the transcript. This standardises ambiguous indel placement and brings VEP into line with HGVS 3' conventions. The web control is a dropdown (No / right-align relative to transcript / right-align and update the reported genomic location).",
+    "when_to_use": "When annotating indels in or near repetitive sequence and you want HGVS-consistent 3' positioning, improving comparability with clinical databases and reducing duplicate representations of the same variant.",
+    "when_not_to_use": "When you must preserve the exact input genomic coordinates, or alongside --shift_hgvs (incompatible). Often unnecessary for SNV-only datasets.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Can change the reported position and consequence of indels in repeats relative to the raw input; the third dropdown option also rewrites the genomic location. Incompatible with --shift_hgvs. Default 0 (no shifting).",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Advanced options",
+    "web_default": "no",
+    "provenance": "InputForm.pm advanced (label 'Right align variants...', dropdown, default no). vep_options.html (--shift_3prime: 'Right aligns all variants relative to their associated transcripts prior to consequence calculation', default 0, incompatible with --shift_hgvs)."
+  },
+  {
+    "id": "eve",
+    "name": "EVE",
+    "cli_flag": "--plugin EVE",
+    "web_form_section": "predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Plugin that adds EVE (Evolutionary model of Variant Effect) predictions for missense variants. EVE is an unsupervised deep generative model trained on evolutionary sequence data that scores how likely an amino-acid substitution is to be disease-causing, producing a continuous pathogenicity score and a class label (by default the Class75 classification). Available for GRCh38 only.",
+    "when_to_use": "Missense variant interpretation where a state-of-the-art, training-label-independent evolutionary predictor adds orthogonal evidence to SIFT, PolyPhen and AlphaMissense, particularly for variants of uncertain significance in rare disease.",
+    "when_not_to_use": "Non-coding, splice or structural variants (missense only). Non-human species and GRCh37. Genes/positions not covered by the EVE model.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only (GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only produces output for missense variants and only where EVE has a precomputed score. CLI use requires the EVE data VCF (compressed, tabix-indexed) supplied via file=; on the web interface the data is provided. Suppressed by summary-style restrict-results values.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (EVE, available=>1). vep_plugins.html / EVE.pm: 'adds information from EVE (evolutionary model of variant effect)', missense pathogenicity, GRCh38 only, default Class75, requires file= VCF."
+  },
+  {
+    "id": "nmd",
+    "name": "NMD",
+    "cli_flag": "--plugin NMD",
+    "web_form_section": "additional_annotations",
+    "category": "functional_effect",
+    "description": "Plugin that predicts whether a premature termination codon escapes nonsense-mediated mRNA decay (NMD). It applies the established rule set (variant in the last exon, within ~50 bp of the penultimate exon's 3' end, within the first ~100 coding bases, or in an intronless/single-exon transcript) to stop-gained, frameshift and splice variants, and reports 'NMD_escaping_variant' when a transcript is predicted to evade decay. Organism-agnostic / sequence-rule based.",
+    "when_to_use": "Interpreting loss-of-function variants (stop-gained, frameshift, splice) to distinguish truncating alleles that trigger NMD from those likely to escape it and produce a (potentially dominant-negative or gain-of-function) truncated protein. Valuable in rare-disease LoF triage.",
+    "when_not_to_use": "Missense, synonymous, regulatory or non-truncating variants where NMD is not relevant. Quick lookups that do not need LoF mechanism detail.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "non_human"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds a single NMD column ('NMD_escaping_variant' when applicable); only evaluated for stop-gained, frameshift and splice donor/acceptor consequences. Rule-based, so no external data file is required.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Functional effect",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (NMD, available=>1). NMD.pm: identifies variants that 'escape nonsense-mediated mRNA decay'; four rules (last exon, 50 bp of penultimate exon, first 100 coding bases, intronless); output NMD='NMD_escaping_variant'; no species restriction stated."
+  },
+  {
+    "id": "phenotypes",
+    "name": "Phenotypes",
+    "cli_flag": "--plugin Phenotypes",
+    "web_form_section": "additional_annotations",
+    "category": "phenotype",
+    "description": "Plugin that retrieves overlapping phenotype associations for the features a variant hits, including genes, known variants, QTLs and regulatory features, from a GFF-format phenotype annotation file (auto-downloaded if absent). It drives the form's 'Phenotype data and citations' subsection. Output is configurable: JSON returns full structured metadata, while VCF/tab formats return concatenated phenotype description strings, with selectable fields and include/exclude filters by feature type and source.",
+    "when_to_use": "Rare-disease and GWAS-follow-up analyses where you want to know if an overlapped gene, variant, QTL or regulatory feature already has reported phenotype, disease or trait associations, to prioritise candidates in known disease loci.",
+    "when_not_to_use": "When phenotype context is irrelevant, or for species/assemblies with little phenotype annotation. Large population scans where the extra associations add noise.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "regulatory",
+      "non_human"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species with phenotype data",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds phenotype association field(s); expand_right (default 100,000 bp) controls the downstream cache window and can raise memory use. Human assemblies embed the assembly in the file name. Requires the phenotype GFF file (auto-downloaded if missing).",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Phenotype data and citations",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (Phenotypes, available=>1); drives the 'Phenotype data and citations' subsection. Phenotypes.pm: 'retrieves overlapping phenotype information' for Gene/Variation/QTL/RegulatoryFeature; params file, dir, expand_right (100000), phenotype_feature, include/exclude_types and _sources; operates across Ensembl species."
+  },
+  {
+    "id": "ccds",
+    "name": "CCDS",
+    "cli_flag": "--ccds",
+    "web_form_section": "identifiers",
+    "category": "identifiers",
+    "description": "Adds the Consensus CDS (CCDS) transcript identifier, where available, to the output. CCDS is a collaborative project (NCBI, EBI, WTSI, UCSC) that defines a core set of identically annotated, high-confidence protein-coding regions shared between Ensembl/GENCODE and RefSeq.",
+    "when_to_use": "When you need to cross-reference Ensembl transcripts against the CCDS set, or when downstream tools or clinical pipelines expect CCDS identifiers as a stable, agreed coding-region reference. Useful for human and mouse coding-variant work.",
+    "when_not_to_use": "Non-coding variant analysis (CCDS only covers protein-coding regions). Species other than human and mouse, where the web field is not rendered. Quick triage where transcript identifiers are not needed.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human + mouse only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds the CCDS column to output; only populated for protein-coding transcripts that are part of the CCDS set. Suppressed by --most_severe / --summary, which drop all transcript-level columns. Minimal runtime impact.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Identifiers",
+    "web_default": "off",
+    "provenance": "InputForm.pm identifiers section + Object_VEP.pm get_form_details label \"CCDS\"; --ccds flag and description confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html (\"Adds the CCDS transcript identifer (where available) to the output\"). Human+mouse field_class per authoritative public-plugins dossier (release/115)."
+  },
+  {
+    "id": "var_synonyms",
+    "name": "Variant synonyms",
+    "cli_flag": "--var_synonyms",
+    "web_form_section": "variants_frequency_data",
+    "category": "variant_frequency",
+    "description": "Reports known synonyms (alternative database identifiers) for co-located variants. A single variant is often catalogued under multiple IDs across resources; this option surfaces those cross-references alongside the primary co-located variant lookup.",
+    "when_to_use": "When you need to map co-located variants to identifiers used by external databases, or to reconcile rsIDs with other catalogue IDs. Only meaningful when co-located variant checking is enabled.",
+    "when_not_to_use": "When co-located variant checking (check_existing) is off, in which case no synonyms can be reported. Species other than human and pig, where the field is not rendered. Speed-critical large-scale runs where extra identifier columns are unwanted.",
+    "use_case_tags": [
+      "clinical",
+      "rare_disease",
+      "population_genetics"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human + pig only",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Must be used with --cache (per VEP docs). Adds a VAR_SYNONYMS column; only produces output for variants that are co-located with known variants, so requires check_existing to be on. Can add multiple synonym strings per variant.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Variant data",
+    "web_default": "off",
+    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details label \"Variant synonyms\"; --var_synonyms flag and \"Report known synonyms for co-located variants. Must be used with --cache\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. human+pig field_class per release/115 dossier."
+  },
+  {
+    "id": "failed",
+    "name": "Include flagged variants",
+    "cli_flag": "--failed 1",
+    "web_form_section": "variants_frequency_data",
+    "category": "variant_frequency",
+    "description": "Controls whether QC-failed variants are included when checking for co-located known variants. By default (--failed 0) Ensembl VEP excludes variants flagged as failed by Ensembl QC; setting --failed 1 includes them in the co-located lookup.",
+    "when_to_use": "When you want maximum recall on co-located variant matches and are willing to inspect entries that did not pass Ensembl QC, for example exhaustive cross-referencing or troubleshooting why an expected rsID is not reported.",
+    "when_not_to_use": "Most clinical and standard analyses, where excluding QC-failed variants (the default) gives higher-confidence co-located annotations. When co-located variant checking is off, this setting has no effect.",
+    "use_case_tags": [
+      "population_genetics",
+      "rare_disease"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "species with variation data",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Only affects co-located variant lookups, so requires check_existing to be on. Enabling it can introduce lower-confidence (QC-failed) variant matches into the Existing_variation and related columns.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Variant data",
+    "web_default": "off",
+    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details label \"Include flagged variants\"; --failed flag and default behaviour (\"by default Ensembl VEP will exclude variants that have been flagged as failed\", default 0) confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. Variation-species restriction per release/115 dossier."
+  },
+  {
+    "id": "canonical",
+    "name": "Identify canonical transcripts",
+    "cli_flag": "--canonical",
+    "web_form_section": "additional_annotations",
+    "category": "transcript_selection",
+    "description": "Adds a flag indicating whether each transcript is the canonical transcript for its gene. The canonical transcript is selected by Ensembl as a single representative per gene and is one of the criteria used by --pick to rank transcripts.",
+    "when_to_use": "When you want to identify the primary transcript per gene, especially for non-human species where MANE is not available, or to understand which transcript --pick would prefer. Useful across all species.",
+    "when_not_to_use": "For human clinical analysis prefer MANE (mane) as the community standard. Not meaningful with --most_severe or --summary, which drop all transcript-level columns.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "non_human"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only adds a CANONICAL flag column; does not filter output. Feeds the --pick ranking. Suppressed by --most_severe / --summary. CORRECTED: removed the demo's bogus conflict with pick (canonical informs pick rather than conflicting with it); it only conflicts with most_severe/summary, which suppress transcript columns.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Transcript annotation",
+    "web_default": "off",
+    "provenance": "InputForm.pm additional_annotations / Transcript annotation + Object_VEP.pm get_form_details label \"Identify canonical transcripts\"; --canonical and \"Adds a flag indicating if the transcript is the canonical transcript for the gene\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. All-species per release/115 dossier."
+  },
+  {
+    "id": "pick_allele",
+    "name": "Restrict results",
+    "cli_flag": "--pick_allele",
+    "web_form_section": "filters",
+    "category": "output_control",
+    "description": "Value of the single 'Restrict results' dropdown. Like --pick, it selects one line or block of consequence data, but it chooses one per variant allele rather than one per variant, using the same ranking criteria (MANE > canonical > APPRIS > TSL > biotype > CCDS > rank > length). It differs from --pick only at multi-allelic sites.",
+    "when_to_use": "Multi-allelic sites where you want a single representative consequence for each alternate allele, for example somatic or population data with several alts at one position, while still reducing output volume.",
+    "when_not_to_use": "When you need all affected transcripts per allele (e.g. cancer analyses spanning multiple transcript databases). When --pick (one per variant) is sufficient. Mutually exclusive with the other 'Restrict results' values.",
+    "use_case_tags": [
+      "somatic",
+      "population_genetics",
+      "rare_disease"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "recommended",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "pick",
+      "per_gene",
+      "summary",
+      "most_severe"
+    ],
+    "side_effects": "Reduces output to one consequence block per allele; may omit clinically relevant annotations on non-selected transcripts. As one value of the 'Restrict results' dropdown it is mutually exclusive with pick, per_gene, summary and most_severe.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Restrict results",
+    "web_default": "no",
+    "provenance": "InputForm.pm filters 'Restrict results' (summary) dropdown value; --pick_allele and \"Like --pick, but chooses one line or block of consequence data per variant allele ... differs from --pick only with multiple alternate alleles\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. Modelled as a mutually-exclusive dropdown value per release/115 dossier correction."
+  },
+  {
+    "id": "cadd",
+    "name": "CADD",
+    "cli_flag": "--plugin CADD",
+    "web_form_section": "predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Plugin. Combined Annotation Dependent Depletion integrates many annotations into a single deleteriousness score for coding and non-coding variants, retrieving pre-calculated scores from tabix-indexed files. Reports RawScore and a PHRED-scaled score where higher = more deleterious (PHRED >= 20 is the top 1% of deleterious variants). Works on SNVs, indels and SVs.",
+    "when_to_use": "When you need a single integrated pathogenicity score that works on both coding and non-coding variants, particularly for prioritising variants of uncertain significance in rare disease, somatic and regulatory analyses.",
+    "when_not_to_use": "When detailed mechanistic prediction is needed (CADD is integrative, not mechanistic). Non-human species (data files are human GRCh37/GRCh38). When only the most-severe-consequence summary output is wanted.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "regulatory"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "optional",
+      "structural_variants": "recommended",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only (GRCh37+GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "On the CLI requires downloading large tabix-indexed data files (~80GB for whole genome SNVs); available without download on the web interface. Adds CADD_RAW and CADD_PHRED columns. CORRECTED source_type to plugin (demo modelled CADD as native).",
+    "source_type": "plugin",
+    "is_new": false,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (CADD available=>1); plugin form --plugin CADD; function and SNV/indel/SV support confirmed at ensembl.org/info/docs/tools/vep/script/vep_plugins.html (\"Combined Annotation Dependent Depletion ... retrieves CADD scores ... SNV, indel, and structural variant data files\"). Human GRCh37/GRCh38 per plugin docs."
+  },
+  {
+    "id": "spliceai",
+    "name": "SpliceAI",
+    "cli_flag": "--plugin SpliceAI",
+    "web_form_section": "predictions",
+    "category": "splice_prediction",
+    "description": "Plugin. Retrieves pre-calculated SpliceAI delta scores from a deep neural network (Illumina) that predicts splice-altering effects. Reports four delta scores and positions: acceptor gain (AG), acceptor loss (AL), donor gain (DG) and donor loss (DL), each 0-1 with higher = more likely to affect splicing. Suggested cutoffs: 0.2 (high recall), 0.5 (recommended), 0.8 (high precision).",
+    "when_to_use": "When variants near splice sites or in exonic/intronic regions may affect splicing; particularly valuable for variants of uncertain significance in rare disease and for splice-aware somatic interpretation.",
+    "when_not_to_use": "Purely intergenic variants far from any gene. Structural variants. Non-human species (scores are human GRCh37/GRCh38). When only summary/most-severe output is wanted.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "splice",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only (GRCh37+GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "On the CLI requires downloading large pre-calculated SNV and indel score files; available without download on the web interface. Adds SpliceAI delta-score columns. CORRECTED source_type to plugin (demo modelled SpliceAI as native).",
+    "source_type": "plugin",
+    "is_new": false,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (SpliceAI available=>1); plugin form --plugin SpliceAI; delta scores (AG/AL/DG/DL), 0.2/0.5/0.8 cutoffs and GRCh37+GRCh38 support confirmed at github.com/Ensembl/VEP_plugins/blob/main/SpliceAI.pm."
+  },
+  {
+    "id": "utrannotator",
+    "name": "UTRAnnotator",
+    "cli_flag": "--plugin UTRAnnotator",
+    "web_form_section": "additional_annotations",
+    "category": "regulatory",
+    "description": "Plugin. Annotates the effect of 5' UTR variants, especially those creating or disrupting upstream ORFs. Detects uAUG_gained, uAUG_lost, uSTOP_gained, uSTOP_lost and uFrameshift events, and reports Kozak context strength (Weak/Moderate/Strong), distance to the CDS and resulting ORF type.",
+    "when_to_use": "Rare disease and clinical interpretation of 5' UTR variants where an upstream ORF gain or loss could alter translation of the main coding sequence. Useful for variants that consequence prediction labels only as 5_prime_UTR_variant.",
+    "when_not_to_use": "Variants outside the 5' UTR. Coding-only or purely intergenic analyses. Non-human species (data files are human GRCh37/GRCh38).",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "regulatory"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only (GRCh37+GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "On the CLI requires the uORF_5UTR_GRCh37_PUBLIC.txt or uORF_5UTR_GRCh38_PUBLIC.txt data file. Adds five_prime_UTR_variant_consequence and annotation columns; only populated for 5' UTR variants.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Functional effect",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (UTRAnnotator available=>1); plugin form --plugin UTRAnnotator; purpose, uAUG/uSTOP/uFrameshift event types, Kozak strength and GRCh37/GRCh38 data files confirmed at github.com/Ensembl/VEP_plugins/blob/main/UTRAnnotator.pm."
+  },
+  {
+    "id": "enformer",
+    "name": "Enformer",
+    "cli_flag": "--plugin Enformer",
+    "web_form_section": "additional_annotations",
+    "category": "regulatory",
+    "description": "Plugin. Adds pre-calculated Enformer predictions of variant impact on chromatin and gene expression. Enformer aggregates predictions across 896 spatial bins to produce 5313 features across assays and cell types; the plugin reports SAD (SNP Activity Difference), SAR (log-transformed variant effect) and optional principal-component scores.",
+    "when_to_use": "Non-coding and regulatory variant interpretation where you want a deep-learning estimate of effect on chromatin state and gene expression, for example GWAS follow-up and prioritising intergenic or intronic regulatory variants.",
+    "when_not_to_use": "Coding-focused analyses where missense/protein predictors are more informative. Structural variants. Non-human species (predictions are human GRCh37/GRCh38). Primarily designed for SNVs.",
+    "use_case_tags": [
+      "regulatory",
+      "population_genetics",
+      "rare_disease"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only (GRCh37+GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "On the CLI requires downloading pre-calculated Enformer data files. Adds SAD/SAR (and optional PC) score columns; predictions are SNV-oriented, so indels may be unscored.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Regulatory impact",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (Enformer available=>1); plugin form --plugin Enformer; function (chromatin/expression, 896 bins, 5313 features), SAD/SAR/PC outputs and GRCh37+GRCh38 support confirmed at ensembl.org/info/docs/tools/vep/script/vep_plugins.html and github.com/Ensembl/VEP_plugins/blob/main/Enformer.pm."
+  },
+  {
+    "id": "protein",
+    "name": "Protein",
+    "cli_flag": "--protein",
+    "web_form_section": "identifiers",
+    "category": "identifiers",
+    "description": "Adds the Ensembl protein identifier (ENSP) to the output where appropriate. Useful for linking results to protein-level databases and structural analysis.",
+    "when_to_use": "When downstream analysis involves protein databases, structural modelling, or protein-level annotation of missense variants.",
+    "when_not_to_use": "Non-coding variant analysis. Quick lookups where protein IDs are not needed. Cannot be combined with --most_severe or --summary, which suppress all transcript-level columns.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds ENSP column to output. Minimal overhead.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Identifiers",
+    "web_default": "off",
+    "provenance": "InputForm.pm _build_identifiers (no checked key => default OFF, corrects brief's 'on'); label/helptip from Object_VEP.pm get_form_details; description confirmed via ensembl.org vep_options.html (--protein)."
+  },
+  {
+    "id": "af",
+    "name": "1000 Genomes global minor allele frequency",
+    "cli_flag": "--af",
+    "web_form_section": "variants_frequency_data",
+    "category": "frequency_data",
+    "description": "Adds the global allele frequency (AF) from 1000 Genomes Phase 3 data for any known co-located variant. This is the single global minor allele frequency, DISTINCT from the continental super-population frequencies provided by af_1kg.",
+    "when_to_use": "Rare disease and population analyses where you want a quick global population frequency to flag and filter common variants. Default ON for human.",
+    "when_not_to_use": "Non-human species (1000 Genomes is human-only). When only continental breakdowns are needed (use af_1kg instead). Cannot be combined with --most_severe or --summary.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "population_genetics"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "critical",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "critical"
+    },
+    "species_restriction": "human only",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Requires co-located variant lookup (check_existing). Adds a single AF column to output.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Variants and frequency data",
+    "web_default": "on",
+    "provenance": "InputForm.pm _build_variants_frequency_data (field_class _stt_Homo_sapiens, default ON); label from Object_VEP.pm get_form_details; description confirmed via ensembl.org vep_options.html (--af = 1000 Genomes Phase 3 global AF)."
+  },
+  {
+    "id": "biotype",
+    "name": "Transcript biotype",
+    "cli_flag": "--biotype",
+    "web_form_section": "additional_annotations",
+    "category": "transcript_annotation",
+    "description": "Adds the biotype of the transcript or regulatory feature (e.g. protein_coding, miRNA, lincRNA, processed_pseudogene). Helps distinguish coding from non-coding transcripts in the output.",
+    "when_to_use": "Almost always useful. Essential for distinguishing coding from non-coding transcripts and for downstream filtering by transcript class. Default ON.",
+    "when_not_to_use": "Minimal output scenarios where transcript class is irrelevant. Cannot be combined with --most_severe or --summary, which suppress transcript-level columns.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "regulatory",
+      "population_genetics"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "recommended",
+      "structural_variants": "optional",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds BIOTYPE column to output. Minimal overhead.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Transcript annotation",
+    "web_default": "on",
+    "provenance": "InputForm.pm _build_additional_annotations Transcript annotation block (default ON); label from Object_VEP.pm get_form_details; description confirmed via ensembl.org vep_options.html (--biotype)."
+  },
+  {
+    "id": "distance",
+    "name": "Upstream/Downstream distance (bp)",
+    "cli_flag": "--distance",
+    "web_form_section": "additional_annotations",
+    "category": "transcript_annotation",
+    "description": "Free-text numeric field that sets the distance up and/or downstream between a variant and a transcript for which VEP will assign the upstream_gene_variant or downstream_gene_variant consequences. Default is 5000 bp.",
+    "when_to_use": "When you want to widen or narrow the window in which intergenic variants are reported as up/downstream of a gene. Increase it to capture distal regulatory variants; decrease it to reduce noise.",
+    "when_not_to_use": "Most analyses are fine with the 5000 bp default. Changing it does not affect coding/splice consequence assignment.",
+    "use_case_tags": [
+      "regulatory",
+      "population_genetics",
+      "rare_disease"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Larger values increase the number of up/downstream consequence calls and output volume; very large values can substantially inflate results for variants near gene-dense regions.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Transcript annotation",
+    "web_default": "5000",
+    "provenance": "InputForm.pm _build_additional_annotations Transcript annotation block (free-text, default 5000); label from Object_VEP.pm get_form_details; default 5000 bp confirmed via ensembl.org vep_options.html (--distance)."
+  },
+  {
+    "id": "sift",
+    "name": "SIFT",
+    "cli_flag": "--sift [b|p|s]",
+    "web_form_section": "predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Species-limited SIFT predicts whether a missense amino acid substitution affects protein function based on sequence homology and the physical properties of amino acids. The web dropdown selects the output form: No, Prediction (tolerated/deleterious), Score (0-1, lower = more deleterious), or Both (default 'b').",
+    "when_to_use": "Analysing coding variants where you want to assess functional impact of missense changes. Use 'Both' to get prediction and score. Available for many species, not just human.",
+    "when_not_to_use": "Non-coding, regulatory, or structural variant analysis. Only produces output for missense variants. Cannot be combined with --most_severe or --summary.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic",
+      "non_human"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "recommended",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "species with SIFT data",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only produces output for missense variants. Minimal runtime impact. Adds SIFT prediction and/or score columns.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "b",
+    "provenance": "InputForm.pm _build_predictions Pathogenicity predictions (dropdown, default 'b', field_class for species with SIFT data => multi-species, NOT human-only); description confirmed via ensembl.org vep_options.html ('Species limited SIFT...')."
+  },
+  {
+    "id": "per_gene",
+    "name": "Restrict results",
+    "cli_flag": "--per_gene",
+    "web_form_section": "filters",
+    "category": "filtering",
+    "description": "A value of the single 'Restrict results' dropdown. Outputs only the most severe consequence per gene for each variant. Unlike --pick (one per variant), this retains one result per gene, so multi-gene overlaps are preserved. The transcript chosen is arbitrary if several share the same predicted consequence.",
+    "when_to_use": "When a variant overlaps multiple genes and you want the worst consequence from each gene without every transcript. Reduces output while keeping per-gene resolution.",
+    "when_not_to_use": "When you need all transcripts per gene, or when --pick (one per variant) is sufficient. Mutually exclusive with the other 'Restrict results' values (pick, pick_allele, summary, most_severe).",
+    "use_case_tags": [
+      "rare_disease",
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "recommended",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "pick",
+      "pick_allele",
+      "summary",
+      "most_severe"
+    ],
+    "side_effects": "Reduces output significantly but preserves multi-gene overlaps. Discards non-selected transcripts, which may hide a clinically relevant alternative annotation within the same gene.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Restrict results",
+    "web_default": "no",
+    "provenance": "VEPConstants.pm CONFIG_SECTIONS (filters) + InputForm.pm 'Restrict results' single dropdown (mutually-exclusive values: no/pick/pick_allele/per_gene/summary/most_severe/all); description confirmed via ensembl.org vep_options.html (--per_gene)."
+  },
+  {
+    "id": "revel",
+    "name": "REVEL",
+    "cli_flag": "--plugin REVEL",
+    "web_form_section": "predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Plugin. Rare Exome Variant Ensemble Learner, an ensemble method combining 13 individual pathogenicity predictors into a single missense score from 0 to 1, where higher = more pathogenic. Adds a single REVEL output column. Works only on missense variants.",
+    "when_to_use": "Clinical missense variant interpretation where a consensus pathogenicity score is desired. REVEL is widely used in ACMG-style evidence (PP3/BP4) and outperforms many individual predictors at separating pathogenic from benign missense variants.",
+    "when_not_to_use": "Non-coding variants (missense only). Non-human species. When only structural variants are present.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only produces output for missense variants. Requires a tabix-indexed REVEL data file; matches by transcript ID by default. Available on the web interface without download.",
+    "source_type": "plugin",
+    "is_new": false,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (REVEL available=>1); CLI form --plugin <Name>; human GRCh37/GRCh38, missense-only and column header 'Rare Exome Variant Ensemble Learner' confirmed via github.com/Ensembl/VEP_plugins REVEL.pm. Corrects demo source_type to plugin."
+  },
+  {
+    "id": "maxentscan",
+    "name": "MaxEntScan",
+    "cli_flag": "--plugin MaxEntScan",
+    "web_form_section": "predictions",
+    "category": "splice_prediction",
+    "description": "Plugin. Runs MaxEntScan maximum-entropy models to score donor (5') and acceptor (3') splice sites. Compares reference and alternate allele scores and reports the difference (a negative difference indicates a weaker splice site). Model is sequence-based, so it is not restricted to precomputed human data.",
+    "when_to_use": "Splice-site variant analysis, especially canonical splice site and nearby intronic variants. Complementary to SpliceAI for assessing splicing disruption.",
+    "when_not_to_use": "Variants far from splice sites. Purely intergenic/regulatory analysis. Quick lookups. Cannot be combined with --most_severe or --summary.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "splice",
+      "non_human"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "optional",
+      "quick_lookup": "not_applicable"
+    },
+    "species_restriction": "all species (sequence-based)",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds reference score, alternate score and their difference. Requires the MaxEntScan software/data download for CLI use; available on the web interface. Optional SWA and NCSS modes add further k-mer and canonical splice-site columns.",
+    "source_type": "plugin",
+    "is_new": false,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (MaxEntScan available=>1); CLI form --plugin <Name>; donor/acceptor maximum-entropy scoring and ref/alt/difference output confirmed via ensembl.org vep_plugins.html and github MaxEntScan.pm. Corrects demo source_type to plugin; sequence-based => not human-only."
+  },
+  {
+    "id": "paralogues",
+    "name": "Paralogues",
+    "cli_flag": "--plugin Paralogues",
+    "web_form_section": "additional_annotations",
+    "category": "pathogenicity_prediction",
+    "description": "Plugin. Annotates a variant by fetching known variants that overlap the genomic coordinates of amino acids aligned between paralogue proteins, enabling paralogue-transfer prediction of pathogenicity. Reports paralogue variants (identifier, alleles, and configurable clinical significance) and the paralogue regions examined (coordinates and transcript IDs).",
+    "when_to_use": "Missense and other protein-coding variant interpretation where a position lacks direct evidence but the equivalent residue in a paralogue gene has known pathogenic variation. Useful for resolving variants of uncertain significance in gene families.",
+    "when_not_to_use": "Non-coding or intergenic variants with no protein alignment. Genes without paralogues. Species lacking Ensembl paralogue annotations. Cannot be combined with --most_severe or --summary.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "species with Ensembl paralogues",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Can add multiple paralogue-variant and paralogue-region columns. For human, an assembly must be specified (--assembly). Database-API mode adds runtime; pre-computed matches files or cache are faster.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Functional effect",
+    "web_default": "off",
+    "provenance": "vep_plugins_web_config.txt (Paralogues available=>1); CLI form --plugin <Name>; purpose ('fetches variants overlapping the genomic coordinates of amino acids aligned between paralogue proteins'), output fields, and species/assembly requirements confirmed via github.com/Ensembl/VEP_plugins Paralogues.pm."
+  },
+  {
+    "id": "gnomad_sv",
+    "name": "gnomAD structural variant frequencies",
+    "cli_flag": "--custom (gnomAD_SV VCF, type=exact, overlap_cutoff 80/90/100/exact)",
+    "web_form_section": "variants_frequency_data",
+    "category": "frequency_data",
+    "description": "Custom dataset. Annotates input structural variants with gnomAD structural-variant allele frequencies (global AF plus nine sub-population frequencies) using a configurable reciprocal overlap cutoff (exact match, 80%, 90%, or 100%). Exposed in the web form under 'Variants and frequency data'.",
+    "when_to_use": "Structural variant analysis from WGS. Essential for filtering common SVs and prioritising rare structural variants that may be disease-causing.",
+    "when_not_to_use": "SNV/indel-only analysis (use standard gnomAD af_gnomade/af_gnomadg). Non-human species. Very large SVs may hit the web interface size limit.",
+    "use_case_tags": [
+      "structural_variants",
+      "rare_disease",
+      "clinical",
+      "population_genetics"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "critical",
+      "non_human": "not_applicable",
+      "quick_lookup": "not_applicable"
+    },
+    "species_restriction": "human only (GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds AF plus sub-population SV frequency columns. The chosen overlap cutoff changes which gnomAD SVs are matched; looser cutoffs return more matches. Large SVs overlapping many records can slow rendering.",
+    "source_type": "custom",
+    "is_new": false,
+    "web_form_subsection": "Variants and frequency data",
+    "web_default": "off",
+    "provenance": "vep_custom_web_config.json (gnomAD_SV, human, section 'Variants and frequency data', type=exact with overlap_cutoff 80/90/100/exact). Corrects demo web_form_section from 'N/A' to canonical id variants_frequency_data."
+  },
+  {
+    "id": "uniprot",
+    "name": "UniProt",
+    "cli_flag": "--uniprot",
+    "web_form_section": "identifiers",
+    "category": "identifiers",
+    "description": "Adds best-match accessions for translated protein products from three UniProt-related databases (SWISSPROT, TrEMBL and UniParc) to the output, plus the UNIPROT_ISOFORM identifier. Lets you cross-link variant-affected transcripts to curated protein records.",
+    "when_to_use": "When downstream work involves UniProt-based protein annotation, structural mapping, or linking variants to curated SWISSPROT entries. Useful for proteomics and protein-domain follow-up.",
+    "when_not_to_use": "Non-coding variant analysis, quick triage, or when Ensembl protein IDs (--protein) already suffice. Adds little value for purely population-frequency or structural-variant work.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds SWISSPROT, TREMBL, UNIPARC and UNIPROT_ISOFORM columns. Suppressed by --summary/--most_severe, which blank transcript-specific columns. Minimal runtime impact.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Identifiers",
+    "web_default": "off",
+    "provenance": "vep_options.html (--uniprot); InputForm.pm identifiers section, label 'UniProt' from Object_VEP.pm get_form_details."
+  },
+  {
+    "id": "af_1kg",
+    "name": "1000 Genomes continental allele frequencies",
+    "cli_flag": "--af_1kg",
+    "web_form_section": "variants_frequency_data",
+    "category": "frequency_data",
+    "description": "Adds allele frequency from continental (super-population) groups of 1000 Genomes Phase 3: AFR_AF, AMR_AF, EAS_AF, EUR_AF and SAS_AF. Distinct from --af, which reports only the global 1000 Genomes minor allele frequency. Requires cache mode.",
+    "when_to_use": "Population genetics and ancestry-aware filtering where continental frequency breakdowns matter. Complements gnomAD frequencies and the global --af for assessing how common a variant is in specific super-populations.",
+    "when_not_to_use": "Non-human species (1000 Genomes is human-only). When gnomAD frequencies already provide sufficient population resolution, or when only a global MAF is needed (use --af instead).",
+    "use_case_tags": [
+      "population_genetics",
+      "rare_disease"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "not_applicable",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "critical",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "side_effects": "Requires --cache. Adds five continental frequency columns (AFR_AF, AMR_AF, EAS_AF, EUR_AF, SAS_AF). Frequencies are reported for co-located known variants, so it relies on --check_existing.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Variants and frequency data",
+    "web_default": "off",
+    "provenance": "vep_options.html (--af_1kg, 'continental populations (AFR,AMR,EAS,EUR,SAS) of 1000 Genomes Phase 3 ... Must be used with --cache'); InputForm.pm variants_frequency_data (human-only field class)."
+  },
+  {
+    "id": "numbers",
+    "name": "Exon and intron numbers",
+    "cli_flag": "--numbers",
+    "web_form_section": "additional_annotations",
+    "category": "transcript_annotation",
+    "description": "Adds the affected exon and intron numbering to the output in Number/Total format (e.g. 7/27), populating the EXON and INTRON columns. Tells you which exon or intron a variant falls in relative to the whole transcript.",
+    "when_to_use": "When the exonic/intronic position of a variant within a transcript is informative, such as locating variants in first/last exons, exon-numbering for clinical reports, or splice-region context.",
+    "when_not_to_use": "Intergenic or purely regulatory analyses where transcript exon structure is irrelevant. Quick triage where consequence terms alone suffice.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "splice"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds EXON and INTRON columns (Number/Total). Blanked by --summary/--most_severe. Negligible runtime cost.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Transcript annotation",
+    "web_default": "off",
+    "provenance": "vep_options.html (--numbers, 'affected exon and intron numbering ... Format is Number/Total'); InputForm.pm additional_annotations Transcript annotation section."
+  },
+  {
+    "id": "mirna",
+    "name": "miRNA structure",
+    "cli_flag": "--mirna",
+    "web_form_section": "additional_annotations",
+    "category": "transcript_annotation",
+    "description": "Reports where a variant lies within the secondary structure of a miRNA (e.g. stem, loop), populating the miRNA output field. Only available for Ensembl/GENCODE transcripts.",
+    "when_to_use": "Non-coding/regulatory analyses focused on miRNA genes, where the structural context of a variant within the mature miRNA or hairpin is biologically informative.",
+    "when_not_to_use": "Coding/exome-focused work, RefSeq-only transcript sets (Ensembl/GENCODE transcripts only), or when miRNA genes are not of interest.",
+    "use_case_tags": [
+      "regulatory",
+      "non_human"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "recommended",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "optional",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds the miRNA field. Only populated for Ensembl/GENCODE transcripts overlapping annotated miRNAs; no effect with RefSeq-only transcript sets.",
+    "source_type": "native",
+    "is_new": true,
+    "web_form_subsection": "Transcript annotation",
+    "web_default": "off",
+    "provenance": "vep_options.html (--mirna, 'Reports where the variant lies in the miRNA secondary structure (only for Ensembl/GENCODE transcripts)'); InputForm.pm additional_annotations Transcript annotation section."
+  },
+  {
+    "id": "polyphen",
+    "name": "PolyPhen",
+    "cli_flag": "--polyphen [b|p|s]",
+    "web_form_section": "predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Human-only tool predicting the possible impact of an amino acid substitution on the structure and function of a protein, using sequence, phylogenetic and structural features. The web dropdown chooses output as prediction term (p), score (s), or both (b); default is both. Outputs benign / possibly_damaging / probably_damaging and/or a 0-1 score (higher = more damaging).",
+    "when_to_use": "Assessing functional impact of missense variants in human data. Best used together with SIFT for complementary missense pathogenicity evidence.",
+    "when_not_to_use": "Non-human species (human-only precomputed data). Non-coding, regulatory, or structural-variant analysis. Only produces output for missense variants.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "critical",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only produces output for missense variants. Blanked by --summary/--most_severe. Minimal runtime impact (precomputed data).",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "b (both prediction and score)",
+    "provenance": "vep_options.html (--polyphen, 'Human only ... predicts possible impact of an amino acid substitution ... output the prediction term, score or both'); InputForm.pm predictions Pathogenicity predictions, human-only field class."
+  },
+  {
+    "id": "summary",
+    "name": "Restrict results",
+    "cli_flag": "--summary",
+    "web_form_section": "filters",
+    "category": "output_control",
+    "description": "Value of the single 'Restrict results' dropdown (web control name=summary). When set to summary it outputs only a comma-separated list of all observed consequences per variant; all transcript-specific columns are left blank. The dropdown's other values (no / pick / pick_allele / per_gene / most_severe / all) are mutually exclusive with this one.",
+    "when_to_use": "Quick overview of every consequence type affecting each variant, for initial triage of large variant sets where per-transcript detail is not yet needed.",
+    "when_not_to_use": "Clinical or diagnostic analysis, or any workflow requiring per-transcript annotations (SIFT, PolyPhen, HGVS, identifiers, domains). Incompatible with all per-transcript annotation options.",
+    "use_case_tags": [
+      "population_genetics",
+      "quick_lookup"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "not_applicable",
+      "somatic_cancer": "not_applicable",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "optional",
+      "structural_variants": "optional",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "all species",
+    "depends_on": [],
+    "conflicts_with": [
+      "pick",
+      "pick_allele",
+      "per_gene",
+      "most_severe",
+      "sift",
+      "polyphen",
+      "hgvs",
+      "domains",
+      "symbol",
+      "protein",
+      "ccds",
+      "uniprot",
+      "biotype",
+      "numbers",
+      "tsl",
+      "appris",
+      "mane",
+      "canonical"
+    ],
+    "side_effects": "Suppresses all per-transcript detail; transcript-specific columns are left blank and only a comma-separated consequence list per variant is returned. As one value of the single 'Restrict results' dropdown, it cannot be combined with the other restrict-results values.",
+    "source_type": "native",
+    "is_new": false,
+    "web_form_subsection": "Restrict results",
+    "web_default": "no (Restrict results dropdown defaults to 'no')",
+    "provenance": "vep_options.html (--summary, 'comma-separated list of all observed consequences per variant; transcript-specific columns will be left blank'); InputForm.pm filters section, single 'Restrict results' control (name=summary) with mutually-exclusive values per VEPConstants.pm."
+  },
+  {
+    "id": "alphamissense",
+    "name": "AlphaMissense",
+    "cli_flag": "--plugin AlphaMissense",
+    "web_form_section": "predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Plugin that annotates missense variants with pre-computed pathogenicity predictions from Google DeepMind's AlphaMissense model. Outputs am_pathogenicity (continuous 0-1 score) and am_class (likely_pathogenic / likely_benign / ambiguous); thresholds were chosen to reach ~90% precision against pathogenic and benign ClinVar variants.",
+    "when_to_use": "Assessing missense variant pathogenicity with state-of-the-art deep-learning predictions in human GRCh37/GRCh38 data. A strong complement to SIFT, PolyPhen and other ensemble scores.",
+    "when_not_to_use": "Non-coding variants (missense only), non-human species, or structural variants. Not a substitute for clinical-grade evidence on its own.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "recommended",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "optional",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "recommended"
+    },
+    "species_restriction": "human only (GRCh37 and GRCh38)",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only produces output for missense variants. On the CLI requires the AlphaMissense tabix data file; offered without download on the web interface. Adds am_pathogenicity and am_class fields.",
+    "source_type": "plugin",
+    "is_new": false,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_plugins.html / VEP_plugins AlphaMissense.pm (am_pathogenicity, am_class, GRCh37+GRCh38 human only, 90% precision thresholds); vep_plugins_web_config.txt (available=>1). source_type corrected to plugin."
+  },
+  {
+    "id": "dbscsnv",
+    "name": "dbscSNV",
+    "cli_flag": "--plugin dbscSNV",
+    "web_form_section": "predictions",
+    "category": "splice_prediction",
+    "description": "Plugin that retrieves pre-computed splicing-effect predictions for variants within splicing consensus regions from tabix-indexed dbscSNV data files. Outputs ada_score (adaptive boosting) and rf_score (random forest), each 0-1 where higher values indicate a greater predicted likelihood of altering splicing.",
+    "when_to_use": "Evaluating variants in or near splice sites (the splicing consensus regions) for splice-altering potential. Useful as an ensemble complement to SpliceAI and MaxEntScan in rare-disease and clinical workflows.",
+    "when_not_to_use": "Variants outside splicing consensus regions (dbscSNV only scores those), non-human data, or structural-variant analysis.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "splice"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "recommended",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "optional",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Only scores variants in splicing consensus regions, so most variants get no output. On the CLI requires the tabix-indexed dbscSNV file (assembly must match) and the Bio::DB::HTS/tabix utility. dbscSNV transcript sequences may be out of sync with the current Ensembl release, causing minor score discrepancies.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_plugins.html / VEP_plugins dbscSNV.pm (ada_score, rf_score; splicing consensus regions; GRCh37/GRCh38; tabix requirement); vep_plugins_web_config.txt (available=>1)."
+  },
+  {
+    "id": "mutfunc",
+    "name": "mutfunc",
+    "cli_flag": "--plugin mutfunc",
+    "web_form_section": "additional_annotations",
+    "category": "pathogenicity_prediction",
+    "description": "Plugin that retrieves data from the mutfunc database predicting the destabilising effect of variants on protein structure, protein-protein interaction interfaces and linear motifs. Provides results across four analysis categories: linear motif (motif), interaction interface (int), homology-model protein structure (mod) and experimental structure (exp); all four are included by default.",
+    "when_to_use": "Mechanistic interpretation of missense/coding variants in human proteins, to assess whether a substitution destabilises protein structure, disrupts an interaction interface, or breaks a functional motif.",
+    "when_not_to_use": "Non-coding variants, non-human data, or quick triage. Adds structural/interaction detail that is unnecessary for purely frequency- or consequence-based workflows.",
+    "use_case_tags": [
+      "rare_disease",
+      "clinical",
+      "somatic"
+    ],
+    "priority_by_use_case": {
+      "rare_disease_germline": "optional",
+      "somatic_cancer": "optional",
+      "regulatory_noncoding": "not_applicable",
+      "population_genetics": "not_applicable",
+      "structural_variants": "not_applicable",
+      "non_human": "not_applicable",
+      "quick_lookup": "optional"
+    },
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "On the CLI requires downloading the mutfunc SQLite database and a FASTA file in offline mode for translation sequences. Outputs results in motif/int/mod/exp categories; verbosity can be extended. Output is limited to coding/missense changes covered by the database.",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Functional effect",
+    "web_default": "off",
+    "provenance": "vep_plugins.html / VEP_plugins mutfunc.pm ('destabilization of protein structure, interaction interface, and motif'; four categories motif/int/mod/exp; SQLite db + FASTA); vep_plugins_web_config.txt (available=>1)."
+  }
+]

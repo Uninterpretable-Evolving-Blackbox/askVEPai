@@ -1,0 +1,1030 @@
+[
+  {
+    "id": "rare_disease_exome",
+    "user_query": "I have a VCF file with germline exome variants from a patient with a suspected rare Mendelian disorder. I want to find potentially pathogenic coding variants.",
+    "use_case_category": "rare_disease_germline",
+    "recommended_options": {
+      "transcript_set": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "mane_select": {
+        "value": true,
+        "enabled": true
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true
+      },
+      "pick": {
+        "value": false,
+        "enabled": false,
+        "note": "Use MANE filtering downstream instead for flexibility"
+      },
+      "per_gene": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed when keeping all transcripts for detailed review"
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Need detailed per-transcript annotations (SIFT, PolyPhen, HGVS)"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "Need detailed per-transcript annotations, not a summary"
+      },
+      "sift": {
+        "value": "both (prediction + score)",
+        "enabled": true
+      },
+      "polyphen": {
+        "value": "both (prediction + score)",
+        "enabled": true
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true
+      },
+      "alphamissense": {
+        "value": false,
+        "enabled": false,
+        "note": "Optional extra missense predictor; SIFT/PolyPhen/CADD are the standard set"
+      },
+      "revel": {
+        "value": false,
+        "enabled": false,
+        "note": "Optional extra missense predictor; SIFT/PolyPhen/CADD are the standard set"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true
+      },
+      "check_existing": {
+        "value": true,
+        "enabled": true
+      },
+      "gnomad_af": {
+        "value": "gnomAD exome",
+        "enabled": true,
+        "note": "Filter downstream for AF < 0.01 to remove common variants"
+      },
+      "af_1kg": {
+        "value": false,
+        "enabled": false,
+        "note": "gnomAD is more comprehensive"
+      },
+      "spliceai": {
+        "value": false,
+        "enabled": false,
+        "note": "Splice prediction covered by the splice-focused workflow; not needed for general coding screening"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "protein": {
+        "value": false,
+        "enabled": false,
+        "note": "HGVS notation and gene symbols are sufficient for clinical reporting"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true
+      },
+      "gene_phenotype": {
+        "value": true,
+        "enabled": true
+      },
+      "regulatory": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for coding-focused exome analysis; would slow runtime"
+      },
+      "maxentscan": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed unless specifically investigating splice-site variants"
+      },
+      "clinvar_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      },
+      "gnomad_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      }
+    },
+    "justification": "For rare Mendelian disease, focus on coding variants that are rare in the population and predicted to be damaging. MANE Select gives one representative transcript per gene, reducing noise. SIFT, PolyPhen-2, CADD, AlphaMissense, and REVEL provide multiple complementary pathogenicity assessments for missense variants. ClinVar flags variants with existing pathogenicity assertions. gnomAD exome frequencies let you filter out common variants (AF < 0.01) unlikely to cause rare disease. SpliceAI catches potential splice-disrupting variants. HGVS notation is standard for clinical reporting. Gene-phenotype associations help prioritise variants in known disease genes. Regulatory annotations are disabled because exome data primarily captures coding regions. --most_severe and --summary are incompatible with the per-transcript annotations needed here."
+  },
+  {
+    "id": "somatic_cancer",
+    "user_query": "I have a tumour-normal paired VCF with somatic variants from a cancer patient. I need to prioritise potential driver mutations and identify actionable variants.",
+    "use_case_category": "somatic_cancer",
+    "recommended_options": {
+      "transcript_set": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "mane_select": {
+        "value": false,
+        "enabled": false,
+        "note": "Different oncology databases use different transcripts; keep all transcripts"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true
+      },
+      "pick": {
+        "value": false,
+        "enabled": false,
+        "note": "Need all transcripts since oncology databases may reference different ones"
+      },
+      "per_gene": {
+        "value": false,
+        "enabled": false,
+        "note": "Need all transcripts per gene for cross-referencing oncology databases"
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Need SIFT/PolyPhen scores and HGVS notation for clinical reporting"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "Need detailed per-transcript annotations for actionability assessment"
+      },
+      "sift": {
+        "value": "both (prediction + score)",
+        "enabled": true
+      },
+      "polyphen": {
+        "value": "both (prediction + score)",
+        "enabled": true
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true
+      },
+      "alphamissense": {
+        "value": true,
+        "enabled": true
+      },
+      "revel": {
+        "value": false,
+        "enabled": false,
+        "note": "REVEL is optimised for rare disease, less relevant for somatic drivers"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true
+      },
+      "check_existing": {
+        "value": true,
+        "enabled": true
+      },
+      "gnomad_af": {
+        "value": "gnomAD exome",
+        "enabled": true,
+        "note": "Do NOT filter by AF \u2014 some cancer drivers like BRAF V600E are present in gnomAD"
+      },
+      "af_1kg": {
+        "value": false,
+        "enabled": false
+      },
+      "spliceai": {
+        "value": false,
+        "enabled": false,
+        "note": "Splicing less commonly actionable in cancer analysis"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "protein": {
+        "value": true,
+        "enabled": true,
+        "note": "Protein IDs useful for linking to structural analysis and drug target databases"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true
+      },
+      "gene_phenotype": {
+        "value": true,
+        "enabled": true
+      },
+      "regulatory": {
+        "value": false,
+        "enabled": false,
+        "note": "Focus on coding driver mutations for clinical actionability"
+      },
+      "maxentscan": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed unless specifically investigating splice-site variants"
+      },
+      "clinvar_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      },
+      "gnomad_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      }
+    },
+    "justification": "Somatic cancer analysis requires keeping all transcripts rather than restricting to MANE, because different oncology databases (COSMIC, OncoKB, CIViC) reference different transcript IDs. The canonical flag helps identify primary transcripts without discarding others. SIFT, PolyPhen, and CADD assess functional impact of missense drivers. Critically, gnomAD frequencies should NOT be used as a filter \u2014 well-known cancer drivers like BRAF V600E appear in gnomAD at low frequency. ClinVar and gene-phenotype associations help identify variants with known oncogenic relevance. HGVS notation and gene symbols are essential for matching to clinical knowledge bases. Protein identifiers help link to structural analysis and drug target databases. Domains help identify variants in hotspot functional regions (e.g., kinase domains). --most_severe and --summary would suppress all these detailed annotations."
+  },
+  {
+    "id": "regulatory_gwas",
+    "user_query": "I have GWAS-significant SNPs in intergenic and intronic regions. I need to understand their potential regulatory impact and identify candidate target genes.",
+    "use_case_category": "regulatory_noncoding",
+    "recommended_options": {
+      "transcript_set": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "mane_select": {
+        "value": false,
+        "enabled": false,
+        "note": "Not relevant for non-coding regulatory analysis"
+      },
+      "canonical": {
+        "value": false,
+        "enabled": false
+      },
+      "pick": {
+        "value": false,
+        "enabled": false
+      },
+      "per_gene": {
+        "value": false,
+        "enabled": false,
+        "note": "Not useful for non-coding regulatory variants"
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Need regulatory annotations which most_severe suppresses"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "Need detailed regulatory region annotations"
+      },
+      "sift": {
+        "value": false,
+        "enabled": false,
+        "note": "SIFT only works on missense coding variants \u2014 useless for non-coding"
+      },
+      "polyphen": {
+        "value": false,
+        "enabled": false,
+        "note": "PolyPhen only works on missense coding variants \u2014 useless for non-coding"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "note": "CADD works on non-coding variants unlike SIFT/PolyPhen"
+      },
+      "alphamissense": {
+        "value": false,
+        "enabled": false,
+        "note": "Missense-only predictor, not applicable"
+      },
+      "revel": {
+        "value": false,
+        "enabled": false,
+        "note": "Missense-only predictor, not applicable"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true
+      },
+      "check_existing": {
+        "value": true,
+        "enabled": true
+      },
+      "gnomad_af": {
+        "value": "gnomAD genome",
+        "enabled": true,
+        "note": "Use genome not exome \u2014 non-coding variants are poorly covered by exome"
+      },
+      "af_1kg": {
+        "value": true,
+        "enabled": true,
+        "note": "Population-specific frequencies useful for GWAS context"
+      },
+      "spliceai": {
+        "value": false,
+        "enabled": false
+      },
+      "hgvs": {
+        "value": false,
+        "enabled": false,
+        "note": "Less meaningful for intergenic variants"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "protein": {
+        "value": false,
+        "enabled": false,
+        "note": "Not relevant for non-coding variants"
+      },
+      "domains": {
+        "value": false,
+        "enabled": false,
+        "note": "Not relevant for non-coding variants"
+      },
+      "gene_phenotype": {
+        "value": true,
+        "enabled": true
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "note": "ESSENTIAL \u2014 identifies promoters, enhancers, TF binding sites overlapping GWAS hits"
+      },
+      "maxentscan": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed unless specifically investigating splice-site variants"
+      },
+      "clinvar_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      },
+      "gnomad_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      }
+    },
+    "justification": "For GWAS follow-up of non-coding variants, regulatory annotations are the most critical option \u2014 they identify whether SNPs fall in promoters, enhancers, CTCF binding sites, or transcription factor binding motifs from the Ensembl Regulatory Build. SIFT and PolyPhen are completely useless here as they only score missense coding variants. CADD is the one pathogenicity predictor that works on non-coding variants. gnomAD genome (not exome) frequencies are needed because non-coding variants are poorly captured by exome sequencing. 1000 Genomes frequencies provide useful population stratification data for GWAS context. Gene-phenotype associations help connect regulatory regions to known disease genes. Protein identifiers and domains are not relevant for non-coding variants."
+  },
+  {
+    "id": "population_genetics",
+    "user_query": "I want to annotate common variants across multiple populations to compare allele frequencies and functional annotation patterns. My dataset has about 2 million variants from whole genome sequencing.",
+    "use_case_category": "population_genetics",
+    "recommended_options": {
+      "transcript_set": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "mane_select": {
+        "value": false,
+        "enabled": false,
+        "note": "Not the focus for population-level analysis"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true
+      },
+      "pick": {
+        "value": true,
+        "enabled": true,
+        "note": "Reduces output volume dramatically for 2M variants"
+      },
+      "per_gene": {
+        "value": false,
+        "enabled": false,
+        "note": "Using --pick instead for simpler output"
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Need at least basic consequence type per transcript; --pick is better"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "--pick provides cleaner output than --summary for downstream analysis"
+      },
+      "sift": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for population-level frequency comparison"
+      },
+      "polyphen": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for population-level frequency comparison"
+      },
+      "cadd": {
+        "value": false,
+        "enabled": false
+      },
+      "alphamissense": {
+        "value": false,
+        "enabled": false
+      },
+      "revel": {
+        "value": false,
+        "enabled": false
+      },
+      "clinvar": {
+        "value": false,
+        "enabled": false
+      },
+      "check_existing": {
+        "value": true,
+        "enabled": true
+      },
+      "gnomad_af": {
+        "value": "both gnomAD exome and genome",
+        "enabled": true
+      },
+      "af_1kg": {
+        "value": true,
+        "enabled": true,
+        "note": "Continental population frequencies are the primary interest"
+      },
+      "spliceai": {
+        "value": false,
+        "enabled": false
+      },
+      "hgvs": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for population frequency analysis"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "protein": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for population frequency comparison"
+      },
+      "domains": {
+        "value": false,
+        "enabled": false
+      },
+      "gene_phenotype": {
+        "value": false,
+        "enabled": false
+      },
+      "regulatory": {
+        "value": false,
+        "enabled": false,
+        "note": "Would slow runtime significantly for 2M variants"
+      },
+      "maxentscan": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed unless specifically investigating splice-site variants"
+      },
+      "clinvar_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      },
+      "gnomad_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      }
+    },
+    "justification": "Population genetics analysis focuses on frequency distribution across populations rather than individual variant pathogenicity. Enable both gnomAD and 1000 Genomes to get comprehensive population-specific allele frequencies for comparison. Use --pick to get one consequence per variant \u2014 with 2 million variants, full transcript output would be enormous and unwieldy. Pathogenicity predictors (SIFT, PolyPhen, CADD) are not needed since the goal is frequency comparison, not clinical prioritisation. Regulatory annotations would significantly slow the analysis for 2M variants. Gene symbols are useful for readability. --check_existing gets rsIDs for cross-referencing."
+  },
+  {
+    "id": "structural_variants",
+    "user_query": "I have structural variants (large deletions and duplications) called from whole genome sequencing. I need to identify clinically relevant SVs and filter out common ones.",
+    "use_case_category": "structural_variants",
+    "recommended_options": {
+      "transcript_set": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "mane_select": {
+        "value": false,
+        "enabled": false,
+        "note": "SVs typically span multiple genes; single transcript selection is less relevant"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true
+      },
+      "pick": {
+        "value": false,
+        "enabled": false,
+        "note": "SVs may affect multiple genes; need to see all"
+      },
+      "per_gene": {
+        "value": true,
+        "enabled": true,
+        "note": "One consequence per gene is useful for SVs spanning multiple genes"
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Need per-gene consequences, not just one overall consequence"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "Need structured per-gene output for clinical review"
+      },
+      "sift": {
+        "value": false,
+        "enabled": false,
+        "note": "Not applicable to structural variants"
+      },
+      "polyphen": {
+        "value": false,
+        "enabled": false,
+        "note": "Not applicable to structural variants"
+      },
+      "cadd": {
+        "value": false,
+        "enabled": false,
+        "note": "Not designed for large structural variants"
+      },
+      "alphamissense": {
+        "value": false,
+        "enabled": false,
+        "note": "Not applicable to structural variants"
+      },
+      "revel": {
+        "value": false,
+        "enabled": false,
+        "note": "Not applicable to structural variants"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true
+      },
+      "clinvar_sv": {
+        "value": true,
+        "enabled": true,
+        "note": "ClinVar SV clinical significance with overlap matching"
+      },
+      "check_existing": {
+        "value": true,
+        "enabled": true
+      },
+      "gnomad_af": {
+        "value": false,
+        "enabled": false,
+        "note": "Standard gnomAD AF is for SNVs/indels, not SVs"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "note": "gnomAD SV frequencies with overlap threshold (e.g., 80%)"
+      },
+      "af_1kg": {
+        "value": false,
+        "enabled": false
+      },
+      "spliceai": {
+        "value": false,
+        "enabled": false
+      },
+      "hgvs": {
+        "value": false,
+        "enabled": false,
+        "note": "HGVS notation is complex and less standardised for SVs"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "protein": {
+        "value": false,
+        "enabled": false,
+        "note": "Not meaningful for large structural variants"
+      },
+      "domains": {
+        "value": false,
+        "enabled": false
+      },
+      "gene_phenotype": {
+        "value": true,
+        "enabled": true
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "note": "SVs may delete/disrupt regulatory elements"
+      },
+      "maxentscan": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed unless specifically investigating splice-site variants"
+      }
+    },
+    "justification": "Structural variant analysis requires specialised options introduced in Ensembl release 115. gnomAD SV frequencies (with configurable overlap threshold, e.g., 80%) let you filter common SVs. ClinVar SV annotations flag SVs with existing clinical significance. Standard pathogenicity predictors (SIFT, PolyPhen, CADD, AlphaMissense) are not applicable to SVs \u2014 they are designed for SNVs and small indels. --per_gene is useful here because SVs often span multiple genes and you want the most severe consequence for each affected gene. Regulatory annotations are important because SVs may delete or disrupt enhancers, promoters, or other regulatory elements, causing disease through non-coding mechanisms. Gene-phenotype associations help when SVs overlap known disease genes."
+  },
+  {
+    "id": "splice_analysis",
+    "user_query": "I'm investigating variants near splice sites that might cause aberrant splicing in a rare disease cohort. I have both exonic and intronic variants within 50bp of exon-intron boundaries.",
+    "use_case_category": "rare_disease_germline",
+    "recommended_options": {
+      "transcript_set": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "mane_select": {
+        "value": true,
+        "enabled": true
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true
+      },
+      "pick": {
+        "value": false,
+        "enabled": false,
+        "note": "Different transcripts have different splice sites; need all"
+      },
+      "per_gene": {
+        "value": false,
+        "enabled": false,
+        "note": "Need all transcripts to see all splice sites"
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Incompatible with SpliceAI, SIFT, PolyPhen scores"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "Need detailed per-transcript splice predictions"
+      },
+      "sift": {
+        "value": "both (prediction + score)",
+        "enabled": true,
+        "note": "Some exonic variants may also be missense"
+      },
+      "polyphen": {
+        "value": "both (prediction + score)",
+        "enabled": true,
+        "note": "Some exonic variants may also be missense"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true
+      },
+      "alphamissense": {
+        "value": false,
+        "enabled": false,
+        "note": "Focus is on splicing, not missense pathogenicity"
+      },
+      "revel": {
+        "value": false,
+        "enabled": false
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true
+      },
+      "check_existing": {
+        "value": true,
+        "enabled": true
+      },
+      "gnomad_af": {
+        "value": "gnomAD exome",
+        "enabled": true
+      },
+      "af_1kg": {
+        "value": false,
+        "enabled": false
+      },
+      "spliceai": {
+        "value": true,
+        "enabled": true,
+        "note": "CRITICAL \u2014 provides quantitative splice disruption scores"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "note": "Complementary splice site scoring using maximum entropy models"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "protein": {
+        "value": false,
+        "enabled": false,
+        "note": "Splicing analysis focuses on transcript-level effects, not protein IDs"
+      },
+      "domains": {
+        "value": false,
+        "enabled": false
+      },
+      "gene_phenotype": {
+        "value": true,
+        "enabled": true
+      },
+      "regulatory": {
+        "value": false,
+        "enabled": false
+      },
+      "clinvar_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      },
+      "gnomad_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      }
+    },
+    "justification": "Splice variant analysis requires specialised splicing prediction tools. SpliceAI is the most important option here \u2014 it provides quantitative delta scores for four splice event types (acceptor gain/loss, donor gain/loss) with scores >= 0.5 being high confidence. MaxEntScan complements SpliceAI with maximum entropy-based splice site scoring that compares reference vs alternate allele scores. VEP natively predicts splice_donor_variant and splice_acceptor_variant consequences for canonical \u00b11-2 positions, but these plugins extend prediction to deeper intronic positions and exonic splice-affecting variants. SIFT and PolyPhen are kept because some near-splice exonic variants may also be missense. CADD integrates splicing signals in its model. MANE Select is useful for clinical reporting of splice variants. --most_severe and --summary would suppress these critical per-transcript splice scores."
+  },
+  {
+    "id": "quick_lookup",
+    "user_query": "I just want to quickly look up what rs429358 does. What variant is it and is it clinically relevant?",
+    "use_case_category": "quick_lookup",
+    "recommended_options": {
+      "transcript_set": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "mane_select": {
+        "value": false,
+        "enabled": false,
+        "note": "Default transcript is sufficient for a known-variant lookup"
+      },
+      "canonical": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for a single-variant lookup"
+      },
+      "pick": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed; a single known variant yields few consequences"
+      },
+      "per_gene": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for a single variant"
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Want the actual annotation, not just severity"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "Want detailed annotation, not a summary"
+      },
+      "sift": {
+        "value": false,
+        "enabled": false,
+        "note": "In-silico predictors aren't needed to look up a known, clinically-annotated variant"
+      },
+      "polyphen": {
+        "value": false,
+        "enabled": false,
+        "note": "In-silico predictors aren't needed to look up a known, clinically-annotated variant"
+      },
+      "cadd": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for a known-variant lookup"
+      },
+      "alphamissense": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for a known-variant lookup"
+      },
+      "revel": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for a known-variant lookup"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true
+      },
+      "check_existing": {
+        "value": true,
+        "enabled": true
+      },
+      "gnomad_af": {
+        "value": false,
+        "enabled": false,
+        "note": "Frequency not needed to identify the variant; ClinVar gives clinical relevance"
+      },
+      "af_1kg": {
+        "value": false,
+        "enabled": false,
+        "note": "Frequency not needed for a quick lookup"
+      },
+      "spliceai": {
+        "value": false,
+        "enabled": false,
+        "note": "Splice prediction not needed for a quick lookup"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "protein": {
+        "value": false,
+        "enabled": false,
+        "note": "Overkill for a quick lookup; HGVS + symbol suffice"
+      },
+      "domains": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for a quick lookup"
+      },
+      "gene_phenotype": {
+        "value": false,
+        "enabled": false,
+        "note": "Gene-level phenotype not needed for a single-variant lookup"
+      },
+      "regulatory": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed for a single-variant lookup"
+      },
+      "maxentscan": {
+        "value": false,
+        "enabled": false,
+        "note": "Splice prediction not needed for a quick lookup"
+      },
+      "clinvar_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      },
+      "gnomad_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "Only relevant for structural variant analysis"
+      }
+    },
+    "justification": "A quick single-variant (rsID) lookup needs only to resolve the variant (check_existing), its gene (symbol), HGVS nomenclature, and clinical significance (ClinVar). In-silico predictors, frequency panels, and regulatory/structural annotations are unnecessary for identifying a known, annotated variant."
+  },
+  {
+    "id": "non_human_mouse",
+    "user_query": "I have variants from a CRISPR gene editing experiment in mouse (Mus musculus, GRCm39). I need to annotate the functional consequences of the introduced variants.",
+    "use_case_category": "non_human",
+    "recommended_options": {
+      "transcript_set": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "note": "RefSeq coverage is patchy for mouse; use Ensembl"
+      },
+      "mane_select": {
+        "value": false,
+        "enabled": false,
+        "note": "MANE is human-only \u2014 not available for mouse"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "note": "Use canonical since MANE is unavailable"
+      },
+      "pick": {
+        "value": true,
+        "enabled": true,
+        "note": "One consequence per variant is typically sufficient for editing experiments"
+      },
+      "per_gene": {
+        "value": false,
+        "enabled": false,
+        "note": "Using --pick instead for simplicity"
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Need SIFT scores and transcript details for CRISPR validation"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "Need detailed annotations for each editing site"
+      },
+      "sift": {
+        "value": "both (prediction + score)",
+        "enabled": true,
+        "note": "SIFT works on mouse"
+      },
+      "polyphen": {
+        "value": false,
+        "enabled": false,
+        "note": "PolyPhen is human-only"
+      },
+      "cadd": {
+        "value": false,
+        "enabled": false,
+        "note": "CADD is human-only"
+      },
+      "alphamissense": {
+        "value": false,
+        "enabled": false,
+        "note": "AlphaMissense is human-only"
+      },
+      "revel": {
+        "value": false,
+        "enabled": false,
+        "note": "REVEL is human-only"
+      },
+      "clinvar": {
+        "value": false,
+        "enabled": false,
+        "note": "ClinVar is human-only"
+      },
+      "check_existing": {
+        "value": true,
+        "enabled": true,
+        "note": "Can find known mouse variants"
+      },
+      "gnomad_af": {
+        "value": false,
+        "enabled": false,
+        "note": "gnomAD is human-only"
+      },
+      "af_1kg": {
+        "value": false,
+        "enabled": false,
+        "note": "1000 Genomes is human-only"
+      },
+      "spliceai": {
+        "value": false,
+        "enabled": false,
+        "note": "Precomputed scores are human-only"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "protein": {
+        "value": false,
+        "enabled": false,
+        "note": "Not essential for CRISPR validation; domains covers functional regions"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true
+      },
+      "gene_phenotype": {
+        "value": true,
+        "enabled": true,
+        "note": "Mouse phenotype data available from MGI"
+      },
+      "regulatory": {
+        "value": false,
+        "enabled": false,
+        "note": "Limited regulatory build data for mouse"
+      },
+      "maxentscan": {
+        "value": false,
+        "enabled": false,
+        "note": "Not needed unless specifically investigating splice-site variants"
+      },
+      "clinvar_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "ClinVar SV is human-only"
+      },
+      "gnomad_sv": {
+        "value": false,
+        "enabled": false,
+        "note": "gnomAD SV is human-only"
+      }
+    },
+    "justification": "Non-human species analysis requires careful attention to which options are species-restricted. For mouse, many human-specific resources are unavailable: MANE Select (human-only), PolyPhen-2 (human-only), CADD (human-only), AlphaMissense (human-only), REVEL (human-only), ClinVar (human-only), gnomAD (human-only), and 1000 Genomes (human-only). SIFT is one of the few pathogenicity predictors that works across species. Use Ensembl/GENCODE transcripts as RefSeq coverage for mouse is less comprehensive. The canonical flag replaces MANE for identifying primary transcripts. Protein domains (InterPro) work across species and are valuable for assessing CRISPR edit consequences. Gene-phenotype data from MGI (Mouse Genome Informatics) is available through Ensembl. --most_severe and --summary would suppress the SIFT scores and transcript details needed for CRISPR validation."
+  }
+]

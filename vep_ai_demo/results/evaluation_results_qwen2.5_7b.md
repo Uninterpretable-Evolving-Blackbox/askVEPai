@@ -1,0 +1,192 @@
+# VEP Assistant Evaluation Results
+
+**Date:** 2026-03-21T14:30:07.537371
+**Model:** qwen2.5:7b
+**Temperature:** 0.7
+**Max tokens:** 4096
+**Evaluation mode:** Leave-one-out (ground truth example excluded from retrieval corpus)
+
+## Per-Query Results
+
+### test_rare_disease
+**Query:** I use VEP to annotate my VCF. I have exome data from a rare disease patient and I would like to know if there is a way, if a variant has a high impact in a non-canonical transcript, to keep it and the annotations in the canonical. What options should I enable for clinical reporting?
+
+**Source:** [https://www.biostars.org/p/9517871/](https://www.biostars.org/p/9517871/)
+
+**Ground truth use case:** rare_disease_germline
+
+| Metric | Without KB | With KB (keyword) | With KB (all examples) | With KB (semantic) |
+|--------|---|---|---|---|
+| Options detected | 6 en / 0 dis | 17 en / 0 dis | 16 en / 0 dis | 3 en / 0 dis |
+| Enable precision | 67% | 76% | 69% | 67% |
+| Enable recall | 25% | 81% | 69% | 12% |
+| Enable F1 | 36% | 79% | 69% | 21% |
+| Disable precision | 0% | 0% | 0% | 0% |
+| Disable recall | 0% | 0% | 0% | 0% |
+| Disable F1 | 0% | 0% | 0% | 0% |
+| Species violations | 0 | 0 | 0 | 0 |
+| Conflict violations | 0 | 9 | 0 | 0 |
+| Use case detected | non_human (incorrect) | rare_disease_germline (correct) | rare_disease_germline (correct) | rare_disease_germline (correct) |
+| Citation rate | 0% (0/2 cited) | 100% (19/19 cited) | 95% (21/22 cited) | 100% (8/8 cited) |
+
+### test_non_human
+**Query:** We performed CRISPR knockouts in mouse embryonic stem cells and called variants from WGS against the GRCm39 reference. What VEP settings should I use?
+
+**Ground truth use case:** non_human
+
+| Metric | Without KB | With KB (keyword) | With KB (all examples) | With KB (semantic) |
+|--------|---|---|---|---|
+| Options detected | 3 en / 0 dis | 11 en / 0 dis | 8 en / 0 dis | 7 en / 0 dis |
+| Enable precision | 0% | 36% | 38% | 57% |
+| Enable recall | 0% | 44% | 33% | 44% |
+| Enable F1 | 0% | 40% | 35% | 50% |
+| Disable precision | 0% | 0% | 0% | 0% |
+| Disable recall | 0% | 0% | 0% | 0% |
+| Disable F1 | 0% | 0% | 0% | 0% |
+| Species violations | 0 | 3 | 3 | 2 |
+| Conflict violations | 0 | 0 | 0 | 0 |
+| Use case detected | unknown (incorrect) | quick_lookup (incorrect) | non_human (correct) | non_human (correct) |
+| Citation rate | 0% (0/2 cited) | 100% (20/20 cited) | 100% (23/23 cited) | 100% (10/10 cited) |
+
+*Species violations (Without KB):* none
+
+*Species violations (With KB (keyword)):* {'gnomad_af', 'spliceai', 'clinvar'}
+
+*Species violations (With KB (all examples)):* {'cadd', 'spliceai', 'polyphen'}
+
+*Species violations (With KB (semantic)):* {'spliceai', 'revel'}
+
+### test_regulatory
+**Query:** I have a set of GWAS hits in non-coding regions — mostly intronic and intergenic SNPs. I need to figure out if any overlap regulatory elements and identify possible target genes.
+
+**Ground truth use case:** regulatory_noncoding
+
+| Metric | Without KB | With KB (keyword) | With KB (all examples) | With KB (semantic) |
+|--------|---|---|---|---|
+| Options detected | 2 en / 0 dis | 10 en / 0 dis | 8 en / 0 dis | 9 en / 0 dis |
+| Enable precision | 50% | 40% | 50% | 67% |
+| Enable recall | 11% | 44% | 44% | 67% |
+| Enable F1 | 18% | 42% | 47% | 67% |
+| Disable precision | 0% | 0% | 0% | 0% |
+| Disable recall | 0% | 0% | 0% | 0% |
+| Disable F1 | 0% | 0% | 0% | 0% |
+| Species violations | 0 | 0 | 0 | 0 |
+| Conflict violations | 0 | 3 | 0 | 0 |
+| Use case detected | non_human (incorrect) | regulatory_noncoding (correct) | regulatory_noncoding (correct) | rare_disease_germline (incorrect) |
+| Citation rate | 0% (0/4 cited) | 83% (10/12 cited) | 100% (14/14 cited) | 100% (17/17 cited) |
+
+### test_structural
+**Query:** Does VEP do a good job at annotating structural variants from CNVkit, Manta, Lumpy? I have large deletions and duplications and need to identify clinically relevant SVs and filter out common ones.
+
+**Source:** [https://www.biostars.org/p/181819/](https://www.biostars.org/p/181819/)
+
+**Ground truth use case:** structural_variants
+
+| Metric | Without KB | With KB (keyword) | With KB (all examples) | With KB (semantic) |
+|--------|---|---|---|---|
+| Options detected | 3 en / 1 dis | 2 en / 0 dis | 9 en / 0 dis | 9 en / 0 dis |
+| Enable precision | 67% | 50% | 56% | 44% |
+| Enable recall | 20% | 10% | 50% | 40% |
+| Enable F1 | 31% | 17% | 53% | 42% |
+| Disable precision | 100% | 0% | 0% | 0% |
+| Disable recall | 6% | 0% | 0% | 0% |
+| Disable F1 | 12% | 0% | 0% | 0% |
+| Species violations | 0 | 0 | 0 | 0 |
+| Conflict violations | 0 | 0 | 4 | 1 |
+| Use case detected | structural_variants (correct) | structural_variants (correct) | rare_disease_germline (incorrect) | structural_variants (correct) |
+| Citation rate | 0% (0/1 cited) | 100% (18/18 cited) | 100% (20/20 cited) | 90% (9/10 cited) |
+
+### test_somatic_cancer
+**Query:** I'm relatively new to analyzing variants data generated by WES in a cohort of cancer patients. I've called variants using Mutect2 and now I want to annotate these variants with information such as whether they are known variants in dbSNP and their pathogenicity prediction, whether it's known in ExAC etc. What VEP options should I use?
+
+**Source:** [https://www.biostars.org/p/9479508/](https://www.biostars.org/p/9479508/)
+
+**Ground truth use case:** somatic_cancer
+
+| Metric | Without KB | With KB (keyword) | With KB (all examples) | With KB (semantic) |
+|--------|---|---|---|---|
+| Options detected | 5 en / 0 dis | 17 en / 0 dis | 10 en / 0 dis | 9 en / 0 dis |
+| Enable precision | 60% | 65% | 60% | 67% |
+| Enable recall | 21% | 79% | 43% | 43% |
+| Enable F1 | 32% | 71% | 50% | 52% |
+| Disable precision | 0% | 0% | 0% | 0% |
+| Disable recall | 0% | 0% | 0% | 0% |
+| Disable F1 | 0% | 0% | 0% | 0% |
+| Species violations | 0 | 0 | 0 | 0 |
+| Conflict violations | 0 | 15 | 0 | 4 |
+| Use case detected | unknown (incorrect) | rare_disease_germline (incorrect) | somatic_cancer (correct) | somatic_cancer (correct) |
+| Citation rate | 0% (0/0 cited) | 100% (19/19 cited) | 100% (24/24 cited) | 100% (9/9 cited) |
+
+### test_population_large_vcf
+**Query:** I am trying to annotate WGS VCF files through VEP, and even on multi-threading the process is painfully slow. The VCF sizes range between 1-1.5 Gb with about 2 million variants. Apart from gene and functional impact level annotation, I am using VEP plugins for CADD and gnomAD genome based frequencies. What options do you recommend?
+
+**Source:** [https://www.biostars.org/p/336474/](https://www.biostars.org/p/336474/)
+
+**Ground truth use case:** population_genetics
+
+| Metric | Without KB | With KB (keyword) | With KB (all examples) | With KB (semantic) |
+|--------|---|---|---|---|
+| Options detected | 4 en / 0 dis | 11 en / 0 dis | 12 en / 0 dis | 6 en / 0 dis |
+| Enable precision | 0% | 27% | 33% | 33% |
+| Enable recall | 0% | 43% | 57% | 29% |
+| Enable F1 | 0% | 33% | 42% | 31% |
+| Disable precision | 0% | 0% | 0% | 0% |
+| Disable recall | 0% | 0% | 0% | 0% |
+| Disable F1 | 0% | 0% | 0% | 0% |
+| Species violations | 0 | 0 | 0 | 0 |
+| Conflict violations | 0 | 5 | 0 | 0 |
+| Use case detected | unknown (incorrect) | population_genetics (correct) | population_genetics (correct) | population_genetics (correct) |
+| Citation rate | 0% (0/1 cited) | 100% (12/12 cited) | 100% (25/25 cited) | 100% (9/9 cited) |
+
+### test_quick
+**Query:** Does anyone know how gnomAD allele frequencies as outputted by Ensembl's VEP should be interpreted? I just want to quickly look up a single variant — rs1799945 — and check if it is clinically significant.
+
+**Source:** [https://www.biostars.org/p/355992/](https://www.biostars.org/p/355992/)
+
+**Ground truth use case:** quick_lookup
+
+| Metric | Without KB | With KB (keyword) | With KB (all examples) | With KB (semantic) |
+|--------|---|---|---|---|
+| Options detected | 3 en / 0 dis | 4 en / 0 dis | 3 en / 0 dis | 3 en / 0 dis |
+| Enable precision | 67% | 75% | 100% | 67% |
+| Enable recall | 14% | 21% | 21% | 14% |
+| Enable F1 | 24% | 33% | 35% | 24% |
+| Disable precision | 0% | 0% | 0% | 0% |
+| Disable recall | 0% | 0% | 0% | 0% |
+| Disable F1 | 0% | 0% | 0% | 0% |
+| Species violations | 0 | 0 | 0 | 0 |
+| Conflict violations | 0 | 0 | 0 | 0 |
+| Use case detected | unknown (incorrect) | quick_lookup (correct) | quick_lookup (correct) | quick_lookup (correct) |
+| Citation rate | 0% (0/1 cited) | 100% (8/8 cited) | 100% (8/8 cited) | 75% (3/4 cited) |
+
+### test_splice
+**Query:** I have a list of intronic variants near splice junctions from whole exome sequencing of rare disease patients. I want to predict which ones might disrupt splicing.
+
+**Ground truth use case:** rare_disease_germline
+
+| Metric | Without KB | With KB (keyword) | With KB (all examples) | With KB (semantic) |
+|--------|---|---|---|---|
+| Options detected | 0 en / 0 dis | 26 en / 0 dis | 15 en / 0 dis | 5 en / 0 dis |
+| Enable precision | 0% | 54% | 67% | 60% |
+| Enable recall | 0% | 100% | 71% | 21% |
+| Enable F1 | 0% | 70% | 69% | 32% |
+| Disable precision | 0% | 0% | 0% | 0% |
+| Disable recall | 0% | 0% | 0% | 0% |
+| Disable F1 | 0% | 0% | 0% | 0% |
+| Species violations | 0 | 0 | 0 | 0 |
+| Conflict violations | 0 | 19 | 5 | 0 |
+| Use case detected | unknown (incorrect) | rare_disease_germline (correct) | rare_disease_germline (correct) | rare_disease_germline (correct) |
+| Citation rate | 0% (0/1 cited) | 100% (26/26 cited) | 100% (26/26 cited) | 100% (7/7 cited) |
+
+## Summary
+
+| Metric | Without KB | With KB (keyword) | With KB (all examples) | With KB (semantic) | Δ (keyword vs bare) | Δ (all examples vs bare) | Δ (semantic vs bare) |
+|--------|---|---|---|---|---|---|---|
+| Enable F1 | 18% | 48% | 50% | 40% | +31% | +32% | +22% |
+| Disable F1 | 1% | 0% | 0% | 0% | -1% | -1% | -1% |
+| Enable Precision | 39% | 53% | 59% | 58% | +14% | +20% | +19% |
+| Enable Recall | 11% | 53% | 49% | 34% | +41% | +37% | +22% |
+| Species violations (total) | 0 | 3 | 3 | 2 | +3 | +3 | +2 |
+| Conflict violations (total) | 0 | 51 | 9 | 5 | +51 | +9 | +5 |
+| Use case accuracy | 1/8 (12%) | 6/8 (75%) | 7/8 (88%) | 7/8 (88%) | +5 | +6 | +6 |
+| Citation rate (avg) | 0% | 98% | 99% | 96% | +98% | +99% | +96% |

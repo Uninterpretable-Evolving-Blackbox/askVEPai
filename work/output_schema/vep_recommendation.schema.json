@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Uninterpretable-Evolving-Blackbox/vep_ai_demo/schemas/vep_recommendation.schema.json",
+  "title": "Ask VEPai Recommendation Output",
+  "description": "Structured output of the Ask VEPai recommender. Maps each per-option decision to the Ensembl VEP web form (web_form_section + web_form_field name attribute) for click-to-apply, plus the CLI equivalent, provenance and the deterministic constraint-check result.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["query", "detected_use_case", "species", "recommendations", "constraint_check"],
+  "properties": {
+    "query": { "type": "string", "description": "The user's original natural-language scenario." },
+    "detected_use_case": {
+      "type": "string",
+      "enum": ["rare_disease_germline", "somatic_cancer", "regulatory_noncoding", "population_genetics", "structural_variants", "non_human", "quick_lookup"]
+    },
+    "species": { "type": "string", "description": "Inferred species (default 'human')." },
+    "assembly": { "type": ["string", "null"], "description": "Inferred assembly if stated (e.g. GRCh38, GRCm39); null if unknown." },
+    "recommendations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["option_id", "web_form_section", "web_form_field", "action", "cli_flag", "priority", "confidence", "source", "reason"],
+        "properties": {
+          "option_id": { "type": "string", "description": "Catalogue id from vep_options (e.g. 'af_gnomade', 'cadd', 'most_severe')." },
+          "web_form_section": {
+            "type": "string",
+            "enum": ["identifiers", "variants_frequency_data", "additional_annotations", "predictions", "filters", "advanced"],
+            "description": "One of the 6 canonical CONFIG_SECTIONS ids (VEPConstants.pm)."
+          },
+          "web_form_subsection": { "type": ["string", "null"], "description": "Display subsection, e.g. 'Transcript annotation', 'Pathogenicity predictions'." },
+          "web_form_field": {
+            "type": "string",
+            "description": "The HTML control 'name' attribute in InputForm.pm to target for click-to-apply. Native fields: the id itself (symbol, hgvs, af_gnomade...). Plugins: 'plugin_<Key>' (e.g. plugin_CADD). Restrict-results values: 'summary'. Transcript db: 'core_type'. Species-scoped controls are suffixed at runtime: 'regulatory_<Species>', 'cell_type_<Species>' (e.g. regulatory_Homo_sapiens)."
+          },
+          "action": {
+            "type": "string",
+            "enum": ["enable", "disable", "set_value"],
+            "description": "enable/disable for checkboxes; set_value for dropdowns/radiolists/strings (then 'value' is required)."
+          },
+          "value": {
+            "type": ["string", "boolean", "null"],
+            "description": "Target value for set_value actions, e.g. sift='b', core_type='refseq', summary='most_severe', distance='1000', frequency='common'. Null for plain enable/disable."
+          },
+          "cli_flag": { "type": "string", "description": "Equivalent VEP CLI flag, e.g. '--af_gnomade', '--plugin CADD', '--most_severe'." },
+          "priority": { "type": "string", "enum": ["critical", "recommended", "optional", "not_applicable"] },
+          "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+          "source": { "type": "string", "description": "Provenance tag tracing to the KB entry, format '[source: option_id]'." },
+          "reason": { "type": "string", "description": "Why this option is recommended for this scenario, grounded in the KB." }
+        }
+      }
+    },
+    "constraint_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["passed", "violations"],
+      "description": "Result of the deterministic post-hoc constraint checker (species, conflict, dependency).",
+      "properties": {
+        "passed": { "type": "boolean", "description": "True if no violations remained after auto-correction." },
+        "violations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "reason"],
+            "properties": {
+              "type": { "type": "string", "enum": ["species", "conflict", "dependency"] },
+              "option_disabled": { "type": "string" },
+              "option_enabled": { "type": "string" },
+              "option_kept": { "type": "string" },
+              "reason": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "generated_command": { "type": ["string", "null"], "description": "Ready-to-run vep CLI command reflecting the final (post-constraint-check) option set." },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "model": { "type": "string" },
+        "retrieval_mode": { "type": "string", "enum": ["keyword", "semantic", "all"] },
+        "kb_version": { "type": "string", "description": "Knowledge-base version/date, for reproducibility." },
+        "timestamp": { "type": "string" }
+      }
+    }
+  }
+}

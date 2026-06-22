@@ -1,0 +1,139 @@
+[
+  {
+    "id": "rare_disease_exome_clinical",
+    "user_query": "I have germline exome variants from a patient with a suspected rare Mendelian disorder. I want to identify potentially pathogenic coding variants for clinical interpretation.",
+    "use_case_category": "rare_disease_germline",
+    "confidence": "high",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl/GENCODE", "enabled": true},
+      "mane": {"value": true, "enabled": true},
+      "canonical": {"value": true, "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "hgvs": {"value": true, "enabled": true},
+      "protein": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "clinvar": {"value": true, "enabled": true},
+      "af_gnomade": {"value": true, "enabled": true},
+      "af_gnomadg": {"value": true, "enabled": true},
+      "sift": {"value": "b", "enabled": true},
+      "polyphen": {"value": "b", "enabled": true},
+      "cadd": {"value": true, "enabled": true},
+      "most_severe": {"value": false, "enabled": false, "note": "Need full per-transcript detail for clinical review"},
+      "summary": {"value": false, "enabled": false, "note": "Need detailed annotations, not a summary"}
+    },
+    "justification": "Clinical rare-disease interpretation of coding variants needs gene/HGVS/protein identifiers, MANE + canonical transcripts for consistent reporting, missense pathogenicity prediction (SIFT, PolyPhen, CADD), ClinVar clinical significance via co-located known variants, and gnomAD exome+genome frequencies to filter out common variants. Per-transcript detail must be preserved (no most_severe/summary)."
+  },
+  {
+    "id": "rare_disease_splice_region",
+    "user_query": "A rare disease patient has a variant near an exon-intron boundary. I want to assess whether it disrupts splicing as part of the diagnostic workup.",
+    "use_case_category": "rare_disease_germline",
+    "confidence": "high",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl/GENCODE", "enabled": true},
+      "mane": {"value": true, "enabled": true},
+      "canonical": {"value": true, "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "hgvs": {"value": true, "enabled": true},
+      "numbers": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "clinvar": {"value": true, "enabled": true},
+      "spliceai": {"value": true, "enabled": true},
+      "af_gnomade": {"value": true, "enabled": true},
+      "af_gnomadg": {"value": true, "enabled": true},
+      "most_severe": {"value": false, "enabled": false, "note": "Need per-transcript detail to localise the splice effect"}
+    },
+    "justification": "A splice-region variant in a diagnostic context needs a dedicated splice predictor (SpliceAI is the current standard), exon/intron numbering to localise the variant relative to the boundary, HGVS/MANE/canonical for reporting, ClinVar significance, and gnomAD frequencies to assess rarity. (MaxEntScan and dbscSNV are reasonable additional splice predictors — left out here to keep the example to high-confidence choices.)"
+  },
+  {
+    "id": "somatic_tumour_wes",
+    "user_query": "I'm analysing somatic variants from tumour whole-exome sequencing of cancer patients, called with Mutect2. What VEP options should I use?",
+    "use_case_category": "somatic_cancer",
+    "confidence": "high",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl/GENCODE", "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "hgvs": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "clinvar": {"value": true, "enabled": true},
+      "sift": {"value": "b", "enabled": true},
+      "polyphen": {"value": "b", "enabled": true},
+      "cadd": {"value": true, "enabled": true},
+      "af_gnomade": {"value": true, "enabled": true},
+      "af_gnomadg": {"value": true, "enabled": true},
+      "most_severe": {"value": false, "enabled": false, "note": "Keep per-transcript detail for driver interpretation"},
+      "summary": {"value": false, "enabled": false}
+    },
+    "justification": "Somatic variant analysis benefits from flagging known co-located variants (dbSNP/COSMIC via check_existing), ClinVar significance, missense pathogenicity prediction (SIFT/PolyPhen/CADD) to prioritise candidate drivers, and gnomAD exome+genome frequencies to filter out residual germline variants. Per-transcript detail is preserved."
+  },
+  {
+    "id": "regulatory_noncoding_gwas",
+    "user_query": "My GWAS hits are mostly in intergenic and intronic regions. I want to understand their potential regulatory effects.",
+    "use_case_category": "regulatory_noncoding",
+    "confidence": "medium-high",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl/GENCODE", "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "biotype": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "regulatory": {"value": "reg", "enabled": true},
+      "af_gnomade": {"value": true, "enabled": true},
+      "sift": {"value": false, "enabled": false, "note": "Not applicable to non-coding variants"},
+      "polyphen": {"value": false, "enabled": false, "note": "Not applicable to non-coding variants"},
+      "most_severe": {"value": false, "enabled": false}
+    },
+    "justification": "Non-coding/regulatory variants need regulatory-feature consequences (the Ensembl regulatory build), transcript biotype context, co-located known variants and gnomAD frequency. Missense predictors (SIFT/PolyPhen/CADD) do not apply to non-coding variants. (Plugins such as Enformer/UTRAnnotator could add regulatory-impact signal but are left out as a lower-confidence choice.)"
+  },
+  {
+    "id": "population_allele_frequencies",
+    "user_query": "I want to annotate a large cohort VCF with population allele frequencies to compare variant frequencies across populations.",
+    "use_case_category": "population_genetics",
+    "confidence": "high",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl/GENCODE", "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "af": {"value": true, "enabled": true},
+      "af_1kg": {"value": true, "enabled": true},
+      "af_gnomade": {"value": true, "enabled": true},
+      "af_gnomadg": {"value": true, "enabled": true},
+      "sift": {"value": false, "enabled": false, "note": "Pathogenicity prediction is not the focus"},
+      "polyphen": {"value": false, "enabled": false},
+      "cadd": {"value": false, "enabled": false}
+    },
+    "justification": "Population-frequency annotation centres on co-located known variants and multi-source allele frequencies: 1000 Genomes global (af) and continental (af_1kg), plus gnomAD exomes (af_gnomade) and genomes (af_gnomadg). Pathogenicity prediction is secondary for this use case."
+  },
+  {
+    "id": "non_human_mouse_crispr",
+    "user_query": "We performed CRISPR knockouts in mouse embryonic stem cells and called variants from WGS against the GRCm39 reference. What VEP settings should I use?",
+    "use_case_category": "non_human",
+    "confidence": "high",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl", "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "biotype": {"value": true, "enabled": true},
+      "hgvs": {"value": true, "enabled": true},
+      "numbers": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "sift": {"value": "b", "enabled": true},
+      "polyphen": {"value": false, "enabled": false, "note": "PolyPhen is human-only"},
+      "cadd": {"value": false, "enabled": false, "note": "CADD is human-only"},
+      "clinvar": {"value": false, "enabled": false, "note": "ClinVar is human-only"},
+      "af_gnomade": {"value": false, "enabled": false, "note": "gnomAD is human-only"},
+      "af_gnomadg": {"value": false, "enabled": false, "note": "gnomAD is human-only"}
+    },
+    "justification": "For a non-human species (mouse/GRCm39) the human-only resources — PolyPhen, CADD, ClinVar, gnomAD, REVEL, AlphaMissense — are unavailable and must not be enabled. Use species-agnostic annotation: gene symbol, transcript biotype, HGVS, exon/intron numbers, co-located known variants (mouse has variation data), and SIFT (computed by Ensembl for mouse). This example doubles as the canonical test of the species-restriction safety layer."
+  },
+  {
+    "id": "quick_lookup_rsid",
+    "user_query": "I just want to look up a single variant by its rsID — its gene, consequence, and clinical significance.",
+    "use_case_category": "quick_lookup",
+    "confidence": "high",
+    "recommended_options": {
+      "symbol": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "clinvar": {"value": true, "enabled": true},
+      "hgvs": {"value": true, "enabled": true}
+    },
+    "justification": "A quick single-variant lookup needs only the gene symbol, co-located known-variant lookup (to resolve the rsID), ClinVar clinical significance, and HGVS nomenclature. Heavy predictors and frequency panels are unnecessary overhead for a one-off lookup."
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "_note": "Map demo (26) option ids -> expanded catalogue ids. Use when migrating training_examples.json to the new catalogue.",
+  "mapping": {
+    "transcript_set": [
+      "core_type"
+    ],
+    "mane_select": [
+      "mane"
+    ],
+    "canonical": [
+      "canonical"
+    ],
+    "pick": [
+      "pick"
+    ],
+    "per_gene": [
+      "per_gene"
+    ],
+    "most_severe": [
+      "most_severe"
+    ],
+    "summary": [
+      "summary"
+    ],
+    "sift": [
+      "sift"
+    ],
+    "polyphen": [
+      "polyphen"
+    ],
+    "cadd": [
+      "cadd"
+    ],
+    "alphamissense": [
+      "alphamissense"
+    ],
+    "revel": [
+      "revel"
+    ],
+    "clinvar": [
+      "clinvar"
+    ],
+    "check_existing": [
+      "check_existing"
+    ],
+    "gnomad_af": [
+      "af_gnomade",
+      "af_gnomadg"
+    ],
+    "af_1kg": [
+      "af_1kg"
+    ],
+    "gnomad_sv": [
+      "gnomad_sv"
+    ],
+    "clinvar_sv": [],
+    "regulatory": [
+      "regulatory"
+    ],
+    "hgvs": [
+      "hgvs"
+    ],
+    "symbol": [
+      "symbol"
+    ],
+    "protein": [
+      "protein"
+    ],
+    "domains": [
+      "domains"
+    ],
+    "spliceai": [
+      "spliceai"
+    ],
+    "maxentscan": [
+      "maxentscan"
+    ],
+    "gene_phenotype": [
+      "phenotypes"
+    ]
+  }
+}

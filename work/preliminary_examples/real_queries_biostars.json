@@ -1,0 +1,202 @@
+[
+  {
+    "id": "real_reg_flanking_distance",
+    "query": "I am trying to annotate my list of SNP variants using VEP. How can I get the following information in my output file? 1. For intron_variants, report the exon IDs that flank this region and return distance to them (both upstream and downstream). 2. For intergenic_variant, report the gene IDs that flank this region and return distance to them (both upstream and downstream).",
+    "use_case_human": "regulatory_noncoding",
+    "source": "github-ensembl-vep",
+    "url": "https://github.com/Ensembl/ensembl-vep/issues/1834",
+    "verbatim": true,
+    "framing": "scenario",
+    "note": "Non-coding intron/intergenic flanking annotation (NearestGene/NearestExonJB/--distance/--overlaps)."
+  },
+  {
+    "id": "real_reg_everything_norows",
+    "query": "It would be nice to have a shortcut flag that turns on all the columns that --everything adds, but without changing the number of rows output (as --regulatory and thus --everything does).",
+    "use_case_human": "regulatory_noncoding",
+    "source": "github-ensembl-vep",
+    "url": "https://github.com/Ensembl/ensembl-vep/issues/1929",
+    "verbatim": true,
+    "framing": "names_options",
+    "note": "Feature-request framing about --regulatory/--everything row behaviour; names options -> cueing risk."
+  },
+  {
+    "id": "real_som_rna_expressed_transcript",
+    "query": "Could the software allow the user to input a RNA-seq BAM file of the same patient sample for which the VCF file was created from normal and tumour DNA-seq data and filter out SNVs and indels in genes that aren't even transcribed in the particular patient? Such an integration of DNA and RNA could be used for VEP to output the variant for the most highly expressed transcript in the sample, rather than all isoforms of a gene, or the most serious effect.",
+    "use_case_human": "somatic_cancer",
+    "source": "github-ensembl-vep",
+    "url": "https://github.com/Ensembl/ensembl-vep/issues/685",
+    "verbatim": true,
+    "framing": "scenario",
+    "note": "Tumour/normal somatic; transcript-selection / expression-based filtering."
+  },
+  {
+    "id": "real_som_clinvar_somatic",
+    "query": "I am using latest VEP docker image on cache mode to enable both germline and somatic annotation from clinvar. The original vep option worked well on germline clinvar sig. So far the flag --clinvar_somatic_classification is not doing anything. I tried to add new option --clin_sig_allele 0 but still not fixing the missing somatic clinvar classification.",
+    "use_case_human": "somatic_cancer",
+    "source": "github-ensembl-vep",
+    "url": "https://github.com/Ensembl/ensembl-vep/issues/1980",
+    "verbatim": true,
+    "framing": "names_options",
+    "note": "Somatic ClinVar classification flags; names options -> cueing risk."
+  },
+  {
+    "id": "real_pop_gnomad_custom_chm13",
+    "query": "I'm using VEP for annotating variants aligned to chm13. When I try to add Gnomad allele frequencies using the gnomad vcf, they are not added to the variants. I used --custom with fields AC, AN, AF and population subsets. Any suggestions regarding their use with VEP are welcome.",
+    "use_case_human": "population_genetics",
+    "source": "github-ensembl-vep",
+    "url": "https://github.com/Ensembl/ensembl-vep/issues/1638",
+    "verbatim": true,
+    "framing": "names_options",
+    "note": "gnomAD population AF via --custom; names options -> cueing risk."
+  },
+  {
+    "id": "real_sv_clinvar_custom",
+    "query": "I just wanted to know if this is the correct way to find overlaps between my detected SVs and ClinVar SV. Is there any recommendation? I am overlapping called SVs against ClinVar SVs (downloaded from dbVar) and want CLNSIG/CLNREVSTAT/CLNDN, with reciprocal overlap, plus canonical/MANE/nearest-gene/variant-class annotation.",
+    "use_case_human": "structural_variants",
+    "source": "github-ensembl-vep",
+    "url": "https://github.com/Ensembl/ensembl-vep/issues/1595",
+    "verbatim": true,
+    "framing": "names_options",
+    "note": "SV-vs-ClinVar overlap via --custom; names options -> cueing risk."
+  },
+  {
+    "id": "real_quick_wgs_perf",
+    "query": "I am working on annotating large datasets, specifically Whole Genome Sequencing (WGS) VCF files, using VEP. However, the annotation process is taking significantly longer than expected. I am seeking guidance on how to optimize VEP for faster annotation. Could you provide recommendations on any VEP parameters or caching strategies that could improve processing times?",
+    "use_case_human": "quick_lookup",
+    "source": "github-ensembl-vep",
+    "url": "https://github.com/Ensembl/ensembl-vep/issues/1769",
+    "verbatim": true,
+    "framing": "scenario",
+    "note": "Performance/scope (--offline/--cache/--fork) rather than annotation-choice; borderline on-task."
+  },
+  {
+    "id": "real_nonhuman_mouse_delly_sv",
+    "query": "I am using VEP to annotate mouse structural variant calls from delly (cache, offline, species mus_musculus). For a deletion on chr7, the gene assignment seems unclear. Could the deletion affect this gene? How should I configure VEP for mouse SVs?",
+    "use_case_human": "non_human",
+    "source": "github-ensembl-vep",
+    "url": "https://github.com/Ensembl/ensembl-vep/issues/1889",
+    "verbatim": true,
+    "framing": "scenario",
+    "note": "Non-human (mus_musculus, GRCm39) + SV annotation."
+  },
+  {
+    "id": "real_rd_dbnsfp_gene",
+    "query": "I'm trying to use the dbNSFP gene file as an annotation source to get specific data such as Gene name, Pathways and Entrez gene ID / MIM phenotype. But the gene file is very different from the dbNSFP variant annotation, which contains chr start end positions. Is there any way to annotate using the gene-level dbNSFP?",
+    "use_case_human": "rare_disease_germline",
+    "source": "github-vep-plugins",
+    "url": "https://github.com/Ensembl/VEP_plugins/issues/694",
+    "verbatim": true,
+    "framing": "scenario",
+    "note": "Gene-level dbNSFP (pathways, MIM phenotype) for diagnosis."
+  },
+  {
+    "id": "real_rd_transcript",
+    "query": "I don't want to annotate all transcripts to avoid generating huge amounts of data, but I also don't want to miss high impact variants in alternative (non-canonical) transcripts. Is there a way to keep high impact variants in any transcript plus the canonical transcript annotation?",
+    "use_case_human": "rare_disease_germline",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/9517871/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body reconstructed (Cloudflare). Transcript selection (--pick/--canonical/--flag)."
+  },
+  {
+    "id": "real_pop_gnomad_build",
+    "query": "I am running VEP input against GRCh38, with gnomAD coordinates on GRCh37; how do I configure VEP to retrieve gnomAD allele frequencies?",
+    "use_case_human": "population_genetics",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/355992/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body reconstructed. gnomAD AF via VEP."
+  },
+  {
+    "id": "real_pop_gnomad_popfreq",
+    "query": "How do I get gnomAD allele frequencies per population in VEP to check my variants against different populations?",
+    "use_case_human": "population_genetics",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/9605766/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body reconstructed. --af_gnomadg superpopulation fields."
+  },
+  {
+    "id": "real_pop_gnomad_genomes",
+    "query": "By default VEP only reports gnomAD exomes frequencies; how do I configure VEP to retrieve allele frequencies from the gnomAD genomes dataset?",
+    "use_case_human": "population_genetics",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/488710/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body reconstructed. Exomes vs genomes."
+  },
+  {
+    "id": "real_rd_clinvar",
+    "query": "How do I get the CLIN_SIG / ClinVar clinical significance for a variant using Ensembl VEP, to flag a variant as damaging?",
+    "use_case_human": "rare_disease_germline",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/438518/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body reconstructed. Enabling ClinVar/CLIN_SIG."
+  },
+  {
+    "id": "real_som_cosmic",
+    "query": "I am annotating somatic cancer variants; COSMIC variants should appear as SOMATIC under co-located variants but I'm not getting them. Which options do I need, and does --filter_common exclude COSMIC variants?",
+    "use_case_human": "somatic_cancer",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/490053/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body reconstructed. COSMIC/SOMATIC, --check_existing, --filter_common."
+  },
+  {
+    "id": "real_som_annotate",
+    "query": "Which tool and options should I use to annotate somatic mutations?",
+    "use_case_human": "somatic_cancer",
+    "source": "seqanswers",
+    "url": "http://seqanswers.com/forums/archive/index.php/t-36110.html",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title-only (page 403'd); body unverified. WEAKEST item — flag in sensitivity."
+  },
+  {
+    "id": "real_sv_gnomadsv_af",
+    "query": "I detected a set of structural variants and want to remove common ones (AF>0.05) using population allele frequencies from gnomAD-SV. I tried the VEP StructuralVariantOverlap plugin but got no AF values. How should I configure this?",
+    "use_case_human": "structural_variants",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/9488889/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body reconstructed. StructuralVariantOverlap / gnomAD-SV AF."
+  },
+  {
+    "id": "real_sv_annotate",
+    "query": "How do I annotate structural variants with VEP, and which options or plugins are needed for SV input?",
+    "use_case_human": "structural_variants",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/270270/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body unverified. SV annotation config."
+  },
+  {
+    "id": "real_nonhuman_sift_mouse",
+    "query": "Can I run SIFT and PolyPhen for mouse and other non-human species variants? Which are available in Ensembl/VEP and how do I enable them?",
+    "use_case_human": "non_human",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/85923/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body reconstructed. --sift/--polyphen species availability."
+  },
+  {
+    "id": "real_quick_rsid_offline",
+    "query": "I am annotating a large VCF with VEP in offline mode but I don't get the rsID in the output. Which option enables this?",
+    "use_case_human": "quick_lookup",
+    "source": "biostars",
+    "url": "https://www.biostars.org/p/415490/",
+    "verbatim": false,
+    "framing": "scenario",
+    "note": "Title verbatim; body reconstructed. --check_existing for rsIDs offline."
+  }
+]

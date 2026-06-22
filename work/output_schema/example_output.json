@@ -1,0 +1,97 @@
+{
+  "query": "I'm new to analyzing WES variants from a cohort of cancer patients, called with Mutect2. What VEP options should I use?",
+  "detected_use_case": "somatic_cancer",
+  "species": "human",
+  "assembly": "GRCh38",
+  "recommendations": [
+    {
+      "option_id": "symbol",
+      "web_form_section": "identifiers",
+      "web_form_subsection": "Identifiers",
+      "web_form_field": "symbol",
+      "action": "enable",
+      "value": null,
+      "cli_flag": "--symbol",
+      "priority": "critical",
+      "confidence": "high",
+      "source": "[source: symbol]",
+      "reason": "Gene symbols are needed to interpret and report which genes the somatic variants affect."
+    },
+    {
+      "option_id": "check_existing",
+      "web_form_section": "variants_frequency_data",
+      "web_form_subsection": "Variant data",
+      "web_form_field": "check_existing",
+      "action": "set_value",
+      "value": "yes",
+      "cli_flag": "--check_existing",
+      "priority": "critical",
+      "confidence": "high",
+      "source": "[source: check_existing]",
+      "reason": "Flags known co-located variants (dbSNP/COSMIC) and gates ClinVar significance, frequencies and citations."
+    },
+    {
+      "option_id": "clinvar",
+      "web_form_section": "variants_frequency_data",
+      "web_form_subsection": "Variant data",
+      "web_form_field": "check_existing",
+      "action": "enable",
+      "value": null,
+      "cli_flag": "--check_existing",
+      "priority": "critical",
+      "confidence": "high",
+      "source": "[source: clinvar]",
+      "reason": "ClinVar clinical significance (CLIN_SIG) is reported via co-located known variants; requires check_existing."
+    },
+    {
+      "option_id": "af_gnomade",
+      "web_form_section": "variants_frequency_data",
+      "web_form_subsection": "Variants and frequency data",
+      "web_form_field": "af_gnomade",
+      "action": "enable",
+      "value": null,
+      "cli_flag": "--af_gnomade",
+      "priority": "recommended",
+      "confidence": "medium",
+      "source": "[source: af_gnomade]",
+      "reason": "gnomAD exome frequencies help filter out common germline variants from the somatic call set."
+    },
+    {
+      "option_id": "cadd",
+      "web_form_section": "predictions",
+      "web_form_subsection": "Pathogenicity predictions",
+      "web_form_field": "plugin_CADD",
+      "action": "set_value",
+      "value": "plugin_CADD",
+      "cli_flag": "--plugin CADD",
+      "priority": "recommended",
+      "confidence": "medium",
+      "source": "[source: cadd]",
+      "reason": "CADD gives an integrative deleteriousness score for prioritising candidate driver variants."
+    },
+    {
+      "option_id": "sift",
+      "web_form_section": "predictions",
+      "web_form_subsection": "Pathogenicity predictions",
+      "web_form_field": "sift",
+      "action": "set_value",
+      "value": "b",
+      "cli_flag": "--sift b",
+      "priority": "recommended",
+      "confidence": "medium",
+      "source": "[source: sift]",
+      "reason": "SIFT prediction + score flags missense substitutions likely to affect protein function."
+    }
+  ],
+  "constraint_check": {
+    "passed": true,
+    "violations": []
+  },
+  "generated_command": "vep --input_file variants.vcf --output_file out.txt --cache --species homo_sapiens --assembly GRCh38 --symbol --check_existing --af_gnomade --sift b --plugin CADD,/path/to/cadd.tsv.gz",
+  "metadata": {
+    "model": "qwen2.5:14b",
+    "retrieval_mode": "keyword",
+    "kb_version": "vep_options_expanded@2026-06",
+    "timestamp": "2026-06-04T00:00:00Z"
+  }
+}
