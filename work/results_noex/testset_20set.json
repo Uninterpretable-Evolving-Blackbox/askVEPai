@@ -1,0 +1,122 @@
+[
+  {
+    "id": "test_rare_disease_exome_clinical",
+    "query": "I have germline exome variants from a patient with a suspected rare Mendelian disorder. I want to identify potentially pathogenic coding variants for clinical interpretation.",
+    "ground_truth_id": "rare_disease_exome_clinical",
+    "source": "simulated"
+  },
+  {
+    "id": "test_rare_disease_splice_region",
+    "query": "A rare disease patient has a variant near an exon-intron boundary. I want to assess whether it disrupts splicing as part of the diagnostic workup.",
+    "ground_truth_id": "rare_disease_splice_region",
+    "source": "simulated"
+  },
+  {
+    "id": "test_somatic_tumour_wes",
+    "query": "I'm analysing somatic variants from tumour whole-exome sequencing of cancer patients, called with Mutect2. What VEP options should I use?",
+    "ground_truth_id": "somatic_tumour_wes",
+    "source": "simulated"
+  },
+  {
+    "id": "test_regulatory_noncoding_gwas",
+    "query": "My GWAS hits are mostly in intergenic and intronic regions. I want to understand their potential regulatory effects.",
+    "ground_truth_id": "regulatory_noncoding_gwas",
+    "source": "simulated"
+  },
+  {
+    "id": "test_population_allele_frequencies",
+    "query": "I want to annotate a large cohort VCF with population allele frequencies to compare variant frequencies across populations.",
+    "ground_truth_id": "population_allele_frequencies",
+    "source": "simulated"
+  },
+  {
+    "id": "test_non_human_mouse_crispr",
+    "query": "We performed CRISPR knockouts in mouse embryonic stem cells and called variants from WGS against the GRCm39 reference. What VEP settings should I use?",
+    "ground_truth_id": "non_human_mouse_crispr",
+    "source": "simulated"
+  },
+  {
+    "id": "test_quick_lookup_rsid",
+    "query": "I just want to look up a single variant by its rsID \u2014 its gene, consequence, and clinical significance.",
+    "ground_truth_id": "quick_lookup_rsid",
+    "source": "simulated"
+  },
+  {
+    "id": "test_rare_disease_trio",
+    "query": "We sequenced a parent-child trio (exome) to find de novo variants causing a paediatric disorder. Which VEP options for clinical interpretation?",
+    "ground_truth_id": "rare_disease_trio",
+    "source": "simulated"
+  },
+  {
+    "id": "test_somatic_tumor_only",
+    "query": "Tumor-only WES with no matched normal. I need to annotate somatic candidates and aggressively filter likely germline variants by population frequency.",
+    "ground_truth_id": "somatic_tumor_only",
+    "source": "simulated"
+  },
+  {
+    "id": "test_somatic_ctdna",
+    "query": "ctDNA / liquid-biopsy somatic variants from a cancer patient, low VAF. Annotate for clinical actionability.",
+    "ground_truth_id": "somatic_ctdna",
+    "source": "simulated"
+  },
+  {
+    "id": "test_regulatory_promoter",
+    "query": "Variants in promoter/enhancer regions from ATAC-seq peaks - which target genes and regulatory features do they hit?",
+    "ground_truth_id": "regulatory_promoter",
+    "source": "simulated"
+  },
+  {
+    "id": "test_regulatory_tfbs",
+    "query": "Do my non-coding GWAS SNPs overlap transcription factor binding sites or other regulatory features?",
+    "ground_truth_id": "regulatory_tfbs",
+    "source": "simulated"
+  },
+  {
+    "id": "test_population_ancestry",
+    "query": "Comparing variant allele frequencies across continental populations in a cohort. Which frequency annotations should I turn on?",
+    "ground_truth_id": "population_ancestry",
+    "source": "simulated"
+  },
+  {
+    "id": "test_population_large_wgs",
+    "query": "Annotating a very large WGS cohort VCF (~2M variants) is painfully slow. How do I keep it efficient while still getting gene and frequency annotation?",
+    "ground_truth_id": "population_large_wgs",
+    "source": "simulated"
+  },
+  {
+    "id": "test_structural_longread",
+    "query": "Large deletions and duplications from long-read WGS (Sniffles). Which genes and regulatory features are disrupted, and how do I filter common SVs?",
+    "ground_truth_id": "structural_longread",
+    "source": "simulated"
+  },
+  {
+    "id": "test_structural_cnv",
+    "query": "CNV calls from a SNP array - which genes do the copy-number gains/losses affect, and are they common in the population?",
+    "ground_truth_id": "structural_cnv",
+    "source": "simulated"
+  },
+  {
+    "id": "test_structural_clinical",
+    "query": "Clinically interpret structural variants (dels/dups) from a rare-disease WGS case - pathogenic vs benign, filter common ones.",
+    "ground_truth_id": "structural_clinical",
+    "source": "simulated"
+  },
+  {
+    "id": "test_non_human_zebrafish",
+    "query": "Zebrafish (Danio rerio) variants from a mutagenesis screen against GRCz11. What VEP settings should I use?",
+    "ground_truth_id": "non_human_zebrafish",
+    "source": "simulated"
+  },
+  {
+    "id": "test_non_human_rat",
+    "query": "Rat (Rattus norvegicus) WGS variants from a knockout model. Which VEP options apply?",
+    "ground_truth_id": "non_human_rat",
+    "source": "simulated"
+  },
+  {
+    "id": "test_quick_lookup_batch",
+    "query": "I have a short list of rsIDs and just want their gene, consequence, and ClinVar significance - nothing heavy.",
+    "ground_truth_id": "quick_lookup_batch",
+    "source": "simulated"
+  }
+]

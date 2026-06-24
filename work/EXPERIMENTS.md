@@ -610,6 +610,99 @@ Enable F1 / 92% critical-recall / 95% category-coverage / 81% Disable-F1**, raw 
 This is the current headline (supersedes the 3-seed re-analyses for the E1/headline tables). **Simulated
 gold set → directional, not a benchmark.**
 
+## Experiment 11 — Catalogue-only ablation: how much do the golden examples add over the option catalogue alone?  [DONE 2026-06-24]
+
+**Motivation (mentor question, 2026-06-24).** Likhitha asked, in effect: *assuming the model "has" the VEP
+documentation and the gold examples, how much do the gold examples add beyond the documentation?* The
+existing 4 conditions don't answer this directly — every non-`bare` arm includes ≥2 examples, so there was
+no "options/documentation, zero examples" rung. **Important scope correction (do not overclaim):** the model
+is **never shown the VEP documentation PDF or any prose docs** in *any* condition. What it sees is **our
+58-option catalogue** (`vep_options_expanded.json`) — each option compressed to id + flag + a **~120-char
+truncated description** + species/priority/conflict/depends metadata, *distilled by us* from Ensembl
+release/115. So this experiment measures **our derived option catalogue**, which is our operationalization of
+the documentation — **not** the raw documentation itself. A true raw-docs run is a *different, unrun*
+experiment (deferred — see note at the end). Framing aside: nothing is *trained*; this is all RAG (the KB is
+in the prompt, not the weights). See HANDOFF §9.
+
+**New condition `noex` (catalogue-only, no examples).** Full **58-option catalogue + the exact output
+contract + the rules block**, but **zero in-context examples** — `build_system_prompt(vep_options, [], query,
+retrieval_mode="all")`. Identical pipeline otherwise (same parser, same deterministic checker, same scoring).
+This isolates the **golden-examples contribution** as the single changed variable vs `all` (examples 19→0);
+and the single changed variable vs `bare` is the catalogue+format (bare has neither). So the ladder
+`bare → noex → all` cleanly decomposes "raw model" → "+our option catalogue" → "+golden examples".
+
+**Methodological note on scoring `noex`.** Even catalogue-only, the model still emits the prompted
+`✓/✗ [source: option_id]` format and cites real catalogue ids (Phase-0 parse holds; citation rate 81%), so
+the id-keyed F1/recall metrics stay valid and comparable. This is exactly *why* a raw-docs run is harder: the
+docs don't use our ids, so a docs-only model couldn't cite them and the metric would break — another reason
+the catalogue is the right operationalization to score.
+
+**Consistency (what changed vs Exp 10).** Same model `gemma4:26b`, same 58-option catalogue, same
+`temperature=0.7`, same harness (`run_parallel_eval.py`, concurrency 4), same 5 seeds (42–46), same
+leave-one-out. **One nuance, controlled:** the simulated gold set was extended 20→23 on 2026-06-23 (3 new
+rare-disease/somatic *clinical-report* rows). To keep the test set fixed vs Exp 10 (discipline rule 4), this
+run **excludes those 3** and uses the **identical 20 queries** Exp 10 used (filtered files
+`work/results_noex/{gold_20set,testset_20set}.json`; 0 removed of the original 20, stratified 3/3/3/3/3/2/3).
+The fresh `bare`/`all` arms therefore double as a consistency check against Exp 10. (A 23-set re-run is a
+clean follow-up if the new rows are kept.) **Deviation:** `keyword` numbers here come from the harness's
+forced-baseline (it always injects `bare,keyword`); reported for context, not the focus.
+
+**Command (provenance).** `VEP_OPTIONS_FILE=work/vep_options_expanded.json
+VEP_EXAMPLES_FILE=work/results_noex/gold_20set.json VEP_TESTSET_FILE=work/results_noex/testset_20set.json
+VEP_RESULTS_DIR=work/results_noex caffeinate -i python work/run_parallel_eval.py --model gemma4:26b --runs 5
+--concurrency 4 --conditions noex,all --seed 42`. 400 calls, ~1h56m. Raw:
+`work/results_noex/raw/gemma4_26b.jsonl`; report `work/results_noex/evaluation_results_gemma4_26b.md`.
+Pre-flight: 8-call smoke confirmed the ~11K-token `all` prompt is **not** context-truncated on the
+already-running server (all=77% ≫ noex=45% on 2 queries; responses end cleanly).
+
+**Result — `gemma4:26b`, mean ± SD across 5 seeds (seeds 42–46), 20-query LOO:**
+
+| condition | Enable F1 | wtd F1 | Disable F1 | crit-recall | cat-cover | over-rec | raw harm |
+|---|---|---|---|---|---|---|---|
+| bare (no KB) | 35% ± 3% | 45% ± 3% | 11% ± 8% | 65% ± 4% | 58% ± 3% | 1.05 | 58 |
+| **noex (catalogue only, no examples)** | **62% ± 2%** | **65%** | — | **49% ± 3%** | **75% ± 2%** | 1.13 | 1 |
+| keyword (catalogue + top-2 ex) | 73% ± 2% | 76% ± 2% | 74% ± 3% | 69% ± 6% | 83% ± 4% | 1.20 | 2 |
+| **all (catalogue + all examples)** | **85% ± 1%** | **88% ± 1%** | **84% ± 1%** | **96% ± 2%** | **95% ± 2%** | 1.20 | 0 |
+
+**Consistency check PASSED:** `all` = 85% / crit-recall 96% / cat-cover 95% and `bare` = 35% reproduce Exp
+10 (84% / 92% / 95%; bare 30%) within the ±2–4% noise band → this run is directly comparable.
+
+**Findings.**
+1. **Our option catalogue alone is worth ~27 F1 points over the raw model** (bare 35% → noex 62%): the
+   compressed catalogue (descriptions + flags + priorities + the citation format) substantially grounds the
+   model on its own — without any worked examples.
+2. **The golden examples add a further ~23 F1 points on top of the catalogue** (noex 62% → all 85%) —
+   roughly **as large as the catalogue's own contribution**, and at this scale the examples are the
+   bigger lever for the *quality* metrics: **critical-recall nearly doubles (49% → 96%)** and category-cover
+   rises (75% → 95%). So the examples are what make the system reliably surface the **must-have** options,
+   not just plausible ones. This is the direct answer to the mentor: *the option catalogue gets you to ~62%
+   but misses ~half the critical options; the gold examples are what close that gap.*
+3. **Even one/two examples help a lot** (noex 62% → keyword 73%): most of the disable-signal appears only
+   once examples are present (noex emits few disables; keyword/all Disable-F1 74–84%) — the conservative
+   *trim* behaviour is example-taught, not catalogue-taught.
+4. **Caveat — bare's crit-recall (65%) > noex's (49%) is a metric artifact, not bare being "better".** Bare
+   massively over-recommends human-only options (**raw harm 58** vs noex's 1) and scatter-hits some critical
+   options with terrible precision (cat-cover 58%, Disable-F1 11%); the deterministic checker would strip
+   those 58 violations. Read crit-recall **alongside** harm/cat-cover, not alone. noex is *disciplined*
+   (harm 1, the species rules are in the catalogue it can see) but, without worked examples, **under-selects
+   the criticals** — exactly the gap examples fill.
+
+**Bottom line.** Decomposed contribution on the simulated 20-set: **raw model 35% → +our option catalogue
+62% → +golden examples 85%** Enable F1, with the examples roughly **doubling critical-recall (49→96%)**. The
+gold examples are not redundant with the catalogue — they are the dominant driver of *must-have-option*
+recall. **Simulated gold → directional, not a benchmark**; `noex` is a new clean rung for future model runs.
+
+**Deferred follow-up — raw-documentation condition (considered, NOT run).** A "feed the VEP documentation
+PDF" condition was considered and deferred. Reasons: (1) **scoring incompatibility** — our metrics are keyed
+to canonical catalogue ids; raw docs don't use them, so a docs-only model can't emit cite-able ids and F1
+stops being comparable (changes the metric, not just one variable); (2) **feasibility** — the docs PDF
+(~2.4 MB rendered) far exceeds the ~11K-token prompt budget we already push, so it needs a chunked
+doc-retrieval index (a new subsystem, not a one-line condition), and Exp 8 showed this stack degrades near
+context limits; (3) **relevance** — we deliberately distil the docs into the compact catalogue precisely
+because raw docs are too large, unparseable, and can't drive the deterministic checker, so the catalogue
+**is** our operationalization of the docs. If a raw-docs signal is ever wanted, the scoreable version is
+"catalogue + a *retrieved doc snippet*" vs "catalogue alone" (keeps ids valid, changes one variable).
+
 ## Implications for the GSoC project
 
 - **Retrieval design (in-range, actionable):** at a ~58-option KB, **do not hard top-k filter the options** — the semantic top-10 condition loses relevant options (recall failure) and underperforms keeping all 58. It stays flat (~37–39% Enable F1) as the model scales while keyword/all-examples climb, so filtering forfeits the larger model's gains. Keep all options in-prompt, or use high-recall hybrid retrieval; reserve aggressive filtering for when the option set genuinely exceeds context.

@@ -30,7 +30,7 @@ CAT = json.load(open(os.environ.get("VEP_OPTIONS_FILE", HERE / "vep_options_expa
 PRIO = {o["id"]: o.get("priority_by_use_case", {}) for o in CAT}
 CATEGORY = {o["id"]: o.get("category", "?") for o in CAT}
 SPECIES = {o["id"]: o.get("species_restriction", "all species") for o in CAT}
-ORDER = ["bare", "keyword", "all", "semantic"]
+ORDER = ["bare", "noex", "keyword", "all", "semantic"]
 
 
 def prio(oid, uc):

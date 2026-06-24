@@ -27,7 +27,8 @@ import evaluate as ev               # noqa: E402
 from openai import OpenAI           # noqa: E402
 
 COND_KEY = {"bare": "without_kb", "keyword": "with_kb",
-            "all": "with_kb_all", "semantic": "with_kb_semantic"}
+            "all": "with_kb_all", "semantic": "with_kb_semantic",
+            "noex": "with_kb_noex"}
 COND_MODE = {"keyword": "keyword", "all": "all", "semantic": "semantic"}
 
 
@@ -66,9 +67,16 @@ def main():
         gts[qid] = ev.get_ground_truth(training_examples, gtid)
         loo = [e for e in training_examples if e["id"] != gtid]
         for c in conds:
-            prompts[(qid, c)] = (ev.BARE_SYSTEM_PROMPT if c == "bare"
-                                 else va.build_system_prompt(vep_options, loo, query,
-                                                             retrieval_mode=COND_MODE[c]))
+            if c == "bare":
+                prompts[(qid, c)] = ev.BARE_SYSTEM_PROMPT
+            elif c == "noex":
+                # docs-only ablation: full 58-option catalogue + output contract + rules but ZERO
+                # in-context examples. Isolates the golden-examples contribution as the single changed
+                # variable vs the `all` condition (same options/format/checker; examples 19 -> 0).
+                prompts[(qid, c)] = va.build_system_prompt(vep_options, [], query, retrieval_mode="all")
+            else:
+                prompts[(qid, c)] = va.build_system_prompt(vep_options, loo, query,
+                                                           retrieval_mode=COND_MODE[c])
     print("Prompts built. Firing LLM calls...")
 
     # --- parallel LLM calls ---
