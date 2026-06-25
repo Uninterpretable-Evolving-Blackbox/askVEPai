@@ -1,126 +1,107 @@
 # VEP use-case taxonomy: proposal for review
 
-Status: draft for your feedback.
+Status: updated draft. This replaces the earlier 7-category version. After looking at how Ensembl and peer
+tools actually organise things, and at where my own 7 categories broke down, I've moved the proposal to a
+factor-based, multi-label scheme. I'd like your sign-off on the factors and, more importantly, on the
+per-option priorities, before I build the gold set.
 
-The tool currently organises VEP usage into 7 use-case categories. I came up with these myself, fairly
-pragmatically, and I don't have a domain source to back them up. Before we build a gold-standard example
-set on top of them, I'd like your view on whether this is a sensible way to carve up VEP usage, or whether
-there's a standard framing I should adopt instead. I'd rather settle this now than have you label examples
-against a categorisation we later decide to change.
+## 1. Why I moved away from the 7 single categories
 
-The main question for you: are these 7 the right categories, is there a canonical Ensembl/EBI or community
-framing I should use instead, and should a query carry a single label or several at once?
+I originally used 7 categories: rare_disease_germline, somatic_cancer, regulatory_noncoding,
+population_genetics, structural_variants, non_human, quick_lookup. The problem is they mix four different
+axes (clinical context, variant type, scale, species), so they aren't mutually exclusive and a single label
+loses information at the boundaries:
 
-## 1. The current 7 categories, and why I'm unsure about them
+- A somatic structural variant in a mouse tumour is somatic, structural AND non-human at once.
+- A regulatory variant in a rare-disease patient is both regulatory and germline.
 
-rare_disease_germline, somatic_cancer, regulatory_noncoding, population_genetics, structural_variants,
-non_human, quick_lookup
+Forcing one label there is misleading for three things at once: it mislabels the example, it picks the
+wrong option priorities, and "did the model detect the use case?" only ever scores one aspect of a
+multi-aspect query.
 
-My worry is that these aren't a clean taxonomy. They mix at least four different things:
+## 2. What the canonical sources actually do
 
-- clinical context: rare disease, cancer
-- variant type: structural, regulatory/noncoding
-- scale: population genetics, quick lookup
-- species: non-human
+I couldn't find an official Ensembl use-case taxonomy. Ensembl groups by interface/data-scale and by what
+an option does (the 6 web-form function sections in VEPConstants.pm, release/115), never by analysis
+scenario. VEP is configured through independent, composable flags (`--species`, `--af_gnomade`,
+`--plugin`), not a "pick your scenario" menu. The wider field is the same: germline vs somatic is a hard
+split with separate standards (ACMG/AMP 2015 vs AMP/ASCO/CAP 2017); SV/CNV has its own ClinGen standard and
+tools (AnnotSV, gnomAD-SV); species is a first-class flag; peer tools (Funcotator, OpenCRAVAT, Nirvana)
+expose composable modules, not a flat scenario menu. Everything converges on orthogonal, composable axes.
 
-Because of that they aren't mutually exclusive, and forcing one label per query loses information at the
-boundaries:
+## 3. Proposed scheme: factors, multi-label throughout
 
-- A somatic structural variant in a mouse tumour model is somatic_cancer, structural_variants and
-  non_human all at once.
-- A regulatory variant in a rare-disease patient is both regulatory_noncoding and rare_disease_germline.
-- non_human and quick_lookup are basically independent of the rest.
+A "use case" becomes a set of factor tags, not one category. Each example carries one value per factor.
 
-This is also why the single-label use-case detection in the tool is unreliable at those boundaries.
+| factor | values | hard/soft | drives | evidence |
+|---|---|---|---|---|
+| species | human / non-human | hard | the whole human-only set (CADD/gnomAD/ClinVar) | strong (sourced) |
+| origin | germline / somatic | hard | ClinVar-somatic, COSMIC, pathogenicity vs actionability | strong (sourced) |
+| variant_size_class | small (SNV/indel) / structural-CNV | hard | SV plugins/overlap, gnomAD-SV vs gnomAD | strong (sourced) |
+| annotation_focus | coding / regulatory-noncoding / clinical-frequency | soft | regulatory features, frequency DBs, predictors | medium |
+| scale | single-variant lookup / cohort | weak | mostly upstream; minor for annotation config | weak (may drop) |
 
-## 2. What I found when I looked for a canonical source
+"Hard" factors can remove an option outright (e.g. CADD is not applicable for non-human); "soft" factors
+only shift how strongly an optional extra is recommended.
 
-### Ensembl / VEP's own framing
+## 4. How factors drive the four jobs categories used to do
 
-I couldn't find an official Ensembl use-case taxonomy. Where Ensembl groups anything, it groups by
-interface and data scale (web for small/first-time, command line for large/flexible, REST for
-programmatic), or by what an option does, not by analysis scenario:
+1. **Labelling:** each example is tagged with all applicable factor values (multi-label), so the mouse
+   somatic SV case is recorded truthfully instead of forced into one bucket.
+2. **Option priority:** priorities are keyed to factor values, not one category (see section 5).
+3. **Eval coverage and splits:** I balance and stratify on factor values (marginally — each value
+   represented), using multi-label stratification, not on a single category.
+4. **Model detection:** scored per factor (species/origin/size/focus), so it reflects the whole query
+   rather than one aspect. This stays a diagnostic; the headline metric is still per-option Enable F1.
 
-- The web form's only canonical grouping is the 6 function sections in VEPConstants.pm (release/115):
-  identifiers, variants & frequency data, additional annotations, predictions, filtering, advanced. These
-  describe what an option does, not who the user is.
-- The official "Examples and use cases" page is organised by data source and feature (gnomAD,
-  conservation, dbNSFP, structural variants, pangenome, citations), not by scenario presets for "rare
-  disease", "somatic cancer", and so on.
-- The VEP paper (McLaren et al. 2016) doesn't define a use-case taxonomy; it groups users by expertise and
-  data scale, and only mentions application domains (clinic, GWAS, farm animals) in passing. EBI training
-  teaches the 6 section names and one generic workflow.
-- VEP is configured through independent, composable flags (--species, --af_gnomade / --af_1kg,
-  --plugin / --custom, cache vs db), not a "pick your scenario" menu.
+## 5. Option priority, keyed to factors
 
-So I don't think the 7 categories can be attributed to Ensembl; they're my own construct. Two of them
-loosely echo Ensembl axes (structural variants is a feature heading, non-human is the species flag), but
-neither is an official use-case scheme.
+Today the catalogue stores `priority_by_use_case` keyed to the 7 categories. I'd re-key it to factor
+values, e.g.:
 
-On the option priorities: I couldn't find any Ensembl per-workflow option-priority scheme either, so the
-priority_by_use_case weightings are also my own judgement and need your input. The only priority signals I
-could actually source are isolated heuristics: filtering by population allele frequency in rare disease
-(the VEP tutorial cites the ACMG 5% allele-frequency benchmark), and MANE Select being recommended as the
-default transcript for reporting.
+```json
+"priority_by_factor": {
+  "origin":             { "germline": "critical", "somatic": "recommended" },
+  "variant_size_class": { "structural": "critical", "small": "not_applicable" },
+  "species":            { "non_human": "not_applicable" }
+}
+```
 
-### Field standards and peer tools
+When several factors apply to a query, I resolve in two tiers:
 
-There isn't a single named taxonomy of variant-annotation workflows in the wider field either, but the
-standards, databases and tools I looked at tend to converge on a few independent, composable axes:
+- **hard factors first:** if any hard factor marks an option `not_applicable`, it's removed (the checker
+  already does this for species);
+- **then soft ranking:** among what remains, take the strongest priority across the active factor values
+  (critical > recommended > optional).
 
-- Germline vs somatic is a hard split: two separate clinical standards (ACMG/AMP 2015 pathogenicity tiers
-  vs AMP/ASCO/CAP 2017 actionability tiers), not one framework with sub-cases.
-- Variant class is a real axis: structural and CNV variants have their own ClinGen standard and their own
-  tools (AnnotSV, gnomAD-SV), separate from SNV/indel annotation.
-- Species is a first-class flag (VEP --species, AnnotSV human/mouse).
-- Peer tools expose composable flags or modules rather than single-label presets: Funcotator ships
-  separate germline and somatic data-source bundles; OpenCRAVAT covers "germline, somatic, common, rare,
-  coding and non-coding" through composable modules; Nirvana markets itself as "clinical-grade" (a
-  clinical-vs-research distinction). None offer a flat scenario menu.
-- Ontologies model variants along several dimensions at once (Sequence Ontology: alteration type, affected
-  feature, effect).
+This is the part I most need your domain input on — the per-option, per-factor priorities, and any
+hard-removal rules I've got wrong.
 
-Both angles point the same way: a factor-based, multi-label scheme fits better than 7 mutually exclusive
-buckets. I didn't find any authority for a flat 7-way single-label scheme.
+## 6. Example counts and stratification
 
-## 3. A possible alternative: factor-based and multi-label
+The dataset is sized by per-factor-value coverage, not by category. The rarest values (non-human, somatic,
+structural, regulatory) set the floor, since each multi-label example covers one value of every factor at
+once.
 
-Instead of 7 fixed categories, we could use a few independent factors, where a "use case" is a combination
-and option priority is keyed to the factors that actually drive the config:
-
-| factor | values | drives | evidence |
+| tier | per factor value | total (approx) | what it supports |
 |---|---|---|---|
-| species | human / non-human | the whole human-only annotation set (CADD/gnomAD/ClinVar) | strong (sourced) |
-| origin | germline / somatic | ClinVar-somatic, COSMIC, pathogenicity vs actionability | strong (sourced) |
-| variant size class | small (SNV/indel) / structural-CNV | SV plugins/overlap, gnomAD-SV vs gnomAD | strong (sourced) |
-| annotation focus | coding / regulatory-noncoding / clinical-frequency | regulatory features, frequency DBs, predictors | medium |
-| scale (optional, low weight) | single-variant lookup / cohort | mostly upstream (calling/QC); minor for annotation config | weak |
+| minimum viable | >=3 | ~24-30 | leave-one-out on the training set; any holdout directional only |
+| stable | >=5-6 | ~50 | an 80/20 multi-label-stratified holdout becomes usable |
+| benchmark | >=10 | ~100+ | per-factor F1 with meaningful confidence |
 
-A few things I'd flag on this:
+I'd build the gold set **balanced** across factor values (so non-human isn't drowned out by rare disease),
+and keep a separate, **naturally-distributed** set of real questions as an out-of-distribution check. Below
+~50 examples the 20% holdout is too small to score reliably, so I'd lean on leave-one-out until the set
+grows.
 
-- The real "origin" axis is germline vs somatic; germline still includes het/hom/compound-het.
-- Regulatory/noncoding is more of a region or annotation-focus attribute than a sibling of "structural" —
-  a noncoding variant is usually still an SNV/indel, so it shouldn't sit on the size-class axis.
-- Scale is the weakest axis for an annotation-config tool, since it mostly matters upstream at calling and
-  joint-genotyping. I'd keep it low-weight or drop it.
-- It might be worth an explicit clinical-vs-research axis (which drives the choice of frequency DBs and
-  pathogenicity plugins); peer tools expose this and the current 7 don't really capture it.
+## 7. What I'd like from you, in order
 
-## 4. Why I'd want to settle this before building the gold set
-
-Changing the taxonomy isn't a small tweak: it re-keys the priority tables, changes the label on every
-example, and breaks comparability with my earlier runs. So I'd rather agree it with you up front. If you
-label a batch of examples against the 7 categories and we then change the carving, that effort is wasted.
-That's the reason for the order below.
-
-## 5. What I'd like from you, in order
-
-1. The taxonomy itself: is there a canonical Ensembl/EBI framing or a standard I should adopt, and should
-   it be multi-label / factor-based rather than single-category? (The mouse + somatic + SV example is the
-   clearest case where single-label breaks down.)
-2. Then the priority weightings and per-option explanations, since those need your domain knowledge and
-   aren't something I can derive.
-3. Then the example count and schema, so the gold set is built on a taxonomy we've already agreed.
+1. The factors: do these axes and values look right, should `scale` be dropped, and is an explicit
+   clinical-vs-research axis worth adding?
+2. The per-option, per-factor priorities and hard-removal rules (section 5) — these need your domain
+   knowledge and aren't something I can derive.
+3. The example counts (section 6) and how many you can help validate, so I build the gold set at a
+   defensible size.
 
 ## Appendix: sources
 
@@ -145,6 +126,12 @@ Field standards:
 - OpenCRAVAT (2019); Nirvana (clinical-grade)
 - Sequence Ontology; GENO ontology
 
+On data and evaluation method:
+
+- Multi-label stratification — Sechidis, Tsoumakas & Vlahavas 2011, "On the Stratification of Multi-Label
+  Data" (the basis for iterative_train_test_split in scikit-multilearn)
+- Golden-dataset sizing guidance — 50-200 rows for iteration, ~100+ for a stable benchmark
+
 A note on the above: there's no formally named "variant-annotation workflow taxonomy" in the literature, so
-the convergence I describe is something I pieced together across these standards and tools. The axis names
+the convergence I describe is something I pieced together across these standards and tools. The factor names
 and the regulatory/scale caveats are my own reading, and I've flagged them as such.
