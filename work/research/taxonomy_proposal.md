@@ -128,15 +128,6 @@ and keep a separate, **naturally-distributed** set of real questions as an out-o
 ~50 examples the 20% holdout is too small to score reliably, so I'd lean on leave-one-out until the set
 grows.
 
-## 7. What I'd like from you, in order
-
-1. The factors: do these five axes and values look right? I've dropped `scale` and split focus into
-   region/goal with reasoning above — tell me if you'd keep scale or re-bundle anything.
-2. The per-option, per-factor priorities and hard-removal rules (section 5) — these need your domain
-   knowledge and aren't something I can derive.
-3. The example counts (section 6) and how many you can help validate, so I build the gold set at a
-   defensible size.
-
 ## Appendix: sources
 
 Ensembl / VEP:
