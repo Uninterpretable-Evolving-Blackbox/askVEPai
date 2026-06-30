@@ -55,6 +55,13 @@ All harness scripts honour the env vars `VEP_OPTIONS_FILE`, `VEP_EXAMPLES_FILE`,
 Bulky raw run logs (`*_raw.jsonl`, `results/raw/`) are git-ignored — they are regenerable from the logged
 commands in `EXPERIMENTS.md`.
 
+## Research & design proposals
+
+| File | What it is |
+|---|---|
+| [`research/taxonomy_proposal.md`](research/taxonomy_proposal.md) | Factor-based use-case taxonomy (mentor review). |
+| [`research/generation_pipeline_proposal.md`](research/generation_pipeline_proposal.md) | Literature-grounded gold-example generation pipeline (mentor data-generation plan). |
+
 ## Validate the data ("tests")
 
 ```bash
