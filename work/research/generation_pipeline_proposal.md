@@ -48,37 +48,19 @@ the project's defense-in-depth architecture and Exp 6 (examples-dominant groundi
 
 ## 2. Pipeline overview
 
-```mermaid
-flowchart TD
-  subgraph lock [Stage 0 — blocked on mentor]
-    T[taxonomy_proposal.md signed off]
-    P[priority_by_factor in catalogue]
-  end
+**Pipeline (Stage 0 = mentor sign-off, then 1–7):**
 
-  subgraph labels [Stages 1–2 — no teacher LLM]
-    S[1. Stratified factor sampler]
-    R[2. Deterministic config resolver]
-    C[Checker gate — zero auto-fixes]
-  end
+`0.` labels + per-option priorities (mentor)
+→ `1.` stratified factor sampler (balance coverage across every factor value)
+→ `2.` deterministic config resolver + checker (zero auto-fixes)
+→ `3.` query generator, category-conditioned for diversity [+ optional justification]
+→ `4.` validation + dedup
+→ `5.` ICE / roundtrip usefulness screen
+→ `6.` mentor review queue
+→ `7.` optional Web-VEP execution check
+→ approved `gold_examples.json` + provenance JSONL.
 
-  subgraph nl [Stage 3 — teacher LLM]
-    Q[3a. Query generator — category-conditioned]
-    J[3b. Justification draft optional]
-  end
-
-  subgraph auto [Stages 4–5 — automated QA]
-    V[4. validate_examples.py + dedup]
-    I[5. Roundtrip / ICE screen]
-  end
-
-  subgraph human [Stages 6–7]
-    H[6. Mentor review queue]
-    W[7. Optional Web VEP execution check]
-  end
-
-  T --> P --> S --> R --> C --> Q --> J --> V --> I --> H --> W
-  W --> G[(gold_examples.json + provenance JSONL)]
-```
+Stages 1–2 use **no** teacher LLM (labels are deterministic); only Stage 3 does (natural language only).
 
 **Mentor step mapping:**
 
