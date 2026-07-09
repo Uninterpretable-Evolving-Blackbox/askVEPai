@@ -20,8 +20,9 @@ project (`validate_examples.py`, `vep_assistant.check_and_fix_violations`, the 5
 
 ## 1. Why not “ask a frontier model for the whole row”?
 
-The current **simulated** 20-example set (`preliminary_examples/simulated_gold_examples.json`) was
-hand-authored and checker-validated. A forward path — one strong LLM writes query + options +
+The current **simulated** 23-example set (`preliminary_examples/simulated_gold_examples.json`) is a
+synthetic, checker-validated stand-in — balanced across the use cases, but not real expert configs (and
+not hand-authored). A forward path — one strong LLM writes query + options +
 justification in a single pass — repeats failures we already see in the mentor's first draft
 (rare-disease skew, inconsistent option ids, no explicit disables). Tool-learning work shows the
 same pattern at scale: ChatGPT-generated ToolBench rows have **parameter-alignment errors in
