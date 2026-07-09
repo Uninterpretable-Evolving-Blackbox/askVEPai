@@ -1,7 +1,14 @@
 # Gold-example generation pipeline — literature-grounded proposal
 
-Status: **proposal** (implementation not started). Depends on mentor sign-off of the factor
-taxonomy and per-option priorities in `taxonomy_proposal.md` before scaling.
+Status: **implemented (2026-07-08).** The pipeline described below is now built and runnable end to end
+(Stages 0–6; the optional Web-VEP execution check, Stage 7, is out of scope for now). A first run of 30
+examples produces candidate `(query → config)` rows **balanced across the taxonomy** — at least 15 per
+factor value, including the non-human, somatic, structural-variant and regulatory cases that are otherwise
+under-represented — with 28/30 passing all deterministic safety checks and a mean in-context critical-recall
+of ~82%; a separate 17-check verification suite passes. The generated rows are **provisional candidates for
+review, not validated gold**: they use a first-pass priority table and still depend on mentor sign-off of
+the factor taxonomy and per-option priorities in `taxonomy_proposal.md` before scaling. The design rationale
+follows.
 
 This document proposes a **reproducible in-repo pipeline** for generating `(user_query → VEP
 web-form config)` gold examples — the direction Likhitha outlined (lock labels → generate queries
