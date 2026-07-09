@@ -7,42 +7,50 @@ factor value, including the non-human, somatic, structural-variant and regulator
 under-represented — with 28/30 passing all deterministic safety checks and a mean in-context critical-recall
 of ~82%; a separate 17-check verification suite passes. The generated rows are **provisional candidates for
 review, not validated gold**: they use a first-pass priority table and still depend on mentor sign-off of
-the factor taxonomy and per-option priorities in `taxonomy_proposal.md` before scaling. The design rationale
-follows.
+the factor taxonomy and per-option priorities in `taxonomy_proposal.md` before scaling.
 
-This document proposes a **reproducible in-repo pipeline** for generating `(user_query → VEP
-web-form config)` gold examples — the direction Likhitha outlined (lock labels → generate queries
-and configs → optional Web VEP runs → human review → size experiments). It is grounded in the
-synthetic-data literature reviewed in June 2026 and mapped to code that already exists in this
-project (`validate_examples.py`, `vep_assistant.check_and_fix_violations`, the 58-option catalogue).
+> **Citations note (2026-07-09).** Every external claim below was checked against the primary source and is
+> backed by a verbatim quote (held in the project notes). Venues/years were corrected in this pass; one
+> earlier citation (Shakeri et al. 2020) was **removed** as a misattribution, and three unverifiable
+> references (an unnamed "NeurIPS 2024 constraint" paper, "Crab", "LONGFAITH") were dropped. Where a source
+> only *partially* supports a point, that is flagged inline.
+
+This document is the design rationale for a **reproducible in-repo pipeline** that generates
+`(user_query → VEP web-form config)` gold examples — the direction Likhitha outlined (lock labels →
+generate queries and configs → optional Web-VEP runs → human review → size experiments). It reuses code
+that already exists in the project (`validate_examples.py`, `vep_assistant.check_and_fix_violations`, the
+58-option catalogue).
 
 ---
 
 ## 1. Why not “ask a frontier model for the whole row”?
 
 The current **simulated** 23-example set (`preliminary_examples/simulated_gold_examples.json`) is a
-synthetic, checker-validated stand-in — balanced across the use cases, but not real expert configs (and
-not hand-authored). A forward path — one strong LLM writes query + options +
-justification in a single pass — repeats failures we already see in the mentor's first draft
-(rare-disease skew, inconsistent option ids, no explicit disables). Tool-learning work shows the
-same pattern at scale: ChatGPT-generated ToolBench rows have **parameter-alignment errors in
-~48%** of training instances (Iskander et al., EMNLP 2024).
+synthetic, checker-validated stand-in — balanced across the use cases, but not real expert configs (and not
+hand-authored). A forward path — one strong LLM writes query + options + justification in a single pass —
+repeats failures we already see in the mentor's first draft (rare-disease skew, inconsistent option ids, no
+explicit disables). Tool-learning work shows the same pattern at scale: in *Quality Matters* (Iskander et
+al., EMNLP 2024), the ToolBench training set has **parameter-alignment errors in 47.9% of instances**
+(Table 5; the paper's cross-dataset summary is "over 33%").
 
-The literature converges on a different shape for **structured outputs**:
+The literature converges on a different shape for **structured outputs** (each row below is backed by a
+verbatim quote from the cited source):
 
-| Pattern | Source | Core idea |
-|---------|--------|-----------|
-| **Asymmetric / reverse generation** | SynthIE (Josifoski et al., EMNLP 2023); SynthIE-style IE (Shakeri et al., EMNLP 2020); Alberti et al. (ACL 2019) roundtrip QA | Sample or fix the **label Y** first; generate natural language **X** second. Forward Y\|X is hard; reverse X\|Y is easy and controllable. |
-| **Constraint-first synthesis** | NeurIPS 2024 constraint-based math data; Crab constraint back-translation (ACL 2025) | Ground truth must pass **verifiable rules** before NL is written. |
-| **Stratified diversity config** | DataMorgana (Filice et al., ACL 2025 Industry) | Diversity comes from an explicit **category grid + probabilities**, not from hoping the LLM varies phrasing. |
-| **Intrinsic quality gates + ICE** | “Quality Matters” (Iskander et al., EMNLP 2024) | Six human-defined criteria for tool/API data; **In-Context Evaluation** measures whether one example actually helps the target model. Filtered 10K beats 73K unfiltered. |
-| **Teacher ≠ student for ICL** | Larger Models' Paradox (Xu et al., ICLR 2025) | Bigger teacher (405B, GPT-4) is **not** always better for the student; compatibility matters. Applies to **query phrasing** the student reads, not to mentor-validated labels. |
-| **Human calibration set** | ARES (Saad-Falcon et al., NAACL 2024) | Small (~150) human preference set calibrates automated judges; PPI for confidence intervals. |
-| **Multi-label stratification** | Sechidis et al. (2011); used in `taxonomy_proposal.md` §6 | Size and split by **factor-value coverage**, not single category counts. |
+| Pattern | Source | Verified core idea |
+|---------|--------|--------------------|
+| **Asymmetric / reverse generation** | SynthIE (Josifoski et al., EMNLP 2023) | Fix the **label Y** first, generate text **X** second: *"prompt an LLM to perform the task in the reverse direction… Leveraging this asymmetry in task difficulty."* |
+| **Roundtrip consistency** | Alberti et al. (ACL 2019) | Generate Q from (context, answer), re-answer, keep only if recovered: *"If A and A′ match we finally emit (C, Q, A)."* Basis of our ICE screen (§8). |
+| **Constraint-first synthesis** | our deterministic checker; NeMo Guardrails (Rebedea et al., 2023) as prior art | Ground truth must pass **verifiable rules** before NL is written — "the LLM proposes, deterministic code disposes." |
+| **Stratified coverage** | SynthIE §3.2; Sechidis et al. (ECML PKDD 2011) | Balance by **per-value coverage**: SynthIE reweights *"inversely proportional to its frequency"*; Sechidis's iterative stratification preserves each label's distribution better than random (caveat: it trades off exact per-example counts). |
+| **Explicit diversity config** | DataMorgana (Filice et al., ACL 2025 Industry) | Query diversity comes from an explicit **category grid**, not from hoping the LLM varies phrasing — but see the persona caveat in §6a (their own ablation finds the *user/persona* axis marginal). |
+| **Intrinsic quality gates + ICE** | *Quality Matters* (Iskander et al., EMNLP 2024) | **Six** intrinsic criteria for tool data; **In-Context Evaluation** measures whether an example *helps* a target model. On ToolBench, a filtered **10K subset scored 0.54 vs 0.45 for the full 73K** (ToolAlpaca: only on-par). |
+| **Teacher ≠ student for ICL** | *Larger Models' Paradox* (Xu et al., **NAACL 2025**) | A *bigger* same-family teacher is **not** reliably better; open-source teachers beat GPT-4; compatibility with the student matters. → we self-generate with the deployed student (§6a). |
+| **Dedup filtering** | Self-Instruct (Wang et al., ACL 2023) | Keep a new item only if **ROUGE-L similarity < 0.7** vs any existing one (verbatim rule). |
+| **Human calibration set** | ARES (Saad-Falcon et al., NAACL 2024) | A small (**150+**) human preference set calibrates automated judges; PPI gives confidence intervals. |
 
-**Design principle for Ask VEPai:** deterministic code + KB + checker **dispose** of labels;
-a teacher LLM **proposes** only natural language (queries, draft justifications). That matches
-the project's defense-in-depth architecture and Exp 6 (examples-dominant grounding).
+**Design principle for Ask VEPai:** deterministic code + KB + checker **dispose** of the labels; a local LLM
+**proposes** only natural language (queries, optional justification). This matches the project's
+defense-in-depth architecture and Exp 6 (examples-dominant grounding).
 
 ---
 
@@ -52,15 +60,15 @@ the project's defense-in-depth architecture and Exp 6 (examples-dominant groundi
 
 `0.` labels + per-option priorities (mentor)
 → `1.` stratified factor sampler (balance coverage across every factor value)
-→ `2.` deterministic config resolver + checker (zero auto-fixes)
+→ `2.` deterministic config resolver + checker (repaired to a fixed point)
 → `3.` query generator, category-conditioned for diversity [+ optional justification]
-→ `4.` validation + dedup
+→ `4.` validation + dedup gates
 → `5.` ICE / roundtrip usefulness screen
 → `6.` mentor review queue
 → `7.` optional Web-VEP execution check
 → approved `gold_examples.json` + provenance JSONL.
 
-Stages 1–2 use **no** teacher LLM (labels are deterministic); only Stage 3 does (natural language only).
+Stages 1–2 use **no** LLM (labels are deterministic); only Stage 3 does (natural language only).
 
 **Mentor step mapping:**
 
@@ -78,40 +86,40 @@ Stages 1–2 use **no** teacher LLM (labels are deterministic); only Stage 3 doe
 
 **Input:** signed-off `research/taxonomy_proposal.md` (five factors, multi-label).
 
-**Output:**
+**Output (all implemented under `work/generation/generation_config/`):**
 
-1. `generation_config/factors.json` — allowed values per factor (unchanged from proposal).
-2. `generation_config/priorities/` or an updated `vep_options_expanded.json` field
-   `priority_by_factor` (replacing provisional `priority_by_use_case`).
-3. `generation_config/query_axes.json` — DataMorgana-style **query diversity** categorisations
-   (independent of biology factors); see §5.
+1. `factors.json` — allowed values per factor.
+2. `priority_by_factor.json` — per-option per-factor priorities (currently a **provisional first pass**,
+   authored from the taxonomy §3 "drives" clusters; replaces the legacy `priority_by_use_case`).
+3. `query_axes.json` — DataMorgana-style query-diversity categorisations (independent of the biology
+   factors); see §6a.
 
-**Literature:** DataMorgana shows that **question-side** diversity must be configured explicitly;
-biology factors alone do not produce varied phrasing (Filice et al., 2025 — ablation: removing
-question categorisations drops n-gram diversity toward “vanilla” single-prompt generation).
+**Literature:** DataMorgana (Filice et al., 2025) shows question-side diversity must be configured
+explicitly rather than hoped for — but their own ablation finds the *question* categorisations carry the
+diversity while the *user/persona* categorisation is marginal (see §6a). We therefore treat each axis as a
+hypothesis to test, not a feature to assume.
 
-**Blocker:** I will not scale generation past a 3–5 row smoke test until priorities are mentor-approved.
+**Blocker:** generation is not scaled past a smoke test until the priorities are mentor-approved.
 
 ---
 
 ## 4. Stage 1 — Stratified factor sampling
 
-**Goal:** Choose *which* gold row to build next, balancing **per-factor-value coverage** (not
-single-label categories).
+**Goal:** choose *which* gold row to build next, balancing **per-factor-value coverage** (not single-label
+categories).
 
-**Method:**
+**Method (implemented in `sample_factors.py`):**
 
-1. Maintain a coverage table: count of approved examples per `(factor, value)` label.
-2. Each new sample draws a **factor tuple**:
-   - `species`, `origin`, `variant_size_class` — exactly one value each (data facts).
-   - `region_focus`, `analysis_goal` — one or more values (intent, multi-select).
-3. **Selection policy** (SynthIE-style coverage reweighting): prefer tuples that include the
-   currently rarest factor value(s). Inverse-frequency reweighting every K samples, same spirit
-   as Wiki-cIE's relation rebalancing (Josifoski et al., 2023, §3.2).
-4. **Multi-label stratification** for holdout splits: `iterative_train_test_split` from
-   scikit-multilearn when N ≥ 50 (Sechidis et al., 2011; `taxonomy_proposal.md` §6).
+1. Maintain a `(factor, value)` coverage table.
+2. Each draw builds a **factor tuple**: `species`, `origin`, `variant_size_class` take one value each (data
+   facts); `region_focus`, `analysis_goal` take one or more (intent, multi-select).
+3. **Selection policy:** greedy inverse-frequency — prefer the currently rarest values, with a seeded
+   tie-break so tuples don't collapse. Same spirit as SynthIE's coverage reweighting (Josifoski et al.,
+   2023, §3.2: *"inversely proportional to its frequency"*).
+4. **Multi-label stratification** for holdout splits: iterative stratification (Sechidis et al., 2011) when
+   N ≥ 50.
 
-**Target sizes** (from taxonomy proposal):
+**Target sizes** (from taxonomy proposal §6):
 
 | Tier | ≥ per factor value | ~total rows | Use |
 |------|-------------------|-------------|-----|
@@ -119,236 +127,203 @@ single-label categories).
 | Stable | 5–6 | ~50 | 80/20 multi-label holdout |
 | Benchmark | 10 | 100+ | Per-factor metrics with confidence |
 
-**Output:** `candidates/<uuid>.factor.json` — the tuple + coverage snapshot at generation time.
-
 ---
 
 ## 5. Stage 2 — Deterministic config resolver (reverse / asymmetric step)
 
-**Goal:** Produce `recommended_options` from the factor tuple **without** a teacher LLM.
+**Goal:** produce `recommended_options` from the factor tuple **without** an LLM.
 
-**Algorithm** (implements `taxonomy_proposal.md` §5):
+**Algorithm** (implemented in `resolve_config.py`; implements `taxonomy_proposal.md` §5):
 
 ```
-for each option id in catalogue:
-  if any hard factor marks not_applicable → disabled, skip
-  else priority = max over active factor values (critical > recommended > optional)
-  enable if priority in {critical, recommended}; optional toggles per policy below
-apply depends_on / conflicts_with from catalogue
-run check_and_fix_violations — FAIL row if any species strip, conflict fix, or dependency auto-add
+for each option in catalogue:
+  if a HARD factor (species / variant_size_class), or the origin=somatic->frequency rule,
+     marks it not_applicable  -> drop
+  else priority = strongest over active factor values (critical > recommended > optional)
+       enable if priority in {critical, recommended}
+then apply depends_on / conflicts_with and run check_and_fix_violations to a FIXED POINT
+     (the emitted config is the checker's repaired output).
 ```
 
-**`optional` policy (needs mentor rule):** default **enable** all `critical` + `recommended`;
-include a **small, logged subset** of `optional` enables per row for Disable-F1 signal (open
-decision in review queue).
+Because the resolver emits the checker's own repaired output, re-running the checker is a no-op — so the
+Stage-4 gate can **fail a row only if the checker would change anything** (the zero-mutation bar, same as
+`validate_examples.py`). *(Grounding: SynthIE — control P(Y) by sampling structured labels before text.)*
 
-**Explicit disables:** For every option not enabled, emit `"enabled": false` with a short `note`
-(closed-world scoring — mentor draft rows omitted this).
+**`optional`-option policy (open, needs mentor rule):** default enable `critical` + `recommended`; log a
+small `optional` subset per row for Disable-F1 signal.
 
-**Literature:**
+**Explicit disables:** a small set of meaningful "off" options carry `"enabled": false` + a `note`
+(closed-world signal the mentor draft omitted).
 
-- **SynthIE / SynthIE (EMNLP 2023):** control P(Y) by sampling structured labels before text.
-- **SynthIE (Shakeri et al., 2020):** answer-first QA generation improves precision of (X,Y) pairs.
-- **Constraint synthesis (NeurIPS 2024):** labels verified by code, not model confidence.
-
-**Output:** `candidates/<uuid>.config.json` — partial example (no `user_query` yet).
-
-**Reuse:** `work/preliminary_examples/validate_examples.py` logic — gold rows must pass with
-**zero checker mutations** (same bar as `preliminary_examples/README.md`).
+**Reuse:** `work/preliminary_examples/validate_examples.py` — gold rows must pass with **zero checker
+mutations**.
 
 ---
 
-## 6. Stage 3 — Natural-language generation (teacher LLM)
+## 6. Stage 3 — Natural-language generation (the only LLM-authored artifact)
 
-**Goal:** Given a **fixed** config + factor tuple, generate `user_query` (and optionally
-`justification`) that a human would plausibly ask.
+**Goal:** given a **fixed** config + factor tuple, generate a `user_query` (and optionally a
+`justification`) a human would plausibly ask. The model **never** picks option ids.
 
-### 6a. Query generation — DataMorgana-style conditioning
+### 6a. Query generation — category-conditioned
 
-**Config file:** `generation_config/query_axes.json` — categorisations with `name`,
-`description`, `probability` (Filice et al., 2025).
+**Config:** `generation_config/query_axes.json` — categorisations with `name`, `description`, `probability`
+(DataMorgana form; Filice et al., 2025).
 
-**Proposed axes** (orthogonal to biology factors):
+**Axes:**
 
-| Categorisation | Example categories | Rationale |
-|----------------|-------------------|-----------|
-| `phrasing` | concise-natural / verbose-natural / short-search-query | DataMorgana Table 1 |
-| `premise` | direct / with-premise | Species, assay, cohort stated in premise vs left implicit |
-| `persona` | clinician / bioinformatician / student | User expertise (COVID-19 persona grid in DataMorgana) |
-| `terminology` | field-standard / lay | “WES” vs “exome sequencing” |
+| Categorisation | Categories | Status |
+|----------------|-----------|--------|
+| `phrasing` | concise / verbose / short-search-query | diversity-bearing (DataMorgana "question" axis) |
+| `premise` | explicit / implicit | diversity-bearing |
+| `terminology` | field-standard / lay | diversity-bearing (their "linguistic variation") |
+| `persona` | clinician / bioinformatician / student | **under test — likely to be cut** |
 
-**Procedure:**
+**Persona caveat (verified + reproduced):** DataMorgana's own ablation shows the **user/persona axis is
+marginal** for diversity while the *question* axes carry it. We reproduced this on our data (persona on vs
+off: distinct-2 0.771 vs 0.811, mean pairwise cosine 0.814 vs 0.810 — no gain, slightly worse). Persona is
+retained only as a possible *audience-realism* lever and is being ablated; if it doesn't earn its place it
+will be removed. Same discipline applies to the dedup thresholds and model choices.
 
-1. Sample one category per categorisation (product of probabilities).
-2. Prompt teacher with: factor tuple, enabled/disabled option summary (ids + plain names from KB),
-   category descriptions, 1–2 **seed queries** from mentor draft or bootstrap set (few-shot).
-3. Generate **k = 3** candidate queries; pick one passing filters (§7).
+**Teacher model:** **`gemma4:26b` — self-generation** (the deployed student writes its own ICL queries),
+*not* a frontier model. Grounding: Xu et al. (NAACL 2025) — a bigger same-family teacher is not reliably
+better ("Larger Models' Paradox"; e.g. Gemma-2-9b-it beat Gemma-2-27b-it as a teacher) and open-source
+teachers beat GPT-4; the deployed model's own register is the compatible default. The choice is being
+verified empirically by the ICE screen (§8) across teacher candidates.
 
-**Teacher model:** frontier model acceptable here (e.g. Claude Opus) — **NL only**. Not used for
-option ids.
+**Procedure:** sample one category per axis (weighted by `probability`); prompt the model with the factor
+tuple + a plain-language scenario + the axis descriptions + 1–2 seed queries; generate `k` candidates and
+keep one passing the §7 gates. Reproducible via fixed seed + concurrency 1 (Metal/MoE determinism rule).
 
-**Student compatibility (optional fraction):** paraphrase ~20% of approved queries with
-`gemma4:26b` so ICL examples are not exclusively Opus register (Xu et al., 2025 — compatibility;
-Exp 6 — examples-dominant behaviour).
+### 6b. Justification draft (optional)
 
-### 6b. Justification draft
-
-Teacher drafts `justification` prose from the same context. **Factual fields** (`cli_flag`,
-`web_form_section`, priorities) always come from the catalogue at export time, not from the model.
+The model may draft `justification` prose; **factual fields** (`cli_flag`, `web_form_section`, priorities)
+always come from the catalogue at export time, never the model.
 
 ### 6c. What we deliberately do *not* do
 
-- **Evol-Instruct on configs** (WizardLM, ICLR 2024) — evolving structured 58-option sets creates
-  conflict violations; evolve **queries only** if needed.
-- **Forward (query → config) generation** as gold truth — only as a **roundtrip diagnostic** (§7).
+- **Evol-Instruct on configs** (WizardLM, Xu et al., ICLR 2024 — Evol-Instruct *"rewrite… step by step into
+  more complex instructions"*): evolving a structured 58-option set would create conflict violations. Evolve
+  *queries* only, if at all.
+- **Forward (query → config) generation as gold** — only as a roundtrip diagnostic (§8).
 
 ---
 
-## 7. Stage 4 — Automated intrinsic gates
+## 7. Stage 4 — Automated gates
 
 ### 7.1 Deterministic (must pass)
 
 | Gate | Implementation | Literature analogue |
 |------|----------------|---------------------|
-| Valid option ids | ⊆ `vep_options_expanded.json` | Parameter alignment (Iskander et al., 2024) |
-| Checker clean | `validate_examples.py` — 0 mutations | Constraint synthesis |
-| Factor consistency | `infer_species(query)` matches tuple; somatic rows must not enable `filter_common` | Hard rules in taxonomy §3 |
-| Dedup | Embedding cosine < 0.92 to any approved query; ROUGE-L < 0.7 vs same factor cell | Self-Instruct filtering (Wang et al., ACL 2023) |
+| Valid option ids | ⊆ `vep_options_expanded.json` | parameter-alignment errors (Iskander et al., 2024) |
+| Checker clean | `check_and_fix_violations` on the real query → 0 mutations | constraint-first synthesis |
+| Factor consistency | `infer_species(query)` matches the tuple; somatic rows must not enable **`frequency`** (the `--check_frequency` pre-filter) | hard rules in taxonomy §3 |
+| Dedup | embedding cosine < 0.92 AND ROUGE-L < 0.7 within a factor cell | Self-Instruct (Wang et al., 2023): *"ROUGE-L similarity… less than 0.7"* |
 
-### 7.2 LLM-as-judge (flag, not auto-accept)
+*(Dedup thresholds 0.92 / 0.70 and the AND rule are not yet tuned — flagged for an ablation. 0.70 is
+Self-Instruct's convention.)*
 
-Adapt ToolBench **intrinsic criteria** to our setting (Iskander et al., 2024, §4.1):
+### 7.2 LLM-as-judge (flag, never auto-drop)
 
-- **Specificity** — species, assay, variant type sufficiently stated for config inference.
-- **Coherence** — single scenario, not unrelated requests bolted together.
-- **Solvability** — query is a **configuration recommendation** scenario, not a how-to/troubleshooting
-  ticket (scope per `HANDOFF.md` §11).
+Adapts the intrinsic criteria of Iskander et al. (2024, §4.1 — "six intrinsic properties"):
 
-Prompt a strong model; **flag** failures for mentor review. Do not silently drop without logging.
+- **Specificity** — species/assay/variant type stated enough to infer the config.
+- **Coherence** — one coherent scenario.
+- **Solvability** — a *configuration-recommendation* scenario, not a how-to/troubleshooting ticket
+  (scope per `HANDOFF.md` §11).
+
+Failures are **flagged for review, never silently dropped**. (On our data this judge over-flags
+solvability — treated as advisory only.)
 
 ---
 
-## 8. Stage 5 — Roundtrip / ICE screen
+## 8. Stage 5 — ICE / roundtrip usefulness screen
 
-**Motivation:** Correct (query, config) pairs can still be **unhelpful for ICL** — “Quality Matters”
-shows intrinsic correctness and educational value diverge (ICE vs human correctness confusion
-matrices, EMNLP 2024 §5).
+**Motivation:** a correct `(query, config)` pair can still be **unhelpful as an ICL example**. *Quality
+Matters* (Iskander et al., 2024, §5) defines **In-Context Evaluation** — *"evaluate the educational value of
+each data instance by measuring the performance of in-context learning using the specific instance"* — and
+shows it *"is inherently different from human-prescribed correctness."*
 
-**Procedure (ICE adapted):**
+**Procedure (implemented in `ice_screen.py`):**
 
-1. Hold out candidate row `e`.
-2. Run `gemma4:26b` with all **other approved** examples in prompt (all-examples condition).
-3. Score **priority-weighted critical recall** on `e` (reuse `evaluate.py` / `score_metrics.py`).
-4. If critical recall = 0 and query is not intentionally minimal (`analysis_goal` =
-   basic-consequence only), **flag** — query may be too vague or config misaligned with wording.
+1. Hold out candidate row `e` (leave-one-out).
+2. Run the student (`gemma4:26b`) over the other approved examples (all-examples condition).
+3. Score **priority-weighted critical-recall** on `e`.
+4. If critical-recall = 0 on a non-minimal query, **flag** (query too vague or config misaligned).
 
-This is a **screen**, not automatic rejection — mentor adjudicates flagged rows.
-
-**Literature:** ICE (Iskander et al., 2024); roundtrip consistency (Alberti et al., 2019) —
-generate Q from (context, A); keep if A′ ≈ A.
+This is a **screen**, not an auto-reject. It is also the empirical **teacher selector** (run per teacher,
+compare ICE). Roundtrip grounding: Alberti et al. (2019) — keep only if the answer is recovered.
 
 ---
 
 ## 9. Stage 6 — Human review
 
-**Queue prioritisation:**
+**Queue:** all minimum-viable-tier rows fully reviewed; later tiers review all flagged rows + a spot-check.
 
-1. All rows in **minimum-viable** tier (N ≤ 30) — full mentor review.
-2. Later tiers — review all **flagged** rows + 20% spot-check.
+**Review sheet:** factor tuple, query, enabled (core/add-ons), disabled, checker log, ICE score, judge
+flags. Mentor actions: `approve` / `edit_query` / `edit_config` / `reject` + comment.
 
-**Review UI (minimal v1):** JSON or CSV with columns: factor tuple, query, enabled list, disabled
-list, checker log, ICE score, judge flags. Mentor actions: `approve` / `edit_query` /
-`edit_config` / `reject` + comment.
+**Calibration set:** the first mentor-reviewed rows become a human preference set for tuning judge prompts —
+ARES (Saad-Falcon et al., NAACL 2024) uses **150+** such annotations with PPI for confidence intervals; we
+start smaller and grow toward that.
 
-**Calibration set:** first ~20 mentor-reviewed rows become the **human preference validation set**
-for tuning judge prompts (ARES, NAACL 2024 — ~150 ideal; we start smaller).
-
-**Provenance:** append-only `generation/provenance.jsonl` per row:
+**Provenance:** append-only `generation/provenance.jsonl` per row, e.g.:
 
 ```json
 {
-  "id": "human_germline_somatic_sv_mouse_001",
-  "factor_tuple": { "...": "..." },
-  "query_axes": { "...": "..." },
-  "teacher_model": "claude-opus-4-20250514",
-  "teacher_seed": 42,
-  "resolver_version": "2026-06-27",
+  "id": "gen_...",
+  "factor_labels": { "...": "..." },
+  "query_axes_cell": { "...": "..." },
+  "teacher_model": "gemma4:26b",
+  "teacher_seed": 142,
   "kb_hash": "sha256:…",
-  "checker_pass": true,
+  "checker_clean": true,
   "ice_critical_recall": 0.85,
-  "review_status": "approved",
-  "reviewer": "likhitha",
-  "reviewed_at": "2026-06-…"
+  "review_status": "pending"
 }
 ```
 
 ---
 
-## 10. Stage 7 — Optional Web VEP execution check
+## 10. Stage 7 — Optional Web-VEP execution check
 
-**Scope:** Validates that the config **runs** and output looks sane — **not** gold definition.
-
-1. Export approved config to Web VEP / REST input format.
-2. Run on a **fixed panel** of 1–3 variants per factor cell (species-appropriate).
-3. Store outputs under `generation/vep_runs/<id>/`.
-4. Failures → mentor queue (misconfiguration vs VEP service issue).
-
-This step is optional for **minimum-viable** gold; required before claiming end-to-end benchmark
-quality.
+**Scope:** validates that the config *runs* and output looks sane — **not** gold definition. Export the
+approved config to Web-VEP/REST, run on a fixed panel of 1–3 variants per factor cell (species-appropriate),
+store outputs, route failures to the mentor queue. Optional for minimum-viable gold; required before
+claiming end-to-end benchmark quality. **(Out of scope in the current build.)**
 
 ---
 
 ## 11. Output schema (approved gold)
 
-Same shape as `simulated_gold_examples.json`, extended:
-
-```json
-{
-  "id": "…",
-  "user_query": "…",
-  "factor_labels": {
-    "species": "human",
-    "origin": "germline",
-    "variant_size_class": "small",
-    "region_focus": ["coding"],
-    "analysis_goal": ["clinical_interpretation", "population_frequency"]
-  },
-  "use_case_category": null,
-  "confidence": "high",
-  "recommended_options": { },
-  "justification": "…",
-  "provenance_id": "uuid in provenance.jsonl",
-  "review_status": "approved"
-}
-```
-
-`use_case_category` deprecated once factor labels are live; kept nullable for harness migration.
-
-**Env switch:** `VEP_EXAMPLES_FILE=work/generation/gold_examples.json` for eval harness.
+Same shape as `simulated_gold_examples.json`, extended with `factor_labels` and a `provenance_id`;
+`use_case_category` is kept nullable for harness migration. Eval harness reads it via
+`VEP_EXAMPLES_FILE=work/generation/gold_examples.json`.
 
 ---
 
-## 12. Planned code layout (not yet implemented)
+## 12. Code layout (implemented under `work/generation/`)
 
 ```
 work/generation/
   README.md
-  generation_config/
-    factors.json
-    query_axes.json
-    priorities/          # or merged into catalogue
-  sample_factors.py      # Stage 1
-  resolve_config.py      # Stage 2
-  generate_queries.py    # Stage 3
-  filter_candidates.py   # Stages 4–5
-  export_for_review.py   # Stage 6 CSV/JSON
-  run_web_vep_check.py   # Stage 7 (optional)
-  provenance.jsonl
-  candidates/            # gitignored until approved
-  gold_examples.json     # mentor-approved only
+  genlib.py                     # shared reuse of the demo pipeline
+  generation_config/{factors,query_axes,priority_by_factor}.json
+  seed_priorities.py            # Stage 0 (authors priority_by_factor)
+  sample_factors.py             # Stage 1
+  resolve_config.py             # Stage 2
+  generate_queries.py           # Stage 3
+  filter_candidates.py          # Stage 4
+  ice_screen.py                 # Stage 5
+  export_for_review.py          # Stage 6
+  verify_pipeline.py            # 17-check deterministic test suite (no GPU)
+  run_generation.sh             # turnkey driver (Stages 0-6)
+  candidates/                   # gitignored, never gold
+  gold_examples.json            # mentor-approved only
 ```
 
-All scripts honour `VEP_OPTIONS_FILE` and log commands per `EXPERIMENTS.md` discipline.
+Stage 7 (`run_web_vep_check.py`) is not built. All scripts honour `VEP_OPTIONS_FILE` and log per the
+`EXPERIMENTS.md` discipline.
 
 ---
 
@@ -356,79 +331,73 @@ All scripts honour `VEP_OPTIONS_FILE` and log commands per `EXPERIMENTS.md` disc
 
 | Artifact | Who generates | Why |
 |----------|---------------|-----|
-| Factor tuple | Stratified sampler | Coverage control (SynthIE; DataMorgana) |
-| `recommended_options` | Deterministic resolver + checker | Faithfulness; no LLM hallucinated ids |
-| `user_query` | Teacher LLM (frontier OK) | Diversity (DataMorgana) |
-| `justification` | Teacher draft; facts from KB | LONGFAITH-style source grounding for prose |
-| ICL usefulness | Measured on **student** (`gemma4:26b`) | ICE; Larger Models' Paradox |
-| Gold truth | Mentor-approved | ARES human calibration |
+| Factor tuple | Stratified sampler | Coverage control (SynthIE §3.2; Sechidis 2011) |
+| `recommended_options` | Deterministic resolver + checker | Faithfulness; no LLM-hallucinated ids |
+| `user_query` | Local model (`gemma4:26b`, NL only) | Diversity via category grid (DataMorgana) |
+| `justification` | Model draft; facts from KB | source-grounded prose |
+| ICL usefulness | Measured on the student (`gemma4:26b`) | ICE (Iskander 2024); teacher choice per Xu 2025 |
+| Gold truth | Mentor-approved | human calibration (ARES) |
 
-The simulated 20-example set remains **directional** until this pipeline produces mentor-validated
-rows. Numbers on simulated gold are not a benchmark (`EXPERIMENTS.md` note).
+The simulated 23-example set remains **directional** until this pipeline produces mentor-validated rows.
 
 ---
 
 ## 14. What success looks like (evaluation)
 
-After each tier:
-
-1. `validate_examples.py` — **100% pass** on `gold_examples.json`.
-2. `run_parallel_eval.py --runs 5` — compare to prior simulated baseline; append to `EXPERIMENTS.md`
-   (one variable: corpus only).
+1. `validate_examples.py` — 100% pass on `gold_examples.json`.
+2. `run_parallel_eval.py --runs 5` — compare to the simulated baseline; append to `EXPERIMENTS.md`
+   (one variable: corpus).
 3. Coverage report — every factor value ≥ tier threshold.
-4. Attribution on `real_queries_biostars.json` — faithfulness should not collapse vs synthetic
-   (Exp 6b precedent).
+4. Attribution on `real_queries_biostars.json` — faithfulness should not collapse vs synthetic (Exp 6b).
 
 ---
 
 ## 15. Open decisions (for mentor)
 
-1. **`optional` options in gold** — enable all recommended-only, or explicit negative examples for
-   plausible-but-wrong toggles?
-2. **Query axes** — which personas/phrasings match Ensembl helpdesk traffic?
-3. **Web VEP panel** — which variant fixtures per species?
-4. **Legacy `use_case_category`** — drop after migration or keep as derived summary?
+1. **`optional` options in gold** — enable recommended-only, or add explicit plausible-but-wrong negatives?
+2. **Query axes** — which personas/phrasings match Ensembl helpdesk traffic (and does persona help at all —
+   we already find it marginal)?
+3. **Web-VEP panel** — which variant fixtures per species?
+4. **Combination plausibility** — which factor-value *combinations* are worth building (the sampler treats
+   factors as independent; see `PROGRESS.md` §10)?
 
 ---
 
 ## References
 
-1. Josifoski, M., Šakota, M., Peyrard, M., & West, R. (2023). Exploiting Asymmetry for Synthetic
-   Training Data Generation: SynthIE. *EMNLP 2023.*
-   https://aclanthology.org/2023.emnlp-main.96/
+All fetched and quote-verified 2026-07-09 unless noted.
 
-2. Iskander, S., Cohen, N., Karnin, Z., Shapira, O., & Tolmach, S. (2024). Quality Matters:
-   Evaluating Synthetic Data for Tool-Using LLMs. *EMNLP 2024.*
-   https://aclanthology.org/2024.emnlp-main.285/
+1. Josifoski, M., Šakota, M., Peyrard, M., & West, R. (2023). Exploiting Asymmetry for Synthetic Training
+   Data Generation: SynthIE **and the Case of Information Extraction**. *EMNLP 2023.*
+   https://aclanthology.org/2023.emnlp-main.96/ · arXiv 2303.04132
+2. Alberti, C., Andor, D., Pitler, E., Devlin, J., & Collins, M. (2019). Synthetic QA Corpora Generation
+   with Roundtrip Consistency. *ACL 2019.* https://aclanthology.org/P19-1620/
+3. Iskander, S., Tolmach, S., Shapira, O., Cohen, N., & Karnin, Z. (2024). Quality Matters: Evaluating
+   Synthetic Data for Tool-Using LLMs. *EMNLP 2024.* https://aclanthology.org/2024.emnlp-main.285/ ·
+   arXiv 2409.16341
+4. Filice, S., Horowitz, G., Carmel, D., Karnin, Z., Lewin-Eytan, L., & Maarek, Y. (2025). Generating
+   Diverse Q&A Benchmarks for RAG Evaluation with DataMorgana. *ACL 2025 Industry.* arXiv 2501.12789
+5. Xu, Z., Jiang, F., Niu, L., Lin, B. Y., & Poovendran, R. (2025). Stronger Models Are Not Always Stronger
+   Teachers for Instruction Tuning. ***NAACL 2025.*** https://aclanthology.org/2025.naacl-long.224/ ·
+   arXiv 2411.07133
+6. Wang, Y., Kordi, Y., Mishra, S., Liu, A., Smith, N. A., Khashabi, D., & Hajishirzi, H. (2023).
+   Self-Instruct: Aligning Language Models with Self-Generated Instructions. *ACL 2023.* arXiv 2212.10560
+7. Saad-Falcon, J., Khattab, O., Potts, C., & Zaharia, M. (2024). ARES: An Automated Evaluation Framework
+   for Retrieval-Augmented Generation Systems. *NAACL 2024.* https://aclanthology.org/2024.naacl-long.20/ ·
+   arXiv 2311.09476
+8. Sechidis, K., Tsoumakas, G., & Vlahavas, I. (2011). On the Stratification of Multi-Label Data.
+   *ECML PKDD 2011,* LNCS 6913, pp. 145–158.
+9. Xu, C., Sun, Q., Zheng, K., Geng, X., Zhao, P., Feng, J., Tao, C., & Jiang, D. (2024). WizardLM:
+   Empowering Large **Pre-Trained** Language Models to Follow Complex Instructions. *ICLR 2024.*
+   arXiv 2304.12244
+10. Rebedea, T., Dinu, R., Sreedhar, M., Parisien, C., & Cohen, J. (2023). NeMo Guardrails: A Toolkit for
+    Controllable and Safe LLM Applications with Programmable Rails. *EMNLP 2023 (System Demonstrations),*
+    arXiv 2310.10501. — prior art for programmable "rules dispose" guardrails
+    (*"programmable guardrails… controlling the output of an LLM to respect some human-imposed constraints"*).
 
-3. Filice, S., Horowitz, G., Carmel, D., Karnin, Z., Lewin-Eytan, L., & Maarek, Y. (2025).
-   Generating Diverse Q&A Benchmarks for RAG Evaluation with DataMorgana. *ACL 2025 Industry.*
-   https://aclanthology.org/2025.acl-industry.33/
-
-4. Xu, Z., Jiang, F., Niu, L., Lin, B. Y., & Poovendran, R. (2025). Stronger Models Are Not
-   Always Stronger Teachers for Instruction Tuning. *ICLR 2025.*
-   https://openreview.net/forum?id=9lHqiFIUJI
-
-5. Alberti, C., Lee, K., Collins, M., & Re, J. (2019). Synthetic QA Corpora Generation with
-   Roundtrip Consistency. *ACL 2019.*
-   https://aclanthology.org/P19-1620/
-
-6. Saad-Falcon, J., Khattab, O., Potts, C., & Zaharia, M. (2024). ARES: An Automated Evaluation
-   Framework for Retrieval-Augmented Generation Systems. *NAACL 2024.*
-   https://aclanthology.org/2024.naacl-long.20/
-
-7. Shakeri, S., et al. (2020). End-to-End Synthetic Data Generation for Domain Adaptation of
-   Question Answering Systems. *EMNLP 2020.*
-   https://aclanthology.org/2020.emnlp-main.439/
-
-8. Wang, Y., et al. (2023). Self-Instruct. *ACL 2023.*
-   https://aclanthology.org/2023.acl-long.754/
-
-9. Xu, C., et al. (2024). WizardLM: Evol-Instruct. *ICLR 2024.*
-   https://arxiv.org/abs/2304.12244
-
-10. Sechidis, K., Tsoumakas, G., & Vlahavas, I. (2011). On the Stratification of Multi-Label Data.
-    *(basis for scikit-multilearn iterative_train_test_split)*
+**Removed in the 2026-07-09 audit:** Shakeri et al. (2020) — misattribution (their filter is LM-likelihood,
+not roundtrip; roundtrip is credited there to Alberti et al.); an unnamed "NeurIPS 2024 constraint" paper,
+"Crab (ACL 2025)", and "LONGFAITH" — unverifiable, no locatable source.
 
 Internal: `research/taxonomy_proposal.md`, `preliminary_examples/README.md`, `HANDOFF.md` §10–12,
-`EXPERIMENTS.md` (simulated gold caveat).
+`EXPERIMENTS.md`.
