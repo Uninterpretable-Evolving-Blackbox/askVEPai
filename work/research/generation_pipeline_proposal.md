@@ -1,25 +1,28 @@
 # Gold-example generation pipeline — literature-grounded proposal
 
-Status: **implemented (2026-07-08).** The pipeline described below is now built and runnable end to end
-(Stages 0–6; the optional Web-VEP execution check, Stage 7, is out of scope for now). A first run of 30
-examples produces candidate `(query → config)` rows **balanced across the taxonomy** — at least 15 per
-factor value, including the non-human, somatic, structural-variant and regulatory cases that are otherwise
-under-represented — with 28/30 passing all deterministic safety checks and a mean in-context critical-recall
-of ~82%; a separate 17-check verification suite passes. The generated rows are **provisional candidates for
-review, not validated gold**: they use a first-pass priority table and still depend on mentor sign-off of
-the factor taxonomy and per-option priorities in `taxonomy_proposal.md` before scaling.
+Status: **implemented.** The pipeline described below is built and runnable end to end (Stages 0–6; the
+optional Web-VEP execution check, Stage 7, is out of scope for now). A first run of 30 examples produces
+candidate `(query → config)` rows **balanced across the taxonomy** — at least 15 per factor value, including
+the non-human, somatic, structural-variant and regulatory cases that are otherwise under-represented — with
+28/30 passing all deterministic safety checks and a mean in-context critical-recall of ~82%; a separate
+17-check verification suite passes.
 
-> **Citations note (2026-07-09).** Every external claim below was checked against the primary source and is
-> backed by a verbatim quote (held in the project notes). Venues/years were corrected in this pass; one
-> earlier citation (Shakeri et al. 2020) was **removed** as a misattribution, and three unverifiable
-> references (an unnamed "NeurIPS 2024 constraint" paper, "Crab", "LONGFAITH") were dropped. Where a source
-> only *partially* supports a point, that is flagged inline.
+> **No approved gold yet.** Everything this pipeline has produced so far is **candidate rows for review, not
+> validated gold**. They run on a *first-pass, provisional* priority table (author's judgement, not
+> validated) and depend on mentor sign-off of the factor taxonomy and per-option priorities in
+> `taxonomy_proposal.md` before any of them become gold. `gold_examples.json` is currently empty.
 
-This document is the design rationale for a **reproducible in-repo pipeline** that generates
-`(user_query → VEP web-form config)` gold examples — the direction Likhitha outlined (lock labels →
-generate queries and configs → optional Web-VEP runs → human review → size experiments). It reuses code
-that already exists in the project (`validate_examples.py`, `vep_assistant.check_and_fix_violations`, the
-58-option catalogue).
+> **Citations note.** Every external claim below was checked against the primary-source full text and is
+> backed by a verbatim quote (held in the project notes). One earlier citation (Shakeri et al. 2020) was
+> **removed** as a misattribution, and three unverifiable references (an unnamed "NeurIPS 2024 constraint"
+> paper, "Crab", "LONGFAITH") were dropped. Where a source only *partially* supports a point, that is
+> flagged inline.
+
+This document is the design rationale for a **reproducible in-repo pipeline** that generates **candidate**
+`(user_query → VEP web-form config)` examples for mentor review — the direction Likhitha outlined (lock
+labels → generate queries and configs → optional Web-VEP runs → human review → size experiments). It reuses
+code that already exists in the project (`validate_examples.py`, `vep_assistant.check_and_fix_violations`,
+the 58-option catalogue).
 
 ---
 
@@ -44,7 +47,7 @@ verbatim quote from the cited source):
 | **Stratified coverage** | SynthIE §3.2; Sechidis et al. (ECML PKDD 2011) | Balance by **per-value coverage**: SynthIE reweights *"inversely proportional to its frequency"*; Sechidis's iterative stratification preserves each label's distribution better than random (caveat: it trades off exact per-example counts). |
 | **Explicit diversity config** | DataMorgana (Filice et al., ACL 2025 Industry) | Query diversity comes from an explicit **category grid**, not from hoping the LLM varies phrasing — but see the persona caveat in §6a (their own ablation finds the *user/persona* axis marginal). |
 | **Intrinsic quality gates + ICE** | *Quality Matters* (Iskander et al., EMNLP 2024) | **Six** intrinsic criteria for tool data; **In-Context Evaluation** measures whether an example *helps* a target model. On ToolBench, a filtered **10K subset scored 0.54 vs 0.45 for the full 73K** (ToolAlpaca: only on-par). |
-| **Teacher ≠ student for ICL** | *Larger Models' Paradox* (Xu et al., **NAACL 2025**) | A *bigger* same-family teacher is **not** reliably better; open-source teachers beat GPT-4; compatibility with the student matters. → we self-generate with the deployed student (§6a). |
+| **Teacher ≠ student for ICL** | *Larger Models' Paradox* (Xu et al., **NAACL 2025**) | A *bigger* same-family teacher is **not** reliably better; open-source teachers beat GPT-4; compatibility with the student matters. → the query-writing teacher is chosen **empirically by ICE** (§6a, §8), not by size. |
 | **Dedup filtering** | Self-Instruct (Wang et al., ACL 2023) | Keep a new item only if **ROUGE-L similarity < 0.7** vs any existing one (verbatim rule). |
 | **Human calibration set** | ARES (Saad-Falcon et al., NAACL 2024) | A small (**150+**) human preference set calibrates automated judges; PPI gives confidence intervals. |
 
@@ -185,11 +188,16 @@ off: distinct-2 0.771 vs 0.811, mean pairwise cosine 0.814 vs 0.810 — no gain,
 retained only as a possible *audience-realism* lever and is being ablated; if it doesn't earn its place it
 will be removed. Same discipline applies to the dedup thresholds and model choices.
 
-**Teacher model:** **`gemma4:26b` — self-generation** (the deployed student writes its own ICL queries),
-*not* a frontier model. Grounding: Xu et al. (NAACL 2025) — a bigger same-family teacher is not reliably
-better ("Larger Models' Paradox"; e.g. Gemma-2-9b-it beat Gemma-2-27b-it as a teacher) and open-source
-teachers beat GPT-4; the deployed model's own register is the compatible default. The choice is being
-verified empirically by the ICE screen (§8) across teacher candidates.
+**Teacher model (chosen empirically, not assumed):** the model that writes the query is selected by the ICE
+screen (§8), not by size or by an a-priori "self is best" assumption. Grounding: Xu et al. (NAACL 2025) — a
+bigger same-family teacher is not reliably better ("Larger Models' Paradox"; e.g. Gemma-2-9b-it beat
+Gemma-2-27b-it as a teacher) and open-source teachers beat GPT-4. A first **3-seed ICE sweep** across
+`gemma4:{e4b, 12b, 26b, 31b}` (student fixed at `26b`) found **self-generation underperforms** — `26b` as
+its own teacher scored 72% ± 9% vs 83–87% for the others — while **`e4b` gives the best learnability +
+query diversity**. So `e4b` is the data-backed teacher; the "self-generation is a strong default"
+assumption is **not** used. *(Implementation note: the current single-model driver uses one model for both
+teacher and student; adopting the `e4b` teacher needs a small split of the teacher vs student model — a
+planned change.)* Queries are generated at a fixed seed + concurrency 1 (Metal/MoE determinism rule).
 
 **Procedure:** sample one category per axis (weighted by `probability`); prompt the model with the factor
 tuple + a plain-language scenario + the axis descriptions + 1–2 seed queries; generate `k` candidates and
@@ -319,7 +327,7 @@ work/generation/
   verify_pipeline.py            # 17-check deterministic test suite (no GPU)
   run_generation.sh             # turnkey driver (Stages 0-6)
   candidates/                   # gitignored, never gold
-  gold_examples.json            # mentor-approved only
+  gold_examples.json            # mentor-approved only (currently EMPTY — nothing approved yet)
 ```
 
 Stage 7 (`run_web_vep_check.py`) is not built. All scripts honour `VEP_OPTIONS_FILE` and log per the
@@ -333,7 +341,7 @@ Stage 7 (`run_web_vep_check.py`) is not built. All scripts honour `VEP_OPTIONS_F
 |----------|---------------|-----|
 | Factor tuple | Stratified sampler | Coverage control (SynthIE §3.2; Sechidis 2011) |
 | `recommended_options` | Deterministic resolver + checker | Faithfulness; no LLM-hallucinated ids |
-| `user_query` | Local model (`gemma4:26b`, NL only) | Diversity via category grid (DataMorgana) |
+| `user_query` | Local model (NL only; teacher chosen by ICE — §6a) | Diversity via category grid (DataMorgana) |
 | `justification` | Model draft; facts from KB | source-grounded prose |
 | ICL usefulness | Measured on the student (`gemma4:26b`) | ICE (Iskander 2024); teacher choice per Xu 2025 |
 | Gold truth | Mentor-approved | human calibration (ARES) |
@@ -365,7 +373,7 @@ The simulated 23-example set remains **directional** until this pipeline produce
 
 ## References
 
-All fetched and quote-verified 2026-07-09 unless noted.
+All fetched and quote-verified against primary-source full text unless noted.
 
 1. Josifoski, M., Šakota, M., Peyrard, M., & West, R. (2023). Exploiting Asymmetry for Synthetic Training
    Data Generation: SynthIE **and the Case of Information Extraction**. *EMNLP 2023.*
@@ -395,7 +403,7 @@ All fetched and quote-verified 2026-07-09 unless noted.
     arXiv 2310.10501. — prior art for programmable "rules dispose" guardrails
     (*"programmable guardrails… controlling the output of an LLM to respect some human-imposed constraints"*).
 
-**Removed in the 2026-07-09 audit:** Shakeri et al. (2020) — misattribution (their filter is LM-likelihood,
+**Removed in the citation audit:** Shakeri et al. (2020) — misattribution (their filter is LM-likelihood,
 not roundtrip; roundtrip is credited there to Alberti et al.); an unnamed "NeurIPS 2024 constraint" paper,
 "Crab (ACL 2025)", and "LONGFAITH" — unverifiable, no locatable source.
 
