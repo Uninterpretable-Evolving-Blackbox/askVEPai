@@ -119,8 +119,8 @@ categories).
 3. **Selection policy:** greedy inverse-frequency — prefer the currently rarest values, with a seeded
    tie-break so tuples don't collapse. Same spirit as SynthIE's coverage reweighting (Josifoski et al.,
    2023, §3.2: *"inversely proportional to its frequency"*).
-4. **Multi-label stratification** for holdout splits: iterative stratification (Sechidis et al., 2011) when
-   N ≥ 50.
+4. **Multi-label stratification** for holdout splits: iterative stratification (Sechidis et al., 2011) —
+   *planned* for when N ≥ 50 (not yet implemented; we are at N ≈ 30 and use leave-one-out).
 
 **Target sizes** (from taxonomy proposal §6):
 
