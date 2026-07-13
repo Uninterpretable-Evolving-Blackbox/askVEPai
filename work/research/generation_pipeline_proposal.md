@@ -12,12 +12,6 @@ the non-human, somatic, structural-variant and regulatory cases that are otherwi
 > validated) and depend on mentor sign-off of the factor taxonomy and per-option priorities in
 > `taxonomy_proposal.md` before any of them become gold. `gold_examples.json` is currently empty.
 
-> **Citations note.** Every external claim below was checked against the primary-source full text and is
-> backed by a verbatim quote (held in the project notes). One earlier citation (Shakeri et al. 2020) was
-> **removed** as a misattribution, and three unverifiable references (an unnamed "NeurIPS 2024 constraint"
-> paper, "Crab", "LONGFAITH") were dropped. Where a source only *partially* supports a point, that is
-> flagged inline.
-
 This document is the design rationale for a **reproducible in-repo pipeline** that generates **candidate**
 `(user_query → VEP web-form config)` examples for mentor review — the direction Likhitha outlined (lock
 labels → generate queries and configs → optional Web-VEP runs → human review → size experiments). It reuses
@@ -28,7 +22,8 @@ the 58-option catalogue).
 
 ## Progress update (latest)
 
-Since the design above, here is where I've got to, and the one thing I'd most like you to look at.
+This pipeline generates candidate `(query → config)` examples so we can build a gold set without
+hand-authoring dozens by hand. Here is where it stands now, and the one thing I'd most like you to look at.
 
 **I've tightened the pipeline in two places.** First, *query faithfulness*: the only part a model writes is
 the natural-language query, so I added a check that the query actually expresses all five factors its config
