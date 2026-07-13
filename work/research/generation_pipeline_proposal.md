@@ -26,6 +26,42 @@ the 58-option catalogue).
 
 ---
 
+## Progress update (latest)
+
+Since the design above, here is where I've got to, and the one thing I'd most like you to look at.
+
+**I've tightened the pipeline in two places.** First, *query faithfulness*: the only part a model writes is
+the natural-language query, so I added a check that the query actually expresses all five factors its config
+was built for (species, origin, variant size, region, goal), not just species as before — a checker reads
+only the query and recovers the factors, and anything it can't recover is flagged for review. This closes a
+gap where a query could quietly omit, say, "somatic" or "structural" while still being paired with a config
+built for them. Second, I re-ran the two open design ablations properly: on the teacher model the candidates
+all come out within noise of each other, so I'm keeping the deployed model as its own teacher (the earlier
+"a smaller teacher writes more learnable queries" reading was small-sample noise); and the persona
+query-axis adds no measurable diversity, so I'm keeping it only for audience realism.
+
+**Reference examples for you to validate — this is the main ask.** To move from candidate rows to real gold,
+and to have something to measure the pipeline against, I've generated a **30-example reference set** for your
+review: `preliminary_examples/silver_reference_set.json` (with a flat `silver_reference_review.csv` you can
+mark up per row, and `SILVER_REFERENCE_README.md` explaining it). They're balanced across every factor value,
+all pass the constraint checker cleanly, and each query is verified to express its factors. They're
+**model-generated and grounded in the VEP documentation — a proposal for you to check, not validated gold.**
+I built the configs from an independent, documentation-grounded reading of the option priorities *on purpose*,
+so that wherever they disagree with the pipeline's own priority table is exactly where we need your decision.
+Validating these does two jobs at once: it locks the per-option priorities (the thing currently blocking real
+gold), and the validated set becomes the reference the generation pipeline is measured against. The plan from
+there is that you validate ~30 once, they become gold, and the pipeline scales beyond that with spot-checks —
+so we never have to hand-author dozens.
+
+**A few specific decisions I'd value your view on** (detailed in the silver-set README):
+1. Which pathogenicity predictors to treat as the standard set vs redundant — VEP itself doesn't rank them.
+2. Two catalogue gaps the reference set exposed: VEP's structural-variant overlap output (`--overlaps`) isn't
+   in our option list yet; and non-human + population-frequency has no available option at all, since
+   gnomAD/1000G are human-only — so is that combination in scope?
+3. The allele-frequency cutoff to filter on (ACMG BA1 stand-alone-benign uses AF > 5%).
+
+---
+
 ## 1. Why not “ask a frontier model for the whole row”?
 
 The current **simulated** 23-example set (`preliminary_examples/simulated_gold_examples.json`) is a
