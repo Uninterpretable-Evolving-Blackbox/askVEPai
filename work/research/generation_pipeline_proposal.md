@@ -181,16 +181,17 @@ off: distinct-2 0.771 vs 0.811, mean pairwise cosine 0.814 vs 0.810 — no gain,
 retained only as a possible *audience-realism* lever and is being ablated; if it doesn't earn its place it
 will be removed. Same discipline applies to the dedup thresholds and model choices.
 
-**Teacher model (chosen empirically, not assumed):** the model that writes the query is selected by the ICE
-screen (§8), not by size or by an a-priori "self is best" assumption. Grounding: Xu et al. (NAACL 2025) — a
-bigger same-family teacher is not reliably better ("Larger Models' Paradox"; e.g. Gemma-2-9b-it beat
-Gemma-2-27b-it as a teacher) and open-source teachers beat GPT-4. A first **3-seed ICE sweep** across
-`gemma4:{e4b, 12b, 26b, 31b}` (student fixed at `26b`) found **self-generation underperforms** — `26b` as
-its own teacher scored 72% ± 9% vs 83–87% for the others — while **`e4b` gives the best learnability +
-query diversity**. So `e4b` is the data-backed teacher; the "self-generation is a strong default"
-assumption is **not** used. *(Implementation note: the current single-model driver uses one model for both
-teacher and student; adopting the `e4b` teacher needs a small split of the teacher vs student model — a
-planned change.)* Queries are generated at a fixed seed + concurrency 1 (Metal/MoE determinism rule).
+**Teacher model (chosen empirically, not assumed):** I pick the model that writes the query by measuring
+which teacher's queries the student best learns from (the ICE screen, §8), rather than by size or a "bigger
+model / self is best" assumption. Grounding: Xu et al. (NAACL 2025) — a bigger same-family teacher is not
+reliably a better teacher ("Larger Models' Paradox"), and open-source teachers can beat GPT-4. I ran a
+**5-seed sweep** across `gemma4:{e4b, 12b, 26b, 31b}` (student fixed at `26b`, N=30): **all four teachers
+come out within noise of each other** (roughly 80–88% ICE, with overlapping error bars), so there is no
+reliable difference between them. (An earlier 3-seed pilot had suggested self-generation underperformed and
+`e4b` was best, but that was small-sample noise and did not survive the larger run.) I therefore **keep the
+deployed model as its own teacher** — `26b` writes the queries for the `26b` student — as the simplest
+choice, with no evidence that splitting teacher and student would help. Queries are generated at a fixed seed
+and concurrency 1 for reproducibility (Metal/MoE determinism rule).
 
 **Procedure:** sample one category per axis (weighted by `probability`); prompt the model with the factor
 tuple + a plain-language scenario + the axis descriptions + 1–2 seed queries; generate `k` candidates and
