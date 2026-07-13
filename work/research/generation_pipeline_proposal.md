@@ -126,34 +126,33 @@ categories).
 
 ---
 
-## 5. Stage 2 — Deterministic config resolver (reverse / asymmetric step)
+## 5. Stage 2 — Deterministic config resolver
 
-**Goal:** produce `recommended_options` from the factor tuple **without** an LLM.
+**Goal:** turn a factor tuple into the recommended VEP config — with **no LLM involved**.
 
-**Algorithm** (implemented in `resolve_config.py`; implements `taxonomy_proposal.md` §5):
+**How it works** (`resolve_config.py`, following `taxonomy_proposal.md` §5). For each option in the catalogue:
 
-```
-for each option in catalogue:
-  if a HARD factor (species / variant_size_class), or the origin=somatic->frequency rule,
-     marks it not_applicable  -> drop
-  else priority = strongest over active factor values (critical > recommended > optional)
-       enable if priority in {critical, recommended}
-then apply depends_on / conflicts_with and run check_and_fix_violations to a FIXED POINT
-     (the emitted config is the checker's repaired output).
-```
+1. **Drop it** if a hard factor rules it out — species or variant size marking it not-applicable (e.g. a
+   human-only predictor for a mouse query), or the "somatic → no frequency filter" rule.
+2. **Otherwise enable it** if it is *critical* or *recommended* for any of the query's active factor values.
 
-Because the resolver emits the checker's own repaired output, re-running the checker is a no-op — so the
-Stage-4 gate can **fail a row only if the checker would change anything** (the zero-mutation bar, same as
-`validate_examples.py`). *(Grounding: SynthIE — control P(Y) by sampling structured labels before text.)*
+Then apply the option dependencies and conflicts and run the constraint checker until nothing more changes;
+the config we keep is that final, checker-clean result.
 
-**`optional`-option policy (open, needs mentor rule):** default enable `critical` + `recommended`; log a
-small `optional` subset per row for Disable-F1 signal.
+Because the config is already exactly what the checker would produce, running the checker on it again changes
+nothing. That gives us a simple validity test later (Stage 4): **a row is only rejected if the checker would
+have changed it** — the same bar `validate_examples.py` uses. *(This is the reverse-generation idea from
+SynthIE: fix the structured answer first, deterministically, before any natural-language text is written.)*
 
-**Explicit disables:** a small set of meaningful "off" options carry `"enabled": false` + a `note`
-(closed-world signal the mentor draft omitted).
+**Open question for you — the merely *optional* options.** Right now we enable *critical* + *recommended*,
+and log a few *optional* ones per row so the model also learns which options to leave off.
 
-**Reuse:** `work/preliminary_examples/validate_examples.py` — gold rows must pass with **zero checker
-mutations**.
+**Explicit "off" options:** a few configs mark some options as deliberately disabled (with a note), so the
+example says "these are intentionally *not* used" rather than just "these weren't mentioned" — something the
+first draft of the examples didn't capture.
+
+**Reuse:** every config must pass `work/preliminary_examples/validate_examples.py`, i.e. the checker leaves it
+unchanged.
 
 ---
 
