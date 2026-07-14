@@ -50,7 +50,7 @@ re-run on 26b.
 | Exp | Aim | Model(s) | Reps | Status |
 |---|---|---|---|---|
 | 1 | Model comparison (5 models) | qwen2.5:3b/7b · gemma4:e4b/12b/26b | 3 seeds | superseded by Exp 10 |
-| 2 | Example-count (corpus-size) sweep | **gemma4:e4b** ⚠ (speed) | 2 runs | invalidated (buggy parser) — re-run on 26b |
+| 2 | Example-count (corpus-size) sweep | gemma4:26b (2026-07-14; was e4b) | 3 seeds | **corrected**: all-ex lead over keyword grows with N (+13% by N=19) |
 | 3 | Clinically-meaningful re-scoring | gemma4:e4b/12b/26b | 3 seeds | superseded by Exp 4/7 |
 | 4 | Parser bug fix (pivotal) | gemma4:26b | 3-seed log | corrects Exp 1–3 |
 | 5 | Attribution pilot | gemma4:26b | 1 (noisy) | superseded by Exp 6 |
@@ -103,6 +103,24 @@ Enable F1 (mean over 20 queries × 3 runs):
 ---
 
 ## Experiment 2 — Example-count sweep (corpus-size axis)
+
+> **CORRECTED 2026-07-14 — `gemma4:26b`, fixed parser, 3 seeds (replaces the original `gemma4:e4b` +
+> buggy-parser run, retained below for history but superseded).** The original conclusion ("no crossover;
+> all-examples ≈ keyword at every N") was a **parser artifact**. On 26b with the fixed parser, **all-examples'
+> lead over keyword grows with corpus size** — ~0 at N=2 to +13% by N=15–19:
+>
+> | N | bare | keyword | all-ex | semantic | all−kw |
+> |---|---|---|---|---|---|
+> | 2 | 38% | 68% | 67% | 36% | −2% |
+> | 5 | 38% | 69% | 74% | 37% | +5% |
+> | 10 | 38% | 72% | 83% | 40% | +11% |
+> | 15 | 38% | 74% | 86% | 38% | +13% |
+> | 19 | 38% | 73% | 86% | 38% | +13% |
+>
+> Intuition: keyword retrieval is capped at the **top-2** examples *regardless of N*, while all-examples shows
+> all N — so as the corpus grows all-examples pulls further ahead (consistent with Exp 10). Semantic stays flat
+> ~36–40%. This also fixes the model inconsistency (Exp 2 was the only non-comparison experiment not on 26b).
+> Legacy 7-use-case set → directional.
 
 **Question:** does all-examples' lead over selective retrieval **collapse as the corpus grows** (N = 2→5→10→15→19, stratified subsample, fixed LOO test set)? This isolates **corpus size** from model size.
 
