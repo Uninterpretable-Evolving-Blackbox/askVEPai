@@ -28,12 +28,16 @@ evaluation harness, the experiment record, and the research/design docs. This fi
   - `structured_pilot.py`, `assemble_catalogue.py` — structured-output pilot and the catalogue builder.
   - `run_experiment.sh`, `run_exp6*.sh`, `run_order_experiment.sh` — turnkey drivers.
 
-## Examples
+## Examples & evaluation set
 
-- **`preliminary_examples/`** — the example sets: `simulated_gold_examples.json` (simulated stand-ins), the
-  bootstrap set, real-forum-query sets, `validate_examples.py`, and the **silver reference set**
-  (`silver_reference_set.json` + `silver_reference_review.csv` + `SILVER_REFERENCE_README.md`) — 30
-  documentation-grounded reference examples awaiting validation.
+- **`preliminary_examples/silver_reference_set.json`** — the current reference set: 30 examples keyed to the
+  factor taxonomy, documentation-grounded and checker-clean, each query verified to express its factors (with
+  `silver_reference_review.csv` for markup and `SILVER_REFERENCE_README.md`). Awaiting validation → gold; the
+  factor-keyed leave-one-out evaluation runs on this.
+- **`preliminary_examples/simulated_gold_examples.json`** — legacy (23 examples on the earlier 7-use-case
+  scheme). Kept, not deleted: it is the substrate of the historical experiments (`EXPERIMENTS.md`) and the
+  generation pipeline's in-context corpus. Superseded *for evaluation* by the silver set above.
+- Also: the bootstrap set, real-forum-query sets, and `validate_examples.py`.
 
 ## Research & docs
 
