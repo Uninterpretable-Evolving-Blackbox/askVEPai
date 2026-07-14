@@ -27,7 +27,7 @@ M=gemma4:26b
 
 run() { # args: <mode> <seed> <testset> <tag>
   echo "===== phase mode=$1 seed=$2 tag=$4 $(date) ====="
-  VEP_TESTSET_FILE="$3" python3 -u "$ROOT/work/run_attribution.py" \
+  VEP_TESTSET_FILE="$3" python3 -u "$ROOT/work/harness/run_attribution.py" \
     --model "$M" --queries 0 --mode "$1" --concurrency 1 --seed "$2" --tag "$4" \
     || echo "!!! PHASE FAILED mode=$1 seed=$2 $(date)"
 }

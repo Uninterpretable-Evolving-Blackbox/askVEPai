@@ -9,13 +9,13 @@ only variable, has zero sampling/batch noise, and needs no GPU. It also doubles 
 the fixed parse -> score -> aggregate -> report path on 240 real responses.
 (Valid ONLY because the prompt is unchanged; any build_system_prompt change would force a live re-run.)
 
-Run:  VEP_OPTIONS_FILE=work/vep_options_expanded.json python work/rescore_offline.py
+Run:  VEP_OPTIONS_FILE=work/vep_options_expanded.json python work/harness/rescore_offline.py
 """
 import json, os, re, sys
 from collections import defaultdict, Counter
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT / "vep_ai_demo"))
 import vep_assistant as va          # noqa: E402
 import evaluate as ev               # noqa: E402

@@ -20,12 +20,12 @@ echo "===== EXP6 START $(date) seed=$SEED concurrency=$CC ====="
 export VEP_TESTSET_FILE="$ROOT/work/preliminary_examples/test_queries_sim.json"
 for MODE in combined description examples; do
   echo "===== 6a ${MODE}-20 $(date) ====="
-  python3 -u "$ROOT/work/run_attribution.py" --model $M --queries 0 --mode $MODE --concurrency $CC --seed $SEED
+  python3 -u "$ROOT/work/harness/run_attribution.py" --model $M --queries 0 --mode $MODE --concurrency $CC --seed $SEED
 done
 
 # 6b — real-query generalization (no LOO; gold-free metric), combined mode only.
 export VEP_TESTSET_FILE="$ROOT/work/preliminary_examples/real_queries_biostars.json"
 echo "===== 6b real-combined $(date) ====="
-python3 -u "$ROOT/work/run_attribution.py" --model $M --queries 0 --mode combined --concurrency $CC --seed $SEED --tag real
+python3 -u "$ROOT/work/harness/run_attribution.py" --model $M --queries 0 --mode combined --concurrency $CC --seed $SEED --tag real
 
 echo "===== EXP6 DONE $(date) ====="

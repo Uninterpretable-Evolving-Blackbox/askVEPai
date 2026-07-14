@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Example-ORDER sensitivity experiment (see work/run_order_sensitivity.py).
+# Example-ORDER sensitivity experiment (see work/harness/run_order_sensitivity.py).
 # Reproduces Agarwal et al. 2024 §4.7 for our task: hold the example SET fixed,
 # vary only the ORDER, report mean±SD of leave-one-out priority-weighted Enable F1
 # ACROSS orderings.
@@ -13,7 +13,7 @@
 #   bash run_order_experiment.sh "gemma4:12b gemma4:26b" 10 all,semantic 8
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 PY="${PYTHON:-python3}"
 
 export VEP_OPTIONS_FILE="$ROOT/work/vep_options_expanded.json"
@@ -52,7 +52,7 @@ echo
 for m in $MODELS; do
   echo "==================== $m ===================="
   ollama pull "$m"
-  "$PY" "$ROOT/work/run_order_sensitivity.py" \
+  "$PY" "$ROOT/work/harness/run_order_sensitivity.py" \
       --model "$m" \
       --conditions "$CONDITIONS" \
       --shuffles "$SHUFFLES" \

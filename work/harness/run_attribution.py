@@ -48,7 +48,7 @@ from pathlib import Path
 # Reuse the real pipeline: prompt assembly + parsing + checker live in the demo's vep_assistant,
 # and the LLM call + ground-truth helpers live in evaluate. We import them so attribution scores
 # the EXACT code path the product uses (no re-implementation that could drift from it).
-DEMO = Path(__file__).resolve().parents[1] / "vep_ai_demo"
+DEMO = Path(__file__).resolve().parents[2] / "vep_ai_demo"
 sys.path.insert(0, str(DEMO))
 import vep_assistant as va           # noqa: E402
 import evaluate as ev                # noqa: E402

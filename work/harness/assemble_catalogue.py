@@ -13,8 +13,8 @@ from pathlib import Path
 from collections import Counter
 
 HERE = Path(__file__).parent                              # GSoC_WORK/work/
-DEMO = HERE.parent / "vep_ai_demo" / "vep_options.json"   # the demo's 26-option KB
-OUT = HERE / "vep_options_expanded.json"                  # the expanded catalogue (this dir)
+DEMO = HERE.parent.parent / "vep_ai_demo" / "vep_options.json"   # the demo's 26-option KB
+OUT = HERE.parent / "vep_options_expanded.json"                  # the expanded catalogue (this dir)
 
 # Canonical demo schema fields (the contract the existing code reads)
 DEMO_FIELDS = [

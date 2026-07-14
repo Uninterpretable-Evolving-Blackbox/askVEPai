@@ -34,10 +34,10 @@ VEP_TESTSET_FILE, VEP_RESULTS_DIR, OLLAMA_BASE_URL.
 
 Usage:
   # all-examples, 10 orderings, greedy (recommended baseline)
-  python work/run_order_sensitivity.py --model gemma4:26b --conditions all --shuffles 10
+  python work/harness/run_order_sensitivity.py --model gemma4:26b --conditions all --shuffles 10
 
   # compare all vs semantic; show enough semantic examples for order to matter
-  python work/run_order_sensitivity.py --model gemma4:26b \
+  python work/harness/run_order_sensitivity.py --model gemma4:26b \
       --conditions all,semantic --semantic-topk 8 --shuffles 10 --concurrency 4
 """
 import argparse
@@ -51,7 +51,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-DEMO = Path(__file__).resolve().parents[1] / "vep_ai_demo"
+DEMO = Path(__file__).resolve().parents[2] / "vep_ai_demo"
 sys.path.insert(0, str(DEMO))
 import vep_assistant as va          # noqa: E402
 import evaluate as ev               # noqa: E402

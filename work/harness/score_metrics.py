@@ -22,11 +22,11 @@ from collections import defaultdict
 from pathlib import Path
 
 HERE = Path(__file__).parent
-sys.path.insert(0, str(HERE.parent / "vep_ai_demo"))
+sys.path.insert(0, str(HERE.parent.parent / "vep_ai_demo"))
 import vep_assistant as va  # noqa: E402
 
-RES = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "results"
-CAT = json.load(open(os.environ.get("VEP_OPTIONS_FILE", HERE / "vep_options_expanded.json")))
+RES = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE.parent / "results"
+CAT = json.load(open(os.environ.get("VEP_OPTIONS_FILE", HERE.parent / "vep_options_expanded.json")))
 PRIO = {o["id"]: o.get("priority_by_use_case", {}) for o in CAT}
 CATEGORY = {o["id"]: o.get("category", "?") for o in CAT}
 SPECIES = {o["id"]: o.get("species_restriction", "all species") for o in CAT}

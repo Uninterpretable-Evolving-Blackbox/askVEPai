@@ -14,7 +14,7 @@ Determinism: temp=0 + fixed seed, sequential (EXPERIMENTS.md Exp 6). Additive â€
 """
 import json, os, sys
 from pathlib import Path
-DEMO = Path(__file__).resolve().parents[1] / "vep_ai_demo"
+DEMO = Path(__file__).resolve().parents[2] / "vep_ai_demo"
 sys.path.insert(0, str(DEMO))
 import vep_assistant as va
 import evaluate as ev

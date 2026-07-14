@@ -21,7 +21,7 @@
 > The headline numbers were first derived as **re-analyses** of Exp 1's logged 26b outputs (Exp 4 + 7).
 > **Exp 10 (2026-06-22) supersedes them with a fresh 5-seed live run** of all three Gemma models under the
 > corrected parser — current headline: **26b + all-examples = 84% Enable F1** (was 87% on the single 3-seed
-> log). Run-level mean ± SD: `work/compute_run_sd.py`.
+> log). Run-level mean ± SD: `work/harness/compute_run_sd.py`.
 
 **System under test:** expanded **58-option catalogue** (`vep_options_expanded.json`) + **20-example simulated gold set** (`preliminary_examples/simulated_gold_examples.json`, 7 use cases, checker-validated). **Not** the demo's 26 options / 8 examples.
 **Protocol:** leave-one-out over all 20 queries; 4 retrieval conditions; multi-run mean. Parallel GPU eval (`run_parallel_eval.py`, 4 concurrent slots) on **Apple M5 Max, Metal** (native arm64 Ollama, ~180 tok/s).
@@ -130,7 +130,7 @@ category coverage are standard for recommendation over an ambiguous label space;
 (harm). **Scope:** the 3 Gemma sizes (the deployable models; qwen devalued).
 
 **Infra fix:** `run_parallel_eval.py` now writes `work/results/raw/<model>.jsonl` (per-call enabled/disabled/
-gold/use-case/query); `work/score_metrics.py` computes the above from those logs — so future metric changes
+gold/use-case/query); `work/harness/score_metrics.py` computes the above from those logs — so future metric changes
 never require a re-run.
 
 **Result** — consistency check **PASSED** (26B all-ex exact-F1 = 55% here vs 55% in Exp 1; e4b 47% vs 49%; all within ±SD → same system):
@@ -240,7 +240,7 @@ recommendations. Pilot = 7 stratified queries × (~13 combined ablations + 1 bas
 ≈ ~1.5–2 h on 26B. Full 20 queries ≈ ~300 runs ≈ ~4–5 h (decomposition ×3). Re-scorable: log each
 ablation's enabled set + the ablated unit.
 
-**Implementation.** `work/run_attribution.py` (reuses `build_system_prompt` on an ablated catalogue +
+**Implementation.** `work/harness/run_attribution.py` (reuses `build_system_prompt` on an ablated catalogue +
 ablated examples in all-examples mode, `call_llm` at temp=0, and the fixed `extract_recommendations`).
 Per query: baseline → R_full; ∀ r ∈ R_full → ablated run → persist?; log + aggregate.
 
@@ -276,7 +276,7 @@ prior already covers — useful for deciding where to strengthen the KB. Raw: `r
 
 Two analyses extending Exp 5, sharing ONE harness/model/KB so they are directly comparable. Each changes
 exactly one variable; everything else (`gemma4:26b`, expanded 58-option KB, all-examples retrieval,
-temp=0, combined-mode unless noted) is held fixed. Driver: `work/run_exp6.sh`.
+temp=0, combined-mode unless noted) is held fixed. Driver: `work/harness/run_exp6.sh`.
 
 **Methodological finding that reshaped the protocol — temp=0 is NOT deterministic on this stack.**
 Diagnostics before launch (Apple M5 Max, Metal, gemma4:26b):
@@ -430,7 +430,7 @@ After the post-Exp-6 code review (phantom-id alias filter, 0-not-None / errored-
 fail-closed, checker-repairs-output), the eval numbers needed re-measuring. Because all those changes are
 PARSING/SCORING/METRIC changes and `build_system_prompt` + the model are unchanged, this is an **offline
 re-score, not a live re-run**: re-parse the 240 logged 2026-06-08 gemma4:26b responses
-(`results_fixedparser/raw/gemma4_26b.jsonl`) with the current code (`work/rescore_offline.py`). This
+(`results_fixedparser/raw/gemma4_26b.jsonl`) with the current code (`work/harness/rescore_offline.py`). This
 isolates the code change as the only variable (zero sampling/batch noise, no GPU) and is an integration
 test of the fixed parse→score→aggregate→report path on real data. Valid only because the prompt is unchanged.
 
@@ -470,7 +470,7 @@ on the table above: enable/disable/crit/cat F1 unchanged (set-based), raw harm c
 
 **Bottom line:** corrected numbers stand (all-examples enable-F1 87%, disable-F1 86%, crit-recall 95%,
 cat-cover 96%, raw harm → 0 post-checker); the fixes are corrections + robustness, not headline movers;
-fallbacks are justified (bare) or defensive (not dead code). Harness `work/rescore_offline.py`; corrected
+fallbacks are justified (bare) or defensive (not dead code). Harness `work/harness/rescore_offline.py`; corrected
 report `results_fixedparser/evaluation_results_gemma4_26b_RESCORED.md`.
 
 ## Experiment 8 — Structured-output feasibility on the local 26b (NEGATIVE result)  [DONE 2026-06-15]
@@ -480,7 +480,7 @@ fallback) were all slated to be retired by migrating the model to emit **structu
 whether `gemma4:26b` (via Ollama) can reliably produce schema-valid JSON for the full recommendation task.
 - **json_schema (strict grammar-constrained):** went DEGENERATE (whitespace runs, `finish_reason=None`,
   truncated JSON) — abandoned earlier.
-- **json_object (JSON-mode + post-hoc validate/resolve):** harness `work/structured_pilot.py`, 40 queries
+- **json_object (JSON-mode + post-hoc validate/resolve):** harness `work/harness/structured_pilot.py`, 40 queries
   (20 gold + 20 real), temp 0, `max_tokens=16384`.
 
 **Result (json_object, 40 queries):** valid JSON **16/40 (~40%)**; finish reasons **18 stop / 15 length
@@ -516,7 +516,7 @@ SET is held fixed per ordering (paper-style); only the permutation varies. **Dev
 decoding is **greedy (temp 0)**, not the 0.7 used in scored runs — because here the ORDERING is the
 replicate unit, and greedy removes decoding noise so the across-ordering SD is pure order effect. LLM
 sampling seed held fixed (42). New code: `examples_override=` hook in `build_system_prompt`;
-driver `work/run_order_sensitivity.py`; wrapper `work/run_order_experiment.sh`. Semantic shown at
+driver `work/harness/run_order_sensitivity.py`; wrapper `work/harness/run_order_experiment.sh`. Semantic shown at
 **top-8** (not the production top-2) so there are enough examples for order to be measurable (top-2 has
 only 2 orderings).
 
@@ -547,7 +547,7 @@ orderings.
 existing multi-run SD already bounds it) and a real fragility for `semantic` — a second strike alongside
 the known "semantic top-k option filter hurts" result. If semantic is ever used, pin order and report
 mean ± SD over orderings. **Simulated gold set → directional, not a benchmark.**
-Repro: `bash work/run_order_experiment.sh "gemma4:26b" 10 all,semantic 8` (greedy, concurrency 1 on a
+Repro: `bash work/harness/run_order_experiment.sh "gemma4:26b" 10 all,semantic 8` (greedy, concurrency 1 on a
 single Metal GPU — 4-way concurrency saturates the server on the ~10K-token all-examples prompts; ~3 h
 for 440 calls). Report `work/results/order_sensitivity_gemma4_26b.md`; raw
 `work/results/raw/order_sensitivity_gemma4_26b.jsonl`.
@@ -568,10 +568,10 @@ same model tags. This is also a *live* run rather than an offline re-score, so i
 the corrected-parser headline on fresh inference (not just on the re-parsed 2026-06-08 log).
 
 **Command (provenance).** `VEP_OPTIONS_FILE/EXAMPLES_FILE/TESTSET_FILE/RESULTS_DIR` set to the expanded
-catalogue + simulated set; `python work/run_parallel_eval.py --model <m> --runs 5 --concurrency 4` for each
+catalogue + simulated set; `python work/harness/run_parallel_eval.py --model <m> --runs 5 --concurrency 4` for each
 of e4b/12b/26b (26b run detached under `caffeinate` to survive idle-sleep). temp 0.7, seeds 42–46.
 Reports: `work/results/evaluation_results_gemma4_{e4b,12b,26b}.md`; run-level mean ± SD via
-`work/compute_run_sd.py <raw_log> <label>` (now parametrized to take a log path + label).
+`work/harness/compute_run_sd.py <raw_log> <label>` (now parametrized to take a log path + label).
 
 **Headline — `gemma4:26b`, mean ± SD across the 5 runs (seeds 42–46):**
 
@@ -649,7 +649,7 @@ forced-baseline (it always injects `bare,keyword`); reported for context, not th
 
 **Command (provenance).** `VEP_OPTIONS_FILE=work/vep_options_expanded.json
 VEP_EXAMPLES_FILE=work/results_noex/gold_20set.json VEP_TESTSET_FILE=work/results_noex/testset_20set.json
-VEP_RESULTS_DIR=work/results_noex caffeinate -i python work/run_parallel_eval.py --model gemma4:26b --runs 5
+VEP_RESULTS_DIR=work/results_noex caffeinate -i python work/harness/run_parallel_eval.py --model gemma4:26b --runs 5
 --concurrency 4 --conditions noex,all --seed 42`. 400 calls, ~1h56m. Raw:
 `work/results_noex/raw/gemma4_26b.jsonl`; report `work/results_noex/evaluation_results_gemma4_26b.md`.
 Pre-flight: 8-call smoke confirmed the ~11K-token `all` prompt is **not** context-truncated on the
@@ -712,10 +712,10 @@ because raw docs are too large, unparseable, and can't drive the deterministic c
 - **Defense-in-depth:** the deterministic checker remains necessary — raw-model species/conflict violations persist at every model size.
 
 ## Reproducibility
-- `work/run_parallel_eval.py` — parallel LOO eval (env: `VEP_OPTIONS_FILE/EXAMPLES_FILE/TESTSET_FILE/RESULTS_DIR`).
-- `work/run_example_sweep.py` — corpus-size sweep (stratified subsample).
-- `work/run_order_sensitivity.py` (+ `work/run_order_experiment.sh`) — example-ORDER sensitivity (Exp 9): N shuffles of a fixed set, greedy, mean ± SD over orderings.
-- `work/aggregate_results.py` — cross-model crossover table.
-- `work/run_experiment.sh` — turnkey wrapper.
+- `work/harness/run_parallel_eval.py` — parallel LOO eval (env: `VEP_OPTIONS_FILE/EXAMPLES_FILE/TESTSET_FILE/RESULTS_DIR`).
+- `work/harness/run_example_sweep.py` — corpus-size sweep (stratified subsample).
+- `work/harness/run_order_sensitivity.py` (+ `work/harness/run_order_experiment.sh`) — example-ORDER sensitivity (Exp 9): N shuffles of a fixed set, greedy, mean ± SD over orderings.
+- `work/harness/aggregate_results.py` — cross-model crossover table.
+- `work/harness/run_experiment.sh` — turnkey wrapper.
 - Reports: `work/results/evaluation_results_*.md`, `work/results/example_sweep_*.md`.
 - Env: native arm64 Ollama (Metal), `OLLAMA_NUM_PARALLEL=4`, `OLLAMA_CONTEXT_LENGTH=32768`.

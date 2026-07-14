@@ -11,7 +11,7 @@ import re
 import sys
 from pathlib import Path
 
-RES = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent / "results"
+RES = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent.parent / "results"
 # rough size ordering for display
 ORDER = ["qwen2.5_3b", "gemma4_e4b", "qwen2.5_7b", "gemma4_12b", "gemma4_26b", "qwen2.5_14b"]
 

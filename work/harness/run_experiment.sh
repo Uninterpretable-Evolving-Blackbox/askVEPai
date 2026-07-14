@@ -12,7 +12,7 @@
 #   bash run_experiment.sh "gemma4:e4b gemma4:12b gemma4:26b qwen2.5:7b" 3
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 DEMO="$ROOT/vep_ai_demo"
 PY="${PYTHON:-python3}"
 

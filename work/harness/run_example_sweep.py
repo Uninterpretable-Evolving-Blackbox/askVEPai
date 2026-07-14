@@ -21,7 +21,7 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-DEMO = Path(__file__).resolve().parents[1] / "vep_ai_demo"
+DEMO = Path(__file__).resolve().parents[2] / "vep_ai_demo"
 sys.path.insert(0, str(DEMO))
 import vep_assistant as va           # noqa: E402
 import evaluate as ev                # noqa: E402

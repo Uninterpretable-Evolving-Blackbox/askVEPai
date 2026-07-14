@@ -9,13 +9,13 @@ values per condition; we then report mean +/- SD ACROSS those 3 runs (seeds 42/4
 Re-parses the logged responses with the CURRENT corrected parser (same approach as rescore_offline.py),
 so the numbers match the corrected headline. No GPU, no new inference.
 
-Run:  VEP_OPTIONS_FILE=work/vep_options_expanded.json python work/compute_run_sd.py
+Run:  VEP_OPTIONS_FILE=work/vep_options_expanded.json python work/harness/compute_run_sd.py
 """
 import json, os, statistics, sys
 from collections import defaultdict
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT / "vep_ai_demo"))
 import vep_assistant as va          # noqa: E402
 import evaluate as ev               # noqa: E402
