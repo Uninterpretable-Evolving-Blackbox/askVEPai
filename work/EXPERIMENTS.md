@@ -39,6 +39,33 @@
 
 ---
 
+## Experiment index (which model, and why)
+
+**Canonical model = `gemma4:26b`** (the deployed quality model) for every experiment *except* the ones whose
+aim is model comparison. Exp 1, 3 and 10 vary the model on purpose (that IS the experiment); Exp 12 varies the
+*teacher*. The one non-model experiment that used a different model is **Exp 2** — it used `gemma4:e4b` for
+speed on a many-N sweep (a deviation), and it is also invalidated by the parser fix (Exp 4), so it should be
+re-run on 26b.
+
+| Exp | Aim | Model(s) | Reps | Status |
+|---|---|---|---|---|
+| 1 | Model comparison (5 models) | qwen2.5:3b/7b · gemma4:e4b/12b/26b | 3 seeds | superseded by Exp 10 |
+| 2 | Example-count (corpus-size) sweep | **gemma4:e4b** ⚠ (speed) | 2 runs | invalidated (buggy parser) — re-run on 26b |
+| 3 | Clinically-meaningful re-scoring | gemma4:e4b/12b/26b | 3 seeds | superseded by Exp 4/7 |
+| 4 | Parser bug fix (pivotal) | gemma4:26b | 3-seed log | corrects Exp 1–3 |
+| 5 | Attribution pilot | gemma4:26b | 1 (noisy) | superseded by Exp 6 |
+| 6 | Attribution decomposition + real queries | gemma4:26b | deterministic | current |
+| 7 | Offline re-score (hardened code) | gemma4:26b | 3 seeds | current |
+| 8 | Structured-output feasibility | gemma4:26b | — | negative result |
+| 9 | Example-order sensitivity | gemma4:26b | 10 orderings | current |
+| 10 | 5-seed re-run | gemma4:e4b/12b/26b | 5 seeds | **current headline** |
+| 11 | Catalogue-only ablation | gemma4:26b | 5 seeds | current |
+| 12 | Teacher-model selection (generation) | teachers e4b/12b/26b/31b · student 26b | 5 seeds | keep 26b self-gen |
+| 13 | Persona-axis ablation (generation) | gemma4:26b | 5 seeds | persona marginal |
+| — | Factor-taxonomy first look (silver set) | gemma4:26b | 1 | directional |
+
+---
+
 ## Experiment 1 — Model comparison (5 models, N=20 examples, runs=3)
 
 > **Confound — NOT a clean size sweep.** This set mixes **family** (Qwen2.5 vs Gemma 4) and
