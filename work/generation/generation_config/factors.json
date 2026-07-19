@@ -1,0 +1,65 @@
+{
+  "_status": "PROVISIONAL — pending mentor sign-off (see work/research/taxonomy_proposal.md §3). The ENGINE reads this file; on sign-off, edit the values here, not the code.",
+  "_notes": {
+    "kind": "data_fact = fixed by the variant set; intent = what the user wants.",
+    "hard_gate": "true = a not_applicable priority for this factor REMOVES the option outright (checker enforces species already). Soft factors only shift how strongly an option is recommended.",
+    "select": "single = exactly one value per query; multi = one or more."
+  },
+  "factors": {
+    "species": {
+      "values": ["human", "non-human"],
+      "kind": "data_fact",
+      "hard_gate": true,
+      "select": "single"
+    },
+    "origin": {
+      "values": ["germline", "somatic"],
+      "kind": "data_fact",
+      "hard_gate": false,
+      "select": "single",
+      "hard_rules": [
+        {"when_value": "somatic", "not_applicable": ["frequency"], "why": "the frequency pre-filter (--check_frequency) must not drop common variants in a somatic workflow (taxonomy_proposal §3). NB the catalogue id is 'frequency', not 'filter_common'."}
+      ]
+    },
+    "variant_size_class": {
+      "values": ["small", "structural-CNV"],
+      "kind": "data_fact",
+      "hard_gate": true,
+      "select": "single"
+    },
+    "region_focus": {
+      "values": ["coding", "regulatory-noncoding"],
+      "kind": "intent",
+      "hard_gate": true,
+      "select": "multi",
+      "_gate_note": "AMENDS taxonomy_proposal §3, which calls region_focus 'purely soft' — pending mentor sign-off. Evidence: the catalogue rates 9 of the 10 missense predictors (and mane/protein/nmd) regulatory_noncoding=not_applicable, and constraints_dossier.md:123 prescribes 'a recommender gate ... apply only to missense/coding variants'. CADD is the documented exception (it scores non-coding variants too) and is not gated. Multi-select gating is ALL-values: a coding+regulatory variant set keeps its predictors; only a purely regulatory one loses them."
+    },
+    "analysis_goal": {
+      "values": ["basic-consequence", "clinical-interpretation", "population-frequency"],
+      "kind": "intent",
+      "hard_gate": false,
+      "select": "multi"
+    }
+  },
+
+  "_exclusions_note": "Factor-value pairs the CATALOGUE cannot satisfy: every option the second value asks for is gated away by the first, so the resolved config cannot answer the question the query will ask. The sampler skips these. Excluding the PAIR costs no coverage, because both floors are on individual VALUES and both are still reachable without their intersection: `non-human` still reaches 15 rows via basic/clinical goals (the species gate is fully exercised), and `population-frequency`/`structural-CNV` still reach 15 via human rows (the frequency and SV options are fully exercised). Only the impossible overlap is dropped. NOTE this is a CATALOGUE gap, not a taxonomy error — 'can I get population frequencies for mouse?' is a real question whose correct answer is 'VEP has no non-human frequency source'. Teaching the tool to say that is a capability question for the mentor; until then, a gold row whose query asks for something unanswerable is a bad gold row.",
+  "exclusions": [
+    {
+      "pair": {"species": "non-human", "analysis_goal": "population-frequency"},
+      "why": "gnomAD (af_gnomade/af_gnomadg), 1000 Genomes (af/af_1kg) and the --frequency filter are all human-only, so a non-human population-frequency scenario resolves to a config with no frequency source at all."
+    },
+    {
+      "pair": {"species": "non-human", "variant_size_class": "structural-CNV"},
+      "why": "gnomAD-SV is human-only and is the catalogue's only structural-variant frequency source, so a non-human SV scenario resolves with no SV data source."
+    }
+  ],
+
+  "_conditional_rules_note": "Priorities are keyed one factor VALUE at a time, and compose by taking the strongest label across the active values. That cannot express a JOINT condition ('A and B together imply X'), because each value votes alone. These rules add exactly that: they fire only when EVERY 'when' pair is active, and they RAISE an option to at least the given priority (never lower it, and never resurrect an option a hard gate removed).",
+  "conditional_rules": [
+    {
+      "when": {"species": "non-human", "analysis_goal": "clinical-interpretation"},
+      "then": {"maxentscan": "recommended"},
+      "why": "SpliceAI and dbscSNV are human-only, so the species gate removes them and a NON-HUMAN clinical query is left with no recommended splice tool at all. MaxEntScan is the only all-species splice option (its species_restriction is 'all species (sequence-based)'). It cannot be promoted under `species` alone — that would recommend a splice predictor to a non-human population-frequency scan — nor under `analysis_goal` alone, which would duplicate SpliceAI for human. It needs both."
+    }
+  ]
+}

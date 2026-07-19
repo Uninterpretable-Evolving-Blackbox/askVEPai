@@ -1,0 +1,660 @@
+{
+  "_status": "PROVISIONAL \u2014 authored factor-natively from taxonomy_proposal.md \u00a73 'drives' clusters by seed_priorities.py. NOT mentor-validated. Replace this file wholesale on sign-off; the resolver reads it, so no code changes are needed.",
+  "_authoring": {
+    "drives": {
+      "region_focus": {
+        "coding": {
+          "recommended": [
+            "hgvs",
+            "numbers",
+            "cat:protein_annotation",
+            "tsl",
+            "appris"
+          ],
+          "optional": [
+            "protein",
+            "uniprot",
+            "ccds",
+            "nmd",
+            "coding_only"
+          ]
+        },
+        "regulatory-noncoding": {
+          "critical": [
+            "regulatory"
+          ],
+          "recommended": [
+            "cell_type",
+            "utrannotator",
+            "enformer",
+            "mirna"
+          ],
+          "not_applicable": [
+            "sift",
+            "polyphen",
+            "alphamissense",
+            "eve",
+            "revel",
+            "clinpred",
+            "dbnsfp",
+            "mutfunc",
+            "paralogues",
+            "mane",
+            "protein",
+            "nmd"
+          ]
+        }
+      },
+      "analysis_goal": {
+        "basic-consequence": {
+          "optional": [
+            "most_severe",
+            "hgvs"
+          ]
+        },
+        "clinical-interpretation": {
+          "critical": [
+            "clinvar",
+            "hgvs",
+            "mane"
+          ],
+          "recommended": [
+            "sift",
+            "polyphen",
+            "cadd",
+            "alphamissense",
+            "eve",
+            "spliceai",
+            "phenotypes"
+          ],
+          "optional": [
+            "revel",
+            "clinpred",
+            "dbnsfp",
+            "maxentscan",
+            "dbscsnv",
+            "mastermind",
+            "geno2mp",
+            "loeuf",
+            "dosage_sensitivity",
+            "pubmed",
+            "var_synonyms",
+            "failed",
+            "mutfunc",
+            "paralogues"
+          ]
+        },
+        "population-frequency": {
+          "critical": [
+            "af_gnomade",
+            "af_gnomadg",
+            "af",
+            "af_1kg"
+          ],
+          "recommended": [
+            "frequency"
+          ],
+          "optional": [
+            "clinvar"
+          ]
+        }
+      },
+      "origin": {
+        "germline": {
+          "recommended": [
+            "check_existing"
+          ]
+        },
+        "somatic": {
+          "recommended": [
+            "check_existing"
+          ],
+          "not_applicable": [
+            "frequency"
+          ]
+        }
+      },
+      "variant_size_class": {
+        "structural-CNV": {
+          "critical": [
+            "gnomad_sv"
+          ],
+          "recommended": [
+            "dosage_sensitivity"
+          ]
+        }
+      },
+      "species": {
+        "non-human": {
+          "recommended": [
+            "canonical"
+          ]
+        }
+      }
+    },
+    "baseline_critical": [
+      "core_type"
+    ],
+    "baseline_recommended": [
+      "symbol",
+      "biotype"
+    ],
+    "predictor_tiers": {
+      "_basis_missense": "METHOD INDEPENDENCE (distinct vs derivative): a distinct predictor forms its own call; a derivative one (REVEL/ClinPred/dbNSFP) consumes other predictors' scores, so it double-counts them. Per ACMG PP3/BP4 / ClinGen SVI (Pejaver et al. 2022).",
+      "_basis_splice": "ADOPTION/RECENCY, not independence: MaxEntScan and dbscSNV are independent models, NOT derivative of SpliceAI. SpliceAI is the current community default; the older tools are kept as add-ons.",
+      "_caveat": "VEP itself ranks NONE of these \u2014 both splits are our editorial judgement on standards external to VEP. This is the 'essential vs optional' call the mentor was asked to adjudicate.",
+      "distinct": [
+        "sift",
+        "polyphen",
+        "cadd",
+        "alphamissense",
+        "eve"
+      ],
+      "derivative": [
+        "revel",
+        "clinpred",
+        "dbnsfp"
+      ],
+      "splice_core": [
+        "spliceai"
+      ],
+      "splice_addon": [
+        "maxentscan",
+        "dbscsnv"
+      ]
+    },
+    "species_gate": "not_applicable for non-human where _is_human_only(species_restriction), OR where the restriction is a narrow 'human + <one species> only' set that the binary species factor cannot guarantee matches the query's species (var_synonyms=human+pig, ccds=human+mouse)",
+    "size_gate": "catalogue priority_by_use_case['structural_variants'] == 'not_applicable'",
+    "region_gate": {
+      "value": "regulatory-noncoding",
+      "not_applicable": [
+        "sift",
+        "polyphen",
+        "alphamissense",
+        "eve",
+        "revel",
+        "clinpred",
+        "dbnsfp",
+        "mutfunc",
+        "paralogues",
+        "mane",
+        "protein",
+        "nmd"
+      ],
+      "_amends": "taxonomy_proposal \u00a73 calls region_focus 'purely soft'; the catalogue rates 9/10 missense predictors regulatory_noncoding=not_applicable and constraints_dossier.md:123 prescribes a recommender gate. Proposed amendment \u2014 needs mentor sign-off."
+    }
+  },
+  "_generated_from": "vep_options_expanded.json",
+  "priorities": {
+    "most_severe": {
+      "analysis_goal": {
+        "basic-consequence": "optional"
+      }
+    },
+    "mane": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "critical"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "biotype": {
+      "analysis_goal": {
+        "basic-consequence": "recommended",
+        "clinical-interpretation": "recommended",
+        "population-frequency": "recommended"
+      }
+    },
+    "maxentscan": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "dbnsfp": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "paralogues": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "shift_3prime": {},
+    "mutfunc": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "dbscsnv": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "dosage_sensitivity": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "variant_size_class": {
+        "structural-CNV": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "check_existing": {
+      "origin": {
+        "germline": "recommended",
+        "somatic": "recommended"
+      }
+    },
+    "pubmed": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "buffer_size": {},
+    "eve": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "nmd": {
+      "region_focus": {
+        "coding": "optional",
+        "regulatory-noncoding": "not_applicable"
+      }
+    },
+    "mastermind": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "symbol": {
+      "analysis_goal": {
+        "basic-consequence": "recommended",
+        "clinical-interpretation": "recommended",
+        "population-frequency": "recommended"
+      }
+    },
+    "var_synonyms": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "spliceai": {
+      "analysis_goal": {
+        "clinical-interpretation": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "numbers": {
+      "region_focus": {
+        "coding": "recommended"
+      }
+    },
+    "enformer": {
+      "region_focus": {
+        "regulatory-noncoding": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "phenotypes": {
+      "analysis_goal": {
+        "clinical-interpretation": "recommended"
+      }
+    },
+    "canonical": {
+      "species": {
+        "non-human": "recommended"
+      }
+    },
+    "cadd": {
+      "analysis_goal": {
+        "clinical-interpretation": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "pick": {},
+    "af_gnomade": {
+      "analysis_goal": {
+        "population-frequency": "critical"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "af_gnomadg": {
+      "analysis_goal": {
+        "population-frequency": "critical"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "uniprot": {
+      "region_focus": {
+        "coding": "optional"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "geno2mp": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "ccds": {
+      "region_focus": {
+        "coding": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "polyphen": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "mirna": {
+      "region_focus": {
+        "regulatory-noncoding": "recommended"
+      }
+    },
+    "af_1kg": {
+      "analysis_goal": {
+        "population-frequency": "critical"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "appris": {
+      "region_focus": {
+        "coding": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "revel": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "af": {
+      "analysis_goal": {
+        "population-frequency": "critical"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "summary": {},
+    "sift": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "recommended"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "gnomad_sv": {
+      "variant_size_class": {
+        "structural-CNV": "critical"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "alphamissense": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "cell_type": {
+      "region_focus": {
+        "regulatory-noncoding": "recommended"
+      }
+    },
+    "distance": {},
+    "pick_allele": {},
+    "coding_only": {
+      "region_focus": {
+        "coding": "optional"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "core_type": {
+      "analysis_goal": {
+        "basic-consequence": "critical",
+        "clinical-interpretation": "critical",
+        "population-frequency": "critical"
+      }
+    },
+    "tsl": {
+      "region_focus": {
+        "coding": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "transcript_version": {},
+    "clinvar": {
+      "analysis_goal": {
+        "clinical-interpretation": "critical",
+        "population-frequency": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "failed": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      }
+    },
+    "loeuf": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "hgvs": {
+      "region_focus": {
+        "coding": "recommended"
+      },
+      "analysis_goal": {
+        "basic-consequence": "optional",
+        "clinical-interpretation": "critical"
+      }
+    },
+    "protein": {
+      "region_focus": {
+        "coding": "optional",
+        "regulatory-noncoding": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "per_gene": {},
+    "frequency": {
+      "analysis_goal": {
+        "population-frequency": "recommended"
+      },
+      "origin": {
+        "somatic": "not_applicable"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "domains": {
+      "region_focus": {
+        "coding": "recommended"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "utrannotator": {
+      "region_focus": {
+        "regulatory-noncoding": "recommended"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "clinpred": {
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "regulatory": {
+      "region_focus": {
+        "regulatory-noncoding": "critical"
+      }
+    }
+  }
+}

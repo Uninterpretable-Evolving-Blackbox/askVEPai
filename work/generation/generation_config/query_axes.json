@@ -1,0 +1,23 @@
+{
+  "_status": "Query-diversity axes for Stage 3, following DataMorgana (Filice et al. 2025, arXiv:2501.12789 — READ in full). NB the paper's ablation (Tables 4-5) shows the persona/'user categorization' axis contributes only MARGINALLY to diversity; phrasing/premise/terminology (their 'linguistic-variation') carry it. Persona is KEPT here for audience-realism (this tool serves clinician/bioinformatician/student, unlike generic QA) and is under a planned on/off ablation (EXPERIMENTS.md Exp 13). These control the NATURAL-LANGUAGE query only; the config is deterministic from the KB and never touched by the teacher. Sample one category per axis, weighted by 'probability'.",
+  "axes": {
+    "phrasing": [
+      {"name": "concise-natural", "description": "one or two plain sentences", "probability": 0.4},
+      {"name": "verbose-natural", "description": "a short paragraph with extra context", "probability": 0.35},
+      {"name": "short-search-query", "description": "a terse, keyword-style request", "probability": 0.25}
+    ],
+    "premise": [
+      {"name": "explicit", "description": "state species, assay and cohort explicitly in the query", "probability": 0.6},
+      {"name": "implicit", "description": "leave some context implied by the wording", "probability": 0.4}
+    ],
+    "persona": [
+      {"name": "clinician", "description": "a clinical geneticist preparing a diagnostic report", "probability": 0.34},
+      {"name": "bioinformatician", "description": "a bioinformatician running a pipeline", "probability": 0.33},
+      {"name": "student", "description": "a graduate student learning the tool", "probability": 0.33}
+    ],
+    "terminology": [
+      {"name": "field-standard", "description": "use field terms (WES, SNV, AF, MANE)", "probability": 0.6},
+      {"name": "lay", "description": "use plain-language equivalents (exome sequencing, spelling change, how common)", "probability": 0.4}
+    ]
+  }
+}
