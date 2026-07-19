@@ -136,7 +136,7 @@ def unsatisfiable_factors(factor_tuple, pbf, intent, catalogue=None):
     """Active factor values whose SATISFYING CATEGORY was entirely gated away — the scenario asks for a
     kind of annotation this catalogue cannot deliver for this species/size.
 
-    The sampler treats factors as independent (PROGRESS §10), so it draws combinations the catalogue
+    The sampler treats factors as independent, so it draws combinations the catalogue
     cannot serve: `non-human + population-frequency` (gnomAD/1000G are human-only, so NO frequency source
     survives). Stage 3, told only the factor prose, writes a query asking for frequencies anyway, and
     nothing else catches it — the config is checker-clean and the query expresses its factors. This
@@ -202,7 +202,7 @@ def resolve_row(factor_tuple, catalogue, pbf, factors_cfg, va, corpus, enable=("
         rec[oid] = {"value": _value_for(oid, species), "enabled": True, "priority": pr}
 
     # (5) ADD-ONS — options the factor priorities rank `optional`. The mentor's own pipeline spec asks for
-    # generated options "including mandatory and optional" (mentor_comms_log, step 2), and these were
+    # generated options including both mandatory and optional, and these were
     # previously computed by intent_priorities() and then dropped on the floor here, because this function
     # only ever iterated the ENABLED set. They live in a separate key rather than in `recommended_options`
     # with enabled=False, because the eval harness reads enabled=False as "should be OFF"

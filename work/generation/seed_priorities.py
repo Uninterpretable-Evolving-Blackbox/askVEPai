@@ -25,13 +25,13 @@ RANK = {"critical": 3, "recommended": 2, "optional": 1, "not_applicable": 0}
 
 # --- Predictor tiering ------------------------------------------------------------------------------
 # READ THIS BEFORE CHANGING: **VEP itself ranks nothing.** `vep_plugins_web_config.txt` is a flat
-# `available => 1` map with no rank/priority field; `research/vep_web_interface_reference.md:149-150` lists
+# `available => 1` map with no rank/priority field, and the Ensembl web form lists
 # "Missense pathogenicity" and "Splicing" as FLAT families; `plugins_dossier.md:112` puts CADD/REVEL/
 # AlphaMissense/dbNSFP/ClinPred/EVE/SpliceAI/MaxEntScan/dbscSNV in one undifferentiated tier. So the
 # core-vs-add-on split below is OUR EDITORIAL JUDGEMENT, grounded in ACMG PP3/BP4 as refined by ClinGen SVI
 # (Pejaver et al. 2022) — a clinical-genetics standard EXTERNAL to VEP, which treats correlated in-silico
 # predictors as ONE line of evidence. Cite it as ours; do not imply VEP prescribes it. This is exactly the
-# "essential vs optional weighting" the mentor was asked to adjudicate (mentor_comms_log, Ask 2).
+# "essential vs optional weighting" the priorities need sign-off on.
 #
 # The axis is METHOD INDEPENDENCE, read from each plugin's own catalogue `description`:
 #   distinct   — derives a call from its own model/data
@@ -44,7 +44,7 @@ PREDICTOR_DERIVATIVE = ["revel", "clinpred", "dbnsfp"]
 #   eve        = "unsupervised deep generative model trained on evolutionary sequence data" -> consumes NO
 #                existing scores, so it is the most independent option in the set, NOT an add-on.
 # `mutfunc`/`paralogues` carry category=pathogenicity_prediction but the web form files them under
-# "Functional effect" (vep_web_interface_reference.md:152), so they are not part of this tiering.
+# "Functional effect" on the Ensembl web form, so they are not part of this tiering.
 
 # Splice tiering — NOTE the axis here is DIFFERENT from the pathogenicity split above. maxentscan (a
 # maximum-entropy model) and dbscsnv (an AdaBoost/RF classifier) are NOT "derivative" of SpliceAI — they
@@ -213,7 +213,7 @@ def main():
     #       query). The species factor is binary (human / non-human) and cannot say "pig but not mouse", so
     #       for a generic non-human query we cannot guarantee the species matches; gate them. Cost is tiny
     #       (both are optional-tier, and pig is never sampled). This is the binary-species-granularity
-    #       limitation — flagged for the mentor in DECISIONS.md.
+    #       limitation — flagged for review.
     narrow_nonhuman = re.compile(r"human\s*\+\s*\w+.*only", re.IGNORECASE)
     for oid, restr in species_restr.items():
         if va._is_human_only(restr) or narrow_nonhuman.search(restr or ""):

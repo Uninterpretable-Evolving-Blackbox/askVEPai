@@ -82,7 +82,7 @@ def main():
         ap.error(f"missing required single-select factor(s): {', '.join(missing)} "
                  f"(see --list-factors)")
     # analysis_goal defaults to basic-consequence: the mentor-agreed default when nothing else is implied
-    # (mentor_comms_log — "Default analysis_goal = basic-consequence").
+    # (the agreed default when nothing else is implied).
     factor_tuple = {
         "species": args.species,
         "origin": args.origin,
