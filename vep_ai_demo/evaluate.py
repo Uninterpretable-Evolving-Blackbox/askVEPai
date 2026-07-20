@@ -24,7 +24,7 @@ except ImportError:
     sys.exit(1)
 
 from vep_assistant import (load_knowledge_base, build_system_prompt, infer_species,
-                          build_option_aliases, extract_recommendations)
+                          build_option_aliases, extract_recommendations, _is_human_only)
 
 import argparse
 
@@ -283,16 +283,16 @@ def check_species_violations(enabled, vep_options, query):
     if species in ("human", "unknown"):
         return set()
 
-    human_only = set()
-    for opt in vep_options:
-        restriction = opt.get("species_restriction", "all species").lower()
-        is_human_only = (
-            "human" in restriction
-            and "all" not in restriction
-            and "human and" not in restriction
-        )
-        if is_human_only:
-            human_only.add(opt["id"])
+    # Reuse the deployed checker's OWN predicate rather than re-implementing it. This used to carry a
+    # local copy testing `"human and" not in restriction`, which vep_assistant._is_human_only was
+    # explicitly rewritten to replace — and the two had since drifted apart on real catalogue values:
+    # `ccds` ("human + mouse only") and `var_synonyms` ("human + pig only") say "human", don't say "all",
+    # and don't contain the literal "human and", so the old copy called them human-only while the shipped
+    # checker (and score_metrics, which already imports the fixed predicate) does not. That made this
+    # metric report species violations the deployed system does not commit. Importing the one predicate
+    # means it cannot drift a third time.
+    human_only = {opt["id"] for opt in vep_options
+                  if _is_human_only(opt.get("species_restriction", "all species"))}
     return enabled & human_only
 
 

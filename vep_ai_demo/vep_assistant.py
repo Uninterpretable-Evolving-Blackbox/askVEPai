@@ -64,6 +64,11 @@ def load_consequences():
 # Fuzzy option extraction from free-text LLM output
 # ---------------------------------------------------------------------------
 
+# Flag keywords that name the MECHANISM, not the option: every plugin's cli_flag starts `--plugin`, every
+# custom dataset's `--custom`. They identify nothing on their own and must never become aliases.
+_FLAG_KEYWORDS = {"plugin", "custom"}
+
+
 def build_option_aliases(vep_options):
     """Build a map of alias → option_id for fuzzy matching.
 
@@ -71,18 +76,38 @@ def build_option_aliases(vep_options):
     list of synonyms an LLM tends to emit (polyphen2, splice_ai, 1000genomes, ...).
     The map is the lookup table behind _match_option / the prose fallback parser.
     """
-    aliases = {}
+    # alias -> {option_ids claiming it}. Collected as CLAIMS, not assignments, so that an alias claimed by
+    # more than one option can be dropped as ambiguous instead of silently resolving by insertion order.
+    claims = {}
+
+    def claim(alias, oid):
+        alias = (alias or "").strip().lstrip("-").lower()
+        if len(alias) > 2:      # 1-2 chars is too short to disambiguate
+            claims.setdefault(alias, set()).add(oid)
+
     for opt in vep_options:
         oid = opt["id"]
-        # canonical id
-        aliases[oid.lower()] = oid
-        # name
-        aliases[opt["name"].lower()] = oid
-        # cli flags (split on /)
-        for flag in re.split(r"[/,\s]+", opt["cli_flag"]):
-            flag = flag.strip().lstrip("-").lower()
-            if len(flag) > 2:   # skip 1-2 char flags; too short to disambiguate
-                aliases[flag] = oid
+        claim(opt["name"], oid)
+        # CLI flags. Take only ACTUAL FLAG tokens (`--foo`), plus the plugin/custom NAME that follows
+        # `--plugin`/`--custom`.
+        #
+        # IMPORTANT: take only ACTUAL flag tokens, not every substring of the cli_flag. Splitting the whole
+        # cli_flag string on [/,\s]+ and indexing every token >2 chars produces wrong configurations. For `--plugin CADD,snv=/path/to/
+        # SNVs.tsv.gz` that harvests `plugin`, `path`, `snv=`, `SNVs.tsv.gz`... — and `plugin` is the flag
+        # KEYWORD, claimed by all 19 plugin options in the expanded catalogue. Last-write-wins left
+        # `plugin` pointing at one arbitrary plugin, and because _match_option prefers the LONGEST
+        # matching alias, a model citing `[source: plugin_cadd]` matched the 6-char `plugin` ahead of the
+        # 4-char `cadd` and resolved to that arbitrary option — so a model citing `[source: plugin_cadd]`
+        # would enable an arbitrary plugin (MaxEntScan on the demo KB, mutfunc on the expanded one) rather
+        # than CADD, presented as authoritative with no warning. Any `plugin_<name>` where <name> is <= 6 chars hit this (cadd, revel, eve,
+        # loeuf, sift...). Value syntax (`[b|p|s]`, claimed by sift+polyphen) had the same shape.
+        flag_str = opt.get("cli_flag") or ""
+        for tok in re.findall(r"--([A-Za-z0-9_]+)", flag_str):
+            if tok.lower() not in _FLAG_KEYWORDS:
+                claim(tok, oid)
+        m = re.search(r"--(?:plugin|custom)\s+([A-Za-z0-9_]+)", flag_str)
+        if m:
+            claim(m.group(1), oid)
     # common extra aliases.
     # CAVEAT (demo-era targets): several values below are DEMO ids absent from the expanded 58-option
     # catalogue ('gnomad'->'gnomad_af' [now af_gnomade/af_gnomadg], 'mane'->'mane_select' [now 'mane'],
@@ -105,9 +130,16 @@ def build_option_aliases(vep_options):
         "gnomad_structural": "gnomad_sv",
     }
     for alias, oid in extras.items():
-        aliases[alias] = oid
-    # Real catalogue ids must win over the demo-era extras above — for the expanded
-    # catalogue 'mane' is a real id, so it must map to 'mane', not 'mane_select'.
+        claim(alias, oid)
+
+    # AMBIGUOUS aliases are DROPPED, not resolved by insertion order. An alias two options both claim
+    # cannot identify either of them, and guessing one is how `plugin` came to mean `mutfunc`. Losing an
+    # ambiguous alias only costs a fuzzy near-miss; keeping it costs a confidently wrong option.
+    aliases = {a: next(iter(oids)) for a, oids in claims.items() if len(oids) == 1}
+    # Real catalogue ids are EXACT and authoritative: they always win, over an extra (for the expanded
+    # catalogue 'mane' is a real id, so it must map to 'mane', not 'mane_select') and over the ambiguity
+    # filter above (e.g. `check_existing` is claimed by both `check_existing` and `clinvar`, whose flag is
+    # "--check_existing (derived)", but it is also a real id, so it must resolve to itself).
     for opt in vep_options:
         aliases[opt["id"].lower()] = opt["id"]
     # FIX (phantom ids): drop any alias whose TARGET isn't a real catalogue id. The demo-era extras above
@@ -144,62 +176,146 @@ def _match_option(text, aliases):
     return None
 
 
-def extract_recommendations(text, option_aliases):
-    """Parse LLM output to extract which options are enabled/disabled.
+def audit_source_citations(text, option_aliases):
+    """Deterministically audit the `[source: id]` ids the model cited, BEFORE we present an answer.
 
-    Three-tier strategy, most-precise first:
-      Phase 0  exact parse of the prompted `✓/✗ ... [source: option_id]` format. The
-               id comes straight from the model's own citation tag, so this is the
-               trustworthy path — if any such line is found we return immediately and
-               skip the fuzzy phases entirely (fixes the 2026-06-08 score-capping bug
-               where fuzzy matching mis-mapped corrected ids and dropped options).
-      Phase 1  markdown-table rows (`| option | enable |`) for table-formatted replies.
-      Phase 2  free prose, with word-boundary matching, so options mentioned outside a
-               table aren't silently dropped.
+    The parser is deliberately forgiving: an id it cannot resolve is skipped (extract_recommendations_
+    detailed), and a near-miss is fuzzy-resolved by _match_option. Both are silent, and silence is the
+    problem — a model citing a source that does not exist is exactly the signal a provenance-traced tool
+    exists to surface. This does not change any decision; it reports what the parser did, so the caller
+    can show it.
+
+    Returns {"exact": [id], "coerced": [(cited, resolved)], "unknown": [cited], "n_tagged": int}
+      exact    — cited a real catalogue id
+      coerced  — cited something else that fuzzily resolved to a real id (we GUESSED; say so)
+      unknown  — cited something that resolves to nothing (dropped from the config entirely)
+    """
+    real_ids = set(option_aliases.values())
+    real_ci = {r.lower(): r for r in real_ids}     # case-insensitive: the model capitalises freely
+    exact, coerced, unknown = [], [], []
+    # `[source:` is matched case-insensitively — a model writing "[Source: cadd]" (capital S) must not
+    # collapse n_tagged to 0 and trip the "did not follow the format" alarm over one letter.
+    for line in text.splitlines():
+        m = re.search(r"\[source:\s*([A-Za-z0-9_]+)", line, re.IGNORECASE)
+        if not m:
+            continue
+        cited = m.group(1)
+        # A correctly-named id in the wrong case (e.g. "CADD" for `cadd`) is EXACT, not a guess — don't
+        # cry wolf on a correct citation.
+        if cited in real_ids or cited.lower() in real_ci:
+            exact.append(real_ci.get(cited.lower(), cited))
+            continue
+        resolved = _match_option(cited, option_aliases)
+        (coerced.append((cited, resolved)) if resolved else unknown.append(cited))
+    return {"exact": exact, "coerced": coerced, "unknown": unknown,
+            "n_tagged": len(exact) + len(coerced) + len(unknown)}
+
+
+def format_citation_audit(audit, kb_size):
+    """Render the citation audit for the user. Empty string when the model cited cleanly."""
+    if not audit["coerced"] and not audit["unknown"] and audit["n_tagged"]:
+        return ""
+    out = []
+    if not audit["n_tagged"]:
+        # No [source:] tags at all: the model ignored the required output format. The parser will fall
+        # back to scanning prose (Phases 1-2), which is built for the no-KB experimental condition and
+        # guesses from wording — it cannot be trusted to carry a real recommendation. Say so rather than
+        # present a config assembled by keyword-spotting.
+        out.append("\n⚠️  THE MODEL DID NOT FOLLOW THE REQUIRED OUTPUT FORMAT")
+        out.append("   It cited no [source: option_id] tags, so the configuration below was recovered by")
+        out.append("   scanning its prose for option names — a fallback that guesses, and regularly gets")
+        out.append("   enable/disable backwards. Do not trust it. Use a stronger model (gemma4:26b is the")
+        out.append(f"   one this system is built and benchmarked on; the KB has {kb_size} options).")
+        return "\n".join(out) + "\n"
+    out.append("\n⚠️  CITATION AUDIT")
+    for cited, resolved in audit["coerced"]:
+        out.append(f"   GUESSED: the model cited '{cited}', which is not a catalogue id. Read as "
+                   f"'{resolved}' (closest match). Confirm this is what you wanted.")
+    for cited in audit["unknown"]:
+        out.append(f"   DROPPED: the model cited '{cited}', which is not a VEP option in this knowledge "
+                   f"base and matches nothing. It has been removed from the configuration.")
+    return "\n".join(out) + "\n"
+
+
+def extract_recommendations_detailed(text, option_aliases):
+    """Parse LLM output into ORDERED per-option records, the structured-output source of truth.
+
+    Same three-tier strategy and EXACT same enable/disable decisions as
+    extract_recommendations (which is now derived from this), but additionally captures the
+    per-option fields the prompted format carries — confidence, the model's priority tag, the
+    `Reason:` line, and any value — so the deterministic JSON assembler (build_recommendation_json)
+    can emit schema-valid output WITHOUT the model ever producing JSON (Exp 8 showed it can't).
+
+    Returns a list of dicts: {option_id, action ('enable'|'disable'), confidence, priority,
+    reason, value}. confidence/priority/reason/value are None outside Phase 0 (the bare-run
+    fallbacks carry only an action). De-duplicated by (option_id, action), first occurrence wins,
+    so the richest Phase-0 capture is kept and the derived sets are byte-identical to before.
+
+      Phase 0  exact parse of the prompted `✓/✗ ... [source: option_id] confidence: X` format
+               (+ the following `Reason:` line). Trustworthy; returns immediately if any found.
+      Phase 1  markdown-table rows (`| option | enable |`). Phase 2  free prose (word-boundary).
     Phases 1-2 fire only when Phase 0 finds no `[source:]` tags (e.g. the bare no-KB run).
     """
-    enabled = set()
-    disabled = set()
+    # CAVEAT: valid_ids are ALIAS TARGETS, some demo-era ids not in the real catalogue (see
+    # build_option_aliases extras). The phantom-alias filter in build_recommendation_json /
+    # score paths drops those; here we keep parser behaviour identical to the pre-refactor code.
+    valid_ids = set(option_aliases.values())
+    lines = text.splitlines()
+    records = []
+    seen = set()   # (option_id, action) — first wins; keeps set membership identical to the old parser
 
-    # --- Phase 0: exact structured parse of the prompted format
-    # "✓/✗ option [source: option_id] ...". The model emits the exact option id in
-    # the [source: ...] tag, so prefer it over fuzzy name-matching (which mis-maps
-    # corrected ids like mane->mane_select and silently drops options). Falls through
-    # to the heuristic parser only when no such tags exist (e.g. the bare no-KB run).
-    # CAVEAT: this includes ALL alias targets, some of which are demo-era ids not in the real catalogue
-    # (see build_option_aliases extras) -> a model-emitted [source: gnomad_af] would be accepted as
-    # "valid" and a phantom id added to `enabled` that the checker can't reason about. In practice the
-    # model cites real ids from the prompt, so this is latent; the clean fix derives valid_ids from
-    # vep_options directly (would require passing it in).
-    valid_ids = set(option_aliases.values())   # NB: alias targets, not strictly real catalogue ids
+    def _add(oid, action, confidence=None, priority=None, reason=None, value=None):
+        key = (oid, action)
+        if key in seen:
+            return
+        seen.add(key)
+        records.append({"option_id": oid, "action": action, "confidence": confidence,
+                        "priority": priority, "reason": reason, "value": value})
+
+    # --- Phase 0: exact structured parse of the prompted format ---
     structured = False
-    for raw_line in text.splitlines():
-        m = re.search(r"\[source:\s*([A-Za-z0-9_]+)", raw_line)
+    for i, raw_line in enumerate(lines):
+        m = re.search(r"\[source:\s*([A-Za-z0-9_]+)", raw_line, re.IGNORECASE)
         if not m:
             continue
         oid = m.group(1)
         if oid not in valid_ids:
-            # tag held a near-miss (e.g. a name or flag) — fall back to fuzzy resolve
-            oid = _match_option(oid, option_aliases)
+            oid = _match_option(oid, option_aliases)   # near-miss (name/flag) -> fuzzy resolve
             if not oid:
                 continue
-        # FIX: look for the ✓/✗ marker anywhere BEFORE the [source:] tag, so leading bullets /
-        # numbering / bold ("- ✓", "1. ✓", "**✓**") don't hide it. The old code took only the first
-        # lstrip'd character, so a bulleted recommendation line carried a valid id but matched neither
-        # branch and was silently dropped (and if EVERY line was bulleted, structured stayed False and
-        # it fell through to the fuzzy phases that don't read [source:] at all). Compliant output
-        # (✓ at line start, tag after) parses identically to before.
+        # Marker anywhere BEFORE the [source:] tag, so bullets/numbering/bold don't hide it.
         head = raw_line[:m.start()]
         if "✓" in head or "✅" in head:
-            enabled.add(oid); structured = True
+            action = "enable"
         elif "✗" in head or "✘" in head or "❌" in head:
-            disabled.add(oid); structured = True
+            action = "disable"
+        else:
+            continue
+        structured = True
+        cm = re.search(r"confidence:\s*(high|medium|low)", raw_line, re.IGNORECASE)
+        confidence = cm.group(1).lower() if cm else None
+        pm = re.search(r"priority\s*=\s*([A-Za-z_]+)", raw_line)
+        priority = pm.group(1) if pm else None
+        # Reason: the following indented `Reason:` line, before the next marker/tag/blank break.
+        reason = None
+        for ln in lines[i + 1:]:
+            rm = re.search(r"Reason:\s*(.+)", ln)
+            if rm:
+                reason = rm.group(1).strip() or None
+                break
+            stripped = ln.strip()
+            if stripped == "" or "[source:" in ln or stripped[:1] in ("✓", "✗", "✅", "✘", "❌"):
+                break
+        _add(oid, action, confidence, priority, reason)
     if structured:
-        return enabled, disabled   # trust the structured parse; don't run the fuzzy phases
+        return records   # trust the structured parse; don't run the fuzzy phases
 
+    # --- Phases 1-2: replicate the legacy set-based fuzzy parser EXACTLY, then emit action-only
+    # records from the resulting sets. Building the sets first (not records directly) preserves the
+    # original "skip an option already decided in Phase 1" semantics of Phase 2 verbatim.
+    enabled, disabled = set(), set()
     text_lower = text.lower()
 
-    # --- Phase 1: parse table rows ---
     table_rows = re.findall(
         r"\|\s*\*{0,2}([^|]+?)\*{0,2}\s*\|\s*\*{0,2}(enable|disable|on|off|yes|no|true|false)\*{0,2}\s*\|",
         text_lower,
@@ -213,27 +329,37 @@ def extract_recommendations(text, option_aliases):
             else:
                 disabled.add(matched)
 
-    # --- Phase 2: scan non-table lines for prose recommendations ---
     for line in text_lower.split("\n"):
-        # Skip table rows (already parsed above)
         if "|" in line:
             continue
         for alias, oid in option_aliases.items():
             if oid in enabled or oid in disabled:
-                continue  # already resolved via table
-            # Word-boundary matching to avoid "pick" matching "picking" etc.
+                continue
             if not re.search(r"\b" + re.escape(alias) + r"\b", line):
                 continue
-            # check context around the alias.
-            # CAVEAT (loose + negation-blind): 'use ' matches inside 'beca[use] ' and '\bon\b' matches
-            # 'based on' / 'on chromosome', so reason prose can false-trigger ENABLE; and because the
-            # enable branch is tested first, 'do not enable sift' hits 'enabl' -> enabled. Phase 2 only
-            # runs for output with no [source:] tags (the bare/no-KB condition), so its parse is noisy.
             if re.search(r"(enabl|turn.{0,3}on|\bon\b|recommend|include|add|use )", line):
                 enabled.add(oid)
             elif re.search(r"(disabl|turn.{0,3}off|\boff\b|skip|omit|not.{0,6}need|unnecessary|don.t)", line):
                 disabled.add(oid)
 
+    for oid in sorted(enabled):
+        _add(oid, "enable")
+    for oid in sorted(disabled):
+        _add(oid, "disable")
+    return records
+
+
+def extract_recommendations(text, option_aliases):
+    """Parse LLM output to extract which options are enabled/disabled.
+
+    Thin wrapper over extract_recommendations_detailed (the single parsing source of truth):
+    derives the (enabled, disabled) id sets from the per-option records, so every existing caller
+    gets byte-identical output while the structured-output path reuses the same parse. See that
+    function for the three-tier strategy and the 2026-06-08 score-capping bug it fixes.
+    """
+    records = extract_recommendations_detailed(text, option_aliases)
+    enabled = {r["option_id"] for r in records if r["action"] == "enable"}
+    disabled = {r["option_id"] for r in records if r["action"] == "disable"}
     return enabled, disabled
 
 
@@ -260,6 +386,8 @@ _RESTRICTIVENESS = {
 # Keyword → species mapping for species inference
 _SPECIES_KEYWORDS = {
     "mouse": "mouse",
+    "mice": "mouse",           # plural — word-boundary matching means "mice" != "mouse"
+    "murine": "mouse",         # common adjective ("murine model")
     "mus musculus": "mouse",
     "grcm": "mouse",
     "grcm38": "mouse",
@@ -273,12 +401,18 @@ _SPECIES_KEYWORDS = {
     "c. elegans": "c_elegans",
     "caenorhabditis": "c_elegans",
     "rat": "rat",
+    "rats": "rat",
     "rattus": "rat",
     "chicken": "chicken",
+    "chickens": "chicken",
     "gallus": "chicken",
     "pig": "pig",
+    "pigs": "pig",
+    "porcine": "pig",
     "sus scrofa": "pig",
     "dog": "dog",
+    "dogs": "dog",
+    "canine": "dog",
     "canis": "dog",
     "non-human": "non_human",
     "non human": "non_human",
@@ -286,11 +420,11 @@ _SPECIES_KEYWORDS = {
     "rice": "rice",
     "oryza": "rice",
     # extra common organisms (reduces the fail-open surface — still enumeration-limited)
-    "cow": "cow", "bovine": "cow", "bos taurus": "cow",
-    "sheep": "sheep", "ovis": "sheep",
-    "horse": "horse", "equus": "horse",
+    "cow": "cow", "cows": "cow", "cattle": "cow", "bovine": "cow", "bos taurus": "cow",
+    "sheep": "sheep", "ovine": "sheep", "ovis": "sheep",
+    "horse": "horse", "horses": "horse", "equine": "horse", "equus": "horse",
     "yeast": "yeast", "saccharomyces": "yeast",
-    "rabbit": "rabbit",
+    "rabbit": "rabbit", "rabbits": "rabbit",
 }
 
 # Positive HUMAN signals — so 'human' is EARNED, not a silent default (fail-closed design). With no
@@ -396,6 +530,32 @@ def _is_human_only(restriction: str) -> bool:
     return not any(re.search(r"\b" + re.escape(s) + r"\b", r) for s in _OTHER_SPECIES)
 
 
+_ASSEMBLY_ALIASES = {"hg19": "GRCh37", "hg38": "GRCh38"}
+
+
+def infer_assembly(query):
+    """The human assembly the query names ('GRCh37'/'GRCh38'), or None if it doesn't say.
+
+    Fail-open by design, mirroring infer_species: most queries never name an assembly, so assuming one
+    would strip options from the majority to protect a minority.
+    """
+    m = _ASSEMBLY_RE.search(query or "")
+    if not m:
+        return None
+    a = _ASSEMBLY_ALIASES.get(m.group(1).lower(), m.group(1))
+    return a if a in ("GRCh37", "GRCh38") else None    # non-human builds are the species gate's job
+
+
+def _assembly_restriction(restriction):
+    """Human assemblies an option's data exists for, or None if it isn't assembly-restricted.
+
+      'human only (GRCh38)'         -> {'GRCh38'}
+      'human only (GRCh37+GRCh38)'  -> {'GRCh37','GRCh38'}   (unrestricted in practice)
+      'human only' / 'all species'  -> None
+    """
+    return set(re.findall(r"GRCh3[78]", restriction or "")) or None
+
+
 def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                              training_examples: list,
                              user_query: str,
@@ -455,6 +615,28 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                     "type": "species",
                     "option_disabled": oid,
                     "reason": f"'{oid}' is restricted to {species_map[oid]} but your query specifies {species}",
+                })
+                enabled.discard(oid)
+                disabled.add(oid)
+
+    # --- Assembly violations ---
+    # Some human sources exist for only ONE build: MANE and EVE are GRCh38-only, Geno2MP is GRCh37-only.
+    # The web form does NOT protect the user here — it shows those checkboxes for any human assembly
+    # (e.g. InputForm.pm:694-702 gates `mane` on species alone) — so a GRCh37 query can tick MANE and get
+    # an empty column. The restriction was documented only in when_not_to_use prose ("MANE is human GRCh38
+    # only"), which no code reads; it now lives in species_restriction where this can enforce it.
+    # Same fail-open posture as species: gate ONLY when the query actually names a build. Runs after the
+    # species pass, so non-human rows have already lost these options anyway.
+    assembly = infer_assembly(user_query)
+    if assembly:
+        for oid in list(enabled):
+            allowed = _assembly_restriction(species_map.get(oid, "all species"))
+            if allowed and assembly not in allowed:
+                violations.append({
+                    "type": "assembly",
+                    "option_disabled": oid,
+                    "reason": (f"'{oid}' has data for {'/'.join(sorted(allowed))} only, but your query "
+                               f"specifies {assembly}"),
                 })
                 enabled.discard(oid)
                 disabled.add(oid)
@@ -581,6 +763,68 @@ def format_violation_warnings(violations: list[dict]) -> str:
     return "\n".join(lines)
 
 
+# An option whose cli_flag lists SEVERAL flags ("--refseq | --merged | --gencode_basic") is a menu, not a
+# flag: the user must pick one. Detected by >1 "--" separated by | or /, so a single flag carrying a path
+# ("--plugin MaxEntScan,/path/to/x") or a value placeholder ("--sift [b|p|s]") is NOT mistaken for a menu.
+_FLAG_ALT_SPLIT = re.compile(r"\s*[|/]\s*")
+
+
+def cli_flags_for(enabled, vep_options):
+    """Runnable, de-duplicated CLI flags for an enabled set → (flags, choices).
+
+    `choices` are (option_id, [alternatives]) for menu-style cli_flags, which must be offered rather than
+    pasted into a command. Both command builders share this, because they had drifted into two different
+    broken rules:
+      * format_corrected_config joined every raw cli_flag with no filtering at all, so the printed command
+        contained "--check_existing --check_existing" (both `clinvar` and `check_existing` carry that flag)
+        and the literal menu "--gencode_basic / --refseq / --merged".
+      * build_recommendation_json filtered on `"|" not in f`, which on the expanded catalogue silently
+        DROPPED --sift/--polyphen from the command, because their flag is "--sift [b|p|s]" — a value
+        placeholder, not a menu.
+    """
+    flag_by_id = {o["id"]: (o.get("cli_flag") or "") for o in vep_options}
+    flags, choices, seen = [], [], set()
+    for oid in sorted(enabled):
+        f = flag_by_id.get(oid, "").strip()
+        if not f.startswith("--"):
+            continue
+        # A flag with SUB-PARAMETERS, "--check_frequency (+ --freq_pop/--freq_freq/...)": the parenthetical
+        # lists parameters used ALONGSIDE the main flag, not alternatives to it. Emit only the leading
+        # flag (the sub-params need user-supplied values anyway); do NOT present them as a pick-one menu.
+        # Detected by the "(+" additional-params marker, checked before the menu rule below.
+        head = f.split("(+", 1)[0].strip() if "(+" in f else f
+        alts = re.findall(r"--[A-Za-z0-9_]+", head)
+        # A MENU of several flags -> the user must pick one. Checked BEFORE the derived/no-flag skip
+        # below, because core_type's flag is "--refseq | --merged | --gencode_basic | --gencode_primary
+        # (no flag for core)": it contains "no flag" (describing its DEFAULT) while still being a real
+        # choice, so skipping on that substring first dropped the transcript database from the command
+        # entirely — silently, which is the same class of bug as the rest of this function.
+        if len(alts) > 1 and _FLAG_ALT_SPLIT.search(head):
+            choices.append((oid, alts))
+            continue
+        f = head   # drop any "(+ ...)" sub-parameter annotation from the emitted flag
+        # Not a standalone flag: derived options ride on another option's flag (clinvar -> check_existing).
+        if "derived" in f or "no flag" in f:
+            continue
+        # VALUE PLACEHOLDER, not a runnable value: sift/polyphen carry "--sift [b|p|s]", meaning "pick one
+        # of b|p|s". Pasting "[b|p|s]" verbatim makes the command un-runnable (a model's
+        # config can produce `--sift [b|p|s]`). Substitute the option's documented default from
+        # _SET_VALUE_DEFAULTS; if we have no default, drop the bracket group rather than emit garbage.
+        if re.search(r"\[[^\]]*\|[^\]]*\]", f):
+            default = _SET_VALUE_DEFAULTS.get(oid)
+            f = re.sub(r"\s*\[[^\]]*\]", f" {default}" if default else "", f).strip()
+        # DESCRIPTIVE PARENTHETICAL, not runnable syntax: gnomad_sv's flag is
+        # "--custom (gnomAD_SV VCF, type=exact, overlap_cutoff 80/90/100/exact)" — the parenthetical
+        # describes what data file to supply, it is not command syntax. Pasting it verbatim is unrunnable;
+        # emit just the flag (the user fills the file per the "fill in values/paths" note on the command).
+        if "(" in f:
+            f = f.split("(", 1)[0].strip()
+        if f not in seen:            # de-dup: two options can legitimately share one flag
+            seen.add(f)
+            flags.append(f)
+    return flags, choices
+
+
 def format_corrected_config(enabled, disabled, vep_options, violations):
     """Render the authoritative post-checker configuration — the 'dispose' step, not just a warning.
 
@@ -603,11 +847,259 @@ def format_corrected_config(enabled, disabled, vep_options, violations):
         lines.append(f"  ✓ {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip())
     if not on:
         lines.append("  (none)")
-    flags = " ".join(f for f in (flag_by_id.get(oid, "") for oid in on) if f)
+    flag_list, choices = cli_flags_for(on, vep_options)
     lines.append("")
     lines.append("Corrected VEP command (use THIS, not the draft command above — fill in values/paths):")
-    lines.append(f"  vep --input_file <in.vcf> --output_file <out.txt> --cache {flags}")
+    lines.append(f"  vep --input_file <in.vcf> --output_file <out.txt> --cache "
+                 f"{' '.join(flag_list)}".rstrip())
+    for oid, alts in choices:
+        lines.append(f"  # {name_by_id.get(oid, oid)} [{oid}] — choose ONE: {' | '.join(alts)}")
     lines.append("=" * 60)
+    return "\n".join(lines)
+
+
+# --- Structured-output assembler (deterministic ✓/✗ → schema-valid JSON) ---------------------
+# Exp 8 showed the local model cannot reliably emit JSON, but it reliably emits the
+# `✓/✗ [source: id]` format. So OUR code assembles the schema-valid JSON from the parsed records +
+# the checker's corrected set + KB factual fields — valid by construction, the LLM never emits JSON.
+# Target contract: work/output_schema/vep_recommendation.schema.json (+ SCHEMA_DESIGN.md mapping table).
+
+# The 'Restrict results' dropdown: these catalogue ids are mutually-exclusive VALUES of one control
+# whose HTML name is `summary` (InputForm.pm). web_form_field='summary', value=<the id>.
+_RESTRICT_RESULTS_IDS = {"pick", "pick_allele", "per_gene", "summary", "most_severe"}
+
+# Native non-checkbox controls (dropdown / radiolist / string): action='set_value' with this default
+# value (the InputForm.pm web default) unless the model specified one. `core_type` handled separately.
+_SET_VALUE_DEFAULTS = {
+    "sift": "b", "polyphen": "b", "check_existing": "yes", "shift_3prime": "shift_3prime",
+    "distance": "1000", "buffer_size": "5000", "frequency": "common",
+}
+
+# Species-scoped controls whose HTML name is suffixed with the resolved species at runtime.
+_SPECIES_SCOPED_IDS = {"regulatory", "cell_type"}
+
+# infer_species() word -> InputForm species form-name suffix (for `regulatory_<Species>` etc.).
+_SPECIES_FORM_NAME = {
+    "human": "Homo_sapiens", "mouse": "Mus_musculus", "rat": "Rattus_norvegicus",
+    "zebrafish": "Danio_rerio", "pig": "Sus_scrofa", "dog": "Canis_lupus_familiaris",
+    "chicken": "Gallus_gallus", "cow": "Bos_taurus",
+}
+
+_ASSEMBLY_RE = re.compile(r"\b(GRCh38|GRCh37|hg38|hg19|GRCm39|GRCm38|GRCz11|Rnor_6\.0|mRatBN7\.2)\b",
+                          re.IGNORECASE)
+
+
+def _web_form_target(option: dict, species_form: str, model_value=None):
+    """Map a catalogue option to its (web_form_field, action, value) for click-to-apply.
+
+    Implements the SCHEMA_DESIGN.md field-name table deterministically from the option's id +
+    source_type + cli_flag. `species_form` is the resolved InputForm species suffix (e.g.
+    'Homo_sapiens'); `model_value` is an optional value the model emitted (rarely present).
+    """
+    oid = option["id"]
+    src = option.get("source_type", "native")
+    flag = option.get("cli_flag", "") or ""
+
+    if oid in _RESTRICT_RESULTS_IDS:                       # one dropdown, name='summary'
+        return "summary", "set_value", oid
+    if oid == "core_type":                                 # transcript-database radiolist
+        return "core_type", "set_value", (model_value or "core")
+    if oid == "clinvar":                                   # no standalone control -> via check_existing
+        return "check_existing", "enable", None
+    if src == "plugin":
+        m = re.search(r"--plugin\s+(\w+)", flag)
+        key = m.group(1) if m else oid
+        field = f"plugin_{key}"
+        return field, "set_value", field
+    if src == "custom":
+        return f"custom_{oid}", "enable", None
+    if oid in _SPECIES_SCOPED_IDS:
+        return f"{oid}_{species_form}", "enable", None
+    if oid in _SET_VALUE_DEFAULTS:
+        return oid, "set_value", (model_value or _SET_VALUE_DEFAULTS[oid])
+    return oid, "enable", None                             # native checkbox
+
+
+def _first_sentence(text: str, limit: int = 240) -> str:
+    """First sentence (or a bounded prefix) of a description — a non-empty reason fallback."""
+    text = (text or "").strip()
+    if not text:
+        return ""
+    head = text.split(". ")[0].strip()
+    return (head if head.endswith(".") else head + ".")[:limit]
+
+
+def build_recommendation_json(query, response_text, vep_options, training_examples,
+                              option_aliases=None, retrieval_mode="keyword",
+                              model=None, kb_version=None, run_checker=True):
+    """Assemble a schema-valid recommendation JSON from a model response — deterministically.
+
+    Pipeline reuse (no logic fork): extract_recommendations_detailed (parse) +
+    check_and_fix_violations (the SAME deterministic checker that repairs the CLI/web output) +
+    KB factual fields (web_form_section / cli_flag / web_form_subsection / priority). The model
+    never emits JSON; this is valid by construction against
+    work/output_schema/vep_recommendation.schema.json.
+
+    The serialised `recommendations` are the POST-checker set (corrected enables, mapped to
+    enable/set_value, plus any explicit/checker disables as action='disable'), so the JSON never
+    contains a species- or conflict-invalid combination — matching the click-to-apply contract.
+
+    Returns a dict (JSON-serialisable). Offline-safe: needs only a logged response + the catalogue.
+    """
+    from datetime import datetime, timezone
+
+    if option_aliases is None:
+        option_aliases = build_option_aliases(vep_options)
+
+    real_ids = {o["id"] for o in vep_options}
+    by_id = {o["id"]: o for o in vep_options}
+
+    # Parse -> per-option records; drop phantom (alias-target-only) ids the checker can't reason about.
+    records = [r for r in extract_recommendations_detailed(response_text, option_aliases)
+               if r["option_id"] in real_ids]
+    reason_by_id = {}
+    value_by_id = {}
+    for r in records:                                      # first occurrence wins (richest capture)
+        reason_by_id.setdefault(r["option_id"], r["reason"])
+        value_by_id.setdefault(r["option_id"], r["value"])
+
+    enabled = {r["option_id"] for r in records if r["action"] == "enable"}
+    disabled = {r["option_id"] for r in records if r["action"] == "disable"}
+
+    species = infer_species(query)
+    use_case = _detect_use_case(enabled, vep_options, training_examples, query, retrieval_mode)
+
+    violations = []
+    if run_checker:
+        # Mutates enabled/disabled in place into the corrected, authoritative set.
+        violations = check_and_fix_violations(enabled, disabled, vep_options, training_examples,
+                                              query, retrieval_mode=retrieval_mode)
+
+    species_out = "human" if species == "unknown" else species
+    species_form = _SPECIES_FORM_NAME.get(species_out, species_out.replace(" ", "_").title())
+
+    def _rec(oid, action_kind):
+        opt = by_id[oid]
+        field, action, value = _web_form_target(opt, species_form, value_by_id.get(oid))
+        if action_kind == "disable":                      # ensure-OFF entry
+            action, value = "disable", None
+        priority = opt.get("priority_by_use_case", {}).get(use_case, "not_applicable")
+        reason = reason_by_id.get(oid) or _first_sentence(opt.get("description", "")) or opt.get("name", oid)
+        return {
+            "option_id": oid,
+            "web_form_section": opt.get("web_form_section", "advanced"),
+            "web_form_subsection": opt.get("web_form_subsection"),
+            "web_form_field": field,
+            "action": action,
+            "value": value,
+            "cli_flag": opt.get("cli_flag", ""),
+            "priority": priority if priority in ("critical", "recommended", "optional", "not_applicable") else "not_applicable",
+            "confidence": get_confidence(oid, use_case, vep_options),
+            "source": f"[source: {oid}]",
+            "reason": reason,
+        }
+
+    recommendations = [_rec(oid, "enable") for oid in sorted(enabled)]
+    recommendations += [_rec(oid, "disable") for oid in sorted(disabled) if oid in by_id]
+
+    # constraint_check: 'passed' = no STRUCTURAL repair was needed (advisory-only notes, e.g. the
+    # 'unknown species' flag, don't flip it). Each checker violation already uses the schema's keys.
+    structural = [v for v in violations
+                  if any(k in v for k in ("option_disabled", "option_enabled", "option_kept"))]
+    viol_out = []
+    for v in violations:
+        item = {"type": v["type"], "reason": v["reason"]}
+        for k in ("option_disabled", "option_enabled", "option_kept"):
+            if k in v:
+                item[k] = v[k]
+        viol_out.append(item)
+
+    am = _ASSEMBLY_RE.search(query or "")
+    assembly = am.group(1) if am else None
+
+    # generated_command mirrors the final (post-checker) enabled set. Shares cli_flags_for() with
+    # format_corrected_config so the printed command and the JSON command cannot drift apart.
+    flags, choices = cli_flags_for(enabled, vep_options)
+    cmd = "vep --input_file <in.vcf> --output_file <out.txt> --cache"
+    if species_out:
+        cmd += f" --species {species_out.lower().replace(' ', '_')}"
+    if assembly:
+        cmd += f" --assembly {assembly}"
+    if flags:
+        cmd += " " + " ".join(flags)
+
+    out = {
+        "query": query,
+        "detected_use_case": use_case,
+        "species": species_out,
+        "assembly": assembly,
+        "recommendations": recommendations,
+        "constraint_check": {"passed": len(structural) == 0, "violations": viol_out},
+        "generated_command": cmd,
+        # Menu-style options (transcript DB, gnomAD exome-vs-genome) cannot be pasted into a command —
+        # surfaced so a caller can prompt instead of emitting an unrunnable flag.
+        "command_choices": [{"option_id": oid, "alternatives": alts} for oid, alts in choices],
+        "metadata": {
+            "retrieval_mode": retrieval_mode,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        },
+    }
+    if model:
+        out["metadata"]["model"] = model
+    if kb_version:
+        out["metadata"]["kb_version"] = kb_version
+    return out
+
+
+def is_plugin_flag(cli_flag: str) -> bool:
+    """True if an option needs an EXTERNAL data file / install (a `--plugin X` or `--custom ...` option),
+    rather than a native VEP flag that works from the core cache alone.
+
+    This is the source-grounded discriminator (the `cli_flag` itself), NOT the provisional
+    `priority_by_use_case` judgement — so it is safe to drive output tiers off it today.
+    """
+    f = cli_flag or ""
+    return "--plugin" in f or "--custom" in f
+
+
+def tier_options(enabled, vep_options):
+    """Split an enabled option set into two deterministic, separable output tiers:
+
+      - ``core``   — native VEP flags: available from the core install, no extra data, fast.
+      - ``addons`` — plugins / custom files (``--plugin`` / ``--custom``): need downloaded data
+                     files and add runtime, so a user may want to opt in to them explicitly.
+
+    The split is FACTUAL (keyed on ``cli_flag`` via :func:`is_plugin_flag`), so it is reliable now —
+    unlike an essential-vs-optional split, which would depend on the still-uncalibrated
+    ``priority_by_use_case`` labels. Returns ``{"core": [...ids], "addons": [...ids]}`` (each sorted).
+    """
+    flag_by_id = {o["id"]: o.get("cli_flag", "") for o in vep_options}
+    core, addons = [], []
+    for oid in sorted(enabled):
+        (addons if is_plugin_flag(flag_by_id.get(oid, "")) else core).append(oid)
+    return {"core": core, "addons": addons}
+
+
+def format_tiered_config(enabled, vep_options):
+    """Render the enabled set grouped into Core (native) vs Add-ons (plugins/custom).
+
+    DISPLAY LAYER ONLY — does not change which options are enabled (so it has no effect on the
+    checker or the scored metrics); it only makes the recommended set separable for the user.
+    """
+    tiers = tier_options(enabled, vep_options)
+    name_by_id = {o["id"]: o.get("name", o["id"]) for o in vep_options}
+    flag_by_id = {o["id"]: o.get("cli_flag", "") for o in vep_options}
+    lines = []
+    lines.append(f"CORE — native VEP options (no extra data files, fast)  [{len(tiers['core'])}]")
+    for oid in tiers["core"]:
+        lines.append(f"  \u2713 {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip())
+    if not tiers["core"]:
+        lines.append("  (none)")
+    lines.append(f"ADD-ONS — plugins / custom data (need downloaded files + extra runtime)  [{len(tiers['addons'])}]")
+    for oid in tiers["addons"]:
+        lines.append(f"  + {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip())
+    if not tiers["addons"]:
+        lines.append("  (none)")
     return "\n".join(lines)
 
 
@@ -776,8 +1268,8 @@ def build_system_prompt(vep_options, training_examples, user_query="",
         retrieval_mode: "keyword" for word-overlap retrieval, "semantic" for
             embedding-based retrieval, "all" to include every training example.
             NOTE: only "semantic" hard-filters the options (top-10); "keyword"/"all" show the full
-            catalogue. CLAUDE.md records that this top-10 semantic filter HURTS ("do NOT hard-filter the
-            58 options") — it is retained only as the eval's comparison condition, so `--semantic` in the
+            catalogue. This top-10 semantic filter HURTS retrieval (see the experiments: do not hard-filter the
+            58 options) — it is retained only as the eval's comparison condition, so `--semantic` in the
             demo runs a known-worse path and is not the recommended production setting.
         examples_override: optional pre-selected, pre-ORDERED list of example dicts to place in the
             "Reference Examples" block verbatim (order preserved). When given, the normal example
@@ -1020,6 +1512,11 @@ def stream_response(client, model, system_prompt, user_message):
         ],
         max_tokens=4096,
         stream=True,
+        # Keep the model resident between calls. The latency benchmark found the big TTFT spikes (up to
+        # ~40s) were Ollama EVICTING the 15GB model and reloading it, not prefill — and that the fixed
+        # system prompt prefix is cache-able (TTFT dropped to ~0.2s on a warm cache). keep_alive=-1 pins
+        # the model in memory so the second query onward pays neither reload nor (cached) prefill.
+        extra_body={"keep_alive": -1},
     )
     for chunk in stream:
         delta = chunk.choices[0].delta.content
@@ -1068,6 +1565,13 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     warnings = ""
     if not skip_check:
         option_aliases = build_option_aliases(vep_options)
+        # Audit what the model CITED before we act on it: ids that don't exist are dropped, near-misses
+        # are fuzzy-resolved, and both used to happen silently. A silent guess is how `[source: plugin_cadd]`
+        # became MaxEntScan in a live demo, so the guess is now stated out loud.
+        audit = audit_source_citations(response_text, option_aliases)
+        audit_report = format_citation_audit(audit, len(vep_options))
+        if audit_report:
+            print(audit_report)
         enabled, disabled = extract_recommendations(response_text, option_aliases)
         violations = check_and_fix_violations(
             enabled, disabled, vep_options, training_examples, user_query,
@@ -1078,7 +1582,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
             print(warnings)
         corrected = format_corrected_config(enabled, disabled, vep_options, violations)
         print(corrected)
-        warnings = (warnings + "\n" + corrected) if warnings else corrected
+        warnings = "\n".join(x for x in (audit_report, warnings, corrected) if x)
 
     save_result(user_query, response_text, mode="recommend", warnings=warnings)
 
@@ -1104,7 +1608,14 @@ def run_explain_result(client, model, user_query):
 
 def main():
     base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
-    model = os.environ.get("VEP_MODEL", "qwen2.5:3b")
+    # Default to the model this system is actually built and benchmarked on. It was qwen2.5:3b, chosen
+    # when the demo just needed something small — but 3B cannot hold the `✓/✗ ... [source: id]` output
+    # contract the whole pipeline depends on. It frequently emits no [source:] tags at all, which drops the
+    # parser into its prose fallback (built for the no-KB experimental condition), and that fallback
+    # inverts the model: "✗ polyphen: ON" parses as ENABLE. Exp 1/10 measure 3B at 31-39% enable-F1, the
+    # worst of every model tested, vs 84% for gemma4:26b. Shipping it as the default made the demo's first
+    # impression the system's worst configuration.
+    model = os.environ.get("VEP_MODEL", "gemma4:26b")
     client = OpenAI(base_url=base_url, api_key="ollama")
 
     args = sys.argv[1:]
