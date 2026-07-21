@@ -268,6 +268,63 @@ def parse_factor_classification(raw):
     return out
 
 
+def infer_factors(client, model, user_query):
+    """Classify a free-text query into a factor tuple, or None if the classifier fails.
+
+    SPECIES is taken from infer_species(), not from the classifier: species is the hard safety gate
+    and the deterministic keyword layer is fail-closed by design, so it stays the authority. An
+    unconfirmed species reads as 'human' here, matching what the checker already does (keep the
+    human-only options and warn) — the checker still runs its own species pass regardless.
+
+    'unstated' is preserved for the other single-select factors rather than guessed: it contributes no
+    priority and triggers no hard gate, so an unstated factor simply exerts no influence. The one
+    default applied is analysis_goal -> basic-consequence when nothing richer is indicated, which is
+    the agreed baseline goal.
+
+    Deterministic (temperature 0, fixed seed) — but note temp=0 is NOT reproducible under concurrency
+    on a Metal/MoE stack, so a reproducible run needs concurrency 1.
+
+    Runs on VEP_FACTOR_MODEL (default gemma4:12b), not the main recommender model. This is a small
+    fixed-schema classification emitting ~60 tokens, so the large model buys nothing and costs a second
+    full generation — on 26b it roughly doubles end-to-end latency. The generation pipeline already
+    cross-checks factors with 12b for the same reason."""
+    model = os.environ.get("VEP_FACTOR_MODEL", "gemma4:12b")
+    try:
+        resp = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": FACTOR_CLASSIFIER_PROMPT + (user_query or "")},
+                {"role": "user", "content": "Return the JSON classification."},
+            ],
+            temperature=0.0,
+            seed=42,
+        )
+        raw = resp.choices[0].message.content or ""
+    except Exception:
+        return None
+
+    rec = parse_factor_classification(raw)
+    if rec is None:
+        return None
+
+    rec["species"] = "non-human" if infer_species(user_query) not in ("human", "unknown") else "human"
+    if not rec.get("analysis_goal"):
+        rec["analysis_goal"] = ["basic-consequence"]
+    return rec
+
+
+def describe_factors(factor_tuple):
+    """One-line-per-factor rendering of a tuple, for the prompt and the user-facing trace."""
+    if not factor_tuple:
+        return ""
+    out = []
+    for f in FACTOR_VALUES:
+        v = factor_tuple.get(f)
+        shown = ", ".join(v) if isinstance(v, list) else v
+        out.append(f"- {f}: {shown or 'unstated'}")
+    return "\n".join(out)
+
+
 # ---------------------------------------------------------------------------
 # Fuzzy option extraction from free-text LLM output
 # ---------------------------------------------------------------------------
@@ -1360,11 +1417,24 @@ def format_tiered_config(enabled, vep_options):
 # Prompt building — compression + retrieval
 # ---------------------------------------------------------------------------
 
-def compress_options(vep_options):
-    """Convert verbose JSON options into a compact text reference."""
+def compress_options(vep_options, resolved=None):
+    """Convert verbose JSON options into a compact text reference.
+
+    `resolved` is the output of intent_priorities() for THIS query's factor tuple. When supplied,
+    each option carries the single priority that applies to this scenario ("critical" / "recommended"
+    / "optional" / "not applicable here") instead of the flat dump of all seven legacy use-case
+    labels. That flat dump was the same for every query and left the model to guess which column it
+    was in; showing the resolved tier is what lets it distinguish must-have from standard-default
+    from add-on. Omit `resolved` to get the original behaviour (the experiment harness relies on it)."""
     lines = []
     for opt in vep_options:
-        priorities = ", ".join(f"{k}={v}" for k, v in opt.get("priority_by_use_case", {}).items())
+        if resolved is not None:
+            en, pr, gated = resolved.get(opt["id"], (False, None, False))
+            priorities = ("NOT APPLICABLE for this scenario" if gated
+                          else f"{pr} for this scenario" if pr
+                          else "no priority for this scenario")
+        else:
+            priorities = ", ".join(f"{k}={v}" for k, v in opt.get("priority_by_use_case", {}).items())
         conflicts = ", ".join(opt.get("conflicts_with", [])) or "none"
         depends = ", ".join(opt.get("depends_on", [])) or "none"
         # NOTE: when_to_use / when_not_to_use are deliberately NOT shown here — they feed semantic
@@ -1509,7 +1579,7 @@ def get_confidence(option_id, use_case, vep_options):
 
 
 def build_system_prompt(vep_options, training_examples, user_query="",
-                        retrieval_mode="keyword", examples_override=None):
+                        retrieval_mode="keyword", examples_override=None, factor_tuple=None):
     """Construct a compact system prompt with retrieved examples.
 
     Assembles three blocks — the compressed option KB, the retrieved reference
@@ -1531,39 +1601,60 @@ def build_system_prompt(vep_options, training_examples, user_query="",
             example-order-sensitivity experiment (work/run_order_sensitivity.py) to vary ONLY the
             order/identity of the in-context examples while holding everything else fixed.
     """
+    # Resolve THIS query's factor tuple to per-option tiers, so the option block can state the one
+    # priority that applies here instead of all seven legacy use-case labels at once.
+    resolved = None
+    if factor_tuple:
+        try:
+            resolved = intent_priorities(factor_tuple, vep_options,
+                                         load_priority_by_factor(), load_factors())
+        except Exception:
+            resolved = None                      # config missing/unreadable -> fall back to the flat dump
+
     relevant_options = None
     if examples_override is not None:
         scored_examples = [(0, ex) for ex in examples_override]
         if retrieval_mode == "semantic" and user_query:
             scored_options = retrieve_options_semantic(vep_options, user_query, top_k=10)
             relevant_options = [opt for _, opt in scored_options]
-            options_text = compress_options(relevant_options)
+            options_text = compress_options(relevant_options, resolved)
         else:
-            options_text = compress_options(vep_options)
+            options_text = compress_options(vep_options, resolved)
     elif retrieval_mode == "all":
         # Include ALL training examples, no retrieval filtering
-        options_text = compress_options(vep_options)
+        options_text = compress_options(vep_options, resolved)
         scored_examples = [(0, ex) for ex in training_examples]
     elif retrieval_mode == "semantic" and user_query:
         # Use semantic retrieval for both options and examples
         scored_options = retrieve_options_semantic(vep_options, user_query, top_k=10)
         relevant_options = [opt for _, opt in scored_options]
-        options_text = compress_options(relevant_options)
+        options_text = compress_options(relevant_options, resolved)
         scored_examples = retrieve_examples_semantic(
             training_examples, user_query, vep_options
         )
     else:
-        options_text = compress_options(vep_options)
+        options_text = compress_options(vep_options, resolved)
         if user_query:
             scored_examples = retrieve_examples_keyword(training_examples, user_query)
         else:
             scored_examples = [(0, ex) for ex in training_examples[:2]]
     examples_text = "\n\n".join(format_example(ex) for _, ex in scored_examples)
 
+    scenario_block = ""
+    if factor_tuple:
+        scenario_block = f"""
+## Detected Scenario
+{describe_factors(factor_tuple)}
+
+The priority shown against each option below is the one that applies to THIS scenario. Enable the
+`critical` and `recommended` options. Offer `optional` ones as add-ons only if they genuinely help,
+and never enable anything marked NOT APPLICABLE.
+"""
+
     num_options = len(relevant_options) if relevant_options is not None else len(vep_options)
     return f"""You are a VEP (Variant Effect Predictor) Configuration Assistant for Ensembl VEP.
 Given a user's analysis scenario, recommend which VEP options to enable/disable with justifications.
-
+{scenario_block}
 ## VEP Options ({num_options} shown)
 {options_text}
 
@@ -1583,12 +1674,13 @@ configuration you never proposed.
 
 ## Output Format
 Respond in three sections:
-### 1. Detected Use Case
-Category (rare_disease_germline, somatic_cancer, regulatory_noncoding, population_genetics, structural_variants, quick_lookup, non_human) and why.
+### 1. Detected Scenario
+Restate the scenario as its factor values (species, origin, variant_size_class, region_focus,
+analysis_goal) and say briefly what in the question indicates each.
 ### 2. Recommended Options
 For EACH option, use this exact format (one per line):
 
-✓ option_name [source: option_id, priority=X for use_case] confidence: high|medium|low
+✓ option_name [source: option_id, priority=X] confidence: high|medium|low
   Reason: explanation of why this option is enabled, citing the knowledge base entry.
 
 ✗ option_name [source: option_id] confidence: high|medium|low
@@ -1807,8 +1899,18 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         print_decision_trace(user_query, vep_options, training_examples,
                              retrieval_mode=retrieval_mode)
 
+    # Classify the query into factor values FIRST, so the option block can carry the priority that
+    # applies to this scenario rather than the flat table of legacy use-case labels. A classifier
+    # failure is non-fatal: factor_tuple stays None and the prompt falls back to the old block.
+    factor_tuple = infer_factors(client, model, user_query)
+    if factor_tuple:
+        print("Detected scenario:")
+        print(describe_factors(factor_tuple))
+        print()
+
     system_prompt = build_system_prompt(vep_options, training_examples, user_query,
-                                        retrieval_mode=retrieval_mode)
+                                        retrieval_mode=retrieval_mode,
+                                        factor_tuple=factor_tuple)
     print("Analysing your scenario...\n")
 
     try:
