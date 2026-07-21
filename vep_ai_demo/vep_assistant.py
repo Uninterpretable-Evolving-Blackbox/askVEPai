@@ -61,6 +61,214 @@ def load_consequences():
 
 
 # ---------------------------------------------------------------------------
+# The FACTOR SCHEME (single source of truth — the generation pipeline imports this)
+# ---------------------------------------------------------------------------
+# A "use case" is a SET of factor values, not one category. The older single-label scheme
+# (rare_disease_germline / somatic_cancer / ...) mixes axes — a mouse somatic SV is somatic AND
+# structural AND non-human at once — so it mislabels the scenario and picks the wrong priorities.
+# See research/taxonomy_proposal.md §3.
+#
+# This block lives HERE, in the engine, deliberately. Both entry paths need it (the prose
+# recommender and the deterministic factor resolver), and the dependency arrow runs
+# work/generation -> vep_ai_demo, never the reverse (the demo must stay standalone/publishable).
+# Defining it once here is what stops the two paths from drifting apart.
+#
+# NOTHING here is mentor-validated: the scheme and the priority table are PROVISIONAL config
+# files. On sign-off, swap the JSON — the code does not change.
+
+def load_factors():
+    """The factor scheme (values, kinds, hard gates, exclusions, conditional rules)."""
+    path = Path(os.environ.get("VEP_FACTORS_FILE", BASE_DIR / "factors.json"))
+    with open(path) as f:
+        return json.load(f)
+
+
+def load_priority_by_factor():
+    """The PROVISIONAL importance table, keyed option -> factor -> value -> priority."""
+    path = Path(os.environ.get("VEP_PRIORITY_FACTOR_FILE", BASE_DIR / "priority_by_factor.json"))
+    with open(path) as f:
+        return json.load(f)
+
+
+PRIORITY_ORDER = {"critical": 3, "recommended": 2, "optional": 1}
+
+# Factors that can REMOVE an option outright when they mark it not_applicable.
+#
+# `region_focus` was added on documentary evidence, and it AMENDS taxonomy_proposal §3, which calls it
+# "purely soft". The docs disagree with the proposal: the catalogue rates the missense predictors (and
+# mane/protein/nmd) `regulatory_noncoding: not_applicable` — 9 of 10 predictors, CADD the sole exception —
+# and constraints_dossier.md:123 prescribes exactly this: "Model as a soft dependency (recommender gate,
+# not a CLI requirement): apply only to missense/coding variants." Without the gate, composition is
+# max-only, so `analysis_goal=clinical` would hand missense predictors to a purely regulatory query.
+# FLAG FOR THE MENTOR: this is a proposed amendment to §3, not something §3 already licenses.
+HARD_GATE_FACTORS = ("species", "variant_size_class", "region_focus")
+
+FACTOR_VALUES = {
+    "species": ["human", "non-human"],
+    "origin": ["germline", "somatic"],
+    "variant_size_class": ["small", "structural-CNV"],
+    "region_focus": ["coding", "regulatory-noncoding"],                                   # multi-select
+    "analysis_goal": ["basic-consequence", "clinical-interpretation", "population-frequency"],  # multi-select
+}
+MULTI_FACTORS = ("region_focus", "analysis_goal")
+
+# Options whose value is not a bare boolean (everything else -> True when enabled).
+VALUE_DEFAULTS = {"sift": "b", "polyphen": "b", "check_existing": "yes"}
+
+
+def strongest(labels):
+    """Strongest soft priority among labels (critical>recommended>optional), ignoring
+    not_applicable/None. Returns the label str or None if none apply."""
+    best, best_rank = None, 0
+    for p in labels:
+        r = PRIORITY_ORDER.get(p, 0)
+        if r > best_rank:
+            best, best_rank = p, r
+    return best
+
+
+def active_values(factor_tuple):
+    """Normalise a factor tuple to {factor: [values]} (single-select -> 1-element list)."""
+    out = {}
+    for f, v in factor_tuple.items():
+        if f.startswith("_"):
+            continue
+        out[f] = v if isinstance(v, list) else [v]
+    return out
+
+
+def factor_slug(factor_tuple):
+    """Compact, deterministic label for a tuple (for ids / filenames)."""
+    parts = [
+        factor_tuple["species"],
+        factor_tuple["origin"],
+        factor_tuple["variant_size_class"],
+        "+".join(factor_tuple["region_focus"]),
+        "+".join(factor_tuple["analysis_goal"]),
+    ]
+    return "__".join(parts).replace("-", "").replace("_", "")
+
+
+# Canonical non-human cue: the resolver runs the checker BEFORE the real query exists, so it
+# feeds infer_species a minimal species cue. Any non-human species gates the same human-only
+# block, so 'mouse' is a fair representative.
+def species_cue_query(species):
+    return "human variant analysis" if species == "human" else "mouse variant analysis"
+
+
+def factor_value_for(oid, species):
+    """The VALUE an enabled option takes (most are boolean True)."""
+    if oid == "core_type":
+        return "Ensembl/GENCODE" if species == "human" else "Ensembl"
+    return VALUE_DEFAULTS.get(oid, True)
+
+
+def intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=("critical", "recommended")):
+    """Pre-checker intent: {oid: (enabled_bool, priority_or_None, gated_bool)} from factor priorities.
+
+    `enable` is the set of priority labels that switch an option ON — default critical+recommended
+    (taxonomy_proposal §5). Pass ('critical',) for a tighter, higher-precision config."""
+    av = active_values(factor_tuple)
+    priorities = pbf["priorities"]
+    cond_rules = factors_cfg.get("conditional_rules", [])
+    somatic_na = set()
+    for f, spec in factors_cfg["factors"].items():
+        for rule in spec.get("hard_rules", []):
+            if factor_tuple.get(f) == rule["when_value"]:
+                somatic_na.update(rule["not_applicable"])
+
+    out = {}
+    for opt in catalogue:
+        oid = opt["id"]
+        pf = priorities.get(oid, {})
+        gated = False
+        # (1) hard gates — a factor gates an option only if EVERY one of its ACTIVE values marks the
+        # option not_applicable. For the single-select factors (species, variant_size_class) that is
+        # identical to the previous "any active value" rule, since there is exactly one active value.
+        # It matters for the multi-select `region_focus`: a coding+regulatory variant set HAS a coding
+        # component, so a missense predictor still applies and must not be gated away just because a
+        # regulatory component is also present. "any" would have dropped it; "all" keeps it.
+        for hf in HARD_GATE_FACTORS:
+            vals = av.get(hf, [])
+            if vals and all(pf.get(hf, {}).get(v) == "not_applicable" for v in vals):
+                gated = True
+        if oid in somatic_na:
+            gated = True
+        if gated:
+            out[oid] = (False, None, True)
+            continue
+        # (2) soft ranking over ALL active factor values
+        labels = []
+        for f, vals in av.items():
+            for v in vals:
+                labels.append(pf.get(f, {}).get(v))
+        # (3) conditional rules — JOINT conditions the per-value table cannot express. The priority table
+        # is keyed one factor value at a time and composes by max, so every value votes alone; there is no
+        # slot for "non-human AND clinical together imply MaxEntScan". A rule fires only when EVERY 'when'
+        # pair is active, and contributes its label to the same max — so it can only RAISE an option, never
+        # lower one. It also cannot resurrect a hard-gated option: gating `continue`s above this.
+        for rule in cond_rules:
+            if all(wv in av.get(wf, []) for wf, wv in rule["when"].items()):
+                lab = rule["then"].get(oid)
+                if lab:
+                    labels.append(lab)
+        pr = strongest(labels)
+        out[oid] = (pr in enable, pr, False)
+    return out
+
+
+# --- Query -> factors (the inference half; the resolver above is the config half) -------------------
+# A checker/reader model classifies the five factors from the query text ALONE. Deliberately
+# LLM-based, not keyword-based: keyword matching cannot handle the varied/implicit phrasing real
+# questions use, and it returns "unstated" rather than guessing so an absent factor is visible
+# instead of silently defaulted. Run it deterministically (temp 0, fixed seed, concurrency 1 —
+# temp=0 is NOT deterministic under concurrency on the Metal/MoE stack).
+
+FACTOR_CLASSIFIER_PROMPT = (
+    "You read a researcher's natural-language question about annotating genetic variants and identify ONLY "
+    "what the question actually states or clearly implies about the analysis. Do NOT guess; if the question "
+    "does not indicate a characteristic, use \"unstated\" (or [] for a list).\n\n"
+    "Reply with ONLY this JSON object, no prose:\n"
+    "{\n"
+    '  "species": "human" | "non-human" | "unstated",\n'
+    '  "origin": "germline" | "somatic" | "unstated",\n'
+    '  "variant_size_class": "small" | "structural-CNV" | "unstated",\n'
+    '  "region_focus": array with any of ["coding","regulatory-noncoding"],\n'
+    '  "analysis_goal": array with any of ["basic-consequence","clinical-interpretation","population-frequency"]\n'
+    "}\n\n"
+    "Guidance (judge by meaning, not keywords):\n"
+    "- origin: germline = inherited / constitutional / rare-disease / healthy cohort; somatic = tumour / cancer.\n"
+    "- variant_size_class: small = SNVs / indels / point changes; structural-CNV = large deletions / duplications / CNVs / SVs.\n"
+    "- region_focus: coding = protein-coding / missense / exonic; regulatory-noncoding = enhancer / promoter / intronic / intergenic.\n"
+    "- analysis_goal: basic-consequence = just a quick consequence call; clinical-interpretation = pathogenicity / "
+    "disease significance; population-frequency = allele frequencies. Use basic-consequence only when no richer goal is indicated.\n\n"
+    "Output raw JSON only — no markdown, no code fences, no explanation.\n\n"
+    "Question:\n"
+)
+
+
+def parse_factor_classification(raw):
+    """Parse the checker model's JSON into {factor: value|'unstated' | [values]}. Tolerant of surrounding
+    prose / code fences. Returns None on a genuine parse failure so the caller can flag it as a CHECKER
+    problem (not 5 phantom 'unknown' factors)."""
+    out = {f: ([] if f in MULTI_FACTORS else "unstated") for f in FACTOR_VALUES}
+    try:
+        s, e = raw.find("{"), raw.rfind("}")
+        obj = json.loads(raw[s:e + 1])
+        if not isinstance(obj, dict):
+            return None
+    except Exception:
+        return None
+    for f in FACTOR_VALUES:
+        v = obj.get(f)
+        if f in MULTI_FACTORS:
+            out[f] = [x for x in v if x in FACTOR_VALUES[f]] if isinstance(v, list) else []
+        else:
+            out[f] = v if v in FACTOR_VALUES[f] else "unstated"
+    return out
+
+
+# ---------------------------------------------------------------------------
 # Fuzzy option extraction from free-text LLM output
 # ---------------------------------------------------------------------------
 
@@ -235,6 +443,51 @@ def format_citation_audit(audit, kb_size):
         out.append(f"   DROPPED: the model cited '{cited}', which is not a VEP option in this knowledge "
                    f"base and matches nothing. It has been removed from the configuration.")
     return "\n".join(out) + "\n"
+
+
+# ---------------------------------------------------------------------------
+# Scope gate — did the model decline to produce a configuration at all?
+# ---------------------------------------------------------------------------
+# When the user asks something that is not a VEP-configuration request, the model correctly declines.
+# Everything downstream, though, assumes a configuration WAS proposed: the citation audit reports "no
+# [source:] tags", the prose fallback keyword-scrapes option names out of the refusal text, and the
+# checker then "corrects" that phantom config and warns about an unspecified species. All three warnings
+# are true statements about a configuration that does not exist, and they bury the one thing the user
+# needs to read — that the question was out of scope.
+#
+# So: detect the decline and skip the whole config pipeline. Primary signal is an explicit marker the
+# prompt asks for (deterministic, no guessing). The secondary net catches models that decline without
+# it, and is deliberately CONSERVATIVE — it fires only when the model produced neither citations nor
+# ✓/✗ markers AND the prose reads as a scope refusal. Anything else keeps the existing format warning,
+# because silently dropping that warning would hide a real failure (a weak model that rambled).
+
+OUT_OF_SCOPE_PREFIX = "OUT OF SCOPE:"
+
+_REFUSAL_RE = re.compile(
+    r"(only (?:able to |designed to |here to )?(?:help|assist|answer|provide|recommend)\b[^.]{0,60}\bVEP)"
+    r"|(\bI (?:can|am) only\b)"
+    r"|(\b(?:outside|beyond) (?:the |my )?scope\b)"
+    r"|(\bnot (?:a |an )?(?:VEP )?(?:variant|configuration|annotation)[- ]related\b)"
+    r"|(\bI'?m (?:a|an) VEP\b[^.]{0,60}\bassistant\b)",
+    re.IGNORECASE,
+)
+
+
+def is_out_of_scope_response(text, audit):
+    """True when the model declined to configure VEP, so there is NO configuration to audit or check.
+
+    Order: (1) the explicit marker the prompt asks for; (2) a conservative fallback — no citations AND
+    no ✓/✗ markers AND refusal phrasing. Returns False whenever the model made any attempt at the
+    output contract, so a genuine format failure still raises its warning."""
+    if not text:
+        return False
+    if text.lstrip().upper().startswith(OUT_OF_SCOPE_PREFIX):
+        return True
+    if audit and audit.get("n_tagged"):
+        return False                                   # it cited the KB -> it attempted a config
+    if re.search(r"(?m)^\s*[✓✗]", text):
+        return False                                   # it used the recommendation markers
+    return bool(_REFUSAL_RE.search(text))
 
 
 def extract_recommendations_detailed(text, option_aliases):
@@ -1317,6 +1570,17 @@ Given a user's analysis scenario, recommend which VEP options to enable/disable 
 ## Reference Examples
 {examples_text}
 
+## Scope
+You ONLY recommend VEP configurations for variant-analysis scenarios. If the user's message is not
+such a scenario — small talk, an unrelated topic, or a VEP how-to/troubleshooting question rather than
+a request to configure a run — reply with a message that BEGINS with exactly:
+
+OUT OF SCOPE: <one or two sentences saying what this assistant does>
+
+In that case output NOTHING else: no ✓/✗ lines, no [source:] tags, no VEP command. This marker lets the
+system skip the configuration checks, which would otherwise report misleading warnings about a
+configuration you never proposed.
+
 ## Output Format
 Respond in three sections:
 ### 1. Detected Use Case
@@ -1569,6 +1833,15 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         # are fuzzy-resolved, and both used to happen silently. A silent guess is how `[source: plugin_cadd]`
         # became MaxEntScan in a live demo, so the guess is now stated out loud.
         audit = audit_source_citations(response_text, option_aliases)
+
+        # The model declined the request: there is no configuration, so there is nothing to audit,
+        # repair or display. Running the rest would keyword-scrape a phantom config out of the refusal
+        # text and then warn about ITS species and format — three true-but-irrelevant alarms attached
+        # to something the model never proposed.
+        if is_out_of_scope_response(response_text, audit):
+            save_result(user_query, response_text, mode="recommend", warnings="")
+            return
+
         audit_report = format_citation_audit(audit, len(vep_options))
         if audit_report:
             print(audit_report)

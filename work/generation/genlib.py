@@ -28,14 +28,27 @@ os.environ.setdefault(
     "VEP_EXAMPLES_FILE",
     str(WORK / "preliminary_examples" / "simulated_gold_examples.json"),
 )
+# Same pattern for the factor scheme: the demo ships its own copy so it stays standalone-publishable,
+# and the pipeline overrides to the canonical config under generation_config/ — which is the file the
+# mentor swaps on sign-off (no code change). Mirrors VEP_OPTIONS_FILE exactly.
+os.environ.setdefault("VEP_FACTORS_FILE", str(CONFIG_DIR / "factors.json"))
+os.environ.setdefault("VEP_PRIORITY_FACTOR_FILE", str(CONFIG_DIR / "priority_by_factor.json"))
+
+_VA_CACHE = None
 
 
 def load_va():
-    """Import the demo's vep_assistant by path (the single source of truth for the checker)."""
-    spec = importlib.util.spec_from_file_location("vep_assistant", DEMO / "vep_assistant.py")
-    va = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(va)
-    return va
+    """Import the demo's vep_assistant by path (the single source of truth for the checker AND, since
+    the factor-core move, for the factor scheme itself). Cached: every caller shares one module
+    instance, and this module re-exports the factor core from it at import time. Caching is safe
+    because vep_assistant reads every env var inside functions, never at import."""
+    global _VA_CACHE
+    if _VA_CACHE is None:
+        spec = importlib.util.spec_from_file_location("vep_assistant", DEMO / "vep_assistant.py")
+        va = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(va)
+        _VA_CACHE = va
+    return _VA_CACHE
 
 
 def load_evaluate():
@@ -60,61 +73,35 @@ def load_corpus():
     return _load_json(os.environ["VEP_EXAMPLES_FILE"])
 
 
-def load_factors():
-    return _load_json(CONFIG_DIR / "factors.json")
-
-
-def load_priority_by_factor():
-    return _load_json(CONFIG_DIR / "priority_by_factor.json")
-
-
 def load_query_axes():
     return _load_json(CONFIG_DIR / "query_axes.json")
 
 
 # ---------------------------------------------------------------------------
-# Priority algebra (matches taxonomy_proposal.md §5)
+# Factor core — RE-EXPORTED from the demo engine, not defined here
 # ---------------------------------------------------------------------------
-PRIORITY_ORDER = {"critical": 3, "recommended": 2, "optional": 1}
-# Factors that can REMOVE an option outright when they mark it not_applicable.
+# The factor scheme, the priority algebra (taxonomy_proposal.md §5), the config->tiers resolver and
+# the query->factors classifier all live in vep_ai_demo/vep_assistant.py now. They used to be defined
+# HERE and consumed only by the pipeline, which meant the shipped prose recommender ran on the older
+# single-label use-case scheme while the pipeline ran on factors — two taxonomies in one project,
+# free to drift. The dependency arrow only ever runs work/generation -> vep_ai_demo (the demo must
+# stay standalone-publishable), so the shared core belongs in the engine and is re-exported here.
 #
-# `region_focus` was added on documentary evidence, and it AMENDS taxonomy_proposal §3, which calls it
-# "purely soft". The docs disagree with the proposal: the catalogue rates the missense predictors (and
-# mane/protein/nmd) `regulatory_noncoding: not_applicable` — 9 of 10 predictors, CADD the sole exception —
-# and constraints_dossier.md:123 prescribes exactly this: "Model as a soft dependency (recommender gate,
-# not a CLI requirement): apply only to missense/coding variants." Without the gate, composition is
-# max-only, so `analysis_goal=clinical` would hand missense predictors to a purely regulatory query.
-# FLAG FOR THE MENTOR: this is a proposed amendment to §3, not something §3 already licenses.
-HARD_GATE_FACTORS = ("species", "variant_size_class", "region_focus")
+# These names are kept so every existing caller (resolve_config, sample_factors, verify_pipeline,
+# seed_priorities, the harness) keeps working unchanged.
+_VA = load_va()
 
-
-def strongest(labels):
-    """Strongest soft priority among labels (critical>recommended>optional), ignoring
-    not_applicable/None. Returns the label str or None if none apply."""
-    best, best_rank = None, 0
-    for p in labels:
-        r = PRIORITY_ORDER.get(p, 0)
-        if r > best_rank:
-            best, best_rank = p, r
-    return best
-
-
-def active_values(factor_tuple):
-    """Normalise a factor tuple to {factor: [values]} (single-select -> 1-element list)."""
-    out = {}
-    for f, v in factor_tuple.items():
-        if f.startswith("_"):
-            continue
-        out[f] = v if isinstance(v, list) else [v]
-    return out
-
-
-# Canonical non-human cue: the resolver runs the checker BEFORE the real query exists, so it
-# feeds infer_species a minimal species cue. Any non-human species gates the same human-only
-# block, so 'mouse' is a fair representative. The real Stage-3 query names a real organism and
-# Stage-4 verifies infer_species(real_query) is non-human.
-def species_cue_query(species):
-    return "human variant analysis" if species == "human" else "mouse variant analysis"
+PRIORITY_ORDER = _VA.PRIORITY_ORDER
+HARD_GATE_FACTORS = _VA.HARD_GATE_FACTORS
+VALUE_DEFAULTS = _VA.VALUE_DEFAULTS
+strongest = _VA.strongest
+active_values = _VA.active_values
+species_cue_query = _VA.species_cue_query
+factor_slug = _VA.factor_slug
+factor_value_for = _VA.factor_value_for
+intent_priorities = _VA.intent_priorities
+load_factors = _VA.load_factors
+load_priority_by_factor = _VA.load_priority_by_factor
 
 
 def rouge_l(a, b):
@@ -134,18 +121,6 @@ def rouge_l(a, b):
     return 0.0 if prec + rec == 0 else 2 * prec * rec / (prec + rec)
 
 
-def factor_slug(factor_tuple):
-    """Compact, deterministic label for a tuple (for ids / filenames)."""
-    parts = [
-        factor_tuple["species"],
-        factor_tuple["origin"],
-        factor_tuple["variant_size_class"],
-        "+".join(factor_tuple["region_focus"]),
-        "+".join(factor_tuple["analysis_goal"]),
-    ]
-    return "__".join(parts).replace("-", "").replace("_", "")
-
-
 # ---------------------------------------------------------------------------
 # Query-faithfulness: does the generated query EXPRESS the factors its config encodes? (SEMANTIC / LLM)
 # ---------------------------------------------------------------------------
@@ -159,14 +134,10 @@ def factor_slug(factor_tuple):
 # fixed seed, concurrency 1). Judge discipline (proposal §7.2): it only FLAGS for review, never auto-drops
 # -- the hard species gate stays deterministic (infer_species) in Stage 4.
 
-_FACTOR_VALUES = {
-    "species": ["human", "non-human"],
-    "origin": ["germline", "somatic"],
-    "variant_size_class": ["small", "structural-CNV"],
-    "region_focus": ["coding", "regulatory-noncoding"],                                   # multi-select
-    "analysis_goal": ["basic-consequence", "clinical-interpretation", "population-frequency"],  # multi-select
-}
-_MULTI_FACTORS = ("region_focus", "analysis_goal")
+# Re-exported from the engine (see the factor-core block above); the private aliases are kept
+# because compare_factors() below and existing callers reference them by these names.
+_FACTOR_VALUES = _VA.FACTOR_VALUES
+_MULTI_FACTORS = _VA.MULTI_FACTORS
 
 # --- Tool-name leak detection -----------------------------------------------------------------------
 # Stage 3 forbids the teacher from naming VEP options ("Do NOT name VEP options, flags, plugins, or column
@@ -197,48 +168,10 @@ def query_names_tool(query):
     return sorted({canon[h] for h in hits})
 
 
-FACTOR_CLASSIFIER_PROMPT = (
-    "You read a researcher's natural-language question about annotating genetic variants and identify ONLY "
-    "what the question actually states or clearly implies about the analysis. Do NOT guess; if the question "
-    "does not indicate a characteristic, use \"unstated\" (or [] for a list).\n\n"
-    "Reply with ONLY this JSON object, no prose:\n"
-    "{\n"
-    '  "species": "human" | "non-human" | "unstated",\n'
-    '  "origin": "germline" | "somatic" | "unstated",\n'
-    '  "variant_size_class": "small" | "structural-CNV" | "unstated",\n'
-    '  "region_focus": array with any of ["coding","regulatory-noncoding"],\n'
-    '  "analysis_goal": array with any of ["basic-consequence","clinical-interpretation","population-frequency"]\n'
-    "}\n\n"
-    "Guidance (judge by meaning, not keywords):\n"
-    "- origin: germline = inherited / constitutional / rare-disease / healthy cohort; somatic = tumour / cancer.\n"
-    "- variant_size_class: small = SNVs / indels / point changes; structural-CNV = large deletions / duplications / CNVs / SVs.\n"
-    "- region_focus: coding = protein-coding / missense / exonic; regulatory-noncoding = enhancer / promoter / intronic / intergenic.\n"
-    "- analysis_goal: basic-consequence = just a quick consequence call; clinical-interpretation = pathogenicity / "
-    "disease significance; population-frequency = allele frequencies. Use basic-consequence only when no richer goal is indicated.\n\n"
-    "Output raw JSON only — no markdown, no code fences, no explanation.\n\n"
-    "Question:\n"
-)
-
-
-def parse_factor_classification(raw):
-    """Parse the checker model's JSON into {factor: value|'unstated' | [values]}. Tolerant of surrounding
-    prose / code fences. Returns None on a genuine parse failure so the caller can flag it as a CHECKER
-    problem (not 5 phantom 'unknown' factors)."""
-    out = {f: ([] if f in _MULTI_FACTORS else "unstated") for f in _FACTOR_VALUES}
-    try:
-        s, e = raw.find("{"), raw.rfind("}")
-        obj = json.loads(raw[s:e + 1])
-        if not isinstance(obj, dict):
-            return None
-    except Exception:
-        return None
-    for f in _FACTOR_VALUES:
-        v = obj.get(f)
-        if f in _MULTI_FACTORS:
-            out[f] = [x for x in v if x in _FACTOR_VALUES[f]] if isinstance(v, list) else []
-        else:
-            out[f] = v if v in _FACTOR_VALUES[f] else "unstated"
-    return out
+# The classifier prompt and its parser now live in the engine too, so the SHIPPED recommender and the
+# pipeline's Stage-4 round-trip infer factors with exactly the same prompt (they cannot diverge).
+FACTOR_CLASSIFIER_PROMPT = _VA.FACTOR_CLASSIFIER_PROMPT
+parse_factor_classification = _VA.parse_factor_classification
 
 
 def compare_factors(recovered, factor_tuple):

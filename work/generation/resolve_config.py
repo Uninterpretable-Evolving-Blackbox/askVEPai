@@ -22,8 +22,14 @@ import json
 
 import genlib
 
-# Options whose value is not a bare boolean (everything else -> True when enabled).
-VALUE_DEFAULTS = {"sift": "b", "polyphen": "b", "check_existing": "yes"}
+# The priority algebra (hard gates -> soft max-composition -> conditional rules) and the option VALUE
+# defaults moved into the demo engine (vep_ai_demo/vep_assistant.py) so the shipped prose recommender
+# and this resolver compose priorities with exactly ONE implementation. Re-exported via genlib; these
+# aliases keep the names this module and its callers already use.
+VALUE_DEFAULTS = genlib.VALUE_DEFAULTS
+_value_for = genlib.factor_value_for
+intent_priorities = genlib.intent_priorities
+
 # A small set of "commonly tempting but usually off" output-restriction options: emit as explicit
 # disables (with notes) when not enabled, for closed-world Disable-F1 signal (matches the simulated
 # gold convention). Kept deliberately small — full closed-world disables are a mentor decision (§15).
@@ -31,66 +37,6 @@ MEANINGFUL_DISABLES = {
     "most_severe": "keep full per-transcript detail, not a single top-line consequence",
     "summary": "need detailed annotations, not a summary line",
 }
-
-
-def _value_for(oid, species):
-    if oid == "core_type":
-        return "Ensembl/GENCODE" if species == "human" else "Ensembl"
-    return VALUE_DEFAULTS.get(oid, True)
-
-
-def intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=("critical", "recommended")):
-    """Pre-checker intent: {oid: (enabled_bool, priority_or_None, gated_bool)} from factor priorities.
-
-    `enable` is the set of priority labels that switch an option ON — default critical+recommended
-    (taxonomy_proposal §5). Pass ('critical',) for a tighter, higher-precision config."""
-    av = genlib.active_values(factor_tuple)
-    priorities = pbf["priorities"]
-    cond_rules = factors_cfg.get("conditional_rules", [])
-    somatic_na = set()
-    for f, spec in factors_cfg["factors"].items():
-        for rule in spec.get("hard_rules", []):
-            if factor_tuple.get(f) == rule["when_value"]:
-                somatic_na.update(rule["not_applicable"])
-
-    out = {}
-    for opt in catalogue:
-        oid = opt["id"]
-        pf = priorities.get(oid, {})
-        gated = False
-        # (1) hard gates — a factor gates an option only if EVERY one of its ACTIVE values marks the
-        # option not_applicable. For the single-select factors (species, variant_size_class) that is
-        # identical to the previous "any active value" rule, since there is exactly one active value.
-        # It matters for the multi-select `region_focus`: a coding+regulatory variant set HAS a coding
-        # component, so a missense predictor still applies and must not be gated away just because a
-        # regulatory component is also present. "any" would have dropped it; "all" keeps it.
-        for hf in genlib.HARD_GATE_FACTORS:
-            vals = av.get(hf, [])
-            if vals and all(pf.get(hf, {}).get(v) == "not_applicable" for v in vals):
-                gated = True
-        if oid in somatic_na:
-            gated = True
-        if gated:
-            out[oid] = (False, None, True)
-            continue
-        # (2) soft ranking over ALL active factor values
-        labels = []
-        for f, vals in av.items():
-            for v in vals:
-                labels.append(pf.get(f, {}).get(v))
-        # (3) conditional rules — JOINT conditions the per-value table cannot express. The priority table
-        # is keyed one factor value at a time and composes by max, so every value votes alone; there is no
-        # slot for "non-human AND clinical together imply MaxEntScan". A rule fires only when EVERY 'when'
-        # pair is active, and contributes its label to the same max — so it can only RAISE an option, never
-        # lower one. It also cannot resurrect a hard-gated option: gating `continue`s above this.
-        for rule in cond_rules:
-            if all(wv in av.get(wf, []) for wf, wv in rule["when"].items()):
-                lab = rule["then"].get(oid)
-                if lab:
-                    labels.append(lab)
-        pr = genlib.strongest(labels)
-        out[oid] = (pr in enable, pr, False)
-    return out
 
 
 def flag_arbitrary_conflicts(checker_changes, intent):
