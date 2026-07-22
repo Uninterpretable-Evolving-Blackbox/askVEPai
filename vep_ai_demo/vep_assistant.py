@@ -840,20 +840,28 @@ def _is_human_only(restriction: str) -> bool:
     return not any(re.search(r"\b" + re.escape(s) + r"\b", r) for s in _OTHER_SPECIES)
 
 
-_ASSEMBLY_ALIASES = {"hg19": "GRCh37", "hg38": "GRCh38"}
+# Every recognised spelling of a HUMAN build -> its canonical name. Keys are lower-cased and
+# separator-stripped, so GRCh38 / grch38 / GRCH38 / "GRCh 38" / GRCh-38 / hg38 all resolve to GRCh38.
+# NOTE deliberately NOT fuzzy/typo-tolerant: GRCh37 and GRCh38 differ by a single character, so an
+# edit-distance match could not tell a typo of one from a correct spelling of the other — and a wrong
+# build call drops the OTHER build's options (the opposite of a missed gate). Exact spellings only.
+_ASSEMBLY_ALIASES = {
+    "grch37": "GRCh37", "hg19": "GRCh37",
+    "grch38": "GRCh38", "hg38": "GRCh38",
+}
 
 
 def infer_assembly(query):
     """The human assembly the query names ('GRCh37'/'GRCh38'), or None if it doesn't say.
 
     Fail-open by design, mirroring infer_species: most queries never name an assembly, so assuming one
-    would strip options from the majority to protect a minority.
+    would strip options from the majority to protect a minority. Case- and separator-insensitive.
     """
     m = _ASSEMBLY_RE.search(query or "")
     if not m:
         return None
-    a = _ASSEMBLY_ALIASES.get(m.group(1).lower(), m.group(1))
-    return a if a in ("GRCh37", "GRCh38") else None    # non-human builds are the species gate's job
+    token = re.sub(r"[\s_-]", "", m.group(1).lower())   # 'GRCh 38' / 'GRCh-38' -> 'grch38'
+    return _ASSEMBLY_ALIASES.get(token)                 # non-human builds (GRCm39...) -> None
 
 
 def _assembly_restriction(restriction):
@@ -958,6 +966,9 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
         if oid_a not in enabled:          # FIX: may have been disabled by an earlier pair this pass
             continue
         for oid_b in list(enabled):
+            if oid_a not in enabled:          # FIX: oid_a may have lost an EARLIER pair in THIS inner
+                break                         # loop — stop, or we'd judge oid_b against a dead oid_a and
+                                              # wrongly disable a valid oid_b on a conflict that's moot
             if oid_b not in enabled or oid_a == oid_b:   # FIX: skip already-disabled options / self
                 continue
             pair = tuple(sorted([oid_a, oid_b]))
@@ -1195,7 +1206,7 @@ _SPECIES_FORM_NAME = {
     "chicken": "Gallus_gallus", "cow": "Bos_taurus",
 }
 
-_ASSEMBLY_RE = re.compile(r"\b(GRCh38|GRCh37|hg38|hg19|GRCm39|GRCm38|GRCz11|Rnor_6\.0|mRatBN7\.2)\b",
+_ASSEMBLY_RE = re.compile(r"\b(GRCh[\s_-]?3[78]|hg38|hg19|GRCm39|GRCm38|GRCz11|Rnor_6\.0|mRatBN7\.2)\b",
                           re.IGNORECASE)
 
 
