@@ -5,6 +5,10 @@ Supports three modes:
   python vep_assistant.py                        # interactive recommendation
   python vep_assistant.py --explain "query"      # recommendation + decision trace
   python vep_assistant.py explain-result "why..." # explain a VEP output annotation
+
+How much configuration you get back (default = standard):
+  --minimal   only the options that are essential for your scenario
+  --full      also switch on every add-on the scenario justifies
 """
 
 import json
@@ -1193,6 +1197,41 @@ def tier_by_importance(enabled, resolved):
     return out
 
 
+CONFIG_LEVELS = ("minimal", "standard", "full")
+
+
+def apply_config_level(enabled, disabled, resolved, level, vep_options, training_examples,
+                       user_query, retrieval_mode="keyword"):
+    """Narrow or widen the corrected set to the depth the user asked for. Mutates `enabled`.
+
+      minimal  — keep only what the factor table calls `critical` here. For someone who wants the
+                 smallest runnable configuration and will add to it themselves.
+      standard — leave it as recommended (the default).
+      full     — additionally switch on every add-on the table rates `optional` and does not gate,
+                 for someone who wants everything the scenario can justify.
+
+    Re-running the checker afterwards is what makes either edit safe: narrowing can strip an option
+    that a surviving one depends on (ClinVar needs check_existing), and the dependency pass puts it
+    back; widening can introduce a conflict, and the conflict pass resolves it. So the result is a
+    runnable configuration at every level, not just a filtered list.
+
+    Returns the set of ids removed by narrowing (empty otherwise), for reporting."""
+    if level == "minimal":
+        keep = {oid for oid in enabled if resolved.get(oid, (False, None, False))[1] == "critical"}
+        removed = set(enabled) - keep
+        enabled.clear()
+        enabled.update(keep)
+    elif level == "full":
+        removed = set()
+        enabled.update(oid for oid, (_, priority, gated) in resolved.items()
+                       if priority == "optional" and not gated)
+    else:
+        return set()
+    check_and_fix_violations(enabled, disabled, vep_options, training_examples, user_query,
+                             retrieval_mode=retrieval_mode)
+    return removed - set(enabled)          # a dep the re-check restored was not really removed
+
+
 def format_corrected_config(enabled, disabled, vep_options, violations, resolved=None):
     """Render the authoritative post-checker configuration — the 'dispose' step, not just a warning.
 
@@ -1965,12 +2004,13 @@ def stream_response(client, model, system_prompt, user_message):
 # ---------------------------------------------------------------------------
 
 def run_recommend(client, model, vep_options, training_examples, user_query,
-                   explain=False, skip_check=False, retrieval_mode="keyword"):
+                   explain=False, skip_check=False, retrieval_mode="keyword", level="standard"):
     """Run the recommendation mode (default).
 
     Args:
         skip_check: If True, skip the post-hoc constraint checker.
         retrieval_mode: "keyword" or "semantic".
+        level: "minimal" (essentials only), "standard" (default), or "full" (add every add-on).
     """
     if explain:
         print_decision_trace(user_query, vep_options, training_examples,
@@ -2032,8 +2072,19 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         warnings = format_violation_warnings(violations)
         if warnings:
             print(warnings)
+        resolved = resolve_for_query(factor_tuple, vep_options)
+        if resolved and level != "standard":
+            removed = apply_config_level(enabled, disabled, resolved, level, vep_options,
+                                         training_examples, user_query,
+                                         retrieval_mode=retrieval_mode)
+            note = (f"  ({len(removed)} non-essential options dropped; dependencies kept)"
+                    if level == "minimal" else "  (every applicable add-on switched on)")
+            print(f"\nCONFIG LEVEL: {level}\n{note}")
+        elif level != "standard":
+            print(f"\nCONFIG LEVEL: {level} requested, but the scenario's factors could not be "
+                  f"resolved — showing the standard set.")
         corrected = format_corrected_config(enabled, disabled, vep_options, violations,
-                                            resolved=resolve_for_query(factor_tuple, vep_options))
+                                            resolved=resolved)
         print(corrected)
         warnings = "\n".join(x for x in (audit_report, warnings, corrected) if x)
 
@@ -2087,7 +2138,11 @@ def main():
     skip_check = "--no-check" in args
     semantic = "--semantic" in args
     retrieval_mode = "semantic" if semantic else "keyword"
-    remaining = [a for a in args if a not in ("--explain", "--no-check", "--semantic")]
+    # How much configuration the user wants back. --minimal for the smallest runnable set,
+    # --full to switch on every add-on the scenario justifies; neither given = the standard set.
+    level = "minimal" if "--minimal" in args else "full" if "--full" in args else "standard"
+    remaining = [a for a in args
+                 if a not in ("--explain", "--no-check", "--semantic", "--minimal", "--full")]
 
     vep_options, training_examples = load_knowledge_base()
 
@@ -2108,7 +2163,7 @@ def main():
     print()
     run_recommend(client, model, vep_options, training_examples, user_query,
                   explain=explain, skip_check=skip_check,
-                  retrieval_mode=retrieval_mode)
+                  retrieval_mode=retrieval_mode, level=level)
 
 
 if __name__ == "__main__":
