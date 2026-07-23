@@ -101,6 +101,15 @@ See [`vep_ai_demo/README.md`](vep_ai_demo/README.md) for all modes and flags.
 > `qwen2.5:3b` scores 31% and routinely breaks the format. If the model cites an option that does not
 > exist, or ignores the format entirely, the tool now says so rather than quietly guessing — but the fix
 > for a small model is a bigger model.
+>
+> There is a second, quieter way a small model costs you. Before recommending anything it classifies the
+> question into factor values, and that classification decides which options are even priced as relevant.
+> A model can hold the citation format perfectly and still read the scenario wrong, and nothing checks a
+> classification the way the parser checks a citation. On *"human germline exome, rare disease"*,
+> `gemma4:26b` returns `analysis_goal: clinical-interpretation` and eighteen options; `qwen2.5:3b` returns
+> `basic-consequence` and four. Neither run warns you, because neither is malformed — one has simply
+> misread the question. This is why the detected scenario is printed at the top of every answer: it is the
+> one place you can see that decision and disagree with it.
 
 ### Or: describe the analysis as factor values (no model needed)
 
