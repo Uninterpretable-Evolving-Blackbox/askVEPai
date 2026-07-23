@@ -68,12 +68,28 @@ pip install -r requirements.txt
 ollama serve
 ollama pull gemma4:26b          # the model this system is built and benchmarked on
 
-# 3. Run the demo assistant (from the demo folder)
+# 3. Point it at the full 58-option catalogue and its example corpus
 cd vep_ai_demo
+export VEP_OPTIONS_FILE=$PWD/../work/vep_options_expanded.json
+export VEP_EXAMPLES_FILE=$PWD/../work/preliminary_examples/simulated_gold_examples.json
+
+# 4. Ask it something
 python vep_assistant.py "germline exome variants, rare disease, human GRCh38"
+python vep_assistant.py --minimal "germline exome variants, rare disease, human GRCh38"  # essentials only
+python vep_assistant.py --full    "germline exome variants, rare disease, human GRCh38"  # + every add-on
 python vep_assistant.py --explain --semantic "mouse CRISPR variants in GRCm39"   # + decision trace
 python vep_assistant.py explain-result "why is my variant splice_donor_variant?" # output explainer
 ```
+
+The two exports matter. A catalogue and a priority table are generated together, and the folder the
+demo sits in still holds the original 26-option knowledge base from before the catalogue was rebuilt.
+Run against that one and the importance tiers switch themselves off — five of its options, including
+the transcript-database choice, do not exist in the current priority table, so the tiers would be
+quietly wrong rather than obviously absent. The tool says so when it happens.
+
+Classifying a question into factor values is a second, much smaller model call, and by default it
+reuses the model above so that one download is enough. `VEP_FACTOR_MODEL=gemma4:e4b` makes it
+noticeably faster if you have a small model pulled as well.
 
 See [`vep_ai_demo/README.md`](vep_ai_demo/README.md) for all modes and flags.
 

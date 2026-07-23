@@ -288,11 +288,12 @@ def infer_factors(client, model, user_query):
     Deterministic (temperature 0, fixed seed) — but note temp=0 is NOT reproducible under concurrency
     on a Metal/MoE stack, so a reproducible run needs concurrency 1.
 
-    Runs on VEP_FACTOR_MODEL (default gemma4:12b), not the main recommender model. This is a small
-    fixed-schema classification emitting ~60 tokens, so the large model buys nothing and costs a second
-    full generation — on 26b it roughly doubles end-to-end latency. The generation pipeline already
-    cross-checks factors with 12b for the same reason."""
-    model = os.environ.get("VEP_FACTOR_MODEL", "gemma4:12b")
+    Runs on VEP_FACTOR_MODEL if set, otherwise on the SAME model as the recommendation. Defaulting to
+    a second, smaller model would be faster — this is a ~60-token fixed-schema classification, so the
+    big model buys nothing — but it would silently require a second download: a user who pulled only
+    the quickstart model would get a failed classification, no factors, and no indication why. One
+    pulled model has to be enough. Set VEP_FACTOR_MODEL=gemma4:e4b (or 12b) to get the speed back."""
+    model = os.environ.get("VEP_FACTOR_MODEL") or model
     try:
         resp = client.chat.completions.create(
             model=model,
@@ -1150,16 +1151,43 @@ def cli_flags_for(enabled, vep_options):
     return flags, choices
 
 
+_PRIORITY_MISMATCH_WARNED = False
+
+
+def priority_table_covers(vep_options, table):
+    """Ids in this catalogue that the priority table prices for no factor at all.
+
+    The table is generated FROM a catalogue, so a catalogue it wasn't generated from can share most
+    ids and still be wrong. The 26-option demo KB against the 58-option table is exactly that: 21 ids
+    match, but `transcript_set`, `mane_select`, `gnomad_af`, `gene_phenotype` and `clinvar_sv` are
+    absent, and the first of those is the "always choose a transcript database" baseline that is
+    critical in every scenario. Resolving anyway produced a plausible-looking ESSENTIAL list with the
+    single most important option quietly missing — worse than showing no tiers at all. So this is an
+    exact-subset check, not a fuzzy one."""
+    return {o["id"] for o in vep_options} - set(table.get("priorities", {}))
+
+
 def resolve_for_query(factor_tuple, vep_options):
     """`intent_priorities()` for a factor tuple, or None if the tuple or the config is unusable.
 
     One place for the try/except so the prompt builder and the output formatter can never disagree
     about what this scenario's priorities are."""
+    global _PRIORITY_MISMATCH_WARNED
     if not factor_tuple:
         return None
     try:
-        return intent_priorities(factor_tuple, vep_options,
-                                 load_priority_by_factor(), load_factors())
+        table = load_priority_by_factor()
+        missing = priority_table_covers(vep_options, table)
+        if missing:
+            if not _PRIORITY_MISMATCH_WARNED:
+                _PRIORITY_MISMATCH_WARNED = True
+                print(f"\n  Note: the priority table does not cover {len(missing)} option(s) in this "
+                      f"catalogue ({', '.join(sorted(missing)[:4])}"
+                      f"{', …' if len(missing) > 4 else ''}), so importance tiers are switched off for "
+                      f"this run.\n  They are generated together — point VEP_OPTIONS_FILE and "
+                      f"VEP_PRIORITY_FACTOR_FILE at a matching pair to turn them back on.\n")
+            return None
+        return intent_priorities(factor_tuple, vep_options, table, load_factors())
     except Exception:
         return None                              # config missing/unreadable -> caller falls back
 
