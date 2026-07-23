@@ -1146,7 +1146,54 @@ def cli_flags_for(enabled, vep_options):
     return flags, choices
 
 
-def format_corrected_config(enabled, disabled, vep_options, violations):
+def resolve_for_query(factor_tuple, vep_options):
+    """`intent_priorities()` for a factor tuple, or None if the tuple or the config is unusable.
+
+    One place for the try/except so the prompt builder and the output formatter can never disagree
+    about what this scenario's priorities are."""
+    if not factor_tuple:
+        return None
+    try:
+        return intent_priorities(factor_tuple, vep_options,
+                                 load_priority_by_factor(), load_factors())
+    except Exception:
+        return None                              # config missing/unreadable -> caller falls back
+
+
+def tier_by_importance(enabled, resolved):
+    """Split the corrected option set by the priority the FACTOR table gives it for THIS scenario.
+
+    This is the essential-vs-optional view. It is a different axis from :func:`tier_options`, which
+    splits on native-flag vs plugin (i.e. does it need downloaded data files) — an infrastructure
+    question, not a clinical one. An option can be a plugin AND essential (AlphaMissense), or native
+    AND an add-on (`--uniprot`).
+
+    Returns five lists:
+      essential / recommended / addons_on — ENABLED options, grouped by tier.
+      unpriced        — enabled, but the table prices them for no factor here (output/compute controls).
+      addons_offered  — rated `optional` for this scenario and NOT enabled: the "offered, off by
+                        default" set. Hard-gated options are never offered.
+
+    DISPLAY ONLY: it regroups the corrected set, it never changes which options are enabled, so the
+    checker and every scored metric are untouched."""
+    out = {"essential": [], "recommended": [], "addons_on": [], "unpriced": [], "addons_offered": []}
+    for oid in sorted(enabled):
+        _, priority, _ = resolved.get(oid, (False, None, False))
+        if priority == "critical":
+            out["essential"].append(oid)
+        elif priority == "recommended":
+            out["recommended"].append(oid)
+        elif priority == "optional":
+            out["addons_on"].append(oid)
+        else:
+            out["unpriced"].append(oid)
+    for oid, (_, priority, gated) in sorted(resolved.items()):
+        if priority == "optional" and not gated and oid not in enabled:
+            out["addons_offered"].append(oid)
+    return out
+
+
+def format_corrected_config(enabled, disabled, vep_options, violations, resolved=None):
     """Render the authoritative post-checker configuration — the 'dispose' step, not just a warning.
 
     check_and_fix_violations has already REPAIRED the option set in place (removed species/conflict
@@ -1163,11 +1210,36 @@ def format_corrected_config(enabled, disabled, vep_options, violations):
     if violations:
         lines.append("  (the checker changed the draft above; apply THIS set)")
     lines.append("=" * 60)
-    lines.append("ENABLE:")
-    for oid in on:
-        lines.append(f"  ✓ {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip())
-    if not on:
-        lines.append("  (none)")
+    if resolved:
+        # Essential-vs-optional view: group the SAME corrected set by this scenario's priorities.
+        tiers = tier_by_importance(enabled, resolved)
+        for key, title, mark in (
+            ("essential",   "ESSENTIAL — must-have for this scenario", "✓"),
+            ("recommended", "RECOMMENDED — standard defaults for this scenario", "✓"),
+            ("addons_on",   "ADD-ONS (enabled) — optional extras this run turned on", "+"),
+            ("unpriced",    "OTHER (enabled) — the factor table ranks these for no factor here", "✓"),
+        ):
+            if not tiers[key]:
+                continue
+            lines.append(f"{title}  [{len(tiers[key])}]")
+            lines.extend(f"  {mark} {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip()
+                         for oid in tiers[key])
+        if not on:
+            lines.append("ENABLE: (none)")
+        if tiers["addons_offered"]:
+            lines.append("")
+            lines.append("AVAILABLE ADD-ONS — NOT enabled; turn on if they help  "
+                         f"[{len(tiers['addons_offered'])}]")
+            lines.extend(f"  · {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip()
+                         for oid in tiers["addons_offered"])
+        lines.append("")
+        lines.append("  Tiers come from the PROVISIONAL factor priority table — VEP itself ranks nothing.")
+    else:
+        lines.append("ENABLE:")
+        for oid in on:
+            lines.append(f"  ✓ {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip())
+        if not on:
+            lines.append("  (none)")
     flag_list, choices = cli_flags_for(on, vep_options)
     lines.append("")
     lines.append("Corrected VEP command (use THIS, not the draft command above — fill in values/paths):")
@@ -1614,13 +1686,7 @@ def build_system_prompt(vep_options, training_examples, user_query="",
     """
     # Resolve THIS query's factor tuple to per-option tiers, so the option block can state the one
     # priority that applies here instead of all seven legacy use-case labels at once.
-    resolved = None
-    if factor_tuple:
-        try:
-            resolved = intent_priorities(factor_tuple, vep_options,
-                                         load_priority_by_factor(), load_factors())
-        except Exception:
-            resolved = None                      # config missing/unreadable -> fall back to the flat dump
+    resolved = resolve_for_query(factor_tuple, vep_options)
 
     relevant_options = None
     if examples_override is not None:
@@ -1966,7 +2032,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         warnings = format_violation_warnings(violations)
         if warnings:
             print(warnings)
-        corrected = format_corrected_config(enabled, disabled, vep_options, violations)
+        corrected = format_corrected_config(enabled, disabled, vep_options, violations,
+                                            resolved=resolve_for_query(factor_tuple, vep_options))
         print(corrected)
         warnings = "\n".join(x for x in (audit_report, warnings, corrected) if x)
 
