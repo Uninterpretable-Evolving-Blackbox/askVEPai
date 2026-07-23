@@ -171,7 +171,7 @@ def main():
         for a in res["arbitrary_conflicts"]:
             print(f"  {a['reason']}")
     if res.get("add_ons_withheld"):
-        print(f"\nADD-ONS WITHHELD (would contradict a core option)")
+        print("\nADD-ONS WITHHELD (would contradict a core option)")
         for oid, why in res["add_ons_withheld"].items():
             print(f"  {oid:22s} {why}")
 

@@ -1228,6 +1228,20 @@ def tier_by_importance(enabled, resolved):
 CONFIG_LEVELS = ("minimal", "standard", "full")
 
 
+def display_flag(flag):
+    """How an option's CLI flag should read in a listing.
+
+    A few catalogue entries are not flags of their own: ClinVar significance arrives with
+    `--check_existing` and its cli_flag records that. Printed literally next to check_existing's own
+    row it looks like the same flag is being set twice, which reads as a bug rather than as one flag
+    carrying two annotations. Say where it comes from instead. The generated command is unaffected —
+    cli_flags_for already emits each flag once."""
+    if "derived" in (flag or "").lower():
+        base = flag.split("(")[0].strip()
+        return f"(comes with {base})" if base else "(no flag of its own)"
+    return flag or ""
+
+
 def apply_config_level(enabled, disabled, resolved, level, vep_options, training_examples,
                        user_query, retrieval_mode="keyword"):
     """Narrow or widen the corrected set to the depth the user asked for. Mutates `enabled`.
@@ -1289,7 +1303,8 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
             if not tiers[key]:
                 continue
             lines.append(f"{title}  [{len(tiers[key])}]")
-            lines.extend(f"  {mark} {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip()
+            lines.extend(f"  {mark} {name_by_id.get(oid, oid)} [{oid}] "
+                         f"{display_flag(flag_by_id.get(oid, ''))}".rstrip()
                          for oid in tiers[key])
         if not on:
             lines.append("ENABLE: (none)")
@@ -1297,14 +1312,16 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
             lines.append("")
             lines.append("AVAILABLE ADD-ONS — NOT enabled; turn on if they help  "
                          f"[{len(tiers['addons_offered'])}]")
-            lines.extend(f"  · {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip()
+            lines.extend(f"  · {name_by_id.get(oid, oid)} [{oid}] "
+                         f"{display_flag(flag_by_id.get(oid, ''))}".rstrip()
                          for oid in tiers["addons_offered"])
         lines.append("")
         lines.append("  Tiers come from the PROVISIONAL factor priority table — VEP itself ranks nothing.")
     else:
         lines.append("ENABLE:")
         for oid in on:
-            lines.append(f"  ✓ {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip())
+            lines.append(f"  ✓ {name_by_id.get(oid, oid)} [{oid}] "
+                         f"{display_flag(flag_by_id.get(oid, ''))}".rstrip())
         if not on:
             lines.append("  (none)")
     flag_list, choices = cli_flags_for(on, vep_options)
@@ -2162,15 +2179,29 @@ def main():
         return
 
     # --- Mode: recommend (with optional --explain, --no-check, --semantic) ---
+    known_flags = ("--explain", "--no-check", "--semantic", "--minimal", "--full")
+
+    # A mistyped flag used to fall through into the query text: `--minmal "mouse variants"` asked the
+    # model about "--minmal mouse variants" and quietly ran at the default level. Reject anything
+    # unrecognised that looks like a flag instead, and list what is available.
+    unknown = [a for a in args if a.startswith("--") and a not in known_flags]
+    if unknown:
+        print(f"Unknown option(s): {' '.join(unknown)}")
+        print(f"Available: {' '.join(known_flags)}")
+        print('Usage: python vep_assistant.py [flags] "your analysis scenario"')
+        sys.exit(2)
+
     explain = "--explain" in args
     skip_check = "--no-check" in args
     semantic = "--semantic" in args
     retrieval_mode = "semantic" if semantic else "keyword"
     # How much configuration the user wants back. --minimal for the smallest runnable set,
     # --full to switch on every add-on the scenario justifies; neither given = the standard set.
+    if "--minimal" in args and "--full" in args:
+        print("--minimal and --full ask for opposite things; pick one.")
+        sys.exit(2)
     level = "minimal" if "--minimal" in args else "full" if "--full" in args else "standard"
-    remaining = [a for a in args
-                 if a not in ("--explain", "--no-check", "--semantic", "--minimal", "--full")]
+    remaining = [a for a in args if a not in known_flags]
 
     vep_options, training_examples = load_knowledge_base()
 

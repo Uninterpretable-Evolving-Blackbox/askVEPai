@@ -596,7 +596,7 @@ def generate_report(all_results):
         lines.append(f"**Seeds:** {seeds}")
     lines.append(f"**Temperature:** {temperature}")
     lines.append(f"**Max tokens:** {_MAX_TOKENS}")
-    lines.append(f"**Evaluation mode:** Leave-one-out (ground truth example excluded from retrieval corpus)")
+    lines.append("**Evaluation mode:** Leave-one-out (ground truth example excluded from retrieval corpus)")
     lines.append("")
 
     # --- Per-query results ---
@@ -669,7 +669,6 @@ def generate_report(all_results):
 
     # --- Summary ---
     lines.append("## Summary\n")
-    n = len(all_results["queries"])
 
     sum_metric_keys = ["enable_f1", "enable_f1_weighted", "disable_f1",
                        "enable_precision", "enable_recall"]
@@ -718,6 +717,7 @@ def generate_report(all_results):
     # and the macro-averages here inherit score_response's 0-not-None bias. The "Citation rate (avg)" row
     # below rides on the DEPRECATED measure_citation_rate (deflated; see EXPERIMENTS.md 'Metric deprecation').
     # Both rows are exactly as unreliable as those underlying functions; structured output retires them.
+    n = len(all_results["queries"])
     uc_totals = {}
     for key, _ in conditions:
         uc_totals[key] = sum(1 for r in all_results["queries"] if _get(r, key).get("use_case_correct"))
@@ -815,7 +815,7 @@ def main():
     print(f"Runs: {num_runs} (seeds: {base_seed}\u2013{base_seed + num_runs - 1})")
     print(f"Temperature: {temperature}")
     print(f"Total LLM calls: {total_calls}")
-    print(f"Evaluation mode: leave-one-out (ground truth excluded from retrieval)")
+    print("Evaluation mode: leave-one-out (ground truth excluded from retrieval)")
     print()
 
     vep_options, training_examples = load_knowledge_base()
@@ -957,7 +957,6 @@ def main():
     # prefer the .md report / enable_recall_weighted. (Also: the r.get("with_kb_all", r["without_kb"]) calls
     # below are the same silent bare-substitution as _get — a missing 'all'/'semantic' condition reads as bare.)
     print("\n" + "=" * 60)
-    n = len(all_results["queries"])
     avg_f1_w = _safe_mean([r["with_kb"]["enable_f1"] for r in all_results["queries"]]) or 0   # None-safe terminal line
     avg_f1_wo = _safe_mean([r["without_kb"]["enable_f1"] for r in all_results["queries"]]) or 0
     summary = f"  Enable F1 — With KB (kw): {avg_f1_w:.0%}  |  Without KB: {avg_f1_wo:.0%}  |  \u0394: {avg_f1_w - avg_f1_wo:+.0%}"
