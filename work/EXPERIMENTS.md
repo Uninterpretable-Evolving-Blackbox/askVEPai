@@ -675,7 +675,7 @@ truncated description** + species/priority/conflict/depends metadata, *distilled
 release/115. So this experiment measures **our derived option catalogue**, which is our operationalization of
 the documentation — **not** the raw documentation itself. A true raw-docs run is a *different, unrun*
 experiment (deferred — see note at the end). Framing aside: nothing is *trained*; this is all RAG (the KB is
-in the prompt, not the weights). See HANDOFF §9.
+in the prompt, not the weights).
 
 **New condition `noex` (catalogue-only, no examples).** Full **58-option catalogue + the exact output
 contract + the rules block**, but **zero in-context examples** — `build_system_prompt(vep_options, [], query,

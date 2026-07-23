@@ -12,7 +12,7 @@ model, KB, example set, prompt template, temperature and LLM sampling seed
 fixed. The unit of analysis is one ORDERING (one shuffle seed); we report
 mean +- SD of the leave-one-out, priority-weighted Enable F1 ACROSS orderings.
 
-Design (matches CLAUDE.md experiment discipline):
+Design:
   * Same harness primitives as run_parallel_eval.py: reuses vep_assistant +
     evaluate scoring/report code; only the example order varies.
   * Leave-one-out is preserved: the scored example is never in the prompt.

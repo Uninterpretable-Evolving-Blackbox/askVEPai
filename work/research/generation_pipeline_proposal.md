@@ -232,7 +232,7 @@ Adapts the intrinsic criteria of Iskander et al. (2024, §4.1 — "six intrinsic
 - **Specificity** — species/assay/variant type stated enough to infer the config.
 - **Coherence** — one coherent scenario.
 - **Solvability** — a *configuration-recommendation* scenario, not a how-to/troubleshooting ticket
-  (scope per `HANDOFF.md` §11).
+  (a scope question still open with the mentors).
 
 Failures are **flagged for review, never silently dropped**. (On our data this judge over-flags
 solvability — treated as advisory only.)
@@ -401,8 +401,7 @@ All fetched and quote-verified against primary-source full text unless noted.
 not roundtrip; roundtrip is credited there to Alberti et al.); an unnamed "NeurIPS 2024 constraint" paper,
 "Crab (ACL 2025)", and "LONGFAITH" — unverifiable, no locatable source.
 
-Internal: `research/taxonomy_proposal.md`, `preliminary_examples/README.md`, `HANDOFF.md` §10–12,
-`EXPERIMENTS.md`.
+Internal: `research/taxonomy_proposal.md`, `preliminary_examples/README.md`, `EXPERIMENTS.md`.
 
 ---
 

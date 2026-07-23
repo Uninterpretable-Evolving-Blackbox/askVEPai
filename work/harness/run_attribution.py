@@ -31,7 +31,7 @@ LEAVE-ONE-OUT
   answer leakage). *Real* forum queries carry no gold example (ground_truth_id absent) -> the full
   corpus is used and there is nothing to leave out.
 
-Usage (env vars select the KB / example set / test set / results dir; see CLAUDE.md):
+Usage (env vars select the KB / example set / test set / results dir):
   VEP_OPTIONS_FILE=… VEP_EXAMPLES_FILE=… VEP_TESTSET_FILE=… VEP_RESULTS_DIR=… \
     python run_attribution.py --model gemma4:26b --queries 0 --mode combined --concurrency 1 --seed 42
 """
@@ -122,7 +122,7 @@ def main():
     do_examples = args.mode in ("combined", "examples")
 
     # Ollama's OpenAI-compatible endpoint. load_knowledge_base()/TEST_QUERIES honour the VEP_* env vars,
-    # so the same code scores either the demo KB or the expanded 58-option catalogue (see CLAUDE.md).
+    # so the same code scores either the demo KB or the expanded 58-option catalogue.
     client = OpenAI(base_url=os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1"), api_key="ollama")
     catalogue, examples = va.load_knowledge_base()
     aliases = va.build_option_aliases(catalogue)      # free-text -> canonical option id mapping (for the parser)
