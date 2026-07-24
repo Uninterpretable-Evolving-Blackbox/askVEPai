@@ -2230,4 +2230,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        # A run takes tens of seconds, so Ctrl-C part-way through is expected, not exceptional.
+        # Exit quietly with the conventional 130 instead of dumping a traceback.
+        print("\nCancelled.", file=sys.stderr)
+        sys.exit(130)
