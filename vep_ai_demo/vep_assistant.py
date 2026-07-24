@@ -244,8 +244,11 @@ FACTOR_CLASSIFIER_PROMPT = (
     "- origin: germline = inherited / constitutional / rare-disease / healthy cohort; somatic = tumour / cancer.\n"
     "- variant_size_class: small = SNVs / indels / point changes; structural-CNV = large deletions / duplications / CNVs / SVs.\n"
     "- region_focus: coding = protein-coding / missense / exonic; regulatory-noncoding = enhancer / promoter / intronic / intergenic.\n"
-    "- analysis_goal: basic-consequence = just a quick consequence call; clinical-interpretation = pathogenicity / "
-    "disease significance; population-frequency = allele frequencies. Use basic-consequence only when no richer goal is indicated.\n\n"
+    "- analysis_goal: basic-consequence = just a quick consequence call; clinical-interpretation = "
+    "pathogenicity / disease significance — a named disease, a patient, a diagnosis, or 'pathogenic' / "
+    "'clinical' all indicate this; population-frequency = allele frequencies. Use basic-consequence "
+    "only when the question really is just 'what are these variants', with no clinical or disease "
+    "framing.\n\n"
     "Output raw JSON only — no markdown, no code fences, no explanation.\n\n"
     "Question:\n"
 )
