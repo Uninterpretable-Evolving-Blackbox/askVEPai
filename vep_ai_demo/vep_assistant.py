@@ -2064,6 +2064,10 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     # Classify the query into factor values FIRST, so the option block can carry the priority that
     # applies to this scenario rather than the flat table of legacy use-case labels. A classifier
     # failure is non-fatal: factor_tuple stays None and the prompt falls back to the old block.
+    # Say what is happening first: on the default settings this call reuses the recommendation model,
+    # which takes a good ten seconds to answer, and it runs before anything else is printed. Silence
+    # that long at startup reads as a hang.
+    print("Reading the scenario…", flush=True)
     factor_tuple = infer_factors(client, model, user_query)
     if factor_tuple:
         print("Detected scenario:")
