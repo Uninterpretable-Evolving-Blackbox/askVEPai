@@ -12,7 +12,7 @@ justifications, source citations, and a deterministic safety net.**
 
 Configuring the Variant Effect Predictor (VEP) means choosing from dozens of options (predictors,
 frequency datasets, identifiers, filters…), and the right choice depends on your scenario. Ask VEPai takes a natural-language description of your analysis and recommends **which VEP
-options to enable**, **why**, and **where in knowledge base each recommendation is based on**.
+options to enable**, **why**, and **which knowledge-base entry each recommendation rests on**.
 
 You ask:
 
@@ -34,7 +34,7 @@ guards its output:
  [1] Retrieval ........ pull relevant option docs + worked examples from the knowledge base
       │                 (all examples, keyword word-overlap, or --semantic BGE embeddings)
       ▼
- [2] Prompt assembly .. compress the option KB + examples + a strict output contract
+ [2] Prompt assembly .. assemble the option KB + examples + a strict output contract
       │
       ▼
  [3] Local LLM ........ propose a config as `✓/✗ option [source: id]` lines  (via Ollama)
@@ -70,24 +70,14 @@ pip install -r requirements.txt
 ollama serve
 ollama pull gemma4:26b          # the model this system is built and benchmarked on
 
-# 3. Point it at the full 58-option catalogue and its example corpus
+# 3. Ask it something — the 58-option catalogue is the default, no setup needed
 cd vep_ai_demo
-export VEP_OPTIONS_FILE=$PWD/../work/vep_options_expanded.json
-export VEP_EXAMPLES_FILE=$PWD/../work/preliminary_examples/simulated_gold_examples.json
-
-# 4. Ask it something
 python vep_assistant.py "germline exome variants, rare disease, human GRCh38"
 python vep_assistant.py --minimal "germline exome variants, rare disease, human GRCh38"  # essentials only
 python vep_assistant.py --full    "germline exome variants, rare disease, human GRCh38"  # + every add-on
 python vep_assistant.py --explain --semantic "mouse CRISPR variants in GRCm39"   # + decision trace
 python vep_assistant.py explain-result "why is my variant splice_donor_variant?" # output explainer
 ```
-
-The two exports matter. A catalogue and a priority table are generated together, and the folder the
-demo sits in still holds the original 26-option knowledge base from before the catalogue was rebuilt.
-Run against that one and the importance tiers switch themselves off — five of its options, including
-the transcript-database choice, do not exist in the current priority table, so the tiers would be
-quietly wrong rather than obviously absent. The tool says so when it happens.
 
 Classifying a question into factor values is a second, much smaller model call, and by default it
 reuses the model above so that one download is enough. `VEP_FACTOR_MODEL=gemma4:e4b` makes it
@@ -154,7 +144,7 @@ GATED OUT by the factors (12) — not applicable to this scenario
 askVEPai/
 ├── vep_ai_demo/      Runnable prototype: vep_assistant.py (recommend / explain / explain-result),
 │                     evaluate.py (offline benchmark), and the data JSONs it loads.
-│                     Demo knowledge base = 26 options / 8 examples.
+│                     Ships the 58-option catalogue + 23-example corpus as its defaults.
 └── work/             GSoC deliverables built on top of the demo:
     ├── vep_options_expanded.json     58-option VEP catalogue (source-grounded from Ensembl)
     ├── research/                     taxonomy_proposal.md (the factor scheme) +
@@ -170,9 +160,9 @@ askVEPai/
     └── results*/                     saved evaluation + attribution reports
 ```
 
-The demo and the expanded system share the same code; the expanded **58-option** system is selected at
-runtime via environment variables (`VEP_OPTIONS_FILE`, `VEP_EXAMPLES_FILE`, `VEP_TESTSET_FILE`,
-`VEP_RESULTS_DIR`). The wrapper `work/harness/run_experiment.sh` sets them for you.
+The **58-option** catalogue is the default. The experiment harness overrides the catalogue, examples,
+test set and results directory via environment variables (`VEP_OPTIONS_FILE`, `VEP_EXAMPLES_FILE`,
+`VEP_TESTSET_FILE`, `VEP_RESULTS_DIR`); the wrapper `work/harness/run_experiment.sh` sets them for you.
 
 ## The factor scheme
 
@@ -242,17 +232,17 @@ example is removed from the retrieval corpus) and report **mean ± SD** across r
 The factor path fixes the configuration deterministically from the priority table. This asks whether
 the RAG recommender, shown only the query, reaches the same configuration — i.e. whether the LLM's
 proposal and the deterministic resolver agree. Factor-keyed, LOO over the 31-row generated set
-(`gemma4:26b`, 3 seeds; [`work/harness/eval_factor_set.py`](work/harness/eval_factor_set.py)).
+(`gemma4:26b`, 3 seeds; harness `work/harness/eval_factor_set.py`).
 
 | Metric | Result |
 |---|---|
-| Enable-F1 (tier-aware) | **77% ± 2%** |
-| Critical-recall | **91% ± 2%** |
+| Enable-F1 (tier-aware) | **78% ± 2%** |
+| Critical-recall (excl. always-on `core_type`) | **91% ± 2%** |
 
 **Self-consistency, not a benchmark** — the gold config is itself built by the provisional table, so
 this measures *reproduction of that table*, not correctness against expert gold; it is **not comparable
-to the 84% below**. `core_type` is critical in every row, which inflates critical-recall (read the
-spread). Inferring the five factors from the query rather than being handed them costs nothing — the
+to the 84% below**. Critical-recall is reported net of `core_type` (critical in every row, so trivially
+recovered). Inferring the five factors from the query rather than being handed them costs nothing — the
 classifier is not the bottleneck. Signing off the priorities turns this into a real enable-F1.
 
 ### Model & retrieval selection (earlier — E1–E5)
