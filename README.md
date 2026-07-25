@@ -170,7 +170,7 @@ A scenario is not one category — it is a set of values across five largely-ort
 
 | Factor | Values | Kind | Role |
 |---|---|---|---|
-| **species** | human / non-human | data fact | **hard gate** + priority — gates the entire human-only block (SIFT/PolyPhen, CADD/REVEL/AlphaMissense, gnomAD, ClinVar, MANE…) |
+| **species** | human / non-human | data fact | **hard gate** + priority — gates the entire human-only block (PolyPhen, CADD/REVEL/AlphaMissense, gnomAD, ClinVar, MANE…) |
 | **origin** | germline / somatic | data fact | priority, plus one hard rule (`somatic ⇒ no common-variant frequency filter`) |
 | **variant_size_class** | small (SNV/indel) / structural-CNV | data fact | **hard gate** + priority — SVs drop the missense/splice predictors and swap gnomAD → gnomAD-SV |
 | **region_focus** *(multi-select)* | coding / regulatory-noncoding | intent (*where*) | **hard gate** + priority — coding drives HGVS/protein/exon numbers/domains; regulatory drives the regulatory build, cell types, UTRAnnotator, Enformer |
