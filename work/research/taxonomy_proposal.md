@@ -126,6 +126,34 @@ I'd build the gold set **balanced** across factor values (so non-human isn't dro
 plus a separate **naturally-distributed** real-question set as an out-of-distribution check. Below ~50
 examples the 20% holdout is too small to score reliably, so I'd lean on leave-one-out until it grows.
 
+## Design-choice provenance — what is grounded, and what is judgement
+
+**Honest summary:** this taxonomy is **not** derived from a literature taxonomy — none exists (see the
+closing note). Its factor *structure* is my own synthesis, grounded in the **Ensembl VEP web form / source**
+and in **external clinical field standards**; only the multi-label *method* and the *sizing* heuristic trace
+to ML/stats literature. Tags: **[Src]** = Ensembl VEP source / web form / docs (release/115: `InputForm.pm`,
+`VEPConstants.pm`, `vep_options.html`); **[Std]** = external clinical / field standard; **[Lit]** = ML/stats
+literature; **[Judg]** = my own synthesis, no external source claims it.
+
+| Design choice | Grounding | Specific source |
+|---|---|---|
+| Factor-based *multi-label* scheme (vs 7 single categories) | **[Judg]** over **[Std]**+**[Src]** | no named taxonomy exists in the literature; the "orthogonal composable axes" convergence is pieced together from the standards + the form |
+| `species` as a hard applicability gate | **[Src]** | web form: "options change depending on the selected species"; `InputForm.pm` per-species gating |
+| `origin` (germline/somatic) as a factor | **[Std]** | ACMG/AMP 2015 (Richards); AMP/ASCO/CAP 2017 (Li) — separate germline vs somatic standards |
+| `origin` demoted hard→soft, one hard rule (`somatic ⇒ filter_common off`) | **[Judg]** over **[Src]** | my reading — no web-form option becomes invalid by origin; only the frequency-filter rule does |
+| `variant_size_class` as a hard gate | **[Std]**+**[Src]** | ClinGen CNV standard (Riggs); gnomAD-SV; AnnotSV — SV has its own standards/tools; predictors need an SNV |
+| `region_focus` / `analysis_goal` split (both multi-select) | **[Judg]** over **[Src]** | the region-vs-goal split is my own reading; each value's option cluster is web-form-grounded |
+| Dropping `scale` (single-variant vs cohort) | **[Judg]** over **[Src]** | my reasoning: scale changes no *core* annotation on the web form (only output-restriction + compute knobs) |
+| Per-option, per-factor priorities (§5) | **[Judg]** (provisional) | **no** authoritative Ensembl source ranks option importance per scenario; expert judgement, mentor-gated |
+| Two-tier resolution (hard gates → soft ranking) | **[Judg]** | mirrors the deterministic checker's own conflict logic |
+| Multi-label stratified holdout splits | **[Lit ✓]** | Sechidis, Tsoumakas & Vlahavas 2011 (ECML PKDD) — read + verified from full text; iterative stratification beats random on label distribution. Caveat: iterative is not *universally* best (labelsets wins small-ratio sets) |
+| Dataset sizing (≥3/≥5/≥10 per value; ~50–200 rows) | **[Lit ✓/⚠]** | Sechidis verified; the informal "~50–200 rows" golden-dataset sizing heuristic is a soft/blog-level source, not verified |
+
+**Bottom line:** the large majority of this proposal is **[Judg]/[Src]/[Std]** — domain design grounded in
+the VEP form and clinical standards, *not* in ML literature. The only ML-literature dependency is the
+multi-label stratification **method** (Sechidis 2011), read and verified from full text; the informal
+dataset-**sizing** heuristic remains a soft source. This is consistent with the closing note below.
+
 ## Appendix: sources
 
 Ensembl / VEP:
