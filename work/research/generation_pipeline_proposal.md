@@ -1,16 +1,5 @@
 # Gold-example generation pipeline — literature-grounded proposal
 
-Status: **implemented.** The pipeline described below is built and runnable end to end (Stages 0–6; the
-optional Web-VEP execution check, Stage 7, is out of scope for now). A first run of 30 examples produces
-candidate `(query → config)` rows **balanced across the taxonomy** — at least 15 per factor value, including
-the non-human, somatic, structural-variant and regulatory cases that are otherwise under-represented — with
-28/30 passing all deterministic safety checks and a mean in-context critical-recall of ~82%; a separate
-17-check verification suite passes.
-
-> **No approved gold yet.** Everything this pipeline has produced so far is **candidate rows for review, not
-> validated gold**. They run on a *first-pass, provisional* priority table (author's judgement, not
-> validated) and depend on mentor sign-off of the factor taxonomy and per-option priorities in
-> `taxonomy_proposal.md` before any of them become gold. `gold_examples.json` is currently empty.
 
 This document is the design rationale for a **reproducible in-repo pipeline** that generates **candidate**
 `(user_query → VEP web-form config)` examples for mentor review — the direction Likhitha outlined (lock
@@ -47,7 +36,7 @@ verbatim quote from the cited source):
 
 **Design principle for Ask VEPai:** deterministic code + KB + checker **dispose** of the labels; a local LLM
 **proposes** only natural language (queries, optional justification). This matches the project's
-defense-in-depth architecture and Exp 6 (examples-dominant grounding).
+"generate-and-verify" architecture and Exp 6 (examples-dominant grounding).
 
 ---
 
