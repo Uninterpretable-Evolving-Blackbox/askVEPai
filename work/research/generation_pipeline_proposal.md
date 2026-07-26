@@ -42,17 +42,17 @@ verbatim quote from the cited source):
 
 ## 2. Pipeline overview
 
-**Pipeline (Stage 0 = mentor sign-off, then 1–7):**
+Stage 0 is mentor sign-off; Stages 1–7 then run in order:
 
-`0.` labels + per-option priorities (mentor)
-→ `1.` stratified factor sampler (balance coverage across every factor value)
-→ `2.` deterministic config resolver + checker (repaired to a fixed point)
-→ `3.` query generator, category-conditioned for diversity [+ optional justification]
-→ `4.` validation + dedup gates
-→ `5.` ICE / roundtrip usefulness screen
-→ `6.` mentor review queue
-→ `7.` optional Web-VEP execution check
-→ approved `gold_examples.json` + provenance JSONL.
+- **Stage 0** — labels + per-option priorities *(mentor)*
+- **Stage 1** — stratified factor sampler (balance coverage across every factor value)
+- **Stage 2** — deterministic config resolver + checker (repaired to a fixed point)
+- **Stage 3** — query generator, category-conditioned for diversity [+ optional justification]
+- **Stage 4** — validation + dedup gates
+- **Stage 5** — ICE / roundtrip usefulness screen
+- **Stage 6** — mentor review queue
+- **Stage 7** — optional Web-VEP execution check
+- **→** approved `gold_examples.json` + provenance JSONL
 
 Stages 1–2 use **no** LLM (labels are deterministic); only Stage 3 does (natural language only).
 
@@ -65,6 +65,9 @@ Stages 1–2 use **no** LLM (labels are deterministic); only Stage 3 does (natur
 | 3. Run Web VEP | Stage 7 — execution validation only |
 | 4. Human review | Stage 6 |
 | 5. Dataset size experiments | Existing harness (`run_example_sweep.py`, `run_parallel_eval.py`) on approved gold |
+
+*(Stages 4–5 — the automated gates and the ICE usefulness screen — run between generation and review;
+they are not mentor steps, so they don't appear in this mapping.)*
 
 ---
 
@@ -394,37 +397,29 @@ Internal: `research/taxonomy_proposal.md`, `preliminary_examples/README.md`, `EX
 
 ---
 
-## Progress update (latest)
+## Progress update
 
-This pipeline generates candidate `(query → config)` examples so we can build a gold set without
-hand-authoring dozens by hand. Here is where it stands now, and the one thing I'd most like you to look at.
+Two recent tightenings to the pipeline:
 
-**I've tightened the pipeline in two places.** First, *query faithfulness*: the only part a model writes is
-the natural-language query, so I added a check that the query actually expresses all five factors its config
-was built for (species, origin, variant size, region, goal), not just species as before — a checker reads
-only the query and recovers the factors, and anything it can't recover is flagged for review. This closes a
-gap where a query could quietly omit, say, "somatic" or "structural" while still being paired with a config
-built for them. Second, I re-ran the two open design ablations properly: on the teacher model the candidates
-all come out within noise of each other, so I'm keeping the deployed model as its own teacher (the earlier
-"a smaller teacher writes more learnable queries" reading was small-sample noise); and the persona
-query-axis adds no measurable diversity, so I'm keeping it only for audience realism.
+- **Query faithfulness.** The only model-written artifact is the query, so a check now confirms the query
+  expresses all five factors its config was built for (not just species, as before): a checker reads only the
+  query, recovers the factors, and flags anything it can't. This closes a gap where a query could quietly omit
+  "somatic" or "structural" while still being paired with a config built for them.
+- **Two ablations settled.** On the teacher model, candidates come out within noise of each other, so the
+  deployed model is kept as its own teacher (the earlier "a smaller teacher writes more learnable queries"
+  reading was small-sample noise). The persona query-axis adds no measurable diversity, so it is kept only for
+  audience realism.
 
-**Reference examples for you to validate — this is the main ask.** To move from candidate rows to real gold,
-and to have something to measure the pipeline against, I've generated a **30-example reference set** for your
-review: `preliminary_examples/silver_reference_set.json` (with a flat `silver_reference_review.csv` you can
-mark up per row, and `SILVER_REFERENCE_README.md` explaining it). They're balanced across every factor value,
-all pass the constraint checker cleanly, and each query is verified to express its factors. They're
-**model-generated and grounded in the VEP documentation — a proposal for you to check, not validated gold.**
-I built the configs from an independent, documentation-grounded reading of the option priorities *on purpose*,
-so that wherever they disagree with the pipeline's own priority table is exactly where we need your decision.
-Validating these does two jobs at once: it locks the per-option priorities (the thing currently blocking real
-gold), and the validated set becomes the reference the generation pipeline is measured against. The plan from
-there is that you validate ~30 once, they become gold, and the pipeline scales beyond that with spot-checks —
-so we never have to hand-author dozens.
+**The blocker — and the main ask.** Moving from candidate rows to real gold needs the **per-option priorities
+validated**. The pipeline now produces a balanced candidate review set for exactly that; validating it does two
+jobs at once — it locks the priorities (the thing gating real gold), and the validated set becomes the
+reference the pipeline is measured against. The plan: validate once, the rows become gold, and the pipeline
+scales beyond that with spot-checks, so we never hand-author dozens.
 
-**A few specific decisions I'd value your view on** (detailed in the silver-set README):
-1. Which pathogenicity predictors to treat as the standard set vs redundant — VEP itself doesn't rank them.
-2. Two catalogue gaps the reference set exposed: VEP's structural-variant overlap output (`--overlaps`) isn't
-   in our option list yet; and non-human + population-frequency has no available option at all, since
-   gnomAD/1000G are human-only — so is that combination in scope?
+**Specific decisions I'd value your view on:**
+
+1. Which pathogenicity predictors are the standard set vs redundant — VEP itself doesn't rank them.
+2. Two catalogue gaps: VEP's structural-variant overlap output (`--overlaps`) isn't in the option list yet;
+   and non-human + population-frequency has no available option (gnomAD/1000G are human-only) — is that
+   combination in scope?
 3. The allele-frequency cutoff to filter on (ACMG BA1 stand-alone-benign uses AF > 5%).
