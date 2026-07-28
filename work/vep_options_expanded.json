@@ -839,7 +839,7 @@
       "non_human": "not_applicable",
       "quick_lookup": "recommended"
     },
-    "species_restriction": "human only",
+    "species_restriction": "human only (GRCh38)",
     "depends_on": [],
     "conflicts_with": [
       "most_severe",
@@ -850,7 +850,7 @@
     "is_new": false,
     "web_form_subsection": "Transcript annotation",
     "web_default": "ON",
-    "provenance": "InputForm.pm additional_annotations / Transcript annotation (label 'MANE', default ON, Homo_sapiens). vep_options.html (--mane: flags MANE Select or MANE Plus Clinical, human GRCh38 only, incompatible with --most_severe/--summary). Corrects demo mane_select modelling issue."
+    "provenance": "InputForm.pm additional_annotations / Transcript annotation (label 'MANE', default ON, Homo_sapiens). vep_options.html (--mane: flags MANE Select or MANE Plus Clinical, human GRCh38 only, incompatible with --most_severe/--summary). Corrects demo mane_select modelling issue. | assembly scope made machine-readable 2026-07-15: was 'human only', while its own when_not_to_use already stated 'MANE is human GRCh38 only'. The restriction lived in prose no code parses, so a GRCh37 clinical query was recommended MANE, which has no data there. Now encoded the same way eve/gnomad_sv already did it. Note the web form shows the checkbox for any human assembly (InputForm.pm:694-702 gates on species only), so the form does not protect the user here."
   },
   {
     "id": "cell_type",
@@ -1676,7 +1676,7 @@
     "name": "Paralogues",
     "cli_flag": "--plugin Paralogues",
     "web_form_section": "additional_annotations",
-    "category": "pathogenicity_prediction",
+    "category": "functional_effect",
     "description": "Plugin. Annotates a variant by fetching known variants that overlap the genomic coordinates of amino acids aligned between paralogue proteins, enabling paralogue-transfer prediction of pathogenicity. Reports paralogue variants (identifier, alleles, and configurable clinical significance) and the paralogue regions examined (coordinates and transcript IDs).",
     "when_to_use": "Missense and other protein-coding variant interpretation where a position lacks direct evidence but the equivalent residue in a paralogue gene has known pathogenic variation. Useful for resolving variants of uncertain significance in gene families.",
     "when_not_to_use": "Non-coding or intergenic variants with no protein alignment. Genes without paralogues. Species lacking Ensembl paralogue annotations. Cannot be combined with --most_severe or --summary.",
@@ -1705,7 +1705,7 @@
     "is_new": true,
     "web_form_subsection": "Functional effect",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (Paralogues available=>1); CLI form --plugin <Name>; purpose ('fetches variants overlapping the genomic coordinates of amino acids aligned between paralogue proteins'), output fields, and species/assembly requirements confirmed via github.com/Ensembl/VEP_plugins Paralogues.pm."
+    "provenance": "vep_plugins_web_config.txt (Paralogues available=>1); CLI form --plugin <Name>; purpose ('fetches variants overlapping the genomic coordinates of amino acids aligned between paralogue proteins'), output fields, and species/assembly requirements confirmed via github.com/Ensembl/VEP_plugins Paralogues.pm. | category corrected 2026-07-15: was 'pathogenicity_prediction', but the web form files this under 'Functional effect', not 'Missense pathogenicity' (vep_web_interface_reference.md:152). The old label made category-keyed rules (predictor tiering, the structural-variant size gate) treat it as a missense predictor by accident."
   },
   {
     "id": "gnomad_sv",
@@ -2043,7 +2043,7 @@
     "name": "mutfunc",
     "cli_flag": "--plugin mutfunc",
     "web_form_section": "additional_annotations",
-    "category": "pathogenicity_prediction",
+    "category": "functional_effect",
     "description": "Plugin that retrieves data from the mutfunc database predicting the destabilising effect of variants on protein structure, protein-protein interaction interfaces and linear motifs. Provides results across four analysis categories: linear motif (motif), interaction interface (int), homology-model protein structure (mod) and experimental structure (exp); all four are included by default.",
     "when_to_use": "Mechanistic interpretation of missense/coding variants in human proteins, to assess whether a substitution destabilises protein structure, disrupts an interaction interface, or breaks a functional motif.",
     "when_not_to_use": "Non-coding variants, non-human data, or quick triage. Adds structural/interaction detail that is unnecessary for purely frequency- or consequence-based workflows.",
@@ -2069,6 +2069,6 @@
     "is_new": true,
     "web_form_subsection": "Functional effect",
     "web_default": "off",
-    "provenance": "vep_plugins.html / VEP_plugins mutfunc.pm ('destabilization of protein structure, interaction interface, and motif'; four categories motif/int/mod/exp; SQLite db + FASTA); vep_plugins_web_config.txt (available=>1)."
+    "provenance": "vep_plugins.html / VEP_plugins mutfunc.pm ('destabilization of protein structure, interaction interface, and motif'; four categories motif/int/mod/exp; SQLite db + FASTA); vep_plugins_web_config.txt (available=>1). | category corrected 2026-07-15: was 'pathogenicity_prediction', but the web form files this under 'Functional effect', not 'Missense pathogenicity' (vep_web_interface_reference.md:152). The old label made category-keyed rules (predictor tiering, the structural-variant size gate) treat it as a missense predictor by accident."
   }
 ]

@@ -418,27 +418,60 @@ def score_response(enabled, disabled, gt_enabled, gt_disabled, vep_options, quer
 _MAX_TOKENS = 4096   # single source of truth — referenced by the report header so the two can't drift
 
 
-def call_llm(client, model, system_prompt, user_query, temperature=0.7, seed=None):
-    """Call Ollama and return full response text."""
-    kwargs = dict(
-        model=model,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_query},
-        ],
-        max_tokens=_MAX_TOKENS,
-        stream=True,
-        temperature=temperature,
-    )
-    if seed is not None:
-        kwargs["seed"] = seed
-    stream = client.chat.completions.create(**kwargs)
-    response_text = ""
-    for chunk in stream:
-        delta = chunk.choices[0].delta.content
-        if delta:
-            response_text += delta
-    return response_text
+class EmptyCompletionError(RuntimeError):
+    """The model streamed no content at all, repeatedly.
+
+    An empty completion is not an answer to any prompt in this project, but it used to be returned as
+    one: call_llm accumulated deltas and handed back "" if none arrived, so every caller treated
+    "the model said nothing" as "the model said nothing useful". The same underlying event then surfaced
+    under a different name in each stage — `factor_check_unparseable` in the Stage-4 round-trip,
+    `degenerate_generation` in the Stage-5 ICE screen — and in Stage 4 it reached the mentor's review
+    sheet as if it were a finding about her data. It was not; it was this.
+    """
+
+
+def call_llm(client, model, system_prompt, user_query, temperature=0.7, seed=None, attempts=3):
+    """Call Ollama and return the full response text. Never returns an empty string.
+
+    Retries an EMPTY completion (up to `attempts`) and raises EmptyCompletionError if every attempt
+    comes back empty. Retrying is the right response because the failure is stochastic rather than a
+    property of the prompt: rows that returned nothing on one run return valid output on the next, and
+    the observed rate is roughly one call in forty. It is NOT a parsing problem — the captured evidence
+    is a zero-length response, so a more tolerant parser would have nothing to be tolerant of.
+
+    When a `seed` is given it is VARIED across retries. Repeating the same seed would, on a stack where
+    temperature 0 is genuinely deterministic, re-request the identical empty response forever; a retry
+    that only works because of the flakiness it is compensating for is not a fix. The first attempt
+    always uses the caller's seed, so a call that succeeds immediately is bit-identical to the previous
+    behaviour and to every number already logged.
+
+    Raising (rather than returning "") is deliberate: after `attempts` consecutive empty responses
+    something is actually wrong, and a loud failure is better than a silent one that each caller renames.
+    """
+    for k in range(attempts):
+        kwargs = dict(
+            model=model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_query},
+            ],
+            max_tokens=_MAX_TOKENS,
+            stream=True,
+            temperature=temperature,
+        )
+        if seed is not None:
+            kwargs["seed"] = seed if k == 0 else seed + k * 1000
+        stream = client.chat.completions.create(**kwargs)
+        response_text = ""
+        for chunk in stream:
+            delta = chunk.choices[0].delta.content
+            if delta:
+                response_text += delta
+        if response_text.strip():
+            return response_text
+    raise EmptyCompletionError(
+        f"{model} returned an empty completion on all {attempts} attempts "
+        f"(seed={seed}, temperature={temperature})")
 
 
 # ---------------------------------------------------------------------------
