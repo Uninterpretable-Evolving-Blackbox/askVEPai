@@ -748,7 +748,7 @@
   },
   {
     "id": "clinvar",
-    "name": "Find co-located short variants",
+    "name": "ClinVar clinical significance",
     "cli_flag": "--check_existing (derived; no standalone flag)",
     "web_form_section": "variants_frequency_data",
     "category": "variant_frequency",
