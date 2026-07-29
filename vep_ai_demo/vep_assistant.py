@@ -1268,13 +1268,65 @@ def apply_config_level(enabled, disabled, resolved, level, vep_options, training
         enabled.update(keep)
     elif level == "full":
         removed = set()
+        # EVERY tier the scenario justifies, not only the optional one. Adding just `optional` was
+        # actively misleading whenever the model under-proposed: the add-ons went on while the core
+        # stayed missing, so a run could ship REVEL/ClinPred/dbNSFP — which consume other predictors'
+        # scores — with none of SIFT/PolyPhen/CADD/AlphaMissense for them to derive from. That is the
+        # exact inversion of the tiering the table encodes, presented as "everything this scenario
+        # justifies".
         enabled.update(oid for oid, (_, priority, gated) in resolved.items()
-                       if priority == "optional" and not gated)
+                       if priority in ("critical", "recommended", "optional") and not gated)
     else:
         return set()
     check_and_fix_violations(enabled, disabled, vep_options, training_examples, user_query,
                              retrieval_mode=retrieval_mode)
     return removed - set(enabled)          # a dep the re-check restored was not really removed
+
+
+def restore_missing_critical(enabled, disabled, resolved, vep_options, training_examples,
+                             user_query, retrieval_mode="keyword"):
+    """Switch on any option the factor table rates `critical` here that the draft left out.
+
+    The checker has always been asymmetric. It REMOVES what cannot be right (species, assembly,
+    conflicts) and adds a dependency the configuration implies — but nothing ever checked that the
+    options the scenario actually REQUIRES are present. A short or truncated draft therefore shipped
+    under the heading "authoritative" with its must-haves quietly absent, and `--full` made it worse by
+    piling on add-ons while the core stayed missing. Observed on the README's own quickstart query: a
+    draft naming two options produced a configuration with every derivative predictor and none of the
+    distinct ones they derive from.
+
+    Treating the table as the authority when it says an option is NOT applicable, but not when it says
+    an option is ESSENTIAL, was never a defensible split; this applies the same rule in the other
+    direction. Restored options are reported like any other repair, never silently inserted, and the
+    checker runs again afterwards because a restored option can carry a dependency or conflict with
+    something the model did propose.
+
+    Returns the ids actually restored (an option the re-check then removed is not reported as restored).
+    """
+    if not resolved:
+        return []
+    missing = sorted(oid for oid, (_en, priority, gated) in resolved.items()
+                     if priority == "critical" and not gated and oid not in enabled)
+    if not missing:
+        return []
+    enabled.update(missing)
+    for oid in missing:
+        disabled.discard(oid)
+    check_and_fix_violations(enabled, disabled, vep_options, training_examples, user_query,
+                             retrieval_mode=retrieval_mode)
+    return [oid for oid in missing if oid in enabled]
+
+
+def format_restored_critical(restored, vep_options):
+    """Report must-haves the draft omitted. Empty string when the draft was complete."""
+    if not restored:
+        return ""
+    name_by_id = {o["id"]: o.get("name", o["id"]) for o in vep_options}
+    lines = ["", f"⚠️  MUST-HAVE OPTIONS THE DRAFT LEFT OUT ({len(restored)}):",
+             "   The factor table rates these essential for this scenario, so they are switched on:"]
+    lines += [f"     + {name_by_id.get(oid, oid)} [{oid}]" for oid in restored]
+    lines.append("")
+    return "\n".join(lines)
 
 
 def format_corrected_config(enabled, disabled, vep_options, violations, resolved=None):
@@ -2125,6 +2177,14 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         if warnings:
             print(warnings)
         resolved = resolve_for_query(factor_tuple, vep_options)
+        # Restore must-haves BEFORE the depth flags run, so --minimal narrows a complete core rather
+        # than a partial one, and --full widens from the same base.
+        restored = restore_missing_critical(enabled, disabled, resolved, vep_options,
+                                            training_examples, user_query,
+                                            retrieval_mode=retrieval_mode)
+        restored_report = format_restored_critical(restored, vep_options)
+        if restored_report:
+            print(restored_report)
         if resolved and level != "standard":
             removed = apply_config_level(enabled, disabled, resolved, level, vep_options,
                                          training_examples, user_query,
@@ -2138,7 +2198,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         corrected = format_corrected_config(enabled, disabled, vep_options, violations,
                                             resolved=resolved)
         print(corrected)
-        warnings = "\n".join(x for x in (audit_report, warnings, corrected) if x)
+        warnings = "\n".join(x for x in (audit_report, warnings, restored_report, corrected) if x)
 
     save_result(user_query, response_text, mode="recommend", warnings=warnings)
 

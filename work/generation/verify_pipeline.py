@@ -157,7 +157,57 @@ def main():
     check("use_case_category is null (factor scheme) — eval-harness needs the migration",
           r0.get("use_case_category") is None)
 
-    print("\n== 6. Helpers ==")
+    print("\n== 6. Under-recommendation is repaired (the prose path) ==")
+    # The checker only ever REMOVED (species/assembly/conflict) or added a dependency; nothing checked
+    # that the options the scenario REQUIRES are present. A short or truncated model draft therefore
+    # shipped as "authoritative" with its must-haves missing, and --full made it worse by adding only the
+    # optional tier: observed on the README quickstart query, a two-option draft produced a config with
+    # every derivative predictor (REVEL/ClinPred/dbNSFP) and none of the distinct ones they consume.
+    ft = {"species": "human", "origin": "germline", "variant_size_class": "small",
+          "region_focus": ["coding"], "analysis_goal": ["clinical-interpretation"]}
+    q = "germline exome variants, rare disease, human GRCh38"
+    resolved = va.intent_priorities(ft, cat, pbf, factors)
+    crit = {o for o, (_e, p, g) in resolved.items() if p == "critical" and not g}
+
+    def run_draft(draft, level):
+        en, dis = set(draft), set()
+        va.check_and_fix_violations(en, dis, cat, corpus, q)
+        va.restore_missing_critical(en, dis, resolved, cat, corpus, q)
+        if level != "standard":
+            va.apply_config_level(en, dis, resolved, level, cat, corpus, q)
+        return en
+
+    for lvl in ("standard", "minimal", "full"):
+        en = run_draft({"core_type", "hgvs"}, lvl)      # the observed two-option draft
+        check(f"a 2-option draft still yields every critical option (--{lvl})",
+              not (crit - en), f"missing {sorted(crit - en)}")
+    # --full must mean every tier the scenario justifies, not just the add-ons.
+    #
+    # The FACTOR table is not the only gate: the query names GRCh38, and the checker drops sources whose
+    # data exists only on the other build (Geno2MP is GRCh37-only). Those are correctly absent from the
+    # final set even though the factor table prices them, so they are subtracted here rather than
+    # asserted away — otherwise this check would fight the assembly gate it wants to keep.
+    full = run_draft({"core_type", "hgvs"}, "full")
+    asm = va.infer_assembly(q)
+    build_blocked = {o["id"] for o in cat
+                     if (r := va._assembly_restriction(o.get("species_restriction", ""))) and asm not in r}
+    want = {o for o, (_e, p, g) in resolved.items()
+            if p in ("critical", "recommended", "optional") and not g} - build_blocked
+    check("--full enables critical + recommended + optional, not optional alone",
+          not (want - full), f"missing {sorted(want - full)[:5]}")
+    check(f"...and the {asm} assembly gate still removes the other build's sources",
+          bool(build_blocked) and not (build_blocked & full), f"blocked={sorted(build_blocked)}")
+    # The ACMG-grounded tiering must never invert: derivative predictors consume the distinct ones'
+    # scores, so shipping them without any distinct predictor is worse than shipping neither.
+    deriv, dist = {"revel", "clinpred", "dbnsfp"}, {"sift", "polyphen", "cadd", "alphamissense", "eve"}
+    check("derivative predictors never ship without the distinct ones they consume",
+          not (deriv & full) or bool(dist & full),
+          f"derivative={sorted(deriv & full)} distinct={sorted(dist & full)}")
+    # An empty draft is the worst case and must still produce a usable core.
+    check("even an EMPTY draft is repaired to the full critical set",
+          not (crit - run_draft(set(), "standard")))
+
+    print("\n== 7. Helpers ==")
     check("rouge_l(identical) == 1", abs(genlib.rouge_l("a b c", "a b c") - 1.0) < 1e-9)
     check("rouge_l(disjoint) == 0", genlib.rouge_l("a b c", "x y z") == 0.0)
     check("strongest ranks critical > recommended > optional",
