@@ -9,6 +9,7 @@ Supports three modes:
 How much configuration you get back (default = standard):
   --minimal   only the options that are essential for your scenario
   --full      also switch on every add-on the scenario justifies
+  --think     let the model reason before answering (about 2x slower, no measured gain)
 """
 
 import json
@@ -1639,7 +1640,20 @@ def format_tiered_config(enabled, vep_options):
 # Prompt building — compression + retrieval
 # ---------------------------------------------------------------------------
 
-def compress_options(vep_options, resolved=None):
+DESC_CHARS = 120   # how much of each option's description the model is shown; None = all of it
+
+
+_SENTINEL = object()
+
+
+def _desc(opt, desc_chars):
+    """The description as the model sees it. `desc_chars=None` means the whole thing."""
+    d = opt.get('description', '') or ''
+    n = DESC_CHARS if desc_chars is _SENTINEL else desc_chars
+    return d if n is None else d[:n]
+
+
+def compress_options(vep_options, resolved=None, desc_chars=_SENTINEL):
     """Convert verbose JSON options into a compact text reference.
 
     `resolved` is the output of intent_priorities() for THIS query's factor tuple. When supplied,
@@ -1665,7 +1679,14 @@ def compress_options(vep_options, resolved=None):
         # the Exp 6 'description' ablation effectively removes description[:120] + the priority labels,
         # NOT when_to_use/when_not_to_use.) .get guards a catalogue entry missing a key (else KeyError).
         lines.append(
-            f"- **{opt['id']}** (`{opt.get('cli_flag', '')}`): {opt.get('description', '')[:120]}. "
+            # DESCRIPTION TRUNCATION. Every one of the 58 descriptions is longer than 120 characters,
+            # so at the default the model has never seen a complete one — and the cut lands badly:
+            # check_existing is severed at "Returns existing variant IDs (e.g. rsIDs), C", one character
+            # before the word ClinVar, which is the only place the prompt would explain why `clinvar`
+            # depends on it. cadd loses "coding and non-coding", the exact property that exempts it from
+            # the regulatory gate. Set desc_chars=None to send the full text (~+3.5k prompt tokens;
+            # prefill is not the bottleneck, generation is, so it costs little).
+            f"- **{opt['id']}** (`{opt.get('cli_flag', '')}`): {_desc(opt, desc_chars)}. "
             f"Species: {opt.get('species_restriction', 'all species')}. "
             f"Priorities: {priorities}. "
             f"Conflicts: {conflicts}. Depends: {depends}."
@@ -1801,7 +1822,8 @@ def get_confidence(option_id, use_case, vep_options):
 
 
 def build_system_prompt(vep_options, training_examples, user_query="",
-                        retrieval_mode="keyword", examples_override=None, factor_tuple=None):
+                        retrieval_mode="keyword", examples_override=None, factor_tuple=None,
+                        desc_chars=_SENTINEL):
     """Construct a compact system prompt with retrieved examples.
 
     Assembles three blocks — the compressed option KB, the retrieved reference
@@ -1833,23 +1855,23 @@ def build_system_prompt(vep_options, training_examples, user_query="",
         if retrieval_mode == "semantic" and user_query:
             scored_options = retrieve_options_semantic(vep_options, user_query, top_k=10)
             relevant_options = [opt for _, opt in scored_options]
-            options_text = compress_options(relevant_options, resolved)
+            options_text = compress_options(relevant_options, resolved, desc_chars)
         else:
-            options_text = compress_options(vep_options, resolved)
+            options_text = compress_options(vep_options, resolved, desc_chars)
     elif retrieval_mode == "all":
         # Include ALL training examples, no retrieval filtering
-        options_text = compress_options(vep_options, resolved)
+        options_text = compress_options(vep_options, resolved, desc_chars)
         scored_examples = [(0, ex) for ex in training_examples]
     elif retrieval_mode == "semantic" and user_query:
         # Use semantic retrieval for both options and examples
         scored_options = retrieve_options_semantic(vep_options, user_query, top_k=10)
         relevant_options = [opt for _, opt in scored_options]
-        options_text = compress_options(relevant_options, resolved)
+        options_text = compress_options(relevant_options, resolved, desc_chars)
         scored_examples = retrieve_examples_semantic(
             training_examples, user_query, vep_options
         )
     else:
-        options_text = compress_options(vep_options, resolved)
+        options_text = compress_options(vep_options, resolved, desc_chars)
         if user_query:
             scored_examples = retrieve_examples_keyword(training_examples, user_query)
         else:
@@ -2033,7 +2055,7 @@ def print_decision_trace(user_query, vep_options, training_examples,
 # Result saving
 # ---------------------------------------------------------------------------
 
-def save_result(query, response, mode="recommend", warnings=""):
+def save_result(query, response, mode="recommend", warnings="", reasoning=""):
     """Save the recommendation to the results directory as markdown.
 
     Args:
@@ -2058,6 +2080,10 @@ def save_result(query, response, mode="recommend", warnings=""):
             f.write(f"## {'Recommendation' if mode == 'recommend' else 'Explanation'}\n{response}\n")
             if warnings:
                 f.write(f"\n## Constraint Check\n{warnings}\n")
+            # The model's own chain of thought. Kept because it is the actual decision process,
+            # and it was previously discarded at the stream rather than recorded anywhere.
+            if reasoning:
+                f.write(f"\n## Model reasoning\n\n```\n{reasoning}\n```\n")
         print(f"\nResult saved to: {filename}")
     except OSError as e:
         print(f"\nWarning: Could not save result to {filename}: {e}")
@@ -2067,36 +2093,126 @@ def save_result(query, response, mode="recommend", warnings=""):
 # LLM streaming
 # ---------------------------------------------------------------------------
 
-def stream_response(client, model, system_prompt, user_message):
-    """Call the LLM with streaming and return full response text.
+# The answer and the model's reasoning share one generation budget, so the cap has to cover BOTH. At
+# 4096 a long think could consume most of it and leave the answer truncated mid-sentence — observed on
+# the README's own query, where the draft stopped at "Reason: Provides standard" and only two options
+# survived. Measured need is ~1300-1700 reasoning + ~1100 answer tokens, and reasoning length varies
+# run to run, so the cap is set well clear of the worst case. It costs nothing when unused.
+_STREAM_MAX_TOKENS = 8192
 
-    CAVEAT: sets no temperature (Ollama's default applies -> the demo path is nondeterministic and at a
-    different temperature than evaluate.py's, so demo behaviour != benchmarked behaviour), and
-    max_tokens=4096 is hardcoded -> a long all-examples prompt + long answer can hit the cap, truncating
-    output and leaving partial ✓ lines the parser under-reads.
+
+def _delta_reasoning(delta):
+    """The reasoning fragment in a stream delta, across the field names different servers use."""
+    for attr in ("reasoning", "reasoning_content"):
+        val = getattr(delta, attr, None)
+        if val:
+            return val
+    return None
+
+
+def _stream_native(model, system_prompt, user_message, think):
+    """Stream from Ollama's OWN /api/chat, the only endpoint that honours `think`.
+
+    The OpenAI-compatible /v1/chat/completions layer silently DROPS the parameter — passing it through
+    `extra_body` changes nothing, which is why disabling reasoning first appeared to be impossible.
+    Everything else is kept identical to the compat path so the only difference is the thinking phase.
     """
-    response_text = ""
+    import urllib.request
+    body = {
+        "model": model, "stream": True, "keep_alive": -1, "think": think,
+        "messages": [{"role": "system", "content": system_prompt},
+                     {"role": "user", "content": user_message}],
+        "options": {"num_predict": _STREAM_MAX_TOKENS},
+    }
+    base = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
+    url = base.rstrip("/").removesuffix("/v1") + "/api/chat"
+    req = urllib.request.Request(url, data=json.dumps(body).encode(),
+                                 headers={"Content-Type": "application/json"})
+    answer, thinking = "", ""
+    with urllib.request.urlopen(req, timeout=900) as r:
+        for raw in r:                                  # newline-delimited JSON, one object per chunk
+            raw = raw.strip()
+            if not raw:
+                continue
+            msg = json.loads(raw).get("message", {})
+            if msg.get("thinking"):
+                thinking += msg["thinking"]
+            if msg.get("content"):
+                answer += msg["content"]
+                print(msg["content"], end="", flush=True)
+    print()
+    return answer, thinking
+
+
+def stream_response(client, model, system_prompt, user_message, think=None):
+    """Call the LLM with streaming; return (answer_text, reasoning_text).
+
+    `think=False` skips the reasoning phase entirely, via the native endpoint. Measured over the 31-row
+    set, single-threaded: 34.9s -> 18.1s per query with enable-F1 unchanged (78 -> 79%) and critical-recall
+    slightly BETTER (92 -> 95%). Nothing is traded, so this is the default for the deployed model; pass
+    --think to get the reasoning back. On the small model the gap is larger still and in the same
+    direction (e4b gains 13 points of F1 with thinking off), so reasoning amplifies capability rather
+    than substituting for it. See EXPERIMENTS.md Exp 14.
+
+    THE DEPLOYED MODEL THINKS BEFORE IT ANSWERS, AND THAT USED TO LOOK LIKE A HANG. `gemma4:26b` emits
+    its chain of thought into `delta.reasoning`, not `delta.content`. This function previously read only
+    `delta.content`, so for the 14-20 seconds the model spent reasoning it discarded every chunk and
+    printed nothing: measured 357 consecutive chunks with no content, then the answer starting at 14.3 s.
+    From the outside that is indistinguishable from a stalled process, and it is the single biggest
+    reason the tool felt unusable.
+
+    So reasoning is now consumed as it arrives, surfaced as a live token count, and returned to the
+    caller. Returning it matters beyond the progress display: it is the model's actual decision process,
+    which is precisely what `--explain` claims to show and previously could not, because it was thrown
+    away here.
+
+    CAVEAT (unchanged): sets no temperature, so Ollama's default applies and the demo path is
+    nondeterministic and at a different temperature than evaluate.py's — demo behaviour is not
+    benchmarked behaviour.
+    """
+    if think is not None:
+        return _stream_native(model, system_prompt, user_message, think)
+    response_text, reasoning_text = "", ""
+    answering = False
+    _tty = sys.stdout.isatty()
     stream = client.chat.completions.create(
         model=model,
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_message},
         ],
-        max_tokens=4096,
+        max_tokens=_STREAM_MAX_TOKENS,
         stream=True,
-        # Keep the model resident between calls. The latency benchmark found the big TTFT spikes (up to
-        # ~40s) were Ollama EVICTING the 15GB model and reloading it, not prefill — and that the fixed
-        # system prompt prefix is cache-able (TTFT dropped to ~0.2s on a warm cache). keep_alive=-1 pins
-        # the model in memory so the second query onward pays neither reload nor (cached) prefill.
+        # Keep the model resident between calls, so a second query pays no reload.
         extra_body={"keep_alive": -1},
     )
     for chunk in stream:
-        delta = chunk.choices[0].delta.content
-        if delta:
-            print(delta, end="", flush=True)
-            response_text += delta
+        if not chunk.choices:                      # usage-only chunks carry no choices
+            continue
+        delta = chunk.choices[0].delta
+        thought = _delta_reasoning(delta)
+        if thought and not answering:
+            reasoning_text += thought
+            # One rewritten line, so the thinking phase is visibly alive without burying the answer.
+            # ONLY on a terminal: `\r` overwrites in place there, but when stdout is a pipe or a file it
+            # is just another character, so every update survives and buries the actual answer under
+            # thousands of progress lines (34 KB of them, measured).
+            if _tty:
+                print(f"\r  thinking… {len(reasoning_text) // 4} tokens", end="", flush=True)
+        if delta.content:
+            if reasoning_text and not answering:
+                print((f"\r  thought for ~{len(reasoning_text) // 4} tokens" + " " * 24) if _tty
+                      else f"  (thought for ~{len(reasoning_text) // 4} tokens)")
+            answering = True
+            print(delta.content, end="", flush=True)
+            response_text += delta.content
+    if reasoning_text and not response_text:
+        # The whole budget went on thinking and no answer survived. Say so: silently returning "" sends
+        # an empty draft into the parser, which reads as "the model recommended nothing".
+        print(f"\r  the model spent its entire generation budget (~{len(reasoning_text) // 4} tokens) "
+              f"reasoning and produced no answer." + " " * 8)
     print()
-    return response_text
+    return response_text, reasoning_text
 
 
 # ---------------------------------------------------------------------------
@@ -2104,7 +2220,8 @@ def stream_response(client, model, system_prompt, user_message):
 # ---------------------------------------------------------------------------
 
 def run_recommend(client, model, vep_options, training_examples, user_query,
-                   explain=False, skip_check=False, retrieval_mode="keyword", level="standard"):
+                   explain=False, skip_check=False, retrieval_mode="keyword", level="standard",
+                   think=False):
     """Run the recommendation mode (default).
 
     Args:
@@ -2135,7 +2252,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     print("Analysing your scenario...\n")
 
     try:
-        response_text = stream_response(client, model, system_prompt, user_query)
+        response_text, reasoning_text = stream_response(client, model, system_prompt, user_query,
+                                                        think=think)
     except Exception as e:
         print(f"\nError communicating with Ollama: {e}")
         print("Make sure Ollama is running: ollama serve")
@@ -2162,7 +2280,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         # text and then warn about ITS species and format — three true-but-irrelevant alarms attached
         # to something the model never proposed.
         if is_out_of_scope_response(response_text, audit):
-            save_result(user_query, response_text, mode="recommend", warnings="")
+            save_result(user_query, response_text, mode="recommend", warnings="",
+                        reasoning=reasoning_text)
             return
 
         audit_report = format_citation_audit(audit, len(vep_options))
@@ -2200,7 +2319,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         print(corrected)
         warnings = "\n".join(x for x in (audit_report, warnings, restored_report, corrected) if x)
 
-    save_result(user_query, response_text, mode="recommend", warnings=warnings)
+    save_result(user_query, response_text, mode="recommend", warnings=warnings,
+                reasoning=reasoning_text)
 
 
 def run_explain_result(client, model, user_query):
@@ -2214,12 +2334,12 @@ def run_explain_result(client, model, user_query):
     print("Explaining VEP output...\n")
 
     try:
-        response_text = stream_response(client, model, system_prompt, user_query)
+        response_text, reasoning_text = stream_response(client, model, system_prompt, user_query)
     except Exception as e:
         print(f"\nError communicating with Ollama: {e}")
         sys.exit(1)
 
-    save_result(user_query, response_text, mode="explain")
+    save_result(user_query, response_text, mode="explain", reasoning=reasoning_text)
 
 
 def main():
@@ -2246,7 +2366,7 @@ def main():
         return
 
     # --- Mode: recommend (with optional --explain, --no-check, --semantic) ---
-    known_flags = ("--explain", "--no-check", "--semantic", "--minimal", "--full")
+    known_flags = ("--explain", "--no-check", "--semantic", "--minimal", "--full", "--think")
 
     # A mistyped flag used to fall through into the query text: `--minmal "mouse variants"` asked the
     # model about "--minmal mouse variants" and quietly ran at the default level. Reject anything
@@ -2258,6 +2378,9 @@ def main():
         print('Usage: python vep_assistant.py [flags] "your analysis scenario"')
         sys.exit(2)
 
+    # Reasoning is OFF by default: measured 1.93x faster with equal enable-F1 and better
+    # critical-recall (Exp 14). --think restores it for anyone who wants the chain of thought.
+    think = False if "--think" not in args else None
     explain = "--explain" in args
     skip_check = "--no-check" in args
     semantic = "--semantic" in args
@@ -2289,7 +2412,7 @@ def main():
     print()
     run_recommend(client, model, vep_options, training_examples, user_query,
                   explain=explain, skip_check=skip_check,
-                  retrieval_mode=retrieval_mode, level=level)
+                  retrieval_mode=retrieval_mode, level=level, think=think)
 
 
 if __name__ == "__main__":

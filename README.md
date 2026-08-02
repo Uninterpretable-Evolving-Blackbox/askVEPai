@@ -76,12 +76,18 @@ python vep_assistant.py "germline exome variants, rare disease, human GRCh38"
 python vep_assistant.py --minimal "germline exome variants, rare disease, human GRCh38"  # essentials only
 python vep_assistant.py --full    "germline exome variants, rare disease, human GRCh38"  # + every add-on
 python vep_assistant.py --explain --semantic "mouse CRISPR variants in GRCm39"   # + decision trace
+python vep_assistant.py --think   "germline exome variants, rare disease, human GRCh38"  # let it reason first
 python vep_assistant.py explain-result "why is my variant splice_donor_variant?" # output explainer
 ```
 
 Classifying a question into factor values is a second, much smaller model call, and by default it
 reuses the model above so that one download is enough. `VEP_FACTOR_MODEL=gemma4:e4b` makes it
 noticeably faster if you have a small model pulled as well.
+
+> **The model does not reason before answering, on purpose.** `gemma4:26b` is a reasoning
+> model, and letting it think costs about half the wall clock for no measurable gain: **34.9s vs
+> 18.1s** per query, with enable-F1 unchanged and critical-recall slightly *better* without it.
+> `--think` turns it back on. See [Speed](#speed-the-reasoning-phase-is-half-the-wait-and-buys-nothing).
 
 See [`vep_ai_demo/README.md`](vep_ai_demo/README.md) for all modes and flags.
 
@@ -244,6 +250,30 @@ this measures *reproduction of that table*, not correctness against expert gold;
 to the 84% below**. Critical-recall is reported net of `core_type` (critical in every row, so trivially
 recovered). Inferring the five factors from the query rather than being handed them costs nothing — the
 classifier is not the bottleneck. Signing off the priorities turns this into a real enable-F1.
+
+### Speed: the reasoning phase is half the wait, and buys nothing
+
+`gemma4:26b` is a reasoning model — it emits a chain of thought before the answer. Measured over the
+31-row set, **single-threaded so each figure is one user's actual wait** (`--think` on/off, harness
+`work/harness/eval_factor_set.py`):
+
+| Reasoning | Seconds / query | Enable-F1 | Critical-recall |
+|---|---|---|---|
+| on | 34.9 s | 78% | 92% |
+| **off (default)** | **18.1 s** | **79%** | **95%** |
+
+Nothing is traded: it is 1.93x faster with equal enable-F1 and *better* critical-recall, and far more
+stable run to run. So reasoning is off by default and `--think` restores it.
+
+Two related findings from the same run:
+
+- **Reasoning helps the large model and hurts the small one.** `gemma4:e4b` gains 13 points of enable-F1
+  and 12 of critical-recall with thinking *off*, while also being faster. Reasoning amplifies existing
+  capability rather than substituting for it, so a smaller model with more thinking is not a route to speed.
+- **Sending each option's full description does not help.** Every catalogue entry is truncated to 120
+  characters in the prompt; sending the complete text costs **+16 s/query** and changes accuracy by less
+  than the run-to-run noise. What the catalogue contributes is *which options exist and how they relate*,
+  not prose about them — consistent with the +35-point catalogue-only result below.
 
 ### Model & retrieval selection (earlier — E1–E5)
 
