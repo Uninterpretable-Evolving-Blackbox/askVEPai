@@ -430,8 +430,42 @@ class EmptyCompletionError(RuntimeError):
     """
 
 
-def call_llm(client, model, system_prompt, user_query, temperature=0.7, seed=None, attempts=3):
+def _call_llm_native(model, system_prompt, user_query, temperature, seed, think):
+    """Same call, but through Ollama's OWN /api/chat endpoint so `think` is actually honoured.
+
+    The OpenAI-compatible /v1/chat/completions layer silently DROPS the `think` parameter — passing it
+    via extra_body changes nothing, which is why an early attempt to disable reasoning appeared to fail
+    outright. Only the native endpoint accepts it. Everything else is kept identical to the compat path
+    (same messages, temperature, seed, token cap) so the two arms differ in exactly one variable.
+    """
+    import json as _json
+    import urllib.request as _url
+    body = {
+        "model": model, "stream": False, "keep_alive": -1, "think": think,
+        "messages": [{"role": "system", "content": system_prompt},
+                     {"role": "user", "content": user_query}],
+        "options": {"num_predict": _MAX_TOKENS, "temperature": temperature},
+    }
+    if seed is not None:
+        body["options"]["seed"] = seed
+    req = _url.Request("http://localhost:11434/api/chat", data=_json.dumps(body).encode(),
+                       headers={"Content-Type": "application/json"})
+    base = os.environ.get("OLLAMA_BASE_URL")
+    if base:                                   # honour the same override the compat path uses
+        req.full_url = base.rstrip("/").removesuffix("/v1") + "/api/chat"
+    with _url.urlopen(req, timeout=900) as r:
+        return (_json.loads(r.read()).get("message", {}).get("content") or "")
+
+
+def call_llm(client, model, system_prompt, user_query, temperature=0.7, seed=None, attempts=3,
+             think=None):
     """Call Ollama and return the full response text. Never returns an empty string.
+
+    `think` controls the reasoning phase on models that have one (gemma4:26b does). None keeps the
+    default behaviour and the compat endpoint; False or "low" routes through the native endpoint,
+    because the compat layer drops the parameter. Measured on one query over 3 seeds: reasoning off
+    ran 14.5s vs 38.6s and recovered every critical option, at the cost of over-recommending
+    (enable-F1 87% vs 98%) — a trade worth measuring across a whole set before it becomes a default.
 
     Retries an EMPTY completion (up to `attempts`) and raises EmptyCompletionError if every attempt
     comes back empty. Retrying is the right response because the failure is stochastic rather than a
@@ -449,24 +483,29 @@ def call_llm(client, model, system_prompt, user_query, temperature=0.7, seed=Non
     something is actually wrong, and a loud failure is better than a silent one that each caller renames.
     """
     for k in range(attempts):
-        kwargs = dict(
-            model=model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_query},
-            ],
-            max_tokens=_MAX_TOKENS,
-            stream=True,
-            temperature=temperature,
-        )
-        if seed is not None:
-            kwargs["seed"] = seed if k == 0 else seed + k * 1000
-        stream = client.chat.completions.create(**kwargs)
-        response_text = ""
-        for chunk in stream:
-            delta = chunk.choices[0].delta.content
-            if delta:
-                response_text += delta
+        this_seed = None if seed is None else (seed if k == 0 else seed + k * 1000)
+        if think is not None:
+            response_text = _call_llm_native(model, system_prompt, user_query, temperature,
+                                             this_seed, think)
+        else:
+            kwargs = dict(
+                model=model,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_query},
+                ],
+                max_tokens=_MAX_TOKENS,
+                stream=True,
+                temperature=temperature,
+            )
+            if this_seed is not None:
+                kwargs["seed"] = this_seed
+            stream = client.chat.completions.create(**kwargs)
+            response_text = ""
+            for chunk in stream:
+                delta = chunk.choices[0].delta.content
+                if delta:
+                    response_text += delta
         if response_text.strip():
             return response_text
     raise EmptyCompletionError(

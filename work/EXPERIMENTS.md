@@ -756,6 +756,69 @@ because raw docs are too large, unparseable, and can't drive the deterministic c
 **is** our operationalization of the docs. If a raw-docs signal is ever wanted, the scoreable version is
 "catalogue + a *retrieved doc snippet*" vs "catalogue alone" (keeps ids valid, changes one variable).
 
+## Experiment 14 — Reasoning phase on/off, and full option descriptions  [DONE 2026-07-31]
+
+**What prompted it.** The shipped recommender felt slow — ~30 s of visible silence after "Analysing your
+scenario". Diagnosis: `gemma4:26b` is a **reasoning model**. It emits into `delta.reasoning`, and
+`stream_response` only read `delta.content`, so ~350 consecutive chunks were discarded and nothing printed
+while the model worked. Measured on the README's own quickstart query: reasoning started at 0.4 s and ran
+~1,300–1,700 tokens; the first visible answer token arrived at **14.3 s**.
+
+Two consequences beyond the wait. `max_tokens` is a **shared budget** — a long think starves the answer,
+which is what truncated a live run mid-sentence at `Reason: Provides standard` and left a 2-option config.
+And a short cap consumed entirely by reasoning returns zero content, which is the *same underlying event*
+that surfaced as `factor_check_unparseable` in Stage 4 and `degenerate_generation` in Stage 5. The retry
+added in `call_llm` was treating a symptom of this.
+
+**Method.** `think` is only honoured on Ollama's **native `/api/chat`**; the OpenAI-compatible
+`/v1/chat/completions` layer silently drops it (an early attempt via `extra_body` appeared to fail
+outright for this reason). `evaluate.call_llm` gained a `think` parameter that routes to the native
+endpoint when set; `think=None` keeps the original path byte-identical. `eval_factor_set.py` gained
+`--think`, `--full-desc`, per-query timing and a `--json` dump.
+
+**Results — 31 rows, factor-keyed LOO, `--show-tiers`, `gemma4:26b`.**
+
+Accuracy, 3 seeds, concurrency 4:
+
+| model | reasoning | descriptions | enable-F1 | crit-recall | −core_type | options |
+|---|---|---|---|---|---|---|
+| 26b | OFF | 120 ch | **78% ± 2** | **95% ± 0** | **93%** | 12.1 |
+| 26b | OFF | FULL | 77% ± 1 | 93% ± 1 | 91% | 11.8 |
+| 26b | ON  | 120 ch | 78% ± 1 | 92% ± 1 | 91% | 12.2 |
+| e4b | OFF | 120 ch | 65% ± 3 | 70% ± 4 | 75% | 9.7 |
+| e4b | ON  | 120 ch | 52% ± 1 | 58% ± 3 | 67% | 8.1 |
+
+Latency, **concurrency 1** (so each figure is one user's actual wait), 1 seed:
+
+| reasoning | sec/query | enable-F1 | crit-recall |
+|---|---|---|---|
+| ON  | 34.9 s | 78% | 92% |
+| OFF | **18.1 s** | 79% | **95%** |
+
+**Findings.**
+1. **Reasoning off is 1.93x faster with no accuracy cost** on 26b — equal enable-F1, *better* critical-recall
+   (95 vs 92), and far more stable (±2.2 s vs ±10.0 s at concurrency 4). The variance lives in the thinking phase.
+2. **Reasoning HURTS the small model.** e4b gains 13 points of enable-F1 and 12 of critical-recall with
+   thinking off, while also being faster. Reasoning amplifies existing capability rather than substituting
+   for it — so "use a smaller model with thinking" is not a route to speed.
+3. **Full descriptions do not help — NEGATIVE.** Sending the complete text (all 58 entries exceed the
+   120-char truncation, several cut mid-word: `check_existing` is severed one character before "ClinVar")
+   costs **+16 s/query** for −1 F1 and −2 critical-recall, both inside noise. Combined with Exp 11
+   (catalogue +35 pts) and Exp 6 (examples dominate descriptions 56% vs 26%), the catalogue's value is in
+   **which options exist and how they relate**, not in prose about them.
+4. **`HANDOFF.md`'s latency note was wrong** and is corrected here: it said "decode-dominated, prompt size
+   irrelevant, TTFT ~0.2 s". That 0.2 s came from a warm identical prompt. A real single query at
+   concurrency 4 measured 111 s reasoning-on; at concurrency 1 it is 34.9 s. Concurrency INFLATES per-query
+   wall clock (requests contend for one GPU) — the harness now says so rather than the reverse.
+
+**Caveats.** Self-consistency against the PROVISIONAL table, as everywhere. The latency arm is 1 seed
+(31 timing samples); the accuracy arms are 3 seeds. `think` requires the native endpoint, so any caller
+still on the compat path is unaffected.
+
+**Change made:** reasoning defaults OFF on `gemma4:26b`.
+
+---
+
 ## Implications for the GSoC project
 
 - **Retrieval design (in-range, actionable):** at a ~58-option KB, **do not hard top-k filter the options** — the semantic top-10 condition loses relevant options (recall failure) and underperforms keeping all 58. It stays flat (~37–39% Enable F1) as the model scales while keyword/all-examples climb, so filtering forfeits the larger model's gains. Keep all options in-prompt, or use high-recall hybrid retrieval; reserve aggressive filtering for when the option set genuinely exceeds context.
