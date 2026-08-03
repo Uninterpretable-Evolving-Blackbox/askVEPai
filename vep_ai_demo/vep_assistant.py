@@ -9,13 +9,19 @@ Supports three modes:
 How much configuration you get back (default = standard):
   --minimal   only the options that are essential for your scenario
   --full      also switch on every add-on the scenario justifies
-  --think     let the model reason before answering (about 2x slower, no measured gain)
+
+Reasoning. There are TWO model calls per run — a fast classifier that reads your scenario, then the
+recommender that writes the configuration. Both reason before answering unless told not to, and both
+default to NOT, because in each case it was measured to cost time and buy nothing:
+  --think          reasoning on for the RECOMMENDER   (18.1s -> 34.9s per query, Exp 14)
+  --factor-think   reasoning on for the CLASSIFIER    (0.97s -> 5.62s per query, Exp 15)
 """
 
 import json
 import os
 import re
 import sys
+import time
 import datetime
 from pathlib import Path
 
@@ -276,7 +282,60 @@ def parse_factor_classification(raw):
     return out
 
 
-def infer_factors(client, model, user_query):
+def _native_chat_url():
+    """Ollama's OWN /api/chat, derived from the same OLLAMA_BASE_URL the compat client uses.
+
+    Shared by the two callers that need the native endpoint (_classify_native, _stream_native) so the
+    base-URL handling cannot drift between them."""
+    base = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
+    return base.rstrip("/").removesuffix("/v1") + "/api/chat"
+
+
+# A ~60-token JSON object needs nothing like this much; the cap exists to bound a runaway, and it is set
+# high enough that the reasoning-ON diagnostic arm (VEP_FACTOR_THINK=1) still has room to finish its
+# chain of thought AND emit the answer. A cap consumed entirely by reasoning returns empty content —
+# the failure that used to surface as `factor_check_unparseable` in Stage 4 (see EXPERIMENTS.md Exp 14).
+_CLASSIFY_MAX_TOKENS = 4096
+
+
+def _classify_native(model, user_query, think):
+    """The classifier call through the endpoint that honours `think`. Returns the raw text.
+
+    Non-streaming sibling of _stream_native: the classifier's output is a single small JSON object that
+    nothing displays incrementally, so streaming it would buy nothing. Decoding is held identical to the
+    compat path (temperature 0, seed 42) so `think` is the only variable between them."""
+    import urllib.request
+    body = {
+        "model": model, "stream": False, "keep_alive": -1, "think": think,
+        "messages": [
+            {"role": "system", "content": FACTOR_CLASSIFIER_PROMPT + (user_query or "")},
+            {"role": "user", "content": "Return the JSON classification."},
+        ],
+        "options": {"temperature": 0.0, "seed": 42, "num_predict": _CLASSIFY_MAX_TOKENS},
+    }
+    req = urllib.request.Request(_native_chat_url(), data=json.dumps(body).encode(),
+                                 headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=900) as r:
+        return (json.loads(r.read()).get("message", {}) or {}).get("content") or ""
+
+
+def _factor_think_setting():
+    """How the classifier should reason. Default OFF — see infer_factors.
+
+    VEP_FACTOR_THINK is a DIAGNOSTIC, not a product switch, which is why it is an env var rather than a
+    CLI flag: `--think` exists to show you the model's reasoning, and the classifier's reasoning is
+    never displayed (only its JSON is parsed), so there is no user-facing reason to want it on.
+      unset / 0  -> False   reasoning off, native endpoint  (default)
+      1          -> True    reasoning on, native endpoint   (the A/B arm)
+      compat     -> None    the original /v1 path, byte-identical to before this change
+    """
+    v = (os.environ.get("VEP_FACTOR_THINK") or "").strip().lower()
+    if v == "compat":
+        return None
+    return v in ("1", "on", "true", "yes")
+
+
+def infer_factors(client, model, user_query, think=False):
     """Classify a free-text query into a factor tuple, or None if the classifier fails.
 
     SPECIES is taken from infer_species(), not from the classifier: species is the hard safety gate
@@ -289,26 +348,50 @@ def infer_factors(client, model, user_query):
     default applied is analysis_goal -> basic-consequence when nothing richer is indicated, which is
     the agreed baseline goal.
 
+    REASONING IS OFF BY DEFAULT, AND THIS IS WHERE THE STARTUP LAG WAS. `gemma4:26b` reasons unless
+    told not to, and this call went through the OpenAI-compatible /v1 endpoint, which silently DROPS
+    the `think` parameter — so the classifier spent its time thinking before answering a fixed-schema
+    ~60-token question. The reasoning-off change of 2026-07-31 only ever reached stream_response; this
+    call was never in its scope. Measured over the 31-row review set, single-threaded, gemma4:26b:
+
+        reasoning ON  (compat, as shipped)   8.2 s median   range 4.2-39.7 s (+ a 70 s cold first call)
+        reasoning OFF (native)               1.4 s median   range 1.2-1.6 s
+        reasoning ON  (native) — control     8.9 s median   => the ENDPOINT is inert; `think` is the effect
+
+    Accuracy is unchanged, not merely similar: under the pipeline's own genlib.compare_factors scoring
+    all three arms fail on the SAME three rows (1, 8, 30 = 90% whole-tuple), and those are the same rows
+    Stage 4's independent gemma4:12b round-trip flags as factor_unrecoverable. Nothing is traded.
+
     Deterministic (temperature 0, fixed seed) — but note temp=0 is NOT reproducible under concurrency
     on a Metal/MoE stack, so a reproducible run needs concurrency 1.
+
+    `think=None` restores the original compat path byte-identical (also via VEP_FACTOR_THINK=compat),
+    so the pre-change behaviour stays reachable for anyone who needs to reproduce an older run.
 
     Runs on VEP_FACTOR_MODEL if set, otherwise on the SAME model as the recommendation. Defaulting to
     a second, smaller model would be faster — this is a ~60-token fixed-schema classification, so the
     big model buys nothing — but it would silently require a second download: a user who pulled only
     the quickstart model would get a failed classification, no factors, and no indication why. One
-    pulled model has to be enough. Set VEP_FACTOR_MODEL=gemma4:e4b (or 12b) to get the speed back."""
+    pulled model has to be enough. Set VEP_FACTOR_MODEL=gemma4:e4b (or 12b) to get the speed back.
+    NOTE that e4b is now the WRONG trade: it saves 0.4 s against reasoning-off 26b and loses 13 points
+    of variant_size_class accuracy — a HARD GATE, where a wrong value silently removes an option set."""
     model = os.environ.get("VEP_FACTOR_MODEL") or model
+    if think is False:                       # allow the env to override only the unrequested default
+        think = _factor_think_setting()
     try:
-        resp = client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": FACTOR_CLASSIFIER_PROMPT + (user_query or "")},
-                {"role": "user", "content": "Return the JSON classification."},
-            ],
-            temperature=0.0,
-            seed=42,
-        )
-        raw = resp.choices[0].message.content or ""
+        if think is None:                    # the original path, unchanged
+            resp = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": FACTOR_CLASSIFIER_PROMPT + (user_query or "")},
+                    {"role": "user", "content": "Return the JSON classification."},
+                ],
+                temperature=0.0,
+                seed=42,
+            )
+            raw = resp.choices[0].message.content or ""
+        else:
+            raw = _classify_native(model, user_query, think)
     except Exception:
         return None
 
@@ -2124,9 +2207,7 @@ def _stream_native(model, system_prompt, user_message, think):
                      {"role": "user", "content": user_message}],
         "options": {"num_predict": _STREAM_MAX_TOKENS},
     }
-    base = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
-    url = base.rstrip("/").removesuffix("/v1") + "/api/chat"
-    req = urllib.request.Request(url, data=json.dumps(body).encode(),
+    req = urllib.request.Request(_native_chat_url(), data=json.dumps(body).encode(),
                                  headers={"Content-Type": "application/json"})
     answer, thinking = "", ""
     with urllib.request.urlopen(req, timeout=900) as r:
@@ -2221,7 +2302,7 @@ def stream_response(client, model, system_prompt, user_message, think=None):
 
 def run_recommend(client, model, vep_options, training_examples, user_query,
                    explain=False, skip_check=False, retrieval_mode="keyword", level="standard",
-                   think=False):
+                   think=False, factor_think=False):
     """Run the recommendation mode (default).
 
     Args:
@@ -2239,8 +2320,15 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     # Say what is happening first: on the default settings this call reuses the recommendation model,
     # which takes a good ten seconds to answer, and it runs before anything else is printed. Silence
     # that long at startup reads as a hang.
-    print("Reading the scenario…", flush=True)
-    factor_tuple = infer_factors(client, model, user_query)
+    # The elapsed seconds are printed on the same line rather than kept for a summary: this call is the
+    # first thing that happens and used to sit silent for ~8 s, so the number IS the progress indicator.
+    # It also makes the reasoning-off change self-evidencing — run the same query with
+    # VEP_FACTOR_THINK=1 and the difference is on screen, no harness needed.
+    print("Reading the scenario…", end="", flush=True)
+    t_classify = time.perf_counter()
+    factor_tuple = infer_factors(client, model, user_query, think=factor_think)
+    t_classify = time.perf_counter() - t_classify
+    print(f" {t_classify:.1f}s")
     if factor_tuple:
         print("Detected scenario:")
         print(describe_factors(factor_tuple))
@@ -2251,6 +2339,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                                         factor_tuple=factor_tuple)
     print("Analysing your scenario...\n")
 
+    t_recommend = time.perf_counter()
     try:
         response_text, reasoning_text = stream_response(client, model, system_prompt, user_query,
                                                         think=think)
@@ -2259,6 +2348,13 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         print("Make sure Ollama is running: ollama serve")
         print(f"And the model is pulled: ollama pull {model}")
         sys.exit(1)
+    t_recommend = time.perf_counter() - t_recommend
+
+    # Both phases, so it is never ambiguous which one a slow run was spent in. The two are separately
+    # controllable — VEP_FACTOR_THINK for the first, --think for the second — and before this change
+    # they were both reasoning, one of them invisibly.
+    print(f"\n[{t_classify:.1f}s reading · {t_recommend:.1f}s analysing · "
+          f"{t_classify + t_recommend:.1f}s total]")
 
     # --- Post-hoc constraint check + REPAIR ---
     # check_and_fix_violations repairs the option set IN PLACE (drops species/conflict violations,
@@ -2366,7 +2462,8 @@ def main():
         return
 
     # --- Mode: recommend (with optional --explain, --no-check, --semantic) ---
-    known_flags = ("--explain", "--no-check", "--semantic", "--minimal", "--full", "--think")
+    known_flags = ("--explain", "--no-check", "--semantic", "--minimal", "--full", "--think",
+                   "--factor-think")
 
     # A mistyped flag used to fall through into the query text: `--minmal "mouse variants"` asked the
     # model about "--minmal mouse variants" and quietly ran at the default level. Reject anything
@@ -2378,9 +2475,13 @@ def main():
         print('Usage: python vep_assistant.py [flags] "your analysis scenario"')
         sys.exit(2)
 
-    # Reasoning is OFF by default: measured 1.93x faster with equal enable-F1 and better
-    # critical-recall (Exp 14). --think restores it for anyone who wants the chain of thought.
+    # Reasoning is OFF by default on BOTH calls, and each has its own switch because they are separate
+    # calls with separate costs. --think: recommender, 1.93x faster off with equal enable-F1 and better
+    # critical-recall (Exp 14). --factor-think: classifier, 5.8x faster off with the same factor tuple on
+    # 29/31 rows and no end-to-end change (89.5% vs 89.3% enable-F1, Exp 15). The flag beats the
+    # VEP_FACTOR_THINK env var, which exists for the harness and the web app.
     think = False if "--think" not in args else None
+    factor_think = True if "--factor-think" in args else False
     explain = "--explain" in args
     skip_check = "--no-check" in args
     semantic = "--semantic" in args
@@ -2412,7 +2513,8 @@ def main():
     print()
     run_recommend(client, model, vep_options, training_examples, user_query,
                   explain=explain, skip_check=skip_check,
-                  retrieval_mode=retrieval_mode, level=level, think=think)
+                  retrieval_mode=retrieval_mode, level=level, think=think,
+                  factor_think=factor_think)
 
 
 if __name__ == "__main__":

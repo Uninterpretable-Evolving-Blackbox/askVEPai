@@ -62,6 +62,8 @@ re-run on 26b.
 | 11 | Catalogue-only ablation | gemma4:26b | 5 seeds | current |
 | 12 | Teacher-model selection (generation) | teachers e4b/12b/26b/31b · student 26b | 5 seeds | keep 26b self-gen |
 | 13 | Persona-axis ablation (generation) | gemma4:26b | 5 seeds | persona marginal |
+| 14 | Reasoning on/off (recommender) + full descriptions | gemma4:26b/e4b | 3 seeds | reasoning OFF by default |
+| 15 | Reasoning on/off (factor classifier) | gemma4:26b/e4b | 1 + 3 seeds | 5.8x faster, no cost |
 | — | Factor-taxonomy first look (silver set) | gemma4:26b | 1 | directional |
 
 ---
@@ -816,6 +818,105 @@ Latency, **concurrency 1** (so each figure is one user's actual wait), 1 seed:
 still on the compat path is unaffected.
 
 **Change made:** reasoning defaults OFF on `gemma4:26b`.
+
+---
+
+## Experiment 15 — the SECOND model call: reasoning in the factor classifier  [DONE 2026-08-03]
+
+**What prompted it.** Exp 14 turned reasoning off and the tool got faster, but a ~8 s silence remained
+after `Reading the scenario…`. There are **two** LLM calls per request, not one:
+
+| | call 1 | call 2 |
+|---|---|---|
+| function | `infer_factors` | `stream_response` |
+| does | query -> 5 factor values | catalogue + examples -> `✓/✗ [source: id]` |
+| endpoint | `/v1/chat/completions` (compat) | `/api/chat` (native) since Exp 14 |
+| reasoning | **on** — never touched | off since Exp 14 |
+
+Exp 14's change only ever reached call 2: its commit's first diff hunk is at line 1639 and `infer_factors`
+is at line 279. So the classifier was still reasoning before answering a fixed-schema ~60-token question,
+and the compat endpoint **silently drops `think`**, so it could not have been told otherwise.
+
+**Method.** Three arms on the classifier over all 31 review rows, ground truth = each row's own
+`factor_labels` (the tuple its config was BUILT from, not a guess). `species` is EXCLUDED: `infer_factors`
+overwrites it with the deterministic `infer_species()`, so it is identical in every arm and would flatter
+all of them. Scored two ways — strict set equality, and the pipeline's own `genlib.compare_factors`, where
+`{match, match_plus_extra}` is what Stage 4 declines to flag. Predictions are kept, so the scoring can be
+revisited without re-running (the earlier attempt stored only booleans and could not be).
+
+**Result — classifier, 31 rows, concurrency 1.**
+
+| arm | mean | median | max | origin | var_size | region | goal | tuple (strict) | tuple (pipeline) |
+|---|---|---|---|---|---|---|---|---|---|
+| 26b compat (as shipped) | 10.5 s | 8.2 s | 70.3 s | 94% | 97% | 100% | 74% | 68% | **90%** |
+| **26b native `think=False`** | **1.4 s** | **1.4 s** | **1.6 s** | 94% | 97% | 100% | 77% | 71% | **90%** |
+| 26b native `think=True` (control) | 11.8 s | 8.9 s | 55.1 s | 90% | 97% | 97% | 71% | 65% | **90%** |
+| e4b compat | 1.0 s | 1.0 s | 2.6 s | 100% | 84% | 100% | 68% | 58% | 71% |
+| e4b native `think=False` | 1.0 s | 1.0 s | 1.2 s | 100% | 74% | 100% | 74% | 58% | 58% |
+
+The `think=True` control is the load-bearing row: it lands on top of compat, so **the endpoint change is
+inert and `think` is the entire effect**. Confirmed again live on one query, 3 runs per arm, warm model:
+**0.97 s off / 6.03 s on (native) / 5.62 s compat**, all three returning the identical tuple.
+
+**Result — end to end.** `eval_factor_set.py --factors inferred --think off`, 3 seeds (42-44), 31 rows:
+
+| classifier reasoning | enable-F1 | crit-recall | −core_type | options |
+|---|---|---|---|---|
+| ON (old behaviour) | 89.3% ± 0.5 | 96.5% ± 0.2 | 95.3% ± 0.1 | 12.3 |
+| **OFF (new default)** | **89.5% ± 0.6** | 96.4% ± 0.3 | 95.1% ± 0.3 | 12.2 |
+
+**Findings.**
+1. **5.8x faster on the classifier at no cost.** 29 of 31 rows produce a byte-identical factor tuple; all
+   three arms score 90% whole-tuple under the pipeline's own semantics. End to end the difference is
+   +0.2 F1 against a ±0.5-0.6 SD — nothing.
+2. **The two rows that DO differ favour reasoning-off.** Row 13 goes from `[basic, population]` to
+   `[population]`, which is correct. Row 1 is wrong in both arms and is wrong by construction (see 4).
+3. **The 68% strict figure was a scoring artifact, not a capability limit.** Of the 7 non-exact
+   `analysis_goal` predictions, **5 are a dropped `basic-consequence`** — which `genlib.compare_factors`
+   subtracts by design because the baseline goal is always implicitly satisfied — and 1 is over-prediction,
+   which it scores `match_plus_extra`. One row is a genuine miss.
+4. **The residual 3 failures are the QUERY and the TAXONOMY, not the model, and reasoning does not touch
+   them.** All arms fail on rows 1, 8, 30 — the same rows Stage 4's independent `gemma4:12b` round-trip
+   already flags `factor_unrecoverable`. Rows 8 and 30 never state germline vs somatic and the classifier
+   correctly answers `unstated`; row 1 names SNVs *and* CNVs against a `select: single`
+   `variant_size_class`, so no correct answer exists. Fixing these needs the deterministic catcher, a
+   multi-select size class, or asking the user — not a decoding change.
+5. **`gemma4:e4b` is now the wrong trade.** It saves 0.4 s against reasoning-off 26b and loses 13-23 points
+   of `variant_size_class` accuracy — a HARD GATE, where a wrong value silently removes an option set.
+   Note also that e4b gets *worse* with reasoning off here, the opposite of Exp 14's finding on the
+   recommendation task; that result does not transfer across tasks.
+
+**Caveats.** Self-consistency against the PROVISIONAL priority table, as everywhere. The classifier arms
+are one seed — but `infer_factors` is `temperature=0, seed=42` and was verified deterministic at
+concurrency 1 (3 runs per arm, identical tuples, timings within 0.02 s), so extra seeds would measure
+nothing. `max` on the compat arm includes a ~70 s cold model load on the first call. No latency figure
+from the end-to-end run is usable: it runs at concurrency 4, the harness times `call_llm` only (the
+classifier sits outside its stopwatch), and Low Power Mode was on for part of it — accuracy is unaffected
+by all three.
+
+**Change made:** reasoning defaults OFF on the classifier too. `--factor-think` restores it (or
+`VEP_FACTOR_THINK=1` for the harness/web app; `VEP_FACTOR_THINK=compat` restores the original `/v1` path
+byte-identical).
+
+### What this corrects elsewhere
+
+**`--factors` defaults to `none`, and both logged Exp 14 latency arms used it.**
+`work/results/timing/26b_{think,nothink}.json` record `factors: none`, and their metrics match Exp 14's
+published latency table to the digit. With `factors=none`, `resolve_for_query()` returns `None`
+immediately, so **no scenario-resolved priorities reach the prompt at all**. Two consequences:
+
+- The **34.9 s / 18.1 s** figures are **call 2 only** — the classifier neither ran nor was timed. The
+  end-to-end wait at that time was ~8 s more than reported.
+- On the same set, seeds and concurrency, the only difference being whether the inferred tuple reaches
+  the prompt: **`factors=none` 79% ± 1 enable-F1 vs `factors=inferred` 89.4% ± 0.5**. So a headline
+  measured at `none` understates the shipped path by ~10 points.
+
+  **Do not read that +10 as "the factor scheme is worth 10 points of correctness."** Enable-F1 is scored
+  against the priority table's own output for the scenario, and `--factors inferred` puts that table's
+  scenario-resolved tiers into the prompt — so much of the gap is the model being shown the answer key in
+  more legible form. It is a real number for the shipped configuration and a *more* self-consistent one,
+  not a more validated one. Separating the two needs a `--factors oracle` arm (not run): if oracle ≈
+  inferred, the classifier's 3 bad rows cost nothing downstream.
 
 ---
 
