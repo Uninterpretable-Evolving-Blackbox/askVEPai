@@ -11,10 +11,25 @@ problem this answers; read that first if you want the fuller measurement.
 The tool reads five factor values out of a free-text scenario, and a factor the question never mentions
 contributes nothing, so the options it would have supplied silently disappear.
 
-Over twenty real VEP questions taken from public forums, **18 of 20 leave at least one factor open that
-changes the resulting configuration**. Our own 31 generated examples never show this, because the
-generator was told to write questions that express their factor tuple — so the set we have been
-measuring on is the best case, not a representative one.
+Over twenty real VEP questions collected from public issue trackers and forums, **18 of 20 leave at
+least one factor open that changes the resulting configuration**. Our own 31 generated examples never
+show this, because the generator was told to write questions that express their factor tuple — so the
+set we have been measuring on is the best case, not a representative one.
+
+**How real those twenty are, precisely.** Nine are **verbatim**, all from Ensembl's own issue trackers
+(`Ensembl/ensembl-vep` ×8, `Ensembl/VEP_plugins` ×1), with the issue URLs recorded per item. The other
+eleven — ten Biostars threads and one seqanswers — are **reconstructions**: Biostars is Cloudflare-
+blocked, so the thread titles and URLs are real but the body wording was rebuilt from search snippets by
+a model.
+
+That caveat bites harder here than it usually would, because this measurement is *about phrasing* —
+whether a question happens to state a fact. Reconstructed wording is not the user's wording, and the
+rebuild may well drift toward the same style as our generated set, which would flatter the result.
+
+So the finding is reported on the honest slice as well: **on the nine verbatim questions alone, 7 of 9
+leave a decision-relevant factor open** — consistent with 18 of 20 overall. The conclusion does not
+depend on the reconstructed eleven. Replacing them with verbatim text, if Biostars can be reached, is
+the obvious way to retire the caveat.
 
 ## 2. The finding that shapes the proposal
 
@@ -102,6 +117,8 @@ clinical or field standard · **[Meas]** measured in this repository · **[Judg]
 | Species asked rather than inferred | **[Src]** | VEP's own form asks for species in a dropdown; `InputForm.pm` gates fields on the selection |
 | Assembly as a field, not a factor | **[Src]** + **[Judg]** | MANE is GRCh38-only and `InputForm.pm:694-702` gates its checkbox on species alone **[Src]**; that it is a property of the input rather than of the analysis is my reading **[Judg]** |
 | `origin` fail-closed to somatic when unstated | **[Meas]** + **[Std]** | leaving it open lets the frequency filter through on 6/15 somatic rows, identical harm to guessing germline; guessing somatic harms 0/16 germline rows **[Meas]**. That a somatic workflow must not drop common variants is the taxonomy's one hard origin rule **[Std]** |
+
+| The 20-question sample itself | **[Meas]**, partly | 9 verbatim from Ensembl issue trackers; 11 reconstructed from search snippets because Biostars is Cloudflare-blocked. The headline holds on the verbatim slice alone (7/9), so it is not an artifact of the reconstruction — but the reconstructed wording is not user wording, and this measurement is about wording |
 
 **Honest summary:** the *structure* here is my own reading, grounded in measurements taken on this
 repository and in how VEP's own form behaves. Nothing in it is derived from a published interface
