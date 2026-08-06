@@ -52,7 +52,7 @@ def main():
     except Exception as e:                    # noqa: BLE001 - report any config breakage as a failure
         cfg_err = f"{type(e).__name__}: {e}"
     check("factors / query_axes / priority JSON all parse", cfg_err is None, cfg_err or "")
-    check("all 58 catalogue options present in priority table",
+    check(f"all {len(ids)} catalogue options present in priority table",
           set(pbf["priorities"]) == ids, f"{len(pbf['priorities'])} vs {len(ids)}")
     check("priority table self-labels PROVISIONAL", "PROVISIONAL" in pbf.get("_status", ""))
     # The catalogue's own priority_by_factor blocks are the one part of the config a maintainer edits by

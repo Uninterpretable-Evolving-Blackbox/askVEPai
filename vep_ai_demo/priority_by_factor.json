@@ -1,5 +1,5 @@
 {
-  "_catalogue_sha256": "2068bc9f1ccbdb05c259da74dcd37e2b99a9ad697899873920d863b092e454d9",
+  "_catalogue_sha256": "9b2a39dbd00562b491ba952e728942ca3cf85a6f3299969559b45a12024bda18",
   "_status": "PROVISIONAL \u2014 derived from the DRIVES spec in vep_assistant.py and this catalogue. NOT mentor-validated. A validated table dropped in as priority_by_factor.json overrides this derivation; no code changes are needed.",
   "_authoring": {
     "drives": {
@@ -244,6 +244,7 @@
         "structural-CNV": "not_applicable"
       }
     },
+    "ancestral_allele": {},
     "appris": {
       "region_focus": {
         "coding": "recommended"
@@ -259,6 +260,7 @@
         "population-frequency": "recommended"
       }
     },
+    "blosum62": {},
     "buffer_size": {},
     "cadd": {
       "analysis_goal": {
@@ -438,6 +440,11 @@
         "non-human": "not_applicable"
       }
     },
+    "go": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      }
+    },
     "hgvs": {
       "region_focus": {
         "coding": "recommended"
@@ -445,6 +452,11 @@
       "analysis_goal": {
         "basic-consequence": "optional",
         "clinical-interpretation": "critical"
+      }
+    },
+    "intact": {
+      "species": {
+        "non-human": "not_applicable"
       }
     },
     "loeuf": {
@@ -470,6 +482,11 @@
       "analysis_goal": {
         "clinical-interpretation": "optional"
       },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
+    "mavedb": {
       "species": {
         "non-human": "not_applicable"
       }
@@ -515,6 +532,11 @@
     "numbers": {
       "region_focus": {
         "coding": "recommended"
+      }
+    },
+    "opentargets": {
+      "species": {
+        "non-human": "not_applicable"
       }
     },
     "paralogues": {
@@ -584,6 +606,14 @@
       },
       "variant_size_class": {
         "structural-CNV": "not_applicable"
+      }
+    },
+    "riboseqorfs": {
+      "region_focus": {
+        "regulatory-noncoding": "optional"
+      },
+      "species": {
+        "non-human": "not_applicable"
       }
     },
     "shift_3prime": {},

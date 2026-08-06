@@ -313,10 +313,19 @@ def build_priority_table(vep_options):
     # Python: it parses, validates and routes correctly, and is then never recommended in any scenario.
     # Both views compose through the same strongest-wins put(), so an option may be priced either way,
     # or both. Nothing here needs migrating; DRIVES simply shrinks as entries move into the catalogue.
+    # (3) PER-OPTION OVERRIDES from the catalogue, applied by ASSIGNMENT, not by strongest-wins.
+    #
+    # These must be able to LOWER a priority, not only raise one. put() takes the max, so a catalogue
+    # entry asking for `optional` lost to a DRIVES entry saying `recommended` and did nothing at all --
+    # silently, since the validator checks spelling and not effect. Nearly every edit a reviewer asks for
+    # is a demotion, so under strongest-wins the field could not express the thing it exists for.
+    # A per-option statement is more specific than the broad spec, so it wins; the deterministic gates
+    # below are applied afterwards and win over both, because they are safety rather than preference.
     for o in vep_options:
         for factor, valmap in (o.get("priority_by_factor") or {}).items():
             for value, label in valmap.items():
-                put(o["id"], factor, value, label)
+                if label in RANK and o["id"] in priorities:
+                    priorities[o["id"]][factor][value] = label
     for value in ("basic-consequence", "clinical-interpretation", "population-frequency"):   # (2) the floor
         for oid in BASELINE_CRITICAL:
             put(oid, "analysis_goal", value, "critical")
@@ -329,10 +338,10 @@ def build_priority_table(vep_options):
     for o in vep_options:
         restr = o.get("species_restriction", "all species")
         if _is_human_only(restr) or narrow_nonhuman.search(restr or ""):
-            put(o["id"], "species", "non-human", "not_applicable")
+            priorities[o["id"]]["species"]["non-human"] = "not_applicable"   # safety: overrides all
     for o in vep_options:                                                   # (4) size gate, from the KB
         if o.get("priority_by_use_case", {}).get("structural_variants") == "not_applicable":
-            put(o["id"], "variant_size_class", "structural-CNV", "not_applicable")
+            priorities[o["id"]]["variant_size_class"]["structural-CNV"] = "not_applicable"   # safety
 
     return {
         # Recorded so a table DUMPED to disk can later be detected as stale against a moved catalogue.
@@ -415,7 +424,27 @@ FACTOR_VALUES = {
     "region_focus": ["coding", "regulatory-noncoding"],                                   # multi-select
     "analysis_goal": ["basic-consequence", "clinical-interpretation", "population-frequency"],  # multi-select
 }
-MULTI_FACTORS = ("region_focus", "analysis_goal")
+# DERIVED from factors.json, not declared twice. The values above and this tuple used to be hardcoded
+# here while factors.json separately declared `select: single|multi` for each factor, with nothing keeping
+# the two in agreement — they matched only by coincidence. Changing the scheme therefore meant editing the
+# config AND the engine, and editing only the config silently did nothing: the engine went on treating a
+# newly-multi factor as single, so a query naming two values had one of them dropped.
+# The literals stay as the fallback, so a missing or unreadable factors.json behaves exactly as before.
+def _factor_scheme():
+    """(values, multi) read from factors.json, falling back to the literals above."""
+    try:
+        spec = load_factors()["factors"]
+        values = {f: list(s["values"]) for f, s in spec.items()}
+        multi = tuple(f for f, s in spec.items() if s.get("select") == "multi")
+        if values and multi:
+            return values, multi
+    except Exception:
+        pass
+    return dict(_FACTOR_VALUES_FALLBACK), ("region_focus", "analysis_goal")
+
+
+_FACTOR_VALUES_FALLBACK = dict(FACTOR_VALUES)
+FACTOR_VALUES, MULTI_FACTORS = _factor_scheme()
 
 # Options whose value is not a bare boolean (everything else -> True when enabled).
 VALUE_DEFAULTS = {"sift": "b", "polyphen": "b", "check_existing": "yes"}
@@ -444,13 +473,13 @@ def active_values(factor_tuple):
 
 def factor_slug(factor_tuple):
     """Compact, deterministic label for a tuple (for ids / filenames)."""
-    parts = [
-        factor_tuple["species"],
-        factor_tuple["origin"],
-        factor_tuple["variant_size_class"],
-        "+".join(factor_tuple["region_focus"]),
-        "+".join(factor_tuple["analysis_goal"]),
-    ]
+    # Derived from the tuple rather than naming the five factors and assuming which are lists: that
+    # assumption is a second copy of the scheme, and it crashed the moment a factor's cardinality
+    # changed in factors.json. Order follows FACTOR_VALUES so the slug stays stable and readable.
+    parts = []
+    for f in FACTOR_VALUES:
+        v = factor_tuple.get(f)
+        parts.append("+".join(v) if isinstance(v, list) else str(v))
     return "__".join(parts).replace("-", "").replace("_", "")
 
 
@@ -529,17 +558,29 @@ def intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=("critic
 # instead of silently defaulted. Run it deterministically (temp 0, fixed seed, concurrency 1 —
 # temp=0 is NOT deterministic under concurrency on the Metal/MoE stack).
 
+def _schema_lines():
+    """The JSON schema block of the classifier prompt, generated from the factor scheme.
+
+    Written out by hand previously, which meant the prompt could disagree with factors.json about both
+    the allowed values and whether a factor takes one or several — and the prompt is what the model
+    actually obeys. Generating it means flipping a factor to multi-select in the config changes what the
+    model is asked for, instead of leaving it to be spotted by hand."""
+    out = []
+    for f, vals in FACTOR_VALUES.items():
+        if f in MULTI_FACTORS:
+            out.append(f'  "{f}": array with any of [' + ",".join(f'"{v}"' for v in vals) + ']')
+        else:
+            out.append(f'  "{f}": ' + " | ".join(f'"{v}"' for v in vals) + ' | "unstated"')
+    return ",\n".join(out) + "\n"
+
+
 FACTOR_CLASSIFIER_PROMPT = (
     "You read a researcher's natural-language question about annotating genetic variants and identify ONLY "
     "what the question actually states or clearly implies about the analysis. Do NOT guess; if the question "
     "does not indicate a characteristic, use \"unstated\" (or [] for a list).\n\n"
     "Reply with ONLY this JSON object, no prose:\n"
     "{\n"
-    '  "species": "human" | "non-human" | "unstated",\n'
-    '  "origin": "germline" | "somatic" | "unstated",\n'
-    '  "variant_size_class": "small" | "structural-CNV" | "unstated",\n'
-    '  "region_focus": array with any of ["coding","regulatory-noncoding"],\n'
-    '  "analysis_goal": array with any of ["basic-consequence","clinical-interpretation","population-frequency"]\n'
+    + _schema_lines() +
     "}\n\n"
     "Guidance (judge by meaning, not keywords):\n"
     "- origin: germline = inherited / constitutional / rare-disease / healthy cohort; somatic = tumour / cancer.\n"
@@ -752,6 +793,55 @@ UNDERSPECIFIED_POLICY = {
                "population frequencies",
     },
 }
+
+
+# --- What the user told us outright ------------------------------------------------------------------
+#
+# Three of the five factors are FACTS ABOUT THE SAMPLE - species, germline/somatic, small/structural -
+# and the person asking knows all three without thinking. Inferring them from prose is where every
+# measured failure came from: the classifier's only genuine error across the 31 review rows was the
+# variant size, the two rows it could not answer were germline-vs-somatic because the query never said,
+# and the one guess that can destroy data (germline on a tumour sample enables a filter that discards
+# somatic variants) is a fact too. Region and goal - the INTENT half - it classified correctly.
+#
+# So anything the user states outright wins outright. What they leave blank still goes through the
+# classifier and then the assume/say-so policy above; this only removes guessing where there is nothing
+# to guess about.
+#
+# ASSEMBLY is here despite not being a factor. MANE exists only for GRCh38 and VEP's own form shows the
+# checkbox to everyone (InputForm.pm:694-702 gates it on species alone), so a GRCh37 user can tick a box
+# with no data behind it. It cannot be inferred from a query that does not mention a build, and no
+# factor covers it - a field is the only thing that can fix it.
+USER_CONTEXT_FIELDS = ("species", "origin", "variant_size_class", "assembly")
+
+
+def apply_user_context(rec, context):
+    """Overlay what the user stated on the classifier's reading. Returns (tuple, assembly, overridden).
+
+    `context` maps any of USER_CONTEXT_FIELDS to a value; None/""/"infer" mean "work it out", which is
+    the default for every field, so an untouched form behaves exactly as before this existed.
+    """
+    rec = dict(rec or {})
+    context = context or {}
+    overridden = []
+    for f in USER_CONTEXT_FIELDS:
+        v = context.get(f)
+        if v in (None, "", "infer", "unstated"):
+            continue
+        if f == "assembly":
+            continue                                    # not a factor; returned separately
+        allowed = FACTOR_VALUES.get(f, [])
+        vals = v if isinstance(v, list) else [v]
+        vals = [x for x in vals if x in allowed]
+        if not vals:
+            continue                                    # ignore a value the scheme does not define
+        rec[f] = sorted(vals) if f in MULTI_FACTORS else vals[0]
+        overridden.append(f)
+    asm = context.get("assembly")
+    asm = asm if asm in ("GRCh37", "GRCh38") else None
+    if asm:
+        overridden.append("assembly")
+    return rec, asm, overridden
 
 
 def _enabled_for(factor_tuple, vep_options):
@@ -1457,7 +1547,8 @@ def _assembly_restriction(restriction):
 def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                              training_examples: list,
                              user_query: str,
-                             retrieval_mode: str = "keyword") -> list[dict]:
+                             retrieval_mode: str = "keyword",
+                             assembly_override: str = None) -> list[dict]:
     """Check enabled options for constraint violations and auto-correct them.
 
     Loads conflict rules, species restrictions and dependencies from
@@ -1525,7 +1616,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
     # only"), which no code reads; it now lives in species_restriction where this can enforce it.
     # Same fail-open posture as species: gate ONLY when the query actually names a build. Runs after the
     # species pass, so non-human rows have already lost these options anyway.
-    assembly = infer_assembly(user_query)
+    assembly = assembly_override or infer_assembly(user_query)
     if assembly:
         for oid in list(enabled):
             allowed = _assembly_restriction(species_map.get(oid, "all species"))
@@ -1895,7 +1986,7 @@ def apply_config_level(enabled, disabled, resolved, level, vep_options, training
 
 
 def restore_missing_critical(enabled, disabled, resolved, vep_options, training_examples,
-                             user_query, retrieval_mode="keyword"):
+                             user_query, retrieval_mode="keyword", assembly_override=None):
     """Switch on any option the factor table rates `critical` here that the draft left out.
 
     The checker has always been asymmetric. It REMOVES what cannot be right (species, assembly,
@@ -1923,8 +2014,11 @@ def restore_missing_critical(enabled, disabled, resolved, vep_options, training_
     enabled.update(missing)
     for oid in missing:
         disabled.discard(oid)
+    # The re-check MUST see the same assembly the first pass did. Without it this function happily
+    # restored an option the assembly gate had just removed — a GRCh37 run got MANE back, which is the
+    # precise hazard the assembly field exists to prevent, reintroduced one step later.
     check_and_fix_violations(enabled, disabled, vep_options, training_examples, user_query,
-                             retrieval_mode=retrieval_mode)
+                             retrieval_mode=retrieval_mode, assembly_override=assembly_override)
     return [oid for oid in missing if oid in enabled]
 
 
@@ -2116,7 +2210,7 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
     if run_checker:
         # Mutates enabled/disabled in place into the corrected, authoritative set.
         violations = check_and_fix_violations(enabled, disabled, vep_options, training_examples,
-                                              query, retrieval_mode=retrieval_mode)
+                                              query, retrieval_mode=retrieval_mode, assembly_override=assembly)
 
     species_out = "human" if species == "unknown" else species
     species_form = _SPECIES_FORM_NAME.get(species_out, species_out.replace(" ", "_").title())
@@ -2827,9 +2921,33 @@ def stream_response(client, model, system_prompt, user_message, think=None):
 # Main entry points
 # ---------------------------------------------------------------------------
 
+_CONTEXT_FLAGS = {"--species": "species", "--origin": "origin",
+                  "--size": "variant_size_class", "--assembly": "assembly"}
+_CONTEXT_CHOICES = {"assembly": ["GRCh37", "GRCh38"]}
+
+
+def _parse_context_flags(args):
+    """Pull `--species human --size structural-CNV ...` out of argv. Returns (context, error_or_None).
+
+    Values are validated against the factor scheme rather than accepted blindly: a typo that silently
+    did nothing would be worse than no flag at all, since the user would believe they had said it."""
+    ctx = {}
+    for i, a in enumerate(args):
+        key = _CONTEXT_FLAGS.get(a.split("=", 1)[0])
+        if not key:
+            continue
+        val = a.split("=", 1)[1] if "=" in a else (args[i + 1] if i + 1 < len(args) else "")
+        allowed = _CONTEXT_CHOICES.get(key) or FACTOR_VALUES.get(key, [])
+        if val not in allowed:
+            return None, (f"{a.split('=')[0]} must be one of: {', '.join(allowed)}"
+                          + (f" (got {val!r})" if val else " (no value given)"))
+        ctx[key] = val
+    return ctx, None
+
+
 def run_recommend(client, model, vep_options, training_examples, user_query,
                    explain=False, skip_check=False, retrieval_mode="keyword", level="standard",
-                   think=False, factor_think=False, clarify="state"):
+                   think=False, factor_think=False, clarify="state", context=None):
     """Run the recommendation mode (default).
 
     Args:
@@ -2856,6 +2974,11 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     factor_tuple = infer_factors(client, model, user_query, think=factor_think, apply_defaults=False)
     t_classify = time.perf_counter() - t_classify
     print(f" {t_classify:.1f}s")
+    # Anything the user stated on the form or the command line replaces what the classifier read, before
+    # the assume/say-so policy runs — there is nothing to assume about a value we were given.
+    factor_tuple, assembly, overridden = apply_user_context(factor_tuple, context)
+    if overridden:
+        print(f"  Using what you told me for: {', '.join(overridden)}.")
     if factor_tuple:
         factor_tuple = resolve_underspecified(factor_tuple, vep_options, clarify)
         print("Detected scenario:")
@@ -2991,12 +3114,13 @@ def main():
 
     # --- Mode: recommend (with optional --explain, --no-check, --semantic) ---
     known_flags = ("--explain", "--no-check", "--semantic", "--minimal", "--full", "--think",
-                   "--factor-think", "--assume", "--ask")
+                   "--factor-think", "--assume", "--ask") + tuple(_CONTEXT_FLAGS)
 
     # A mistyped flag used to fall through into the query text: `--minmal "mouse variants"` asked the
     # model about "--minmal mouse variants" and quietly ran at the default level. Reject anything
     # unrecognised that looks like a flag instead, and list what is available.
-    unknown = [a for a in args if a.startswith("--") and a not in known_flags]
+    unknown = [a for a in args
+               if a.startswith("--") and a.split("=", 1)[0] not in known_flags]
     if unknown:
         print(f"Unknown option(s): {' '.join(unknown)}")
         print(f"Available: {' '.join(known_flags)}")
@@ -3016,6 +3140,12 @@ def main():
         print("--assume and --ask ask for opposite things; pick one.")
         sys.exit(2)
     clarify = "assume" if "--assume" in args else "ask" if "--ask" in args else "state"
+    # What the user states outright about their data. These are facts they know; asking a model to infer
+    # them from prose is where every measured classification failure came from.
+    context, _ctx_err = _parse_context_flags(args)
+    if _ctx_err:
+        print(_ctx_err)
+        sys.exit(2)
     explain = "--explain" in args
     skip_check = "--no-check" in args
     semantic = "--semantic" in args
@@ -3026,7 +3156,20 @@ def main():
         print("--minimal and --full ask for opposite things; pick one.")
         sys.exit(2)
     level = "minimal" if "--minimal" in args else "full" if "--full" in args else "standard"
-    remaining = [a for a in args if a not in known_flags]
+    # Drop the context flags AND the value that follows a spaced one, so `--species human "query"`
+    # does not leave "human" glued to the front of the query text.
+    _skip, remaining = set(), []
+    for i, a in enumerate(args):
+        if i in _skip:
+            continue
+        head = a.split("=", 1)[0]
+        if head in _CONTEXT_FLAGS:
+            if "=" not in a:
+                _skip.add(i + 1)
+            continue
+        if a in known_flags:
+            continue
+        remaining.append(a)
 
     vep_options, training_examples = load_knowledge_base()
 
@@ -3048,7 +3191,7 @@ def main():
     run_recommend(client, model, vep_options, training_examples, user_query,
                   explain=explain, skip_check=skip_check,
                   retrieval_mode=retrieval_mode, level=level, think=think,
-                  factor_think=factor_think, clarify=clarify)
+                  factor_think=factor_think, clarify=clarify, context=context)
 
 
 if __name__ == "__main__":

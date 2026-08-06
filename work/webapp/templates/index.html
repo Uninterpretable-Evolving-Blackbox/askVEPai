@@ -223,6 +223,23 @@
     <textarea id="query" placeholder="e.g. germline exome variants from a rare-disease patient, need likely pathogenic coding variants"></textarea>
     <div class="hint">Tip: press ⌘/Ctrl + Enter to run.</div>
 
+    <!-- Facts about the sample, stated rather than inferred. The assistant reads these from your
+         description if you leave them alone; setting one makes it authoritative. Every classification
+         error we measured was on one of these three, and assembly cannot be inferred at all. -->
+    <div class="settings cfg" id="ctxBar">
+      <div class="grp">
+        <span class="glabel">About your data
+          <i class="info" tabindex="0" role="button" aria-label="What is About your data?" data-tip="Facts about your variant set. Left on 'From my description' the assistant infers them from your text; choose one and it is used as stated. Assembly cannot be inferred from a description at all, and it matters: MANE transcripts exist only for GRCh38.">i</i>
+        </span>
+        <div class="toggles">
+          <select id="ctxSpecies"><option value="">Species — from my description</option><option value="human">Human</option><option value="non-human">Non-human</option></select>
+          <select id="ctxOrigin"><option value="">Origin — from my description</option><option value="germline">Germline</option><option value="somatic">Somatic</option></select>
+          <select id="ctxSize"><option value="">Variants — from my description</option><option value="small">Small (SNV/indel)</option><option value="structural-CNV">Structural / CNV</option></select>
+          <select id="ctxAssembly"><option value="">Assembly — not specified</option><option value="GRCh38">GRCh38</option><option value="GRCh37">GRCh37</option></select>
+        </div>
+      </div>
+    </div>
+
     <div class="settings cfg" id="settings">
       <div class="grp" id="kbGrp">
         <span class="glabel">Knowledge base
@@ -488,6 +505,12 @@ function run(){
   else {
     p.set("kb",state.kb); p.set("retrieval",state.retrieval);
     p.set("explain",state.explain?"1":"0"); p.set("check",state.check?"1":"0");
+    // Only send what the user actually chose. An empty value means "read it from my description",
+    // which is the default, so an untouched bar leaves the request byte-identical to before.
+    [["species","#ctxSpecies"],["origin","#ctxOrigin"],
+     ["size","#ctxSize"],["assembly","#ctxAssembly"]].forEach(([k,sel])=>{
+      const v=($(sel)||{}).value; if(v) p.set(k,v);
+    });
     url="/api/recommend?"+p;
   }
   $("#reasoningModel").textContent = state.model;

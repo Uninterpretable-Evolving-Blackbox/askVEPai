@@ -76,8 +76,15 @@ def sample(n, factors_cfg, seed=42):
         return chosen
 
     def cellkey(t):
-        return (t["species"], t["origin"], t["variant_size_class"],
-                tuple(sorted(t["region_focus"])), tuple(sorted(t["analysis_goal"])))
+        """A hashable identity for a factor tuple, whatever each factor's cardinality.
+
+        This used to name the five factors and assume which of them were lists. Flipping a factor to
+        multi-select in factors.json then crashed the sampler with an unhashable-type error, because a
+        single-select factor's value is a scalar and a multi-select one's is a list. Deriving the key
+        from the tuple itself means the sampler follows the config instead of a second hardcoded copy
+        of the scheme — which is the same drift the engine's MULTI_FACTORS had."""
+        return tuple(tuple(sorted(v)) if isinstance(v, list) else v
+                     for _, v in sorted(t.items()))
 
     def draw(i):
         t = {}
@@ -173,8 +180,8 @@ def coverage_topup(tuples, factors_cfg, catalogue, pbf, k=8, max_add=12):
         return {o for o, (_e, p, g) in intent.items() if not g and p in ("critical", "recommended", "optional")}
 
     def key(t):
-        return (t["species"], t["origin"], t["variant_size_class"],
-                tuple(sorted(t["region_focus"])), tuple(sorted(t["analysis_goal"])))
+        return tuple(tuple(sorted(v)) if isinstance(v, list) else v
+                     for _, v in sorted(t.items()))
 
     space = []
     F = factors_cfg["factors"]

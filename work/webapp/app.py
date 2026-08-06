@@ -370,6 +370,9 @@ def api_recommend():
     do_check = request.args.get("check", "1") == "1"
     explain = request.args.get("explain", "1") == "1"
     model = request.args.get("model") or DEFAULT_MODEL
+    context = {"species": request.args.get("species"), "origin": request.args.get("origin"),
+               "variant_size_class": request.args.get("size"),
+               "assembly": request.args.get("assembly")}
     if retrieval not in ("keyword", "semantic", "all"):
         retrieval = "keyword"
 
@@ -391,6 +394,13 @@ def api_recommend():
             # factor_tuple stays None and everything falls back to the pre-factor path.
             yield sse("status", {"message": "Reading the scenario…"})
             factor_tuple = va.infer_factors(client, model, query)
+            # Whatever the user stated on the "About your data" bar replaces what the classifier read.
+            # These are facts about their sample, not judgements: asking a model to infer them from prose
+            # is where every measured misclassification came from, and assembly cannot be inferred at all.
+            factor_tuple, assembly, overridden = va.apply_user_context(factor_tuple, context)
+            if overridden:
+                yield sse("status", {"message": "Using what you specified for: "
+                                                + ", ".join(overridden)})
             resolved = va.resolve_for_query(factor_tuple, vep_options)
 
             try:
@@ -448,7 +458,7 @@ def api_recommend():
                 enabled, disabled = va.extract_recommendations(response_text, aliases)
                 violations = va.check_and_fix_violations(
                     enabled, disabled, vep_options, training_examples, query,
-                    retrieval_mode=retrieval,
+                    retrieval_mode=retrieval, assembly_override=assembly,
                 )
                 result = build_result(enabled, disabled, violations, vep_options, use_case,
                                       resolved=resolved)

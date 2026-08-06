@@ -34,7 +34,9 @@ DEDUP_ROUGE = 0.70
 
 def _cell_key(row):
     fl = row["factor_labels"]
-    return (fl["species"], fl["origin"], fl["variant_size_class"])
+    # cardinality-agnostic: a factor that becomes multi-select in factors.json must not break the key
+    return tuple(tuple(sorted(fl[f])) if isinstance(fl.get(f), list) else fl.get(f)
+                 for f in ("species", "origin", "variant_size_class"))
 
 
 def deterministic_gates(rows, va, catalogue, corpus):
