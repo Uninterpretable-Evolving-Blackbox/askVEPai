@@ -70,7 +70,7 @@ pip install -r requirements.txt
 ollama serve
 ollama pull gemma4:26b          # the model this system is built and benchmarked on
 
-# 3. Ask it something — the 58-option catalogue is the default, no setup needed
+# 3. Ask it something — the 65-option catalogue is the default, no setup needed
 cd vep_ai_demo
 python vep_assistant.py "germline exome variants, rare disease, human GRCh38"
 python vep_assistant.py --minimal "germline exome variants, rare disease, human GRCh38"  # essentials only
@@ -150,9 +150,9 @@ GATED OUT by the factors (12) — not applicable to this scenario
 askVEPai/
 ├── vep_ai_demo/      Runnable prototype: vep_assistant.py (recommend / explain / explain-result),
 │                     evaluate.py (offline benchmark), and the data JSONs it loads.
-│                     Ships the 58-option catalogue + 23-example corpus as its defaults.
+│                     Ships the 65-option catalogue + 23-example corpus as its defaults.
 └── work/             GSoC deliverables built on top of the demo:
-    ├── vep_options_expanded.json     58-option VEP catalogue (source-grounded from Ensembl)
+    ├── vep_options_expanded.json     65-option VEP catalogue (source-grounded from Ensembl)
     ├── research/                     taxonomy_proposal.md (the factor scheme) +
     │                                 generation_pipeline_proposal.md (the example-generation design)
     ├── generation/                   the deterministic factor recommender:
@@ -166,7 +166,7 @@ askVEPai/
     └── results*/                     saved evaluation + attribution reports
 ```
 
-The **58-option** catalogue is the default. The experiment harness overrides the catalogue, examples,
+The **65-option** catalogue is the default. The experiment harness overrides the catalogue, examples,
 test set and results directory via environment variables (`VEP_OPTIONS_FILE`, `VEP_EXAMPLES_FILE`,
 `VEP_TESTSET_FILE`, `VEP_RESULTS_DIR`); the wrapper `work/harness/run_experiment.sh` sets them for you.
 
@@ -213,7 +213,7 @@ say that ClinVar is **critical** for clinical interpretation, merely **optional*
 
 **Generating gold examples.** Real, expert-validated examples are the blocker for turning the
 directional numbers below into a benchmark, and hand-authoring dozens isn't practical. So the
-pipeline uses *reverse generation*: deterministic code + the 58-option catalogue + the checker fix
+pipeline uses *reverse generation*: deterministic code + the 65-option catalogue + the checker fix
 the configuration first, then a local model writes only the natural-language query. It never selects
 options and never sees an option id — so it cannot invent one.
 
@@ -242,14 +242,18 @@ proposal and the deterministic resolver agree. Factor-keyed, LOO over the 31-row
 
 | Metric | Result |
 |---|---|
-| Enable-F1 (tier-aware) | **78% ± 2%** |
-| Critical-recall (excl. always-on `core_type`) | **91% ± 2%** |
+| Enable-F1 (tier-aware) | **89.5% ± 0.6%** |
+| Critical-recall (excl. always-on `core_type`) | **95.1% ± 0.3%** |
 
 **Self-consistency, not a benchmark** — the gold config is itself built by the provisional table, so
 this measures *reproduction of that table*, not correctness against expert gold; it is **not comparable
 to the 84% below**. Critical-recall is reported net of `core_type` (critical in every row, so trivially
-recovered). Inferring the five factors from the query rather than being handed them costs nothing — the
-classifier is not the bottleneck. Signing off the priorities turns this into a real enable-F1.
+recovered). Signing off the priorities turns this into a real enable-F1.
+
+**Pass `--factors inferred`.** The harness defaults to `none`, which skips the classifier entirely and
+withholds the scenario-resolved priorities from the prompt — worth about ten points of enable-F1, and
+easy to quote by mistake. The figures above are the shipped path: the five factors read from the query,
+then the options priced from that reading.
 
 ### Speed: the reasoning phase is half the wait, and buys nothing
 
