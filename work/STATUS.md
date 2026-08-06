@@ -1,10 +1,10 @@
-# Roadmap and open questions
+# Ask VEPai — where the project stands
 
-Where the work stands and what needs deciding. The README covers what the tool is, how it is built
-and how to run it; this covers only what is left. Design rationale for individual pieces lives
-beside it in this directory — `taxonomy_proposal.md` for the factor scheme,
-`generation_pipeline_proposal.md` for how examples are built, `underspecification_proposal.md` for
-what to do when a question does not say.
+The single "where are we" page: what is done, what is next, and what needs a decision. The README
+covers what the tool is, how it is built and how to run it. Design rationale lives in `research/` —
+`taxonomy_proposal.md` for the factor scheme, `generation_pipeline_proposal.md` for how examples are
+built, `underspecification_proposal.md` for what to do when a question does not say. Evidence for every
+number below is in `EXPERIMENTS.md`.
 
 ## Status
 
@@ -56,4 +56,4 @@ The example configurations are generated from a priority table that is our own e
 VEP does not rank its own options, so somebody had to, and that somebody was us. Until the Ensembl
 mentors sign that table off, the agreement figures above measure fidelity to a proposal rather than
 correctness — and the decisions it rests on are written down in
-`../generation/candidates/review/DECISIONS.md` precisely so they can be argued with.
+`generation/candidates/review/DECISIONS.md` precisely so they can be argued with.
