@@ -1,0 +1,188 @@
+{
+ "1": {
+  "verdict": "edit",
+  "critical_ok": "too few",
+  "optional_ok": "wrong",
+  "query_ok": "yes"
+ },
+ "2": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "wrong",
+  "query_ok": "yes"
+ },
+ "3": {
+  "verdict": "edit",
+  "critical_ok": "too many",
+  "optional_ok": "wrong",
+  "query_ok": "yes"
+ },
+ "4": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "too many",
+  "query_ok": "yes"
+ },
+ "5": {
+  "verdict": "edit",
+  "critical_ok": "too many",
+  "optional_ok": "too few",
+  "query_ok": "yes"
+ },
+ "6": {
+  "verdict": "edit",
+  "critical_ok": "too few",
+  "optional_ok": "too many",
+  "query_ok": "yes"
+ },
+ "7": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "too few",
+  "query_ok": "yes"
+ },
+ "8": {
+  "verdict": "edit",
+  "critical_ok": "too few",
+  "optional_ok": "too few",
+  "query_ok": "yes"
+ },
+ "9": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "too few",
+  "query_ok": "yes"
+ },
+ "10": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "too few",
+  "query_ok": "yes"
+ },
+ "11": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "too many",
+  "query_ok": "yes"
+ },
+ "12": {
+  "verdict": "edit",
+  "critical_ok": "too few",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "13": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "too many",
+  "query_ok": "yes"
+ },
+ "14": {
+  "verdict": "edit",
+  "critical_ok": "too few",
+  "optional_ok": "yes",
+  "query_ok": "unclear"
+ },
+ "15": {
+  "verdict": "edit",
+  "critical_ok": "too few",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "16": {
+  "verdict": "approve",
+  "critical_ok": "yes",
+  "optional_ok": "yes",
+  "query_ok": "unclear"
+ },
+ "17": {
+  "verdict": "approve",
+  "critical_ok": "yes",
+  "optional_ok": "yes",
+  "query_ok": "unclear"
+ },
+ "18": {
+  "verdict": "edit",
+  "critical_ok": "too few",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "19": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "too many",
+  "query_ok": "yes"
+ },
+ "20": {
+  "verdict": "approve",
+  "critical_ok": "yes",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "21": {
+  "verdict": "approve",
+  "critical_ok": "yes",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "22": {
+  "verdict": "edit",
+  "critical_ok": "wrong",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "23": {
+  "verdict": "approve",
+  "critical_ok": "yes",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "24": {
+  "verdict": "approve",
+  "critical_ok": "yes",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "25": {
+  "verdict": "approve",
+  "critical_ok": "yes",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "26": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "too few",
+  "query_ok": "yes"
+ },
+ "27": {
+  "verdict": "approve",
+  "critical_ok": "yes",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ },
+ "28": {
+  "verdict": "edit",
+  "critical_ok": "yes",
+  "optional_ok": "too few",
+  "query_ok": "yes"
+ },
+ "29": {
+  "verdict": "approve",
+  "critical_ok": "too few",
+  "optional_ok": "too few",
+  "query_ok": "yes"
+ },
+ "30": {
+  "verdict": "reject",
+  "critical_ok": "yes",
+  "optional_ok": "yes",
+  "query_ok": "unclear"
+ },
+ "31": {
+  "verdict": "approve",
+  "critical_ok": "too few",
+  "optional_ok": "yes",
+  "query_ok": "yes"
+ }
+}

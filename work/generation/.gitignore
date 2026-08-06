@@ -1,4 +1,11 @@
-candidates/
-provenance.jsonl
-playground*.html
-__pycache__/
+# Pipeline working files are regenerable from run_generation.sh and are not tracked.
+candidates/*
+candidates/**/*.log
+candidates/**/~$*
+
+# ...but the DELIVERABLES are. These are what the review is actually about, so they belong in the
+# open repo rather than being regenerated privately: the 31-row candidate set, the review queue the
+# mentors filled in, their recorded verdicts, and the design decisions the set exists to settle.
+!candidates/iced.json
+!candidates/review/
+candidates/review/*.xlsx

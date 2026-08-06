@@ -102,6 +102,21 @@ factor_value_for = _VA.factor_value_for
 intent_priorities = _VA.intent_priorities
 load_factors = _VA.load_factors
 load_priority_by_factor = _VA.load_priority_by_factor
+# The importance SPEC and the table derived from it live in the engine, so the shipped recommender and
+# this pipeline cannot disagree about a scenario's priorities — the same reason intent_priorities and the
+# classifier prompt were moved there. seed_priorities.py is now only a dump tool over this.
+build_priority_table = _VA.build_priority_table
+DRIVES = _VA.DRIVES
+BASELINE_CRITICAL = _VA.BASELINE_CRITICAL
+BASELINE_RECOMMENDED = _VA.BASELINE_RECOMMENDED
+PREDICTOR_DISTINCT = _VA.PREDICTOR_DISTINCT
+PREDICTOR_DERIVATIVE = _VA.PREDICTOR_DERIVATIVE
+MISSENSE_ONLY = _VA.MISSENSE_ONLY
+SPLICE_CORE = _VA.SPLICE_CORE
+SPLICE_ADDON = _VA.SPLICE_ADDON
+REGION_GATE_NONCODING = _VA.REGION_GATE_NONCODING
+SIZE_GATE_SOURCE = _VA.SIZE_GATE_SOURCE
+RANK = _VA.RANK
 
 
 def rouge_l(a, b):

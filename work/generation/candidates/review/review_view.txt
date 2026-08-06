@@ -1,0 +1,217 @@
+================================================================================
+gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation   [query_names_tool:MANE; factor_unrecoverable:variant_size_class(unknown)]
+  human / germline / structural-CNV / coding+regulatory-noncoding / basic-consequence+clinical-interpretation
+Q: I am currently processing germline whole genome sequencing data from a cohort of human pediatric patients presenting with complex neurodevelopmental phenotypes. I need an annotation workflow that can reliably identify the functional impact of both coding SNVs and larger structural variants or CNVs, ensuring that any protein-altering changes are cross-referenced with MANE Select transcripts for diagnostic certainty. Additionally, I need to capture potential disruptions in regulatory and non-coding regions to assess their impact on gene expression; the primary objective is to produce a streamlined output of consequence calls and population allele frequencies to support my clinical interpretation of pathogenicity.
+  CRITICAL     (6): clinvar, core_type, gnomad_sv, hgvs, mane, regulatory
+  RECOMMENDED  (11): appris, biotype, cadd, cell_type, check_existing, dosage_sensitivity, mirna, numbers, phenotypes, symbol, tsl
+  OPTIONAL     (5): failed, loeuf, mastermind, nmd, pubmed
+================================================================================
+gen_nonhumansomaticsmallcodingbasicconsequence   [no flags]
+  non-human / somatic / small / coding / basic-consequence
+Q: I am analyzing somatic SNVs and indels from a mouse tumor WES to quickly identify any high-impact protein-coding variants.
+  CRITICAL     (1): core_type
+  RECOMMENDED  (7): biotype, canonical, check_existing, domains, hgvs, numbers, symbol
+  OPTIONAL     (4): coding_only, nmd, protein, uniprot
+================================================================================
+gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency   [no flags]
+  human / germline / small / coding+regulatory-noncoding / clinical-interpretation+population-frequency
+Q: I am working on a project involving human germline small variants, specifically SNVs and indels, identified from our whole-genome sequencing cohort. My primary goal is to perform clinical interpretation to identify potentially pathogenic variants, so I need to assess the impact on protein-coding sequences as well as any functional changes in regulatory or non-coding regions. Additionally, it is crucial for my analysis that I can incorporate population allele frequency context to help distinguish rare, potentially deleterious variants from common polymorphisms. How should I approach the setup to ensure I am capturing all these biological impacts and the necessary frequency data?
+  CRITICAL     (9): af, af_1kg, af_gnomade, af_gnomadg, clinvar, core_type, hgvs, mane, regulatory
+  RECOMMENDED  (19): alphamissense, appris, biotype, cadd, cell_type, check_existing, domains, enformer, eve, frequency, mirna, numbers, phenotypes, polyphen, sift, spliceai, symbol, tsl, utrannotator
+  OPTIONAL     (19): ccds, clinpred, coding_only, dbnsfp, dbscsnv, dosage_sensitivity, failed, geno2mp, loeuf, mastermind, maxentscan, mutfunc, nmd, paralogues, protein, pubmed, revel, uniprot, var_synonyms
+================================================================================
+gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence   [no flags]
+  non-human / somatic / small / regulatory-noncoding / basic-consequence
+Q: I am analyzing somatic SNVs and indels from a zebrafish tumor model and need to quickly identify any variants that potentially impact regulatory or non-coding elements.
+  CRITICAL     (2): core_type, regulatory
+  RECOMMENDED  (6): biotype, canonical, cell_type, check_existing, mirna, symbol
+  OPTIONAL     (1): hgvs
+================================================================================
+gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency   [no flags]
+  human / somatic / structural-CNV / coding+regulatory-noncoding / clinical-interpretation+population-frequency
+Q: Human tumour genome sequencing with structural dna changes and gene duplications or deletions. I need to see if these affect genes or regulatory regions and check how common they are in healthy people for clinical interpretation.
+  CRITICAL     (6): clinvar, core_type, gnomad_sv, hgvs, mane, regulatory
+  RECOMMENDED  (11): appris, biotype, cadd, cell_type, check_existing, dosage_sensitivity, mirna, numbers, phenotypes, symbol, tsl
+  OPTIONAL     (5): failed, loeuf, mastermind, nmd, pubmed
+================================================================================
+gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation   [no flags]
+  non-human / germline / small / regulatory-noncoding / clinical-interpretation
+Q: I am analyzing WGS data from a mouse cohort to identify germline SNVs and indels within regulatory and non-coding regions for pathogenicity assessment.
+  CRITICAL     (3): core_type, hgvs, regulatory
+  RECOMMENDED  (8): biotype, canonical, cell_type, check_existing, maxentscan, mirna, phenotypes, symbol
+  OPTIONAL     (1): failed
+================================================================================
+gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency   [no flags]
+  human / somatic / structural-CNV / coding+regulatory-noncoding / basic-consequence+population-frequency
+Q: I am starting to set up the pipeline for our human tumor-only whole genome sequencing data from a large cancer cohort, but I am still a bit unsure about how to best capture all the relevant information. We have identified several structural variants and copy number alterations, and my goal is to get a quick top-line summary of their functional consequences. Specifically, I need to see how these changes affect protein-coding regions—ideally identifying impacts on the most reliable transcripts—but I also want to capture any potential disruptions to regulatory or non-coding elements. Additionally, it would be really helpful if the results provided context regarding population allele frequencies so I can distinguish these somatic hits from common germline variation.
+  CRITICAL     (3): core_type, gnomad_sv, regulatory
+  RECOMMENDED  (10): appris, biotype, cell_type, check_existing, dosage_sensitivity, hgvs, mirna, numbers, symbol, tsl
+  OPTIONAL     (2): clinvar, nmd
+================================================================================
+gen_nonhumangermlinesmallcodingclinicalinterpretation   [factor_unrecoverable:origin(unknown)]
+  non-human / germline / small / coding / clinical-interpretation
+Q: I am analyzing small DNA changes from a mouse study to determine which mutations in the parts of the genome that make proteins are most likely to cause disease.
+  CRITICAL     (2): core_type, hgvs
+  RECOMMENDED  (9): biotype, canonical, check_existing, domains, maxentscan, numbers, phenotypes, sift, symbol
+  OPTIONAL     (6): coding_only, failed, nmd, paralogues, protein, uniprot
+================================================================================
+gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence   [no flags]
+  non-human / somatic / small / coding+regulatory-noncoding / basic-consequence
+Q: I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis.
+  CRITICAL     (2): core_type, regulatory
+  RECOMMENDED  (9): biotype, canonical, cell_type, check_existing, domains, hgvs, mirna, numbers, symbol
+  OPTIONAL     (4): coding_only, nmd, protein, uniprot
+================================================================================
+gen_humangermlinestructuralCNVcodingpopulationfrequency   [no flags]
+  human / germline / structural-CNV / coding / population-frequency
+Q: I am reviewing human germline exome results and need to see how common any identified large-scale DNA deletions or duplications are in the general population, specifically within protein-coding areas.
+  CRITICAL     (2): core_type, gnomad_sv
+  RECOMMENDED  (9): appris, biotype, check_existing, dosage_sensitivity, frequency, hgvs, numbers, symbol, tsl
+  OPTIONAL     (2): clinvar, nmd
+================================================================================
+gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency   [no flags]
+  human / germline / structural-CNV / coding / clinical-interpretation+population-frequency
+Q: I have human germline WGS structural variants and CNVs; I want to assess their impact on protein-coding transcripts and population allele frequency for clinical pathogenicity assessment.
+  CRITICAL     (5): clinvar, core_type, gnomad_sv, hgvs, mane
+  RECOMMENDED  (10): appris, biotype, cadd, check_existing, dosage_sensitivity, frequency, numbers, phenotypes, symbol, tsl
+  OPTIONAL     (5): failed, loeuf, mastermind, nmd, pubmed
+================================================================================
+gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation   [no flags]
+  non-human / somatic / small / coding+regulatory-noncoding / clinical-interpretation
+Q: I am currently working through some sequencing results from a mouse model of cancer and I need to figure out how to properly annotate the list of changes we've identified in the tumor tissue. We are looking at single letter changes as well as small additions or removals of DNA, and it is really important for my analysis that I can see both the impact on protein-coding sequences and any potential effects on the control regions surrounding the genes. Ultimately, I need to be able to tell which of these changes look like they might actually be driving the tumor progression.
+  CRITICAL     (3): core_type, hgvs, regulatory
+  RECOMMENDED  (11): biotype, canonical, cell_type, check_existing, domains, maxentscan, mirna, numbers, phenotypes, sift, symbol
+  OPTIONAL     (6): coding_only, failed, nmd, paralogues, protein, uniprot
+================================================================================
+gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency   [no flags]
+  human / germline / structural-CNV / coding+regulatory-noncoding / population-frequency
+Q: I have human germline WGS with structural variants and CNVs. I need to annotate impacts on protein-coding and regulatory regions using population allele frequency context.
+  CRITICAL     (3): core_type, gnomad_sv, regulatory
+  RECOMMENDED  (11): appris, biotype, cell_type, check_existing, dosage_sensitivity, frequency, hgvs, mirna, numbers, symbol, tsl
+  OPTIONAL     (2): clinvar, nmd
+================================================================================
+gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation   [no flags]
+  non-human / somatic / small / regulatory-noncoding / basic-consequence+clinical-interpretation
+Q: I am analyzing small DNA changes from a zebrafish tumor and need to quickly identify if any variants in the non-coding regions are disrupting gene regulation or could be considered pathogenic.
+  CRITICAL     (3): core_type, hgvs, regulatory
+  RECOMMENDED  (8): biotype, canonical, cell_type, check_existing, maxentscan, mirna, phenotypes, symbol
+  OPTIONAL     (1): failed
+================================================================================
+gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence   [no flags]
+  non-human / germline / small / coding+regulatory-noncoding / basic-consequence
+Q: Mouse germline WGS, SNV and indel variants; rapid top-line functional annotation for protein-coding and regulatory regions.
+  CRITICAL     (2): core_type, regulatory
+  RECOMMENDED  (9): biotype, canonical, cell_type, check_existing, domains, hgvs, mirna, numbers, symbol
+  OPTIONAL     (4): coding_only, nmd, protein, uniprot
+================================================================================
+gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency   [no flags]
+  human / somatic / structural-CNV / regulatory-noncoding / population-frequency
+Q: I am analyzing human somatic WGS data to assess whether identified structural variants in regulatory regions overlap with common population allele frequencies.
+  CRITICAL     (3): core_type, gnomad_sv, regulatory
+  RECOMMENDED  (6): biotype, cell_type, check_existing, dosage_sensitivity, mirna, symbol
+  OPTIONAL     (1): clinvar
+================================================================================
+gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency   [no flags]
+  human / germline / structural-CNV / regulatory-noncoding / population-frequency
+Q: I am processing human germline sequencing data from a large-scale population cohort and have identified several large structural changes, such as deletions and duplications of DNA segments. I want to focus my analysis on these changes when they occur in regulatory regions that control gene activity, rather than just looking at the protein-coding parts of the genome. For these types of variations, I need to ensure my annotation process includes information on how common these changes are within the general population so I can identify which ones are truly rare.
+  CRITICAL     (3): core_type, gnomad_sv, regulatory
+  RECOMMENDED  (7): biotype, cell_type, check_existing, dosage_sensitivity, frequency, mirna, symbol
+  OPTIONAL     (1): clinvar
+================================================================================
+gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation   [no flags]
+  non-human / somatic / small / coding+regulatory-noncoding / basic-consequence+clinical-interpretation
+Q: I have somatic SNVs and indels from a mouse tumor. I need to identify the functional impact of both coding and regulatory variants for a preliminary pathogenicity assessment.
+  CRITICAL     (3): core_type, hgvs, regulatory
+  RECOMMENDED  (11): biotype, canonical, cell_type, check_existing, domains, maxentscan, mirna, numbers, phenotypes, sift, symbol
+  OPTIONAL     (6): coding_only, failed, nmd, paralogues, protein, uniprot
+================================================================================
+gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency   [no flags]
+  human / germline / structural-CNV / coding+regulatory-noncoding / basic-consequence+population-frequency
+Q: I am reviewing human germline whole genome sequencing for a patient with suspected large-scale chromosomal changes. I need to quickly identify the impact on genes and regulatory regions, as well as how common these variants are in the general population.
+  CRITICAL     (3): core_type, gnomad_sv, regulatory
+  RECOMMENDED  (11): appris, biotype, cell_type, check_existing, dosage_sensitivity, frequency, hgvs, mirna, numbers, symbol, tsl
+  OPTIONAL     (2): clinvar, nmd
+================================================================================
+gen_nonhumansomaticsmallcodingclinicalinterpretation   [no flags]
+  non-human / somatic / small / coding / clinical-interpretation
+Q: I am working with whole exome sequencing data from a cohort of zebrafish tumor models where I have identified several somatic SNVs and small indels by comparing the tumor DNA to matched germline samples. My primary goal is to identify which of these mutations in the protein-coding regions are likely to be pathogenic, so I need a way to assess their potential impact on the amino acid sequence and overall protein function to help prioritize candidate driver mutations for further study.
+  CRITICAL     (2): core_type, hgvs
+  RECOMMENDED  (9): biotype, canonical, check_existing, domains, maxentscan, numbers, phenotypes, sift, symbol
+  OPTIONAL     (6): coding_only, failed, nmd, paralogues, protein, uniprot
+================================================================================
+gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation   [no flags]
+  non-human / germline / small / coding / basic-consequence+clinical-interpretation
+Q: I have germline Mus musculus WES data; I need to identify protein-altering SNVs and indels in coding regions and assess their predicted functional pathogenicity.
+  CRITICAL     (2): core_type, hgvs
+  RECOMMENDED  (9): biotype, canonical, check_existing, domains, maxentscan, numbers, phenotypes, sift, symbol
+  OPTIONAL     (6): coding_only, failed, nmd, paralogues, protein, uniprot
+================================================================================
+gen_humansomaticstructuralCNVcodingbasicconsequence   [no flags]
+  human / somatic / structural-CNV / coding / basic-consequence
+Q: I am working with human somatic whole exome sequencing data from a series of tumor biopsies and have identified several structural variants and copy number alterations that I need to interpret. Since I am still learning the ropes of setting up my annotation pipeline, I was wondering how I should approach this if my primary goal is just to get a quick top-line call on which protein-coding genes are being disrupted or lost by these large genomic changes, without necessarily needing an exhaustive breakdown of every small-scale nucleotide change at this stage.
+  CRITICAL     (2): core_type, gnomad_sv
+  RECOMMENDED  (8): appris, biotype, check_existing, dosage_sensitivity, hgvs, numbers, symbol, tsl
+  OPTIONAL     (1): nmd
+================================================================================
+gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency   [no flags]
+  human / somatic / structural-CNV / regulatory-noncoding / basic-consequence+clinical-interpretation+population-frequency
+Q: I’m working through some human tumour sequencing data where we're specifically looking for large-scale changes in the DNA structure, like deletions or duplications. A lot of these structural changes are landing in the regions outside of the actual genes, so I need a way to quickly figure out if these stretches of missing or extra DNA might be affecting how genes are turned on or off. It would also be really helpful to see how common these types of variations are in the general healthy population so I can better judge whether a finding looks like a potential driver for the cancer or just a common variation.
+  CRITICAL     (5): clinvar, core_type, gnomad_sv, hgvs, regulatory
+  RECOMMENDED  (8): biotype, cadd, cell_type, check_existing, dosage_sensitivity, mirna, phenotypes, symbol
+  OPTIONAL     (4): failed, loeuf, mastermind, pubmed
+================================================================================
+gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence   [no flags]
+  non-human / germline / small / regulatory-noncoding / basic-consequence
+Q: I am working on a new project involving whole genome sequencing data from a large cohort of wild-type *Mus musculus* and I am trying to figure out how to properly set up my annotation pipeline. We have identified many germline SNVs and small indels, but since my research focuses specifically on the impact of variants in non-coding and regulatory regions like enhancers, I am struggling with the configuration. My goal is just to get a quick top-line assessment of whether these small variants fall within functional non-coding elements or have predicted effects in those areas.
+  CRITICAL     (2): core_type, regulatory
+  RECOMMENDED  (6): biotype, canonical, cell_type, check_existing, mirna, symbol
+  OPTIONAL     (1): hgvs
+================================================================================
+gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency   [no flags]
+  human / germline / structural-CNV / coding+regulatory-noncoding / clinical-interpretation+population-frequency
+Q: I am analyzing human germline WGS data from a patient to assess the clinical pathogenicity of both coding and regulatory variants, including any identified structural changes, against population allele frequencies.
+  CRITICAL     (6): clinvar, core_type, gnomad_sv, hgvs, mane, regulatory
+  RECOMMENDED  (12): appris, biotype, cadd, cell_type, check_existing, dosage_sensitivity, frequency, mirna, numbers, phenotypes, symbol, tsl
+  OPTIONAL     (5): failed, loeuf, mastermind, nmd, pubmed
+================================================================================
+gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation   [no flags]
+  non-human / somatic / small / regulatory-noncoding / clinical-interpretation
+Q: I am analyzing somatic SNVs and indels from a zebrafish tumor sample. I want to assess the potential pathogenicity of these non-coding variants by evaluating their impact on regulatory elements or transcription factor binding sites.
+  CRITICAL     (3): core_type, hgvs, regulatory
+  RECOMMENDED  (8): biotype, canonical, cell_type, check_existing, maxentscan, mirna, phenotypes, symbol
+  OPTIONAL     (1): failed
+================================================================================
+gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency   [no flags]
+  human / somatic / structural-CNV / regulatory-noncoding / clinical-interpretation+population-frequency
+Q: I am looking at some human tumor sequencing results and I have noticed several large sections of DNA that seem to be either extra or missing. I am especially interested in the areas that don't actually make proteins but instead act as control switches for genes, as I want to see if these big changes might be affecting how those genes work and contributing to the cancer. It is also really important for me to know how common these same types of variations are in healthy people so I can tell the difference between normal variation and something potentially dangerous. How should I configure my run to get all that info about the regulatory impact and the population background?
+  CRITICAL     (5): clinvar, core_type, gnomad_sv, hgvs, regulatory
+  RECOMMENDED  (8): biotype, cadd, cell_type, check_existing, dosage_sensitivity, mirna, phenotypes, symbol
+  OPTIONAL     (4): failed, loeuf, mastermind, pubmed
+================================================================================
+gen_nonhumangermlinesmallcodingbasicconsequence   [no flags]
+  non-human / germline / small / coding / basic-consequence
+Q: I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several single-letter changes and small additions or deletions throughout the genome. For my preliminary report, I just need to quickly identify which of these variations actually alter the protein sequence or create an early stop signal within the coding regions.
+  CRITICAL     (1): core_type
+  RECOMMENDED  (7): biotype, canonical, check_existing, domains, hgvs, numbers, symbol
+  OPTIONAL     (4): coding_only, nmd, protein, uniprot
+================================================================================
+gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency   [no flags]
+  human / somatic / structural-CNV / coding / basic-consequence+clinical-interpretation+population-frequency
+Q: I have human somatic tumor WES/WGS data containing structural variants and CNVs. I want to identify protein-coding consequences, clinical pathogenicity, and population allele frequency context.
+  CRITICAL     (5): clinvar, core_type, gnomad_sv, hgvs, mane
+  RECOMMENDED  (9): appris, biotype, cadd, check_existing, dosage_sensitivity, numbers, phenotypes, symbol, tsl
+  OPTIONAL     (5): failed, loeuf, mastermind, nmd, pubmed
+================================================================================
+gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation   [factor_unrecoverable:origin(unknown)]
+  non-human / germline / small / coding+regulatory-noncoding / clinical-interpretation
+Q: I am analyzing genome sequencing from a mouse model to determine if any small spelling changes in protein-coding or gene control regions are likely causing the observed disease.
+  CRITICAL     (3): core_type, hgvs, regulatory
+  RECOMMENDED  (11): biotype, canonical, cell_type, check_existing, domains, maxentscan, mirna, numbers, phenotypes, sift, symbol
+  OPTIONAL     (6): coding_only, failed, nmd, paralogues, protein, uniprot
+================================================================================
+gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence   [no flags]
+  human / germline / structural-CNV / coding+regulatory-noncoding / basic-consequence
+Q: I am analyzing human germline structural variants and CNVs from a WGS cohort and want to quickly identify the primary functional consequences across both protein-coding and regulatory regions.
+  CRITICAL     (3): core_type, gnomad_sv, regulatory
+  RECOMMENDED  (10): appris, biotype, cell_type, check_existing, dosage_sensitivity, hgvs, mirna, numbers, symbol, tsl
+  OPTIONAL     (1): nmd

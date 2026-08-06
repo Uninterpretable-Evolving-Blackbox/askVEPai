@@ -1,0 +1,5300 @@
+[
+  {
+    "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+    "user_query": "I am currently processing germline whole genome sequencing data from a cohort of human pediatric patients presenting with complex neurodevelopmental phenotypes. I need an annotation workflow that can reliably identify the functional impact of both coding SNVs and larger structural variants or CNVs, ensuring that any protein-altering changes are cross-referenced with MANE Select transcripts for diagnostic certainty. Additionally, I need to capture potential disruptions in regulatory and non-coding regions to assess their impact on gene expression; the primary objective is to produce a streamlined output of consequence calls and population allele frequencies to support my clinical interpretation of pathogenicity.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence",
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mane": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "loeuf": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "pubmed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 17,
+      "n_add_ons": 5,
+      "n_hard_gated": 25,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 42,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "explicit",
+        "persona": "clinician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am currently processing germline whole genome sequencing data from a cohort of human pediatric patients presenting with complex neurodevelopmental phenotypes. I need an annotation workflow that can reliably identify the functional impact of both coding SNVs and larger structural variants or CNVs, ensuring that any protein-altering changes are cross-referenced with MANE Select transcripts for diagnostic certainty. Additionally, I need to capture potential disruptions in regulatory and non-coding regions to assess their impact on gene expression; the primary objective is to produce a streamlined output of consequence calls and population allele frequencies to support my clinical interpretation of pathogenicity.",
+        "I am reviewing human germline structural variants and copy number variations identified via whole genome sequencing in a patient with a suspected genomic disorder. For our final diagnostic report, I need to rapidly assess the potential pathogenicity of these alterations by determining if they impact protein-coding regions or MANE select transcripts through gene dosage effects, while also identifying any overlapping events within regulatory or non-coding elements that could disrupt gene expression.",
+        "I am evaluating germline whole genome sequencing data from a human clinical cohort presenting with complex neurodevelopmental phenotypes. I need to assess both single nucleotide variants and larger structural variations, including copy number variants, to identify potential pathogenic drivers. My objective is to rapidly determine the functional consequences of these alterations, specifically focusing on whether they impact protein-coding sequences\u2014prioritizing MANE Select transcripts\u2014or if they disrupt critical regulatory and non-coding elements, so that I can proceed with a timely clinical interpretation for my diagnostic reports."
+      ]
+    },
+    "_query_leaks_tools": [
+      "MANE"
+    ],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [
+        "query_names_tool:MANE",
+        "factor_unrecoverable:variant_size_class(unknown)"
+      ],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 2,
+      "factor_raw_failures": [
+        {
+          "attempt": 1,
+          "seed": 42,
+          "raw": ""
+        }
+      ],
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "unknown",
+        "region_focus": "match",
+        "analysis_goal": "match_plus_extra"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question provides species (human), sample type (germline WGS), variant types (SNVs, SVs, CNVs), and specific annotation requirements (MANE Select, regulatory regions)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 6,
+      "critical_recovered": [],
+      "critical_recall": null,
+      "critical_recall_raw": 0.0,
+      "model_enabled": 0,
+      "degenerate_generation": true,
+      "flag_low_usefulness": false,
+      "flag_degenerate": true,
+      "void_query_names_tool": [
+        "MANE"
+      ]
+    }
+  },
+  {
+    "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+    "user_query": "I am analyzing somatic SNVs and indels from a mouse tumor WES to quickly identify any high-impact protein-coding variants.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding"
+      ],
+      "analysis_goal": [
+        "basic-consequence"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 8,
+      "n_add_ons": 4,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 142,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "implicit",
+        "persona": "clinician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am analyzing somatic SNVs and indels from a mouse tumor WES to quickly identify any high-impact protein-coding variants.",
+        "I am analyzing mouse tumor WES to identify somatic SNVs and indels, and I just need a quick way to see their predicted impact on protein-coding regions.",
+        "I am reviewing somatic SNVs and indels from a mouse tumor exome and need to quickly identify any protein-altering consequences for my preliminary report."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question provides species (mouse), variant types (SNVs and indels), sample type (somatic tumor), and genomic focus (WES/protein-coding)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 1,
+      "critical_recovered": [
+        "core_type"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 11,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+    "user_query": "I am working on a project involving human germline small variants, specifically SNVs and indels, identified from our whole-genome sequencing cohort. My primary goal is to perform clinical interpretation to identify potentially pathogenic variants, so I need to assess the impact on protein-coding sequences as well as any functional changes in regulatory or non-coding regions. Additionally, it is crucial for my analysis that I can incorporate population allele frequency context to help distinguish rare, potentially deleterious variants from common polymorphisms. How should I approach the setup to ensure I am capturing all these biological impacts and the necessary frequency data?",
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation",
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "af": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "af_1kg": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "af_gnomade": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "af_gnomadg": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "alphamissense": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "enformer": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "eve": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "frequency": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mane": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "polyphen": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "spliceai": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "utrannotator": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "ccds": {
+        "value": true,
+        "priority": "optional"
+      },
+      "clinpred": {
+        "value": true,
+        "priority": "optional"
+      },
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "dbnsfp": {
+        "value": true,
+        "priority": "optional"
+      },
+      "dbscsnv": {
+        "value": true,
+        "priority": "optional"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "priority": "optional"
+      },
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "geno2mp": {
+        "value": true,
+        "priority": "optional"
+      },
+      "loeuf": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "maxentscan": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mutfunc": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "paralogues": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "pubmed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "revel": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      },
+      "var_synonyms": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 28,
+      "n_add_ons": 19,
+      "n_hard_gated": 0,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 242,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "explicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am working on a project involving human germline small variants, specifically SNVs and indels, identified from our whole-genome sequencing cohort. My primary goal is to perform clinical interpretation to identify potentially pathogenic variants, so I need to assess the impact on protein-coding sequences as well as any functional changes in regulatory or non-coding regions. Additionally, it is crucial for my analysis that I can incorporate population allele frequency context to help distinguish rare, potentially deleterious variants from common polymorphisms. How should I approach the setup to ensure I am capturing all these biological impacts and the necessary frequency data?",
+        "I am currently working on a project involving human germline variants identified via whole-exome sequencing from a cohort of pediatric patients with suspected rare Mendelian disorders. I have a VCF containing various SNVs and small indels, and I need to perform a comprehensive functional annotation to aid in clinical interpretation. Specifically, I want to determine the impact of these variants on protein-coding regions using high-confidence transcripts like MANE Select, but I also need to assess any potential effects on regulatory or non-coding elements. Finally, it is crucial for my filtering strategy that I can incorporate population allele frequencies from major databases to differentiate between rare, potentially pathogenic alleles and common variants found in the general population.",
+        "I am trying to set up my pipeline for analyzing human germline SNVs and small indels that I identified through whole exome sequencing in a large clinical study cohort. My main goal is to perform a thorough pathogenicity assessment, so I need to be able to identify variants that impact protein-coding regions\u2014ideally using MANE Select transcripts as my reference\u2014but I also want to capture any functional impact on regulatory or non-coding elements nearby. To help with the interpretation, I also need to cross-reference these variants with population allele frequencies to see if they are rare enough to be considered potentially pathogenic in a clinical context."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies species (human), variant type (SNVs and indels), sample type (germline WGS), and the specific biological/data requirements (coding/non-coding impact and population frequency) needed to design a VEP configuration."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 9,
+      "critical_recovered": [
+        "af",
+        "af_1kg",
+        "af_gnomade",
+        "af_gnomadg",
+        "clinvar",
+        "core_type",
+        "hgvs",
+        "mane",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 21,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+    "user_query": "I am analyzing somatic SNVs and indels from a zebrafish tumor model and need to quickly identify any variants that potentially impact regulatory or non-coding elements.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "hgvs": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 8,
+      "n_add_ons": 1,
+      "n_hard_gated": 33,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 342,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "explicit",
+        "persona": "clinician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am analyzing somatic SNVs and indels from a zebrafish tumor model and need to quickly identify any variants that potentially impact regulatory or non-coding elements.",
+        "I am reviewing somatic SNVs and indels from a mouse tumor sample to identify variants impacting non-coding regulatory elements. I need an efficient way to obtain a high-level summary of the functional consequences for my report.",
+        "I am reviewing somatic SNVs and indels from a mouse tumor model and need to quickly identify which variants fall within regulatory or non-coding regions."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question provides the species (zebrafish), variant types (SNVs and indels), sample origin (somatic tumor), and the specific genomic regions of interest (regulatory/non-coding elements)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 2,
+      "critical_recovered": [
+        "core_type",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 6,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+    "user_query": "Human tumour genome sequencing with structural dna changes and gene duplications or deletions. I need to see if these affect genes or regulatory regions and check how common they are in healthy people for clinical interpretation.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation",
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mane": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "loeuf": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "pubmed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 17,
+      "n_add_ons": 5,
+      "n_hard_gated": 26,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 442,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "short-search-query",
+        "premise": "explicit",
+        "persona": "bioinformatician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "Human tumour genome sequencing with structural dna changes and gene duplications or deletions. I need to see if these affect genes or regulatory regions and check how common they are in healthy people for clinical interpretation.",
+        "Human tumour sequencing with large structural DNA changes. I need to assess their impact on genes and control regions and see how common they are in healthy populations for clinical interpretation.",
+        "Human tumor whole genome sequencing; evaluate how structural changes and mutations in coding or regulatory regions affect protein function and check how common they are in the general population for clinical assessment."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies species (human), sample type (tumour genome), variant types (structural changes, duplications, deletions), and the analytical goal (impact on genes/regulatory regions and population frequency comparison)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 6,
+      "critical_recovered": [
+        "clinvar",
+        "core_type",
+        "gnomad_sv",
+        "hgvs",
+        "regulatory"
+      ],
+      "critical_recall": 0.8333333333333334,
+      "critical_recall_raw": 0.8333333333333334,
+      "model_enabled": 8,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+    "user_query": "I am analyzing WGS data from a mouse cohort to identify germline SNVs and indels within regulatory and non-coding regions for pathogenicity assessment.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 11,
+      "n_add_ons": 1,
+      "n_hard_gated": 33,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 542,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "explicit",
+        "persona": "bioinformatician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am analyzing WGS data from a mouse cohort to identify germline SNVs and indels within regulatory and non-coding regions for pathogenicity assessment.",
+        "I have germline WGS data from a mouse cohort and want to identify potentially pathogenic SNVs and indels within non-coding regions. I need to assess the impact of these variants on regulatory element activity.",
+        "I am analyzing mouse germline WGS data to determine if non-coding SNVs and indels overlap with regulatory elements for pathogenicity assessment."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies the species (mouse), the data type (WGS), the variant types (SNVs and indels), the origin (germline), and the genomic regions of interest (regulatory and non-coding)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "hgvs",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 8,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+    "user_query": "I am starting to set up the pipeline for our human tumor-only whole genome sequencing data from a large cancer cohort, but I am still a bit unsure about how to best capture all the relevant information. We have identified several structural variants and copy number alterations, and my goal is to get a quick top-line summary of their functional consequences. Specifically, I need to see how these changes affect protein-coding regions\u2014ideally identifying impacts on the most reliable transcripts\u2014but I also want to capture any potential disruptions to regulatory or non-coding elements. Additionally, it would be really helpful if the results provided context regarding population allele frequencies so I can distinguish these somatic hits from common germline variation.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence",
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "clinvar": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 13,
+      "n_add_ons": 2,
+      "n_hard_gated": 26,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 642,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "explicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am starting to set up the pipeline for our human tumor-only whole genome sequencing data from a large cancer cohort, but I am still a bit unsure about how to best capture all the relevant information. We have identified several structural variants and copy number alterations, and my goal is to get a quick top-line summary of their functional consequences. Specifically, I need to see how these changes affect protein-coding regions\u2014ideally identifying impacts on the most reliable transcripts\u2014but I also want to capture any potential disruptions to regulatory or non-coding elements. Additionally, it would be really helpful if the results provided context regarding population allele frequencies so I can distinguish these somatic hits from common germline variation.",
+        "I am working on a project involving human whole genome sequencing data from a cohort of somatic tumor samples, and I need to annotate a variety of variants including SNVs, indels, and larger structural variants like CNVs. My primary goal is to get an efficient, high-level overview of the functional consequences for protein-coding regions\u2014ideally using MANE selectors as my reference\u2014while also determining if any of these changes are occurring within regulatory or non-coding genomic elements. Additionally, I need to be able to cross-reference these variants against population datasets to see their allele frequency, which will help me distinguish potential somatic drivers from common polymorphisms.",
+        "I am working on an analysis of human somatic variants identified from whole-genome sequencing of tumor samples in a large cancer study. My dataset includes both single nucleotide variants and larger structural alterations, such as copy number variations. I'm trying to figure out how to configure my process to get a quick top-line view of the functional consequences on protein-coding sequences and regulatory or non-coding regions, while also incorporating population allele frequency data to help me differentiate between potential drivers and common polymorphisms."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies species (human), sample type (tumor-only WGS), variant types (SVs and CNAs), and the desired annotation features (coding/non-coding regions and population frequencies). This is a clear description of an analysis that can be translated into a VEP configuration."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 13,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+    "user_query": "I am analyzing small DNA changes from a mouse study to determine which mutations in the parts of the genome that make proteins are most likely to cause disease.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "paralogues": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 11,
+      "n_add_ons": 6,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 742,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "explicit",
+        "persona": "clinician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I am analyzing small DNA changes from a mouse study to determine which mutations in the parts of the genome that make proteins are most likely to cause disease.",
+        "I am analyzing germline exome sequencing from a mouse model and want to identify which DNA spelling changes or small additions/deletions in the coding regions are most likely to be harmful to the protein.",
+        "I am analyzing exome sequencing data from a group of mice with developmental defects. I need to identify which single-letter changes or small additions/deletions in the protein-coding regions are likely causing these health issues."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [
+        "factor_unrecoverable:origin(unknown)"
+      ],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "unknown",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question uses plain language to specify the species (mouse), variant type (small DNA changes/SNVs and indels), and genomic region (coding regions)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 2,
+      "critical_recovered": [
+        "core_type",
+        "hgvs"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 11,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+    "user_query": "I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 11,
+      "n_add_ons": 4,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 842,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "explicit",
+        "persona": "bioinformatician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis.",
+        "I have processed a batch of somatic mutations, including both SNVs and small indels, from a WGS study on mouse subcutaneous tumor xenografts. I am looking to run an annotation step that provides a quick top-line summary of the functional impact of these variants. Specifically, I need to distinguish between those affecting protein-coding regions versus those located in regulatory or other non-coding elements, so I can effectively prioritize high-impact candidates for further investigation.",
+        "I am currently processing whole-genome sequencing data from a cohort of mouse tumor samples to identify somatic drivers. I have a VCF containing various SNVs and small indels, and I need to perform an initial pass to get a quick top-line summary of the functional consequences. The goal is to broadly categorize these mutations according to whether they affect protein-coding regions or reside within regulatory and non-coding elements so that I can quickly assess the overall landscape of the mutation distribution."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question provides species (mouse), variant types (SNVs and small indels), data source (WES and WGS), and the specific goal of distinguishing between coding and non-coding regions for prioritization."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 2,
+      "critical_recovered": [
+        "core_type"
+      ],
+      "critical_recall": 0.5,
+      "critical_recall_raw": 0.5,
+      "model_enabled": 9,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+    "user_query": "I am reviewing human germline exome results and need to see how common any identified large-scale DNA deletions or duplications are in the general population, specifically within protein-coding areas.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding"
+      ],
+      "analysis_goal": [
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "frequency": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "clinvar": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 11,
+      "n_add_ons": 2,
+      "n_hard_gated": 25,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 942,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "explicit",
+        "persona": "clinician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I am reviewing human germline exome results and need to see how common any identified large-scale DNA deletions or duplications are in the general population, specifically within protein-coding areas.",
+        "I am reviewing human germline exome data and found some large deletions and duplications in protein-coding regions. I need to know how common these changes are in the general population for my diagnostic report.",
+        "I am reviewing human germline sequencing results for large deletions or duplications that affect genes. I need to know how common these types of changes are in the general population."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies human species, germline exome context, CNV variant type (large-scale deletions/duplications), coding regions, and the analytical goal of checking population frequency."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 2,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 7,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+    "user_query": "I have human germline WGS structural variants and CNVs; I want to assess their impact on protein-coding transcripts and population allele frequency for clinical pathogenicity assessment.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation",
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "frequency": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mane": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "loeuf": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "pubmed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 15,
+      "n_add_ons": 5,
+      "n_hard_gated": 25,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1042,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "short-search-query",
+        "premise": "explicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I have human germline WGS structural variants and CNVs; I want to assess their impact on protein-coding transcripts and population allele frequency for clinical pathogenicity assessment.",
+        "I have human germline WGS structural variants and SNVs for clinical interpretation. I need to assess pathogenicity and population AF context within MANE select protein-coding regions.",
+        "I am analyzing human germline WGS structural variants and CNVs in a clinical cohort to assess pathogenicity in protein-coding regions using population allele frequency and MANE transcripts."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies species (human), sample type (germline), variant types (SVs and CNVs), and the specific analytical goals (coding impact and allele frequency)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 5,
+      "critical_recovered": [
+        "clinvar",
+        "core_type",
+        "gnomad_sv",
+        "mane"
+      ],
+      "critical_recall": 0.8,
+      "critical_recall_raw": 0.8,
+      "model_enabled": 11,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+    "user_query": "I am currently working through some sequencing results from a mouse model of cancer and I need to figure out how to properly annotate the list of changes we've identified in the tumor tissue. We are looking at single letter changes as well as small additions or removals of DNA, and it is really important for my analysis that I can see both the impact on protein-coding sequences and any potential effects on the control regions surrounding the genes. Ultimately, I need to be able to tell which of these changes look like they might actually be driving the tumor progression.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "paralogues": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 14,
+      "n_add_ons": 6,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1142,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "implicit",
+        "persona": "bioinformatician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I am currently working through some sequencing results from a mouse model of cancer and I need to figure out how to properly annotate the list of changes we've identified in the tumor tissue. We are looking at single letter changes as well as small additions or removals of DNA, and it is really important for my analysis that I can see both the impact on protein-coding sequences and any potential effects on the control regions surrounding the genes. Ultimately, I need to be able to tell which of these changes look like they might actually be driving the tumor progression.",
+        "I am working with whole genome sequencing data from mouse tumor samples and I need to identify which mutations might be driving cancer. I want to look at all the small single-letter changes and tiny insertions or deletions we have found, specifically checking how they affect both the parts of the genome that build proteins and the nearby areas that control gene activity. The goal is to figure out which of these changes are actually harmful versus those that are just common variations.",
+        "I am currently working with sequencing data from mouse tumor samples to identify small DNA changes, such as single letter swaps and tiny insertions or deletions, that are present in the cancerous tissue but not the healthy control. I need to evaluate if these mutations are likely to be drivers of the cancer by checking how they affect the proteins themselves and whether they land in the regions that control gene activity. Ultimately, I want to prioritize which of these changes are most likely to cause functional damage to the cell's normal processes."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question provides the species (mouse), sample type (tumor tissue), variant types (SNVs and indels), and the specific genomic regions of interest (coding and control/regulatory regions) needed to determine a VEP configuration."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "hgvs",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 9,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+    "user_query": "I have human germline WGS with structural variants and CNVs. I need to annotate impacts on protein-coding and regulatory regions using population allele frequency context.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "frequency": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "clinvar": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 14,
+      "n_add_ons": 2,
+      "n_hard_gated": 25,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1242,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "short-search-query",
+        "premise": "explicit",
+        "persona": "bioinformatician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I have human germline WGS with structural variants and CNVs. I need to annotate impacts on protein-coding and regulatory regions using population allele frequency context.",
+        "I am analyzing human germline SVs and CNVs from a population cohort. I need to annotate both protein-coding and regulatory/non-coding regions with population allele frequency context.",
+        "Human germline WGS structural variants and CNVs; evaluate population allele frequencies across both protein-coding and regulatory/non-coding regions."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies species, sample type (germline WGS), variant types (SVs and CNVs), target regions (coding/regulatory), and the requirement for population frequency context."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 11,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+    "user_query": "I am analyzing small DNA changes from a zebrafish tumor and need to quickly identify if any variants in the non-coding regions are disrupting gene regulation or could be considered pathogenic.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence",
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 11,
+      "n_add_ons": 1,
+      "n_hard_gated": 33,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1342,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "implicit",
+        "persona": "clinician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I am analyzing small DNA changes from a zebrafish tumor and need to quickly identify if any variants in the non-coding regions are disrupting gene regulation or could be considered pathogenic.",
+        "I have small DNA changes from a mouse tumor and need to see if any mutations in the regions controlling gene activity are likely to be harmful.",
+        "I am reviewing small DNA changes from a mouse tumor and need to determine if any variations in the non-coding regions might be disrupting gene regulation or showing signs of potential pathogenicity."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies the species (zebrafish), the nature of the variants (small DNA changes/SNVs and indels), the genomic focus (non-coding regions), and the analytical goal (identifying regulatory disruption or pathogenicity)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "hgvs",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 10,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+    "user_query": "Mouse germline WGS, SNV and indel variants; rapid top-line functional annotation for protein-coding and regulatory regions.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 11,
+      "n_add_ons": 4,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1442,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "short-search-query",
+        "premise": "explicit",
+        "persona": "bioinformatician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "Mouse germline WGS, SNV and indel variants; rapid top-line functional annotation for protein-coding and regulatory regions.",
+        "I have mouse germline WGS variants (SNVs and indels) from a population cohort. I want to quickly assess functional consequences across both protein-coding and regulatory regions.",
+        "I have germline WGS data from Mus musculus containing SNVs and indels; I need to rapidly annotate the functional impact on both protein-coding and regulatory/non-coding regions."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies species (mouse), variant types (SNV and indel), sample type (germline WGS), and the genomic regions of interest (protein-coding and regulatory)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 2,
+      "critical_recovered": [
+        "core_type",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 17,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+    "user_query": "I am analyzing human somatic WGS data to assess whether identified structural variants in regulatory regions overlap with common population allele frequencies.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "clinvar": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 9,
+      "n_add_ons": 1,
+      "n_hard_gated": 28,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1542,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "explicit",
+        "persona": "clinician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am analyzing human somatic WGS data to assess whether identified structural variants in regulatory regions overlap with common population allele frequencies.",
+        "I am analyzing somatic structural variants and CNVs from a human tumor WGS case. I need to evaluate the impact of these changes in non-coding regulatory regions using population allele frequency data for context.",
+        "I am analyzing human tumor WGS for somatic structural variants and CNVs in regulatory regions and need to cross-reference these with population allele frequencies."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies species (human), sample type (somatic), data type (WGS), variant type (structural variants), and the specific genomic focus (regulatory regions/population frequencies)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 11,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+    "user_query": "I am processing human germline sequencing data from a large-scale population cohort and have identified several large structural changes, such as deletions and duplications of DNA segments. I want to focus my analysis on these changes when they occur in regulatory regions that control gene activity, rather than just looking at the protein-coding parts of the genome. For these types of variations, I need to ensure my annotation process includes information on how common these changes are within the general population so I can identify which ones are truly rare.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "frequency": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "clinvar": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 10,
+      "n_add_ons": 1,
+      "n_hard_gated": 27,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1642,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "explicit",
+        "persona": "bioinformatician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I am processing human germline sequencing data from a large-scale population cohort and have identified several large structural changes, such as deletions and duplications of DNA segments. I want to focus my analysis on these changes when they occur in regulatory regions that control gene activity, rather than just looking at the protein-coding parts of the genome. For these types of variations, I need to ensure my annotation process includes information on how common these changes are within the general population so I can identify which ones are truly rare.",
+        "I am analyzing human whole genome sequencing data from a large cohort of healthy individuals, focusing on instances where segments of DNA have been deleted or duplicated. Since many of these structural changes are located in the parts of the genome that regulate gene activity rather than within the sequences that code for proteins, I need to determine how common these specific types of DNA losses and gains are across the general population. I want my results to show me if these variations are frequent enough to be considered normal human variation or if they are rare events.",
+        "I am working with human whole genome sequencing data from a healthy group of people to find large-scale DNA changes like deletions and duplications. I am particularly interested in whether these structural shifts happen in the parts of the genome that act as switches for gene activity, rather than just focusing on areas that change protein sequences. For my analysis, I need a way to see how common these specific genomic rearrangements are across various large-scale studies of the general public so I can tell if a particular change is rare or widespread."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies the species (human), sample type (germline), variant type (structural variants like deletions/duplications), genomic focus (regulatory regions), and the specific annotation requirement (population frequency)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 7,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+    "user_query": "I have somatic SNVs and indels from a mouse tumor. I need to identify the functional impact of both coding and regulatory variants for a preliminary pathogenicity assessment.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence",
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "paralogues": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 14,
+      "n_add_ons": 6,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1742,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "implicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I have somatic SNVs and indels from a mouse tumor. I need to identify the functional impact of both coding and regulatory variants for a preliminary pathogenicity assessment.",
+        "I am analyzing somatic SNVs and indels from a mouse tumor model. I need to assess the functional impact of these variants across both protein-coding and regulatory regions to help identify potential drivers.",
+        "I have somatic SNVs and indels from mouse tumor sequencing. I need to identify the functional consequences across both protein-coding and regulatory regions for potential pathogenicity assessment."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies the species (mouse), variant types (SNVs and indels), sample type (somatic tumor), and the genomic regions of interest (coding and regulatory)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "hgvs",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 12,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+    "user_query": "I am reviewing human germline whole genome sequencing for a patient with suspected large-scale chromosomal changes. I need to quickly identify the impact on genes and regulatory regions, as well as how common these variants are in the general population.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence",
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "frequency": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "clinvar": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 14,
+      "n_add_ons": 2,
+      "n_hard_gated": 25,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1842,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "explicit",
+        "persona": "clinician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I am reviewing human germline whole genome sequencing for a patient with suspected large-scale chromosomal changes. I need to quickly identify the impact on genes and regulatory regions, as well as how common these variants are in the general population.",
+        "For a human patient's germline genome sequencing, I need to see how large-scale deletions or duplications affect genes and regulatory regions, as well as how common these changes are in the general population.",
+        "I am analyzing large DNA deletions and duplications from a human patient cohort to see how they affect genes and nearby control regions, as well as check how common these changes are in the general population."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match_plus_extra"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies species (human), sample type (germline), data type (WGS), variant interest (large-scale chromosomal changes), and desired annotation features (gene/regulatory impact and population frequency)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 12,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+    "user_query": "I am working with whole exome sequencing data from a cohort of zebrafish tumor models where I have identified several somatic SNVs and small indels by comparing the tumor DNA to matched germline samples. My primary goal is to identify which of these mutations in the protein-coding regions are likely to be pathogenic, so I need a way to assess their potential impact on the amino acid sequence and overall protein function to help prioritize candidate driver mutations for further study.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "paralogues": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 11,
+      "n_add_ons": 6,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 1942,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "explicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am working with whole exome sequencing data from a cohort of zebrafish tumor models where I have identified several somatic SNVs and small indels by comparing the tumor DNA to matched germline samples. My primary goal is to identify which of these mutations in the protein-coding regions are likely to be pathogenic, so I need a way to assess their potential impact on the amino acid sequence and overall protein function to help prioritize candidate driver mutations for further study.",
+        "I am currently processing whole exome sequencing data from a mouse model of lung adenocarcinoma, focusing on identifying somatic SNVs and small indels found in tumor samples compared to matched normal tissue. As I am still learning how to properly configure annotation pipelines for non-human species, I want to make sure my workflow is optimized to accurately capture the functional impact of these variants within protein-coding regions. My ultimate goal is to perform a pathogenicity assessment to help identify potential driver mutations by evaluating how these changes alter amino acid properties and checking their allele frequency in the mouse population.",
+        "I am currently working with a dataset from a mouse model study where we performed whole exome sequencing on tumor tissues and matched normal samples to identify somatic mutations. I want to focus my analysis specifically on small variants, such as SNVs and indels, that occur within the protein-coding regions of the genome. My ultimate goal is to perform a pathogenicity assessment to determine which of these mutations might be driving the oncogenic phenotype, so I need to ensure that my annotation captures the most relevant functional consequences for each change. How should I configure my pipeline to best achieve this?"
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question provides the species (zebrafish), the data type (WES), the variant types (SNVs and indels), the context (somatic comparison), and the specific analytical goal (protein impact/pathogenicity)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 2,
+      "critical_recovered": [],
+      "critical_recall": 0.0,
+      "critical_recall_raw": 0.0,
+      "model_enabled": 0,
+      "degenerate_generation": true,
+      "flag_low_usefulness": false,
+      "flag_degenerate": true,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+    "user_query": "I have germline Mus musculus WES data; I need to identify protein-altering SNVs and indels in coding regions and assess their predicted functional pathogenicity.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding"
+      ],
+      "analysis_goal": [
+        "basic-consequence",
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "paralogues": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 11,
+      "n_add_ons": 6,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2042,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "short-search-query",
+        "premise": "explicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I have germline Mus musculus WES data; I need to identify protein-altering SNVs and indels in coding regions and assess their predicted functional pathogenicity.",
+        "Mouse germline WES, SNVs and indels; identifying protein-coding consequences and pathogenicity for a cohort study.",
+        "Mouse germline WES, SNVs/indels. Need quick protein-coding consequence call and pathogenicity assessment for functional annotation."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies species (Mus musculus), sample type (germline), data type (WES), variant types (SNVs and indels), and the analytical goal (pathogenicity assessment in coding regions)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 2,
+      "critical_recovered": [
+        "core_type",
+        "hgvs"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 10,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+    "user_query": "I am working with human somatic whole exome sequencing data from a series of tumor biopsies and have identified several structural variants and copy number alterations that I need to interpret. Since I am still learning the ropes of setting up my annotation pipeline, I was wondering how I should approach this if my primary goal is just to get a quick top-line call on which protein-coding genes are being disrupted or lost by these large genomic changes, without necessarily needing an exhaustive breakdown of every small-scale nucleotide change at this stage.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding"
+      ],
+      "analysis_goal": [
+        "basic-consequence"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 10,
+      "n_add_ons": 1,
+      "n_hard_gated": 26,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2142,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "explicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am working with human somatic whole exome sequencing data from a series of tumor biopsies and have identified several structural variants and copy number alterations that I need to interpret. Since I am still learning the ropes of setting up my annotation pipeline, I was wondering how I should approach this if my primary goal is just to get a quick top-line call on which protein-coding genes are being disrupted or lost by these large genomic changes, without necessarily needing an exhaustive breakdown of every small-scale nucleotide change at this stage.",
+        "I am starting to process some human somatic WES data from our ongoing cancer cohort, and I have identified several structural variants and copy number variations that I need to annotate. Since my immediate goal is just to get a quick, top-line assessment of how these large-scale genomic alterations are impacting protein-coding regions, I was wondering what the best way would be to set up my annotation run so that I can see the most important functional consequences without being overwhelmed by an exhaustive amount of extra information.",
+        "I\u2019m starting to process the results from our human tumor WES pipeline, and we\u2019ve identified a set of somatic structural variants and copy number alterations that I need to annotate. Since my primary goal is just to get a quick top-line assessment of whether these large-scale genomic changes are impacting protein-coding regions\u2014specifically looking for disruptions in MANE-seq transcripts or significant alterations to the coding sequence\u2014how should I approach the configuration to prioritize those functional consequences?"
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Provides species (human), sample type (somatic tumor biopsies), variant types (SVs and CNAs), and the specific analytical goal (identifying gene disruption/loss in coding regions)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 2,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 7,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+    "user_query": "I\u2019m working through some human tumour sequencing data where we're specifically looking for large-scale changes in the DNA structure, like deletions or duplications. A lot of these structural changes are landing in the regions outside of the actual genes, so I need a way to quickly figure out if these stretches of missing or extra DNA might be affecting how genes are turned on or off. It would also be really helpful to see how common these types of variations are in the general healthy population so I can better judge whether a finding looks like a potential driver for the cancer or just a common variation.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence",
+        "clinical-interpretation",
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "loeuf": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "pubmed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 13,
+      "n_add_ons": 4,
+      "n_hard_gated": 28,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2242,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "implicit",
+        "persona": "bioinformatician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I\u2019m working through some human tumour sequencing data where we're specifically looking for large-scale changes in the DNA structure, like deletions or duplications. A lot of these structural changes are landing in the regions outside of the actual genes, so I need a way to quickly figure out if these stretches of missing or extra DNA might be affecting how genes are turned on or off. It would also be really helpful to see how common these types of variations are in the general healthy population so I can better judge whether a finding looks like a potential driver for the cancer or just a common variation.",
+        "I'm currently processing some human tumor sequencing data and I've identified several large-scale genomic changes, like deletions and duplications, that are unique to the cancer cells. My main interest is looking at how these structural changes might be affecting the regions of the genome that don't code for proteins but instead control gene activity, such as enhancers or promoters. For this set of variants, I need a way to quickly determine what kind of impact these large shifts have on those regulatory areas, check if we see similar patterns happening in healthy people, and get an idea of how likely these changes are to be biologically significant for the tumor's development.",
+        "I am processing some human tumor sequencing data and have identified several large-scale changes where chunks of the genome are being deleted or duplicated. I want to focus my analysis on the regions outside of the actual genes, specifically those areas that act as switches to turn gene activity on or off, to see if these structural jumps are disrupting how nearby genes are controlled. I need a way to quickly understand the impact of these changes and decide if they look like significant drivers for the cancer or if they are just common variations we regularly see in healthy people."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies human species, tumor context, structural variants (deletions/duplications), and the focus on non-coding regulatory effects and population frequency comparison."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 5,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv",
+        "hgvs",
+        "regulatory"
+      ],
+      "critical_recall": 0.8,
+      "critical_recall_raw": 0.8,
+      "model_enabled": 8,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+    "user_query": "I am working on a new project involving whole genome sequencing data from a large cohort of wild-type *Mus musculus* and I am trying to figure out how to properly set up my annotation pipeline. We have identified many germline SNVs and small indels, but since my research focuses specifically on the impact of variants in non-coding and regulatory regions like enhancers, I am struggling with the configuration. My goal is just to get a quick top-line assessment of whether these small variants fall within functional non-coding elements or have predicted effects in those areas.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "hgvs": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 8,
+      "n_add_ons": 1,
+      "n_hard_gated": 33,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2342,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "explicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am working on a new project involving whole genome sequencing data from a large cohort of wild-type *Mus musculus* and I am trying to figure out how to properly set up my annotation pipeline. We have identified many germline SNVs and small indels, but since my research focuses specifically on the impact of variants in non-coding and regulatory regions like enhancers, I am struggling with the configuration. My goal is just to get a quick top-line assessment of whether these small variants fall within functional non-coding elements or have predicted effects in those areas.",
+        "I am working with a large set of germline SNVs and small indels identified from whole genome sequencing of a *Mus musculus* population. I have noticed that many of my variants are located in non-coding regions, such as enhancers and promoters, rather than within coding exons. Since I am just beginning this project, I want to perform a quick top-line assessment to see if these variants have any potential impact on the regulatory landscape or overlap with known epigenetic markers, without needing an exhaustive functional breakdown for every single site yet.",
+        "I am currently working with a dataset of germline SNVs and small indels identified via whole genome sequencing in a *Mus musculus* cohort used for a developmental study. Since I am still quite new to setting up these types of annotation pipelines, I was wondering how I should approach the configuration if my immediate goal is just a quick top-line assessment of the variants. Specifically, I want to be able to rapidly identify whether any of these calls overlap with important regulatory or non-coding regions, such as enhancers or promoters, rather than performing an exhaustive deep dive into every possible functional prediction."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies species (Mus musculus), data type (WGS), variant types (germline SNVs and indels), and the specific genomic focus (non-coding/regulatory regions). It describes an analysis setup rather than troubleshooting a failure."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 2,
+      "critical_recovered": [
+        "core_type",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 8,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+    "user_query": "I am analyzing human germline WGS data from a patient to assess the clinical pathogenicity of both coding and regulatory variants, including any identified structural changes, against population allele frequencies.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation",
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "frequency": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mane": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "loeuf": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "pubmed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 18,
+      "n_add_ons": 5,
+      "n_hard_gated": 25,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2442,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "explicit",
+        "persona": "clinician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am analyzing human germline WGS data from a patient to assess the clinical pathogenicity of both coding and regulatory variants, including any identified structural changes, against population allele frequencies.",
+        "I am evaluating human germline structural variants and CNVs from a clinical cohort to assess their impact on protein-coding and regulatory regions. I need to integrate population allele frequencies to aid in pathogenicity assessment for diagnostic reporting.",
+        "I am analyzing human germline WGS from a clinical cohort to interpret the pathogenicity of structural variants and CNVs. I need to evaluate their impact on both coding and regulatory elements alongside population allele frequency context."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies species (human), sample type/origin (germline WGS), variant types (coding, regulatory, and structural changes), and the analytical goal (pathogenicity assessment against population frequencies)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 6,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv",
+        "hgvs",
+        "mane",
+        "regulatory"
+      ],
+      "critical_recall": 0.8333333333333334,
+      "critical_recall_raw": 0.8333333333333334,
+      "model_enabled": 24,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+    "user_query": "I am analyzing somatic SNVs and indels from a zebrafish tumor sample. I want to assess the potential pathogenicity of these non-coding variants by evaluating their impact on regulatory elements or transcription factor binding sites.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 11,
+      "n_add_ons": 1,
+      "n_hard_gated": 33,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2542,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "implicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am analyzing somatic SNVs and indels from a zebrafish tumor sample. I want to assess the potential pathogenicity of these non-coding variants by evaluating their impact on regulatory elements or transcription factor binding sites.",
+        "I am analyzing somatic WGS data from a mouse tumor model and want to evaluate the pathogenicity of SNVs and indels located in regulatory regions.",
+        "I am analyzing somatic SNVs and small indels from a mouse tumor sample to assess whether mutations in regulatory regions are potentially pathogenic."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies the species (zebrafish), variant types (SNVs and indels), sample origin (somatic tumor), and the functional focus (non-coding regulatory elements)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "hgvs",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 8,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+    "user_query": "I am looking at some human tumor sequencing results and I have noticed several large sections of DNA that seem to be either extra or missing. I am especially interested in the areas that don't actually make proteins but instead act as control switches for genes, as I want to see if these big changes might be affecting how those genes work and contributing to the cancer. It is also really important for me to know how common these same types of variations are in healthy people so I can tell the difference between normal variation and something potentially dangerous. How should I configure my run to get all that info about the regulatory impact and the population background?",
+    "factor_labels": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation",
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "loeuf": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "pubmed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 13,
+      "n_add_ons": 4,
+      "n_hard_gated": 28,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2642,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "implicit",
+        "persona": "student",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I am looking at some human tumor sequencing results and I have noticed several large sections of DNA that seem to be either extra or missing. I am especially interested in the areas that don't actually make proteins but instead act as control switches for genes, as I want to see if these big changes might be affecting how those genes work and contributing to the cancer. It is also really important for me to know how common these same types of variations are in healthy people so I can tell the difference between normal variation and something potentially dangerous. How should I configure my run to get all that info about the regulatory impact and the population background?",
+        "I am currently analyzing some sequencing data from a patient\u2019s tumor, and I have found several instances where large pieces of the genome appear to be either missing or duplicated compared to their healthy tissue. I am trying to figure out if these big changes in the DNA, particularly those located in the areas that control how genes are turned on or off rather than just changing the actual genes themselves, might be driving the cancer development. It would also be really helpful to know if we can see if these specific types of genomic rearrangements are something seen frequently in healthy people or if they appear to be unique events found only in this tumor.",
+        "I am analyzing some human tumor sequencing data and have found several large-scale changes where chunks of DNA are being deleted or duplicated. I am specifically interested in whether these bigger structural changes are hitting the regulatory areas that act like switches for our genes, rather than just looking at parts that change protein sequences. My goal is to figure out if these changes might be driving the cancer by seeing how they impact those control regions and checking if these same types of mutations ever show up in healthy people as common variations. How should I set this up so I get all the right information about pathogenicity and how frequent these are in the general population?"
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies species (human), sample type (tumor), variant type (large sections extra/missing - CNVs/SVs), genomic region (non-coding/regulatory), and the need for population frequency data. This is sufficient to recommend specific plugins and annotation settings."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 5,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv",
+        "regulatory"
+      ],
+      "critical_recall": 0.6,
+      "critical_recall_raw": 0.6,
+      "model_enabled": 9,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+    "user_query": "I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several single-letter changes and small additions or deletions throughout the genome. For my preliminary report, I just need to quickly identify which of these variations actually alter the protein sequence or create an early stop signal within the coding regions.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding"
+      ],
+      "analysis_goal": [
+        "basic-consequence"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 8,
+      "n_add_ons": 4,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2742,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "verbose-natural",
+        "premise": "explicit",
+        "persona": "clinician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several single-letter changes and small additions or deletions throughout the genome. For my preliminary report, I just need to quickly identify which of these variations actually alter the protein sequence or create an early stop signal within the coding regions.",
+        "I am currently reviewing some exome sequencing data from a group of laboratory mice used in our study on developmental abnormalities to see if any inherited changes are driving the phenotype. I have identified several small changes, such as single letter swaps and very tiny additions or deletions in the DNA, and I need a way to quickly scan these to see which ones actually land in the areas that provide instructions for making proteins. At this stage, I just need a top-level summary of whether these changes might alter the protein blueprint itself so I can decide which variants are worth a much deeper investigation.",
+        "I am working on an analysis of a group of mice that show clear signs of a growth disorder, and we have finished whole genome sequencing for the entire cohort. I have found many single letter changes and small additions or deletions across the DNA, but I need to set up our software so it can quickly tell me which of these mutations actually change the protein-coding parts of the genome by altering the amino acid sequence. My immediate goal is just to get a quick summary of any hits that directly change the protein structure so I can prioritize which ones we should investigate further."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies the species (mice), the data type (exome sequencing), the variant types (SNVs and indels), and the specific analytical goal (identifying protein-altering/stop-gain variants in coding regions)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 1,
+      "critical_recovered": [
+        "core_type"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 11,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+    "user_query": "I have human somatic tumor WES/WGS data containing structural variants and CNVs. I want to identify protein-coding consequences, clinical pathogenicity, and population allele frequency context.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding"
+      ],
+      "analysis_goal": [
+        "basic-consequence",
+        "clinical-interpretation",
+        "population-frequency"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "mane": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "loeuf": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "pubmed": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 14,
+      "n_add_ons": 5,
+      "n_hard_gated": 26,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2842,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "short-search-query",
+        "premise": "explicit",
+        "persona": "bioinformatician",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I have human somatic tumor WES/WGS data containing structural variants and CNVs. I want to identify protein-coding consequences, clinical pathogenicity, and population allele frequency context.",
+        "Human somatic WES tumor cohort; assess functional consequences of SVs and CNVs in coding regions for clinical pathogenicity and population AF context.",
+        "Human somatic tumor WES; assess protein-coding consequences of SVs and CNVs alongside pathogenicity and population allele frequency context for clinical interpretation."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies species (human), sample type (somatic tumor WES/WGS), variant types (SV, CNV), and desired annotation outputs (coding consequences, pathogenicity, and allele frequency)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 5,
+      "critical_recovered": [
+        "clinvar",
+        "core_type",
+        "gnomad_sv",
+        "hgvs"
+      ],
+      "critical_recall": 0.8,
+      "critical_recall_raw": 0.8,
+      "model_enabled": 13,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+    "user_query": "I am analyzing genome sequencing from a mouse model to determine if any small spelling changes in protein-coding or gene control regions are likely causing the observed disease.",
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "clinical-interpretation"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "maxentscan": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "failed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "paralogues": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protein": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 14,
+      "n_add_ons": 6,
+      "n_hard_gated": 29,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 2942,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "implicit",
+        "persona": "clinician",
+        "terminology": "lay"
+      },
+      "candidates": [
+        "I am analyzing genome sequencing from a mouse model to determine if any small spelling changes in protein-coding or gene control regions are likely causing the observed disease.",
+        "I am analyzing small DNA changes from mouse germline sequencing to identify potential disease-causing mutations. I need to assess how these changes affect proteins and whether they land in important regulatory regions outside of the genes.",
+        "I am analyzing mouse exome sequencing results to identify single-letter changes or small insertions that could be causing this phenotype. I need to see how these variants affect protein sequences and nearby control regions to determine if they are likely to be disease-causing."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [
+        "factor_unrecoverable:origin(unknown)"
+      ],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "unknown",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "The question specifies the species (mouse), the variant type (SNVs/indels via 'small spelling changes'), and the genomic regions of interest (coding and regulatory/control regions)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "hgvs",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 12,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  },
+  {
+    "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+    "user_query": "I am analyzing human germline structural variants and CNVs from a WGS cohort and want to quickly identify the primary functional consequences across both protein-coding and regulatory regions.",
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+        "coding",
+        "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+        "basic-consequence"
+      ]
+    },
+    "use_case_category": null,
+    "confidence": "provisional",
+    "recommended_options": {
+      "appris": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "biotype": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "cell_type": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true,
+        "priority": "critical"
+      },
+      "dosage_sensitivity": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mirna": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "critical"
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "tsl": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      }
+    },
+    "add_on_options": {
+      "nmd": {
+        "value": true,
+        "priority": "optional"
+      }
+    },
+    "justification": null,
+    "_resolver": {
+      "n_enabled": 13,
+      "n_add_ons": 1,
+      "n_hard_gated": 25,
+      "checker_changes": [],
+      "arbitrary_conflicts": [],
+      "unsatisfiable_factors": [],
+      "add_ons_withheld": {},
+      "config_source": "PROVISIONAL priority_by_factor.json (drives-authored) \u2014 not mentor-validated"
+    },
+    "_query_gen": {
+      "teacher_model": "gemma4:26b",
+      "seed": 3042,
+      "temperature": 0.8,
+      "query_axes_cell": {
+        "phrasing": "concise-natural",
+        "premise": "explicit",
+        "persona": "student",
+        "terminology": "field-standard"
+      },
+      "candidates": [
+        "I am analyzing human germline structural variants and CNVs from a WGS cohort and want to quickly identify the primary functional consequences across both protein-coding and regulatory regions.",
+        "I am analyzing human germline structural variants and CNVs from a large cohort. I want to quickly determine if these changes impact protein-coding genes or disrupt regulatory elements in non-coding regions.",
+        "I am analyzing human germline structural variants from a WGS cohort. I want to quickly identify which CNVs impact protein-coding regions or disrupt regulatory elements."
+      ]
+    },
+    "_query_leaks_tools": [],
+    "_gates": {
+      "deterministic_pass": true,
+      "checks": {
+        "valid_ids": true,
+        "checker_clean": true,
+        "factor_match": true,
+        "not_duplicate": true
+      },
+      "flags": [],
+      "factor_checker_model": "gemma4:12b",
+      "factor_attempts_used": 1,
+      "factor_recovery": {
+        "species": "match",
+        "origin": "match",
+        "variant_size_class": "match",
+        "region_focus": "match",
+        "analysis_goal": "match"
+      },
+      "judge": {
+        "specificity": true,
+        "coherence": true,
+        "solvability": true,
+        "note": "Specifies species (human), variant types (SVs and CNVs), sample type (germline WGS), and the target genomic regions (protein-coding and regulatory)."
+      }
+    },
+    "_ice": {
+      "student": "gemma4:26b",
+      "seed": 42,
+      "n_critical": 3,
+      "critical_recovered": [
+        "core_type",
+        "gnomad_sv",
+        "regulatory"
+      ],
+      "critical_recall": 1.0,
+      "critical_recall_raw": 1.0,
+      "model_enabled": 7,
+      "degenerate_generation": false,
+      "flag_low_usefulness": false,
+      "flag_degenerate": false,
+      "void_query_names_tool": null
+    }
+  }
+]

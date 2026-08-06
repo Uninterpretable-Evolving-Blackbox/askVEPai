@@ -15,6 +15,11 @@ recommender that writes the configuration. Both reason before answering unless t
 default to NOT, because in each case it was measured to cost time and buy nothing:
   --think          reasoning on for the RECOMMENDER   (18.1s -> 34.9s per query, Exp 14)
   --factor-think   reasoning on for the CLASSIFIER    (0.97s -> 5.62s per query, Exp 15)
+
+When your question doesn't say something, the tool states what it assumed rather than deciding silently:
+  (default)   apply safe assumptions and say which ones
+  --assume    apply them and keep quiet (scripts and batch runs)
+  --ask       also prompt you about gaps where no assumption is safe
 """
 
 import json
@@ -38,13 +43,31 @@ BASE_DIR = Path(__file__).parent
 # Knowledge base loading
 # ---------------------------------------------------------------------------
 
+def _kb_path(env_var, work_relative, demo_filename):
+    """Resolve a knowledge-base file to ONE canonical location.
+
+    Order: an explicit env var, then the repo's `work/` copy, then the demo-local copy.
+
+    The point is that editing an option is a single-file change. The `work/` copy is the one that is
+    curated, provenance-tracked and reviewed, so it must be the one the shipped tool reads whenever it is
+    there — otherwise an edit to it silently fails to reach the CLI, which was the case until now.
+
+    The demo-local fallback is not redundancy for its own sake: `vep_ai_demo/` is publishable on its own,
+    without `work/` beside it, and has to keep working in that form. It is a fallback, never a second
+    file to maintain."""
+    if env_var and os.environ.get(env_var):
+        return Path(os.environ[env_var])
+    canonical = BASE_DIR.parent / work_relative
+    return canonical if canonical.exists() else BASE_DIR / demo_filename
+
+
 def load_knowledge_base():
     """Load VEP options and training examples from JSON files.
 
     Honours VEP_OPTIONS_FILE / VEP_EXAMPLES_FILE env vars so the same code can
     run on the demo KB (default) or the expanded catalogue + bootstrap set.
     """
-    options_path = Path(os.environ.get("VEP_OPTIONS_FILE", BASE_DIR / "vep_options.json"))
+    options_path = _kb_path("VEP_OPTIONS_FILE", "work/vep_options_expanded.json", "vep_options.json")
     examples_path = Path(os.environ.get("VEP_EXAMPLES_FILE", BASE_DIR / "training_examples.json"))
 
     if not options_path.exists():
@@ -89,16 +112,287 @@ def load_consequences():
 
 def load_factors():
     """The factor scheme (values, kinds, hard gates, exclusions, conditional rules)."""
-    path = Path(os.environ.get("VEP_FACTORS_FILE", BASE_DIR / "factors.json"))
+    path = _kb_path("VEP_FACTORS_FILE", "work/generation/generation_config/factors.json", "factors.json")
     with open(path) as f:
         return json.load(f)
 
 
-def load_priority_by_factor():
-    """The PROVISIONAL importance table, keyed option -> factor -> value -> priority."""
-    path = Path(os.environ.get("VEP_PRIORITY_FACTOR_FILE", BASE_DIR / "priority_by_factor.json"))
-    with open(path) as f:
-        return json.load(f)
+# --- The importance spec, and the table DERIVED from it ---------------------------------------------
+#
+# This lives in the engine rather than in the generation pipeline for the same reason `intent_priorities`
+# and the classifier prompt do: the shipped recommender and the pipeline must not be able to disagree
+# about what a scenario's priorities are. `work/generation/seed_priorities.py` imports it back out.
+#
+# WHY IT IS DERIVED AND NOT A MAINTAINED FILE. The table is a pure function of this spec and the option
+# catalogue, and computing all 58 options takes ~0.02 ms — there is no reason to precompute it. Keeping
+# it as a generated artifact meant four copies of it existed across two trees, kept in step by hand, with
+# nothing to notice when they drifted: edit the catalogue and forget to regenerate, and the shipped tool
+# silently ran an older table than every measurement was taken on. Deriving it removes that class of bug
+# rather than guarding against it, and reduces "how do I update an option?" to editing one file.
+#
+# A FILE STILL WINS IF PRESENT. That is the point of the override in load_priority_by_factor below: once
+# the mentor signs off a validated table, dropping it in takes precedence over this spec, and its mere
+# presence then means "a human authored this" instead of "a build step ran".
+RANK = {"critical": 3, "recommended": 2, "optional": 1, "not_applicable": 0}
+
+# Predictor tiering. READ THIS BEFORE CHANGING: **VEP itself ranks nothing.** vep_plugins_web_config.txt
+# is a flat `available => 1` map with no rank field, and the web form lists "Missense pathogenicity" as one
+# undifferentiated family. The core-vs-add-on split is OUR EDITORIAL JUDGEMENT, grounded in ACMG PP3/BP4 as
+# refined by ClinGen SVI (Pejaver et al. 2022) — a clinical-genetics standard EXTERNAL to VEP. Cite it as
+# ours; do not imply VEP prescribes it. The axis is METHOD INDEPENDENCE, read from each plugin's own
+# catalogue description: a distinct predictor forms its own call, a derivative one consumes other
+# predictors' scores and so double-counts them.
+PREDICTOR_DISTINCT = ["sift", "polyphen", "cadd", "alphamissense", "eve"]
+PREDICTOR_DERIVATIVE = ["revel", "clinpred", "dbnsfp"]
+# Splice tiering uses a DIFFERENT axis, honestly labelled: maxentscan and dbscsnv are self-contained models,
+# NOT derivative of SpliceAI, so method-independence does not separate them. The split is ADOPTION/RECENCY.
+SPLICE_CORE = ["spliceai"]                 # human only; species-gated below
+SPLICE_ADDON = ["maxentscan", "dbscsnv"]   # maxentscan is the ONLY all-species splice option
+# Missense predictors are INAPPLICABLE to non-coding variants, not merely less important: the catalogue
+# rates 9/10 regulatory_noncoding=not_applicable. CADD is the documented exception (it scores coding AND
+# non-coding) and is deliberately absent from this list.
+MISSENSE_ONLY = [p for p in PREDICTOR_DISTINCT + PREDICTOR_DERIVATIVE if p != "cadd"]
+REGION_GATE_NONCODING = MISSENSE_ONLY + ["mutfunc", "paralogues", "mane", "protein", "nmd"]
+
+# WHERE-vs-WHY discipline: taxonomy_proposal §3 split region_focus from analysis_goal precisely because a
+# single axis mixed *where* the variant acts with *why* you are annotating. So region_focus drives the
+# STRUCTURAL annotation of a locus and analysis_goal the INTERPRETIVE. Hanging the predictor cluster off
+# both re-mixed them and — since composition takes the max — made a coding+basic-consequence quick lookup
+# pull in the full predictor stack.
+DRIVES = {
+    "region_focus": {
+        "coding": {
+            # tsl/appris are web_default=on, so ranking them optional would recommend LESS than the form
+            # already gives. protein/nmd sit at optional in the catalogue's own columns.
+            "recommended": ["hgvs", "numbers", "cat:protein_annotation", "tsl", "appris"],
+            "optional": ["protein", "uniprot", "ccds", "nmd", "coding_only"],
+        },
+        "regulatory-noncoding": {
+            # The regulatory build IS the annotation a regulatory query asks for; without it the question
+            # is unanswerable, not merely under-served.
+            "critical": ["regulatory"],
+            "recommended": ["cell_type", "utrannotator", "enformer", "mirna"],
+            "not_applicable": REGION_GATE_NONCODING,
+        },
+    },
+    "analysis_goal": {
+        "basic-consequence": {"optional": ["most_severe", "hgvs"]},
+        "clinical-interpretation": {
+            "critical": ["clinvar", "hgvs", "mane"],
+            "recommended": PREDICTOR_DISTINCT + SPLICE_CORE + ["phenotypes"],
+            "optional": PREDICTOR_DERIVATIVE + SPLICE_ADDON + ["mastermind", "geno2mp", "loeuf",
+                                                              "dosage_sensitivity", "pubmed",
+                                                              "var_synonyms", "failed",
+                                                              "mutfunc", "paralogues"],
+        },
+        "population-frequency": {
+            "critical": ["af_gnomade", "af_gnomadg", "af", "af_1kg"],
+            "recommended": ["frequency"],
+            "optional": ["clinvar"],
+        },
+    },
+    "origin": {
+        # Origin modulates which co-located source matters; it does not independently add ClinVar.
+        # Composition is max-only, so listing clinvar here forced it into EVERY germline query.
+        "germline": {"recommended": ["check_existing"]},
+        "somatic": {"recommended": ["check_existing"], "not_applicable": ["frequency"]},
+    },
+    "variant_size_class": {
+        "structural-CNV": {"critical": ["gnomad_sv"], "recommended": ["dosage_sensitivity"]},
+    },
+    "species": {
+        # canonical is web_default=off and its own when_not_to_use prefers MANE for human clinical work.
+        # Its documented job is the primary-transcript fallback where MANE is unavailable.
+        "non-human": {"recommended": ["canonical"]},
+    },
+}
+
+# Unconditional floor, under EVERY analysis_goal value. Deliberately small. NOTE anything here can never be
+# `optional` anywhere, because put() is strongest-wins — which is why hgvs/mane/canonical live in DRIVES.
+BASELINE_CRITICAL = ["core_type"]
+BASELINE_RECOMMENDED = ["symbol", "biotype"]
+
+SIZE_GATE_SOURCE = "catalogue priority_by_use_case['structural_variants'] == 'not_applicable'"
+
+
+def validate_priority_blocks(vep_options, factors_cfg=None):
+    """Problems in the catalogue's own `priority_by_factor` blocks, as a list of human-readable strings.
+
+    This exists because that field is the one a maintainer or reviewer edits by hand, and every kind of
+    typo in it used to fail SILENTLY: a misspelt label was dropped, and a misspelt factor or value was
+    stored under a key nothing ever reads. The entry looked accepted and did nothing. A configuration
+    file that cannot tell you it is wrong is worse than no configuration file.
+
+    Returns [] when clean. `verify_pipeline.py` asserts that; the engine warns and carries on, because a
+    maintainer's typo should not take a user's session down with it."""
+    problems = []
+    if factors_cfg is None:
+        try:
+            factors_cfg = load_factors()
+        except Exception:
+            factors_cfg = None
+    known = {f: set(spec.get("values", [])) for f, spec in (factors_cfg or {}).get("factors", {}).items()}
+    for o in vep_options:
+        block = o.get("priority_by_factor")
+        if block is None:
+            continue
+        if not isinstance(block, dict):
+            problems.append(f"{o['id']}: priority_by_factor must be an object, got {type(block).__name__}")
+            continue
+        for factor, valmap in block.items():
+            if known and factor not in known:
+                problems.append(f"{o['id']}: unknown factor {factor!r} "
+                                f"(expected one of {', '.join(sorted(known))})")
+                continue
+            if not isinstance(valmap, dict):
+                problems.append(f"{o['id']}.{factor}: expected an object of value -> priority")
+                continue
+            for value, label in valmap.items():
+                if known and value not in known.get(factor, set()):
+                    problems.append(f"{o['id']}.{factor}: unknown value {value!r} "
+                                    f"(expected one of {', '.join(sorted(known[factor]))})")
+                if label not in RANK:
+                    problems.append(f"{o['id']}.{factor}.{value}: unknown priority {label!r} "
+                                    f"(expected one of {', '.join(RANK)})")
+    return problems
+
+
+_PRIORITY_BLOCK_WARNED = False
+
+
+def _expand_tokens(tokens, by_cat):
+    """A DRIVES token is a bare option id, or `cat:<category>` meaning every option in that category."""
+    ids = []
+    for t in tokens:
+        ids.extend(by_cat[t[4:]] if t.startswith("cat:") else [t])
+    return ids
+
+
+def build_priority_table(vep_options):
+    """Derive the importance table from DRIVES + this catalogue. Pure function, sub-millisecond."""
+    from collections import defaultdict
+    global _PRIORITY_BLOCK_WARNED
+    # Only pay for validation when something actually uses the field: it loads factors.json to check
+    # names, which doubled the derivation cost for the (currently universal) case of no blocks at all.
+    problems = (validate_priority_blocks(vep_options)
+                if any(o.get("priority_by_factor") for o in vep_options) else [])
+    if problems and not _PRIORITY_BLOCK_WARNED:
+        _PRIORITY_BLOCK_WARNED = True
+        print("\n  Note: problems in the catalogue's priority_by_factor entries — these are IGNORED:")
+        for p in problems[:8]:
+            print(f"    - {p}")
+        if len(problems) > 8:
+            print(f"    ... and {len(problems) - 8} more")
+        print()
+    ids = {o["id"] for o in vep_options}
+    by_cat = defaultdict(list)
+    for o in vep_options:
+        by_cat[o.get("category", "?")].append(o["id"])
+    # sorted() so the table (and any dump of it) is byte-identical run to run: `ids` is a set and set
+    # iteration order depends on PYTHONHASHSEED.
+    priorities = {oid: defaultdict(dict) for oid in sorted(ids)}
+
+    def put(oid, factor, value, label):
+        if oid not in priorities:
+            return
+        cur = priorities[oid][factor].get(value)
+        if cur is None or RANK[label] > RANK[cur]:      # strongest wins; not_applicable only if nothing else
+            priorities[oid][factor][value] = label
+
+    for factor, valmap in DRIVES.items():                                   # (1) the hand-authored spec
+        for value, prio_tokens in valmap.items():
+            for label, tokens in prio_tokens.items():
+                for oid in _expand_tokens(tokens, by_cat):
+                    put(oid, factor, value, label)
+    # (1b) PER-OPTION priorities carried by the catalogue entry itself, in the shape taxonomy_proposal §5
+    # specifies:  "priority_by_factor": {"analysis_goal": {"clinical-interpretation": "optional"}}
+    #
+    # This is what makes adding an option a SINGLE-FILE edit. DRIVES above is authored the other way
+    # round — per factor value, listing the options that value drives — which is how a domain expert
+    # thinks about a scenario, but it means a new catalogue entry is inert until someone also edits
+    # Python: it parses, validates and routes correctly, and is then never recommended in any scenario.
+    # Both views compose through the same strongest-wins put(), so an option may be priced either way,
+    # or both. Nothing here needs migrating; DRIVES simply shrinks as entries move into the catalogue.
+    for o in vep_options:
+        for factor, valmap in (o.get("priority_by_factor") or {}).items():
+            for value, label in valmap.items():
+                put(o["id"], factor, value, label)
+    for value in ("basic-consequence", "clinical-interpretation", "population-frequency"):   # (2) the floor
+        for oid in BASELINE_CRITICAL:
+            put(oid, "analysis_goal", value, "critical")
+        for oid in BASELINE_RECOMMENDED:
+            put(oid, "analysis_goal", value, "recommended")
+    # (3) species gate: human-only options, plus NARROW "human + <one species> only" sets (var_synonyms =
+    # human+pig, ccds = human+mouse). The species factor is binary and cannot say "pig but not mouse", so a
+    # generic non-human query cannot be guaranteed to match — gate them. Binary-granularity limitation.
+    narrow_nonhuman = re.compile(r"human\s*\+\s*\w+.*only", re.IGNORECASE)
+    for o in vep_options:
+        restr = o.get("species_restriction", "all species")
+        if _is_human_only(restr) or narrow_nonhuman.search(restr or ""):
+            put(o["id"], "species", "non-human", "not_applicable")
+    for o in vep_options:                                                   # (4) size gate, from the KB
+        if o.get("priority_by_use_case", {}).get("structural_variants") == "not_applicable":
+            put(o["id"], "variant_size_class", "structural-CNV", "not_applicable")
+
+    return {
+        # Recorded so a table DUMPED to disk can later be detected as stale against a moved catalogue.
+        # A table derived in memory is current by construction and this always matches.
+        "_catalogue_sha256": catalogue_fingerprint(vep_options),
+        "_status": ("PROVISIONAL — derived from the DRIVES spec in vep_assistant.py and this catalogue. "
+                    "NOT mentor-validated. A validated table dropped in as priority_by_factor.json "
+                    "overrides this derivation; no code changes are needed."),
+        "_authoring": {
+            "drives": DRIVES,
+            "baseline_critical": BASELINE_CRITICAL,
+            "baseline_recommended": BASELINE_RECOMMENDED,
+            "predictor_tiers": {
+                "_basis_missense": ("METHOD INDEPENDENCE (distinct vs derivative): a distinct predictor "
+                                    "forms its own call; a derivative one (REVEL/ClinPred/dbNSFP) consumes "
+                                    "other predictors' scores, so it double-counts them. Per ACMG PP3/BP4 / "
+                                    "ClinGen SVI (Pejaver et al. 2022)."),
+                "_basis_splice": ("ADOPTION/RECENCY, not independence: MaxEntScan and dbscSNV are "
+                                  "independent models, NOT derivative of SpliceAI. SpliceAI is the current "
+                                  "community default; the older tools are kept as add-ons."),
+                "_caveat": ("VEP itself ranks NONE of these — both splits are our editorial judgement on "
+                            "standards external to VEP. This is the 'essential vs optional' call the mentor "
+                            "was asked to adjudicate."),
+                "distinct": PREDICTOR_DISTINCT, "derivative": PREDICTOR_DERIVATIVE,
+                "splice_core": SPLICE_CORE, "splice_addon": SPLICE_ADDON,
+            },
+            "species_gate": ("not_applicable for non-human where _is_human_only(species_restriction), OR "
+                             "where the restriction is a narrow 'human + <one species> only' set that the "
+                             "binary species factor cannot guarantee matches the query's species "
+                             "(var_synonyms=human+pig, ccds=human+mouse)"),
+            "size_gate": SIZE_GATE_SOURCE,
+            "region_gate": {"value": "regulatory-noncoding", "not_applicable": REGION_GATE_NONCODING,
+                            "_amends": ("taxonomy_proposal §3 calls region_focus 'purely soft'; the "
+                                        "catalogue rates 9/10 missense predictors regulatory_noncoding="
+                                        "not_applicable and constraints_dossier.md:123 prescribes a "
+                                        "recommender gate. Proposed amendment — needs mentor sign-off.")},
+        },
+        "priorities": {oid: dict(fac) for oid, fac in priorities.items()},
+    }
+
+
+def load_priority_by_factor(vep_options=None):
+    """The importance table: a file if one is present, otherwise derived from the catalogue.
+
+    THE FILE IS AN OVERRIDE, NOT THE SOURCE. Deriving by default means updating an option is a single
+    edit to the catalogue — there is no generated artifact to regenerate, no second copy to keep in step,
+    and nothing that can silently go stale. A `priority_by_factor.json` on disk still wins, which is how a
+    mentor-validated table is adopted: drop it in and it takes precedence over the spec.
+    """
+    path = _kb_path("VEP_PRIORITY_FACTOR_FILE",
+                    "work/generation/generation_config/priority_by_factor.json",
+                    "priority_by_factor.json")
+    if path.exists():
+        with open(path) as f:
+            return json.load(f)
+    if vep_options is None:
+        opts_path = _kb_path("VEP_OPTIONS_FILE", "work/vep_options_expanded.json", "vep_options.json")
+        with open(opts_path) as f:
+            vep_options = json.load(f)
+    return build_priority_table(vep_options)
 
 
 PRIORITY_ORDER = {"critical": 3, "recommended": 2, "optional": 1}
@@ -335,7 +629,7 @@ def _factor_think_setting():
     return v in ("1", "on", "true", "yes")
 
 
-def infer_factors(client, model, user_query, think=False):
+def infer_factors(client, model, user_query, think=False, apply_defaults=True):
     """Classify a free-text query into a factor tuple, or None if the classifier fails.
 
     SPECIES is taken from infer_species(), not from the classifier: species is the hard safety gate
@@ -367,6 +661,12 @@ def infer_factors(client, model, user_query, think=False):
 
     `think=None` restores the original compat path byte-identical (also via VEP_FACTOR_THINK=compat),
     so the pre-change behaviour stays reachable for anyone who needs to reproduce an older run.
+
+    `apply_defaults=False` returns what the model actually said, WITHOUT rewriting an empty
+    `analysis_goal` to ['basic-consequence']. That rewrite is the narrowest possible reading of silence
+    and it was invisible: 21 of 31 review rows would lose options to it, up to 14. Callers that want to
+    tell "the user asked for a basic consequence call" apart from "the user said nothing" — which is what
+    clarification_plan() needs — must pass False. Default stays True so existing callers are unchanged.
 
     Runs on VEP_FACTOR_MODEL if set, otherwise on the SAME model as the recommendation. Defaulting to
     a second, smaller model would be faster — this is a ~60-token fixed-schema classification, so the
@@ -400,9 +700,197 @@ def infer_factors(client, model, user_query, think=False):
         return None
 
     rec["species"] = "non-human" if infer_species(user_query) not in ("human", "unknown") else "human"
-    if not rec.get("analysis_goal"):
+    if apply_defaults and not rec.get("analysis_goal"):
         rec["analysis_goal"] = ["basic-consequence"]
     return rec
+
+
+# --- What to do when the question simply doesn't say -------------------------------------------------
+#
+# A factor the question never mentions contributes NOTHING, so every option it would have supplied
+# disappears silently. Measured over the 31 review rows, mean options lost when one factor is blanked:
+# origin 1.0, variant_size_class 1.0, region_focus 4.4, analysis_goal 5.4 (worst row 17). Over 20 REAL
+# forum questions, 18/20 leave at least one factor open that changes the configuration — the generated
+# rows never show this because Stage 3 wrote them to express their tuple (all 31 are fully specified).
+#
+# A default is only safe where one answer is rarely harmful, which is not everywhere:
+#   origin              guessing germline on a tumour sample can switch ON the common-variant filter,
+#                       which DISCARDS the user's variants. An option-count measure ranks by quantity and
+#                       is blind to this, so it must not decide on its own what is safe to assume.
+#   variant_size_class  `select: single` — there is no "both" to assume, and review row 1 is a real query
+#                       naming both. A default cannot repair a vocabulary limitation.
+#   analysis_goal       no safe middle: assume narrow (what the code did) and a clinical question loses
+#                       ClinVar and every predictor; assume broad and a quick lookup returns thirty
+#                       options. Today's narrow default was also invisible, which is the worse half.
+# See research/underspecification_proposal.md for the measurements and the cases in full.
+UNDERSPECIFIED_POLICY = {
+    "region_focus": {
+        "assume": ["coding", "regulatory-noncoding"],
+        "why": "you didn't say which regions matter, so both are covered",
+    },
+    # FAIL-CLOSED, and measured: leaving this open is NOT the safe choice, which was the first guess.
+    # The `somatic => frequency not_applicable` hard rule fires only when origin is EXPLICITLY somatic, so
+    # an unstated origin lets the common-variant pre-filter through on 6 of the 15 somatic review rows --
+    # identical harm to guessing germline. Guessing SOMATIC enables a suppressing option on 0 of the 16
+    # germline rows, so it is strictly the safe direction. germline and somatic differ in the table by
+    # this one rule (both merely recommend check_existing), so assuming somatic costs a germline user one
+    # optional pre-filter and costs a somatic user nothing. Same shape as infer_species being fail-closed:
+    # the dangerous value is only adopted when positively indicated.
+    "origin": {
+        "assume": "somatic",
+        "why": "you didn't say germline or somatic, so the safer reading is taken — it keeps the "
+               "common-variant filter off, which would otherwise discard real tumour variants. "
+               "Say 'germline' if these are inherited variants",
+    },
+    "variant_size_class": {
+        "assume": None,
+        "why": "you didn't say small variants or structural/CNV — left open; the two need different tools",
+    },
+    "analysis_goal": {
+        "assume": ["basic-consequence"],
+        "why": "read as a quick consequence call — say so if you are assessing pathogenicity or need "
+               "population frequencies",
+    },
+}
+
+
+def _enabled_for(factor_tuple, vep_options):
+    """The options a tuple switches on, or None if the priority config can't be loaded."""
+    resolved = resolve_for_query(factor_tuple, vep_options)
+    if not resolved:
+        return None
+    return {oid for oid, (en, _, _) in resolved.items() if en}
+
+
+def factor_impact(factor, factor_tuple, vep_options):
+    """How much the configuration would move if this factor were answered — the largest difference
+    between any two candidate answers. THE DECISION TO ASK IS DETERMINISTIC, not a model judgement:
+    a factor whose answer changes nothing is not worth a question, whatever the classifier felt about it.
+    On the 20 real queries this suppressed all 16 `origin` questions; asking on model uncertainty alone
+    would have raised 52 questions, 16 of them about the factor that matters least."""
+    try:
+        values = load_factors()["factors"][factor]["values"]
+    except Exception:
+        return 0
+    configs = []
+    for v in values:
+        t = dict(factor_tuple)
+        t[factor] = [v] if factor in MULTI_FACTORS else v
+        c = _enabled_for(t, vep_options)
+        if c is not None:
+            configs.append(c)
+    if factor in MULTI_FACTORS:
+        t = dict(factor_tuple); t[factor] = list(values)
+        c = _enabled_for(t, vep_options)
+        if c is not None:
+            configs.append(c)
+    return max((len(a ^ b) for i, a in enumerate(configs) for b in configs[i + 1:]), default=0)
+
+
+def clarification_plan(rec, vep_options, ask_threshold=3):
+    """Given the RAW classification (apply_defaults=False), decide per open factor: assume, or ask.
+
+    Returns (filled_tuple, assumptions, questions). `assumptions` are stated to the user rather than
+    hidden — the point of this whole mechanism is that the tool stops making invisible choices."""
+    rec = dict(rec)
+    assumptions, questions = [], []
+    for f in FACTOR_VALUES:
+        if f == "species":                       # deterministic and fail-closed already
+            continue
+        v = rec.get(f)
+        answered = bool(v) if f in MULTI_FACTORS else (v not in (None, "unstated"))
+        if answered:
+            continue
+        policy = UNDERSPECIFIED_POLICY.get(f, {})
+        if policy.get("assume") is not None:
+            rec[f] = list(policy["assume"]) if f in MULTI_FACTORS else policy["assume"]
+            assumptions.append((f, rec[f], policy["why"]))
+        else:
+            questions.append((f, policy.get("why", ""), None))
+    # Impact is scored against the tuple AFTER assumptions, so the question reflects what is still open.
+    scored = [(f, why, factor_impact(f, rec, vep_options)) for f, why, _ in questions]
+    return rec, assumptions, [q for q in scored if q[2] >= ask_threshold]
+
+
+_FACTOR_PROMPTS = {
+    "origin": "Are these variants germline (inherited) or somatic (tumour)?",
+    "variant_size_class": "Are these small variants (SNVs/indels) or structural changes (SVs/CNVs)?",
+    "region_focus": "Do you care about protein-coding regions, regulatory/non-coding, or both?",
+    "analysis_goal": "What are you after — a quick consequence call, clinical interpretation, "
+                     "or population frequencies?",
+}
+
+
+def _ask_factor(factor):
+    """Put one question to the user. Returns the chosen value, or None to leave it open.
+
+    Leaving it open must always be possible and must always be the no-effort answer: a user who does not
+    know is exactly the user this is for, and forcing a guess out of them is worse than assuming nothing.
+    Any non-interactive context (piped stdin, no tty) answers None, so a script never blocks."""
+    try:
+        values = load_factors()["factors"][factor]["values"]
+    except Exception:
+        return None
+    if not sys.stdin.isatty():
+        return None
+    print(f"\n  {_FACTOR_PROMPTS.get(factor, factor)}")
+    for i, v in enumerate(values, 1):
+        print(f"    {i}) {v}")
+    if factor in MULTI_FACTORS:
+        print(f"    {len(values) + 1}) both")
+    print("    (enter to skip — it will be left open)")
+    try:
+        raw = input("  > ").strip()
+    except (EOFError, KeyboardInterrupt):
+        print()
+        return None
+    if not raw:
+        return None
+    if raw.isdigit():
+        n = int(raw)
+        if factor in MULTI_FACTORS and n == len(values) + 1:
+            return list(values)
+        if 1 <= n <= len(values):
+            return [values[n - 1]] if factor in MULTI_FACTORS else values[n - 1]
+    match = [v for v in values if v.lower().startswith(raw.lower())]
+    if len(match) == 1:
+        return [match[0]] if factor in MULTI_FACTORS else match[0]
+    return None
+
+
+def resolve_underspecified(rec, vep_options, mode="state"):
+    """Fill what the question left open, per `mode`, and return the tuple to build the config from.
+
+      "assume"  apply the safe defaults, say nothing   (scripts, batch, the eval harness)
+      "state"   apply them and SAY SO                  (default)
+      "ask"     additionally re-prompt where no default is safe and the answer moves the config
+
+    The default is "state" rather than "ask" because 18 of 20 real forum questions leave something open:
+    a tool that interrogates 90% of its users is worse than one that explains itself. Asking is opt-in.
+    """
+    filled, assumptions, questions = clarification_plan(rec, vep_options)
+
+    if mode == "ask":
+        for factor, _why, _delta in questions:
+            answer = _ask_factor(factor)
+            if answer is not None:
+                filled[factor] = answer
+        questions = [q for q in questions if (not filled.get(q[0]))
+                     or filled.get(q[0]) in (None, "unstated")]
+
+    if mode != "assume" and (assumptions or questions):
+        print()
+        for factor, value, why in assumptions:
+            shown = ", ".join(value) if isinstance(value, list) else value
+            print(f"  Assumed {factor} = {shown} — {why}.")
+        for factor, why, delta in questions:
+            print(f"  Left open: {why} (would change ~{delta} options; --ask to be prompted).")
+
+    # analysis_goal must carry a value for the priorities to resolve at all; the policy above already
+    # supplies the baseline goal, and the assumption line above is what stops that being invisible.
+    if not filled.get("analysis_goal"):
+        filled["analysis_goal"] = ["basic-consequence"]
+    return filled
 
 
 def describe_factors(factor_tuple):
@@ -1254,6 +1742,35 @@ def priority_table_covers(vep_options, table):
     return {o["id"] for o in vep_options} - set(table.get("priorities", {}))
 
 
+def catalogue_fingerprint(vep_options):
+    """Content hash of a catalogue. Canonical JSON rather than file bytes, so reformatting the file
+    (indentation, key order) does not read as a change while an actual edit always does."""
+    import hashlib
+    return hashlib.sha256(json.dumps(vep_options, sort_keys=True).encode()).hexdigest()
+
+
+def priority_table_is_stale(table, vep_options):
+    """True if this table was built from a DIFFERENT catalogue than the one now loaded.
+
+    Only meaningful for a table loaded from FILE — a derived one is current by construction. It matters
+    because the file is an override that beats the derivation: a hand-authored table left in place while
+    the catalogue moves on would otherwise win silently and forever.
+
+    priority_table_covers() cannot catch this. It only notices ids the table has never heard of, so a
+    catalogue that changed a species restriction or moved an option between categories keeps every id,
+    passes that check, and ships wrong tiers with no warning.
+
+    A table without the fingerprint field returns False rather than crying wolf — that includes every
+    table written before this existed."""
+    want = table.get("_catalogue_sha256")
+    if not want:
+        return False
+    try:
+        return catalogue_fingerprint(vep_options) != want
+    except Exception:
+        return False
+
+
 def resolve_for_query(factor_tuple, vep_options):
     """`intent_priorities()` for a factor tuple, or None if the tuple or the config is unusable.
 
@@ -1263,7 +1780,17 @@ def resolve_for_query(factor_tuple, vep_options):
     if not factor_tuple:
         return None
     try:
-        table = load_priority_by_factor()
+        table = load_priority_by_factor(vep_options)
+        if priority_table_is_stale(table, vep_options):
+            # Fall back to deriving rather than disabling tiers: a correct table is always available, so
+            # the stale file is the only thing that needs dropping. Say so — silently ignoring a
+            # hand-authored table would be its own trap.
+            if not _PRIORITY_MISMATCH_WARNED:
+                _PRIORITY_MISMATCH_WARNED = True
+                print("\n  Note: the priority table on disk was built from a different version of this "
+                      "option catalogue.\n  Using the priorities derived from the current catalogue "
+                      "instead.\n  Refresh the file with: python work/generation/seed_priorities.py\n")
+            table = build_priority_table(vep_options)
         missing = priority_table_covers(vep_options, table)
         if missing:
             if not _PRIORITY_MISMATCH_WARNED:
@@ -2302,7 +2829,7 @@ def stream_response(client, model, system_prompt, user_message, think=None):
 
 def run_recommend(client, model, vep_options, training_examples, user_query,
                    explain=False, skip_check=False, retrieval_mode="keyword", level="standard",
-                   think=False, factor_think=False):
+                   think=False, factor_think=False, clarify="state"):
     """Run the recommendation mode (default).
 
     Args:
@@ -2326,10 +2853,11 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     # VEP_FACTOR_THINK=1 and the difference is on screen, no harness needed.
     print("Reading the scenario…", end="", flush=True)
     t_classify = time.perf_counter()
-    factor_tuple = infer_factors(client, model, user_query, think=factor_think)
+    factor_tuple = infer_factors(client, model, user_query, think=factor_think, apply_defaults=False)
     t_classify = time.perf_counter() - t_classify
     print(f" {t_classify:.1f}s")
     if factor_tuple:
+        factor_tuple = resolve_underspecified(factor_tuple, vep_options, clarify)
         print("Detected scenario:")
         print(describe_factors(factor_tuple))
         print()
@@ -2463,7 +2991,7 @@ def main():
 
     # --- Mode: recommend (with optional --explain, --no-check, --semantic) ---
     known_flags = ("--explain", "--no-check", "--semantic", "--minimal", "--full", "--think",
-                   "--factor-think")
+                   "--factor-think", "--assume", "--ask")
 
     # A mistyped flag used to fall through into the query text: `--minmal "mouse variants"` asked the
     # model about "--minmal mouse variants" and quietly ran at the default level. Reject anything
@@ -2482,6 +3010,12 @@ def main():
     # VEP_FACTOR_THINK env var, which exists for the harness and the web app.
     think = False if "--think" not in args else None
     factor_think = True if "--factor-think" in args else False
+    # What to do about anything the question did not say. Default states its assumptions;
+    # --assume keeps quiet (scripts); --ask re-prompts where no assumption is safe.
+    if "--assume" in args and "--ask" in args:
+        print("--assume and --ask ask for opposite things; pick one.")
+        sys.exit(2)
+    clarify = "assume" if "--assume" in args else "ask" if "--ask" in args else "state"
     explain = "--explain" in args
     skip_check = "--no-check" in args
     semantic = "--semantic" in args
@@ -2514,7 +3048,7 @@ def main():
     run_recommend(client, model, vep_options, training_examples, user_query,
                   explain=explain, skip_check=skip_check,
                   retrieval_mode=retrieval_mode, level=level, think=think,
-                  factor_think=factor_think)
+                  factor_think=factor_think, clarify=clarify)
 
 
 if __name__ == "__main__":

@@ -55,6 +55,13 @@ def main():
     check("all 58 catalogue options present in priority table",
           set(pbf["priorities"]) == ids, f"{len(pbf['priorities'])} vs {len(ids)}")
     check("priority table self-labels PROVISIONAL", "PROVISIONAL" in pbf.get("_status", ""))
+    # The catalogue's own priority_by_factor blocks are the one part of the config a maintainer edits by
+    # hand to make a new option recommendable. Every typo in them used to be silently ignored, so this
+    # asserts they are well-formed rather than merely present.
+    _pb = va.validate_priority_blocks(cat, factors)
+    check("catalogue priority_by_factor blocks are all well-formed",
+          not _pb, "; ".join(_pb) if _pb else "0 problems")
+
 
     print("\n== 2. Resolver: zero-mutation invariant (8 sampled tuples) ==")
     tuples, _ = sf.sample(8, factors, seed=42)

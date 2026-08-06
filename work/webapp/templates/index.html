@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ask VEPai</title>
+<style>
+  :root{
+    --bg:#fbfcfd; --panel:#ffffff; --ink:#16242b; --muted:#6b7d86;
+    --line:#e6ecef; --accent:#0b8276; --accent-soft:#e6f3f0;
+    --enable:#0f9d6e; --disable:#c2483b; --warn:#b7791f; --warn-soft:#fdf6e8;
+    --chip:#eef3f5; --radius:14px; --code:#0d2b33;
+    --shadow:0 1px 2px rgba(16,40,48,.04),0 8px 24px rgba(16,40,48,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0e1416; --panel:#141d20; --ink:#e7eef0; --muted:#93a4ab;
+      --line:#232f33; --accent:#3fb9a7; --accent-soft:#15302c; --chip:#1c282c;
+      --warn-soft:#2a2110; --code:#0a1417; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  a{color:var(--accent)}
+  .wrap{max-width:980px;margin:0 auto;padding:28px 20px 80px}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+  header h1{font-size:22px;letter-spacing:-.2px;margin:0;font-weight:680}
+  header .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:8px;vertical-align:middle}
+  header .sub{color:var(--muted);font-size:13px}
+  .status-pill{margin-left:auto;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .status-pill .led{width:8px;height:8px;border-radius:50%;background:#c9d3d7}
+  .status-pill.ok .led{background:var(--enable)}
+  .status-pill.bad .led{background:var(--disable)}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:18px;margin-top:16px}
+  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+    margin:0 0 12px;font-weight:650;display:flex;align-items:center;gap:8px}
+  .card h2 .count{background:var(--chip);color:var(--muted);border-radius:20px;padding:1px 9px;font-size:11px;letter-spacing:0}
+
+  /* ---- info icon + tooltip ---- */
+  .info{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;
+    border-radius:50%;border:1px solid var(--line);color:var(--muted);font-size:10.5px;font-weight:700;
+    font-style:normal;cursor:pointer;flex:none;user-select:none;line-height:1;transition:.12s;
+    font-family:Georgia,"Times New Roman",serif}
+  .info:hover{color:var(--accent);border-color:var(--accent)}
+  .info:focus{outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+  .info.open{color:#fff;background:var(--accent);border-color:var(--accent)}
+  #tip{position:fixed;z-index:1000;max-width:300px;background:var(--ink);color:var(--bg);
+    padding:10px 13px;border-radius:10px;font-size:12.5px;line-height:1.5;font-weight:400;
+    box-shadow:0 8px 30px rgba(0,0,0,.28);pointer-events:none;display:none;white-space:pre-line;letter-spacing:0;text-transform:none}
+  #tip b{color:var(--bg);font-weight:700}
+
+  /* ---- composer ---- */
+  .mode-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .mode-help{color:var(--muted);font-size:13px;margin:11px 2px 14px}
+  textarea{width:100%;border:1px solid var(--line);background:transparent;color:var(--ink);
+    border-radius:12px;padding:14px;font:inherit;resize:vertical;min-height:84px;outline:none}
+  textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .hint{color:var(--muted);font-size:12px;margin-top:7px}
+
+  .settings{margin-top:14px;padding:16px 18px;background:var(--bg);border:1px solid var(--line);
+    border-radius:12px;display:grid;grid-template-columns:1fr 1fr;gap:18px 26px}
+  @media (max-width:640px){.settings{grid-template-columns:1fr}}
+  .grp{display:flex;flex-direction:column;gap:9px;min-width:0}
+  .glabel{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+    font-weight:650;display:inline-flex;align-items:center;gap:6px}
+  .grp .seg{align-self:flex-start}
+  .toggles{display:flex;flex-direction:column;gap:11px}
+  .toggle-wrap{display:inline-flex;align-items:center;gap:8px}
+
+  .seg{display:inline-flex;background:var(--chip);border-radius:10px;padding:3px;max-width:100%}
+  .seg button{border:0;background:transparent;color:var(--muted);padding:6px 13px;border-radius:8px;
+    font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+  .seg button.on{background:var(--panel);color:var(--ink);box-shadow:var(--shadow)}
+  .seg button:disabled{opacity:.45;cursor:not-allowed}
+  .toggle{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink);cursor:pointer;user-select:none}
+  .toggle input{appearance:none;width:34px;height:20px;background:var(--chip);border:1px solid var(--line);
+    border-radius:20px;position:relative;cursor:pointer;transition:.15s;flex:none}
+  .toggle input:checked{background:var(--accent);border-color:var(--accent)}
+  .toggle input::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:50%;transition:.15s}
+  .toggle input:checked::after{left:16px}
+  select{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:9px;
+    padding:7px 9px;font:inherit;font-size:13px;min-width:150px}
+
+  .run-row{display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-top:16px}
+  .run{background:var(--accent);color:#fff;border:0;border-radius:11px;padding:11px 28px;font:inherit;
+    font-weight:640;font-size:15px;cursor:pointer;display:inline-flex;gap:9px;align-items:center}
+  .run:disabled{opacity:.55;cursor:default}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:var(--chip);border-radius:20px;padding:5px 12px;font-size:12.5px;color:var(--ink);display:inline-flex;gap:6px;align-items:center}
+  .chip b{font-weight:620}
+  .chip .k{color:var(--muted);font-weight:500}
+
+  details.card>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;
+    font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:650}
+  details.card>summary::-webkit-details-marker{display:none}
+  details.card>summary .chev{margin-left:auto;transition:.15s;color:var(--muted)}
+  details[open].card>summary .chev{transform:rotate(90deg)}
+  details.card>summary+*{margin-top:14px}
+
+  /* clock + thinking panel */
+  .clock{margin-left:auto;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;
+    letter-spacing:0;text-transform:none;font-weight:500}
+  .think{border:1px solid var(--line);border-radius:10px;background:var(--bg);margin-bottom:14px;overflow:hidden}
+  .think>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:9px 12px;
+    font-size:12.5px;color:var(--muted);user-select:none}
+  .think>summary::-webkit-details-marker{display:none}
+  .think>summary .chev{margin-left:auto;transition:.15s;color:var(--muted)}
+  .think[open]>summary .chev{transform:rotate(90deg)}
+  .think-led{width:8px;height:8px;border-radius:50%;background:var(--warn);flex:none;animation:pulse 1.1s ease-in-out infinite}
+  .think-led.done{background:var(--enable);animation:none}
+  @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+  .think-md{padding:0 13px 12px;max-height:240px;overflow:auto;font-size:12.5px;color:var(--muted);
+    white-space:pre-wrap;line-height:1.5}
+
+  /* reasoning / markdown */
+  .md{font-size:14.5px}
+  .md h3{font-size:14px;margin:16px 0 6px;color:var(--ink)}
+  .md p{margin:7px 0}
+  .md code{background:var(--chip);padding:1px 6px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+  .md pre{background:var(--code);color:#d6f2ea;border-radius:10px;padding:13px 14px;overflow:auto;font-size:12.5px;line-height:1.5}
+  .md pre code{background:none;padding:0;color:inherit}
+  .opt{padding:7px 10px;border-radius:9px;margin:5px 0;border:1px solid var(--line)}
+  .opt.enable{border-left:3px solid var(--enable)}
+  .opt.disable{border-left:3px solid var(--disable)}
+  .opt .mark{font-weight:700;margin-right:6px}
+  .opt.enable .mark{color:var(--enable)}
+  .opt.disable .mark{color:var(--disable)}
+  .src{background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:0 6px;font-size:11.5px;font-family:ui-monospace,monospace}
+  .pr-badge{display:inline-block;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;
+    border-radius:5px;padding:1px 7px;margin-right:8px;font-weight:650;vertical-align:baseline}
+  .pr-badge.critical{color:var(--disable);background:rgba(194,72,59,.12)}
+  .pr-badge.recommended{color:var(--accent);background:var(--accent-soft)}
+  .pr-badge.optional,.pr-badge.not_applicable,.pr-badge.na{color:var(--muted);background:var(--chip)}
+  .cursor-blink{display:inline-block;width:8px;height:15px;background:var(--accent);vertical-align:-2px;animation:blink 1s steps(2) infinite;margin-left:1px;border-radius:1px}
+  @keyframes blink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+
+  /* citation coverage */
+  .cite{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  .cite-head{display:flex;align-items:center;gap:10px}
+  .cite-pct{margin-left:auto;font-size:18px;font-weight:680;font-variant-numeric:tabular-nums}
+  .cite-pct.good{color:var(--enable)} .cite-pct.mid{color:var(--warn)} .cite-pct.bad{color:var(--disable)}
+  .cite-bar{height:8px;border-radius:8px;background:var(--chip);overflow:hidden;margin:9px 0}
+  .cite-bar i{display:block;height:100%;background:var(--enable);transition:width .4s ease}
+  .cite-stats{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:5px 16px;margin-bottom:9px}
+  .cite-stats b{color:var(--ink);font-weight:620}
+  .cite-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .ctag{font-family:ui-monospace,monospace;font-size:11.5px;border-radius:6px;padding:2px 8px;
+    background:var(--accent-soft);color:var(--accent);display:inline-flex;align-items:center;gap:5px}
+  .ctag.phantom{background:var(--warn-soft);color:var(--warn)}
+  .ctag.missing{background:var(--chip);color:var(--muted);font-style:italic}
+
+  /* trace */
+  .rows{display:flex;flex-direction:column;gap:4px}
+  .row{display:flex;align-items:center;gap:10px;font-size:13px;padding:5px 8px;border-radius:8px}
+  .row:hover{background:var(--chip)}
+  .row.sel{background:var(--accent-soft)}
+  .row .rk{color:var(--muted);width:26px;font-variant-numeric:tabular-nums;font-size:12px}
+  .row .id{font-family:ui-monospace,monospace;font-size:12.5px}
+  .row .sc{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums;font-size:12px}
+  .badge{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;border-radius:5px;padding:1px 6px}
+  .badge.sel{background:var(--accent);color:#fff}
+  .uc{font-size:11px;color:var(--muted)}
+  .bar{height:6px;border-radius:6px;background:var(--chip);overflow:hidden;width:46px;flex:none}
+  .bar i{display:block;height:100%;background:var(--accent)}
+  .scroll{max-height:300px;overflow:auto;padding-right:4px}
+  .subtle{color:var(--muted);font-size:12.5px}
+  .subhead{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+    font-weight:650;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:680px){.grid2{grid-template-columns:1fr}}
+
+  /* violations */
+  .viol{display:flex;gap:10px;padding:10px 12px;border-radius:10px;background:var(--warn-soft);margin:6px 0;font-size:13.5px}
+  .viol .t{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--warn);flex:none;padding-top:1px}
+
+  /* corrected config */
+  .sec{margin:10px 0}
+  .sec .sh{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px}
+  .optline{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .optline:last-child{border-bottom:0}
+  .optline .nm{font-weight:580}
+  .optline .fl{font-family:ui-monospace,monospace;font-size:12px;color:var(--accent)}
+  .optline .pr{margin-left:auto;font-size:11px}
+  .pr.critical{color:var(--disable)} .pr.recommended{color:var(--accent)} .pr.optional,.pr\.na{color:var(--muted)}
+  .cmd{position:relative;margin-top:12px}
+  .cmd pre{background:var(--code);color:#d6f2ea;border-radius:10px;padding:14px;overflow:auto;font-size:12.5px;margin:0}
+  .copy{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.12);color:#d6f2ea;border:0;border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer}
+  .copy:hover{background:rgba(255,255,255,.22)}
+  .empty{color:var(--muted);font-size:13px;padding:6px 0}
+  .err{background:#fdecea;color:#a33327;border:1px solid #f3c3bd;border-radius:10px;padding:12px 14px;font-size:13.5px}
+  @media (prefers-color-scheme:dark){.err{background:#2a1512;color:#f0b3aa;border-color:#5a241d}}
+  .hidden{display:none}
+  .spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="dot"></span>Ask VEPai</h1>
+    <span class="sub">natural-language scenario → recommended Ensembl VEP configuration</span>
+    <span class="status-pill" id="statusPill"><span class="led"></span><span id="statusText">connecting…</span></span>
+  </header>
+
+  <div class="card">
+    <div class="mode-row">
+      <span class="glabel">Mode
+        <i class="info" tabindex="0" role="button" aria-label="What is Mode?" data-tip="Two ways to use the assistant:
+
+• Recommend config — describe an analysis scenario and get a recommended VEP option set, with reasons and citations.
+
+• Explain VEP output — ask about a result or consequence term (e.g. splice_donor_variant) and get a plain-language explanation.">i</i>
+      </span>
+      <div class="seg" id="modeSeg">
+        <button data-mode="recommend" class="on">Recommend config</button>
+        <button data-mode="explain">Explain VEP output</button>
+      </div>
+    </div>
+    <p class="mode-help" id="modeHelp"></p>
+
+    <textarea id="query" placeholder="e.g. germline exome variants from a rare-disease patient, need likely pathogenic coding variants"></textarea>
+    <div class="hint">Tip: press ⌘/Ctrl + Enter to run.</div>
+
+    <div class="settings cfg" id="settings">
+      <div class="grp" id="kbGrp">
+        <span class="glabel">Knowledge base
+          <i class="info" tabindex="0" role="button" aria-label="What is Knowledge base?" data-tip="The catalogue the assistant draws its options and reference examples from: the full 58-option project catalogue with corrected IDs and source-grounded provenance.">i</i>
+        </span>
+        <div class="seg" id="kbSeg"></div>
+      </div>
+
+      <div class="grp">
+        <span class="glabel">Retrieval
+          <i class="info" tabindex="0" role="button" aria-label="What is Retrieval?" data-tip="How many reference examples, and which, are placed in the model's prompt.
+
+• Keyword — top 2 by fast word-overlap.
+
+• Semantic — top 2 by sentence-embedding similarity (BGE); more robust to wording, loads an embedding model the first time.
+
+• All examples — every example in the knowledge base (no filtering). This is the best-performing setup in the project's experiments, but builds a larger prompt, so it's slower.">i</i>
+        </span>
+        <div class="seg" id="retSeg">
+          <button data-ret="keyword">Keyword</button>
+          <button data-ret="semantic">Semantic</button>
+          <button data-ret="all" class="on">All examples</button>
+        </div>
+      </div>
+
+      <div class="grp">
+        <span class="glabel">Output</span>
+        <div class="toggles">
+          <span class="toggle-wrap">
+            <label class="toggle"><input type="checkbox" id="explainTog" checked> Decision trace</label>
+            <i class="info" tabindex="0" role="button" aria-label="What is the Decision trace?" data-tip="Shows which examples and options were retrieved (with scores) and a per-option priority map from the knowledge base — so you can see WHY the assistant recommended what it did, before reading the answer.">i</i>
+          </span>
+          <span class="toggle-wrap">
+            <label class="toggle"><input type="checkbox" id="checkTog" checked> Constraint checker</label>
+            <i class="info" tabindex="0" role="button" aria-label="What is the Constraint checker?" data-tip="After the model answers, a deterministic Python check fixes species / conflict / dependency mistakes and outputs the authoritative, conflict-free configuration. Recommended — this is the project's safety layer.">i</i>
+          </span>
+        </div>
+      </div>
+
+      <div class="grp">
+        <span class="glabel">Model
+          <i class="info" tabindex="0" role="button" aria-label="What is Model?" data-tip="The local LLM (run via Ollama) that generates the recommendation. The project's chosen model is the largest one here; smaller models are faster but less reliable.">i</i>
+        </span>
+        <select id="modelSel"></select>
+      </div>
+    </div>
+
+    <div class="run-row">
+      <button class="run" id="runBtn">Recommend</button>
+    </div>
+  </div>
+
+  <div id="errBox" class="card hidden"><div class="err" id="errMsg"></div></div>
+
+  <div class="card hidden" id="summaryCard">
+    <h2>Summary
+      <i class="info" tabindex="0" role="button" aria-label="About the summary" data-tip="At-a-glance read of this run: the detected use case, inferred species, retrieval mode, knowledge base, model, and which reference examples were placed in the prompt.">i</i>
+    </h2>
+    <div class="chips" id="summaryChips"></div>
+    <div id="selExamples" class="subtle" style="margin-top:10px"></div>
+  </div>
+
+  <details class="card hidden" id="traceCard" open>
+    <summary>Decision trace <span class="count" id="traceMode"></span>
+      <i class="info" tabindex="0" role="button" aria-label="About the decision trace" data-tip="The transparency layer: it shows exactly which knowledge-base entries were retrieved and how the options were scored for the detected use case, before the model writes anything.">i</i>
+      <span class="chev">›</span>
+    </summary>
+    <div class="grid2">
+      <div>
+        <div class="subhead">Retrieved examples
+          <i class="info" tabindex="0" role="button" aria-label="About retrieved examples" data-tip="Reference examples ranked by relevance to your scenario. The top 2 (highlighted &quot;used&quot;) are placed into the model's prompt as few-shot guidance.">i</i>
+        </div>
+        <div class="rows" id="traceExamples"></div>
+      </div>
+      <div>
+        <div class="subhead">Option priority map
+          <i class="info" tabindex="0" role="button" aria-label="About the priority map" data-tip="Every catalogue option with its priority for the detected use case (critical / recommended / optional / not_applicable). Bar length reflects priority level. Hover a row for its species restriction.">i</i>
+        </div>
+        <div class="rows scroll" id="tracePriority"></div>
+      </div>
+    </div>
+    <div id="optRelevanceWrap" class="hidden" style="margin-top:14px">
+      <div class="subhead">Option semantic relevance
+        <i class="info" tabindex="0" role="button" aria-label="About option relevance" data-tip="Options ranked by sentence-embedding similarity to your scenario. In semantic mode the top 10 are emphasised in the prompt.">i</i>
+      </div>
+      <div class="rows scroll" id="traceOptRelevance"></div>
+    </div>
+  </details>
+
+  <div class="card hidden" id="reasoningCard">
+    <h2>Model reasoning <span class="count" id="reasoningModel"></span>
+      <i class="info" tabindex="0" role="button" aria-label="About model reasoning" data-tip="The model's raw, streamed answer — a DRAFT. Where it conflicts with the checked configuration below, the configuration below is authoritative.">i</i>
+      <span class="clock" id="clock"></span>
+    </h2>
+
+    <details class="think hidden" id="thinkBox">
+      <summary>
+        <span class="think-led" id="thinkLed"></span>
+        <span id="thinkLabel">Thinking…</span>
+        <i class="info" tabindex="0" role="button" aria-label="About thinking" data-tip="Some models (e.g. gemma4:26b) reason privately before answering. This is that live chain-of-thought — shown only so you can see progress. It is NOT the recommendation and is not parsed or scored; the answer appears below once thinking finishes.">i</i>
+        <span class="chev">›</span>
+      </summary>
+      <div class="md think-md" id="thinking"></div>
+    </details>
+
+    <div class="md" id="reasoning"></div>
+
+    <div class="cite hidden" id="citeBox">
+      <div class="cite-head">
+        <span class="subhead" style="margin:0">Citation coverage
+          <i class="info" tabindex="0" role="button" aria-label="About citation coverage" data-tip="Each ✓/✗ recommendation line should end with a [source: option_id] tag tracing it to the knowledge base. This is the share of lines that do — the interpretability/provenance signal.
+
+&quot;Resolved&quot; = the cited id is a real catalogue option. A &quot;phantom&quot; citation points to an id that isn't in the catalogue (the model invented or mis-named the source).">i</i>
+        </span>
+        <span class="cite-pct" id="citePct"></span>
+      </div>
+      <div class="cite-bar"><i id="citeFill"></i></div>
+      <div class="cite-stats" id="citeStats"></div>
+      <div class="cite-tags" id="citeTags"></div>
+    </div>
+  </div>
+
+  <div class="card hidden" id="checkerCard">
+    <h2>Constraint check &amp; authoritative configuration
+      <i class="info" tabindex="0" role="button" aria-label="About the configuration" data-tip="Problems the checker found and auto-fixed, then the final option set grouped by VEP web-form section, plus a ready-to-run command. This is the configuration to apply.">i</i>
+    </h2>
+    <div id="violations"></div>
+    <div id="corrected"></div>
+    <div class="cmd" id="cmdWrap"></div>
+  </div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const el = (t, c, h) => { const e=document.createElement(t); if(c)e.className=c; if(h!=null)e.innerHTML=h; return e; };
+const esc = s => (s||"").replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+
+const state = { mode:"recommend", kb:"expanded", retrieval:"all", explain:true, check:true, model:"" };
+let evtSrc = null;
+
+// ---- tooltip system (hover + click-to-pin) ----
+const tipEl = el("div"); tipEl.id="tip"; document.body.appendChild(tipEl);
+let pinned = null;
+function placeTip(icon){
+  tipEl.textContent = icon.dataset.tip || "";
+  tipEl.style.display = "block";
+  const r = icon.getBoundingClientRect();
+  const tr = tipEl.getBoundingClientRect();
+  let left = r.left + r.width/2 - tr.width/2;
+  left = Math.max(10, Math.min(left, window.innerWidth - tr.width - 10));
+  let top = r.bottom + 9;
+  if(top + tr.height > window.innerHeight - 10) top = r.top - tr.height - 9;
+  tipEl.style.left = left + "px";
+  tipEl.style.top = Math.max(10, top) + "px";
+}
+function hideTip(){ tipEl.style.display="none"; }
+function wireInfo(icon){
+  icon.addEventListener("mouseenter", ()=>{ if(!pinned) placeTip(icon); });
+  icon.addEventListener("mouseleave", ()=>{ if(!pinned) hideTip(); });
+  icon.addEventListener("focus", ()=>{ if(!pinned) placeTip(icon); });
+  icon.addEventListener("blur", ()=>{ if(!pinned) hideTip(); });
+  icon.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); icon.click(); }
+    if(e.key==="Escape"){ if(pinned){pinned.classList.remove("open");pinned=null;} hideTip(); icon.blur(); } });
+  icon.addEventListener("click", e=>{
+    e.preventDefault(); e.stopPropagation();
+    if(pinned===icon){ icon.classList.remove("open"); pinned=null; hideTip(); }
+    else { if(pinned) pinned.classList.remove("open"); pinned=icon; icon.classList.add("open"); placeTip(icon); }
+  });
+}
+document.addEventListener("click", ()=>{ if(pinned){ pinned.classList.remove("open"); pinned=null; hideTip(); } });
+window.addEventListener("resize", ()=>{ if(pinned) placeTip(pinned); });
+function wireAllInfo(){ document.querySelectorAll(".info").forEach(wireInfo); }
+
+// ---- segmented + toggle wiring ----
+function wireSeg(id, attr, key, cb){
+  $(id).querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    $(id).querySelectorAll("button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on"); state[key]=b.dataset[attr]; cb&&cb();
+  });
+}
+wireSeg("#modeSeg","mode","mode",updateModeUI);
+wireSeg("#retSeg","ret","retrieval");
+$("#explainTog").onchange = e => state.explain = e.target.checked;
+$("#checkTog").onchange = e => state.check = e.target.checked;
+$("#modelSel").onchange = e => state.model = e.target.value;
+
+function updateModeUI(){
+  const explainMode = state.mode === "explain";
+  document.querySelectorAll(".cfg").forEach(n => n.classList.toggle("hidden", explainMode));
+  $("#runBtn").textContent = explainMode ? "Explain" : "Recommend";
+  $("#modeHelp").textContent = explainMode
+    ? "Ask about a VEP result or consequence term; you'll get a plain-language explanation of what it means and what to check next."
+    : "Describe a variant-analysis scenario; you'll get a recommended VEP configuration with justifications and a transparent decision trace.";
+  $("#query").placeholder = explainMode
+    ? "e.g. why is my variant annotated splice_donor_variant, and what should I check next?"
+    : "e.g. germline exome variants from a rare-disease patient, need likely pathogenic coding variants";
+}
+
+// ---- meta bootstrap ----
+fetch("/api/meta").then(r=>r.json()).then(m=>{
+  const pill=$("#statusPill"), txt=$("#statusText");
+  if(m.ollama_reachable){ pill.classList.add("ok"); txt.textContent = (m.models.length)+" models · Ollama up"; }
+  else { pill.classList.add("bad"); txt.textContent="Ollama not reachable"; }
+
+  const kbSeg=$("#kbSeg");
+  // Default to the full catalogue if it is available (it is the one the tiers and priorities are
+  // built for); fall back to the first available KB otherwise.
+  const buttons=[];
+  m.kbs.forEach(k=>{
+    const b=el("button", null, `${k.label}${k.available?` <span style="opacity:.6">${k.n_options}/${k.n_examples}</span>`:" (n/a)"}`);
+    b.dataset.kb=k.key; if(!k.available) b.disabled=true;
+    b.onclick=()=>{ if(b.disabled)return; kbSeg.querySelectorAll("button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); state.kb=k.key; };
+    kbSeg.appendChild(b); buttons.push({k, b});
+  });
+  const avail=buttons.filter(x=>x.k.available);
+  const pick=avail.find(x=>x.k.key==="expanded") || avail[0];
+  if(pick){ pick.b.classList.add("on"); state.kb=pick.k.key; }
+  // With a single catalogue there is nothing to switch, so hide the selector entirely.
+  const kbGrp=$("#kbGrp"); if(kbGrp) kbGrp.style.display = (m.kbs.length>1) ? "" : "none";
+
+  const sel=$("#modelSel");
+  if(m.models.length){ m.models.forEach(n=>{ const o=el("option",null,n); o.value=n; sel.appendChild(o);}); sel.value=m.default_model; }
+  else { const o=el("option",null,"(no models found)"); sel.appendChild(o); }
+  state.model = sel.value;
+}).catch(()=>{ $("#statusPill").classList.add("bad"); $("#statusText").textContent="meta load failed"; });
+
+// ---- run ----
+$("#runBtn").onclick = run;
+$("#query").addEventListener("keydown", e=>{ if((e.metaKey||e.ctrlKey)&&e.key==="Enter") run(); });
+
+function setBusy(b){
+  $("#runBtn").disabled=b;
+  $("#runBtn").innerHTML = b ? '<span class="spin"></span> Working…' : (state.mode==="explain"?"Explain":"Recommend");
+}
+function show(id){ $(id).classList.remove("hidden"); }
+function hide(id){ $(id).classList.add("hidden"); }
+
+let rawText="", thinkText="", thinking=false, clockT0=0, clockTimer=null;
+function startClock(){ clockT0=Date.now(); clearInterval(clockTimer);
+  const tick=()=>{ const s=(Date.now()-clockT0)/1000;
+    $("#clock").textContent = s<60 ? s.toFixed(0)+"s" : Math.floor(s/60)+"m "+Math.round(s%60)+"s"; };
+  tick(); clockTimer=setInterval(tick,1000);
+}
+function stopClock(){ clearInterval(clockTimer); clockTimer=null; }
+
+function run(){
+  const q=$("#query").value.trim();
+  if(!q) return;
+  if(evtSrc) evtSrc.close();
+  rawText=""; thinkText=""; thinking=false;
+  hide("#errBox"); hide("#summaryCard"); hide("#traceCard"); hide("#checkerCard");
+  $("#reasoning").innerHTML=""; $("#violations").innerHTML=""; $("#corrected").innerHTML=""; $("#cmdWrap").innerHTML="";
+  $("#thinking").textContent=""; hide("#thinkBox"); $("#thinkBox").open=false;
+  $("#thinkLed").classList.remove("done"); $("#thinkLabel").textContent="Thinking…";
+  hide("#citeBox");
+  show("#reasoningCard"); $("#reasoning").innerHTML='<span class="subtle">…</span>';
+  startClock();
+  setBusy(true);
+
+  const p=new URLSearchParams({query:q, model:state.model});
+  let url;
+  if(state.mode==="explain"){ url="/api/explain_result?"+p; }
+  else {
+    p.set("kb",state.kb); p.set("retrieval",state.retrieval);
+    p.set("explain",state.explain?"1":"0"); p.set("check",state.check?"1":"0");
+    url="/api/recommend?"+p;
+  }
+  $("#reasoningModel").textContent = state.model;
+
+  evtSrc=new EventSource(url);
+  evtSrc.addEventListener("status", e=>{ const d=JSON.parse(e.data);
+    if(!rawText) $("#reasoning").innerHTML='<span class="subtle">'+esc(d.message)+'</span>'; });
+  evtSrc.addEventListener("meta", e=>renderMeta(JSON.parse(e.data)));
+  evtSrc.addEventListener("factors", e=>renderFactors(JSON.parse(e.data).factors));
+  evtSrc.addEventListener("trace", e=>renderTrace(JSON.parse(e.data)));
+  evtSrc.addEventListener("reasoning", e=>onReasoning(JSON.parse(e.data).text));
+  evtSrc.addEventListener("token", e=>{ onAnswerStart(); rawText+=JSON.parse(e.data).text; scheduleRender(); });
+  evtSrc.addEventListener("citations", e=>renderCitations(JSON.parse(e.data)));
+  evtSrc.addEventListener("result", e=>renderResult(JSON.parse(e.data)));
+  evtSrc.addEventListener("error", e=>{ try{ showError(JSON.parse(e.data).message);}catch(_){ showError("Stream error / connection lost."); } finish(); });
+  evtSrc.addEventListener("done", ()=>{ renderMarkdown(true); finish(); });
+}
+function finish(){ if(evtSrc) evtSrc.close(); evtSrc=null; setBusy(false); stopClock();
+  if(thinking){ $("#thinkLed").classList.add("done"); $("#thinkLabel").textContent="Thinking (done)"; thinking=false; }
+}
+function showError(m){ show("#errBox"); $("#errMsg").textContent=m; }
+
+function onReasoning(t){
+  if(!thinking){ thinking=true; show("#thinkBox"); $("#thinkBox").open=true;
+    $("#thinkLabel").textContent="Thinking…";
+    if(!rawText) $("#reasoning").innerHTML='<span class="subtle">Model is reasoning — the answer will appear here once it finishes.</span>';
+  }
+  thinkText+=t;
+  const box=$("#thinking"); box.textContent=thinkText; box.scrollTop=box.scrollHeight;
+}
+// First real answer token: mark the think complete and collapse it so the answer is the focus.
+function onAnswerStart(){
+  if(thinking){ thinking=false; $("#thinkLed").classList.add("done");
+    $("#thinkLabel").textContent="Thinking (done) — click to view"; $("#thinkBox").open=false; }
+  if(!rawText){ $("#reasoning").innerHTML=""; }
+}
+
+// ---- render meta ----
+function renderMeta(d){
+  if(d.mode==="explain_result"){
+    show("#summaryCard");
+    $("#summaryChips").innerHTML="";
+    chip("Mode","Explain VEP output"); chip("Model",d.model); chip("Consequence terms",d.n_terms);
+    $("#selExamples").textContent="";
+    return;
+  }
+  show("#summaryCard"); $("#summaryChips").innerHTML="";
+  chip("Use case", d.use_case, true);
+  chip("Species", d.species);
+  chip("Retrieval", d.retrieval);
+  chip("KB", `${d.kb_label} · ${d.n_options} opts / ${d.n_examples} ex`);
+  chip("Model", d.model);
+  if(d.selected_examples && d.selected_examples.length){
+    $("#selExamples").innerHTML = "In-context examples: " +
+      d.selected_examples.map(x=>`<code>${esc(x.id)}</code>`).join(" · ");
+  } else $("#selExamples").textContent="";
+}
+// The five factor values the scenario resolved to. This is the decision that determines which
+// options are even priced as relevant, and nothing downstream validates it — so it is shown, next
+// to the other summary chips, where the user can see it and disagree.
+function renderFactors(f){
+  if(!f) return;
+  show("#summaryCard");
+  const order=["species","origin","variant_size_class","region_focus","analysis_goal"];
+  for(const k of order){
+    const v=f[k];
+    chip(k.replace(/_/g," "), Array.isArray(v) ? (v.join(", ")||"unstated") : (v||"unstated"), true);
+  }
+}
+function chip(k,v,strong){
+  const c=el("span","chip"); c.innerHTML=`<span class="k">${esc(k)}</span> ${strong?"<b>":""}${esc(String(v))}${strong?"</b>":""}`;
+  $("#summaryChips").appendChild(c);
+}
+
+// ---- render citation coverage ----
+function renderCitations(c){
+  if(!c || !c.rec_lines){ hide("#citeBox"); return; }
+  show("#citeBox");
+  const pct = c.rate==null ? 0 : c.rate;
+  const pEl=$("#citePct"); pEl.textContent = pct+"%";
+  pEl.className = "cite-pct " + (pct>=90?"good":pct>=60?"mid":"bad");
+  $("#citeFill").style.width = pct+"%";
+  $("#citeStats").innerHTML =
+    `<span><b>${c.cited}</b>/${c.rec_lines} recommendation lines cited</span>`+
+    `<span><b>${c.resolved}</b> resolve to a real option</span>`+
+    (c.phantom?`<span><b>${c.phantom}</b> phantom citation${c.phantom>1?"s":""}</span>`:"");
+  const tg=$("#citeTags"); tg.innerHTML="";
+  c.items.forEach(it=>{
+    if(it.id===null){ tg.appendChild(el("span","ctag missing","no source")); return; }
+    const t=el("span","ctag"+(it.valid?"":" phantom"));
+    const arrow = it.resolved_to ? ` → ${esc(it.resolved_to)}` : "";
+    t.innerHTML = `${esc(it.id)}${arrow}${it.valid?"":" ⚠"}`;
+    t.title = it.valid
+      ? (it.resolved_to ? `cited "${it.id}", resolved to catalogue option ${it.resolved_to}` : "resolves to a catalogue option")
+      : "phantom — does not resolve to any catalogue id";
+    tg.appendChild(t);
+  });
+}
+
+// ---- render trace ----
+function renderTrace(t){
+  show("#traceCard"); $("#traceCard").open=true;
+  $("#traceMode").textContent = t.retrieval_mode;
+  const ex=$("#traceExamples"); ex.innerHTML="";
+  t.examples.forEach(e=>{
+    const r=el("div","row"+(e.selected?" sel":""));
+    const sc = (t.retrieval_mode==="semantic") ? e.score.toFixed(3) : (e.score+" overlap");
+    r.innerHTML=`<span class="rk">#${e.rank}</span>
+      <span><span class="id">${esc(e.id)}</span><br><span class="uc">${esc(e.use_case)}</span></span>
+      ${e.selected?'<span class="badge sel">used</span>':''}
+      <span class="sc">${sc}</span>`;
+    ex.appendChild(r);
+  });
+  const cm=$("#tracePriority"); cm.innerHTML="";
+  const barW={critical:100,recommended:65,optional:35,not_applicable:15,n_a:15};
+  (t.priority_map || []).forEach(o=>{
+    const pr=(o.priority||"n/a").toLowerCase().replace(/[^a-z_]/g,"")||"na";
+    const r=el("div","row");
+    r.innerHTML=`<span class="bar"><i style="width:${barW[pr]||12}%"></i></span>
+      <span class="id">${esc(o.id)}</span>
+      <span class="sc pr ${pr}">${esc(o.priority)}</span>`;
+    r.title=`species: ${o.species}`;
+    cm.appendChild(r);
+  });
+  const wrap=$("#optRelevanceWrap"), or=$("#traceOptRelevance");
+  if(t.options_relevance && t.options_relevance.length){
+    wrap.classList.remove("hidden"); or.innerHTML="";
+    t.options_relevance.forEach(o=>{
+      const r=el("div","row"+(o.included?" sel":""));
+      r.innerHTML=`<span class="rk">#${o.rank}</span><span class="id">${esc(o.id)}</span>
+        ${o.included?'<span class="badge sel">top-10</span>':''}
+        <span class="sc">${o.score.toFixed(3)}</span>`;
+      or.appendChild(r);
+    });
+  } else wrap.classList.add("hidden");
+}
+
+// ---- render result (corrected config) ----
+function renderResult(res){
+  show("#checkerCard");
+  const vb=$("#violations"); vb.innerHTML="";
+  if(res.violations && res.violations.length){
+    res.violations.forEach(v=>{
+      const d=el("div","viol"); d.innerHTML=`<span class="t">${esc(v.type)}</span><span>${esc(v.reason)}</span>`;
+      vb.appendChild(d);
+    });
+  } else {
+    vb.innerHTML='<div class="subtle">No constraint violations — the model\'s configuration was already consistent.</div>';
+  }
+
+  const cc=$("#corrected"); cc.innerHTML="";
+  const secOrder=Object.keys(res.sections);
+  if(!res.enabled.length){ cc.innerHTML='<div class="empty">No options were enabled.</div>'; }
+  secOrder.forEach(sec=>{
+    const box=el("div","sec"); box.appendChild(el("div","sh",esc(sec)));
+    res.sections[sec].forEach(o=>{
+      const line=el("div","optline");
+      const prCls = o.priority.replace(/[^a-z_]/gi,"")||"na";
+      line.innerHTML=`<span class="nm">${esc(o.name)}</span>
+        <span class="fl">${esc(o.cli_flag||"")}</span>
+        <span class="pr ${prCls}">${esc(o.priority)}</span>`;
+      line.title=o.when_to_use||"";
+      box.appendChild(line);
+    });
+    cc.appendChild(box);
+  });
+  if(res.disabled && res.disabled.length){
+    const d=el("div","subtle"); d.style.marginTop="8px";
+    d.innerHTML="Disabled: " + res.disabled.map(o=>`<code>${esc(o.id)}</code>`).join(" · ");
+    cc.appendChild(d);
+  }
+  // Options the priority table rates `optional` for this scenario and that are NOT switched on.
+  // The rows above say what you are getting; without this there is nothing saying what you could
+  // add, which is the other half of the essential-vs-optional question.
+  if(res.tiers && res.tiers.addons_offered && res.tiers.addons_offered.length){
+    const a=el("div","subtle"); a.style.marginTop="8px";
+    a.innerHTML=`Available add-ons — not enabled, turn on if they help (${res.tiers.addons_offered.length}): `
+      + res.tiers.addons_offered.map(id=>`<code>${esc(id)}</code>`).join(" · ");
+    cc.appendChild(a);
+  }
+
+  const cw=$("#cmdWrap");
+  const choiceNote=(res.command_choices||[]).map(c=>
+    `\n# ${esc(c.id)} — choose ONE: ${c.alternatives.map(esc).join(" | ")}`).join("");
+  cw.innerHTML=`<button class="copy" id="copyBtn">Copy</button><pre>${esc(res.command)}${choiceNote}</pre>`;
+  $("#copyBtn").onclick=()=>{ navigator.clipboard.writeText(res.command);
+    $("#copyBtn").textContent="Copied"; setTimeout(()=>$("#copyBtn").textContent="Copy",1200); };
+}
+
+// ---- tiny markdown renderer (handles the model's ✓/✗ + [source:] format) ----
+let rafPending=false;
+function scheduleRender(){ if(rafPending)return; rafPending=true; requestAnimationFrame(()=>{rafPending=false; renderMarkdown(false);}); }
+function renderMarkdown(final){
+  const t=rawText; if(!t){ return; }
+  const parts=t.split(/```/);
+  let out="";
+  parts.forEach((seg,i)=>{
+    if(i%2===1){ // code block (may be unterminated while streaming)
+      const body=seg.replace(/^[a-zA-Z]*\n/,"");
+      out+=`<pre><code>${esc(body)}</code></pre>`;
+    } else {
+      out+=renderProse(seg);
+    }
+  });
+  $("#reasoning").innerHTML = out + (final?"":'<span class="cursor-blink"></span>');
+}
+function inline(s){
+  s=esc(s);
+  // Drop model-emitted confidence labels — we show priority separately instead.
+  s=s.replace(/\s*confidence:\s*(high|medium|low)\b/gi, "");
+  s=s.replace(/\[source:\s*([^\]]+)\]/g, (_, inner) => {
+    const cleaned = inner.replace(/,?\s*priority[=:][^,\]]+/gi, "").trim();
+    return `<span class="src">${cleaned}</span>`;
+  });
+  s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+  return s;
+}
+// The model echoes a priority tag it was given in the prompt. Only critical / recommended / optional
+// are real importance tiers; anything else (the model writing "no"/"n/a"/"not applicable" for an
+// option the factor table does not rank for this scenario) is NOT a tier, and rendering the word "NO"
+// next to a green tick read as a contradiction. Show a badge only for the three real tiers.
+const REAL_TIERS = {critical:1, recommended:1, optional:1};
+function priorityBadge(t){
+  const m=t.match(/priority[=:]\s*([a-z_]+)/i);
+  if(!m) return "";
+  const pr=m[1].toLowerCase();
+  if(!REAL_TIERS[pr]) return "";
+  return `<span class="pr-badge ${pr}">${esc(pr)}</span>`;
+}
+function renderProse(seg){
+  const lines=seg.split("\n"); let html=""; let para=[];
+  const flush=()=>{ if(para.length){ html+="<p>"+para.join("<br>")+"</p>"; para=[]; } };
+  lines.forEach(line=>{
+    const m=line.match(/^(#{1,4})\s+(.*)$/);
+    const t=line.trim();
+    if(m){ flush(); html+=`<h3>${inline(m[2])}</h3>`; return; }
+    if(/^[✓✅]/.test(t)){ flush();
+      html+=`<div class="opt enable"><span class="mark">✓</span>${priorityBadge(t)}${inline(t.replace(/^[✓✅]\s*/,""))}</div>`; return; }
+    if(/^[✗✘❌]/.test(t)){ flush();
+      html+=`<div class="opt disable"><span class="mark">✗</span>${priorityBadge(t)}${inline(t.replace(/^[✗✘❌]\s*/,""))}</div>`; return; }
+    if(t===""){ flush(); return; }
+    para.push(inline(line));
+  });
+  flush();
+  return html;
+}
+
+wireAllInfo();
+updateModeUI();
+</script>
+</body>
+</html>
