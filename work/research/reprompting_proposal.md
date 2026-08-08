@@ -15,7 +15,7 @@ configuration with no indication that anything is missing.
 
 ## 2. The design: four responses to a gap
 
-**Assumptions are the mechanism. Asking is the exception.** A recommender that interrogates its users has
+A recommender that interrogates its users has
 moved the work back onto them, which is the opposite of what the tool is for.
 
 | | when | friction |
@@ -25,21 +25,18 @@ moved the work back onto them, which is the opposite of what the tool is for.
 | **take what the user stated** | they set one of the optional fields | none, and it is optional |
 | **ask** | no safe assumption **and** a must-have is at stake | real |
 
-The first two rows are easy to confuse, so: **species** is read out of the question by a keyword rule
-that returns `human` only when the text positively says so. No option was preferred over another, so
-there is nothing to disclose. **`origin`** is different — the question does not settle it, we pick
-somatic, and a different pick would give a different configuration. That is why it is announced and
-species is not. The test is not how confident we are; it is whether a choice was made at all.
+The first two rows are easy to confuse, so: 
+**species** is read out of the question by a keyword rule that returns `human` only when the text positively says so. No option was preferred over another, so there is nothing to disclose. 
 
-Rows two and four are separated by something else again, and it is not how unclear the question is —
-both apply to a factor the text does not answer. It is whether **one answer is safe to be wrong about**.
+**`origin`** is different — the question does not settle it, we pick somatic, and a different pick would give a different configuration. That is why it is announced and species is not. The test is not how confident we are; it is whether a choice was made at all.
+
+**Whether to assume or ask when answer is not fully certain**:
+How much the options lost or added after assumption
 For `origin` there is: guessing somatic withholds a filter, guessing germline applies one that discards
-tumour variants, so the two directions fail very differently and we take the cheap one. For
-`variant_size_class` there is no such direction, which is why it is the only thing ever asked about.
+tumour variants, so the two directions fail very differently and we take the cheap one. For `variant_size_class` there is no such direction, which is why it is the only thing ever asked about.
 
 A question that leaves something open returns a working configuration plus a line naming each assumption
-and how to override it. Nobody is blocked; every line can be ignored. **The change that matters is that the
-tool stopped making invisible choices**, not that it gained the ability to ask.
+and how to override it. Nobody is blocked; every line can be ignored. no invisible choices is ever made in those cases.
 
 **The optional fields, which you have not seen.** Row three refers to something built but never put in
 front of you: an *About your data* panel beside the query box, with four dropdowns — species,
@@ -53,34 +50,24 @@ non-interactively and would otherwise hang.
 
 ## 3. When it asks
 
-For each still-open factor, resolve the configuration under **every** candidate answer and compare. If no
+For each still-open factor, resolve the configuration under every candidate answer and compare. If no
 must-have option differs, the question cannot change what the user gets and is never asked.
 
 No model decides this. It is arithmetic over the priority table, costs about 1 ms against a ~1000 ms
 classifier call, and is auditable per query.
 
-It is judged **per query, not per factor**. `origin` changes nothing on a purely clinical question and
+It is judged per query, not per factor. `origin` changes nothing on a purely clinical question and
 decides the common-variant filter on a frequency one, so no fixed per-factor rule is right for both.
 
-**A limitation of this rule, which `origin` exposes.** The obvious objection is that if silence about
-germline-versus-somatic is not resolvable from the text, we should just ask. Tested directly, with
-`origin`'s assumption removed so nothing suppresses the question: the rule asks about it on **0 of the
-19** ablations where `origin` was the missing fact. Answering it moves no must-have.
-
-That is not because `origin` is harmless. It is because its harm has the wrong shape for this rule. The
-rule looks for a must-have that would appear or disappear — an *omission*. What a wrong `origin` does is
-the reverse: it switches the common-variant filter **on**, and that option is rated `recommended`, not a
-must-have. So the rule cannot see it, and the fail-closed assumption is covering a blind spot rather
-than standing in for a question we declined to ask.
-
-Stated plainly, because it bears on §8.2: **the rule detects essentials that go missing, not harmful
-options that get switched on.** Any factor whose danger is inclusion rather than omission has to be
-handled by an assumption, and we are relying on having spotted such factors by hand.
+**A limitation of this rule, which `origin` exposes.** 
+We tested asking about origin. Even with nothing suppressing the question, the rule never asks, because answering it wouldn't add anything essential. Its real risk is a filter being switched on, which the somatic default already prevents.
 
 ## 4. What it assumes, and what each assumption costs
 
 Measured on 81 controlled ablations: one fact removed from each of our own 31 queries, everything else
 held fixed, so the right answer is known. Each is resolved and compared to the true configuration.
+
+Each ablated query goes through the normal path: classifier, then assumptions, no asking — and the resulting configuration is compared to the one the true factor values produce. So this measures what silence plus a default costs, not what a question would buy.
 
 Reading the columns: **lost** is options the true configuration has that ours does not, averaged per
 query — annotations the user should have got and did not. **Added** is the reverse, options we switch on
@@ -106,8 +93,7 @@ missing predictor is a finding they never see. Read that way:
   is disclosed loudly rather than defended.
 - **`variant_size_class`, the one factor left open, is the worst of the four.** See §6.
 
-## 5. What the user can state outright
-
+## 5. What the user can state outright (questionable, not too sure)
 Three of the five factors are **facts about the sample** — species, germline/somatic, small/structural —
 and the person asking knows all three without thinking. They are optional fields, in the web form and as
 flags, and whatever is set overrides whatever the model read.
@@ -221,12 +207,9 @@ claim is made about how their model performed.
 3. **Are the three assumptions clinically safe?** (§4) Especially somatic-by-default: conservative, but a
    germline user loses one optional pre-filter. And `analysis_goal`, the one assumption that loses rather
    than adds.
-4. **Should a hosted Ensembl tool ask follow-up questions at all?** VEP's own form never does. If the
-   answer to 1 is yes this is nearly moot, but it decides whether we keep the capability for future
-   factors or remove it.
-5. **Assembly** (§5): a field, or assume GRCh38 and say so? A field cannot affect option *priorities*,
+4. **Assembly** (§5): a field, or assume GRCh38 and say so? A field cannot affect option *priorities*,
    only availability; a factor could. This is the one with a correctness consequence rather than a
    completeness one.
-6. **Are there facts I have missed** that a user knows and we are currently guessing? `cell_type` is the
+5. **Are there facts I have missed** that a user knows and we are currently guessing? `cell_type` is the
    candidate I am least sure about: it needs a value only the user has, which is part of why you asked
    for it to be optional.
