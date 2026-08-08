@@ -20,14 +20,27 @@ moved the work back onto them, which is the opposite of what the tool is for.
 
 | | when | friction |
 |---|---|---|
-| **assume, silently** | the answer is already determined | none |
-| **assume and say so** | one answer is safe. *The normal case.* | none |
-| **read what the user stated** | they filled in a field | none, and it is optional |
+| **take it from the text** | the question settles it, so nothing is chosen | none |
+| **assume, and say which** | the question does not settle it, but one answer is clearly safer. *The normal case.* | none |
+| **take what the user stated** | they set one of the optional fields | none, and it is optional |
 | **ask** | no safe assumption **and** a must-have is at stake | real |
 
+The first two rows are easy to confuse, so: **species** is read out of the question by a keyword rule
+that returns `human` only when the text positively says so. No option was preferred over another, so
+there is nothing to disclose. **`origin`** is different — silence there is genuinely ambiguous, we pick
+somatic, and a different choice would give a different configuration. That is why it is announced and
+species is not. The test is not how confident we are; it is whether a choice was made at all.
+
 A question that leaves something open returns a working configuration plus a line naming each assumption
-and how to override it. Nobody is blocked; every line can be ignored. **The change that matters is that
-the tool stopped making invisible choices**, not that it gained the ability to ask.
+and how to override it. Nobody is blocked; every line can be ignored. **The change that matters is that the
+tool stopped making invisible choices**, not that it gained the ability to ask.
+
+**The optional fields, which you have not seen.** Row three refers to something built but never put in
+front of you: an *About your data* panel beside the query box, with four dropdowns — species,
+germline/somatic, small/structural, and assembly. Every one defaults to *from my description*, so a user
+who types a sentence and presses go gets exactly what they got before. If someone does set one, it wins
+outright over whatever the model read. The reasoning is §5; I am flagging it here because the table
+refers to it as though it were established, and it is not.
 
 Asking is opt-in, because the evaluation harness and the generation pipeline call the same code
 non-interactively and would otherwise hang.
@@ -48,7 +61,12 @@ decides the common-variant filter on a frequency one, so no fixed per-factor rul
 Measured on 81 controlled ablations: one fact removed from each of our own 31 queries, everything else
 held fixed, so the right answer is known. Each is resolved and compared to the true configuration.
 
-| fact removed | n | mean options **lost** | mean added | exactly right | rows losing something |
+Reading the columns: **lost** is options the true configuration has that ours does not, averaged per
+query — annotations the user should have got and did not. **Added** is the reverse, options we switch on
+that the true configuration does not have. **Exactly right** is queries where the two sets match
+completely, and **losing something** is queries missing at least one option, however many.
+
+| fact removed | n | mean options **lost** | mean options added | exactly right | queries losing something |
 |---|---|---|---|---|---|
 | `region_focus` — assume *both* | 22 | **0.00** | 1.64 | 11/22 | **0/22** |
 | `origin` — assume *somatic* | 19 | 0.32 | 0.58 | 14/19 | 5/19 |
@@ -58,7 +76,7 @@ held fixed, so the right answer is known. Each is resolved and compared to the t
 **Lost and added are not the same error.** An extra annotation column is noise the user can ignore; a
 missing predictor is a finding they never see. Read that way:
 
-- **`region_focus = both` is the strongest assumption in the design.** Zero loss on all 22 rows.
+- **`region_focus = both` is the strongest assumption in the design.** Zero loss on all 22 queries.
 - **`origin = somatic` is fail-closed.** The *somatic ⇒ no common-variant filter* rule fires only on an
   explicit somatic, so leaving it open lets that filter through on 6 of the 15 somatic review rows, the
   identical harm to guessing germline. Guessing somatic harms 0 of 16 germline rows.
@@ -97,8 +115,14 @@ description of the analysis, so it does not belong in the factor scheme.
 It asks whether the variants are small or structural, and `variant_size_class` is `select: single`.
 **A user answering *both* has half their answer silently discarded.**
 
-Both is the common case. Any WGS study has SNVs and CNVs. Review row 1 is such a question, and it is the
-row carrying the `factor_unrecoverable` flag you queried.
+To be clear about what "both" means, because the factor name invites the wrong reading: a single variant
+is of course one or the other. The factor describes the **variant set** — the whole callset handed to
+VEP — and a WGS callset routinely contains both classes. So both is not an edge case, it is the normal
+answer for whole-genome work. Review row 1 is such a question, and it is the row carrying the
+`factor_unrecoverable` flag you queried.
+
+The values `small` and `structural-CNV` are not the problem. Declaring the factor single-select is: it
+forces one answer per dataset, where the honest unit is a set that can hold both.
 
 Interrupting someone, receiving the truthful answer and throwing half of it away is worse than not
 asking. **The asking behaviour does not ship until this is resolved.**
