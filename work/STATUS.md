@@ -51,16 +51,13 @@ factor tuples; export totals unchanged at 391 recommended and 121 add-ons.
 2. **Run the recommended configuration against Web VEP** and check the output. The largest remaining
    independent piece.
 3. **Ask when it matters, assume when it does not.** Built and tested; the asking half is held back
-   pending a taxonomy decision (below). On 81 controlled ablations — one fact removed from our own
-   queries, ground truth known — the tool needs a question on **16 of 81**, and all 16 are the same
+   pending a taxonomy decision (below). On 81 controlled ablations, one fact removed from our own queries
+   so the right answer is known, the tool needs a question on **16 of 81** and all 16 are the same
    factor. Allowing a variant set to be both small and structural takes that to **zero**.
 
-   *(An earlier version of this line cited "18 of 20 real forum questions". That set was hand-
-   transcribed and turned out to be edited — five items had VEP command lines removed, which makes a
-   question look more under-specified than the user's real one. **The set and every figure from it are
-   withdrawn**, and the corrections are carried through `research/underspecification_proposal.md` §1,
-   §7.3 and the new §7.4. How often real users omit things is therefore **still unmeasured** — of 43
-   issues pulled verbatim from the trackers, only 8 are configuration questions at all.)*
+   How often real users omit things is **not established**: of 43 issues pulled verbatim from the
+   trackers, only 8 are configuration questions. That number decides how aggressive to be, and needs the
+   `real_data` Likhitha has offered.
 
 ## Open questions
 

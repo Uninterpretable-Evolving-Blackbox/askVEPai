@@ -26,31 +26,19 @@ And separately, the goal is not left blank at all — `infer_factors` silently r
 mean options lost 2.4   max 14   rows affected 21/31
 ```
 
-**How often this actually happens — WITHDRAWN, and replaced.** This section previously reported that
-**18 of 20** real forum questions in `preliminary_examples/real_queries_biostars.json` leave a
-decision-relevant factor open, with 1.50 such factors per query and a `region_focus` 16 /
-`variant_size_class` 8 / `analysis_goal` 6 / `origin` 0 breakdown.
+**How often this actually happens is not established, and this document does not claim it.**
+`fetch_real_queries.py` pulls tracker issues verbatim, with a per-body SHA-256 and a `--verify`
+re-fetch, from a stated sampling frame. Of 43 drawn, only **8** are configuration questions at all, and
+Biostars is Cloudflare-blocked at both the HTML and the API. Eight is too few to carry a frequency
+claim. The cheapest route to one is the `real_data` Likhitha has offered.
 
-**That set is discredited and every figure from it is withdrawn.** All nine items it flagged `verbatim`
-were checked against their GitHub sources: none is verbatim, similarity runs 0.03–0.98, none is even a
-substring, and five had VEP command lines stripped out — up to twenty-four flags in one case. Removing a
-command line that names `--overlaps`, `--numbers`, `--protein` makes a question look *more*
-under-specified than the user's actual one, i.e. the edits ran in the direction that flattered the
-conclusion the set was used to support. The caveat that used to sit here ("the verbatim slice is 7/9")
-rested on the same false claim of verbatimness and is withdrawn with it.
+What *is* established is cost and consequence, on ground truth we constructed. `ablate_queries.py`
+removes one fact from each of our own 31 queries and re-reads the result, so the counterfactual is
+observable in a way it never is in the wild: 124 attempted, **81 clean**. §7.4 reports what each gap
+costs.
 
-Two replacements, both in §7.4:
-
-- **Frequency in the wild is still unmeasured.** `fetch_real_queries.py` pulls issues verbatim with a
-  per-body SHA-256 and a `--verify` re-fetch, from a stated sampling frame — but of 43 drawn, only **8**
-  are configuration questions at all. Biostars is Cloudflare-blocked at both the HTML and the API. The
-  cheapest honest route is the `real_data` Likhitha has already offered.
-- **Cost and consequence are measured, on ground truth we constructed.** `ablate_queries.py` removes one
-  fact from each of our own 31 queries and re-reads the result, so the counterfactual is observable in a
-  way it never is in the wild. 124 attempted, **81 clean**. §7.4 reports what each gap costs.
-
-The 31 generated rows still never show the problem directly — Stage 3 wrote those questions specifically
-to express their factor tuple, so all 31 tuples are fully specified. That is why the ablations exist.
+The 31 generated rows never show the problem directly — Stage 3 wrote those questions specifically to
+express their factor tuple, so all 31 tuples are fully specified. That is why the ablations exist.
 
 ## 2. Why "just pick a default" is not enough
 
@@ -134,9 +122,9 @@ middle.
 1. **Does "region_focus = both" recover the lost options**, and what does it cost in precision? It will
    switch on missense predictors that print empty columns for purely regulatory variants — the same
    trade-off `DECISIONS.md` §2 is already asking the reviewer to rule on.
-2. **Re-measure afterwards on evidence that survives checking.** How many queries still carry a gap that
-   matters? That number is the honest size of the "must ask" problem and the only justification for
-   building the interaction. Done in §7.4 on the 81 controlled ablations: **16 of 81**, all one factor.
+2. **Re-measure afterwards.** How many queries still carry a gap that matters? That number is the honest
+   size of the "must ask" problem and the only justification for building the interaction. Done in §7.4:
+   **16 of 81**, all one factor.
 3. **A danger audit the option-count sweep cannot do** (see case (a)): for each factor, which *wrong*
    guesses enable something destructive rather than merely omit something. Smaller list, and the one worth
    putting in front of the reviewer.
@@ -192,9 +180,7 @@ user's variants.
 
 ### 7.3 `variant_size_class` — the whole remaining case for asking is one factor, and it is a taxonomy bug
 
-~~Re-running the 20 real forum queries against the new defaults: 18/20 → 13/20 needing a question, 1.50
-→ 0.65 questions per query, 1.90 assumptions stated.~~ **Withdrawn — those numbers came from the
-discredited set (§1).** Re-measured on the 81 clean ablations, where the removed fact is known:
+Running the new defaults over the 81 clean ablations, where the removed fact is known:
 
 | | |
 |---|---|
@@ -203,8 +189,7 @@ discredited set (§1).** Re-measured on the 81 clean ablations, where the remove
 | which factor | `variant_size_class` 16, everything else **0** |
 
 Every question is `variant_size_class` — 16 of 16. `origin` and `region_focus` are assumed and
-disclosed; nothing else is ever asked. The conclusion is the one the withdrawn figures pointed at, now
-resting on evidence where the counterfactual is observable.
+disclosed; nothing else is ever asked.
 
 And the resolver **already accepts a multi-valued `variant_size_class`** (verified: it resolves cleanly).
 Only `factors.json` declares it `select: single`. The hard gate already has the right semantics for a mixed
