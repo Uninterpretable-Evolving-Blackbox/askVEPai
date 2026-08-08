@@ -27,9 +27,15 @@ moved the work back onto them, which is the opposite of what the tool is for.
 
 The first two rows are easy to confuse, so: **species** is read out of the question by a keyword rule
 that returns `human` only when the text positively says so. No option was preferred over another, so
-there is nothing to disclose. **`origin`** is different — silence there is genuinely ambiguous, we pick
-somatic, and a different choice would give a different configuration. That is why it is announced and
+there is nothing to disclose. **`origin`** is different — the question does not settle it, we pick
+somatic, and a different pick would give a different configuration. That is why it is announced and
 species is not. The test is not how confident we are; it is whether a choice was made at all.
+
+Rows two and four are separated by something else again, and it is not how unclear the question is —
+both apply to a factor the text does not answer. It is whether **one answer is safe to be wrong about**.
+For `origin` there is: guessing somatic withholds a filter, guessing germline applies one that discards
+tumour variants, so the two directions fail very differently and we take the cheap one. For
+`variant_size_class` there is no such direction, which is why it is the only thing ever asked about.
 
 A question that leaves something open returns a working configuration plus a line naming each assumption
 and how to override it. Nobody is blocked; every line can be ignored. **The change that matters is that the
@@ -55,6 +61,21 @@ classifier call, and is auditable per query.
 
 It is judged **per query, not per factor**. `origin` changes nothing on a purely clinical question and
 decides the common-variant filter on a frequency one, so no fixed per-factor rule is right for both.
+
+**A limitation of this rule, which `origin` exposes.** The obvious objection is that if silence about
+germline-versus-somatic is not resolvable from the text, we should just ask. Tested directly, with
+`origin`'s assumption removed so nothing suppresses the question: the rule asks about it on **0 of the
+19** ablations where `origin` was the missing fact. Answering it moves no must-have.
+
+That is not because `origin` is harmless. It is because its harm has the wrong shape for this rule. The
+rule looks for a must-have that would appear or disappear — an *omission*. What a wrong `origin` does is
+the reverse: it switches the common-variant filter **on**, and that option is rated `recommended`, not a
+must-have. So the rule cannot see it, and the fail-closed assumption is covering a blind spot rather
+than standing in for a question we declined to ask.
+
+Stated plainly, because it bears on §8.2: **the rule detects essentials that go missing, not harmful
+options that get switched on.** Any factor whose danger is inclusion rather than omission has to be
+handled by an assumption, and we are relying on having spotted such factors by hand.
 
 ## 4. What it assumes, and what each assumption costs
 
@@ -193,7 +214,10 @@ claim is made about how their model performed.
    the only question the system ever asks. `region_focus` already works this way, so this is precedent
    rather than a novel request.
 2. **Is "it changes something essential" the right bar for interrupting someone?** (§3) The bar is a
-   clinical judgement encoded in the priority table you are reviewing, so it is really yours.
+   clinical judgement encoded in the priority table you are reviewing, so it is really yours. Note what
+   it cannot catch: a factor whose wrong answer switches a *harmful* option on rather than leaving a
+   must-have off is invisible to it, and `origin` is exactly that case. Should the bar also cover
+   options that are dangerous to include, and if so, which ones are they?
 3. **Are the three assumptions clinically safe?** (§4) Especially somatic-by-default: conservative, but a
    germline user loses one optional pre-filter. And `analysis_goal`, the one assumption that loses rather
    than adds.
