@@ -202,6 +202,12 @@ def build_trace(query, vep_options, training_examples, retrieval, resolved=None)
     # panels agree; otherwise fall back to the legacy per-use-case column. Either way, SORT by
     # importance — critical first — rather than leaving the catalogue's arbitrary order, so the map
     # reads top-to-bottom as "what matters most".
+    #
+    # THE ONE PLACE THAT KEEPS THE THREE INTERNAL LABELS. Everywhere else the user is shown two
+    # buckets, but this panel is the provenance view — its stated job is showing what the knowledge
+    # base actually contains and what the engine actually used. Mapping it to two would make the trace
+    # a less faithful account of the decision, which is the opposite of what it is for. The heading
+    # says so, so the vocabularies do not read as a contradiction.
     RANK = {"critical": 0, "recommended": 1, "optional": 2}
     rows = []
     for opt in vep_options:
@@ -225,18 +231,22 @@ def build_result(enabled, disabled, violations, vep_options, use_case, resolved=
     VEP web-form section mapping.
 
     When `resolved` is given (intent_priorities for this scenario's factors) each option carries the
-    priority that applies HERE, and the payload gains the same essential/recommended/add-on grouping
-    the CLI prints. Without it the per-option priority falls back to the legacy use-case column, which
-    is the same for every query and is what this UI showed before factors existed."""
+    bucket that applies HERE, and the payload gains the same recommended/add-on grouping the CLI
+    prints. Without it the per-option priority falls back to the legacy use-case column, which is the
+    same for every query and is what this UI showed before factors existed.
+
+    Priorities are mapped through `va.display_tier` on the way out, so the payload speaks the same
+    two-tier vocabulary as every other surface. The internal label survives in `resolved`, which is
+    what the checker, --minimal and restore_missing_critical read."""
     by_id = {o["id"]: o for o in vep_options}
 
     def detail(oid):
         o = by_id.get(oid, {})
         if resolved:
             _, priority, _ = resolved.get(oid, (False, None, None))
-            priority = priority or "unpriced here"
+            priority = va.display_tier(priority) if priority else "unpriced here"
         else:
-            priority = o.get("priority_by_use_case", {}).get(use_case, "n/a")
+            priority = va.display_tier(o.get("priority_by_use_case", {}).get(use_case, "n/a"))
         return {
             "id": oid,
             "name": o.get("name", oid),
@@ -401,6 +411,16 @@ def api_recommend():
             if overridden:
                 yield sse("status", {"message": "Using what you specified for: "
                                                 + ", ".join(overridden)})
+            # Same assume-and-say-so policy the CLI uses. Without this the web surface silently
+            # under-configured a vague query while the command line explained itself — two different
+            # products from one engine.
+            if factor_tuple:
+                filled, assumed, open_qs = va.clarification_plan(factor_tuple, vep_options)
+                factor_tuple = filled
+                for f, why, _ in assumed:
+                    yield sse("status", {"message": f"Assumed {f} — {why}."})
+                for f, why, at_stake in open_qs:
+                    yield sse("status", {"message": f"Left open: {why} (affects {', '.join(at_stake)})."})
             resolved = va.resolve_for_query(factor_tuple, vep_options)
 
             try:

@@ -26,24 +26,31 @@ And separately, the goal is not left blank at all — `infer_factors` silently r
 mean options lost 2.4   max 14   rows affected 21/31
 ```
 
-**How often this actually happens.** The 31 generated rows never show it — Stage 3 wrote those questions
-specifically to express their factor tuple, so all 31 tuples are fully specified. Run the same classifier
-over the 20 real forum questions in `preliminary_examples/real_queries_biostars.json`:
+**How often this actually happens — WITHDRAWN, and replaced.** This section previously reported that
+**18 of 20** real forum questions in `preliminary_examples/real_queries_biostars.json` leave a
+decision-relevant factor open, with 1.50 such factors per query and a `region_focus` 16 /
+`variant_size_class` 8 / `analysis_goal` 6 / `origin` 0 breakdown.
 
-| | |
-|---|---|
-| queries leaving ≥1 factor unstated | 19/20 |
-| queries leaving ≥1 factor unstated **that changes the configuration** | **18/20** |
-| mean such factors per query | 1.50 |
+**That set is discredited and every figure from it is withdrawn.** All nine items it flagged `verbatim`
+were checked against their GitHub sources: none is verbatim, similarity runs 0.03–0.98, none is even a
+substring, and five had VEP command lines stripped out — up to twenty-four flags in one case. Removing a
+command line that names `--overlaps`, `--numbers`, `--protein` makes a question look *more*
+under-specified than the user's actual one, i.e. the edits ran in the direction that flattered the
+conclusion the set was used to support. The caveat that used to sit here ("the verbatim slice is 7/9")
+rested on the same false claim of verbatimness and is withdrawn with it.
 
-Which factor: `region_focus` 16, `variant_size_class` 8, `analysis_goal` 6, **`origin` 0**.
+Two replacements, both in §7.4:
 
-So the factors real users omit are not the ones our own test set omits, and — importantly — `origin`, the
-factor the classifier most often reports as unstated, is the one that matters least.
+- **Frequency in the wild is still unmeasured.** `fetch_real_queries.py` pulls issues verbatim with a
+  per-body SHA-256 and a `--verify` re-fetch, from a stated sampling frame — but of 43 drawn, only **8**
+  are configuration questions at all. Biostars is Cloudflare-blocked at both the HTML and the API. The
+  cheapest honest route is the `real_data` Likhitha has already offered.
+- **Cost and consequence are measured, on ground truth we constructed.** `ablate_queries.py` removes one
+  fact from each of our own 31 queries and re-reads the result, so the counterfactual is observable in a
+  way it never is in the wild. 124 attempted, **81 clean**. §7.4 reports what each gap costs.
 
-*(Caveat carried from Exp 6b: of the 20 real queries, 9 are verbatim and 11 are reconstructed from search
-snippets; 4 are framed as feature requests naming flags rather than as scenarios. The verbatim slice is
-7/9 and the scenario slice 14/16, so the finding is not an artifact of either.)*
+The 31 generated rows still never show the problem directly — Stage 3 wrote those questions specifically
+to express their factor tuple, so all 31 tuples are fully specified. That is why the ablations exist.
 
 ## 2. Why "just pick a default" is not enough
 
@@ -90,7 +97,7 @@ here?"* — and on row 24 for `--distance`. No default can produce an option the
 | factor | treatment | reason |
 |---|---|---|
 | `species` | leave as-is | already deterministic (`infer_species`) and fail-closed |
-| `region_focus` | **assume both** | "both" is expressible, and it is the honest reading of silence — the largest single win (16/20 real queries) |
+| `region_focus` | **assume both** | "both" is expressible, and it is the honest reading of silence — and the only assumption that loses nothing: 0.00 options lost on 22 ablations (§7.4) |
 | `origin` | **assume somatic** (fail-closed) | **corrected by measurement — see §7.2.** "Stay empty" was the original proposal and it is *not* safe |
 | `variant_size_class` | **stay empty, and disclose** | case (b): "both" is inexpressible *today* — but see §7.3, which argues it should become expressible |
 | `analysis_goal` | **stop defaulting silently; disclose** | case (c): no safe middle, and today's default is invisible |
@@ -105,8 +112,9 @@ So the tool needs three ways to respond to a gap:
 
 **When to ask is a deterministic decision, not a model judgement.** For a candidate factor, resolve the
 configuration under every possible value and take the largest pairwise difference; below a threshold, do
-not ask. This costs ~0.3 ms and no LLM call, and it is what suppressed all 16 `origin` questions in the
-measurement above — the naive "ask whenever the model is unsure" design would have asked 52 questions
+not ask. This costs ~1 ms and no LLM call. It is why `origin` is never asked about: the assumption resolves it,
+and where it does not, the answer usually moves nothing. The naive "ask whenever the model is unsure"
+design would have asked about it constantly — 52 questions
 across 20 queries, 16 of them about the factor that matters least.
 
 ## 4. Modes
@@ -126,8 +134,9 @@ middle.
 1. **Does "region_focus = both" recover the lost options**, and what does it cost in precision? It will
    switch on missense predictors that print empty columns for purely regulatory variants — the same
    trade-off `DECISIONS.md` §2 is already asking the reviewer to rule on.
-2. **Re-run the 20 real queries afterwards.** How many still carry a gap that matters? That number is the
-   honest size of the "must ask" problem and the only justification for building the interaction.
+2. **Re-measure afterwards on evidence that survives checking.** How many queries still carry a gap that
+   matters? That number is the honest size of the "must ask" problem and the only justification for
+   building the interaction. Done in §7.4 on the 81 controlled ablations: **16 of 81**, all one factor.
 3. **A danger audit the option-count sweep cannot do** (see case (a)): for each factor, which *wrong*
    guesses enable something destructive rather than merely omit something. Smaller list, and the one worth
    putting in front of the reviewer.
@@ -137,8 +146,8 @@ middle.
 Nothing here edits `priority_by_factor.json` or the `DRIVES` spec that generates it. `region_focus=coding`
 continues to mean exactly what the review is deciding it means. What changes is only the handling of a
 factor the user never supplied — a case that appears in **0 of the 31 reviewed rows** (all 31 tuples are
-fully specified, verified) and in **16 of 20 real queries**. So this cannot alter any reviewed row,
-including the ten approved.
+fully specified, verified) and, by construction, on all 81 controlled ablations (§7.4). So this cannot
+alter any reviewed row, including the ten approved.
 
 It is still a design decision that changes what a vague question returns, so it should go to the reviewer
 before it ships — bundled with the tier question and the CLI-vs-web scope question rather than sent
@@ -183,16 +192,19 @@ user's variants.
 
 ### 7.3 `variant_size_class` — the whole remaining case for asking is one factor, and it is a taxonomy bug
 
-Re-running the 20 real forum queries against the new defaults:
+~~Re-running the 20 real forum queries against the new defaults: 18/20 → 13/20 needing a question, 1.50
+→ 0.65 questions per query, 1.90 assumptions stated.~~ **Withdrawn — those numbers came from the
+discredited set (§1).** Re-measured on the 81 clean ablations, where the removed fact is known:
 
-| | before | after |
-|---|---|---|
-| queries needing ≥1 question | 18/20 | **13/20** |
-| mean questions per query | 1.50 | **0.65** (cap is 1) |
-| assumptions stated per query | — | 1.90 |
+| | |
+|---|---|
+| ablations needing ≥1 question | **16/81** |
+| assumptions stated per ablation | **0.69** |
+| which factor | `variant_size_class` 16, everything else **0** |
 
-Every remaining question is `variant_size_class` — 13 of 13. `origin` and `region_focus` are now assumed
-and disclosed; nothing else is ever asked.
+Every question is `variant_size_class` — 16 of 16. `origin` and `region_focus` are assumed and
+disclosed; nothing else is ever asked. The conclusion is the one the withdrawn figures pointed at, now
+resting on evidence where the counterfactual is observable.
 
 And the resolver **already accepts a multi-valued `variant_size_class`** (verified: it resolves cleanly).
 Only `factors.json` declares it `select: single`. The hard gate already has the right semantics for a mixed
@@ -216,15 +228,60 @@ This is the third time in this work that a symmetric count chose the wrong answe
 sweep in §7.2 and strict set-equality in Exp 15. **Symmetric metrics are the wrong instrument for a
 recommender whose errors are asymmetric in cost.**
 
-### 7.4 What to put to the reviewer
+### 7.4 What each gap costs, against constructed ground truth (measured 2026-08-07)
+
+The controlled ablation is the only fixture in this line of work where the right answer is known. Each
+of the 31 review queries states all five factors, so exactly one can be removed and everything else held
+fixed. A model rewrites the question so it reads naturally with the fact simply absent; every rewrite is
+re-read and kept only if the target fact really went **and** no other factor moved. 124 attempted, **81
+clean** (22 redundant — words gone, fact still inferable; 15 entangled; 6 rewrite failed).
+
+Resolving each clean ablation and comparing to the configuration the true tuple produces:
+
+| fact removed | n | mean options **lost** | mean added | exactly right | rows losing something |
+|---|---|---|---|---|---|
+| `region_focus` — assumed *both* | 22 | **0.00** | 1.64 | 11/22 | **0/22** |
+| `origin` — assumed *somatic* | 19 | 0.32 | 0.58 | 14/19 | 5/19 |
+| `analysis_goal` — assumed *basic-consequence* | 11 | 1.09 | 0.00 | 6/11 | 5/11 |
+| `variant_size_class` — left open | 29 | 1.03 | 4.21 | 14/29 | **15/29** |
+
+**Lost and added are not the same error, and the table is only readable if they are kept apart.** An
+extra annotation column is noise the user can ignore; a missing predictor is a finding they never see.
+This is the same asymmetry §7.3 found F1 blind to. Read that way:
+
+- **`region_focus = both` is the strongest assumption in the design** — zero loss on all 22 rows. This
+  is a second, independent confirmation of §7.1, on ablated prose rather than a blanked tuple.
+- **`analysis_goal` is the weakest** — it is the only assumption whose errors are *subtractive*, because
+  reading a question as a plain consequence call drops ClinVar and the predictors. There is no safe
+  middle (§2c), so it is disclosed loudly rather than defended.
+- **`variant_size_class`, the one factor left open, is the worst outcome of the four** — it both loses
+  and adds, and half the rows lose something.
+
+And what the proposed taxonomy change does to that last row, on the same 29 ablations:
+
+| policy for `variant_size_class` | mean lost | mean added | rows losing something |
+|---|---|---|---|
+| today — single-select, left open | 1.03 | 4.21 | 15/29 |
+| **multi-select, assumed *both* when unstated** | **0.00** | 4.28 | **0/29** |
+
+The error becomes purely additive — the same shape `region_focus` already has — at no measurable cost in
+added options. Questions needed across all 81 ablations go from 16 to **zero**.
+
+**One finding about recoverability that no policy can change.** `variant_size_class` came out cleanly
+**29 of 31** times and was still inferable from context only twice. The fact is simply not in the
+surrounding prose, so no better prompt and no larger model recovers it. By contrast `analysis_goal` was
+redundant or entangled **17 of 31**, so it is rarely genuinely missing. That asymmetry is the argument
+for treating the two factors differently.
+
+### 7.5 What to put to the reviewer
 
 Not "should the tool ask questions?" — the measurement makes that nearly moot. The question is narrower and
 has a precedent she can reason about:
 
 > `region_focus` was made multi-select because a variant set can be coding **and** regulatory.
 > `variant_size_class` has the identical problem — review row 1 is a real query naming *"both coding SNVs
-> and larger structural variants or CNVs"*, and it is the single reason 13 of 20 real questions would need
-> an interruption. The resolver already supports it. Should `variant_size_class` become multi-select too?
+> and larger structural variants or CNVs"*, and it is the single reason any question is ever asked — 16 of
+> 16, across 81 controlled ablations. The resolver already supports it. Should `variant_size_class` become multi-select too?
 
 If yes, the asking mechanism may not be needed at all, and row 1's `factor_unrecoverable` flag — which she
 queried directly — resolves as a modelling fix rather than a bad row.

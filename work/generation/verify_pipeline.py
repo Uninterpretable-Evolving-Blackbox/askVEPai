@@ -214,7 +214,48 @@ def main():
     check("even an EMPTY draft is repaired to the full critical set",
           not (crit - run_draft(set(), "standard")))
 
-    print("\n== 7. Helpers ==")
+    print("\n== 7. The two-tier display is a regrouping, not a filter ==")
+    # The whole case for merging critical into recommended was that it costs nothing: the tiers were
+    # already enabled together, so the merge only relabels. That claim is only true while
+    # tier_by_importance stays a pure partition of the SAME enabled set — the failure mode is a future
+    # edit that drops an option on the way into a bucket, which would silently shrink what the user is
+    # shown while every option-set metric stays green, because the metrics never read the display.
+    #
+    # Checked across every factor tuple the sampler can produce, not one scenario, because a bucket is
+    # only ever wrong for particular priorities and a single tuple exercises few of them.
+    tuples = [{"species": sp, "origin": og, "variant_size_class": sz,
+               "region_focus": rg, "analysis_goal": gl}
+              for sp in ("human", "non-human") for og in ("germline", "somatic")
+              for sz in ("small", "structural-CNV")
+              for rg in (["coding"], ["regulatory-noncoding"], ["coding", "regulatory-noncoding"])
+              for gl in (["basic-consequence"], ["clinical-interpretation"], ["population-frequency"])]
+    lost, promoted, offered_on = [], [], []
+    for t in tuples:
+        r = va.intent_priorities(t, cat, pbf, factors)
+        en = {o for o, (e, _, _) in r.items() if e}
+        b = va.tier_by_importance(en, r)
+        if set(b["recommended"]) | set(b["addons_on"]) | set(b["unpriced"]) != en:
+            lost.append(va.factor_slug(t))
+        # An option rated `optional` must not be swept into RECOMMENDED by the merge — that would turn
+        # the relabel into an actual change to what the sheet says is switched on.
+        if any(r[o][1] == "optional" for o in b["recommended"]):
+            promoted.append(va.factor_slug(t))
+        # "Offered" means NOT enabled. An option in both lists would read as on and off at once.
+        if set(b["addons_offered"]) & en:
+            offered_on.append(va.factor_slug(t))
+    check(f"every enabled option lands in exactly one bucket ({len(tuples)} tuples)",
+          not lost, f"lost on {lost[:3]}")
+    check("the merge takes critical+recommended only — no `optional` is promoted",
+          not promoted, f"promoted on {promoted[:3]}")
+    check("options offered as add-ons are never also enabled",
+          not offered_on, f"both on {offered_on[:3]}")
+    # The tier survives INTERNALLY. If it ever stops doing so, restore_missing_critical silently
+    # becomes a no-op and --minimal silently becomes --standard, with nothing else failing.
+    r = va.intent_priorities(ft, cat, pbf, factors)
+    check("the internal `critical` tier still exists for the mechanisms defined on it",
+          any(p == "critical" for _e, p, _g in r.values()))
+
+    print("\n== 8. Helpers ==")
     check("rouge_l(identical) == 1", abs(genlib.rouge_l("a b c", "a b c") - 1.0) < 1e-9)
     check("rouge_l(disjoint) == 0", genlib.rouge_l("a b c", "x y z") == 0.0)
     check("strongest ranks critical > recommended > optional",

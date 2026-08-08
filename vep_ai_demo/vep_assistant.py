@@ -7,7 +7,7 @@ Supports three modes:
   python vep_assistant.py explain-result "why..." # explain a VEP output annotation
 
 How much configuration you get back (default = standard):
-  --minimal   only the options that are essential for your scenario
+  --minimal   the smallest runnable set for your scenario
   --full      also switch on every add-on the scenario justifies
 
 Reasoning. There are TWO model calls per run — a fast classifier that reads your scenario, then the
@@ -405,6 +405,39 @@ def load_priority_by_factor(vep_options=None):
 
 
 PRIORITY_ORDER = {"critical": 3, "recommended": 2, "optional": 1}
+
+# --- The two-tier DISPLAY vocabulary --------------------------------------------------------------
+#
+# Agreed with the mentors 2026-08-07: the user sees TWO buckets, not three. `critical` and
+# `recommended` merge into RECOMMENDED; `optional` becomes ADD-ON.
+#
+# The names are Nakib's and the reason is worth keeping: "default" reads as *applies automatically*,
+# which is false for a bucket the user still has to switch on. "Recommended" says what it is — an
+# expert suggestion.
+#
+# The merge costs nothing, because it was always only a label: `intent_priorities` enables
+# `critical ∪ recommended` as one set, so both tiers were switched on together in every configuration
+# the tool has ever emitted. Measured over the 31 review rows, the emitted set is identical under
+# either shape (391 options on, no conflict tie-break changes).
+#
+# The three internal priorities STAY. Three mechanisms are defined on `critical` and lose their
+# meaning without it: restore_missing_critical (the only thing that adds a missing must-have back to a
+# short draft, protecting 103 option-instances across the 31 rows), --minimal, and critical-recall.
+# The model is also still shown the three labels — it is the engine's input, not its output, and every
+# measured number was taken with three labels in context.
+#
+# One map, so the CLI, the web payload and the review export cannot drift apart.
+DISPLAY_TIER = {"critical": "recommended", "recommended": "recommended", "optional": "add-on"}
+
+
+def display_tier(priority):
+    """The bucket a user is shown for an internal priority label.
+
+    Anything with no bucket — `not_applicable`, or an option the table prices for no factor here —
+    comes back unchanged, so the caller decides whether to show it at all rather than having it
+    silently renamed into a tier it is not in."""
+    return DISPLAY_TIER.get(priority, priority)
+
 
 # Factors that can REMOVE an option outright when they mark it not_applicable.
 #
@@ -837,8 +870,11 @@ def apply_user_context(rec, context):
             continue                                    # ignore a value the scheme does not define
         rec[f] = sorted(vals) if f in MULTI_FACTORS else vals[0]
         overridden.append(f)
+    # GRCh37/GRCh38 are human assemblies. Accepting one for a non-human query would let the
+    # assembly gate strip human-only options on a species that never had them anyway, and would
+    # report an override the user cannot have meant.
     asm = context.get("assembly")
-    asm = asm if asm in ("GRCh37", "GRCh38") else None
+    asm = asm if (asm in ("GRCh37", "GRCh38") and rec.get("species") != "non-human") else None
     if asm:
         overridden.append("assembly")
     return rec, asm, overridden
@@ -850,6 +886,36 @@ def _enabled_for(factor_tuple, vep_options):
     if not resolved:
         return None
     return {oid for oid, (en, _, _) in resolved.items() if en}
+
+
+def factor_must_haves_at_stake(factor, factor_tuple, vep_options):
+    """Must-have options whose presence depends on how this factor is answered.
+
+    THE ASK RULE. Interrupting someone is only justified when the answer changes something essential:
+    "answering this puts a different must-have in your configuration" is a sentence a user can act on,
+    and it needs no threshold. The previous rule fired when >=3 options differed, which is a number
+    fitted to our own 31 rows rather than derived from anything, and it could interrupt over three
+    interchangeable add-ons while staying silent when a single essential option flipped.
+
+    Note this is per QUERY, not per factor. `origin` changes nothing on a clinical question and decides
+    the common-variant filter on a frequency one, so no fixed per-factor rule is right for both."""
+    try:
+        values = load_factors()["factors"][factor]["values"]
+    except Exception:
+        return set()
+    seen = []
+    for v in values:
+        t = dict(factor_tuple)
+        t[factor] = [v] if factor in MULTI_FACTORS else v
+        resolved = resolve_for_query(t, vep_options)
+        if not resolved:
+            continue
+        seen.append({oid for oid, (en, pr, _) in resolved.items() if en and pr == "critical"})
+    at_stake = set()
+    for i, a in enumerate(seen):
+        for b in seen[i + 1:]:
+            at_stake |= (a ^ b)
+    return at_stake
 
 
 def factor_impact(factor, factor_tuple, vep_options):
@@ -877,11 +943,16 @@ def factor_impact(factor, factor_tuple, vep_options):
     return max((len(a ^ b) for i, a in enumerate(configs) for b in configs[i + 1:]), default=0)
 
 
-def clarification_plan(rec, vep_options, ask_threshold=3):
+def clarification_plan(rec, vep_options):
     """Given the RAW classification (apply_defaults=False), decide per open factor: assume, or ask.
 
     Returns (filled_tuple, assumptions, questions). `assumptions` are stated to the user rather than
     hidden — the point of this whole mechanism is that the tool stops making invisible choices."""
+    # The classifier returns None on a parse failure, and that is a normal outcome rather than an
+    # exceptional one — a crash here would take down a request that could still be served from the
+    # user's own stated context.
+    if not rec:
+        return dict(rec or {}), [], []
     rec = dict(rec)
     assumptions, questions = [], []
     for f in FACTOR_VALUES:
@@ -897,9 +968,15 @@ def clarification_plan(rec, vep_options, ask_threshold=3):
             assumptions.append((f, rec[f], policy["why"]))
         else:
             questions.append((f, policy.get("why", ""), None))
-    # Impact is scored against the tuple AFTER assumptions, so the question reflects what is still open.
-    scored = [(f, why, factor_impact(f, rec, vep_options)) for f, why, _ in questions]
-    return rec, assumptions, [q for q in scored if q[2] >= ask_threshold]
+    # Scored against the tuple AFTER assumptions, so a question reflects what is still genuinely open.
+    # The test is whether a MUST-HAVE is at stake, not how many options move: a user can act on "this
+    # changes something essential in your configuration" and cannot act on "this changes four things".
+    scored = []
+    for f, why, _ in questions:
+        at_stake = factor_must_haves_at_stake(f, rec, vep_options)
+        if at_stake:
+            scored.append((f, why, sorted(at_stake)))
+    return rec, assumptions, scored
 
 
 _FACTOR_PROMPTS = {
@@ -1900,25 +1977,38 @@ def resolve_for_query(factor_tuple, vep_options):
 def tier_by_importance(enabled, resolved):
     """Split the corrected option set by the priority the FACTOR table gives it for THIS scenario.
 
-    This is the essential-vs-optional view. It is a different axis from :func:`tier_options`, which
-    splits on native-flag vs plugin (i.e. does it need downloaded data files) — an infrastructure
-    question, not a clinical one. An option can be a plugin AND essential (AlphaMissense), or native
-    AND an add-on (`--uniprot`).
+    TWO BUCKETS, not three (agreed with the mentors 2026-08-07). `critical` and `recommended` merge
+    into one RECOMMENDED bucket and `optional` becomes ADD-ONS. The merge is presentational and costs
+    nothing: `intent_priorities` has always enabled `critical ∪ recommended` as a single set, so the
+    user was already getting both and the split was only ever a label on the way out. Measured across
+    the 31 review rows, the emitted configuration is identical under either shape — 391 options, no
+    tie-break changes.
 
-    Returns five lists:
-      essential / recommended / addons_on — ENABLED options, grouped by tier.
+    The tier survives INTERNALLY, in `resolved`, because three mechanisms are defined on it and would
+    otherwise lose their meaning: `restore_missing_critical` (which puts a missing must-have back),
+    `--minimal`, and critical-recall. Merging the display keeps all three working.
+
+    Naming is Nakib's and the reason matters: "default" reads as *applies automatically*, which is
+    wrong for a bucket the user still has to switch on. "Recommended" is the expert suggestion it
+    actually is.
+
+    This is a different axis from :func:`tier_options`, which splits on native-flag vs plugin (i.e.
+    does it need downloaded data files) — an infrastructure question, not a clinical one. An option
+    can be a plugin AND recommended (AlphaMissense), or native AND an add-on (`--uniprot`).
+
+    Returns four lists:
+      recommended     — ENABLED and rated critical or recommended here.
+      addons_on       — ENABLED and rated `optional`: add-ons this run switched on anyway.
       unpriced        — enabled, but the table prices them for no factor here (output/compute controls).
       addons_offered  — rated `optional` for this scenario and NOT enabled: the "offered, off by
                         default" set. Hard-gated options are never offered.
 
     DISPLAY ONLY: it regroups the corrected set, it never changes which options are enabled, so the
     checker and every scored metric are untouched."""
-    out = {"essential": [], "recommended": [], "addons_on": [], "unpriced": [], "addons_offered": []}
+    out = {"recommended": [], "addons_on": [], "unpriced": [], "addons_offered": []}
     for oid in sorted(enabled):
         _, priority, _ = resolved.get(oid, (False, None, False))
-        if priority == "critical":
-            out["essential"].append(oid)
-        elif priority == "recommended":
+        if priority in ("critical", "recommended"):
             out["recommended"].append(oid)
         elif priority == "optional":
             out["addons_on"].append(oid)
@@ -1952,7 +2042,9 @@ def apply_config_level(enabled, disabled, resolved, level, vep_options, training
     """Narrow or widen the corrected set to the depth the user asked for. Mutates `enabled`.
 
       minimal  — keep only what the factor table calls `critical` here. For someone who wants the
-                 smallest runnable configuration and will add to it themselves.
+                 smallest runnable configuration and will add to it themselves. `critical` is an
+                 INTERNAL tier: since the two-tier merge the user sees one RECOMMENDED bucket, so
+                 this level is described to them by what it is for, not by the tier it filters on.
       standard — leave it as recommended (the default).
       full     — additionally switch on every add-on the table rates `optional` and does not gate,
                  for someone who wants everything the scenario can justify.
@@ -2023,12 +2115,16 @@ def restore_missing_critical(enabled, disabled, resolved, vep_options, training_
 
 
 def format_restored_critical(restored, vep_options):
-    """Report must-haves the draft omitted. Empty string when the draft was complete."""
+    """Report recommended options the draft omitted. Empty string when the draft was complete.
+
+    The MECHANISM is keyed on the internal `critical` tier — that is what makes it selective rather
+    than "re-add everything the table recommends". The WORDING is not, because the user is shown two
+    buckets and "must-have" would read as a third one."""
     if not restored:
         return ""
     name_by_id = {o["id"]: o.get("name", o["id"]) for o in vep_options}
-    lines = ["", f"⚠️  MUST-HAVE OPTIONS THE DRAFT LEFT OUT ({len(restored)}):",
-             "   The factor table rates these essential for this scenario, so they are switched on:"]
+    lines = ["", f"⚠️  RECOMMENDED OPTIONS THE DRAFT LEFT OUT ({len(restored)}):",
+             "   The factor table recommends these for this scenario, so they are switched on:"]
     lines += [f"     + {name_by_id.get(oid, oid)} [{oid}]" for oid in restored]
     lines.append("")
     return "\n".join(lines)
@@ -2055,9 +2151,8 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
         # Essential-vs-optional view: group the SAME corrected set by this scenario's priorities.
         tiers = tier_by_importance(enabled, resolved)
         for key, title, mark in (
-            ("essential",   "ESSENTIAL — must-have for this scenario", "✓"),
-            ("recommended", "RECOMMENDED — standard defaults for this scenario", "✓"),
-            ("addons_on",   "ADD-ONS (enabled) — optional extras this run turned on", "+"),
+            ("recommended", "RECOMMENDED — switched on for this scenario", "✓"),
+            ("addons_on",   "ADD-ONS (enabled) — extras this run turned on", "+"),
             ("unpriced",    "OTHER (enabled) — the factor table ranks these for no factor here", "✓"),
         ):
             if not tiers[key]:
@@ -2076,7 +2171,8 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
                          f"{display_flag(flag_by_id.get(oid, ''))}".rstrip()
                          for oid in tiers["addons_offered"])
         lines.append("")
-        lines.append("  Tiers come from the PROVISIONAL factor priority table — VEP itself ranks nothing.")
+        lines.append("  The recommended/add-on split comes from the PROVISIONAL factor priority table — "
+                     "VEP itself ranks nothing.")
     else:
         lines.append("ENABLE:")
         for oid in on:
@@ -2953,7 +3049,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     Args:
         skip_check: If True, skip the post-hoc constraint checker.
         retrieval_mode: "keyword" or "semantic".
-        level: "minimal" (essentials only), "standard" (default), or "full" (add every add-on).
+        level: "minimal" (smallest runnable set), "standard" (default), or "full" (add every add-on).
     """
     if explain:
         print_decision_trace(user_query, vep_options, training_examples,
@@ -3055,7 +3151,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
             removed = apply_config_level(enabled, disabled, resolved, level, vep_options,
                                          training_examples, user_query,
                                          retrieval_mode=retrieval_mode)
-            note = (f"  ({len(removed)} non-essential options dropped; dependencies kept)"
+            note = (f"  ({len(removed)} recommended options dropped to leave the smallest runnable "
+                    f"set; dependencies kept)"
                     if level == "minimal" else "  (every applicable add-on switched on)")
             print(f"\nCONFIG LEVEL: {level}\n{note}")
         elif level != "standard":

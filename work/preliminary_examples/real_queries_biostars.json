@@ -1,5 +1,18 @@
 [
   {
+    "_WITHDRAWN": "DO NOT USE THIS SET, AND DO NOT CITE ANY FIGURE DERIVED FROM IT.",
+    "_withdrawn_on": "2026-08-07",
+    "_why": "All nine items this set flagged `verbatim` were checked against their GitHub sources and NONE was verbatim: similarity to the real issue body ran 0.03-0.98, none was even a substring, and five had VEP command lines stripped out, up to twenty-four flags in one case. Removing a command line that names --overlaps / --numbers / --protein makes a question look MORE under-specified than the user's real one, i.e. the edits ran in the direction that flattered the conclusion the set was used to support. The other eleven items were always reconstructions from search snippets (Biostars is Cloudflare-blocked), which matters more than usual here because the measurement is about phrasing.",
+    "_figures_withdrawn": [
+      "'18 of 20 questions leave a decision-relevant factor open'",
+      "'7 of 9 on the verbatim slice' (rested on the same false claim of verbatimness)",
+      "'1.50 -> 0.65 clarifying questions per query'",
+      "'18/20 -> 13/20 queries needing a question'"
+    ],
+    "_use_instead": "work/preliminary_examples/ablated_queries.json (124 attempted, 81 clean; one fact removed from our own queries, so ground truth is known) and work/preliminary_examples/real_queries_fetched.json (43 issues pulled verbatim with a per-body SHA-256 and a --verify re-fetch; only 8 are configuration questions). See work/research/underspecification_proposal.md sections 1 and 7.4.",
+    "_kept_because": "Deleting it would erase the record of what was withdrawn and why. It is kept as evidence of the correction, not as data."
+  },
+  {
     "id": "real_reg_flanking_distance",
     "query": "I am trying to annotate my list of SNP variants using VEP. How can I get the following information in my output file? 1. For intron_variants, report the exon IDs that flank this region and return distance to them (both upstream and downstream). 2. For intergenic_variant, report the gene IDs that flank this region and return distance to them (both upstream and downstream).",
     "use_case_human": "regulatory_noncoding",

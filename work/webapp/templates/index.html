@@ -130,9 +130,10 @@
   .src{background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:0 6px;font-size:11.5px;font-family:ui-monospace,monospace}
   .pr-badge{display:inline-block;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;
     border-radius:5px;padding:1px 7px;margin-right:8px;font-weight:650;vertical-align:baseline}
-  .pr-badge.critical{color:var(--disable);background:rgba(194,72,59,.12)}
-  .pr-badge.recommended{color:var(--accent);background:var(--accent-soft)}
-  .pr-badge.optional,.pr-badge.not_applicable,.pr-badge.na{color:var(--muted);background:var(--chip)}
+  /* Two display tiers. `critical` keeps a rule only because the PROVENANCE panel still shows the
+     knowledge base's own labels; the recommendation itself never emits it. */
+  .pr-badge.recommended,.pr-badge.critical{color:var(--accent);background:var(--accent-soft)}
+  .pr-badge.addon,.pr-badge.optional,.pr-badge.not_applicable,.pr-badge.na{color:var(--muted);background:var(--chip)}
   .cursor-blink{display:inline-block;width:8px;height:15px;background:var(--accent);vertical-align:-2px;animation:blink 1s steps(2) infinite;margin-left:1px;border-radius:1px}
   @keyframes blink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
 
@@ -183,7 +184,8 @@
   .optline .nm{font-weight:580}
   .optline .fl{font-family:ui-monospace,monospace;font-size:12px;color:var(--accent)}
   .optline .pr{margin-left:auto;font-size:11px}
-  .pr.critical{color:var(--disable)} .pr.recommended{color:var(--accent)} .pr.optional,.pr\.na{color:var(--muted)}
+  .pr.critical{color:var(--disable)} .pr.recommended{color:var(--accent)}
+  .pr.addon,.pr.optional,.pr\.na{color:var(--muted)}
   .cmd{position:relative;margin-top:12px}
   .cmd pre{background:var(--code);color:#d6f2ea;border-radius:10px;padding:14px;overflow:auto;font-size:12.5px;margin:0}
   .copy{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.12);color:#d6f2ea;border:0;border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer}
@@ -316,7 +318,7 @@
       </div>
       <div>
         <div class="subhead">Option priority map
-          <i class="info" tabindex="0" role="button" aria-label="About the priority map" data-tip="Every catalogue option with its priority for the detected use case (critical / recommended / optional / not_applicable). Bar length reflects priority level. Hover a row for its species restriction.">i</i>
+          <i class="info" tabindex="0" role="button" aria-label="About the priority map" data-tip="Provenance view: every catalogue option with the knowledge base's own priority for this scenario (critical / recommended / optional / not_applicable). The recommendation above groups critical and recommended into one RECOMMENDED bucket; this panel shows the finer split the engine works with. Bar length reflects priority level. Hover a row for its species restriction.">i</i>
         </div>
         <div class="rows scroll" id="tracePriority"></div>
       </div>
@@ -684,7 +686,7 @@ function renderResult(res){
   }
   // Options the priority table rates `optional` for this scenario and that are NOT switched on.
   // The rows above say what you are getting; without this there is nothing saying what you could
-  // add, which is the other half of the essential-vs-optional question.
+  // add, which is the other half of the recommended-vs-add-on split.
   if(res.tiers && res.tiers.addons_offered && res.tiers.addons_offered.length){
     const a=el("div","subtle"); a.style.marginTop="8px";
     a.innerHTML=`Available add-ons — not enabled, turn on if they help (${res.tiers.addons_offered.length}): `
@@ -732,14 +734,19 @@ function inline(s){
 // The model echoes a priority tag it was given in the prompt. Only critical / recommended / optional
 // are real importance tiers; anything else (the model writing "no"/"n/a"/"not applicable" for an
 // option the factor table does not rank for this scenario) is NOT a tier, and rendering the word "NO"
-// next to a green tick read as a contradiction. Show a badge only for the three real tiers.
-const REAL_TIERS = {critical:1, recommended:1, optional:1};
+// next to a green tick read as a contradiction. Show a badge only for the real tiers.
+//
+// The model is still PROMPTED with three labels — that is the engine's input, and every measured
+// number was taken with it — so `critical` still arrives here and is mapped to the bucket the user is
+// shown. Mapping at render rather than in the prompt keeps the badge honest without disturbing what
+// the model reasons over.
+const DISPLAY_TIER = {critical:"recommended", recommended:"recommended", optional:"add-on"};
 function priorityBadge(t){
   const m=t.match(/priority[=:]\s*([a-z_]+)/i);
   if(!m) return "";
-  const pr=m[1].toLowerCase();
-  if(!REAL_TIERS[pr]) return "";
-  return `<span class="pr-badge ${pr}">${esc(pr)}</span>`;
+  const shown=DISPLAY_TIER[m[1].toLowerCase()];
+  if(!shown) return "";
+  return `<span class="pr-badge ${shown.replace(/[^a-z]/g,"")}">${esc(shown)}</span>`;
 }
 function renderProse(seg){
   const lines=seg.split("\n"); let html=""; let para=[];

@@ -2,8 +2,11 @@
 """Stage 6 — mentor review-queue export + provenance log.
 
 Emits a human-scannable review queue (CSV + JSON) and appends one append-only provenance record per
-row. NOTHING here is approved gold — `review_status` starts "pending"; the mentor adjudicates. Uses the
-tiered Core/Add-ons view (reused tier_options/format_tiered_config) so the enabled set is readable.
+row. NOTHING here is approved gold — `review_status` starts "pending"; the mentor adjudicates.
+
+TWO buckets, RECOMMENDED and ADD-ONS (agreed 2026-08-07). The engine keeps `critical` internally —
+restore_missing_critical, --minimal and critical-recall are all defined on it — but the reviewer is
+not asked to adjudicate a distinction that never reached the configuration.
 
   VEP_OPTIONS_FILE=work/vep_options_expanded.json \
   python work/generation/export_for_review.py --in candidates/iced.json --outdir candidates/review
@@ -63,9 +66,23 @@ def main():
             # priorities existed. It is the wrong axis for review: it answers "is this a plugin?", not
             # "must I have this?". The reviewer's own spec asks for generated options "including mandatory
             # and optional", so the sheet has to show the priority tiers.
-            by_prio = {"critical": [], "recommended": []}
-            for oid in sorted(enabled):
-                by_prio.setdefault(opts[oid].get("priority", "recommended"), []).append(oid)
+            #
+            # TWO buckets since 2026-08-07 (Likhitha + Nakib): `critical` and `recommended` are one
+            # RECOMMENDED column, `optional` is ADD-ONS. Nothing about the CONFIGURATION changes —
+            # `recommended_options` was always `critical ∪ recommended`, so the same 391 options across
+            # these 31 rows are enabled either way. Only the column they are printed in changes.
+            #
+            # Worth knowing before applying round-1 comments: about 12 of the reviewer's edits are
+            # critical↔recommended moves, which are no-ops here. What survives is anything crossing the
+            # recommended/add-on line.
+            #
+            # Filed by PRIORITY rather than by "is it enabled", so an enabled `optional` — which the
+            # resolver does not currently produce, but nothing stops it from producing — lands in
+            # ADD-ONS where it belongs instead of being quietly promoted by the merge.
+            recommended = [oid for oid in sorted(enabled)
+                           if opts[oid].get("priority", "recommended") != "optional"]
+            enabled_addons = [oid for oid in sorted(enabled)
+                              if opts[oid].get("priority") == "optional"]
 
             review.append({
                 "id": r["id"],
@@ -73,10 +90,9 @@ def main():
                 "region": "+".join(fl["region_focus"]), "goal": "+".join(fl["analysis_goal"]),
                 "query": r.get("user_query"),
                 "n_enabled": len(enabled),
-                # --- the config, by importance ---
-                "critical": "; ".join(by_prio.get("critical", [])),
-                "recommended": "; ".join(by_prio.get("recommended", [])),
-                "optional_addons": "; ".join(sorted(r.get("add_on_options", {}))),
+                # --- the config, in the two buckets the reviewer sees ---
+                "recommended": "; ".join(recommended),
+                "addons": "; ".join(sorted(set(r.get("add_on_options", {})) | set(enabled_addons))),
                 # (no explicit disables: the checker owns everything OFF at runtime — see resolve_config)
                 # --- the factual native/plugin split, kept but named for what it actually is ---
                 "plugins_used": "; ".join(va.tier_options(enabled, catalogue)["addons"]),
@@ -87,8 +103,8 @@ def main():
                 "config_source": r.get("_resolver", {}).get("config_source"),
                 # --- columns for the reviewer to fill in ---
                 "review_status": "pending",
-                "critical_ok": "",       # are the `critical` options right — too many? too few?
-                "optional_ok": "",       # do the add-ons belong, and is anything missing?
+                "recommended_ok": "",    # are the recommended options right — too many? too few?
+                "addons_ok": "",         # do the add-ons belong, and is anything missing?
                 "query_ok": "",          # does the query actually describe this scenario?
                 "notes": "",
             })
@@ -127,11 +143,12 @@ def main():
         lines.append(f"  {fl['species']} / {fl['origin']} / {fl['variant_size_class']} / "
                      f"{'+'.join(fl['region_focus'])} / {'+'.join(fl['analysis_goal'])}")
         lines.append(f"Q: {r.get('user_query')}")
-        for tier in ("critical", "recommended"):
-            ids = sorted(o for o, v in opts.items() if v.get("enabled") and v.get("priority") == tier)
-            lines.append(f"  {tier.upper():12s} ({len(ids)}): {', '.join(ids) or '-'}")
-        add = sorted(r.get("add_on_options", {}))
-        lines.append(f"  {'OPTIONAL':12s} ({len(add)}): {', '.join(add) or '-'}")
+        rec = sorted(o for o, v in opts.items()
+                     if v.get("enabled") and v.get("priority", "recommended") != "optional")
+        add = sorted(set(r.get("add_on_options", {}))
+                     | {o for o, v in opts.items() if v.get("enabled") and v.get("priority") == "optional"})
+        lines.append(f"  {'RECOMMENDED':12s} ({len(rec)}): {', '.join(rec) or '-'}")
+        lines.append(f"  {'ADD-ONS':12s} ({len(add)}): {', '.join(add) or '-'}")
     (outdir / "review_view.txt").write_text("\n".join(lines))
 
     print(f"Review queue -> {_rel(csv_path)}")
