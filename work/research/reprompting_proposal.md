@@ -123,6 +123,14 @@ The fix is to allow both values, as `region_focus` already does. On the same 29 
 The error becomes purely additive at no measurable cost in added options, and the questions the tool
 needs across all 81 ablations go from 16 to zero. Every one of those 16 was this factor.
 
+Offering "both" as a third choice in the question would not fix this. The resolver already accepts two
+values and returns exactly the union of the two configurations, so the prompt could offer it today. But
+the classifier's schema is generated from the same `select: single` field, so it can only ever return one
+value, and review row 1 *states* both in its text rather than leaving it out. Under a prompt-only fix,
+someone who writes "SNVs and CNVs" still has half of it discarded and is never asked, because the factor
+looks answered; only someone who says nothing gets the right answer. That is backwards, and it leaves the
+exhibit unfixed.
+
 The plumbing is done. `MULTI_FACTORS` and the classifier's prompt schema both derive from `factors.json`,
 the sampler, dedup key and tuple slug are cardinality-agnostic, and both configurations pass the full
 invariant suite. The hard gate already has the right semantics for a mixed set: it removes an option only
@@ -197,8 +205,8 @@ repository half-changed. `--ask` shows the blocker from §5 directly: it offers 
 ## 9. What I would like you to rule on
 
 1. **Can a variant set be both small and structural?** (§5) Blocking. It unblocks deployment and removes
-   the only question the system ever asks. `region_focus` already works this way, so this is precedent
-   rather than a novel request.
+   the only question the system ever asks. `region_focus` already works this way, and 13 of the 31 rows
+   you reviewed carry both of its values, so this is precedent rather than a novel request.
 2. **Is `analysis_goal` in the right bucket?** (§4) It fails our own test for guessing, on our own
    measurements. Should it be asked instead, accepting that this means interrupting on nearly every vague
    query? Related and smaller: the priority table cannot resolve without a goal, so if someone is asked
