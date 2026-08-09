@@ -26,23 +26,13 @@ moved the work back onto them, which is the opposite of what the tool is for.
 | **ask** | no safe assumption **and** a must-have is at stake | real |
 
 
-**Whether to assume or ask when answer is not fully certain**:
-How much the options lost or added after assumption.
-For `origin` there is: guessing somatic withholds a filter, guessing germline applies one that discards
-tumour variants, so the two directions fail very differently and we take the cheap one. For `variant_size_class` there is no such direction, which is why it is the only thing ever asked about.
+Every guess is stated. A vague question comes back with a working configuration plus one line per guess, saying what was assumed and how to override it — "Assumed origin = somatic; say germline if these are inherited." Nothing is blocked, and the lines can be ignored.
 
-A question that leaves something open returns a working configuration plus a line naming each assumption
-and how to override it. Nobody is blocked; every line can be ignored. no invisible choices is ever made in those cases.
+Species is guessed too. If the question doesn't say, it runs as human and keeps the human-only tools. That one is announced by the constraint checker rather than by the lines above.
 
-**The optional fields, which you have not seen.** Row three refers to something built but never put in
-front of you: an *About your data* panel beside the query box, with four dropdowns — species,
-germline/somatic, small/structural, and assembly. Every one defaults to *from my description*, so a user
-who types a sentence and presses go gets exactly what they got before. If someone does set one, it wins
-outright over whatever the model read. The reasoning is §5; I am flagging it here because the table
-refers to it as though it were established, and it is not.
+Asking is the last resort and stays off unless requested, because the evaluation harness and the generation pipeline call the same code with nobody present and would hang.
 
-Asking is opt-in, because the evaluation harness and the generation pipeline call the same code
-non-interactively and would otherwise hang.
+The optional fields have not been put in front of you. Beside the query box are four dropdowns — species, germline or somatic, small or structural, and assembly. Each defaults to reading the description, so anyone who ignores them gets exactly what they got before; anything set overrides what the model read. The reasoning is in §5. Flagged here because the table above refers to them as if they were established, and they are not.
 
 ## 3. When it asks
 
