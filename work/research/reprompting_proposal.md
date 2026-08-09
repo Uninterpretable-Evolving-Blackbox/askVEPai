@@ -22,7 +22,7 @@ moved the work back onto them, which is the opposite of what the tool is for.
 |---|---|---|
 | **take it from the text** | the question settles it, so nothing is chosen | none |
 | **assume, and say which** | the question does not settle it, but one answer is clearly safer. *The normal case.* | none |
-| **take what the user stated** | they set one of the optional fields | none, and it is optional |
+| **let user state factor value optionally?** | they set one of optional fields | it is optional |
 | **ask** | no safe assumption **and** a must-have is at stake | real |
 
 The first two rows are easy to confuse, so: 
