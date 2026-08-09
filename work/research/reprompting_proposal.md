@@ -25,10 +25,6 @@ moved the work back onto them, which is the opposite of what the tool is for.
 | **give them a field to explicitly state factor values** | they optionally set fields | it is optional |
 | **ask** | no safe assumption **and** a must-have is at stake | real |
 
-The first two rows are easy to confuse, so: 
-**species** is read out of the question by a keyword rule that returns `human` only when the text positively says so. No option was preferred over another, so there is nothing to disclose. 
-
-**`origin`** is different — the question does not settle it, we pick somatic, and a different pick would give a different configuration. That is why it is announced and species is not. The test is not how confident we are; it is whether a choice was made at all.
 
 **Whether to assume or ask when answer is not fully certain**:
 How much the options lost or added after assumption.
