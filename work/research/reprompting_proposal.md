@@ -15,7 +15,17 @@ configuration with no sign that anything is missing.
 
 ## 2. What silence actually costs
 
-Every decision below rests on this measurement, so it comes first.
+Two experiments sit behind everything below and they do different jobs, so both come first.
+
+**Choosing the values.** For each factor, blank it across the 31 review rows, resolve the configuration
+under every candidate value, and score each against that row's known-correct configuration. That is how
+*both* was chosen for `region_focus`: F1 0.92, against 0.86 for *coding*, 0.85 for *regulatory* and 0.78
+for leaving it blank. `origin` was settled differently, by a danger audit asking which wrong guess
+switches on something destructive rather than which loses most options. `analysis_goal` was never chosen
+at all: the code already defaulted to it silently, and the change was to say so.
+
+**Checking them on harder input.** Blanking a tuple is artificial, because no real query arrives as a
+tuple with a hole in it. So the values were re-tested against prose.
 
 Each of our 31 generated queries states all five factors, so exactly one fact can be deleted with
 everything else held fixed. A model rewrites the query to read naturally with that fact simply absent.
@@ -206,15 +216,24 @@ repository half-changed. `--ask` shows the blocker from §5 directly: it offers 
 
 1. **Can a variant set be both small and structural?** (§5) Blocking. It unblocks deployment and removes
    the only question the system ever asks. `region_focus` already works this way, and 13 of the 31 rows
-   you reviewed carry both of its values, so this is precedent rather than a novel request.
+   you reviewed carry both of its values, so this is precedent rather than a novel request. A third
+   answer is possible, and it is Jamie's, from his note on row 1: that a mixed set is really two
+   analyses and the tool should say so rather than emit one configuration covering both. That changes
+   what the tool outputs rather than what the factor can hold, so it needs deciding here as well.
 2. **Is `analysis_goal` in the right bucket?** (§4) It fails our own test for guessing, on our own
    measurements. Should it be asked instead, accepting that this means interrupting on nearly every vague
-   query? Related and smaller: the priority table cannot resolve without a goal, so if someone is asked
-   and skips, something still fills it in, and that currently happens with no announcement.
+   query? Related and smaller: an empty goal resolves to 6 options instead of about 13, so the
+   configuration collapses rather than failing. Something therefore fills it in even when someone is
+   asked and skips, and that currently happens with no announcement.
 3. **Assembly** (§6): guess GRCh38 and say so, or ask? This is the one where silence produces a wrong
    answer rather than an incomplete one.
 4. **Is "it changes something essential" the right bar for interrupting someone?** (§4) The bar is a
-   clinical judgement encoded in the priority table you are reviewing, so it is really yours.
+   clinical judgement encoded in the priority table you are reviewing, so it is really yours. A more
+   consistent alternative is to guess only where the guess costs nothing, which is `region_focus` alone,
+   and ask about everything else with today's values as the fallback on skip. Priced on the eight real
+   configuration questions pulled from the trackers, that raises 13 questions instead of 4 and
+   interrupts all 8 users instead of 4, because `origin` is unstated in every one of them. The
+   measurements cannot settle whether that trade is worth making.
 5. **Are there facts the tool should be capturing and is currently guessing?** `cell_type` is the one I
    am least sure about, since it needs a value only the user has. Aleena's note on row 13, that users
    often specify which populations they care about, is a second candidate.
