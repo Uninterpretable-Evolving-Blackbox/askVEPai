@@ -31,7 +31,7 @@ The first two rows are easy to confuse, so:
 **`origin`** is different — the question does not settle it, we pick somatic, and a different pick would give a different configuration. That is why it is announced and species is not. The test is not how confident we are; it is whether a choice was made at all.
 
 **Whether to assume or ask when answer is not fully certain**:
-How much the options lost or added after assumption
+How much the options lost or added after assumption.
 For `origin` there is: guessing somatic withholds a filter, guessing germline applies one that discards
 tumour variants, so the two directions fail very differently and we take the cheap one. For `variant_size_class` there is no such direction, which is why it is the only thing ever asked about.
 
