@@ -13,34 +13,71 @@ The tool reads five factor values out of a free-text scenario. A factor the ques
 contributes nothing, so every option it would have supplied disappears. The user gets a shorter
 configuration with no sign that anything is missing.
 
-## 2. The design
+## 2. What silence actually costs
+
+Every decision below rests on this measurement, so it comes first.
+
+Each of our 31 generated queries states all five factors, so exactly one fact can be deleted with
+everything else held fixed. A model rewrites the query to read naturally with that fact simply absent.
+Every rewrite is re-read and kept only if the target fact really went and no other factor moved, which
+leaves **81 clean cases out of 124 attempts**. Because the true factor values are known, the
+configuration built from the ablated query can be compared against the correct one.
+
+**Lost** is options the true configuration has and ours does not, averaged per query, so annotations the
+user should have received and did not. **Added** is the reverse. **Exactly right** counts queries where
+the two sets match completely, and **losing something** counts queries missing at least one option,
+however many. The n differs per row because rewrites for some factors more often failed the purity check.
+
+| fact deleted | n | mean options **lost** | mean options added | exactly right | queries losing something |
+|---|---|---|---|---|---|
+| `region_focus` — filled with *both* | 22 | **0.00** | 1.64 | 11/22 | **0/22** |
+| `origin` — filled with *somatic* | 19 | 0.32 | 0.58 | 14/19 | 5/19 |
+| `analysis_goal` — filled with *basic-consequence* | 11 | 1.09 | 0.00 | 6/11 | 5/11 |
+| `variant_size_class` — left empty | 29 | 1.03 | 4.21 | 14/29 | **15/29** |
+
+Lost and added are not the same error. An extra annotation column is noise the user can ignore; a missing
+predictor is a finding they never see. Read that way, the table decides which factors are safe to guess
+and what to guess for each:
+
+- **`region_focus`: guess both.** It loses nothing on any of 22 queries. Silence about which regions
+  matter is best read as "all of them", and the cost is about 1.6 extra columns.
+- **`origin`: guess somatic.** Not because somatic is more likely, but because the two directions fail
+  very differently. Guessing somatic withholds one optional pre-filter from a germline user; guessing
+  germline applies a filter that deletes a somatic user's findings. Across the review rows, guessing
+  somatic harms 0 of 16 germline rows, while leaving it empty lets that filter through on 6 of 15 somatic
+  rows, which is the identical harm to guessing germline outright.
+- **`analysis_goal`: guess basic-consequence, but see §4.** It is the only guess whose errors are
+  subtractive, because reading a question as a plain consequence call drops ClinVar and the predictors.
+- **`variant_size_class`: do not guess.** No value is safe, so it is left empty and asked about instead.
+  This is the worst row in the table and the subject of §5.
+
+Two further findings from the same ablations. When `variant_size_class` was deleted, the fact was still
+recoverable from surrounding context only **2 times in 31**, so it is genuinely not in the prose and no
+better prompt or larger model recovers it. `analysis_goal` was recoverable **17 of 31**, so it is rarely
+truly missing.
+
+## 3. The design
 
 A recommender that interrogates its users has moved the work back onto them, which is the opposite of
-what the tool is for. So a gap has four possible outcomes, and asking is the last of them:
+what the tool is for. So a gap has three possible outcomes, and asking is the last of them:
 
 | | when | friction |
 |---|---|---|
 | **take it from the text** | the question settles it | none |
-| **assume, and say which** | the question does not settle it, but one answer is clearly safer. *The normal case.* | none |
-| **take what the user stated** | they set one of the optional fields | none, and optional |
-| **ask** | no safe assumption, and a must-have is at stake | real |
+| **guess, and say which** | one answer is clearly safer than the others. *The normal case.* | none |
+| **ask** | no safe guess, and a must-have is at stake | real |
 
 Every guess is stated. A vague question comes back with a working configuration plus one line per guess,
 naming what was assumed and how to override it: *"Assumed origin = somatic; say germline if these are
 inherited."* Nothing is blocked, and the lines can be ignored.
 
 Species is guessed too. If the question does not say, it runs as human and keeps the human-only tools.
-That one is announced by the constraint checker rather than by the lines above.
+That one is announced by the constraint checker rather than by the lines above, which is plumbing rather
+than a different policy.
 
-**The optional fields have not been put in front of you.** Beside the query box are four dropdowns:
-species, germline or somatic, small or structural, and assembly. Each defaults to reading the
-description, so anyone who ignores them gets exactly what they got before, and anything set overrides
-what the model read. §5 has the reasoning. It is flagged here because the table refers to the fields as
-though they were established, and they are not.
+## 4. When it asks
 
-## 3. When it asks
-
-For each still-open factor, resolve the configuration under every candidate answer and compare. If no
+For each still-empty factor, resolve the configuration under every candidate answer and compare. If no
 must-have option differs, the question cannot change what the user gets, so it is never asked. Asking is
 also opt-in, because the evaluation harness and the generation pipeline call this code with nobody
 present and would otherwise hang.
@@ -51,71 +88,18 @@ classifier call, and is auditable per query.
 It is judged per query, not per factor. `origin` changes nothing on a purely clinical question and
 decides the common-variant filter on a frequency one, so no fixed per-factor rule is right for both.
 
-**Why `origin` is not simply asked about.** Because being wrong is cheap, and we say so. Guessing somatic withholds one optional pre-filter from a germline user; guessing germline applies a filter that deletes a somatic user's findings. Across the review rows, assuming somatic harms 0 of 16 germline rows. A wrong guess costs a disclosure line the user can correct in a sentence, and interrupting everyone to avoid that is a bad trade. The rule agrees independently: with the assumption removed so that nothing suppressed the question, it asks about origin on 0 of the 19 ablations where origin was the removed fact.
+**Why `origin` is not simply asked about.** Because being wrong is cheap, and we say so. A wrong guess
+costs a disclosure line the user can correct in a sentence, and interrupting everyone to avoid that is a
+bad trade. The rule agrees independently: with the guess removed so that nothing suppressed the question,
+it asks about `origin` on 0 of the 19 ablations where `origin` was the deleted fact.
 
-## 4. What it assumes, and what each assumption costs
+**`analysis_goal` does not fit this rule, and I would rather say so than defend it.** We guess where one
+answer is safe and ask where none is. With its guess removed, the rule would ask about `analysis_goal` on
+11 of 11 ablations, and the value we substitute loses options on 5 of 11. Neither condition for guessing
+holds. Asking would mean interrupting on nearly every vague query, which is why it was guessed, but the
+honest choice is either to ask or to stop describing all three guesses as safe. §9.2.
 
-Measured on 81 controlled ablations. One fact is removed from each of our own 31 queries and everything
-else held fixed, so the right answer is known. Each ablated query then goes through the normal path,
-classifier and assumptions with no asking, and the resulting configuration is compared to the one the
-true factor values produce. This measures what silence plus a default costs, not what a question buys.
-
-Reading the columns: **lost** is options the true configuration has that ours does not, averaged per
-query, so annotations the user should have got and did not. **Added** is the reverse. **Exactly right**
-is queries where the two sets match completely, and **losing something** counts queries missing at least
-one option, however many.
-
-| fact removed | n | mean options **lost** | mean options added | exactly right | queries losing something |
-|---|---|---|---|---|---|
-| `region_focus` — assume *both* | 22 | **0.00** | 1.64 | 11/22 | **0/22** |
-| `origin` — assume *somatic* | 19 | 0.32 | 0.58 | 14/19 | 5/19 |
-| `analysis_goal` — assume *basic-consequence* | 11 | 1.09 | 0.00 | 6/11 | 5/11 |
-| `variant_size_class` — left open | 29 | 1.03 | 4.21 | 14/29 | **15/29** |
-
-Lost and added are not the same error. An extra annotation column is noise the user can ignore; a
-missing predictor is a finding they never see. Read that way:
-
-- **`region_focus = both`** is the strongest assumption here, losing nothing on any of 22 queries.
-- **`origin = somatic`** is fail-closed. The *somatic ⇒ no common-variant filter* rule fires only on an
-  explicit somatic, so leaving it open lets that filter through on 6 of the 15 somatic review rows, which
-  is the identical harm to guessing germline. Guessing somatic harms 0 of 16 germline rows.
-- **`analysis_goal`** is the weakest, and the only assumption whose errors are subtractive: reading a
-  question as a plain consequence call drops ClinVar and the predictors.
-- **`variant_size_class`**, the one factor left open, is the worst of the four. See §6.
-
-`analysis_goal` also does not fit our own rule, which is to assume where one answer is safe and ask where
-none is. With its assumption removed, the rule would ask about it on 11 of 11 ablations, and the value we
-assume instead loses options on 5 of 11. Neither condition for assuming holds. Asking would mean
-interrupting on nearly every vague query, which is why it was assumed, but the honest choice is either to
-ask or to stop describing all three assumptions as safe. §9.3.
-
-## 5. What the user can state outright
-
-Beside the query box are four optional dropdowns: species, germline or somatic, small or structural, and
-assembly. Set one and that value is used; leave them alone, which is the default, and the model reads the
-query exactly as before.
-
-Those three factors are facts about the *sample* rather than about the analysis. Whoever is asking knows
-them without thinking, and they are where every classifier error we measured landed. What a dropdown
-cannot capture is what the user is trying to find out, so that stays in the text. VEP's own form already
-asks for species in a dropdown rather than inferring it.
-
-Ignoring the fields changes nothing, and this is tested: with none set, the resolved configuration, the
-priority labels, the checker's changes and the classifier's output are all identical to before
-(`test_user_context.py`, 15 checks, no GPU).
-
-**The fourth box, assembly, is not a factor.** It exists to fix a correctness bug. MANE Select transcripts
-exist only for GRCh38, but `InputForm.pm:694-702` shows the MANE checkbox to any human user and
-pre-ticks it, so a GRCh37 user gets an option with no data behind it without opting in. We can enforce
-the restriction once we know the build, and a query that never names one gives us nothing to infer from.
-
-Two ways to supply it, and they are not equally good. A field asks the user. A stated GRCh38 default
-guesses, and it guesses wrong for exactly the GRCh37 users the bug already affects, which is a large part
-of clinical practice. §9.4 asks which. Either way assembly describes the input data, like the file
-format, rather than the analysis, so it does not belong in the factor scheme.
-(Open as `../generation/candidates/review/DECISIONS.md` §8.)
-
-## 6. The blocker: the tool asks a question it cannot accept the honest answer to
+## 5. The blocker: the tool asks a question it cannot accept the honest answer to
 
 It asks whether the variants are small or structural, and `variant_size_class` is `select: single`. A
 user answering *both* has half their answer discarded.
@@ -133,15 +117,11 @@ The fix is to allow both values, as `region_focus` already does. On the same 29 
 
 | policy for `variant_size_class` | mean lost | mean added | queries losing something |
 |---|---|---|---|
-| today — single-select, left open | 1.03 | 4.21 | 15/29 |
-| **multi-select, assumed *both* when unstated** | **0.00** | 4.28 | **0/29** |
+| today — single-select, left empty | 1.03 | 4.21 | 15/29 |
+| **multi-select, filled with *both*** | **0.00** | 4.28 | **0/29** |
 
 The error becomes purely additive at no measurable cost in added options, and the questions the tool
 needs across all 81 ablations go from 16 to zero. Every one of those 16 was this factor.
-
-There is a second reason this factor is the one that breaks. When it was removed, the fact was still
-recoverable from surrounding context only 2 times in 31, so it is not in the prose and no better prompt
-or larger model recovers it. `analysis_goal` was recoverable 17 of 31, so it is rarely genuinely missing.
 
 The plumbing is done. `MULTI_FACTORS` and the classifier's prompt schema both derive from `factors.json`,
 the sampler, dedup key and tuple slug are cardinality-agnostic, and both configurations pass the full
@@ -152,6 +132,20 @@ review rows are unchanged, all being single-valued.
 It is one field in `factors.json`, but it changes the taxonomy that was signed off, so it needs a ruling
 rather than a commit.
 
+## 6. Assembly, which no factor covers
+
+A related gap, and the only one where silence produces a wrong answer rather than a thin one. MANE Select
+transcripts exist only for GRCh38, but `InputForm.pm:694-702` shows the MANE checkbox to any human user
+and pre-ticks it, so a GRCh37 user gets an option with no data behind it without opting in. Our checker
+can enforce the restriction once it knows the build, and a query that never names one gives it nothing to
+infer from.
+
+Guessing GRCh38 and saying so is the same shape as every other guess here, but it is a worse guess than
+the others: it is wrong for exactly the GRCh37 users the bug already affects, which is a large part of
+clinical practice. Asking is the alternative, and it would be the only question the tool asks that is not
+about the analysis itself. §9.3 asks which.
+(Open as `../generation/candidates/review/DECISIONS.md` §8.)
+
 ## 7. Provenance
 
 Tags as in `taxonomy_proposal.md`: **[Src]** Ensembl VEP source / form / docs · **[Std]** external
@@ -159,22 +153,19 @@ clinical or field standard · **[Meas]** measured in this repository · **[Judg]
 
 | Design choice | Grounding | Specific basis |
 |---|---|---|
-| Assume by default; ask only as an exception | **[Judg]** | a recommender that interrogates its users has moved the work back onto them. Not measured, and not measurable without frequency data we do not have |
+| Guess by default; ask only as an exception | **[Judg]** | a recommender that interrogates its users has moved the work back onto them. Not measured, and not measurable without frequency data we do not have |
 | Ask only when a must-have is at stake | **[Judg]** + **[Meas]** | needs no threshold, and the question can name what is at stake **[Judg]**. On 81 ablations it fires 16 times, all on the one factor genuinely unrecoverable from text **[Meas]** |
-| Assumptions are stated, never silent | **[Judg]** | the failure this design answers is invisible omission, and a silent fix reproduces it |
-| `region_focus` assumed *both* | **[Meas]** | 0.00 options lost across 22 ablations, confirmed independently by a deterministic sweep (4.4 vs 4.6 options recovered by two different methods) |
-| `origin` fail-closed to somatic | **[Meas]** + **[Std]** | leaving it open lets the frequency filter through on 6/15 somatic rows; guessing somatic harms 0/16 germline rows **[Meas]**. That a somatic workflow must not drop common variants is the taxonomy's one hard `origin` rule **[Std]** |
-| Facts stated, intent inferred | **[Meas]** + **[Judg]** | every classifier failure across the 31 rows fell on a data fact; both intent factors classified correctly. The split is the taxonomy's existing distinction **[Judg]** |
-| A stated value overrides the model | **[Judg]** | a field the model can overrule is not a field |
-| Untouched fields fall back to inference | **[Judg]** | the tool's premise is that a plain description is enough, so the fields must be optional or that premise is withdrawn |
-| Species offered as a field as well as inferred | **[Src]** | VEP's own form asks for species in a dropdown; `InputForm.pm` gates fields on the selection. Ours still infers it when the field is left alone |
-| Assembly beside the query, not in the factor scheme | **[Src]** + **[Judg]** | MANE is GRCh38-only and `InputForm.pm:694-702` gates its checkbox on species alone **[Src]**; that it is a property of the input rather than of the analysis is my reading **[Judg]** |
+| Guesses are stated, never silent | **[Judg]** | the failure this design answers is invisible omission, and a silent fix reproduces it |
+| `region_focus` guessed *both* | **[Meas]** | 0.00 options lost across 22 ablations, confirmed independently by a deterministic sweep (4.4 vs 4.6 options recovered by two different methods) |
+| `origin` fail-closed to somatic | **[Meas]** + **[Std]** | leaving it empty lets the frequency filter through on 6/15 somatic rows; guessing somatic harms 0/16 germline rows **[Meas]**. That a somatic workflow must not drop common variants is the taxonomy's one hard `origin` rule **[Std]** |
+| `variant_size_class` never guessed | **[Meas]** | the only factor where no value is safe: leaving it empty loses on 15 of 29 queries, and the two candidate values gate opposite halves of the catalogue |
+| Assembly is not a factor | **[Src]** + **[Judg]** | MANE is GRCh38-only and `InputForm.pm:694-702` gates its checkbox on species alone **[Src]**; that it describes the input data rather than the analysis is my reading **[Judg]** |
 | How often users omit things | **not established** | `fetch_real_queries.py` pulls tracker issues verbatim with a per-body SHA-256 and a `--verify` re-fetch, but only 8 of 43 are configuration questions. Biostars is Cloudflare-blocked at both the HTML and the API. Too few to carry a frequency claim |
 
 The structure is my own reading, grounded in measurements taken on this repository and in how VEP's own
 form behaves. Nothing derives from a published interface standard, because I did not find one that
-applies. The measurements are reproducible (`ablate_queries.py` for the 81 ablations,
-`test_user_context.py` for the field behaviour, both without a GPU), and the judgement calls are marked.
+applies. The ablations are reproducible with `ablate_queries.py`, without a GPU, and the judgement calls
+are marked.
 
 Cost and consequence are measured; the tables above say what each gap does to the configuration. How
 often real users leave a fact out is not, and that number decides how aggressive to be. The cheapest
@@ -190,36 +181,32 @@ is made about how their model performed.
 ## 8. Trying it
 
 ```bash
-python vep_assistant.py "human tumour WGS, which variants are damaging?"          # assumptions, stated
-python vep_assistant.py --assume "..."                                            # assumptions, silent
-python vep_assistant.py --ask "..."                                               # also prompt
+python vep_assistant.py "human tumour WGS, which variants are damaging?"      # guesses, stated
+python vep_assistant.py --assume "..."                                        # guesses, silent
+python vep_assistant.py --ask "..."                                           # also prompt
 
-python work/harness/try_reprompting.py --why "human tumour WGS, ..."              # what the rule did, and why
+python work/harness/try_reprompting.py --why "human tumour WGS, ..."          # what it did, and why
 python work/harness/try_reprompting.py --factors species=human,analysis_goal=population-frequency
-python work/harness/try_reprompting.py --multi "human WGS with SNVs and CNVs"     # simulates §6
+python work/harness/try_reprompting.py --multi "human WGS with SNVs and CNVs" # simulates §5
 ```
 
-`--factors` needs no model. `--multi` applies the §6 proposal in memory only, so trying it cannot leave
-the repository half-changed. `--ask` will show the blocker from §6 directly: it offers *small* or
+`--factors` needs no model. `--multi` applies the §5 change in memory only, so trying it cannot leave the
+repository half-changed. `--ask` shows the blocker from §5 directly: it offers *small* or
 *structural-CNV* and no way to say both.
 
 ## 9. What I would like you to rule on
 
-1. **Can a variant set be both small and structural?** (§6) Blocking. It unblocks deployment and removes
+1. **Can a variant set be both small and structural?** (§5) Blocking. It unblocks deployment and removes
    the only question the system ever asks. `region_focus` already works this way, so this is precedent
    rather than a novel request.
-2. **Is "it changes something essential" the right bar for interrupting someone?** (§3) The bar is a
+2. **Is `analysis_goal` in the right bucket?** (§4) It fails our own test for guessing, on our own
+   measurements. Should it be asked instead, accepting that this means interrupting on nearly every vague
+   query? Related and smaller: the priority table cannot resolve without a goal, so if someone is asked
+   and skips, something still fills it in, and that currently happens with no announcement.
+3. **Assembly** (§6): guess GRCh38 and say so, or ask? This is the one where silence produces a wrong
+   answer rather than an incomplete one.
+4. **Is "it changes something essential" the right bar for interrupting someone?** (§4) The bar is a
    clinical judgement encoded in the priority table you are reviewing, so it is really yours.
-3. **Are the assumptions clinically safe, and is `analysis_goal` in the right bucket?** (§4)
-   Somatic-by-default is the conservative direction, since it withholds a filter rather than applying
-   one, but a germline user loses one optional pre-filter. `analysis_goal` is the one that fails our own
-   test for assuming, as §4 sets out. Should it be asked instead? Related and smaller: the priority table
-   cannot resolve without a goal, so if someone is asked and skips, something still fills it in, and that
-   currently happens with no announcement.
-4. **Assembly** (§5): a field, or assume GRCh38 and say so? A field cannot affect option *priorities*,
-   only availability; a factor could. This is the one with a correctness consequence rather than a
-   completeness one.
-5. **Are there facts I have missed** that a user knows and we are currently guessing? `cell_type` is the
-   candidate I am least sure about: it needs a value only the user has, which is part of why you asked
-   for it to be optional. Aleena's note on row 13, that users often specify which populations they care
-   about, is a second candidate.
+5. **Are there facts the tool should be capturing and is currently guessing?** `cell_type` is the one I
+   am least sure about, since it needs a value only the user has. Aleena's note on row 13, that users
+   often specify which populations they care about, is a second candidate.
