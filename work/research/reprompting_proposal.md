@@ -51,11 +51,7 @@ classifier call, and is auditable per query.
 It is judged per query, not per factor. `origin` changes nothing on a purely clinical question and
 decides the common-variant filter on a frequency one, so no fixed per-factor rule is right for both.
 
-**Why `origin` is not simply asked about.** If silence about germline versus somatic cannot be resolved
-from the text, the obvious move is to ask. We tested that directly, with `origin`'s assumption removed so
-that nothing suppressed the question: the rule asks about it on 0 of the 19 ablations where `origin` was
-the removed fact. Its real risk is a filter being switched on rather than an option going missing, and
-the somatic default already prevents that.
+**Why `origin` is not simply asked about.** Because being wrong is cheap, and we say so. Guessing somatic withholds one optional pre-filter from a germline user; guessing germline applies a filter that deletes a somatic user's findings. Across the review rows, assuming somatic harms 0 of 16 germline rows. A wrong guess costs a disclosure line the user can correct in a sentence, and interrupting everyone to avoid that is a bad trade. The rule agrees independently: with the assumption removed so that nothing suppressed the question, it asks about origin on 0 of the 19 ablations where origin was the removed fact.
 
 ## 4. What it assumes, and what each assumption costs
 
