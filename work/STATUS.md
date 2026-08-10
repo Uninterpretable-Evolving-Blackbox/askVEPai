@@ -50,10 +50,17 @@ factor tuples; export totals unchanged at 391 recommended and 121 add-ons.
    not the 6 originally flagged), and the 8 missing web-exposed plugins.
 2. **Run the recommended configuration against Web VEP** and check the output. The largest remaining
    independent piece.
-3. **Ask when it matters, assume when it does not.** Built and tested; the asking half is held back
-   pending a taxonomy decision (below). On 81 controlled ablations, one fact removed from our own queries
-   so the right answer is known, the tool needs a question on **16 of 81** and all 16 are the same
-   factor. Allowing a variant set to be both small and structural takes that to **zero**.
+3. **Ask when it matters, assume when it does not.** Built, tested, and no longer held back — the
+   taxonomy decision it was waiting on has been taken (below). On 81 controlled ablations, one fact
+   removed from our own queries so the right answer is known, the tool interrupts on **38 of 81**, where
+   the previous policy interrupted on 16. The composition changed completely: the old 16 were all
+   `variant_size_class`, which is now guessable and asks nothing; the new questions are **33** about
+   assembly and **11** about `analysis_goal`. Reproduce with `harness/ask_rate.py`, which prices every
+   candidate policy on the same cases with no model.
+
+   That is a real rise in interruptions and is flagged as such in `reprompting_proposal.md` §9. The
+   assembly share is the part the ablations can only overstate: their queries never name a build, while
+   **4 of the 8** real tracker questions do, and the question is suppressed whenever the text says.
 
    How often real users omit things is **not established**: of 43 issues pulled verbatim from the
    trackers, only 8 are configuration questions. That number decides how aggressive to be, and needs the
@@ -63,11 +70,6 @@ factor tuples; export totals unchanged at 391 recommended and 121 add-ons.
 
 These need a domain decision, not more code:
 
-- **Is a variant set one size or two?** The scheme forces a choice between small and structural, but
-  real questions say "SNVs and CNVs" — review row 1 is exactly that. Allowing both removes every
-  remaining clarifying question. **This one is blocking:** the tool currently asks which of the two it
-  is, and silently discards half of an honest answer of "both", so the asking behaviour is held back
-  until it is settled.
 - **Which predictors are the core set,** and on what axis? VEP itself ranks none of them; the current
   split follows a clinical-genetics standard external to VEP.
 - **Should a purely regulatory query keep the missense predictors?** They produce empty columns, but
@@ -75,13 +77,24 @@ These need a domain decision, not more code:
 - **Should the assistant say what it cannot do?** VEP has no non-human frequency source, so
   "population frequencies for my mouse variants" currently returns a configuration with no frequency
   data and no explanation.
-- **Assembly.** MANE exists only for GRCh38 and `InputForm.pm:694-702` gates its checkbox on species
-  alone, so a GRCh37 user can tick an option with no data behind it. It cannot be inferred from a
-  question that never names a build — assume GRCh38 and disclose, ask, or add a field.
-
 **Settled since the last update:** Ask VEPai stays **web-form-only** — CLI-only options (`--overlaps`,
 `--max_af`, `--variant_class`, `--check_svs`, `--clin_sig_allele`, `--clinvar_somatic_classification`)
 are out of scope. Two tiers, named RECOMMENDED and ADD-ONS. `check_existing` may move to add-on.
+
+**Decided from measurement rather than referred upward** (`reprompting_proposal.md` §9, each reversible
+by one line, each with the alternative priced in `harness/ask_rate.py`):
+
+- **A variant set can be both small and structural.** `variant_size_class` is `select: multi`, guessed
+  *both*. Amends the signed-off taxonomy, so §5 keeps the full argument. No configuration changed: the 31
+  review rows are single-valued and the export still totals 391 recommended / 121 add-ons.
+- **`analysis_goal` is asked, not guessed.** It failed both of our own conditions for guessing. The
+  objection that asking interrupts everyone was measured on ablations that delete the fact on purpose;
+  on the 8 real questions it is genuinely absent once. The fallback on skip now announces itself.
+- **Assembly is asked, never guessed** — the one gap where silence gives a *wrong* answer, and where
+  both guesses delete something real. Read from the text when it is there (4 of 8 real questions),
+  scored on what the user stated rather than on what we assumed for them.
+- **The interrupt bar stays the internal must-have tier**, now named `ASK_BAR_PRIORITIES` rather than
+  hardcoded. Widening it to the visible RECOMMENDED bucket changes nothing under the current guesses.
 
 ## Honesty note
 

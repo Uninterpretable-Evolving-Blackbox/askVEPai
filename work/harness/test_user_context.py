@@ -67,11 +67,19 @@ def main():
     # that is merely merged rather than authoritative fails here.
     read = {"species": "human", "origin": "germline", "variant_size_class": "small",
             "region_focus": ["coding"], "analysis_goal": ["clinical-interpretation"]}
+    # Compared cardinality-agnostically, because the subject here is WHOSE value wins, not whether the
+    # factor holds one or many. `variant_size_class` became multi-select and this test asserted the
+    # scalar, so it failed on a change that was working exactly as intended — the code already wrote
+    # `sorted(vals) if f in MULTI_FACTORS else vals[0]`. Written this way it holds under either
+    # declaration and keeps testing the thing that matters.
+    def as_set(v):
+        return set(v) if isinstance(v, list) else {v}
+
     for field, opposite in [("species", "non-human"), ("origin", "somatic"),
                             ("variant_size_class", "structural-CNV")]:
         rec, _, ov = va.apply_user_context(read, {field: opposite})
         check(f"{field}: stated value wins over the classifier",
-              rec[field] == opposite and field in ov, f"got {rec[field]!r}")
+              as_set(rec[field]) == {opposite} and field in ov, f"got {rec[field]!r}")
     rec, asm, ov = va.apply_user_context(read, {"assembly": "GRCh37"})
     check("assembly: carried through even though it is not a factor", asm == "GRCh37" and "assembly" in ov)
 

@@ -58,7 +58,11 @@ def main():
         description="Resolve a VEP config from factor values (deterministic, no LLM).")
     ap.add_argument("--species", choices=["human", "non-human"])
     ap.add_argument("--origin", choices=["germline", "somatic"])
-    ap.add_argument("--size", choices=["small", "structural-CNV"], dest="variant_size_class")
+    # `action="append"`, because `variant_size_class` is multi-select. Without it, `--size small --size
+    # structural-CNV` kept only the last value and dropped the other in silence — the same defect as the
+    # single-select declaration this factor was just fixed for, one layer up in the CLI.
+    ap.add_argument("--size", action="append", choices=["small", "structural-CNV"],
+                    dest="variant_size_class", help="multi-select: repeat the flag")
     ap.add_argument("--region", action="append", choices=["coding", "regulatory-noncoding"],
                     dest="region_focus", help="multi-select: repeat the flag")
     ap.add_argument("--goal", action="append",
@@ -79,8 +83,7 @@ def main():
 
     missing = [n for n in ("species", "origin", "variant_size_class") if not getattr(args, n)]
     if missing:
-        ap.error(f"missing required single-select factor(s): {', '.join(missing)} "
-                 f"(see --list-factors)")
+        ap.error(f"missing required factor(s): {', '.join(missing)} (see --list-factors)")
     # analysis_goal defaults to basic-consequence: the mentor-agreed default when nothing else is implied
     # (the agreed default when nothing else is implied).
     factor_tuple = {

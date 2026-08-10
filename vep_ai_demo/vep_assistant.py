@@ -816,14 +816,38 @@ UNDERSPECIFIED_POLICY = {
                "common-variant filter off, which would otherwise discard real tumour variants. "
                "Say 'germline' if these are inherited variants",
     },
+    # WAS `assume: None`, and the reason it could not be guessed was a vocabulary limit rather than a
+    # fact about variants: under single-select the only candidates were `small` and `structural-CNV`,
+    # each of which gates away the other half of the catalogue, so no value was safe and the tool asked.
+    # Multi-select adds the value that is safe. Across the same 29 ablations, leaving it empty loses
+    # options on 15 of 29 queries and `both` loses on 0 of 29, for 4.28 added options against 4.21 —
+    # the error becomes purely additive, which is the trade this whole policy is built on. It also
+    # empties the ask path: with every factor now guessable, no factor reaches the question stage, and
+    # `ask_rate.py` goes from 16 questions over the 81 ablations to 0. See factors.json `_select_note`.
     "variant_size_class": {
-        "assume": None,
-        "why": "you didn't say small variants or structural/CNV — left open; the two need different tools",
+        "assume": ["small", "structural-CNV"],
+        "why": "you didn't say small variants or structural/CNV, so both are covered — say which if "
+               "your callset is only one of them",
     },
+    # ASKED, NOT GUESSED — this factor never met the bar for guessing and now says so. The rule is:
+    # guess where one answer is clearly safer, ask where none is. Neither condition holds here. With the
+    # guess removed so nothing suppressed the question, the rule asks about `analysis_goal` on 11 of the
+    # 11 ablations where it was the deleted fact, and the value we were substituting loses options on 5
+    # of those 11 — subtractive error, the direction that costs a user a finding rather than a column.
+    #
+    # It was guessed anyway on the grounds that asking would interrupt nearly every vague query. That
+    # figure came from ablations, which DELETE the fact on purpose; it is not the rate on real input.
+    # Measured on the 8 real configuration questions from the trackers, `analysis_goal` is genuinely
+    # absent and material on 1 — it was reader DISAGREEMENT, not absence, on 3 more, which the
+    # published 7/8 headline conflated (see underspecification_proposal.md). n=8 is far too small for a
+    # frequency claim and none is made; it is enough to show the objection was measuring the wrong set.
+    #
+    # Skipping stays free: the fallback in `resolve_underspecified` supplies basic-consequence and now
+    # announces itself, so nobody is blocked and nothing is substituted in silence.
     "analysis_goal": {
-        "assume": ["basic-consequence"],
-        "why": "read as a quick consequence call — say so if you are assessing pathogenicity or need "
-               "population frequencies",
+        "assume": None,
+        "why": "you didn't say what you're after — a quick consequence call, clinical interpretation, "
+               "or population frequencies; they pull in different tools",
     },
 }
 
@@ -888,8 +912,24 @@ def _enabled_for(factor_tuple, vep_options):
     return {oid for oid, (en, _, _) in resolved.items() if en}
 
 
+# WHICH OPTIONS COUNT AS "ESSENTIAL" FOR THE PURPOSE OF INTERRUPTING SOMEONE.
+#
+# The bar was written when the output had three tiers and `critical` was a bucket the user could see.
+# After the tier merge it is not: the user sees RECOMMENDED, which is `critical | recommended`. So the
+# bar can be read two ways, and they are not the same rule —
+#
+#   ("critical",)                 the internal must-have set. Narrower, and the one every published
+#                                 number was measured under.
+#   ("critical", "recommended")   the bucket the user is actually shown. Matches the vocabulary that
+#                                 shipped, and necessarily fires at least as often.
+#
+# Naming it rather than hardcoding it is the point: the difference is a behaviour change and belongs in
+# a measurement, not in a rename. `work/harness/ask_rate.py --bar` prices both on the same 81 ablations.
+ASK_BAR_PRIORITIES = ("critical",)
+
+
 def factor_must_haves_at_stake(factor, factor_tuple, vep_options):
-    """Must-have options whose presence depends on how this factor is answered.
+    """Options at the ASK_BAR whose presence depends on how this factor is answered.
 
     THE ASK RULE. Interrupting someone is only justified when the answer changes something essential:
     "answering this puts a different must-have in your configuration" is a sentence a user can act on,
@@ -903,14 +943,24 @@ def factor_must_haves_at_stake(factor, factor_tuple, vep_options):
         values = load_factors()["factors"][factor]["values"]
     except Exception:
         return set()
+    # A multi-select factor's candidate ANSWERS include "both", so the comparison has to include it.
+    # Without it the gate compares only the single values and can miss a difference that appears only
+    # in the union — the hard gate removes an option when EVERY active value rules it out, so a union
+    # tuple keeps options that either value alone would strip. `factor_impact` already scores the union
+    # for this reason; this is the same fix on the rule that decides whether to interrupt at all. Only
+    # reachable for a multi factor that is asked rather than assumed, which today is none of them.
+    candidates = [[v] if factor in MULTI_FACTORS else v for v in values]
+    if factor in MULTI_FACTORS and len(values) > 1:
+        candidates.append(list(values))
     seen = []
-    for v in values:
+    for v in candidates:
         t = dict(factor_tuple)
-        t[factor] = [v] if factor in MULTI_FACTORS else v
+        t[factor] = v
         resolved = resolve_for_query(t, vep_options)
         if not resolved:
             continue
-        seen.append({oid for oid, (en, pr, _) in resolved.items() if en and pr == "critical"})
+        seen.append({oid for oid, (en, pr, _) in resolved.items()
+                     if en and pr in ASK_BAR_PRIORITIES})
     at_stake = set()
     for i, a in enumerate(seen):
         for b in seen[i + 1:]:
@@ -943,16 +993,49 @@ def factor_impact(factor, factor_tuple, vep_options):
     return max((len(a ^ b) for i, a in enumerate(configs) for b in configs[i + 1:]), default=0)
 
 
-def clarification_plan(rec, vep_options):
+OUT_OF_SCOPE_NOTE = (
+    "  This assistant recommends Ensembl VEP options for a variant-annotation run, and your question\n"
+    "  did not describe one. Tell it what you are annotating — the species, whether the variants are\n"
+    "  germline or somatic, small or structural, and what you want out of the annotation — and it will\n"
+    "  suggest a configuration."
+)
+
+
+def states_nothing_about_variants(rec):
+    """True when the classifier read none of the four scenario factors out of the query text.
+
+    SPECIES IS EXCLUDED, and that is the whole subtlety. `infer_factors` overwrites the classifier's
+    species with `infer_species`, which returns 'unknown' for a query naming no organism and is then
+    mapped to 'human' so the human-only options are not stripped from the many human queries that never
+    say the word. So a populated species field is manufactured, not evidence that the text was about
+    variants at all. Judging scope on it would call every string a scenario."""
+    for f in FACTOR_VALUES:
+        if f == "species":
+            continue
+        v = (rec or {}).get(f)
+        if v if f in MULTI_FACTORS else (v not in (None, "unstated")):
+            return False
+    return True
+
+
+def clarification_plan(rec, vep_options, user_query=None, assembly=None):
     """Given the RAW classification (apply_defaults=False), decide per open factor: assume, or ask.
 
     Returns (filled_tuple, assumptions, questions). `assumptions` are stated to the user rather than
-    hidden — the point of this whole mechanism is that the tool stops making invisible choices."""
+    hidden — the point of this whole mechanism is that the tool stops making invisible choices.
+
+    `questions` may include a non-factor entry for ASSEMBLY, which is scored by the same rule and is
+    the only question the system still raises. It lives here rather than in `resolve_underspecified`
+    so that the CLI, the web app and `try_reprompting.py` cannot disagree about what gets asked —
+    all three read this function, and only the CLI reads the other one."""
     # The classifier returns None on a parse failure, and that is a normal outcome rather than an
     # exceptional one — a crash here would take down a request that could still be served from the
     # user's own stated context.
     if not rec:
         return dict(rec or {}), [], []
+    # Checked BEFORE the assumptions run, because they populate the very fields being examined.
+    off_topic = states_nothing_about_variants(rec)
+    stated = dict(rec)                           # what the USER said, before anything was assumed
     rec = dict(rec)
     assumptions, questions = [], []
     for f in FACTOR_VALUES:
@@ -976,7 +1059,51 @@ def clarification_plan(rec, vep_options):
         at_stake = factor_must_haves_at_stake(f, rec, vep_options)
         if at_stake:
             scored.append((f, why, sorted(at_stake)))
+    # A query naming none of the four scenario factors is not a variant-annotation scenario: "hello", a
+    # bug report, a question about an output column. Asking it to choose between SNVs and CNVs claims we
+    # understood something we did not, and it lands BEFORE the recommender's own scope check, which only
+    # runs once the prompt is built. Assumptions still apply so a configuration can be produced, but the
+    # interruption is withheld and the caller says what the tool is for instead.
+    if off_topic:
+        scored = []
+    else:
+        scored += assembly_question(stated, vep_options, user_query, assembly)
     return rec, assumptions, scored
+
+
+def assembly_question(stated, vep_options, user_query=None, assembly=None):
+    """The assembly question, as a zero-or-one-item list in the same shape as the factor questions.
+
+    Suppressed when the text already names a build, when the user stated one, when the query is
+    non-human (species gates those options long before an assembly could matter), and when nothing
+    assembly-restricted is at the bar — which is the same relevance test every factor gets.
+
+    SCORED ON WHAT THE USER STATED, not on the tuple after our own assumptions are folded in, and the
+    difference is not small: assuming *both* variant sizes switches gnomAD-SV on for almost every
+    query, and gnomAD-SV is GRCh38-only, so scoring the filled tuple interrupts 42 of the 81 ablations
+    against 33 for the stated one. Nine of those interruptions would exist only because WE guessed.
+    That follows the asymmetry the whole policy rests on: an option we added is a column the user can
+    ignore, so it is not worth a question, while an option their own words called for is. MANE is
+    unaffected either way (17 either way) because a stated clinical goal is what puts it there."""
+    if (assembly or infer_assembly(user_query)) is not None:
+        return []
+    if stated.get("species") == "non-human":
+        return []
+    # `analysis_goal` is the one exception to scoring on the stated tuple, because an empty goal does
+    # not resolve to a smaller configuration, it resolves to a broken one — about 6 options instead of
+    # about 13. Scoring the hole would find nothing assembly-restricted at the bar and stay silent
+    # about a build that does decide MANE, so the tool would go quiet precisely because it was missing
+    # two facts rather than one. Substituted with the same value the fallback will supply.
+    scenario = dict(stated)
+    if not scenario.get("analysis_goal"):
+        scenario["analysis_goal"] = ["basic-consequence"]
+    at_stake = assembly_at_stake(scenario, vep_options)
+    if not at_stake:
+        return []
+    return [("assembly",
+             "you didn't say which genome assembly your data is on, and these options exist for only "
+             "one of them",
+             sorted(at_stake))]
 
 
 _FACTOR_PROMPTS = {
@@ -1025,39 +1152,151 @@ def _ask_factor(factor):
     return None
 
 
-def resolve_underspecified(rec, vep_options, mode="state"):
+# --- Assembly, which is not a factor but obeys the same rule -----------------------------------------
+#
+# ASSEMBLY DESCRIBES THE INPUT DATA, not the analysis, so it is deliberately outside the taxonomy. That
+# is a reason to keep it out of `factors.json`, not a reason to leave it unanswered: it is the one gap
+# where silence produces a WRONG configuration rather than a thin one. MANE, EVE, gnomAD-SV and MaveDB
+# exist only for GRCh38; geno2mp only for GRCh37. VEP's own form does not protect anyone here — it
+# shows the MANE checkbox to every human user and pre-ticks it (InputForm.pm:694-702 gates it on
+# species alone), so a GRCh37 user can switch on an option with no data behind it. Our checker removes
+# what the build cannot support, but only once it knows the build.
+#
+# It resolves through the SAME three outcomes as every factor: take it from the text, or ask. There is
+# no guess, and that is the whole decision — guessing GRCh38 would be wrong for exactly the GRCh37
+# clinical users the bug already affects, and it is the one place where the safer-direction argument
+# that settled `origin` does not apply, because both directions delete something real.
+#
+# Measured, and the measurement is why asking is cheap: `infer_assembly` reads it from the text on 4 of
+# the 8 real configuration questions from the trackers (one of them GRCh37), so the question is raised
+# on the other 4 rather than on everyone. The 31 generated review queries name an assembly 0 times,
+# which is a property of a generator that only writes about factors — the ablation set cannot measure
+# this and is not asked to.
+_ASSEMBLY_VALUES = ("GRCh37", "GRCh38")
+
+
+def assembly_at_stake(factor_tuple, vep_options):
+    """Assembly-restricted options at the ask bar that this scenario would switch on.
+
+    Same shape as `factor_must_haves_at_stake`, and deliberately so: interrupting is justified by the
+    answer moving something essential, whether or not the thing being answered is a factor."""
+    resolved = resolve_for_query(factor_tuple, vep_options)
+    if not resolved:
+        return set()
+    restriction = {o.get("id"): o.get("species_restriction", "all species") for o in vep_options}
+    at_stake = set()
+    for oid, (enabled, priority, _) in resolved.items():
+        if not enabled or priority not in ASK_BAR_PRIORITIES:
+            continue
+        allowed = _assembly_restriction(restriction.get(oid, "all species"))
+        if allowed and set(allowed) != set(_ASSEMBLY_VALUES):
+            at_stake.add(oid)
+    return at_stake
+
+
+def _ask_assembly():
+    """Put the assembly question. Same contract as `_ask_factor`: skipping is free and never blocks."""
+    if not sys.stdin.isatty():
+        return None
+    print("\n  Which human genome assembly is your data on?")
+    for i, v in enumerate(_ASSEMBLY_VALUES, 1):
+        print(f"    {i}) {v}")
+    print("    (enter to skip — no assembly-specific options will be removed)")
+    try:
+        raw = input("  > ").strip()
+    except (EOFError, KeyboardInterrupt):
+        print()
+        return None
+    if raw.isdigit() and 1 <= int(raw) <= len(_ASSEMBLY_VALUES):
+        return _ASSEMBLY_VALUES[int(raw) - 1]
+    match = [v for v in _ASSEMBLY_VALUES if v.lower().replace("grch", "") == raw.lower().replace("grch", "")]
+    return match[0] if len(match) == 1 else None
+
+
+def resolve_underspecified(rec, vep_options, mode="state", user_query=None, assembly=None):
     """Fill what the question left open, per `mode`, and return the tuple to build the config from.
 
       "assume"  apply the safe defaults, say nothing   (scripts, batch, the eval harness)
       "state"   apply them and SAY SO                  (default)
       "ask"     additionally re-prompt where no default is safe and the answer moves the config
 
-    The default is "state" rather than "ask" because 18 of 20 real forum questions leave something open:
-    a tool that interrogates 90% of its users is worse than one that explains itself. Asking is opt-in.
+    Returns (filled_tuple, assembly), where assembly is 'GRCh37'/'GRCh38' or None for "not established".
+    It rides along rather than joining the tuple because it describes the input data, not the analysis.
+
+    The default is "state" rather than "ask" because a tool that interrogates its users has moved the
+    work back onto them. Asking is opt-in and now genuinely rare: since `variant_size_class` became
+    multi-select there is a safe value for every FACTOR, so no factor reaches the question stage at all
+    (`work/harness/ask_rate.py`: 16 questions over the 81 clean ablations before that change, 0 after).
+    Assembly is the one thing still asked about, on the 4 of 8 real tracker questions whose text does
+    not name a build — a different quantity from the 4 of 8 an earlier version of this note reported
+    for the factor questions, which is why it is spelled out rather than left as a number.
+
+    (An earlier version also cited "18 of 20 real forum questions". That set was hand-edited and is
+    withdrawn — see research/underspecification_proposal.md §1.)
     """
-    filled, assumptions, questions = clarification_plan(rec, vep_options)
+    filled, assumptions, questions = clarification_plan(rec, vep_options, user_query, assembly)
+    off_topic = states_nothing_about_variants(rec)
+
+    # Say what the tool is for before assuming four things about a query that described no analysis.
+    # The recommender will also refuse further down, but only after the user has been interrogated,
+    # which is the wrong order.
+    if mode != "assume" and off_topic:
+        print()
+        print(OUT_OF_SCOPE_NOTE)
+
+    # Whatever the text named is settled before anything is asked. `clarification_plan` already used
+    # this to suppress the question; repeating it here is what puts the value in the RETURN, so the
+    # checker downstream gets the build the user wrote down rather than nothing.
+    assembly = assembly or infer_assembly(user_query)
 
     if mode == "ask":
         for factor, _why, _delta in questions:
-            answer = _ask_factor(factor)
-            if answer is not None:
+            answer = _ask_assembly() if factor == "assembly" else _ask_factor(factor)
+            if answer is None:
+                continue
+            if factor == "assembly":
+                assembly = answer
+            else:
                 filled[factor] = answer
-        questions = [q for q in questions if (not filled.get(q[0]))
-                     or filled.get(q[0]) in (None, "unstated")]
+            # Say back what was understood. Answering a question and being moved straight on gives no
+            # way to catch a mistyped answer, and the tool has just claimed this choice matters enough
+            # to interrupt for — the least it can do is confirm what it heard.
+            print(f"    → using {', '.join(answer) if isinstance(answer, list) else answer}")
+
+    def still_open(q):
+        if q[0] == "assembly":
+            return assembly is None
+        v = filled.get(q[0])
+        return (not v) or v in (None, "unstated")
+
+    questions = [q for q in questions if still_open(q)]
+
+    # THE GOAL FALLBACK, SAID OUT LOUD. An empty `analysis_goal` does not fail, it COLLAPSES: the
+    # priorities resolve to about 6 options instead of about 13, so something has to fill it even when
+    # the user was asked and chose to skip. That is defensible; doing it silently is not, because
+    # invisible substitution is the exact failure this whole mechanism exists to remove. When the
+    # policy already assumed the goal, its own line covers it and this adds nothing.
+    if not filled.get("analysis_goal"):
+        filled["analysis_goal"] = ["basic-consequence"]
+        if not any(f == "analysis_goal" for f, _, _ in assumptions):
+            assumptions.append(("analysis_goal", filled["analysis_goal"],
+                                "nothing was said about the goal and a configuration cannot resolve "
+                                "without one, so the baseline consequence call is used — say if you "
+                                "are assessing pathogenicity or need population frequencies"))
+        questions = [q for q in questions if q[0] != "analysis_goal"]
 
     if mode != "assume" and (assumptions or questions):
         print()
         for factor, value, why in assumptions:
             shown = ", ".join(value) if isinstance(value, list) else value
             print(f"  Assumed {factor} = {shown} — {why}.")
-        for factor, why, delta in questions:
-            print(f"  Left open: {why} (would change ~{delta} options; --ask to be prompted).")
+        for factor, why, at_stake in questions:
+            # `at_stake` is the list of must-have ids the answer moves, not a count. Printed as a count
+            # once, which rendered as "would change ~['gnomad_sv'] options".
+            names = ", ".join(at_stake) if at_stake else "part of the configuration"
+            print(f"  Left open: {why} (decides {names}; --ask to be prompted).")
 
-    # analysis_goal must carry a value for the priorities to resolve at all; the policy above already
-    # supplies the baseline goal, and the assumption line above is what stops that being invisible.
-    if not filled.get("analysis_goal"):
-        filled["analysis_goal"] = ["basic-consequence"]
-    return filled
+    return filled, assembly
 
 
 def describe_factors(factor_tuple):
@@ -3076,7 +3315,11 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     if overridden:
         print(f"  Using what you told me for: {', '.join(overridden)}.")
     if factor_tuple:
-        factor_tuple = resolve_underspecified(factor_tuple, vep_options, clarify)
+        # `assembly` goes IN as well as coming out: whatever the user stated on the form or the command
+        # line is already settled, and re-asking a question someone has answered is the failure mode
+        # this whole mechanism is built to avoid.
+        factor_tuple, assembly = resolve_underspecified(factor_tuple, vep_options, clarify,
+                                                        user_query=user_query, assembly=assembly)
         print("Detected scenario:")
         print(describe_factors(factor_tuple))
         print()

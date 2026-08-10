@@ -48,6 +48,11 @@ def main():
     ap.add_argument("--seeds", default="42,43,44")
     ap.add_argument("--concurrency", type=int, default=4)
     ap.add_argument("--temperature", type=float, default=0.7)
+    ap.add_argument("--merged-tiers", action="store_true",
+                    help="render in-context examples with the TWO-tier scheme the user now sees "
+                         "(critical+recommended as one RECOMMENDED bucket). Only meaningful with "
+                         "--show-tiers. The A/B against the three-tier arm is what says whether the "
+                         "merge costs the recommender anything.")
     ap.add_argument("--show-tiers", action="store_true",
                     help="render each in-context example WITH its tiers (critical/recommended/optional "
                          "add-ons) instead of the demo's tier-blind ON/OFF. The factor gold carries tiers; "
@@ -82,9 +87,20 @@ def main():
         def format_example_tiered(ex):
             opts = ex.get("recommended_options", {})
             lines = [f"Query: {ex['user_query']}", "Options (by importance):"]
-            for tier in ("critical", "recommended"):
-                for o in sorted(k for k, c in opts.items() if c.get("enabled") and c.get("priority") == tier):
-                    lines.append(f"  {o}: ON [{tier}]")
+            if args.merged_tiers:
+                # The two-tier output the user now sees. `critical` and `recommended` were always
+                # switched on together, so merging them costs the CONFIGURATION nothing — but the
+                # in-context examples are the only place the recommender learns the distinction, so
+                # merging here is the arm that tests whether hiding it costs the MODEL anything.
+                # crit_recall is still scored against the gold must-have set, which the model can no
+                # longer see: that is the point of the comparison, not a leak.
+                for o in sorted(k for k, c in opts.items()
+                                if c.get("enabled") and c.get("priority") in ("critical", "recommended")):
+                    lines.append(f"  {o}: ON [recommended]")
+            else:
+                for tier in ("critical", "recommended"):
+                    for o in sorted(k for k, c in opts.items() if c.get("enabled") and c.get("priority") == tier):
+                        lines.append(f"  {o}: ON [{tier}]")
             for o in sorted(ex.get("add_on_options", {})):
                 lines.append(f"  {o}: add-on [optional, off by default]")
             return "\n".join(lines)

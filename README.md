@@ -115,8 +115,10 @@ python recommend_by_factors.py --list-factors        # every legal factor value
 python recommend_by_factors.py --species human --origin germline --size small \
     --region coding --goal clinical-interpretation
 
-# region_focus and analysis_goal are multi-select — repeat the flag
-python recommend_by_factors.py --species non-human --origin somatic --size structural-CNV \
+# variant_size_class, region_focus and analysis_goal are multi-select — repeat the flag.
+# A whole-genome callset holding both SNVs and CNVs is the ordinary case, not an edge case.
+python recommend_by_factors.py --species human --origin somatic \
+    --size small --size structural-CNV \
     --region coding --region regulatory-noncoding \
     --goal clinical-interpretation --goal population-frequency
 
@@ -125,9 +127,10 @@ python recommend_by_factors.py --species human --origin germline --size small \
     --region regulatory-noncoding --goal clinical-interpretation --explain
 ```
 
-The output separates **core** (what to switch on, split into `critical` / `recommended`) from **add-ons**
-(`optional` — defensible extras, not on by default), lists what the factors **gated out** and why, and flags
-anything a human still needs to settle:
+This is the provenance view, so it prints the **internal** `critical` / `recommended` / `optional`
+priorities rather than the two buckets a user is shown — its job is reporting what the table did. It
+separates what to switch on from the add-ons (defensible extras, not on by default), lists what the
+factors **gated out** and why, and flags anything a human still needs to settle:
 
 ```
 CORE — switch these on (14)
@@ -178,7 +181,7 @@ A scenario is not one category — it is a set of values across five largely-ort
 |---|---|---|---|
 | **species** | human / non-human | data fact | **hard gate** + priority — gates the entire human-only block (PolyPhen, CADD/REVEL/AlphaMissense, gnomAD, ClinVar, MANE…) |
 | **origin** | germline / somatic | data fact | priority, plus one hard rule (`somatic ⇒ no common-variant frequency filter`) |
-| **variant_size_class** | small (SNV/indel) / structural-CNV | data fact | **hard gate** + priority — SVs drop the missense/splice predictors and swap gnomAD → gnomAD-SV |
+| **variant_size_class** *(multi-select)* | small (SNV/indel) / structural-CNV | data fact | **hard gate** + priority — SVs drop the missense/splice predictors and swap gnomAD → gnomAD-SV |
 | **region_focus** *(multi-select)* | coding / regulatory-noncoding | intent (*where*) | **hard gate** + priority — coding drives HGVS/protein/exon numbers/domains; regulatory drives the regulatory build, cell types, UTRAnnotator, Enformer |
 | **analysis_goal** *(multi-select)* | basic-consequence / clinical-interpretation / population-frequency | intent (*why*) | priority — identifiers only vs ClinVar + predictors + phenotypes vs 1000G/gnomAD frequencies |
 
@@ -188,6 +191,46 @@ decides whether they apply at all — so a coding+regulatory variant set keeps t
 one does not. The full rationale is in
 [`work/research/taxonomy_proposal.md`](work/research/taxonomy_proposal.md).
 
+Three of the five are **multi-select**, because they describe a *variant set* rather than one variant. A
+whole-genome callset routinely contains both small and structural variants, so forcing a choice there
+made the tool ask a question it could not accept the honest answer to. Multi-select gating is
+all-values: an option is removed only when *every* active value rules it out, so a mixed set keeps the
+tools for both halves. `variant_size_class` became multi-select on measurement — see the section below.
+
+### What a question leaves unsaid: assume, say so, and ask only when it matters
+
+A factor the question never mentions contributes nothing, so every option it would have supplied
+silently disappears and the user gets a shorter configuration with no sign anything is missing. Ask
+VEPai resolves each gap one of three ways, and asking is the last of them:
+
+| | when | friction |
+|---|---|---|
+| **take it from the text** | the question settles it | none |
+| **guess, and say which** | one answer is clearly safer than the others — *the normal case* | none |
+| **ask** | no safe guess, and something essential is at stake | real |
+
+Every guess is stated back: *"Assumed origin = somatic; say germline if these are inherited."* Nothing is
+blocked and the lines can be ignored. **Whether to ask is arithmetic over the priority table, not a model
+judgement** — resolve the configuration under every candidate answer, and stay quiet unless a must-have
+option actually moves. It costs about 1 ms against a ~1000 ms classifier call and is auditable per query.
+
+The defaults were chosen by measurement, not preference, and the measurements disagree with each other in
+useful ways — `region_focus` from a deterministic sweep, `origin` from a danger audit (which *wrong* guess
+switches on something destructive), `variant_size_class` from 81 controlled ablations. **Assembly is never
+guessed**: it is the one gap where silence produces a *wrong* answer rather than a thin one, since MANE
+exists only for GRCh38 while VEP's own form pre-ticks it for everyone, and guessing GRCh38 would be wrong
+for exactly the GRCh37 clinical users the problem already affects.
+
+```bash
+# meet it as a user does; --why for the audit view, --factors to skip the model
+python work/harness/try_reprompting.py --why "human tumour WGS, which variants are damaging?"
+
+# how often it interrupts, per candidate policy, on 81 controlled ablations — no model, seconds
+python work/harness/ask_rate.py
+```
+
+Design and every number: [`work/research/reprompting_proposal.md`](work/research/reprompting_proposal.md).
+
 ### Per-option priorities: critical / recommended / optional
 
 Every option carries a priority **per factor value**, not one global label — `priority_by_factor.json`, keyed
@@ -196,12 +239,21 @@ factor values, while a hard gate can remove an option outright. That per-value k
 say that ClinVar is **critical** for clinical interpretation, merely **optional** in a population scan, and
 **absent** from a basic consequence lookup — a single label per option cannot express that.
 
-| Tier | Meaning | In the output |
+| Tier (internal) | Meaning | In the output |
 |---|---|---|
-| `critical` | omitting it makes the analysis unanswerable | **core**, on |
-| `recommended` | standard practice for this scenario | **core**, on |
-| `optional` | defensible and useful, but redundant or niche | **add-on**, offered, not on by default |
+| `critical` | omitting it makes the analysis unanswerable | **RECOMMENDED**, on |
+| `recommended` | standard practice for this scenario | **RECOMMENDED**, on |
+| `optional` | defensible and useful, but redundant or niche | **ADD-ONS**, offered, not on by default |
 | `not_applicable` | a hard gate removes it | gated out, with the reason shown |
+
+**The user sees two buckets, not three.** `critical` and `recommended` were always switched on together,
+so the split was only ever a label on the way out; merging them changed no configuration and was verified
+as a pure regrouping over all 72 factor tuples. The three internal priorities survive because real
+mechanisms are defined on them (`--minimal`, repair of an under-recommending draft, critical-recall).
+"Default" was rejected as a name because it reads as *applies automatically*, which is wrong for a bucket
+the user still has to switch on — that distinction is carried by an *already on* marker instead, and it
+earns its place: **54%** of a typical recommendation is switched on by the form before anything is
+suggested.
 
 > **Grounded vs. judgement.** The factual fields (CLI flag, form section, species restriction,
 > conflicts, dependencies, defaults) are source-grounded from Ensembl `public-plugins` (release/115).

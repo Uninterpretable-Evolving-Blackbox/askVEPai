@@ -25,7 +25,8 @@
       "values": ["small", "structural-CNV"],
       "kind": "data_fact",
       "hard_gate": true,
-      "select": "single"
+      "select": "multi",
+      "_select_note": "AMENDS taxonomy_proposal §3, which declares this single-select — pending mentor sign-off, same status as the region_focus gate note below. The factor describes the variant SET, not one variant: a single variant is of course one or the other, but a WGS callset routinely holds both, so 'both' is the normal answer for whole-genome work rather than an edge case. Single-select made the tool ask a question it could not accept the honest answer to — review row 1 states both in its text and had half of it discarded, which is the factor_unrecoverable flag the reviewer queried. Evidence: across the 29 clean ablations where this fact was deleted, single-select-left-empty loses options on 15 of 29 queries; multi-select filled with both loses on 0 of 29, at no measurable cost in added options (4.21 -> 4.28). Multi-select gating is ALL-values, as for region_focus, so a mixed set keeps the tools for both halves and only a purely structural or purely small set is gated."
     },
     "region_focus": {
       "values": ["coding", "regulatory-noncoding"],

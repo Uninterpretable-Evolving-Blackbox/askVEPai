@@ -19,11 +19,13 @@ the part for checking whether "answering this changes something essential" is ac
   # no model: state the factors yourself, leave the rest blank
   python work/harness/try_reprompting.py --factors species=human,analysis_goal=population-frequency
 
-  # what the §6 proposal would do (variant_size_class multi-select, both by default)
-  python work/harness/try_reprompting.py --multi "human WGS with SNVs and CNVs"
-
 Questions are asked only when stdin is a terminal, so piping or redirecting never blocks. Use
 --no-ask to suppress them in a terminal too.
+
+(There was a `--multi` flag here that simulated variant_size_class as multi-select. That change has
+landed in factors.json, so the flag would now simulate the present, and it is gone. To compare the
+policy against its predecessors, use `work/harness/ask_rate.py`, which prices every arm on the same
+81 cases.)
 """
 import argparse
 import json
@@ -64,19 +66,6 @@ def parse_factors(spec):
             sys.exit(f"{f}: {bad} not in {va.FACTOR_VALUES[f]}")
         rec[f] = vals if f in va.MULTI_FACTORS else vals[0]
     return rec
-
-
-def make_multi():
-    """Apply the §6 proposal in-process: variant_size_class multi-select, assumed both.
-
-    Monkeypatched rather than written into factors.json, so trying it cannot leave the repository in
-    a half-changed state. Same two edits the real change would make."""
-    if "variant_size_class" not in va.MULTI_FACTORS:
-        va.MULTI_FACTORS = tuple(va.MULTI_FACTORS) + ("variant_size_class",)
-    va.UNDERSPECIFIED_POLICY["variant_size_class"] = {
-        "assume": ["small", "structural-CNV"],
-        "why": "you didn't say small or structural, so both are covered",
-    }
 
 
 def shown(v):
@@ -142,8 +131,6 @@ def main():
     ap.add_argument("query", nargs="?", help="the scenario text (needs Ollama)")
     ap.add_argument("--factors", help="skip the classifier: name=value,name=value")
     ap.add_argument("--model", default="gemma4:26b")
-    ap.add_argument("--multi", action="store_true",
-                    help="simulate variant_size_class as multi-select, assumed both")
     ap.add_argument("--why", action="store_true", help="show the audit view underneath")
     ap.add_argument("--no-ask", action="store_true", help="report questions instead of asking them")
     a = ap.parse_args()
@@ -151,8 +138,6 @@ def main():
         ap.error("give a query, or --factors to skip the model")
 
     opts = load_options()
-    if a.multi:
-        make_multi()
 
     if a.factors:
         rec = parse_factors(a.factors)
@@ -165,6 +150,12 @@ def main():
             sys.exit("the classifier returned nothing parseable — a checker failure, not five blanks")
 
     filled, assumptions, questions = va.clarification_plan(rec, opts)
+
+    # Same scope note the CLI prints. A query describing no analysis gets told what the tool is for
+    # rather than being asked to choose between SNVs and CNVs.
+    if va.states_nothing_about_variants(rec):
+        print()
+        print(va.OUT_OF_SCOPE_NOTE)
 
     # --- 1. the question, and nothing else. This is the first thing a user sees. ---
     # The configuration BEFORE any answer, so the closing note can say whether answering changed

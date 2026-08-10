@@ -1,0 +1,347 @@
+{
+ "triage": [
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1834",
+   "in_scope": true,
+   "reason": "YES the user is asking for configuration/plugin advice to achieve a specific annotation goal."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1929",
+   "in_scope": false,
+   "reason": "NO feature request"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/685",
+   "in_scope": false,
+   "reason": "NO feature request"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1980",
+   "in_scope": false,
+   "reason": "NO reporting a non-functional flag/bug."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1638",
+   "in_scope": true,
+   "reason": "YES The user is asking for help configuring the --custom parameter to successfully include gnomad allele frequencies whe"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1595",
+   "in_scope": true,
+   "reason": "YES person is asking for advice on configuring the --custom flag to find overlaps between their SVs and ClinVar."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1769",
+   "in_scope": true,
+   "reason": "YES The user is asking for advice on configuring VEP parameters and environment settings to optimize their specific WGS "
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1889",
+   "in_scope": false,
+   "reason": "NO <questioning the biological validity of the annotation results rather than asking how to configure or run VEP>"
+  },
+  {
+   "url": "https://github.com/Ensembl/VEP_plugins/issues/694",
+   "in_scope": true,
+   "reason": "YES user is asking how to use a gene-level dbNSFP file as an annotation source in VEP."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/52",
+   "in_scope": true,
+   "reason": "YES The user is asking for help with configuring VEP flags to correctly obtain PolyPhen and HumDiv annotations."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/502",
+   "in_scope": false,
+   "reason": "NO bug report regarding link behavior in instant VEP."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/458",
+   "in_scope": true,
+   "reason": "YES <user is asking how to configure the --custom flag to use split chromosome files for gnomAD genome r2.1>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/286",
+   "in_scope": false,
+   "reason": "NO <the user is asking about biological interpretation and feature capabilities rather than how to configure or run VEP "
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/210",
+   "in_scope": false,
+   "reason": "NO <reporting unexpected annotation results/potential bug>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1117",
+   "in_scope": false,
+   "reason": "NO installation or crash problem."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1210",
+   "in_scope": false,
+   "reason": "NO installation error"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/865",
+   "in_scope": false,
+   "reason": "NO bug report"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/66",
+   "in_scope": false,
+   "reason": "NO reporting an unexpected discrepancy in the output format after using specific flags."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/62",
+   "in_scope": false,
+   "reason": "NO <installation/test failure reported>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/477",
+   "in_scope": false,
+   "reason": "NO <question about the version of an annotation tool used in the database, not about configuring VEP>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1035",
+   "in_scope": false,
+   "reason": "NO installation error"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1233",
+   "in_scope": false,
+   "reason": "NO <reporting inconsistent results between two runs, which is a bug report or interpretation question>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/55",
+   "in_scope": false,
+   "reason": "NO <bug report regarding empty dbNSFP columns after upgrade>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1117",
+   "in_scope": false,
+   "reason": "NO installation or crash problem."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/860",
+   "in_scope": false,
+   "reason": "NO <installation problem>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/920",
+   "in_scope": false,
+   "reason": "NO it is a report of a crash and a corrupted download."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/14",
+   "in_scope": false,
+   "reason": "NO feature request/bug report regarding output format and threading behavior."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/327",
+   "in_scope": false,
+   "reason": "NO <it is a bug report/error message regarding software execution>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/866",
+   "in_scope": true,
+   "reason": "YES The user is asking how to configure VEP to use a specific, newer genome assembly and GFF file for their variant anno"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/441",
+   "in_scope": false,
+   "reason": "NO feature request"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/690",
+   "in_scope": false,
+   "reason": "NO feature request"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/210",
+   "in_scope": false,
+   "reason": "NO <reporting unexpected annotation results/potential bug>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/190",
+   "in_scope": false,
+   "reason": "NO <installation failure report>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/199",
+   "in_scope": false,
+   "reason": "NO it is a bug report/question about output content."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/736",
+   "in_scope": false,
+   "reason": "NO <question about interpreting an output column>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1237",
+   "in_scope": false,
+   "reason": "NO it is an installation/dependency error."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/542",
+   "in_scope": false,
+   "reason": "NO troubleshooting a utility script failure."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/941",
+   "in_scope": false,
+   "reason": "NO error report/crash during execution."
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/256",
+   "in_scope": false,
+   "reason": "NO <reports a software error/crash>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/776",
+   "in_scope": false,
+   "reason": "NO <bug report regarding plugin error>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/162",
+   "in_scope": false,
+   "reason": "NO <bug report regarding unexpected behavior of filter_vep with VCF input>"
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1131",
+   "in_scope": false,
+   "reason": "NO <installation problem>"
+  },
+  {
+   "url": "https://github.com/Ensembl/VEP_plugins/issues/148",
+   "in_scope": false,
+   "reason": "NO <installation problem>"
+  }
+ ],
+ "rows": [
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1834",
+   "n_material": 2,
+   "material": [
+    "region_focus",
+    "analysis_goal"
+   ],
+   "immaterial": [
+    "origin"
+   ],
+   "disagreed": [
+    "region_focus",
+    "analysis_goal"
+   ],
+   "pastes_flags": true
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1638",
+   "n_material": 2,
+   "material": [
+    "variant_size_class",
+    "region_focus"
+   ],
+   "immaterial": [
+    "origin"
+   ],
+   "disagreed": [
+    "origin",
+    "region_focus"
+   ],
+   "pastes_flags": true
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1595",
+   "n_material": 2,
+   "material": [
+    "variant_size_class",
+    "analysis_goal"
+   ],
+   "immaterial": [
+    "origin"
+   ],
+   "disagreed": [
+    "variant_size_class",
+    "analysis_goal"
+   ],
+   "pastes_flags": true
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/1769",
+   "n_material": 2,
+   "material": [
+    "region_focus",
+    "analysis_goal"
+   ],
+   "immaterial": [
+    "origin",
+    "variant_size_class"
+   ],
+   "disagreed": [],
+   "pastes_flags": false
+  },
+  {
+   "url": "https://github.com/Ensembl/VEP_plugins/issues/694",
+   "n_material": 3,
+   "material": [
+    "variant_size_class",
+    "region_focus",
+    "analysis_goal"
+   ],
+   "immaterial": [
+    "origin"
+   ],
+   "disagreed": [
+    "region_focus",
+    "analysis_goal"
+   ],
+   "pastes_flags": false
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/52",
+   "n_material": 1,
+   "material": [
+    "region_focus"
+   ],
+   "immaterial": [
+    "origin",
+    "variant_size_class"
+   ],
+   "disagreed": [
+    "variant_size_class",
+    "region_focus"
+   ],
+   "pastes_flags": true
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/458",
+   "n_material": 1,
+   "material": [
+    "region_focus"
+   ],
+   "immaterial": [
+    "origin",
+    "variant_size_class"
+   ],
+   "disagreed": [
+    "origin",
+    "variant_size_class"
+   ],
+   "pastes_flags": true
+  },
+  {
+   "url": "https://github.com/Ensembl/ensembl-vep/issues/866",
+   "n_material": 0,
+   "material": [],
+   "immaterial": [
+    "origin"
+   ],
+   "disagreed": [],
+   "pastes_flags": false
+  }
+ ],
+ "readers": [
+  "gemma4:26b",
+  "gemma4:e4b"
+ ],
+ "material_threshold": 3
+}
