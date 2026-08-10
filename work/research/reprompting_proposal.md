@@ -24,6 +24,14 @@ for leaving it blank. `origin` was settled differently, by a danger audit asking
 switches on something destructive rather than which loses most options. `analysis_goal` was never chosen
 at all: the code already defaulted to it silently, and the change was to say so.
 
+`species` is in neither experiment, and its default rests on a judgement rather than a number. A keyword
+rule reads it from the text and returns `unknown` when it cannot tell, which on the eight real
+configuration questions from the trackers happens **4 times out of 8**. Treating `unknown` as non-human
+would strip gnomAD, ClinVar and the predictors from every one of those, most of which are human studies
+that simply never use the word. So `unknown` is treated as human, which fails in the other direction: a
+zebra finch question in that set keeps the human-only options. The checker announces it, and it is the
+weakest-evidenced of the four defaults.
+
 **Checking them on harder input.** Blanking a tuple is artificial, because no real query arrives as a
 tuple with a hole in it. So the values were re-tested against prose.
 
