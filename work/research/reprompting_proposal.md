@@ -28,10 +28,16 @@ at all: the code already defaulted to it silently, and the change was to say so.
 tuple with a hole in it. So the values were re-tested against prose.
 
 Each of our 31 generated queries states all five factors, so exactly one fact can be deleted with
-everything else held fixed. A model rewrites the query to read naturally with that fact simply absent.
-Every rewrite is re-read and kept only if the target fact really went and no other factor moved, which
-leaves **81 clean cases out of 124 attempts**. Because the true factor values are known, the
-configuration built from the ablated query can be compared against the correct one.
+everything else held fixed. A model rewrites the query to read naturally with that fact simply absent,
+and every rewrite is re-read before it is used. It counts as **clean** only when the target fact really
+went and no other factor moved: **81 of 124 attempts**. Of the remaining 43, 22 lost the words but left
+the fact still inferable from context, 15 took a second factor with them, and 6 failed to remove the
+words at all.
+
+Each clean case then goes through the tool's normal path. The classifier reads the rewritten query, the
+gap it leaves is **filled with the default under test**, and the resulting configuration is compared
+against the one the true factor values produce. So the table measures what silence plus that default
+costs, which is why each row names the value it filled in.
 
 **Lost** is options the true configuration has and ours does not, averaged per query, so annotations the
 user should have received and did not. **Added** is the reverse. **Exactly right** counts queries where
