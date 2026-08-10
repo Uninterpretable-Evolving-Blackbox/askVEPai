@@ -17,15 +17,6 @@ configuration with no sign that anything is missing.
 
 Two experiments sit behind everything below and they do different jobs, so both come first.
 
-**Choosing the values.** For each factor, blank it across the 31 review rows, resolve the configuration
-under every candidate value, and score each against that row's known-correct configuration. That is how
-*both* was chosen for `region_focus`: F1 0.92, against 0.86 for *coding*, 0.85 for *regulatory* and 0.78
-for leaving it blank. `origin` was settled differently, by a danger audit asking which wrong guess
-switches on something destructive rather than which loses most options. `analysis_goal` was never chosen
-at all: the code already defaulted to it silently, and the change was to say so.
-
-**Checking them on harder input.** Blanking a tuple is artificial, because no real query arrives as a
-tuple with a hole in it. So the values were re-tested against prose.
 
 Each of our 31 generated queries states all five factors, so exactly one fact can be deleted with
 everything else held fixed. A model rewrites the query to read naturally with that fact simply absent,
@@ -66,6 +57,8 @@ and what to guess for each:
   subtractive, because reading a question as a plain consequence call drops ClinVar and the predictors.
 - **`variant_size_class`: do not guess.** No value is safe, so it is left empty and asked about instead.
   This is the worst row in the table and the subject of §5.
+
+
 
 Two further findings from the same ablations. When `variant_size_class` was deleted, the fact was still
 recoverable from surrounding context only **2 times in 31**, so it is genuinely not in the prose and no
