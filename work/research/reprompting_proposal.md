@@ -4,12 +4,6 @@ Status: **applied, and open to being overturned.** The third design decision the
 rather than inherit, after the factor taxonomy (`taxonomy_proposal.md`) and the generation pipeline
 (`generation_pipeline_proposal.md`). `underspecification_proposal.md` holds the raw measurements.
 
-An earlier version of this document ended in five questions. Four of them turned out to be answerable
-from measurements already in this repository, so they have been decided and applied rather than left
-waiting on a meeting — §9 lists what changed, what it cost and which single line reverses each one. One
-of the four amends the taxonomy you signed off (§5), which is the reason that section still carries the
-full argument rather than a summary. The two questions that genuinely need a domain view are still in §9,
-and one of them is Jamie's.
 
 ---
 
