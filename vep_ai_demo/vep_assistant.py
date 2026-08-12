@@ -703,7 +703,8 @@ def _factor_think_setting():
     return v in ("1", "on", "true", "yes")
 
 
-def infer_factors(client, model, user_query, think=False, apply_defaults=True):
+def infer_factors(client, model, user_query, think=False, apply_defaults=True,
+                  seed=42, temperature=0.0):
     """Classify a free-text query into a factor tuple, or None if the classifier fails.
 
     SPECIES is taken from infer_species(), not from the classifier: species is the hard safety gate
@@ -760,8 +761,11 @@ def infer_factors(client, model, user_query, think=False, apply_defaults=True):
                     {"role": "system", "content": FACTOR_CLASSIFIER_PROMPT + (user_query or "")},
                     {"role": "user", "content": "Return the JSON classification."},
                 ],
-                temperature=0.0,
-                seed=42,
+                # Parameterised so a harness can run the same classification under several seeds and
+                # report a spread instead of a single draw. The defaults are the old hardcoded values,
+                # so every existing caller is unchanged.
+                temperature=temperature,
+                seed=seed,
             )
             raw = resp.choices[0].message.content or ""
         else:
@@ -803,12 +807,19 @@ UNDERSPECIFIED_POLICY = {
         "why": "you didn't say which regions matter, so both are covered",
     },
     # FAIL-CLOSED, and measured: leaving this open is NOT the safe choice, which was the first guess.
+    # Sharper than that, and verified by `work/harness/defaults_evidence.py` across all 31 review rows:
+    # silence is strictly worse than EITHER value. It carries germline's risk on `frequency` AND drops
+    # `check_existing`, which germline and somatic both enable. So the first decision is that something
+    # must be guessed at all; only the second is that it is somatic.
     # The `somatic => frequency not_applicable` hard rule fires only when origin is EXPLICITLY somatic, so
     # an unstated origin lets the common-variant pre-filter through on 6 of the 15 somatic review rows --
     # identical harm to guessing germline. Guessing SOMATIC enables a suppressing option on 0 of the 16
     # germline rows, so it is strictly the safe direction. germline and somatic differ in the table by
     # this one rule (both merely recommend check_existing), so assuming somatic costs a germline user one
-    # optional pre-filter and costs a somatic user nothing. Same shape as infer_species being fail-closed:
+    # pre-filter and costs a somatic user nothing. That cost is real and is NOT an add-on: `frequency`
+    # resolves at `recommended`, so it sits in the RECOMMENDED bucket the user sees switched on, and
+    # guessing somatic drops it on 7 of the 31 review rows. Paid deliberately, not for free. Same shape
+    # as infer_species being fail-closed:
     # the dangerous value is only adopted when positively indicated.
     "origin": {
         "assume": "somatic",
@@ -816,33 +827,27 @@ UNDERSPECIFIED_POLICY = {
                "common-variant filter off, which would otherwise discard real tumour variants. "
                "Say 'germline' if these are inherited variants",
     },
-    # WAS `assume: None`, and the reason it could not be guessed was a vocabulary limit rather than a
-    # fact about variants: under single-select the only candidates were `small` and `structural-CNV`,
-    # each of which gates away the other half of the catalogue, so no value was safe and the tool asked.
-    # Multi-select adds the value that is safe. Across the same 29 ablations, leaving it empty loses
-    # options on 15 of 29 queries and `both` loses on 0 of 29, for 4.28 added options against 4.21 —
-    # the error becomes purely additive, which is the trade this whole policy is built on. It also
-    # empties the ask path: with every factor now guessable, no factor reaches the question stage, and
-    # `ask_rate.py` goes from 16 questions over the 81 ablations to 0. See factors.json `_select_note`.
+    # GUESSABLE ONLY BECAUSE THE FACTOR IS MULTI-SELECT. Neither single value is safe -- `small` and
+    # `structural-CNV` each gate away the other half of the catalogue -- so the safe answer is `both`,
+    # and expressing it needs a factor that can hold two values. Across the 29 ablations where this was
+    # the deleted fact, `both` loses options on 0 of 29 for 4.28 added; the error is purely additive,
+    # which is the trade this whole policy is built on. See factors.json `_select_note`.
     "variant_size_class": {
         "assume": ["small", "structural-CNV"],
         "why": "you didn't say small variants or structural/CNV, so both are covered — say which if "
                "your callset is only one of them",
     },
-    # ASKED, NOT GUESSED — this factor never met the bar for guessing and now says so. The rule is:
-    # guess where one answer is clearly safer, ask where none is. Neither condition holds here. With the
-    # guess removed so nothing suppressed the question, the rule asks about `analysis_goal` on 11 of the
-    # 11 ablations where it was the deleted fact, and the value we were substituting loses options on 5
-    # of those 11 — subtractive error, the direction that costs a user a finding rather than a column.
+    # ASKED, NOT GUESSED. The rule is: guess where one answer is clearly safer, ask where none is, and
+    # this factor meets neither condition. The rule asks about it on 11 of the 11 ablations where it was
+    # the deleted fact, and the fallback value loses options on 5 of those 11 -- subtractive error, the
+    # direction that costs a user a finding rather than a column.
     #
-    # It was guessed anyway on the grounds that asking would interrupt nearly every vague query. That
-    # figure came from ablations, which DELETE the fact on purpose; it is not the rate on real input.
-    # Measured on the 8 real configuration questions from the trackers, `analysis_goal` is genuinely
-    # absent and material on 1 — it was reader DISAGREEMENT, not absence, on 3 more, which the
-    # published 7/8 headline conflated (see underspecification_proposal.md). n=8 is far too small for a
-    # frequency claim and none is made; it is enough to show the objection was measuring the wrong set.
+    # The ablations overstate how often this interrupts anyone, because they delete the fact on purpose.
+    # On the 8 real configuration questions from the trackers it is genuinely absent and material on 1
+    # (reader disagreement, not absence, accounts for 3 more). n=8 is far too small for a frequency
+    # claim and none is made.
     #
-    # Skipping stays free: the fallback in `resolve_underspecified` supplies basic-consequence and now
+    # Skipping is free: the fallback in `resolve_underspecified` supplies basic-consequence and
     # announces itself, so nobody is blocked and nothing is substituted in silence.
     "analysis_goal": {
         "assume": None,
@@ -914,18 +919,20 @@ def _enabled_for(factor_tuple, vep_options):
 
 # WHICH OPTIONS COUNT AS "ESSENTIAL" FOR THE PURPOSE OF INTERRUPTING SOMEONE.
 #
-# The bar was written when the output had three tiers and `critical` was a bucket the user could see.
-# After the tier merge it is not: the user sees RECOMMENDED, which is `critical | recommended`. So the
-# bar can be read two ways, and they are not the same rule —
+# The bar is the bucket the user is actually shown: RECOMMENDED, which is `critical | recommended`.
 #
-#   ("critical",)                 the internal must-have set. Narrower, and the one every published
-#                                 number was measured under.
-#   ("critical", "recommended")   the bucket the user is actually shown. Matches the vocabulary that
-#                                 shipped, and necessarily fires at least as often.
+# It is deliberately NOT the internal `critical` tier alone, even though the mechanisms around it
+# (`restore_missing_critical`, `--minimal`, critical-recall) still are. The critical/recommended
+# boundary is the one the mentor review found unstable: twelve of Likhitha's twenty edits were
+# critical<->recommended moves, which is why the display was merged in the first place. Deciding
+# whether to INTERRUPT A USER on a boundary the reviewer redrew twelve times out of twenty edits — and
+# that the user never sees — makes the interruption depend on a label nobody agrees on.
 #
-# Naming it rather than hardcoding it is the point: the difference is a behaviour change and belongs in
-# a measurement, not in a rename. `work/harness/ask_rate.py --bar` prices both on the same 81 ablations.
-ASK_BAR_PRIORITIES = ("critical",)
+# The two readings were priced before choosing: on the current guesses they raise identical questions
+# (`work/harness/ask_rate.py`, arms `shipped` and `shipped+wide-bar`), so the wider bar costs nothing
+# today. It diverges only if the guesses are removed, where it adds 6 `origin` questions. Named rather
+# than hardcoded so the comparison stays runnable.
+ASK_BAR_PRIORITIES = ("critical", "recommended")
 
 
 def factor_must_haves_at_stake(factor, factor_tuple, vep_options):
@@ -1224,15 +1231,12 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
     It rides along rather than joining the tuple because it describes the input data, not the analysis.
 
     The default is "state" rather than "ask" because a tool that interrogates its users has moved the
-    work back onto them. Asking is opt-in and now genuinely rare: since `variant_size_class` became
-    multi-select there is a safe value for every FACTOR, so no factor reaches the question stage at all
-    (`work/harness/ask_rate.py`: 16 questions over the 81 clean ablations before that change, 0 after).
-    Assembly is the one thing still asked about, on the 4 of 8 real tracker questions whose text does
-    not name a build — a different quantity from the 4 of 8 an earlier version of this note reported
-    for the factor questions, which is why it is spelled out rather than left as a number.
+    work back onto them. Asking is opt-in. `analysis_goal` and ASSEMBLY are the two things asked about;
+    every other factor has a safe value and reaches no question. Over the 81 clean ablations that is 44
+    questions on 38 queries, 33 of them assembly (`work/harness/ask_rate.py`).
 
-    (An earlier version also cited "18 of 20 real forum questions". That set was hand-edited and is
-    withdrawn — see research/underspecification_proposal.md §1.)
+    Do not cite "18 of 20 real forum questions" from anywhere: that set was hand-edited and is withdrawn
+    (research/underspecification_proposal.md §1).
     """
     filled, assumptions, questions = clarification_plan(rec, vep_options, user_query, assembly)
     off_topic = states_nothing_about_variants(rec)

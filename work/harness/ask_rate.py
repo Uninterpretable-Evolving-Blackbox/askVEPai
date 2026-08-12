@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """How often the tool interrupts, measured — the ask rule's firing rate under each candidate policy.
 
-`reprompting_proposal.md` quotes "16 of 81, all the same factor" and "13 questions instead of 4".
-Both were produced by hand, which is fine once and useless the moment a policy changes. This makes
-those numbers reproducible and, more to the point, makes the policies COMPARABLE on identical cases:
-the arms differ only in the flags below, so a difference in the table is a difference in the rule.
+Every ask-rate figure in `reprompting_proposal.md` comes from here. The point is comparability: the
+arms differ only in the flags below, so a difference in the table is a difference in the rule and
+nothing else.
 
 No model, no GPU, seconds. The classifier has ALREADY been run on every ablated query and its reading
 recorded as `read_after`, so this replays only the decision half of the path, and replays it exactly
@@ -12,11 +11,11 @@ rather than approximating it by blanking the true tuple.
 
 WHAT THIS MEASURES is the gate, given a gap the ablation put there on purpose. It is NOT a rate over
 real traffic. Eight configuration questions is too few to carry one (`reprompting_proposal.md` §7),
-and claiming otherwise would repeat the overclaim the withdrawn Biostars set already cost us once.
+and claiming otherwise would be the overclaim the withdrawn Biostars set is withdrawn for.
 
-  python work/harness/ask_rate.py                    # every arm, one table
-  python work/harness/ask_rate.py --arm today        # just the shipped policy
-  python work/harness/ask_rate.py --by-row --arm today
+  python work/harness/ask_rate.py                       # every arm, one table
+  python work/harness/ask_rate.py --arm shipped         # just the policy the engine runs
+  python work/harness/ask_rate.py --by-row --arm shipped
 """
 import argparse
 import json
@@ -38,17 +37,16 @@ _REAL_ASSEMBLY_QUESTION = va.assembly_question
 
 # Copied rather than referenced, so an arm cannot mutate the real policy out from under the engine.
 #
-# The policy as it stood before the mentor questions were resolved: three guesses, and the one factor
-# with no safe value asked about.
-BEFORE_ASSUMPTIONS = {
+# Three guesses, with the factor that has no safe value asked about instead.
+GUESS_GOAL_ASSUMPTIONS = {
     "region_focus": ["coding", "regulatory-noncoding"],
     "origin": "somatic",
     "analysis_goal": ["basic-consequence"],
     "variant_size_class": None,
 }
 
-# What the engine does now. `variant_size_class` gained a safe value by becoming multi-select;
-# `analysis_goal` lost its guess because it never met the bar for one.
+# What the engine runs: `variant_size_class` is guessable because it is multi-select, and
+# `analysis_goal` is asked because it meets neither condition for guessing.
 SHIPPED_ASSUMPTIONS = {
     "region_focus": ["coding", "regulatory-noncoding"],
     "origin": "somatic",
@@ -56,8 +54,8 @@ SHIPPED_ASSUMPTIONS = {
     "variant_size_class": None,          # supplied by the `multi` flag; see apply_arm
 }
 
-# The alternative that was on the table: guess only where the guess is free, ask about everything else.
-# `region_focus` is the only factor that loses nothing on any ablation, so it is the only survivor.
+# Guess only where the guess is free, ask about everything else. `region_focus` is the only factor that
+# loses nothing on any ablation, so it is the only survivor.
 MINIMAL_ASSUMPTIONS = {
     "region_focus": ["coding", "regulatory-noncoding"],
     "origin": None,
@@ -65,25 +63,29 @@ MINIMAL_ASSUMPTIONS = {
     "variant_size_class": None,
 }
 
-ASSUME_SETS = {"before": BEFORE_ASSUMPTIONS, "shipped": SHIPPED_ASSUMPTIONS,
+# The bar is the option set whose movement justifies an interruption. WIDE is the bucket the user is
+# shown; NARROW is the internal must-have tier. The engine uses WIDE — see ASK_BAR_PRIORITIES.
+NARROW = ("critical",)
+WIDE = ("critical", "recommended")
+
+ASSUME_SETS = {"guess-goal": GUESS_GOAL_ASSUMPTIONS, "shipped": SHIPPED_ASSUMPTIONS,
                "minimal": MINIMAL_ASSUMPTIONS}
 
 ARMS = {
-    "before": dict(assume="before", multi=False, bar=("critical",), assembly=False,
-                   note="where this started: size single-select and asked, goal guessed, no assembly question"),
-    "shipped": dict(assume="shipped", multi=True, bar=("critical",), assembly=True,
-                    note="what the engine now does"),
-    "shipped, no assembly": dict(assume="shipped", multi=True, bar=("critical",), assembly=False,
+    "single-select": dict(assume="guess-goal", multi=False, bar=NARROW, assembly=False,
+                          note="size single-select and asked, goal guessed, no assembly question"),
+    "shipped": dict(assume="shipped", multi=True, bar=WIDE, assembly=True,
+                    note="what the engine does"),
+    "shipped, no assembly": dict(assume="shipped", multi=True, bar=WIDE, assembly=False,
                                  note="isolates how much of the shipped rate is the assembly question"),
-    "shipped+wide-bar": dict(assume="shipped", multi=True, bar=("critical", "recommended"),
-                             assembly=True,
-                             note="as shipped, with the bar read as the visible RECOMMENDED bucket"),
-    "goal guessed": dict(assume="before", multi=True, bar=("critical",), assembly=True,
-                         note="shipped, but keeping the analysis_goal guess — the cost of asking"),
-    "ask-all": dict(assume="minimal", multi=True, bar=("critical",), assembly=True,
+    "shipped, narrow bar": dict(assume="shipped", multi=True, bar=NARROW, assembly=True,
+                                note="bar on the internal must-have tier instead of the visible bucket"),
+    "goal guessed": dict(assume="guess-goal", multi=True, bar=WIDE, assembly=True,
+                         note="shipped, but guessing analysis_goal — prices the cost of asking it"),
+    "ask-all": dict(assume="minimal", multi=True, bar=WIDE, assembly=True,
                     note="guess only where free, ask about the rest"),
-    "ask-all+wide-bar": dict(assume="minimal", multi=True, bar=("critical", "recommended"),
-                             assembly=True, note="the most talkative policy on the table"),
+    "ask-all, narrow bar": dict(assume="minimal", multi=True, bar=NARROW, assembly=True,
+                                note="where the two bars diverge: the narrow one drops the origin questions"),
 }
 
 
@@ -95,8 +97,8 @@ def load_options():
 def apply_arm(arm):
     """Set the module globals the rule reads. Same two edits the real change would make, plus the bar.
 
-    Monkeypatched rather than written to disk so measuring a policy cannot leave the repository in a
-    half-changed state — the same discipline `try_reprompting.py --multi` already uses."""
+    Monkeypatched rather than written to disk, so measuring a policy cannot leave the repository in a
+    half-changed state."""
     multi = tuple(f for f in va.MULTI_FACTORS if f != "variant_size_class")
     if arm["multi"]:
         multi = multi + ("variant_size_class",)
@@ -112,8 +114,8 @@ def apply_arm(arm):
         policy[f] = {"assume": assume, "why": ""}
     va.UNDERSPECIFIED_POLICY = policy
     va.ASK_BAR_PRIORITIES = tuple(arm["bar"])
-    # Assembly is not a factor and predates none of this, so an arm that models the earlier policy has
-    # to be able to switch it off — otherwise `before` cannot reproduce the 16 it is there to anchor.
+    # Assembly is not a factor, so an arm has to be able to switch its question off independently —
+    # that is what lets `single-select` reproduce the 16 it exists to anchor.
     va.assembly_question = (_REAL_ASSEMBLY_QUESTION if arm["assembly"]
                             else (lambda *a, **k: []))
 
@@ -121,10 +123,10 @@ def apply_arm(arm):
 def coerce(rec):
     """Re-shape a recorded classifier reading to the arm's schema.
 
-    `read_after` was recorded when `variant_size_class` was single-select, so it holds a string. Under
-    the multi arm the same fact has to arrive as a list or `clarification_plan` reads a populated field
-    as blank and asks about something the user already answered. The arms must differ in the POLICY
-    and nowhere else, so this conversion is load-bearing rather than cosmetic."""
+    `read_after` holds `variant_size_class` as a string. Under a multi arm the same fact has to arrive
+    as a list, or `clarification_plan` reads a populated field as blank and asks about something the
+    user already answered. The arms must differ in the POLICY and nowhere else, so this conversion is
+    load-bearing rather than cosmetic."""
     out = {}
     for f in va.FACTOR_VALUES:
         v = rec.get(f)
@@ -194,6 +196,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--arm", choices=sorted(ARMS), help="one arm instead of the whole table")
     ap.add_argument("--by-row", action="store_true", help="list every case that raises a question")
+    ap.add_argument("--set", dest="set_path", default=str(ABLATIONS),
+                    help="which ablation set to score. Defaults to the published one; point it at a "
+                         "re-run to see what a fresh build of the ablations does to the rate.")
     a = ap.parse_args()
 
     drift = check_shipped_arm_matches_repo()
@@ -201,13 +206,14 @@ def main():
         sys.exit(f"ask_rate.py is out of date with the engine:\n  {drift}\n"
                  "Update ARMS['shipped'] (and the arm notes) before quoting any number here.")
 
-    with open(ABLATIONS) as f:
+    with open(a.set_path) as f:
         cases = [c for c in json.load(f) if c.get("pure")]
     opts = load_options()
     n = len(cases)
 
     names = [a.arm] if a.arm else list(ARMS)
-    print(f"\nask rate over {n} clean ablations  (the gate only; no model is run)\n")
+    print(f"\nask rate over {n} clean ablations from {Path(a.set_path).name}"
+          f"  (the gate only; no model is run)\n")
     print(f"  {'arm':<18} {'questions':>10} {'queries asked':>14}   factors")
     print(f"  {'-' * 18} {'-' * 10:>10} {'-' * 14:>14}   {'-' * 30}")
     results = {}

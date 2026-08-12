@@ -1,7 +1,3 @@
-I now have all 26 plugins grounded against the release/115 source and live docs, plus the InputForm.pm injection logic and custom datasets. Here is the complete catalogue.
-
----
-
 # VEP Web-Exposed Plugins Catalogue (release/115)
 
 ## How plugins inject into the form (from InputForm.pm)
@@ -127,4 +123,4 @@ Lower priority / optional (defer if tight on space): GO, AncestralAllele, OpenTa
 - CADD/REVEL/AlphaMissense/SpliceAI/MaxEntScan/dbNSFP are `source_type=plugin` under predictions, NOT native checkboxes.
 - Every plugin's `web_form_section` must be one of: `identifiers`, `variants_frequency_data`, `additional_annotations`, `predictions`, `filters`, `advanced`.
 
-Relevant source files: `/Users/davidgao/Desktop/GSoC_WORK/ensembl_source/vep_plugins_web_config.txt`, `/Users/davidgao/Desktop/GSoC_WORK/ensembl_source/vep_custom_web_config.json`, `/Users/davidgao/Desktop/GSoC_WORK/ensembl_source/VEP/InputForm.pm`.
+Relevant source files: `ensembl_source/vep_plugins_web_config.txt`, `ensembl_source/vep_custom_web_config.json`, `ensembl_source/VEP/InputForm.pm`.

@@ -63,9 +63,9 @@ REWRITE = (
 )
 
 
-def rewrite(client, model, query, target):
+def rewrite(client, model, query, target, seed=42, temperature=0.0):
     r = client.chat.completions.create(
-        model=model, temperature=0.0, seed=42,
+        model=model, temperature=temperature, seed=seed,
         messages=[{"role": "system", "content": REWRITE.format(what=WHAT_TO_REMOVE[target], q=query)},
                   {"role": "user", "content": "Rewrite it."}])
     return (r.choices[0].message.content or "").strip()
@@ -102,25 +102,19 @@ def is_empty(rec, f):
     return (not v) if f in va.MULTI_FACTORS else (v in (None, "unstated"))
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--rows", type=int, default=0)
-    ap.add_argument("--model", default="gemma4:26b")
-    a = ap.parse_args()
-
-    rows = json.load(open(ROOT / "work/generation/candidates/iced.json"))
-    if a.rows:
-        rows = rows[:a.rows]
-    client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
-    cat = genlib.load_catalogue(); pbf = genlib.load_priority_by_factor(); fc = genlib.load_factors()
-
+def build(client, model, rows, seed, temperature):
+    """One complete ablation set at one seed. Sequential by construction: the reproducibility note in
+    `infer_factors` is that temp=0 is NOT reproducible under concurrency, so this must not be
+    parallelised even though it is the slow part."""
     out, stats = [], Counter()
     for i, r in enumerate(rows, 1):
         original = r["user_query"]
-        base_read = va.infer_factors(client, a.model, original, apply_defaults=False)
+        base_read = va.infer_factors(client, model, original, apply_defaults=False,
+                                     seed=seed, temperature=temperature)
         for target in TARGETS:
-            new_q = rewrite(client, a.model, original, target)
-            read = va.infer_factors(client, a.model, new_q, apply_defaults=False)
+            new_q = rewrite(client, model, original, target, seed=seed, temperature=temperature)
+            read = va.infer_factors(client, model, new_q, apply_defaults=False,
+                                    seed=seed, temperature=temperature)
             if read is None:
                 stats["classifier failed"] += 1
                 continue
@@ -147,13 +141,81 @@ def main():
                         "read_before": base_read, "read_after": read,
                         "truth": r["factor_labels"]})
             print(f"  row {i:2d} −{target:19s} {outcome:14s} "
-                  f"{('collateral:'+','.join(collateral)) if collateral else ''}")
-    json.dump(out, open(OUT, "w"), indent=1)
-    n = len(out)
+                  f"{('collateral:'+','.join(collateral)) if collateral else ''}", flush=True)
+    return out, stats
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--rows", type=int, default=0)
+    ap.add_argument("--model", default="gemma4:26b")
+    # Three seeds, matching the factor-scheme LOO (`eval_factor_set.py --seeds 42,43,44`), so the two
+    # measurements are quoted with the same rigour rather than one carrying a spread and the other a
+    # single draw. Temperature stays at the 0.0 this experiment was designed around: at temp 0 a spread
+    # across seeds is not sampling noise, it is the Metal/MoE non-determinism the classifier docstring
+    # warns about, and finding out which we have is the point.
+    ap.add_argument("--seeds", default="42,43,44")
+    ap.add_argument("--temperature", type=float, default=0.0)
+    ap.add_argument("--update-primary", action="store_true",
+                    help="replace the committed ablated_queries.json with this run. Off by default: "
+                         "the published figures are scored on that file.")
+    a = ap.parse_args()
+
+    rows = json.load(open(ROOT / "work/generation/candidates/iced.json"))
+    partial = bool(a.rows)
+    if partial:
+        rows = rows[:a.rows]
+    client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+    seeds = [int(s) for s in a.seeds.split(",")]
+
+    # A PARTIAL RUN MUST NEVER BECOME THE PRIMARY ARTEFACT. `--rows 1` is the natural way to smoke-test
+    # a change to this script, and writing its 4 rows over ablated_queries.json would destroy the
+    # 124-ablation dataset that the proposal, ask_rate.py and defaults_evidence.py all read.
+    # Nor may a multi-seed run silently REPLACE the published set. `ablated_queries.json` is committed
+    # and every figure in the proposal is scored on it, so a re-run that quietly swapped it would
+    # change published numbers with no diff to notice. Default is to write beside it and compare;
+    # --update-primary is the deliberate act of adopting a new set.
+    if partial:
+        base = OUT.with_name(f"{OUT.stem}_partial{a.rows}.json")
+        print(f"  partial run ({a.rows} rows) — writing to {base.name}, NOT to {OUT.name}", flush=True)
+    elif a.update_primary:
+        base = OUT
+        print(f"  --update-primary: {OUT.name} WILL be replaced", flush=True)
+    else:
+        base = OUT.with_name(f"{OUT.stem}_rerun.json")
+        print(f"  writing to {base.name}; {OUT.name} is left alone. "
+              f"Pass --update-primary to adopt this run.", flush=True)
+
+    per_seed = []
+    for seed in seeds:
+        print(f"\n=== seed {seed} (temperature {a.temperature}) ===", flush=True)
+        out, stats = build(client, a.model, rows, seed, a.temperature)
+        n = len(out)
+        clean = stats["pure"]
+        per_seed.append({"seed": seed, "n": n, "clean": clean, "outcomes": dict(stats)})
+        dest = base if seed == seeds[0] else base.with_name(f"{base.stem}_seed{seed}.json")
+        json.dump(out, open(dest, "w"), indent=1)
+        print(f"  seed {seed}: clean {clean}/{n} ({clean/max(1,n):.0%})  -> {dest.name}", flush=True)
+
     print(f"\n{'='*72}")
-    print(f"  {n} ablations attempted: {dict(stats)}")
-    print(f"  usable (pure): {stats['pure']}/{n}  ({stats['pure']/max(1,n):.0%})")
-    print(f"  -> {OUT.relative_to(ROOT)}")
+    counts = [s["clean"] for s in per_seed]
+    mean = sum(counts) / len(counts)
+    sd = (sum((c - mean) ** 2 for c in counts) / len(counts)) ** 0.5
+    for s in per_seed:
+        print(f"  seed {s['seed']}: clean {s['clean']}/{s['n']}  {s['outcomes']}")
+    print(f"\n  clean ablations across {len(seeds)} seeds: {mean:.1f} ± {sd:.1f}"
+          f"   (min {min(counts)}, max {max(counts)})")
+    if sd == 0:
+        print("  spread is ZERO — at temperature 0 this run was exactly reproducible across seeds,")
+        print("  so the single-draw figure this experiment published was not an artefact of its seed.")
+    else:
+        print("  spread is NON-ZERO at temperature 0, which is the Metal/MoE non-determinism the")
+        print("  classifier docstring warns about. Quote this number with its spread, not bare.")
+    summary = base.with_name(f"{base.stem}_seed_summary.json")
+    json.dump({"seeds": seeds, "temperature": a.temperature, "model": a.model,
+               "per_seed": per_seed, "clean_mean": mean, "clean_sd": sd},
+              open(summary, "w"), indent=1)
+    print(f"  -> {base.relative_to(ROOT)}  (+ per-seed files, summary in {summary.name})")
 
 
 if __name__ == "__main__":

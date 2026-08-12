@@ -25,12 +25,12 @@ configuration our own priority table specifies — self-consistency, on a table 
 provisional. It is not a benchmark, and it will not be one until the priorities are signed off. Every
 number here is directional until then.
 
-**And the must-have recall figure now measures something the user never sees.** The three internal
-priorities survive the tier merge — `restore_missing_critical`, `--minimal` and this metric are all
-defined on the must-have tier — but the output shows two buckets, so 95.1% can no longer be described
-as recall on a tier anyone reviewed. It is an internal signal until a replacement is agreed.
+**The must-have recall figure measures something the user never sees.** The three internal priorities
+exist for real mechanisms — `restore_missing_critical`, `--minimal` and this metric are all defined on
+the must-have tier — but the output shows two buckets, so 95.1% is not recall on a tier anyone reviewed.
+It is an internal signal until a replacement is agreed.
 
-## Done since the last update
+## Recent work
 
 **Two tiers instead of three.** RECOMMENDED (the former must-have and recommended, merged) and ADD-ONS.
 Naming per Nakib: *"default" carries a different meaning — something that applies automatically instead
@@ -50,17 +50,15 @@ factor tuples; export totals unchanged at 391 recommended and 121 add-ons.
    not the 6 originally flagged), and the 8 missing web-exposed plugins.
 2. **Run the recommended configuration against Web VEP** and check the output. The largest remaining
    independent piece.
-3. **Ask when it matters, assume when it does not.** Built, tested, and no longer held back — the
-   taxonomy decision it was waiting on has been taken (below). On 81 controlled ablations, one fact
-   removed from our own queries so the right answer is known, the tool interrupts on **38 of 81**, where
-   the previous policy interrupted on 16. The composition changed completely: the old 16 were all
-   `variant_size_class`, which is now guessable and asks nothing; the new questions are **33** about
-   assembly and **11** about `analysis_goal`. Reproduce with `harness/ask_rate.py`, which prices every
-   candidate policy on the same cases with no model.
+3. **Ask when it matters, assume when it does not.** Built, tested and live. On 81 controlled ablations,
+   one fact removed from our own queries so the right answer is known, the tool interrupts on **38 of
+   81**, raising 44 questions: **33** about assembly and **11** about `analysis_goal`. Reproduce with
+   `harness/ask_rate.py`, which prices every candidate policy on the same cases with no model.
 
-   That is a real rise in interruptions and is flagged as such in `reprompting_proposal.md` §9. The
-   assembly share is the part the ablations can only overstate: their queries never name a build, while
-   **4 of the 8** real tracker questions do, and the question is suppressed whenever the text says.
+   That is a lot of interruption for a design whose first principle is that asking is the exception, and
+   it is flagged as such in `reprompting_proposal.md` §9. The assembly share is the part the ablations
+   can only overstate: their queries never name a build, while **4 of the 8** real tracker questions do,
+   and the question is suppressed whenever the text says.
 
    How often real users omit things is **not established**: of 43 issues pulled verbatim from the
    trackers, only 8 are configuration questions. That number decides how aggressive to be, and needs the
@@ -77,24 +75,26 @@ These need a domain decision, not more code:
 - **Should the assistant say what it cannot do?** VEP has no non-human frequency source, so
   "population frequencies for my mouse variants" currently returns a configuration with no frequency
   data and no explanation.
-**Settled since the last update:** Ask VEPai stays **web-form-only** — CLI-only options (`--overlaps`,
-`--max_af`, `--variant_class`, `--check_svs`, `--clin_sig_allele`, `--clinvar_somatic_classification`)
-are out of scope. Two tiers, named RECOMMENDED and ADD-ONS. `check_existing` may move to add-on.
 
-**Decided from measurement rather than referred upward** (`reprompting_proposal.md` §9, each reversible
-by one line, each with the alternative priced in `harness/ask_rate.py`):
+**Settled:** Ask VEPai stays **web-form-only** — CLI-only options (`--overlaps`, `--max_af`,
+`--variant_class`, `--check_svs`, `--clin_sig_allele`, `--clinvar_somatic_classification`) are out of
+scope. Two tiers, named RECOMMENDED and ADD-ONS. `check_existing` may move to add-on.
+
+**Decided from measurement** (`reprompting_proposal.md` §9, each reversible by one line, each with the
+alternative priced in `harness/ask_rate.py`):
 
 - **A variant set can be both small and structural.** `variant_size_class` is `select: multi`, guessed
-  *both*. Amends the signed-off taxonomy, so §5 keeps the full argument. No configuration changed: the 31
-  review rows are single-valued and the export still totals 391 recommended / 121 add-ons.
-- **`analysis_goal` is asked, not guessed.** It failed both of our own conditions for guessing. The
-  objection that asking interrupts everyone was measured on ablations that delete the fact on purpose;
-  on the 8 real questions it is genuinely absent once. The fallback on skip now announces itself.
+  *both*. This amends the signed-off taxonomy, so §5 carries the full argument. No configuration moves:
+  the 31 review rows are single-valued and the export totals 391 recommended / 121 add-ons.
+- **`analysis_goal` is asked, not guessed.** It meets neither of our conditions for guessing. On the 8
+  real tracker questions it is genuinely absent once, so asking costs less than the ablations imply.
+  Skipping is free and the fallback announces itself.
 - **Assembly is asked, never guessed** — the one gap where silence gives a *wrong* answer, and where
-  both guesses delete something real. Read from the text when it is there (4 of 8 real questions),
+  both guesses delete something real. Read from the text where it is there (4 of 8 real questions), and
   scored on what the user stated rather than on what we assumed for them.
-- **The interrupt bar stays the internal must-have tier**, now named `ASK_BAR_PRIORITIES` rather than
-  hardcoded. Widening it to the visible RECOMMENDED bucket changes nothing under the current guesses.
+- **The interrupt bar is the RECOMMENDED bucket the user sees**, named as `ASK_BAR_PRIORITIES`. Not the
+  internal `critical` tier: twelve of the twenty mentor edits moved options across that boundary, so an
+  interruption should not depend on it. Both bars raise identical questions on the current guesses.
 
 ## Honesty note
 

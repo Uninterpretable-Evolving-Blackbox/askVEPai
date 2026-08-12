@@ -24,12 +24,12 @@
 > log). Run-level mean ± SD: `work/harness/compute_run_sd.py`.
 
 > **Current evaluation framework.** The going-forward benchmark is a **factor-keyed leave-one-out on the
-> 30-example silver reference set** (`preliminary_examples/silver_reference_set.json`), which matches the
-> current factor taxonomy. A first look gave ~81% enable-F1 / ~99% critical-recall, flat across factor values,
-> but it is a single-run, directional result on model-generated examples pending validation. **Experiments
-> 1–13 below used the earlier 7-use-case set** and remain the historical evidence (the parser fix, attribution
-> faithfulness, model choice); that per-use-case framework is **superseded** by the factor eval, though the
-> underlying results still stand as directional. Neither set is validated gold yet.
+> 31 generated scenarios** (`generation/candidates/iced.json`), run by
+> `harness/eval_factor_set.py --set`. It matches the current factor taxonomy and is the set the mentor
+> review sheet was exported from. **Experiments 1–13 below used the earlier 7-use-case set** and remain
+> the historical evidence (the parser fix, attribution faithfulness, model choice); that per-use-case
+> framework is **superseded** by the factor eval, though the underlying results still stand as
+> directional. Neither set is validated gold yet.
 
 **System under test (Exp 1–13, legacy framework):** expanded **58-option catalogue** (`vep_options_expanded.json`) + **20-example simulated gold set** (`preliminary_examples/simulated_gold_examples.json`, 7 use cases, checker-validated). **Not** the demo's 26 options / 8 examples.
 **Protocol:** leave-one-out over all 20 queries; 4 retrieval conditions; multi-run mean. Parallel GPU eval (`run_parallel_eval.py`, 4 concurrent slots) on **Apple M5 Max, Metal** (native arm64 Ollama, ~180 tok/s).

@@ -2,6 +2,8 @@ venv/
 __pycache__/
 *.pyc
 .DS_Store
-.claude/
 *.docx
 documentation.pdf
+
+# One-off run outputs (regenerable; not evidence for anything)
+results/

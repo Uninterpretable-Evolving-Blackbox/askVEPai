@@ -1,5 +1,3 @@
-I now have all the grounding needed. The InputForm.pm source is decisive on the structural facts (the `summary` dropdown makes pick/pick_allele/per_gene/summary/most_severe a single mutually-exclusive control; cell_type lives inside the regulatory dropdown's `cell` value; af-group fields are nested under `_stt_yes`/`_stt_allele` classes downstream of check_existing). Here is the constraint graph.
-
 # VEP Constraint Graph (release/115)
 
 Grounding key: `IF` = InputForm.pm, `OV` = Object_VEP.pm get_form_details, `DOC` = vep_options.html.
@@ -145,4 +143,4 @@ domains       depends_on: <protein-coding consequence>            (OV: overlappi
 - Fix `sift.species_restriction` -> "species with SIFT data" (multi-species), not human-only.
 - All `web_form_section` values must be one of: `identifiers`, `variants_frequency_data`, `additional_annotations`, `predictions`, `filters`, `advanced`.
 
-Relevant source files: `/Users/davidgao/Desktop/GSoC_WORK/ensembl_source/VEP/InputForm.pm`, `/Users/davidgao/Desktop/GSoC_WORK/ensembl_source/Object_VEP.pm`, `/Users/davidgao/Desktop/GSoC_WORK/vep_ai_demo/vep_options.json`.
+Relevant source files: `ensembl_source/VEP/InputForm.pm`, `ensembl_source/Object_VEP.pm`, `vep_ai_demo/vep_options.json`.

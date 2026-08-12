@@ -22,10 +22,8 @@ the part for checking whether "answering this changes something essential" is ac
 Questions are asked only when stdin is a terminal, so piping or redirecting never blocks. Use
 --no-ask to suppress them in a terminal too.
 
-(There was a `--multi` flag here that simulated variant_size_class as multi-select. That change has
-landed in factors.json, so the flag would now simulate the present, and it is gone. To compare the
-policy against its predecessors, use `work/harness/ask_rate.py`, which prices every arm on the same
-81 cases.)
+To compare this policy against the alternatives, use `work/harness/ask_rate.py`, which prices every arm
+on the same 81 cases.
 """
 import argparse
 import json

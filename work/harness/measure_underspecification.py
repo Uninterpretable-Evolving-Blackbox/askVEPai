@@ -58,17 +58,18 @@ IN_SCOPE_PROMPT = (
 )
 
 
-def in_scope(client, text):
+def in_scope(client, text, seed=42, temperature=0.0):
     r = client.chat.completions.create(
-        model=READERS[0], temperature=0.0, seed=42,
+        model=READERS[0], temperature=temperature, seed=seed,
         messages=[{"role": "system", "content": IN_SCOPE_PROMPT + text[:6000]},
                   {"role": "user", "content": "Classify it."}])
     out = (r.choices[0].message.content or "").strip()
     return out.upper().startswith("YES"), out[:120]
 
 
-def read_factors(client, model, text):
-    return va.infer_factors(client, model, text[:6000], apply_defaults=False)
+def read_factors(client, model, text, seed=42, temperature=0.0):
+    return va.infer_factors(client, model, text[:6000], apply_defaults=False,
+                            seed=seed, temperature=temperature)
 
 
 def stated(a, b, f):
@@ -87,15 +88,14 @@ def stated(a, b, f):
 def genuinely_open(row):
     """The factors this question really leaves open: material, and not merely a reader disagreement.
 
-    THE CORRECTION. `stated()` returns False when the two readers BOTH recover a factor but disagree
-    about its value, which lumps disagreement in with absence — and telling those apart is the entire
-    reason there are two readers. A question where both models found the fact and read it differently
-    is evidence about our classifier, not about the user's prose, and counting it as "the user did not
-    say" inflates exactly the number this file exists to report. It moves the headline from 7/8 to 4/8.
+    `stated()` returns False when the two readers BOTH recover a factor but disagree about its value,
+    which lumps disagreement in with absence — and telling those apart is the entire reason there are
+    two readers. A question where both models found the fact and read it differently is evidence about
+    our classifier, not about the user's prose, so counting it as "the user did not say" inflates the
+    number this file exists to report: 7/8 under that reading against 2/8 here (3 seeds, spread 0).
 
-    Kept as a separate function rather than folded into `stated()` so both figures stay visible: the
-    disagreement rate is worth reporting in its own right, and hiding it would trade one silent
-    conflation for another."""
+    Separate from `stated()` so both figures stay visible. The disagreement rate is worth reporting in
+    its own right, and hiding it would trade one silent conflation for another."""
     return [f for f in row["material"] if f not in row["disagreed"]]
 
 
@@ -130,6 +130,10 @@ def report(rows):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--limit", type=int, default=0)
+    # Three seeds, matching `eval_factor_set.py --seeds 42,43,44` — the factor-scheme LOO whose
+    # 89.5% ± 0.6 is the project's headline. Both figures are then quoted with the same rigour.
+    ap.add_argument("--seeds", default="42,43,44")
+    ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--rescore", action="store_true",
                     help="re-print the headlines from the saved run, without calling either reader. "
                          "This is what makes the corrected figures checkable: the readings are already "
@@ -146,24 +150,60 @@ def main():
     client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
     cat = genlib.load_catalogue(); pbf = genlib.load_priority_by_factor(); fc = genlib.load_factors()
     SCORED = ("origin", "variant_size_class", "region_focus", "analysis_goal")
+    seeds = [int(s) for s in args.seeds.split(",")]
+    all_seed_rows = []
 
+    for seed in seeds:
+        rows, triage = run_one_seed(client, items, cat, pbf, fc, SCORED, seed, args.temperature)
+        all_seed_rows.append({"seed": seed, "rows": rows})
+        hits = sum(1 for r in rows if genuinely_open(r))
+        print(f"\n  seed {seed}: {hits}/{len(rows)} questions genuinely open and material", flush=True)
+        if seed == seeds[0]:
+            first = (rows, triage)
+
+    counts = [sum(1 for r in s["rows"] if genuinely_open(r)) for s in all_seed_rows]
+    ns = [len(s["rows"]) for s in all_seed_rows]
+    mean = sum(counts) / len(counts)
+    sd = (sum((c - mean) ** 2 for c in counts) / len(counts)) ** 0.5
+    print(f"\n{'=' * 74}\n  ACROSS {len(seeds)} SEEDS (matching the factor-scheme LOO)")
+    for s, c, n in zip(all_seed_rows, counts, ns):
+        print(f"    seed {s['seed']}: {c}/{n}")
+    print(f"  genuinely open and material: {mean:.1f} ± {sd:.1f} of {ns[0]}")
+    if sd == 0:
+        print("  spread ZERO — the published figure is not an artefact of a single seed.")
+    else:
+        print("  spread NON-ZERO — quote this figure with its spread.")
+
+    rows, triage = first
+    report(rows)
+    out2 = STORE.with_name("underspecification_seed_summary.json")
+    json.dump({"seeds": seeds, "temperature": args.temperature, "readers": READERS,
+               "per_seed": all_seed_rows, "open_mean": mean, "open_sd": sd},
+              open(out2, "w"), indent=1)
+    print(f"  per-seed detail -> {out2.relative_to(ROOT)}")
+    _write_primary(triage, rows)
+    return
+
+
+def run_one_seed(client, items, cat, pbf, fc, SCORED, seed, temperature):
+    print(f"\n=== seed {seed} (temperature {temperature}) ===", flush=True)
     print(f"Triaging {len(items)} fetched issues against the fixed in-scope rule.\n")
     kept, triage = [], []
     for it in items:
-        ok, why = in_scope(client, it["body"])
+        ok, why = in_scope(client, it["body"], seed=seed, temperature=temperature)
         triage.append({"url": it["url"], "in_scope": ok, "reason": why})
-        print(f"  [{'IN ' if ok else 'out'}] #{it['number']:<5} {why[:88]}")
+        print(f"  [{'IN ' if ok else 'out'}] #{it['number']:<5} {why[:88]}", flush=True)
         if ok:
             kept.append(it)
     print(f"\n  in scope: {len(kept)}/{len(items)}  ({len(kept)/max(1,len(items)):.0%})")
     if not kept:
-        return
+        return [], triage
 
     print(f"\nReading each with two models ({READERS[0]} and {READERS[1]}).\n")
     rows = []
     for it in kept:
-        a = read_factors(client, READERS[0], it["body"])
-        b = read_factors(client, READERS[1], it["body"])
+        a = read_factors(client, READERS[0], it["body"], seed=seed, temperature=temperature)
+        b = read_factors(client, READERS[1], it["body"], seed=seed, temperature=temperature)
         base = dict(a or {})
         if not base.get("analysis_goal"):
             base["analysis_goal"] = ["basic-consequence"]
@@ -191,13 +231,17 @@ def main():
                      "pastes_flags": "--" in it["body"]})
         print(f"  #{it['number']:<5} open&material={[f for f,_ in open_material] or '-'}"
               f"  open-but-inert={[f for f,_ in open_immaterial] or '-'}"
-              f"  readers-disagreed={disagreed or '-'}")
+              f"  readers-disagreed={disagreed or '-'}", flush=True)
+    return rows, triage
 
-    report(rows)
+
+def _write_primary(triage, rows):
+    """The first seed's run stays the primary artefact, so `--rescore` and every downstream citation
+    keep pointing at one file rather than at a seed the reader has to know about."""
     out = STORE.with_name("underspecification_measurement.json")
     json.dump({"triage": triage, "rows": rows, "readers": READERS, "material_threshold": MATERIAL},
               open(out, "w"), indent=1)
-    print(f"\n  -> {out.relative_to(ROOT)}")
+    print(f"  -> {out.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

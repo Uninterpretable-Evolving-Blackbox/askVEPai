@@ -1,11 +1,35 @@
 # Gold-example generation pipeline — literature-grounded proposal
 
+Status: **implemented.** The pipeline described below is built and runnable end to end (Stages 0–6; the
+optional Web-VEP execution check, Stage 7, is out of scope for now). A first run of 30 examples produces
+candidate `(query → config)` rows **balanced across the taxonomy** — at least 15 per factor value, including
+the non-human, somatic, structural-variant and regulatory cases that are otherwise under-represented — with
+28/30 passing all deterministic safety checks and a mean in-context critical-recall of ~82%; a separate
+17-check verification suite passes.
+
+> **No approved gold yet.** Everything this pipeline has produced so far is **candidate rows for review, not
+> validated gold**. They run on a *first-pass, provisional* priority table (author's judgement, not
+> validated) and depend on mentor sign-off of the factor taxonomy and per-option priorities in
+> `taxonomy_proposal.md` before any of them become gold. `gold_examples.json` is currently empty.
+
+> **Citations note (all read + verified from full text, 2026-07-12).** Earlier drafts over-claimed uniform
+> verification while the notes flagged SynthIE / Quality-Matters / Self-Instruct as cited-but-unread. A
+> full-text verification pass (2026-07-12, logged in `CITATION_VERIFICATION.md`) has now **read every source
+> here from the full paper and matched each claim to a verbatim quote**. Result: all citations **SUPPORT**
+> their claims — no fabrications, no misattributions among the generation citations — with a handful of
+> omitted caveats now folded in (e.g. SynthIE's inverse-frequency is over KG entities by *running*
+> frequency; the ICE 0.54 result used *combined* filters; DataMorgana's "persona marginal" is empirical to
+> the authors' category sets, not a law). One earlier citation (Shakeri et al. 2020) was **removed** as a
+> misattribution, and three unverifiable references ("NeurIPS 2024 constraint", "Crab", "LONGFAITH") were
+> dropped. **Bibliographic fixes:** Xu et al.'s title is "Stronger Models Are **NOT** Stronger Teachers"
+> (not "Not *Always*"). The design-choice provenance table (§1a) marks what rests on verified literature vs.
+> my own judgment.
 
 This document is the design rationale for a **reproducible in-repo pipeline** that generates **candidate**
 `(user_query → VEP web-form config)` examples for mentor review — the direction Likhitha outlined (lock
 labels → generate queries and configs → optional Web-VEP runs → human review → size experiments). It reuses
 code that already exists in the project (`validate_examples.py`, `vep_assistant.check_and_fix_violations`,
-the 58-option catalogue).
+the 65-option catalogue).
 
 ---
 
@@ -36,23 +60,56 @@ verbatim quote from the cited source):
 
 **Design principle for Ask VEPai:** deterministic code + KB + checker **dispose** of the labels; a local LLM
 **proposes** only natural language (queries, optional justification). This matches the project's
-"generate-and-verify" architecture and Exp 6 (examples-dominant grounding).
+defense-in-depth architecture and Exp 6 (examples-dominant grounding).
+
+### 1a. Design-choice provenance — literature vs. author judgment
+
+Every row of the table above is a *literature-motivated* pattern, but the **binding design decisions** below
+mix literature with my own engineering, and the literature they rest on is at **different read-tiers** (see
+the Citations note). Tags: **[L✓]** literature read from full text; **[L⚠]** flagged as cited-but-unread in
+earlier drafts — **all [L⚠] rows were read + verified on 2026-07-12** (`CITATION_VERIFICATION.md`) and
+SUPPORT their claims; the tag is kept to mark which were late-verified; **[Src]** Ensembl VEP source / our
+checker / KB; **[Judg]** my own choice, no external source claims it.
+
+| Binding design decision (as implemented) | Grounding | Source (read-status) |
+|---|---|---|
+| Code+KB+checker fix the config Y; the LLM writes only the query X | **[L✓]**+**[Src]**+**[Judg]** | NeMo Guardrails (Rebedea 2023, **read**) as prior art; our checker **[Src]**; the label-first asymmetry from SynthIE **[L⚠]** |
+| Reverse / asymmetric generation (fix label, generate text) | **[L⚠]** | **SynthIE** (Josifoski 2023) — cited, **not full-text-read** |
+| Stratified inverse-frequency sampler (Stage 1) | **[L⚠]** | SynthIE §3.2 + Sechidis 2011 — both cited, read not confirmed |
+| Query-diversity **axis grid** (Stage 3) | **[L✓]** | DataMorgana (Filice 2025, **read in full**) |
+| — keeping the **persona** sub-axis despite marginal diversity | **[Judg]** | DataMorgana's *own* ablation finds persona marginal; keeping it for audience-realism is **my call**, not the paper's (and Exp 13 tests it) |
+| ICE usefulness screen (Stage 5) | **[L⚠]** | **Quality-Matters / ICE** (Iskander 2024) — cited, **not full-text-read** |
+| Roundtrip-consistency framing of ICE | **[L⚠]** | Alberti 2019 — cited, read-status unconfirmed |
+| Teacher chosen **empirically** (not by size) | **[L✓]** | Xu et al. (NAACL 2025, **read in full**) |
+| Dedup: ROUGE-L < 0.70 **AND** cosine < 0.92 | **[L⚠]**+**[Judg]** | 0.70 = Self-Instruct (Wang 2023, **not re-verified**); the 0.92 threshold + the AND rule are **[Judg]**, unvalidated |
+| Human calibration set (grow toward 150+) | **[L⚠]** | ARES (Saad-Falcon 2024) — cited, read-status unconfirmed |
+| NOT evolving configs (Evol-Instruct on queries only, if at all) | **[L⚠]**+**[Judg]** | WizardLM (Xu 2024) cited; the "don't evolve a structured config" call is **[Judg]** |
+
+**Bottom line (updated 2026-07-12):** the pipeline's *spine* — reverse generation (SynthIE), stratified
+coverage (SynthIE §3.2 + Sechidis), and the ICE screen (Quality-Matters + Alberti) — has now been **read from
+full text and verified to SUPPORT** its claims (`CITATION_VERIFICATION.md`); the earlier "still-unread"
+caveat is **resolved**, and all [L⚠] rows above are verified (with the per-row caveats folded in). What
+remains genuinely **my own judgment** (not a literature fact) are the binding knobs: the **persona axis**
+(DataMorgana finds persona marginal — keeping it is my audience-realism call), the **dedup thresholds** (0.92
+hand-picked, the AND rule mine), and **"don't evolve configs"** — all flagged for ablation. Note also that
+NeMo Guardrails grounds the *programmable-rails* concept, **not** determinism (its own rails are LLM-mediated;
+our Python checker is the deterministic part) — see fix #4 in `CITATION_VERIFICATION.md`.
 
 ---
 
 ## 2. Pipeline overview
 
-Stage 0 is mentor sign-off; Stages 1–7 then run in order:
+**Pipeline (Stage 0 = mentor sign-off, then 1–7):**
 
-- **Stage 0** — labels + per-option priorities *(mentor)*
-- **Stage 1** — stratified factor sampler (balance coverage across every factor value)
-- **Stage 2** — deterministic config resolver + checker (repaired to a fixed point)
-- **Stage 3** — query generator, category-conditioned for diversity [+ optional justification]
-- **Stage 4** — validation + dedup gates
-- **Stage 5** — ICE / roundtrip usefulness screen
-- **Stage 6** — mentor review queue
-- **Stage 7** — optional Web-VEP execution check
-- **→** approved `gold_examples.json` + provenance JSONL
+`0.` labels + per-option priorities (mentor)
+→ `1.` stratified factor sampler (balance coverage across every factor value)
+→ `2.` deterministic config resolver + checker (repaired to a fixed point)
+→ `3.` query generator, category-conditioned for diversity [+ optional justification]
+→ `4.` validation + dedup gates
+→ `5.` ICE / roundtrip usefulness screen
+→ `6.` mentor review queue
+→ `7.` optional Web-VEP execution check
+→ approved `gold_examples.json` + provenance JSONL.
 
 Stages 1–2 use **no** LLM (labels are deterministic); only Stage 3 does (natural language only).
 
@@ -65,9 +122,6 @@ Stages 1–2 use **no** LLM (labels are deterministic); only Stage 3 does (natur
 | 3. Run Web VEP | Stage 7 — execution validation only |
 | 4. Human review | Stage 6 |
 | 5. Dataset size experiments | Existing harness (`run_example_sweep.py`, `run_parallel_eval.py`) on approved gold |
-
-*(Stages 4–5 — the automated gates and the ICE usefulness screen — run between generation and review;
-they are not mentor steps, so they don't appear in this mapping.)*
 
 ---
 
@@ -118,33 +172,34 @@ categories).
 
 ---
 
-## 5. Stage 2 — Deterministic config resolver
+## 5. Stage 2 — Deterministic config resolver (reverse / asymmetric step)
 
-**Goal:** turn a factor tuple into the recommended VEP config — with **no LLM involved**.
+**Goal:** produce `recommended_options` from the factor tuple **without** an LLM.
 
-**How it works** (`resolve_config.py`, following `taxonomy_proposal.md` §5). For each option in the catalogue:
+**Algorithm** (implemented in `resolve_config.py`; implements `taxonomy_proposal.md` §5):
 
-1. **Drop it** if a hard factor rules it out — species or variant size marking it not-applicable (e.g. a
-   human-only predictor for a mouse query), or the "somatic → no frequency filter" rule.
-2. **Otherwise enable it** if it is *critical* or *recommended* for any of the query's active factor values.
+```
+for each option in catalogue:
+  if a HARD factor (species / variant_size_class), or the origin=somatic->frequency rule,
+     marks it not_applicable  -> drop
+  else priority = strongest over active factor values (critical > recommended > optional)
+       enable if priority in {critical, recommended}
+then apply depends_on / conflicts_with and run check_and_fix_violations to a FIXED POINT
+     (the emitted config is the checker's repaired output).
+```
 
-Then apply the option dependencies and conflicts and run the constraint checker until nothing more changes;
-the config we keep is that final, checker-clean result.
+Because the resolver emits the checker's own repaired output, re-running the checker is a no-op — so the
+Stage-4 gate can **fail a row only if the checker would change anything** (the zero-mutation bar, same as
+`validate_examples.py`). *(Grounding: SynthIE — control P(Y) by sampling structured labels before text.)*
 
-Because the config is already exactly what the checker would produce, running the checker on it again changes
-nothing. That gives us a simple validity test later (Stage 4): **a row is only rejected if the checker would
-have changed it** — the same bar `validate_examples.py` uses. *(This is the reverse-generation idea from
-SynthIE: fix the structured answer first, deterministically, before any natural-language text is written.)*
+**`optional`-option policy (open, needs mentor rule):** default enable `critical` + `recommended`; log a
+small `optional` subset per row for Disable-F1 signal.
 
-**Open question for you — the merely *optional* options.** Right now we enable *critical* + *recommended*,
-and log a few *optional* ones per row so the model also learns which options to leave off.
+**Explicit disables:** a small set of meaningful "off" options carry `"enabled": false` + a `note`
+(closed-world signal the mentor draft omitted).
 
-**Explicit "off" options:** a few configs mark some options as deliberately disabled (with a note), so the
-example says "these are intentionally *not* used" rather than just "these weren't mentioned" — something the
-first draft of the examples didn't capture.
-
-**Reuse:** every config must pass `work/preliminary_examples/validate_examples.py`, i.e. the checker leaves it
-unchanged.
+**Reuse:** `work/preliminary_examples/validate_examples.py` — gold rows must pass with **zero checker
+mutations**.
 
 ---
 
@@ -168,22 +223,28 @@ unchanged.
 | `persona` | clinician / bioinformatician / student | **under test — likely to be cut** |
 
 **Persona caveat (verified + reproduced):** DataMorgana's own ablation shows the **user/persona axis is
-marginal** for diversity while the *question* axes carry it. We reproduced this on our data (persona on vs
-off: distinct-2 0.771 vs 0.811, mean pairwise cosine 0.814 vs 0.810 — no gain, slightly worse). Persona is
-retained only as a possible *audience-realism* lever and is being ablated; if it doesn't earn its place it
+marginal** for diversity while the *question* axes carry it. We reproduced this on our data at **N=30 over 5
+seeds** (persona on vs off: distinct-2 **0.640 ± 0.011 vs 0.651 ± 0.015**; mean pairwise cosine
+**0.8028 ± 0.0036 vs 0.8039 ± 0.0077**) — both flat within SD, i.e. persona buys **no measurable
+diversity**. Persona is retained only as a possible *audience-realism* lever; if it doesn't earn its place it
 will be removed. Same discipline applies to the dedup thresholds and model choices.
 
-**Teacher model (chosen empirically, not assumed):** I pick the model that writes the query by measuring
-which teacher's queries the student best learns from (the ICE screen, §8), rather than by size or a "bigger
-model / self is best" assumption. Grounding: Xu et al. (NAACL 2025) — a bigger same-family teacher is not
-reliably a better teacher ("Larger Models' Paradox"), and open-source teachers can beat GPT-4. I ran a
-**5-seed sweep** across `gemma4:{e4b, 12b, 26b, 31b}` (student fixed at `26b`, N=30): **all four teachers
-come out within noise of each other** (roughly 80–88% ICE, with overlapping error bars), so there is no
-reliable difference between them. (An earlier 3-seed pilot had suggested self-generation underperformed and
-`e4b` was best, but that was small-sample noise and did not survive the larger run.) I therefore **keep the
-deployed model as its own teacher** — `26b` writes the queries for the `26b` student — as the simplest
-choice, with no evidence that splitting teacher and student would help. Queries are generated at a fixed seed
-and concurrency 1 for reproducibility (Metal/MoE determinism rule).
+*(Numbers corrected 2026-07-15: this previously cited "distinct-2 0.771 vs 0.811, cosine 0.814 vs 0.810",
+which matches no stored artifact — neither the 5-seed N=30 run nor the N=12 pilot. The conclusion is
+unchanged, and the cosine direction in the old figures was inverted. The ICE arm of this ablation is **not**
+quoted here: the persona and teacher-sweep scripts count degenerate generations differently, so their ICE
+values are not comparable until recomputed.)*
+
+**Teacher model (chosen empirically, not assumed):** the model that writes the query is chosen by measuring
+which teacher's queries the student best learns from (the ICE screen, §8), not by size or an a-priori
+"bigger/self is best" assumption. Grounding: Xu et al. (NAACL 2025) — a bigger same-family teacher is not
+reliably a better teacher ("Larger Models' Paradox"), and open-source teachers can beat GPT-4. A **5-seed
+sweep** across `gemma4:{e4b, 12b, 26b, 31b}` (student fixed at `26b`, N=30) found **all four teachers within
+noise of each other** (~80–88% ICE, overlapping error bars), so there is no reliable difference between them.
+(An earlier 3-seed pilot suggested self-generation underperformed and `e4b` was best; that was small-sample
+noise and did not survive the larger run.) So the deployed model is **kept as its own teacher** (`26b` writes
+for the `26b` student) — the simplest choice, with no evidence a teacher/student split would help. Queries are
+generated at a fixed seed + concurrency 1 (Metal/MoE determinism rule).
 
 **Procedure:** sample one category per axis (weighted by `probability`); prompt the model with the factor
 tuple + a plain-language scenario + the axis descriptions + 1–2 seed queries; generate `k` candidates and
@@ -197,7 +258,7 @@ always come from the catalogue at export time, never the model.
 ### 6c. What we deliberately do *not* do
 
 - **Evol-Instruct on configs** (WizardLM, Xu et al., ICLR 2024 — Evol-Instruct *"rewrite… step by step into
-  more complex instructions"*): evolving a structured 58-option set would create conflict violations. Evolve
+  more complex instructions"*): evolving a structured 65-option set would create conflict violations. Evolve
   *queries* only, if at all.
 - **Forward (query → config) generation as gold** — only as a roundtrip diagnostic (§8).
 
@@ -211,7 +272,7 @@ always come from the catalogue at export time, never the model.
 |------|----------------|---------------------|
 | Valid option ids | ⊆ `vep_options_expanded.json` | parameter-alignment errors (Iskander et al., 2024) |
 | Checker clean | `check_and_fix_violations` on the real query → 0 mutations | constraint-first synthesis |
-| Factor consistency | `infer_species(query)` matches the tuple; somatic rows must not enable **`frequency`** (the `--check_frequency` pre-filter) | hard rules in taxonomy §3 |
+| Factor consistency | the query must **express all five factors** its config encodes. **Species is the only deterministic hard gate** (`infer_species`): a query whose species contradicts its config fails the row. The other four are checked by a semantic LLM round-trip (a *different* model reads only the query and re-classifies all five factors) and **only ever flag — they never drop a row**, because the queries are deliberately implicit and a classifier disagreement is not proof of a bad query. Plus somatic rows must not enable **`frequency`** (the `--check_frequency` pre-filter) | hard rules in taxonomy §3; query↔config faithfulness |
 | Dedup | embedding cosine < 0.92 AND ROUGE-L < 0.7 within a factor cell | Self-Instruct (Wang et al., 2023): *"ROUGE-L similarity… less than 0.7"* |
 
 *(Dedup thresholds 0.92 / 0.70 and the AND rule are not yet tuned — flagged for an ablation. 0.70 is
@@ -224,7 +285,7 @@ Adapts the intrinsic criteria of Iskander et al. (2024, §4.1 — "six intrinsic
 - **Specificity** — species/assay/variant type stated enough to infer the config.
 - **Coherence** — one coherent scenario.
 - **Solvability** — a *configuration-recommendation* scenario, not a how-to/troubleshooting ticket
-  (a scope question still open with the mentors).
+  (scope per `HANDOFF.md` §11).
 
 Failures are **flagged for review, never silently dropped**. (On our data this judge over-flags
 solvability — treated as advisory only.)
@@ -254,7 +315,7 @@ compare ICE). Roundtrip grounding: Alberti et al. (2019) — keep only if the an
 
 **Queue:** all minimum-viable-tier rows fully reviewed; later tiers review all flagged rows + a spot-check.
 
-**Review sheet:** factor tuple, query, enabled (core/add-ons), disabled, checker log, ICE score, judge
+**Review sheet:** factor tuple, query, enabled (RECOMMENDED / ADD-ONS), disabled, checker log, ICE score, judge
 flags. Mentor actions: `approve` / `edit_query` / `edit_config` / `reject` + comment.
 
 **Calibration set:** the first mentor-reviewed rows become a human preference set for tuning judge prompts —
@@ -359,7 +420,10 @@ The simulated 23-example set remains **directional** until this pipeline produce
 
 ## References
 
-All fetched and quote-verified against primary-source full text unless noted.
+**Read-status — ALL read + verified from full text on 2026-07-12** (`CITATION_VERIFICATION.md`); every
+citation below **SUPPORTS** its claim, no misattributions. Earlier drafts flagged 1/3/6 (SynthIE,
+Quality-Matters, Self-Instruct) as cited-but-unread and 2/7/8/9 (Alberti, ARES, Sechidis, WizardLM) as
+read-status-unconfirmed — now closed. Per-row caveats are in `CITATION_VERIFICATION.md` §2.
 
 1. Josifoski, M., Šakota, M., Peyrard, M., & West, R. (2023). Exploiting Asymmetry for Synthetic Training
    Data Generation: SynthIE **and the Case of Information Extraction**. *EMNLP 2023.*
@@ -371,9 +435,10 @@ All fetched and quote-verified against primary-source full text unless noted.
    arXiv 2409.16341
 4. Filice, S., Horowitz, G., Carmel, D., Karnin, Z., Lewin-Eytan, L., & Maarek, Y. (2025). Generating
    Diverse Q&A Benchmarks for RAG Evaluation with DataMorgana. *ACL 2025 Industry.* arXiv 2501.12789
-5. Xu, Z., Jiang, F., Niu, L., Lin, B. Y., & Poovendran, R. (2025). Stronger Models Are Not Always Stronger
+5. Xu, Z., Jiang, F., Niu, L., Lin, B. Y., & Poovendran, R. (2025). Stronger Models Are Not Stronger
    Teachers for Instruction Tuning. ***NAACL 2025.*** https://aclanthology.org/2025.naacl-long.224/ ·
-   arXiv 2411.07133
+   arXiv 2411.07133 (the paper's real thesis: teacher–student *compatibility* — their CAR metric,
+   Spearman ρ≈0.889 vs 0.566 for reward alone — governs teacher quality, supporting empirical teacher choice)
 6. Wang, Y., Kordi, Y., Mishra, S., Liu, A., Smith, N. A., Khashabi, D., & Hajishirzi, H. (2023).
    Self-Instruct: Aligning Language Models with Self-Generated Instructions. *ACL 2023.* arXiv 2212.10560
 7. Saad-Falcon, J., Khattab, O., Potts, C., & Zaharia, M. (2024). ARES: An Automated Evaluation Framework
@@ -393,33 +458,5 @@ All fetched and quote-verified against primary-source full text unless noted.
 not roundtrip; roundtrip is credited there to Alberti et al.); an unnamed "NeurIPS 2024 constraint" paper,
 "Crab (ACL 2025)", and "LONGFAITH" — unverifiable, no locatable source.
 
-Internal: `research/taxonomy_proposal.md`, `preliminary_examples/README.md`, `EXPERIMENTS.md`.
-
----
-
-## Progress update
-
-Two recent tightenings to the pipeline:
-
-- **Query faithfulness.** The only model-written artifact is the query, so a check now confirms the query
-  expresses all five factors its config was built for (not just species, as before): a checker reads only the
-  query, recovers the factors, and flags anything it can't. This closes a gap where a query could quietly omit
-  "somatic" or "structural" while still being paired with a config built for them.
-- **Two ablations settled.** On the teacher model, candidates come out within noise of each other, so the
-  deployed model is kept as its own teacher (the earlier "a smaller teacher writes more learnable queries"
-  reading was small-sample noise). The persona query-axis adds no measurable diversity, so it is kept only for
-  audience realism.
-
-**The blocker — and the main ask.** Moving from candidate rows to real gold needs the **per-option priorities
-validated**. The pipeline now produces a balanced candidate review set for exactly that; validating it does two
-jobs at once — it locks the priorities (the thing gating real gold), and the validated set becomes the
-reference the pipeline is measured against. The plan: validate once, the rows become gold, and the pipeline
-scales beyond that with spot-checks, so we never hand-author dozens.
-
-**Specific decisions I'd value your view on:**
-
-1. Which pathogenicity predictors are the standard set vs redundant — VEP itself doesn't rank them.
-2. Two catalogue gaps: VEP's structural-variant overlap output (`--overlaps`) isn't in the option list yet;
-   and non-human + population-frequency has no available option (gnomAD/1000G are human-only) — is that
-   combination in scope?
-3. The allele-frequency cutoff to filter on (ACMG BA1 stand-alone-benign uses AF > 5%).
+Internal: `research/taxonomy_proposal.md`, `preliminary_examples/README.md`, `HANDOFF.md` §10–12,
+`EXPERIMENTS.md`.

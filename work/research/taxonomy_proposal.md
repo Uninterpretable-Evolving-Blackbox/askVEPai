@@ -1,88 +1,89 @@
 # VEP use-case taxonomy: proposal for review
 
-**Status: updated draft** — replaces the earlier 7-category version. After checking how Ensembl and peer
-tools organise things, where my own 7 categories broke down, and the web form option-by-option, I've moved
-to a **factor-based, multi-label** scheme. I'd like your sign-off on the factors and — more importantly — on
-the **per-option priorities**, before I build the gold set.
+Status: updated draft. This replaces the earlier 7-category version. After looking at how Ensembl and peer
+tools actually organise things, at where my own 7 categories broke down, and at the web form option-by-option,
+I've moved the proposal to a factor-based, multi-label scheme. I'd like your sign-off on the factors and,
+more importantly, on the per-option priorities, before I build the gold set.
 
 ## 1. Why I moved away from the 7 single categories
 
-The 7 categories (rare_disease_germline, somatic_cancer, regulatory_noncoding, population_genetics,
-structural_variants, non_human, quick_lookup) **mix several axes** — species, variant type, where the variant
-acts, why you're annotating — so they aren't mutually exclusive and a single label loses information at the
-boundaries:
+I originally used 7 categories: rare_disease_germline, somatic_cancer, regulatory_noncoding,
+population_genetics, structural_variants, non_human, quick_lookup. The problem is they mix several different
+axes (species, variant type, where the variant acts, why you're annotating), so they aren't mutually
+exclusive and a single label loses information at the boundaries:
 
-- a somatic structural variant in a mouse tumour is somatic, structural **and** non-human at once;
-- a regulatory variant in a rare-disease patient is both regulatory **and** germline.
+- A somatic structural variant in a mouse tumour is somatic, structural AND non-human at once.
+- A regulatory variant in a rare-disease patient is both regulatory and germline.
 
-Forcing one label mislabels the example, picks the wrong option priorities, and lets "did the model detect
-the use case?" score only one aspect of a multi-aspect query.
+Forcing one label there is misleading for three things at once: it mislabels the example, it picks the
+wrong option priorities, and "did the model detect the use case?" only ever scores one aspect of a
+multi-aspect query.
 
 ## 2. What the canonical sources actually do
 
-There is no official Ensembl use-case taxonomy. The evidence points to **orthogonal, composable axes**, not a
-scenario menu:
-
-- **Ensembl** groups by interface/data-scale and by what an option *does* (the web-form function sections in
-  `VEPConstants.pm`, release/115), never by scenario.
-- **The web form** is built around species — "the listed options change depending on the selected species" —
-  and is configured through independent flags (`--species`, `--af_gnomade`, `--plugin`).
-- **The wider field** splits the same way: germline vs somatic have separate standards (ACMG/AMP 2015 vs
-  AMP/ASCO/CAP 2017); SV/CNV has its own (ClinGen, AnnotSV, gnomAD-SV); species is a first-class flag; peer
-  tools (Funcotator, OpenCRAVAT, Nirvana) expose composable modules, not a flat menu.
+I couldn't find an official Ensembl use-case taxonomy. Ensembl groups by interface/data-scale and by what
+an option does (the web-form function sections in VEPConstants.pm, release/115), never by analysis
+scenario. The web form itself says "the listed options change depending on the selected species" — species
+is the one axis the form is explicitly built around. VEP is configured through independent, composable flags
+(`--species`, `--af_gnomade`, `--plugin`), not a "pick your scenario" menu. The wider field is the same:
+germline vs somatic is a hard split with separate standards (ACMG/AMP 2015 vs AMP/ASCO/CAP 2017); SV/CNV has
+its own ClinGen standard and tools (AnnotSV, gnomAD-SV); species is a first-class flag; peer tools
+(Funcotator, OpenCRAVAT, Nirvana) expose composable modules, not a flat scenario menu. Everything converges
+on orthogonal, composable axes.
 
 ## 3. Proposed scheme: factors, multi-label throughout
 
-A "use case" becomes a **set of factor values**, not one category. **Three factors are facts about the data**
-(the variant set decides them, not the user) — species, origin, variant_size_class; **two are intent** (what
-the user wants out of the annotation) — region_focus, analysis_goal. Each earns its place only if its values
-gate or shift a concrete cluster of options in the web form.
+A "use case" becomes a set of factor values, not one category. Two of the factors are **facts about the
+data** (you don't choose them — the variant set does); two are **intent** (what the user actually wants out
+of the annotation). I grounded each factor by checking it against the web form: a factor only earns its
+place if its values actually gate or shift a concrete cluster of options.
 
 | factor | values | kind | role | drives (grounded in the web form) |
 |---|---|---|---|---|
-| species | human / non-human | data fact | **hard gate** + importance | the human-only block: PolyPhen, CADD/REVEL/AlphaMissense/EVE/ClinPred, dbNSFP, SpliceAI/dbscSNV, 1000G + gnomAD frequencies, ClinVar, MANE/APPRIS/TSL. The form says these "only apply when you have selected human". (SIFT is species-conditional, not human-only, so it is *not* gated.) |
+| species | human / non-human | data fact | **hard gate** + importance | the entire human-only block: SIFT/PolyPhen, CADD/REVEL/AlphaMissense/EVE/ClinPred, dbNSFP, SpliceAI/dbscSNV, 1000G + gnomAD frequencies, ClinVar, MANE/APPRIS/TSL. The form says these "only apply when you have selected human". |
 | origin | germline / somatic | data fact | importance (**one** hard rule) | frequency-filter interpretation, and COSMIC vs dbSNP/ClinVar emphasis on `check_existing`. Hard rule: `somatic ⇒ filter_common = not_applicable` (you must not drop common variants in a somatic workflow). |
 | variant_size_class | small (SNV/indel) / structural-CNV | data fact | **hard gate** + importance | structural-CNV removes the missense/splice predictor cluster (those need an SNV) and swaps gnomAD for gnomAD-SV; SV-specific overlap output (OverlapBP/PC) appears instead. |
 | region_focus | coding / regulatory-noncoding (**multi-select**) | intent (where) | importance | coding → protein/coding cluster (predictors, HGVSp, protein domains, exon/intron numbers); regulatory-noncoding → regulatory build, motif features, Enformer, UTRAnnotator, RiboseqORFs. |
 | analysis_goal | basic-consequence / clinical-interpretation / population-frequency (**multi-select**) | intent (why) | importance | basic → identifiers + consequence only (the old quick-lookup); clinical → ClinVar, pathogenicity predictors, Phenotypes, Mastermind, Geno2MP; population → 1000G + gnomAD frequencies, filter_common. |
 
-Every factor drives option importance (§5). Beyond that:
-
-- **hard gates** — `species` and `variant_size_class` can remove an option outright;
-- **one hard rule** — `origin`: `somatic ⇒ filter_common = not_applicable`;
-- **soft** — `region_focus` and `analysis_goal` only shift how strongly an option is recommended.
-  *(Amendment under review: I have implemented `region_focus` as a **hard gate** — a purely regulatory query
-  drops the missense predictors, which produce empty columns for it; CADD is exempt as it scores non-coding.
-  This departs from "purely soft" above and needs your decision — gate, or rank?)*
+Every factor drives option importance (section 5). Two of them (`species`, `variant_size_class`)
+*additionally* act as hard applicability gates that can remove an option outright; `origin` has exactly one
+hard rule; `region_focus` and `analysis_goal` are purely soft (they only shift how strongly an option is
+recommended).
 
 ### What changed from the previous draft, and why
 
-- **Dropped `scale` (single-variant vs cohort).** It changes no core annotation — a one-variant human somatic
-  SNV needs the same predictors/frequencies/identifiers as a cohort. It only touched the output-restriction
-  controls (better explained by `analysis_goal`) and the compute knobs (infrastructure the web tool manages),
-  so it double-counted one real signal and was otherwise out of scope.
+- **Dropped `scale` (single-variant vs cohort).** Checking the form, scale changes no core annotation —
+  a one-variant human somatic SNV needs the same predictors/frequencies/identifiers as a cohort of them. The
+  only options it seemed to touch are the output-restriction controls (`most_severe`/`summary`/`pick`/
+  `coding_only`) and the compute knobs (`buffer_size`/`fork`). The restriction controls are better explained
+  by `analysis_goal` (basic-consequence wants a top-line call; clinical wants full per-transcript detail)
+  than by how many variants you have, and the compute knobs are infrastructure the web tool manages, not
+  recommendations the user needs. So scale was double-counting one real signal and otherwise out of scope.
 - **Split the old `annotation_focus` into `region_focus` + `analysis_goal`.** The single three-value version
-  mixed *where* the variant acts with *why* you're annotating — the exact flaw I'm escaping. Splitting them
-  (both multi-select) lets a rare-disease coding query be tagged truthfully as coding + clinical-interpretation
-  + population-frequency, each driver kept explicit.
-- **Demoted `origin` from hard to soft (one hard rule).** On clinical *standards* germline vs somatic is a
-  hard split, but on the *web form* no option becomes invalid for one or the other — origin shifts priorities
-  (filter interpretation, COSMIC vs ClinVar). The one genuine hard consequence is `somatic ⇒ filter_common off`.
+  (`coding / regulatory-noncoding / clinical-frequency`) repeated the exact flaw I'm trying to escape: it
+  mixed *where* the variant acts (a region axis) with *why* you're annotating (a purpose axis) in one label.
+  Splitting them — and making both multi-select — lets a rare-disease coding query be tagged truthfully as
+  coding + clinical-interpretation + population-frequency, with each driver kept explicit.
+- **Demoted `origin` from hard to soft (with one hard rule).** On clinical *standards* germline vs somatic is
+  a hard split, but on the *web form* no option becomes invalid for one or the other — origin shifts
+  priorities (filter interpretation, COSMIC vs ClinVar) rather than removing options. The single genuine
+  hard consequence is `somatic ⇒ filter_common off`.
 
 ## 4. How factors drive the four jobs categories used to do
 
-- **Labelling** — each example is tagged with all applicable factor values (multi-label), so the mouse somatic
-  SV is recorded truthfully instead of forced into one bucket.
-- **Option priority** — keyed to factor values, not one category (§5).
-- **Eval coverage & splits** — balanced and stratified on factor values (multi-label stratification), not one
-  category.
-- **Model detection** — scored per factor (species/origin/size/region/goal), reflecting the whole query. This
-  stays a diagnostic; the headline metric is still per-option Enable F1.
+1. **Labelling:** each example is tagged with all applicable factor values (multi-label), so the mouse
+   somatic SV case is recorded truthfully instead of forced into one bucket.
+2. **Option priority:** priorities are keyed to factor values, not one category (see section 5).
+3. **Eval coverage and splits:** I balance and stratify on factor values (each value represented), using
+   multi-label stratification, not on a single category.
+4. **Model detection:** scored per factor (species/origin/size/region/goal), so it reflects the whole query
+   rather than one aspect. This stays a diagnostic; the headline metric is still per-option Enable F1.
 
 ## 5. Option priority, keyed to factors
 
-The catalogue's `priority_by_use_case` (keyed to the 7 categories) gets **re-keyed to factor values**. Every
-factor contributes a priority; hard factors can also mark `not_applicable`. For example, ClinVar:
+The catalogue's legacy `priority_by_use_case` is superseded by `generation_config/priority_by_factor.json`, keyed `option → factor → value → priority`. The old field is kept nullable only so the eval harness can migrate.
+Every factor contributes a priority; the hard factors can also mark `not_applicable`. For example, ClinVar:
 
 ```json
 "clinvar": {
@@ -100,21 +101,21 @@ and the one origin hard rule:
 }
 ```
 
-Resolution is two-tier:
+When several factors apply to a query, I resolve in two tiers:
 
-- **hard factors first** — any hard factor (or the somatic/filter_common rule) marking `not_applicable`
-  removes the option (the checker already does this for species);
-- **then soft ranking** — among what remains, take the **strongest** priority across all active factor values
+- **hard factors first:** if any hard factor (or the somatic/filter_common rule) marks an option
+  `not_applicable`, it's removed — the checker already does this for species;
+- **then soft ranking:** among what remains, take the strongest priority across all active factor values
   (critical > recommended > optional).
 
-**This is where I most need your domain input** — the per-option, per-factor priorities, and any hard-removal
-rules I've got wrong.
+This is the part I most need your domain input on — the per-option, per-factor priorities, and any
+hard-removal rules I've got wrong.
 
 ## 6. Example counts and stratification
 
-Sized by **per-factor-value coverage**, not by category — the rarest values (non-human, somatic, structural,
-regulatory) set the floor. Because the scheme is multi-label, one example covers one value of every factor at
-once, so coverage accumulates quickly.
+The dataset is sized by per-factor-value coverage, not by category. The rarest values (non-human, somatic,
+structural, regulatory) set the floor. Because the scheme is multi-label, one example covers one value of
+every factor at once, so coverage accumulates quickly.
 
 | tier | per factor value | total (approx) | what it supports |
 |---|---|---|---|
@@ -123,36 +124,39 @@ once, so coverage accumulates quickly.
 | benchmark | >=10 | ~100+ | per-factor F1 with meaningful confidence |
 
 I'd build the gold set **balanced** across factor values (so non-human isn't drowned out by rare disease),
-plus a separate **naturally-distributed** real-question set as an out-of-distribution check. Below ~50
-examples the 20% holdout is too small to score reliably, so I'd lean on leave-one-out until it grows.
+and keep a separate, **naturally-distributed** set of real questions as an out-of-distribution check. Below
+~50 examples the 20% holdout is too small to score reliably, so I'd lean on leave-one-out until the set
+grows.
 
-## Design-choice provenance — what is grounded, and what is judgement
+## Design-choice provenance — what is literature-grounded and what is not
 
 **Honest summary:** this taxonomy is **not** derived from a literature taxonomy — none exists (see the
-closing note). Its factor *structure* is my own synthesis, grounded in the **Ensembl VEP web form / source**
+closing note). Its factor *structure* is a design judgement, grounded in the **Ensembl VEP web form / source**
 and in **external clinical field standards**; only the multi-label *method* and the *sizing* heuristic trace
-to ML/stats literature. Tags: **[Src]** = Ensembl VEP source / web form / docs (release/115: `InputForm.pm`,
-`VEPConstants.pm`, `vep_options.html`); **[Std]** = external clinical / field standard; **[Lit]** = ML/stats
-literature; **[Judg]** = my own synthesis, no external source claims it.
+to ML/stats literature, and neither is confirmed read-from-full-text in the project notes. Tags:
+**[Src]** = Ensembl VEP source / web form / docs (release/115: `InputForm.pm`, `VEPConstants.pm`,
+`vep_options.html`); **[Std]** = external clinical / field standard; **[Lit ⚠]** = ML/stats literature,
+cited but full-text read not confirmed here; **[Judg]** = a design judgement; no external source claims it.
 
 | Design choice | Grounding | Specific source |
 |---|---|---|
-| Factor-based *multi-label* scheme (vs 7 single categories) | **[Judg]** over **[Std]**+**[Src]** | no named taxonomy exists in the literature; the "orthogonal composable axes" convergence is pieced together from the standards + the form |
+| Factor-based *multi-label* scheme (vs 7 single categories) | **[Judg]** over **[Std]**+**[Src]** | no named taxonomy exists in the literature (stated below); the "orthogonal composable axes" convergence is pieced together from the standards + the form |
 | `species` as a hard applicability gate | **[Src]** | web form: "options change depending on the selected species"; `InputForm.pm` per-species gating |
 | `origin` (germline/somatic) as a factor | **[Std]** | ACMG/AMP 2015 (Richards); AMP/ASCO/CAP 2017 (Li) — separate germline vs somatic standards |
-| `origin` demoted hard→soft, one hard rule (`somatic ⇒ filter_common off`) | **[Judg]** over **[Src]** | my reading — no web-form option becomes invalid by origin; only the frequency-filter rule does |
-| `variant_size_class` as a hard gate | **[Std]**+**[Src]** | ClinGen CNV standard (Riggs); gnomAD-SV; AnnotSV — SV has its own standards/tools; predictors need an SNV |
-| `region_focus` / `analysis_goal` split (both multi-select) | **[Judg]** over **[Src]** | the region-vs-goal split is my own reading; each value's option cluster is web-form-grounded |
+| `origin` demoted hard→soft, one hard rule (`somatic ⇒ filter_common off`) | **[Judg]** over **[Src]** | no web-form option becomes invalid by origin; only the frequency-filter rule does |
+| `variant_size_class` as a hard gate | **[Std]**+**[Src]** | ClinGen CNV standard (Riggs); gnomAD-SV; AnnotSV — SV has its own standards/tools; predictors need an SNV **[Src]** |
+| `region_focus` / `analysis_goal` split (both multi-select) | **[Judg]** over **[Src]** | the region-vs-goal split is not in the source; each value's option cluster is web-form-grounded **[Src]** |
 | Dropping `scale` (single-variant vs cohort) | **[Judg]** over **[Src]** | my reasoning: scale changes no *core* annotation on the web form (only output-restriction + compute knobs) |
-| Per-option, per-factor priorities (§5) | **[Judg]** (provisional) | **no** authoritative Ensembl source ranks option importance per scenario; expert judgement, mentor-gated |
+| Per-option, per-factor priorities (§5) | **[Judg]** (provisional) | **no** authoritative Ensembl source ranks option importance per scenario; expert judgment, mentor-gated |
 | Two-tier resolution (hard gates → soft ranking) | **[Judg]** | mirrors the deterministic checker's own conflict logic |
-| Multi-label stratified holdout splits | **[Lit ✓]** | Sechidis, Tsoumakas & Vlahavas 2011 (ECML PKDD) — read + verified from full text; iterative stratification beats random on label distribution. Caveat: iterative is not *universally* best (labelsets wins small-ratio sets) |
-| Dataset sizing (≥3/≥5/≥10 per value; ~50–200 rows) | **[Lit ✓/⚠]** | Sechidis verified; the informal "~50–200 rows" golden-dataset sizing heuristic is a soft/blog-level source, not verified |
+| Multi-label stratified holdout splits | **[Lit ✓]** | Sechidis, Tsoumakas & Vlahavas 2011 (ECML PKDD) — **read + verified from full text 2026-07-12** (`CITATION_VERIFICATION.md`); iterative stratification beats random on label distribution. Caveat: 3-way comparison, iterative is not *universally* best (labelsets wins small-ratio sets) |
+| Dataset sizing (≥3/≥5/≥10 per value; ~50–200 rows) | **[Lit ✓/⚠]** | Sechidis **verified**; the informal "~50–200 rows" golden-dataset sizing heuristic is a soft/blog-level source, **not** verified in this pass |
 
 **Bottom line:** the large majority of this proposal is **[Judg]/[Src]/[Std]** — domain design grounded in
 the VEP form and clinical standards, *not* in ML literature. The only ML-literature dependency is the
-multi-label stratification **method** (Sechidis 2011), read and verified from full text; the informal
-dataset-**sizing** heuristic remains a soft source. This is consistent with the closing note below.
+multi-label stratification **method** (Sechidis 2011), now **read + verified from full text** (2026-07-12);
+the informal dataset-**sizing** heuristic remains a soft source. This is consistent with the closing note
+below.
 
 ## Appendix: sources
 
@@ -184,6 +188,6 @@ On data and evaluation method:
 - Golden-dataset sizing guidance — 50-200 rows for iteration, ~100+ for a stable benchmark
 
 A note on the above: there's no formally named "variant-annotation workflow taxonomy" in the literature, so
-the convergence I describe is something I pieced together across these standards and tools. The factor names,
-the region/goal split, and the dropped-scale reasoning are my own reading, grounded in the web form, and I've
-flagged them as such.
+the convergence described here is pieced together across these standards and tools. The factor names,
+the region/goal split, and the dropped-scale reasoning are judgement calls, grounded in the web form and
+flagged as such.
