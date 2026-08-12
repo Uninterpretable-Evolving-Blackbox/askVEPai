@@ -17,9 +17,9 @@ configuration with no sign that anything is missing.
 Each of our 31 generated queries states all five factors, so exactly one fact can be deleted with
 everything else held fixed. A model rewrites the query to read naturally with that fact simply absent,
 and every rewrite is re-read before it is used. It counts as **clean** only when the target fact really
-went and no other factor moved: **81 of 124 attempts**. Of the remaining 43, 22 lost the words but left
-the fact still inferable from context, 15 took a second factor with them, and 6 failed to remove the
-words at all.
+went and no other factor moved: **78 of 124 attempts**. Of the remaining 46, 24 lost the words but left
+the fact still inferable from context, 16 took a second factor with them, and 6 failed to remove the
+words at all. The build is reproducible: three seeds matching the LOO's, spread zero.
 
 Each clean case then goes through the tool's normal path. The classifier reads the rewritten query, the
 gap it leaves is **filled with the default under test**, and the resulting configuration is compared
@@ -33,16 +33,16 @@ however many. The n differs per row because rewrites for some factors more often
 
 | fact deleted | n | mean options **lost** | mean options added | exactly right | queries losing something |
 |---|---|---|---|---|---|
-| `region_focus` — guessed *both* | 22 | **0.00** | 1.64 | 11/22 | **0/22** |
-| `origin` — guessed *somatic* | 19 | 0.32 | 0.58 | 14/19 | 5/19 |
-| `variant_size_class` — guessed *both* | 29 | **0.00** | 4.28 | 13/29 | **0/29** |
-| `analysis_goal` — asked; *basic-consequence* on skip | 11 | 1.09 | 0.00 | 6/11 | 5/11 |
+| `region_focus` — guessed *both* | 23 | **0.00** | 1.70 | 11/23 | **0/23** |
+| `origin` — guessed *somatic* | 20 | 0.35 | 0.75 | 14/20 | 6/20 |
+| `variant_size_class` — guessed *both* | 23 | **0.00** | 4.43 | 9/23 | **0/23** |
+| `analysis_goal` — asked; *basic-consequence* on skip | 12 | 1.00 | 0.00 | 7/12 | 5/12 |
 
 Lost and added are not the same error. An extra annotation column is noise the user can ignore; a missing
 predictor is a finding they never see. Read that way, the table decides which factors are safe to guess
 and what to guess for each:
 
-- **`region_focus`: guess both.** It loses nothing on any of 22 queries, at a cost of about 1.6 extra
+- **`region_focus`: guess both.** It loses nothing on any of 23 queries, at a cost of about 1.7 extra
   columns. A deterministic sweep over the 31 rows agrees and is the reason this value was chosen:
   F1 **0.92** for *both*, against 0.86 for *coding*, 0.85 for *regulatory* and 0.78 for leaving it blank.
 - **`origin`: guess somatic.** Not because somatic is more likely, but because the two directions fail
@@ -61,7 +61,7 @@ and what to guess for each:
   which the two-tier merge puts in the RECOMMENDED bucket the user sees switched on. So a germline user
   on a frequency question loses something that would have been on for them. That is the price of the
   fail-closed direction, paid deliberately.
-- **`variant_size_class`: guess both.** Nothing lost on any of 29 queries, at a cost of about 4.3 extra
+- **`variant_size_class`: guess both.** Nothing lost on any of 23 queries, at a cost of about 4.4 extra
   columns. This is only expressible because the factor is multi-select; neither single value is safe,
   since `small` and `structural-CNV` gate away opposite halves of the catalogue. §5.
 - **`analysis_goal`: ask.** It is the only factor whose error is subtractive — reading a question as a
@@ -111,11 +111,11 @@ decides the common-variant filter on a frequency one, so no fixed per-factor rul
 **Why `origin` is not simply asked about.** Being wrong is cheap here, and the guess is disclosed rather
 than silent: it costs a line the user can correct in a sentence, and interrupting everyone to avoid that
 is a bad trade. The rule agrees independently: with the guess removed so that nothing suppressed the
-question, it asks about `origin` on 0 of the 19 ablations where `origin` was the deleted fact.
+question, it asks about `origin` on 0 of the 20 ablations where `origin` was the deleted fact.
 
 **Why `analysis_goal` is asked.** We guess where one answer is safe and ask where none is, and it meets
-neither condition: the rule asks about it on 11 of 11 ablations, and the fallback value loses options on
-5 of 11 — subtractive error, the direction that costs a user a finding rather than a column.
+neither condition: the rule asks about it on 12 of 12 ablations, and the fallback value loses options on
+5 of 12 — subtractive error, the direction that costs a user a finding rather than a column.
 
 The ablations overstate how often this interrupts anyone, because they delete the fact on purpose. On
 the eight real configuration questions from the trackers, `analysis_goal` is genuinely absent **once**;
@@ -139,15 +139,15 @@ one answer per dataset where the honest unit holds both — and a user who answe
 discarded, which is worse than never asking.
 
 Allowing both values, as `region_focus` already does, is what makes the safe guess expressible. On the
-same 29 ablations:
+same 23 ablations:
 
 | policy for `variant_size_class` | mean lost | mean added | queries losing something |
 |---|---|---|---|
-| single-select, no safe value, asked | 1.03 | 4.21 | 15/29 |
-| **multi-select, guessed *both*** | **0.00** | 4.28 | **0/29** |
+| single-select, no safe value, asked | 1.13 | 4.13 | 13/23 |
+| **multi-select, guessed *both*** | **0.00** | 4.22 | **0/23** |
 
 The error becomes purely additive at no measurable cost in added options, and this factor asks nothing:
-it accounts for every one of the 16 questions the single-select policy raised across the 81 ablations.
+it accounts for every one of the 14 questions the single-select policy raises across the 78 ablations.
 
 Offering "both" as a third choice in the question would not fix this. The resolver already accepts two
 values and returns exactly the union of the two configurations, so the prompt could offer it today. But
@@ -197,7 +197,7 @@ asked to measure it.
 **The question is scored on what the user stated, not on what we assumed for them.** That distinction is
 worth more than it sounds: because §5 now guesses *both* variant sizes, gnomAD-SV — GRCh38-only — is
 switched on for almost every query, and scoring the filled tuple would raise the assembly question on 42
-of the 81 ablations against 33 for the stated one. Nine of those interruptions would exist only because
+of the 78 ablations against 32 for the stated one. Eight of those interruptions would exist only because
 *we* guessed. That follows the same asymmetry the whole policy rests on: an option we added is a column
 the user can ignore and is not worth a question, while an option their own words called for is. MANE is
 unaffected either way — 17 either way — because a stated clinical goal is what puts it there.
@@ -213,13 +213,13 @@ clinical or field standard · **[Meas]** measured in this repository · **[Judg]
 | Design choice | Grounding | Specific basis |
 |---|---|---|
 | Guess by default; ask only as an exception | **[Judg]** | a recommender that interrogates its users has moved the work back onto them. Not measured, and not measurable without frequency data we do not have |
-| Ask only when something in the RECOMMENDED bucket is at stake | **[Judg]** + **[Meas]** | needs no threshold, and the question can name what is at stake **[Judg]**. Fires 44 times over the 81 ablations under the current policy — 33 assembly, 11 `analysis_goal` — against 16 before, all of which were `variant_size_class` **[Meas]**. Reproduce with `work/harness/ask_rate.py`, which prices every candidate policy on the same 81 cases |
+| Ask only when something in the RECOMMENDED bucket is at stake | **[Judg]** + **[Meas]** | needs no threshold, and the question can name what is at stake **[Judg]**. Fires 44 times over the 78 clean ablations — 32 assembly, 12 `analysis_goal` **[Meas]**. Reproduce with `work/harness/ask_rate.py`, which prices every candidate policy on the same 81 cases |
 | The bar is the RECOMMENDED bucket the user is shown | **[Meas]** | the alternative is the internal `critical` tier, and that boundary is the one the review found unstable — twelve of the twenty mentor edits were critical↔recommended moves, which is why the display was merged. An interruption should not depend on a label the reviewer redrew twelve times and the user never sees. Priced before choosing: on the current guesses both bars raise identical questions, diverging only if the guesses are removed (+6 `origin`). `ASK_BAR_PRIORITIES` keeps the comparison runnable |
 | Guesses are stated, never silent | **[Judg]** | the failure this design answers is invisible omission, and a silent fix reproduces it |
 | `region_focus` guessed *both* | **[Meas]** | 0.00 options lost across 22 ablations, confirmed independently by a deterministic sweep (4.4 vs 4.6 options recovered by two different methods) |
 | `origin` fail-closed to somatic | **[Meas]** + **[Std]** | leaving it empty lets the frequency filter through on 6/15 somatic rows; guessing somatic harms 0/16 germline rows **[Meas]**. That a somatic workflow must not drop common variants is the taxonomy's one hard `origin` rule **[Std]** |
-| `variant_size_class` guessed *both* | **[Meas]** | under single-select no value was safe — leaving it empty loses on 15 of 29 queries and the two candidates gate opposite halves of the catalogue. Multi-select makes *both* available and it loses on 0 of 29, for 4.28 added options against 4.21 |
-| `analysis_goal` asked, not guessed | **[Meas]** | fails both conditions for guessing on our own measurements: asked on 11 of 11 ablations with the guess removed, and the substituted value loses options on 5 of 11. The objection that asking would interrupt everyone was measured on ablations that delete the fact; on the 8 real questions it is genuinely absent once |
+| `variant_size_class` guessed *both* | **[Meas]** | under single-select no value was safe — leaving it empty loses on 13 of 23 queries and the two candidates gate opposite halves of the catalogue. Multi-select makes *both* available and it loses on 0 of 23, for 4.22 added options against 4.13 |
+| `analysis_goal` asked, not guessed | **[Meas]** | fails both conditions for guessing on our own measurements: asked on 12 of 12 ablations with the guess removed, and the fallback value loses options on 5 of 12. The objection that asking would interrupt everyone was measured on ablations that delete the fact; on the 8 real questions it is genuinely absent once |
 | Assembly is not a factor, but is asked | **[Src]** + **[Judg]** + **[Meas]** | MANE is GRCh38-only and `InputForm.pm:694-702` gates its checkbox on species alone **[Src]**. Assembly describes the input data rather than the analysis **[Judg]**. Not guessed because both directions delete something real, and asking is affordable: the text names a build on 4 of the 8 real questions, one of them GRCh37 **[Meas]** |
 | How often users omit things | **not established** | `fetch_real_queries.py` pulls tracker issues verbatim with a per-body SHA-256 and a `--verify` re-fetch, but only 8 of 43 are configuration questions. Biostars is Cloudflare-blocked at both the HTML and the API. Too few to carry a frequency claim |
 
@@ -271,13 +271,13 @@ single line — and `ask_rate.py` already carries an arm that prices the alterna
 | decision | where | cost, measured |
 |---|---|---|
 | A variant set can be both sizes (§5) | `factors.json` | this factor asks nothing; review rows and export totals unaffected |
-| `analysis_goal` is asked (§4) | `UNDERSPECIFIED_POLICY` | 11 questions over the 81 ablations; genuinely absent on 1 of the 8 real questions |
-| Assembly is asked (§6) | `assembly_question` | 33 over the 81 ablations; the text already names it on 4 of the 8 real questions |
+| `analysis_goal` is asked (§4) | `UNDERSPECIFIED_POLICY` | 12 questions over the 78 ablations; genuinely absent on 1 of the 8 real questions |
+| Assembly is asked (§6) | `assembly_question` | 32 over the 78 ablations; the text already names it on 4 of the 8 real questions |
 | The interrupt bar is the visible RECOMMENDED bucket (§4) | `ASK_BAR_PRIORITIES` | identical to the narrow bar on the current guesses; the two diverge only without them (+6 `origin`) |
 
-**The headline cost.** The tool interrupts on **38 of the 81 ablations**, raising 44 questions. That is a
+**The headline cost.** The tool interrupts on **38 of the 78 ablations**, raising 44 questions. That is a
 lot for a design whose first principle is that asking is the exception, and it deserves your eye rather
-than a footnote. Two things temper it and neither disposes of it: 33 of the 44 are about assembly, which
+than a footnote. Two things temper it and neither disposes of it: 32 of the 44 are about assembly, which
 the ablation set can only overstate because its queries never name a build while 4 of 8 real ones do; and
 skipping any question is free and leaves an announced assumption rather than a silent one. If that is
 still too talkative, the lever is §6's relevance test, and `ask_rate.py --arm "goal guessed"` prices the

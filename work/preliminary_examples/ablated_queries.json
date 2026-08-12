@@ -12,7 +12,10 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small",
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -25,7 +28,10 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small",
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -62,7 +68,10 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small",
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -75,7 +84,7 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -107,14 +116,18 @@
   "cue_left_in_text": false,
   "target_removed": true,
   "collateral": [
-   "variant_size_class"
+   "variant_size_class",
+   "analysis_goal"
   ],
   "original": "I am currently processing germline whole genome sequencing data from a cohort of human pediatric patients presenting with complex neurodevelopmental phenotypes. I need an annotation workflow that can reliably identify the functional impact of both coding SNVs and larger structural variants or CNVs, ensuring that any protein-altering changes are cross-referenced with MANE Select transcripts for diagnostic certainty. Additionally, I need to capture potential disruptions in regulatory and non-coding regions to assess their impact on gene expression; the primary objective is to produce a streamlined output of consequence calls and population allele frequencies to support my clinical interpretation of pathogenicity.",
   "ablated": "I am currently processing germline whole genome sequencing data from a cohort of human pediatric patients presenting with complex neurodevelopmental phenotypes. I need an annotation workflow that can reliably identify the functional impact; the primary objective is to produce a streamlined output of consequence calls and population allele frequencies to support my clinical interpretation of pathogenicity.",
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small",
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -127,9 +140,10 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [],
    "analysis_goal": [
+    "basic-consequence",
     "population-frequency",
     "clinical-interpretation"
    ]
@@ -161,7 +175,10 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small",
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -174,7 +191,10 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small",
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -210,7 +230,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -221,7 +243,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -254,7 +278,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -265,7 +291,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -298,7 +326,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -309,7 +339,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -342,7 +374,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -353,7 +387,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -384,7 +420,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -397,7 +435,9 @@
   "read_after": {
    "species": "human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -434,7 +474,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -447,7 +489,7 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -484,7 +526,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -497,7 +541,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation",
@@ -533,7 +579,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -546,7 +594,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": []
   },
@@ -577,7 +627,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -588,7 +640,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -621,7 +675,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -632,7 +688,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -665,7 +721,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -676,7 +734,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "basic-consequence"
@@ -709,7 +769,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -720,7 +782,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": []
   },
@@ -749,7 +813,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -762,7 +828,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -799,7 +867,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -812,7 +882,7 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -849,7 +919,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -862,11 +934,13 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
-    "population-frequency",
-    "clinical-interpretation"
+    "clinical-interpretation",
+    "population-frequency"
    ]
   },
   "truth": {
@@ -898,7 +972,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -911,7 +987,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": []
   },
@@ -942,7 +1020,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -953,7 +1033,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -986,7 +1068,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -997,7 +1081,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -1030,7 +1114,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -1041,7 +1127,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation"
@@ -1072,7 +1160,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -1083,7 +1173,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -1114,7 +1206,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1127,7 +1221,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1164,7 +1260,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1177,7 +1275,7 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1214,7 +1312,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1227,7 +1327,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "basic-consequence",
@@ -1261,7 +1363,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1274,7 +1378,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1308,7 +1414,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1319,7 +1427,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1342,17 +1452,19 @@
  {
   "row": 8,
   "target": "variant_size_class",
-  "pure": true,
-  "outcome": "pure",
+  "pure": false,
+  "outcome": "redundant",
   "cue_left_in_text": false,
-  "target_removed": true,
+  "target_removed": false,
   "collateral": [],
   "original": "I am analyzing small DNA changes from a mouse study to determine which mutations in the parts of the genome that make proteins are most likely to cause disease.",
   "ablated": "I am analyzing DNA changes from a mouse study to determine which mutations in the parts of the genome that make proteins are most likely to cause disease.",
   "read_before": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1363,7 +1475,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "unstated",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1396,7 +1510,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1407,7 +1523,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation"
@@ -1438,7 +1556,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1449,7 +1569,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1470,17 +1592,19 @@
  {
   "row": 9,
   "target": "origin",
-  "pure": false,
-  "outcome": "redundant",
+  "pure": true,
+  "outcome": "pure",
   "cue_left_in_text": false,
-  "target_removed": false,
+  "target_removed": true,
   "collateral": [],
   "original": "I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis.",
   "ablated": "I am currently processing a set of mutations to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis.",
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1491,8 +1615,10 @@
   },
   "read_after": {
    "species": "human",
-   "origin": "somatic",
-   "variant_size_class": "small",
+   "origin": "unstated",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1517,17 +1643,19 @@
  {
   "row": 9,
   "target": "variant_size_class",
-  "pure": true,
-  "outcome": "pure",
+  "pure": false,
+  "outcome": "redundant",
   "cue_left_in_text": false,
-  "target_removed": true,
+  "target_removed": false,
   "collateral": [],
   "original": "I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis.",
   "ablated": "I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis.",
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1539,7 +1667,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1574,7 +1704,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1586,7 +1718,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "basic-consequence"
@@ -1620,7 +1754,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -1632,8 +1768,12 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
-   "region_focus": [],
+   "variant_size_class": [
+    "small"
+   ],
+   "region_focus": [
+    "coding"
+   ],
    "analysis_goal": [
     "basic-consequence"
    ]
@@ -1664,7 +1804,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1675,7 +1817,9 @@
   "read_after": {
    "species": "human",
    "origin": "unstated",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1708,7 +1852,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1719,7 +1865,7 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding"
    ],
@@ -1752,7 +1898,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1763,7 +1911,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1796,7 +1946,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1807,7 +1959,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1838,19 +1992,23 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
    "analysis_goal": [
-    "population-frequency",
-    "clinical-interpretation"
+    "clinical-interpretation",
+    "population-frequency"
    ]
   },
   "read_after": {
    "species": "human",
    "origin": "unstated",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -1885,19 +2043,21 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
    "analysis_goal": [
-    "population-frequency",
-    "clinical-interpretation"
+    "clinical-interpretation",
+    "population-frequency"
    ]
   },
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding"
    ],
@@ -1932,23 +2092,27 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
    "analysis_goal": [
-    "population-frequency",
-    "clinical-interpretation"
+    "clinical-interpretation",
+    "population-frequency"
    ]
   },
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
-    "clinical-interpretation",
-    "population-frequency"
+    "population-frequency",
+    "clinical-interpretation"
    ]
   },
   "truth": {
@@ -1979,19 +2143,23 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
    "analysis_goal": [
-    "population-frequency",
-    "clinical-interpretation"
+    "clinical-interpretation",
+    "population-frequency"
    ]
   },
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": []
   },
@@ -2021,7 +2189,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2033,7 +2203,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2068,7 +2240,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2080,7 +2254,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2115,7 +2289,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2127,7 +2303,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation"
@@ -2159,7 +2337,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2171,7 +2351,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2206,7 +2388,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2218,7 +2402,9 @@
   "read_after": {
    "species": "human",
    "origin": "unstated",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2253,7 +2439,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2265,7 +2453,7 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2300,7 +2488,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2312,7 +2502,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "population-frequency"
@@ -2344,7 +2536,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2356,7 +2550,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2391,7 +2587,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2402,7 +2600,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2436,7 +2636,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2447,7 +2649,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2481,7 +2683,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2492,7 +2696,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation"
@@ -2524,7 +2730,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2535,7 +2743,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2569,7 +2779,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2581,7 +2793,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2616,7 +2830,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2628,7 +2844,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2663,7 +2879,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2675,7 +2893,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "basic-consequence"
@@ -2707,7 +2927,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2719,7 +2941,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -2752,7 +2976,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2763,7 +2989,9 @@
   "read_after": {
    "species": "human",
    "origin": "unstated",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2796,7 +3024,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2807,7 +3037,7 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2840,7 +3070,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2851,7 +3083,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "population-frequency"
@@ -2882,7 +3116,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2893,7 +3129,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2924,7 +3162,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2935,7 +3175,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2958,17 +3200,21 @@
  {
   "row": 17,
   "target": "variant_size_class",
-  "pure": true,
-  "outcome": "pure",
+  "pure": false,
+  "outcome": "entangled",
   "cue_left_in_text": true,
   "target_removed": true,
-  "collateral": [],
+  "collateral": [
+   "region_focus"
+  ],
   "original": "I am processing human germline sequencing data from a large-scale population cohort and have identified several large structural changes, such as deletions and duplications of DNA segments. I want to focus my analysis on these changes when they occur in regulatory regions that control gene activity, rather than just looking at the protein-coding parts of the genome. For these types of variations, I need to ensure my annotation process includes information on how common these changes are within the general population so I can identify which ones are truly rare.",
   "ablated": "I am processing human germline sequencing data from a large-scale population cohort and have identified several variations. I want to focus my analysis on these changes when they occur in regulatory regions that control gene activity, rather than just looking at the protein-coding parts of the genome. For these types of variations, I need to ensure my annotation process includes information on how common these changes are within the general population so I can identify which ones are truly rare.",
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -2979,9 +3225,10 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
-    "regulatory-noncoding"
+    "regulatory-noncoding",
+    "coding"
    ],
    "analysis_goal": [
     "population-frequency"
@@ -3012,7 +3259,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -3023,7 +3272,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "population-frequency"
@@ -3054,7 +3305,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -3065,7 +3318,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -3096,7 +3351,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -3108,7 +3365,9 @@
   "read_after": {
    "species": "human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -3144,7 +3403,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -3156,7 +3417,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -3192,7 +3453,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -3204,7 +3467,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation"
@@ -3237,7 +3502,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -3249,7 +3516,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -3285,13 +3554,14 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
    ],
    "analysis_goal": [
-    "basic-consequence",
     "clinical-interpretation",
     "population-frequency"
    ]
@@ -3299,13 +3569,14 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
    ],
    "analysis_goal": [
-    "basic-consequence",
     "clinical-interpretation",
     "population-frequency"
    ]
@@ -3327,23 +3598,26 @@
  {
   "row": 19,
   "target": "variant_size_class",
-  "pure": true,
-  "outcome": "pure",
+  "pure": false,
+  "outcome": "entangled",
   "cue_left_in_text": false,
   "target_removed": true,
-  "collateral": [],
+  "collateral": [
+   "analysis_goal"
+  ],
   "original": "I am reviewing human germline whole genome sequencing for a patient with suspected large-scale chromosomal changes. I need to quickly identify the impact on genes and regulatory regions, as well as how common these variants are in the general population.",
   "ablated": "I am reviewing human germline whole genome sequencing for a patient. I need to quickly identify the impact on genes and regulatory regions, as well as how common these variants are in the general population.",
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
    ],
    "analysis_goal": [
-    "basic-consequence",
     "clinical-interpretation",
     "population-frequency"
    ]
@@ -3351,7 +3625,7 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -3391,13 +3665,14 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
    ],
    "analysis_goal": [
-    "basic-consequence",
     "clinical-interpretation",
     "population-frequency"
    ]
@@ -3405,7 +3680,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "basic-consequence",
@@ -3441,13 +3718,14 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
    ],
    "analysis_goal": [
-    "basic-consequence",
     "clinical-interpretation",
     "population-frequency"
    ]
@@ -3455,7 +3733,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation"
@@ -3488,7 +3768,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3499,7 +3781,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3532,7 +3816,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3543,7 +3829,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3576,7 +3864,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3587,7 +3877,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3620,7 +3912,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3631,7 +3925,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3664,7 +3960,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3675,7 +3973,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3699,17 +3999,19 @@
  {
   "row": 21,
   "target": "variant_size_class",
-  "pure": true,
-  "outcome": "pure",
+  "pure": false,
+  "outcome": "redundant",
   "cue_left_in_text": false,
-  "target_removed": true,
+  "target_removed": false,
   "collateral": [],
   "original": "I have germline Mus musculus WES data; I need to identify protein-altering SNVs and indels in coding regions and assess their predicted functional pathogenicity.",
   "ablated": "I have germline Mus musculus WES data; I need to identify protein-altering coding regions and assess their predicted functional pathogenicity.",
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3720,7 +4022,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3754,7 +4058,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3765,7 +4071,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3799,7 +4107,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3810,7 +4120,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3844,7 +4156,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3855,7 +4169,9 @@
   "read_after": {
    "species": "human",
    "origin": "unstated",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3888,7 +4204,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3899,7 +4217,7 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding"
    ],
@@ -3932,7 +4250,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3943,7 +4263,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3976,7 +4298,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -3987,7 +4311,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -4022,7 +4348,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4034,7 +4362,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4069,7 +4399,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4081,7 +4413,7 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4117,7 +4449,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4129,7 +4463,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation",
@@ -4163,7 +4499,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4175,7 +4513,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4208,7 +4548,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4219,7 +4561,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4252,7 +4596,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4263,7 +4609,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4296,7 +4642,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4307,7 +4655,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "basic-consequence"
@@ -4338,7 +4688,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4349,7 +4701,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4380,7 +4734,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -4393,7 +4749,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -4430,7 +4788,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -4443,7 +4803,7 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -4480,7 +4840,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -4493,7 +4855,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation",
@@ -4518,16 +4882,20 @@
   "row": 25,
   "target": "analysis_goal",
   "pure": false,
-  "outcome": "redundant",
+  "outcome": "entangled",
   "cue_left_in_text": false,
   "target_removed": false,
-  "collateral": [],
+  "collateral": [
+   "variant_size_class"
+  ],
   "original": "I am analyzing human germline WGS data from a patient to assess the clinical pathogenicity of both coding and regulatory variants, including any identified structural changes, against population allele frequencies.",
   "ablated": "I am analyzing human germline WGS data from a patient for both coding and regulatory variants, including any identified structural changes.",
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -4540,7 +4908,10 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "small",
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -4576,7 +4947,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4587,7 +4960,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4620,7 +4995,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4631,7 +5008,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4664,7 +5041,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4675,7 +5054,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation"
@@ -4706,7 +5087,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4717,7 +5100,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "somatic",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4752,7 +5137,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4764,7 +5151,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4798,7 +5187,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4810,7 +5201,7 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4847,7 +5238,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4859,7 +5252,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "population-frequency"
@@ -4891,7 +5286,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4903,7 +5300,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "regulatory-noncoding"
    ],
@@ -4936,8 +5335,10 @@
   "ablated": "I am currently reviewing exome sequencing results from a cohort of mice. We have identified several single-letter changes and small additions or deletions throughout the genome. For my preliminary report, I just need to quickly identify which of these variations actually alter the protein sequence or create an early stop signal within the coding regions.",
   "read_before": {
    "species": "non-human",
-   "origin": "germline",
-   "variant_size_class": "small",
+   "origin": "unstated",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -4948,7 +5349,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -4971,17 +5374,19 @@
  {
   "row": 28,
   "target": "variant_size_class",
-  "pure": true,
-  "outcome": "pure",
+  "pure": false,
+  "outcome": "redundant",
   "cue_left_in_text": false,
-  "target_removed": true,
+  "target_removed": false,
   "collateral": [],
   "original": "I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several single-letter changes and small additions or deletions throughout the genome. For my preliminary report, I just need to quickly identify which of these variations actually alter the protein sequence or create an early stop signal within the coding regions.",
   "ablated": "I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several variations throughout the genome. For my preliminary report, I just need to quickly identify which of these variations actually alter the protein sequence or create an early stop signal within the coding regions.",
   "read_before": {
    "species": "non-human",
-   "origin": "germline",
-   "variant_size_class": "small",
+   "origin": "unstated",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -4992,7 +5397,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -5015,19 +5422,19 @@
  {
   "row": 28,
   "target": "region_focus",
-  "pure": false,
-  "outcome": "entangled",
+  "pure": true,
+  "outcome": "pure",
   "cue_left_in_text": false,
   "target_removed": true,
-  "collateral": [
-   "origin"
-  ],
+  "collateral": [],
   "original": "I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several single-letter changes and small additions or deletions throughout the genome. For my preliminary report, I just need to quickly identify which of these variations actually alter the protein sequence or create an early stop signal within the coding regions.",
   "ablated": "I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several single-letter changes and small additions or deletions throughout the genome. For my preliminary report, I just need to quickly identify these variations.",
   "read_before": {
    "species": "non-human",
-   "origin": "germline",
-   "variant_size_class": "small",
+   "origin": "unstated",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -5038,7 +5445,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "basic-consequence"
@@ -5059,20 +5468,19 @@
  {
   "row": 28,
   "target": "analysis_goal",
-  "pure": false,
-  "outcome": "entangled",
+  "pure": true,
+  "outcome": "pure",
   "cue_left_in_text": false,
   "target_removed": true,
-  "collateral": [
-   "origin",
-   "region_focus"
-  ],
+  "collateral": [],
   "original": "I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several single-letter changes and small additions or deletions throughout the genome. For my preliminary report, I just need to quickly identify which of these variations actually alter the protein sequence or create an early stop signal within the coding regions.",
   "ablated": "I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several single-letter changes and small additions or deletions throughout the genome.",
   "read_before": {
    "species": "non-human",
-   "origin": "germline",
-   "variant_size_class": "small",
+   "origin": "unstated",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -5083,8 +5491,12 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
-   "region_focus": [],
+   "variant_size_class": [
+    "small"
+   ],
+   "region_focus": [
+    "coding"
+   ],
    "analysis_goal": []
   },
   "truth": {
@@ -5112,7 +5524,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -5124,7 +5538,9 @@
   "read_after": {
    "species": "human",
    "origin": "unstated",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -5160,7 +5576,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -5172,7 +5590,7 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding"
    ],
@@ -5208,7 +5626,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -5220,7 +5640,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation",
@@ -5256,7 +5678,9 @@
   "read_before": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding"
    ],
@@ -5268,7 +5692,9 @@
   "read_after": {
    "species": "human",
    "origin": "somatic",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": []
   },
@@ -5299,7 +5725,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5311,7 +5739,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5346,7 +5776,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5358,7 +5790,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5393,7 +5825,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5405,7 +5839,9 @@
   "read_after": {
    "species": "non-human",
    "origin": "germline",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "clinical-interpretation"
@@ -5440,7 +5876,9 @@
   "read_before": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "small",
+   "variant_size_class": [
+    "small"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5452,7 +5890,7 @@
   "read_after": {
    "species": "non-human",
    "origin": "unstated",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [],
    "analysis_goal": []
   },
@@ -5482,7 +5920,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5494,7 +5934,9 @@
   "read_after": {
    "species": "human",
    "origin": "unstated",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5529,7 +5971,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5541,7 +5985,7 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "unstated",
+   "variant_size_class": [],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5576,7 +6020,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5588,7 +6034,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [],
    "analysis_goal": [
     "basic-consequence"
@@ -5620,7 +6068,9 @@
   "read_before": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"
@@ -5632,7 +6082,9 @@
   "read_after": {
    "species": "human",
    "origin": "germline",
-   "variant_size_class": "structural-CNV",
+   "variant_size_class": [
+    "structural-CNV"
+   ],
    "region_focus": [
     "coding",
     "regulatory-noncoding"

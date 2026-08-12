@@ -50,9 +50,9 @@ factor tuples; export totals unchanged at 391 recommended and 121 add-ons.
    not the 6 originally flagged), and the 8 missing web-exposed plugins.
 2. **Run the recommended configuration against Web VEP** and check the output. The largest remaining
    independent piece.
-3. **Ask when it matters, assume when it does not.** Built, tested and live. On 81 controlled ablations,
+3. **Ask when it matters, assume when it does not.** Built, tested and live. On 78 controlled ablations,
    one fact removed from our own queries so the right answer is known, the tool interrupts on **38 of
-   81**, raising 44 questions: **33** about assembly and **11** about `analysis_goal`. Reproduce with
+   78**, raising 44 questions: **32** about assembly and **12** about `analysis_goal`. Reproduce with
    `harness/ask_rate.py`, which prices every candidate policy on the same cases with no model.
 
    That is a lot of interruption for a design whose first principle is that asking is the exception, and
