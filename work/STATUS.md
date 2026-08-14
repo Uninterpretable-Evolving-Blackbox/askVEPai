@@ -14,7 +14,7 @@ built, `underspecification_proposal.md` for the measurements on what a question 
 | Option catalogue | **65 options**, grounded in Ensembl `public-plugins` release/115 |
 | Recommender + checker + gates | working, published, runnable |
 | Deterministic invariant suite | **36 checks**, seconds, no GPU |
-| Per-query latency | **~18 s** end to end, reasoning off (`EXPERIMENTS.md` Exp 14: 18.1 s vs 34.9 s with `--think`) |
+| Per-query latency | **~18 s** at concurrency 1, reasoning off (`EXPERIMENTS.md` Exp 14: 18.1 s vs 34.9 s with `--think`; **1 seed**, unlike the 3-seed figures below) |
 | Agreement with the priority table | **enable-F1 89.5% ± 0.6**, must-have recall **95.1% ± 0.3** (3 seeds) |
 | Candidate review set | 31 scenarios, reviewed by the Ensembl mentors |
 | Output tiers | **two** — RECOMMENDED and ADD-ONS (merged 2026-08-07) |
