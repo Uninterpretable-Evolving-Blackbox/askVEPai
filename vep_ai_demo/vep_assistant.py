@@ -787,9 +787,9 @@ def infer_factors(client, model, user_query, think=False, apply_defaults=True,
 #
 # A factor the question never mentions contributes NOTHING, so every option it would have supplied
 # disappears silently. Measured over the 31 review rows, mean options lost when one factor is blanked:
-# origin 1.0, variant_size_class 1.0, region_focus 4.4, analysis_goal 5.4 (worst row 17). Over 20 REAL
-# forum questions, 18/20 leave at least one factor open that changes the configuration — the generated
-# rows never show this because Stage 3 wrote them to express their tuple (all 31 are fully specified).
+# origin 1.0, variant_size_class 1.0, region_focus 4.4, analysis_goal 5.4 (worst row 17). The generated
+# rows never show the problem directly, because Stage 3 wrote them to express their tuple — all 31 are
+# fully specified, which is what makes the controlled ablations in `ablate_queries.py` necessary.
 #
 # A default is only safe where one answer is rarely harmful, which is not everywhere:
 #   origin              guessing germline on a tumour sample can switch ON the common-variant filter,
@@ -979,8 +979,8 @@ def factor_impact(factor, factor_tuple, vep_options):
     """How much the configuration would move if this factor were answered — the largest difference
     between any two candidate answers. THE DECISION TO ASK IS DETERMINISTIC, not a model judgement:
     a factor whose answer changes nothing is not worth a question, whatever the classifier felt about it.
-    On the 20 real queries this suppressed all 16 `origin` questions; asking on model uncertainty alone
-    would have raised 52 questions, 16 of them about the factor that matters least."""
+    Asking on model uncertainty instead would raise a question wherever the classifier felt unsure,
+    which is not the same thing as the answer mattering."""
     try:
         values = load_factors()["factors"][factor]["values"]
     except Exception:
@@ -1232,7 +1232,7 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
 
     The default is "state" rather than "ask" because a tool that interrogates its users has moved the
     work back onto them. Asking is opt-in. `analysis_goal` and ASSEMBLY are the two things asked about;
-    every other factor has a safe value and reaches no question. Over the 81 clean ablations that is 44
+    every other factor has a safe value and reaches no question. Over the 78 clean ablations that is 44
     questions on 38 queries, 33 of them assembly (`work/harness/ask_rate.py`).
 
     Do not cite "18 of 20 real forum questions" from anywhere: that set was hand-edited and is withdrawn
@@ -3459,6 +3459,29 @@ def main():
     # --- Mode: recommend (with optional --explain, --no-check, --semantic) ---
     known_flags = ("--explain", "--no-check", "--semantic", "--minimal", "--full", "--think",
                    "--factor-think", "--assume", "--ask") + tuple(_CONTEXT_FLAGS)
+
+    # --help is the first thing anyone types, and rejecting it with "Unknown option(s): --help" (exit 2)
+    # is a poor greeting for someone who just cloned the repo. Handled before the unknown-flag check.
+    if any(a in ("--help", "-h", "help") for a in args):
+        print('Usage: python vep_assistant.py [flags] "your analysis scenario"')
+        print("\nModes:")
+        print("  <scenario>                    recommend a VEP web-form configuration")
+        print('  explain-result "<question>"   explain a VEP output annotation')
+        print("\nFlags:")
+        for f, h in (("--explain", "show the decision trace and retrieval scores"),
+                     ("--minimal", "smallest runnable configuration"),
+                     ("--full", "add every add-on"),
+                     ("--semantic", "BGE embedding retrieval instead of keyword"),
+                     ("--think", "let the recommender reason first (~2x slower, no measured gain)"),
+                     ("--factor-think", "let the factor classifier reason first"),
+                     ("--assume", "apply the safe defaults silently"),
+                     ("--ask", "prompt when a gap changes something in RECOMMENDED"),
+                     ("--no-check", "skip the constraint checker (not advised)"),
+                     ("--species / --origin / --size / --assembly", "state a fact instead of inferring it")):
+            print(f"  {f:<44} {h}")
+        print("\nEnvironment: VEP_MODEL (default gemma4:26b), VEP_FACTOR_MODEL, VEP_OPTIONS_FILE,")
+        print("             VEP_EXAMPLES_FILE, NO_PROXY=localhost,127.0.0.1 if a proxy is set.")
+        sys.exit(0)
 
     # A mistyped flag used to fall through into the query text: `--minmal "mouse variants"` asked the
     # model about "--minmal mouse variants" and quietly ran at the default level. Reject anything

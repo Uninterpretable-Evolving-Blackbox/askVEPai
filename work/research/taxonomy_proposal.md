@@ -42,14 +42,20 @@ place if its values actually gate or shift a concrete cluster of options.
 |---|---|---|---|---|
 | species | human / non-human | data fact | **hard gate** + importance | the entire human-only block: SIFT/PolyPhen, CADD/REVEL/AlphaMissense/EVE/ClinPred, dbNSFP, SpliceAI/dbscSNV, 1000G + gnomAD frequencies, ClinVar, MANE/APPRIS/TSL. The form says these "only apply when you have selected human". |
 | origin | germline / somatic | data fact | importance (**one** hard rule) | frequency-filter interpretation, and COSMIC vs dbSNP/ClinVar emphasis on `check_existing`. Hard rule: `somatic ⇒ filter_common = not_applicable` (you must not drop common variants in a somatic workflow). |
-| variant_size_class | small (SNV/indel) / structural-CNV | data fact | **hard gate** + importance | structural-CNV removes the missense/splice predictor cluster (those need an SNV) and swaps gnomAD for gnomAD-SV; SV-specific overlap output (OverlapBP/PC) appears instead. |
-| region_focus | coding / regulatory-noncoding (**multi-select**) | intent (where) | importance | coding → protein/coding cluster (predictors, HGVSp, protein domains, exon/intron numbers); regulatory-noncoding → regulatory build, motif features, Enformer, UTRAnnotator, RiboseqORFs. |
+| variant_size_class | small (SNV/indel) / structural-CNV (**multi-select**) | data fact | **hard gate** + importance | structural-CNV removes the missense/splice predictor cluster (those need an SNV) and swaps gnomAD for gnomAD-SV; SV-specific overlap output (OverlapBP/PC) appears instead. |
+| region_focus | coding / regulatory-noncoding (**multi-select**) | intent (where) | **hard gate** + importance | coding → protein/coding cluster (predictors, HGVSp, protein domains, exon/intron numbers); regulatory-noncoding → regulatory build, motif features, Enformer, UTRAnnotator, RiboseqORFs. |
 | analysis_goal | basic-consequence / clinical-interpretation / population-frequency (**multi-select**) | intent (why) | importance | basic → identifiers + consequence only (the old quick-lookup); clinical → ClinVar, pathogenicity predictors, Phenotypes, Mastermind, Geno2MP; population → 1000G + gnomAD frequencies, filter_common. |
 
-Every factor drives option importance (section 5). Two of them (`species`, `variant_size_class`)
-*additionally* act as hard applicability gates that can remove an option outright; `origin` has exactly one
-hard rule; `region_focus` and `analysis_goal` are purely soft (they only shift how strongly an option is
-recommended).
+Every factor drives option importance (section 5). **Three** of them — `species`, `variant_size_class`
+and `region_focus` — *additionally* act as hard applicability gates that can remove an option outright
+(`HARD_GATE_FACTORS` in `vep_assistant.py`); `origin` has exactly one hard rule; `analysis_goal` is
+purely soft (it only shifts how strongly an option is recommended).
+
+Two amendments to this table are live in `factors.json` and flagged there rather than here, both pending
+sign-off: `region_focus` acts as a hard gate (this section originally called it purely soft), and
+`variant_size_class` is **multi-select**, because the factor describes a variant *set* and a WGS callset
+routinely holds both classes. Multi-select gating is all-values — an option is removed only when every
+active value rules it out, so a mixed set keeps the tools for both halves.
 
 ### What changed from the previous draft, and why
 

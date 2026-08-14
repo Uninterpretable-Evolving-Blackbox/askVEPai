@@ -10,7 +10,7 @@ section states which one it is re-deriving:
   region_focus        a deterministic sweep -- which candidate value scores best against known truth
   origin              a DANGER audit -- which wrong guess switches something destructive ON.
                       Deliberately not the sweep: the safest value is not the most accurate one
-  variant_size_class  81 controlled ablations. The safe value is only expressible because the factor
+  variant_size_class  78 controlled ablations. The safe value is only expressible because the factor
                       is multi-select, so this is evidence about the SCHEME as much as the default
   species             judgement, with NO experiment behind it. Asserted as such, not dressed up
 

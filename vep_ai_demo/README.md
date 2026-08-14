@@ -2,7 +2,7 @@
 
 A prototype chatbot that recommends [Ensembl VEP](https://www.ensembl.org/info/docs/tools/vep/index.html) (Variant Effect Predictor) configuration based on your analysis scenario. Built as a GSoC demo.
 
-The assistant uses a local LLM via [Ollama](https://ollama.com/) with a curated knowledge base of 26 VEP options and 8 scenario-to-recommendation training examples. It recommends which options to enable or disable, explains why, and generates a ready-to-use VEP command.
+The assistant uses a local LLM via [Ollama](https://ollama.com/) with a curated knowledge base of 65 VEP options and 23 scenario-to-recommendation training examples. It recommends which options to enable or disable, explains why, and generates a ready-to-use VEP command.
 
 ## Features
 
@@ -17,7 +17,7 @@ The assistant uses a local LLM via [Ollama](https://ollama.com/) with a curated 
 
 - Python 3.10+
 - [Ollama](https://ollama.com/) running locally
-- A pulled model (default: `qwen2.5:3b`)
+- A pulled model (default: `gemma4:26b`)
 
 ## Setup
 
@@ -27,7 +27,7 @@ brew install ollama
 
 # Start Ollama and pull a model
 ollama serve
-ollama pull qwen2.5:3b
+ollama pull gemma4:26b
 
 # Install Python dependency
 pip install -r requirements.txt
@@ -112,7 +112,7 @@ python evaluate.py --model qwen2.5:14b --semantic
 
 | Flag | Description |
 |------|-------------|
-| `--model MODEL` | Ollama model name (default: `VEP_MODEL` env var or `qwen2.5:3b`) |
+| `--model MODEL` | Ollama model name (default: `VEP_MODEL` env var or `gemma4:26b`) |
 | `--semantic` | Add "with KB + semantic retrieval" condition |
 | `--all-examples` | Add "with KB + all examples" condition (no retrieval filtering) |
 | `--runs N` | Number of runs per configuration for variance estimates (default: 1) |
@@ -124,7 +124,7 @@ Uses leave-one-out evaluation: the ground truth example is excluded from the ret
 
 | Environment variable | Default | Description |
 |---------------------|---------|-------------|
-| `VEP_MODEL` | `qwen2.5:3b` | Ollama model name |
+| `VEP_MODEL` | `gemma4:26b` | Ollama model name |
 | `OLLAMA_BASE_URL` | `http://localhost:11434/v1` | Ollama API endpoint |
 
 ## Project structure
@@ -132,7 +132,7 @@ Uses leave-one-out evaluation: the ground truth example is excluded from the ret
 ```
 vep_assistant.py        # Main assistant (3 modes: recommend, explain, explain-result)
 evaluate.py             # Evaluation: knowledge-base vs bare model comparison
-vep_options.json        # 26 VEP options with structured metadata
+vep_options.json        # 65 VEP options with structured metadata
 training_examples.json  # 8 curated scenario-to-recommendation pairs
 vep_consequences.json   # 41 VEP consequence terms (Sequence Ontology definitions)
 requirements.txt        # Python dependencies (openai, sentence-transformers)
@@ -162,7 +162,7 @@ The knowledge base covers 8 training examples across 7 use case categories:
 | Quick lookup | Single rsID annotation |
 | Non-human | Mouse CRISPR editing variants |
 
-Each of the 26 VEP options has metadata including:
+Each of the 65 VEP options has metadata including:
 - Priority per use case (critical / recommended / optional / not_applicable)
 - Species restrictions (human-only vs all species)
 - Conflicts with other options
@@ -183,5 +183,5 @@ Documented for transparency. These are areas for future improvement, not blocker
 - **Citation rate is format-sensitive** -- only detects `[source: ...]` tags. Other citation formats (parenthetical, prose, etc.) are counted as missing.
 
 **Constraint checker:**
-- **Dependencies not enforced** -- `clinvar` declares `depends_on: ["check_existing"]` but the constraint checker only resolves conflicts, not dependencies. If the LLM recommends ClinVar without `--check_existing`, no warning fires.
+- **Dependencies are enforced.** `clinvar` declares `depends_on: ["check_existing"]`, and the checker auto-enables a missing dependency, follows transitive chains, and records a `dependency` violation. A dependent option is dropped instead if its dependency is species-blocked.
 - **Use case detection always uses keyword matching** -- even in `--semantic` mode, the constraint checker's `_detect_use_case()` falls back to word overlap for determining which priority rules to apply.

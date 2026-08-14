@@ -23,7 +23,7 @@ Questions are asked only when stdin is a terminal, so piping or redirecting neve
 --no-ask to suppress them in a terminal too.
 
 To compare this policy against the alternatives, use `work/harness/ask_rate.py`, which prices every arm
-on the same 81 cases.
+on the same 78 cases.
 """
 import argparse
 import json

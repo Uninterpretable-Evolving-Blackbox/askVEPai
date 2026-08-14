@@ -9,7 +9,7 @@
       "'1.50 -> 0.65 clarifying questions per query'",
       "'18/20 -> 13/20 queries needing a question'"
     ],
-    "_use_instead": "work/preliminary_examples/ablated_queries.json (124 attempted, 81 clean; one fact removed from our own queries, so ground truth is known) and work/preliminary_examples/real_queries_fetched.json (43 issues pulled verbatim with a per-body SHA-256 and a --verify re-fetch; only 8 are configuration questions). See work/research/underspecification_proposal.md sections 1 and 7.4.",
+    "_use_instead": "work/preliminary_examples/ablated_queries.json (124 attempted, 78 clean; one fact removed from our own queries, so ground truth is known) and work/preliminary_examples/real_queries_fetched.json (43 issues pulled verbatim with a per-body SHA-256 and a --verify re-fetch; only 8 are configuration questions). See work/research/underspecification_proposal.md sections 1 and 7.4.",
     "_kept_because": "Deleting it would erase the record of what was withdrawn and why. It is kept as evidence of the correction, not as data."
   },
   {

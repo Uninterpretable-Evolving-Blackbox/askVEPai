@@ -110,8 +110,15 @@ decides the common-variant filter on a frequency one, so no fixed per-factor rul
 
 **Why `origin` is not simply asked about.** Being wrong is cheap here, and the guess is disclosed rather
 than silent: it costs a line the user can correct in a sentence, and interrupting everyone to avoid that
-is a bad trade. The rule agrees independently: with the guess removed so that nothing suppressed the
-question, it asks about `origin` on 0 of the 20 ablations where `origin` was the deleted fact.
+is a bad trade.
+
+That is now the whole argument, and it used to have a second leg that no longer holds. Under the
+narrower bar — the internal must-have tier — removing the guess produced **0** origin questions across
+the 20 ablations, so the rule appeared to agree independently. Widening the bar to the RECOMMENDED
+bucket the user actually sees (§7) changes that: with the guess removed it asks about `origin` on
+**6 of the 20**. Reproduce both with `ask_rate.py --by-row --arm ask-all` and
+`--arm "ask-all, narrow bar"`. The guess still stands on the asymmetry of being wrong, but it no longer
+gets corroboration from the ask rule, and it would be dishonest to keep claiming it does.
 
 **Why `analysis_goal` is asked.** We guess where one answer is safe and ask where none is, and it meets
 neither condition: the rule asks about it on 12 of 12 ablations, and the fallback value loses options on
@@ -213,7 +220,7 @@ clinical or field standard · **[Meas]** measured in this repository · **[Judg]
 | Design choice | Grounding | Specific basis |
 |---|---|---|
 | Guess by default; ask only as an exception | **[Judg]** | a recommender that interrogates its users has moved the work back onto them. Not measured, and not measurable without frequency data we do not have |
-| Ask only when something in the RECOMMENDED bucket is at stake | **[Judg]** + **[Meas]** | needs no threshold, and the question can name what is at stake **[Judg]**. Fires 44 times over the 78 clean ablations — 32 assembly, 12 `analysis_goal` **[Meas]**. Reproduce with `work/harness/ask_rate.py`, which prices every candidate policy on the same 81 cases |
+| Ask only when something in the RECOMMENDED bucket is at stake | **[Judg]** + **[Meas]** | needs no threshold, and the question can name what is at stake **[Judg]**. Fires 44 times over the 78 clean ablations — 32 assembly, 12 `analysis_goal` **[Meas]**. Reproduce with `work/harness/ask_rate.py`, which prices every candidate policy on the same 78 cases |
 | The bar is the RECOMMENDED bucket the user is shown | **[Meas]** | the alternative is the internal `critical` tier, and that boundary is the one the review found unstable — twelve of the twenty mentor edits were critical↔recommended moves, which is why the display was merged. An interruption should not depend on a label the reviewer redrew twelve times and the user never sees. Priced before choosing: on the current guesses both bars raise identical questions, diverging only if the guesses are removed (+6 `origin`). `ASK_BAR_PRIORITIES` keeps the comparison runnable |
 | Guesses are stated, never silent | **[Judg]** | the failure this design answers is invisible omission, and a silent fix reproduces it |
 | `region_focus` guessed *both* | **[Meas]** | 0.00 options lost across 22 ablations, confirmed independently by a deterministic sweep (4.4 vs 4.6 options recovered by two different methods) |
@@ -260,7 +267,7 @@ that?" being executable rather than a paragraph.
 
 `--factors` needs no model. Neither does `ask_rate.py`: the classifier was already run on every ablated
 query and its reading recorded, so it replays the decision half of the path exactly, over every candidate
-policy on the same 81 cases, in seconds. It is the file to read first if you want to argue with any
+policy on the same 78 cases, in seconds. It is the file to read first if you want to argue with any
 number in this document — including by adding an arm of your own.
 
 ## 9. What this costs, and what needs your ruling

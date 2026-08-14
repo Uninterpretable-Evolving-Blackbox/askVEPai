@@ -34,7 +34,7 @@ claim. The cheapest route to one is the `real_data` Likhitha has offered.
 
 What *is* established is cost and consequence, on ground truth we constructed. `ablate_queries.py`
 removes one fact from each of our own 31 queries and re-reads the result, so the counterfactual is
-observable in a way it never is in the wild: 124 attempted, **81 clean**. §7.4 reports what each gap
+observable in a way it never is in the wild: 124 attempted, **78 clean**. §7.4 reports what each gap
 costs.
 
 The 31 generated rows never show the problem directly — Stage 3 wrote those questions specifically to
@@ -124,7 +124,7 @@ middle.
    trade-off `DECISIONS.md` §2 is already asking the reviewer to rule on.
 2. **Re-measure afterwards.** How many queries still carry a gap that matters? That number is the honest
    size of the "must ask" problem and the only justification for building the interaction. Done in §7.4:
-   **16 of 81**, all one factor.
+   **14 of 78**, all one factor.
 3. **A danger audit the option-count sweep cannot do** (see case (a)): for each factor, which *wrong*
    guesses enable something destructive rather than merely omit something. Smaller list, and the one worth
    putting in front of the reviewer.
@@ -134,7 +134,7 @@ middle.
 Nothing here edits `priority_by_factor.json` or the `DRIVES` spec that generates it. `region_focus=coding`
 continues to mean exactly what the review is deciding it means. What changes is only the handling of a
 factor the user never supplied — a case that appears in **0 of the 31 reviewed rows** (all 31 tuples are
-fully specified, verified) and, by construction, on all 81 controlled ablations (§7.4). So this cannot
+fully specified, verified) and, by construction, on all 78 controlled ablations (§7.4). So this cannot
 alter any reviewed row, including the ten approved.
 
 It is still a design decision that changes what a vague question returns, so it should go to the reviewer
@@ -180,11 +180,11 @@ user's variants.
 
 ### 7.3 `variant_size_class` — the whole remaining case for asking is one factor, and it is a taxonomy bug
 
-Running the new defaults over the 81 clean ablations, where the removed fact is known:
+Running the new defaults over the 78 clean ablations, where the removed fact is known:
 
 | | |
 |---|---|
-| ablations needing ≥1 question | **16/81** |
+| ablations needing ≥1 question | **14/78** |
 | assumptions stated per ablation | **0.69** |
 | which factor | `variant_size_class` 16, everything else **0** |
 
@@ -225,10 +225,14 @@ Resolving each clean ablation and comparing to the configuration the true tuple 
 
 | fact removed | n | mean options **lost** | mean added | exactly right | rows losing something |
 |---|---|---|---|---|---|
-| `region_focus` — assumed *both* | 22 | **0.00** | 1.64 | 11/22 | **0/22** |
-| `origin` — assumed *somatic* | 19 | 0.32 | 0.58 | 14/19 | 5/19 |
-| `analysis_goal` — assumed *basic-consequence* | 11 | 1.09 | 0.00 | 6/11 | 5/11 |
-| `variant_size_class` — left open | 29 | 1.03 | 4.21 | 14/29 | **15/29** |
+| `region_focus` — guessed *both* | 23 | **0.00** | 1.70 | 11/23 | **0/23** |
+| `origin` — guessed *somatic* | 20 | 0.35 | 0.75 | 14/20 | 6/20 |
+| `variant_size_class` — guessed *both* | 23 | **0.00** | 4.43 | 9/23 | **0/23** |
+| `analysis_goal` — asked; *basic-consequence* on skip | 12 | 1.00 | 0.00 | 7/12 | 5/12 |
+
+This is the same measurement `reprompting_proposal.md` §2 reports, on the same 78 clean ablations and by
+the same method. If the two ever disagree, one has drifted, and §2 is the one the shipped policy is read
+from.
 
 **Lost and added are not the same error, and the table is only readable if they are kept apart.** An
 extra annotation column is noise the user can ignore; a missing predictor is a finding they never see.
@@ -250,7 +254,7 @@ And what the proposed taxonomy change does to that last row, on the same 29 abla
 | **multi-select, assumed *both* when unstated** | **0.00** | 4.28 | **0/29** |
 
 The error becomes purely additive — the same shape `region_focus` already has — at no measurable cost in
-added options. Questions needed across all 81 ablations go from 16 to **zero**.
+added options. Questions needed across all 78 ablations go from 14 to **zero**.
 
 **One finding about recoverability that no policy can change.** `variant_size_class` came out cleanly
 **29 of 31** times and was still inferable from context only twice. The fact is simply not in the
@@ -265,8 +269,8 @@ has a precedent she can reason about:
 
 > `region_focus` was made multi-select because a variant set can be coding **and** regulatory.
 > `variant_size_class` has the identical problem — review row 1 is a real query naming *"both coding SNVs
-> and larger structural variants or CNVs"*, and it is the single reason any question is ever asked — 16 of
-> 16, across 81 controlled ablations. The resolver already supports it. Should `variant_size_class` become multi-select too?
+> and larger structural variants or CNVs"*, and it is the single reason any question is ever asked — 14 of
+> 14, across 78 controlled ablations. The resolver already supports it. Should `variant_size_class` become multi-select too?
 
 If yes, the asking mechanism may not be needed at all, and row 1's `factor_unrecoverable` flag — which she
 queried directly — resolves as a modelling fix rather than a bad row.

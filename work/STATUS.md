@@ -14,7 +14,7 @@ built, `underspecification_proposal.md` for the measurements on what a question 
 | Option catalogue | **65 options**, grounded in Ensembl `public-plugins` release/115 |
 | Recommender + checker + gates | working, published, runnable |
 | Deterministic invariant suite | **36 checks**, seconds, no GPU |
-| Per-query latency | **~11 s** end to end on the reference machine |
+| Per-query latency | **~18 s** end to end, reasoning off (`EXPERIMENTS.md` Exp 14: 18.1 s vs 34.9 s with `--think`) |
 | Agreement with the priority table | **enable-F1 89.5% ± 0.6**, must-have recall **95.1% ± 0.3** (3 seeds) |
 | Candidate review set | 31 scenarios, reviewed by the Ensembl mentors |
 | Output tiers | **two** — RECOMMENDED and ADD-ONS (merged 2026-08-07) |
@@ -34,9 +34,12 @@ It is an internal signal until a replacement is agreed.
 
 **Two tiers instead of three.** RECOMMENDED (the former must-have and recommended, merged) and ADD-ONS.
 Naming per Nakib: *"default" carries a different meaning — something that applies automatically instead
-of some expert suggestion*, which is wrong for a bucket the user still has to switch on. That
-distinction is carried by an *already on* marker instead, and it earns its place — **54%** of a typical
-recommendation (6.2 of 11.5 options per row) is switched on by the form before anything is suggested.
+of some expert suggestion*, which is wrong for a bucket the user still has to switch on.
+
+That distinction is meant to be carried by an *already on* marker, on the grounds that **54%** of a
+typical recommendation (6.2 of 11.5 options per row) is switched on by the VEP form before anything is
+suggested. **The marker is not implemented yet** — the rationale for the naming stands, the surface does
+not exist, and this line should not be read as describing shipped behaviour.
 
 The merge changed **no configuration**: the engine had always enabled must-have ∪ recommended as one
 set, so the split was only ever a label on the way out. Verified as a pure regrouping over all 72

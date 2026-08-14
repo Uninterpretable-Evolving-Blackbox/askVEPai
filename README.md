@@ -216,7 +216,7 @@ option actually moves. It costs about 1 ms against a ~1000 ms classifier call an
 
 The defaults were chosen by measurement, not preference, and the measurements disagree with each other in
 useful ways — `region_focus` from a deterministic sweep, `origin` from a danger audit (which *wrong* guess
-switches on something destructive), `variant_size_class` from 81 controlled ablations. **Assembly is never
+switches on something destructive), `variant_size_class` from 78 controlled ablations. **Assembly is never
 guessed**: it is the one gap where silence produces a *wrong* answer rather than a thin one, since MANE
 exists only for GRCh38 while VEP's own form pre-ticks it for everyone, and guessing GRCh38 would be wrong
 for exactly the GRCh37 clinical users the problem already affects.
@@ -225,7 +225,7 @@ for exactly the GRCh37 clinical users the problem already affects.
 # meet it as a user does; --why for the audit view, --factors to skip the model
 python work/harness/try_reprompting.py --why "human tumour WGS, which variants are damaging?"
 
-# how often it interrupts, per candidate policy, on 81 controlled ablations — no model, seconds
+# how often it interrupts, per candidate policy, on 78 controlled ablations — no model, seconds
 python work/harness/ask_rate.py
 ```
 

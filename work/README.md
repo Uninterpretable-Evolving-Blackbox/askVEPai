@@ -40,14 +40,14 @@ we"), then `research/` for the design rationale.** This file is the directory ma
   - **What a question leaves unsaid** (the assume/ask policy — `research/reprompting_proposal.md`):
     - `try_reprompting.py` — meet the behaviour as a user would; `--why` for the audit view, `--factors`
       to skip the model entirely.
-    - `ask_rate.py` — **how often the tool interrupts**, per candidate policy, on the same 81 clean
+    - `ask_rate.py` — **how often the tool interrupts**, per candidate policy, on the same 78 clean
       ablations. No model, seconds. Reproduces the historical figures and refuses to run if it has
       drifted from what the engine actually does. Read this before arguing with an ask-rate number.
     - `defaults_evidence.py` — **why each guessed value is that value**, re-derived and asserted. The
       four defaults were chosen by four different methods (sweep · danger audit · ablation · judgement)
       and this keeps them apart and executable. A failure means a published number stopped matching the
       priority table, not necessarily that the code is wrong.
-    - `ablate_queries.py` — builds the 124 ablations (81 clean) the two above are scored on.
+    - `ablate_queries.py` — builds the 124 ablations (78 clean) the two above are scored on.
     - `fetch_real_queries.py` — verbatim tracker fetch, per-body SHA-256, `--verify` re-fetch.
     - `measure_underspecification.py` — what real questions leave open. `--rescore` re-prints the
       headlines from the saved readings with no model, which is what makes the scoring rule arguable.
@@ -59,7 +59,7 @@ we"), then `research/` for the design rationale.** This file is the directory ma
 - **`../generation/candidates/iced.json`** — **the evaluation set**: the 31 generated scenarios, keyed to
   the factor taxonomy and checker-clean by construction. `harness/eval_factor_set.py --set` runs the
   factor-keyed leave-one-out on this, and it is the set the review sheet was exported from.
-- **`preliminary_examples/ablated_queries.json`** — the 124 controlled ablations (81 clean) built from
+- **`preliminary_examples/ablated_queries.json`** — the 124 controlled ablations (78 clean) built from
   those 31 by deleting one stated fact at a time. What `ask_rate.py` and `defaults_evidence.py` score on.
 - **`preliminary_examples/simulated_gold_examples.json`** — **LEGACY** (23 examples on the abandoned
   7-use-case scheme). Kept, not deleted, because it is (a) the substrate of the historical experiments
