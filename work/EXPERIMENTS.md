@@ -934,5 +934,13 @@ immediately, so **no scenario-resolved priorities reach the prompt at all**. Two
 - `work/harness/run_order_sensitivity.py` (+ `work/harness/run_order_experiment.sh`) — example-ORDER sensitivity (Exp 9): N shuffles of a fixed set, greedy, mean ± SD over orderings.
 - `work/harness/aggregate_results.py` — cross-model crossover table.
 - `work/harness/run_experiment.sh` — turnkey wrapper.
-- Reports: `work/results/evaluation_results_*.md`, `work/results/example_sweep_*.md`.
+- Reports: `work/results/evaluation_results_*.md`.
 - Env: native arm64 Ollama (Metal), `OLLAMA_NUM_PARALLEL=4`, `OLLAMA_CONTEXT_LENGTH=32768`.
+
+**What is and is not in this repository.** The aggregated reports every number above is read from are
+published here. The per-call raw logs they were computed from are **not**: `results/raw/`,
+`results_noex/raw/`, `results/timing/` and the Exp 5 pilot JSON are excluded by `.gitignore` as bulky and
+regenerable, so a path to one of them in the text below names a private artifact rather than something
+you can open. The same applies to `example_sweep_*.md`, which was never carried across. Nothing here
+depends on reading them — the reports carry the figures — but the citations are honest about their
+source rather than pretending the source is to hand.
