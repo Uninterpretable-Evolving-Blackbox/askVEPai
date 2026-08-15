@@ -42,7 +42,7 @@ The demo's `vep_assistant.py` / `evaluate.py` load `vep_options.json` + `trainin
 their own directory. To run on **(expanded catalogue + these bootstrap examples)** without disturbing the
 demo, point the pipeline at these files (a thin wrapper, not yet written) and:
 
-1. **Pull a model** (currently deferred): e.g. `ollama pull gemma4:12b` (or the demo baseline `qwen2.5:7b`).
+1. **Pull a model** (currently deferred): e.g. `ollama pull gemma4:26b`, the model this system is built and benchmarked on.
 2. Run leave-one-out evaluation over the 7 examples; with the priority-weighted F1 + the hardened checker already in place.
 
 > Note: actual runs are blocked only on pulling a local model. The example set itself is ready.

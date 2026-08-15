@@ -12,7 +12,7 @@ Run:
     VEP_MODEL=gemma4:26b python work/webapp/app.py
 
 It honours the same OLLAMA_BASE_URL / VEP_MODEL env vars as the CLI, and serves the
-58-option catalogue with its example corpus.
+65-option catalogue with its example corpus.
 """
 
 import json
@@ -46,7 +46,7 @@ client = OpenAI(base_url=BASE_URL, api_key="ollama")
 INFER_LOCK = threading.Lock()
 
 # --- Knowledge base (loaded once, reused) ------------------------------------
-# One catalogue: the 58-option build the priority table is generated for. The old 26-option demo KB
+# One catalogue: the 65-option build the priority table is generated for. The old 26-option demo KB
 # was retired — it predated the catalogue rebuild, so running against it silently switched the
 # importance tiers off (five of its ids, including the transcript-database choice, are not in the
 # table). There is nothing to switch between any more.

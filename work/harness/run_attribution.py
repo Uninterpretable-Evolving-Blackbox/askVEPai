@@ -122,7 +122,7 @@ def main():
     do_examples = args.mode in ("combined", "examples")
 
     # Ollama's OpenAI-compatible endpoint. load_knowledge_base()/TEST_QUERIES honour the VEP_* env vars,
-    # so the same code scores either the demo KB or the expanded 58-option catalogue.
+    # so the same code scores either the demo KB or the expanded catalogue.
     client = OpenAI(base_url=os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1"), api_key="ollama")
     catalogue, examples = va.load_knowledge_base()
     aliases = va.build_option_aliases(catalogue)      # free-text -> canonical option id mapping (for the parser)

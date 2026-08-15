@@ -11,7 +11,7 @@ silently ran an older table than every measurement had been taken on. Deriving r
 instead of guarding against it.
 
 What this script is still FOR:
-  * reading the table — it is 58 options x 5 factors, easier to inspect as JSON than as a spec;
+  * reading the table — it is 65 options x 5 factors, easier to inspect as JSON than as a spec;
   * diffing it across a catalogue or spec change;
   * producing the artifact a reviewer edits. `load_priority_by_factor` treats a file on disk as an
     OVERRIDE that beats the derivation, so a signed-off table is adopted by dropping it in.

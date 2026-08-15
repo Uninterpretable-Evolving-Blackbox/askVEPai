@@ -106,8 +106,8 @@ python evaluate.py
 python evaluate.py --semantic
 
 # Specify a different model
-python evaluate.py --model qwen2.5:7b
-python evaluate.py --model qwen2.5:14b --semantic
+python evaluate.py --model gemma4:12b
+python evaluate.py --model gemma4:26b --semantic
 ```
 
 | Flag | Description |
@@ -149,7 +149,7 @@ results/                # Saved recommendations and evaluation reports
 
 ## Knowledge base
 
-The knowledge base covers 8 training examples across 7 use case categories:
+The knowledge base covers 23 training examples spanning the factor scheme:
 
 | Category | Example scenario |
 |----------|-----------------|

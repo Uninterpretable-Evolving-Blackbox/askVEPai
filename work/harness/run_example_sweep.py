@@ -10,7 +10,7 @@ If all-examples' lead over keyword shrinks / goes negative as N grows -> corpus-
 crossover (all-examples wins only because the corpus is small). If it holds -> it doesn't.
 
 Usage:
-  python run_example_sweep.py --models qwen2.5:3b,gemma4:e4b --ns 2,5,10,15,19 --runs 2
+  python run_example_sweep.py --models gemma4:e4b,gemma4:26b --ns 2,5,10,15,19 --runs 2
 """
 import argparse
 import os
@@ -55,7 +55,7 @@ def main():
     # Sweep driver: build every (query, N, condition) prompt once, then fan the
     # LLM calls out across a thread pool and tabulate Enable F1 per corpus size N.
     ap = argparse.ArgumentParser()
-    ap.add_argument("--models", default="qwen2.5:3b,gemma4:e4b")
+    ap.add_argument("--models", default="gemma4:e4b,gemma4:26b")
     ap.add_argument("--ns", default="2,5,10,15,19")
     ap.add_argument("--runs", type=int, default=2)
     ap.add_argument("--concurrency", type=int, default=4)

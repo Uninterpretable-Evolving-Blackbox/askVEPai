@@ -70,7 +70,7 @@ def main():
             if c == "bare":
                 prompts[(qid, c)] = ev.BARE_SYSTEM_PROMPT
             elif c == "noex":
-                # docs-only ablation: full 58-option catalogue + output contract + rules but ZERO
+                # docs-only ablation: the full option catalogue + output contract + rules but ZERO
                 # in-context examples. Isolates the golden-examples contribution as the single changed
                 # variable vs the `all` condition (same options/format/checker; examples 19 -> 0).
                 prompts[(qid, c)] = va.build_system_prompt(vep_options, [], query, retrieval_mode="all")

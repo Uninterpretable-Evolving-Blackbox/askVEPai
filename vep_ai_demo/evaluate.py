@@ -850,7 +850,7 @@ def _run_condition(client, model, system_prompt, query, option_aliases,
 def main():
     parser = argparse.ArgumentParser(description="Evaluate VEP AI Assistant")
     parser.add_argument("--model", default=None,
-                        help="Ollama model name (default: VEP_MODEL env var or qwen2.5:3b)")
+                        help="Ollama model name (default: VEP_MODEL env var or gemma4:26b)")
     parser.add_argument("--semantic", action="store_true",
                         help="Include semantic retrieval condition in evaluation")
     parser.add_argument("--all-examples", action="store_true",
@@ -864,7 +864,7 @@ def main():
     args = parser.parse_args()
 
     base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
-    model = args.model or os.environ.get("VEP_MODEL", "qwen2.5:3b")
+    model = args.model or os.environ.get("VEP_MODEL", "gemma4:26b")
     use_semantic = args.semantic
     use_all_examples = args.all_examples
     num_runs = args.runs

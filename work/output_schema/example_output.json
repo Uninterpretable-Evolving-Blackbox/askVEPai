@@ -89,7 +89,7 @@
   },
   "generated_command": "vep --input_file variants.vcf --output_file out.txt --cache --species homo_sapiens --assembly GRCh38 --symbol --check_existing --af_gnomade --sift b --plugin CADD,/path/to/cadd.tsv.gz",
   "metadata": {
-    "model": "qwen2.5:14b",
+    "model": "gemma4:26b",
     "retrieval_mode": "keyword",
     "kb_version": "vep_options_expanded@2026-06",
     "timestamp": "2026-06-04T00:00:00Z"

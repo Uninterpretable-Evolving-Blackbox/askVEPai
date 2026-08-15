@@ -124,7 +124,7 @@ def load_factors():
 # about what a scenario's priorities are. `work/generation/seed_priorities.py` imports it back out.
 #
 # WHY IT IS DERIVED AND NOT A MAINTAINED FILE. The table is a pure function of this spec and the option
-# catalogue, and computing all 58 options takes ~0.02 ms — there is no reason to precompute it. Keeping
+# catalogue, and computing all 65 options takes ~0.02 ms — there is no reason to precompute it. Keeping
 # it as a generated artifact meant four copies of it existed across two trees, kept in step by hand, with
 # nothing to notice when they drifted: edit the catalogue and forget to regenerate, and the shipped tool
 # silently ran an older table than every measurement was taken on. Deriving it removes that class of bug
@@ -3435,13 +3435,14 @@ def run_explain_result(client, model, user_query):
 
 def main():
     base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
-    # Default to the model this system is actually built and benchmarked on. It was qwen2.5:3b, chosen
-    # when the demo just needed something small — but 3B cannot hold the `✓/✗ ... [source: id]` output
-    # contract the whole pipeline depends on. It frequently emits no [source:] tags at all, which drops the
-    # parser into its prose fallback (built for the no-KB experimental condition), and that fallback
-    # inverts the model: "✗ polyphen: ON" parses as ENABLE. Exp 1/10 measure 3B at 31-39% enable-F1, the
-    # worst of every model tested, vs 84% for gemma4:26b. Shipping it as the default made the demo's first
-    # impression the system's worst configuration.
+    # gemma4:26b — the model this system is built and benchmarked on (Exp 10: 84% enable-F1).
+    #
+    # The default matters more than it looks. A 3B-class model cannot hold the `✓/✗ ... [source: id]`
+    # output contract the whole pipeline depends on: it frequently emits no [source:] tags at all, which
+    # drops the parser into its prose fallback (built for the no-KB experimental condition), and that
+    # fallback INVERTS the meaning — "✗ polyphen: ON" parses as ENABLE. Exp 1/10 measure 3B-class models
+    # at 31-39% enable-F1, the worst of everything tested. A small default would make a first impression
+    # out of the system's worst configuration.
     model = os.environ.get("VEP_MODEL", "gemma4:26b")
     client = OpenAI(base_url=base_url, api_key="ollama")
 

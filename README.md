@@ -134,14 +134,17 @@ factors **gated out** and why, and flags anything a human still needs to settle:
 
 ```
 CORE — switch these on (14)
-  [critical   ] clinvar                --check_existing (derived)
-  [critical   ] core_type              --refseq | --merged | --gencode_basic ...
+  [critical   ] clinvar                --check_existing (derived; no
+  [critical   ] core_type              --refseq | --merged | --gencod
   [critical   ] hgvs                   --hgvs
   [critical   ] regulatory             --regulatory
+  [recommended] biotype                --biotype
   [recommended] cadd                   --plugin CADD
+  [recommended] cell_type              --cell_type
   ...
-ADD-ONS — defensible extras, not on by default (9)
-  [optional   ] enformer               --plugin Enformer
+ADD-ONS — defensible extras, not on by default (11)
+  [optional   ] dbscsnv                --plugin dbscSNV
+  [optional   ] dosage_sensitivity     --plugin DosageSensitivity
   ...
 GATED OUT by the factors (12) — not applicable to this scenario
   alphamissense, clinpred, dbnsfp, eve, mane, mutfunc, nmd, paralogues, polyphen, protein, revel, sift
@@ -162,7 +165,7 @@ askVEPai/
     │                                 recommend_by_factors.py (factor values -> config, no model),
     │                                 seed_priorities.py -> generation_config/priority_by_factor.json
     │                                 (the per-option priority table the recommender reads)
-    ├── preliminary_examples/         20-example simulated gold set + test queries + validator
+    ├── preliminary_examples/         simulated gold set + ablations + tracker queries + validator
     ├── output_schema/                structured JSON output design (schema + mapping rules)
     ├── EXPERIMENTS.md                full experiment report (rationale · method · results · caveats)
     ├── harness/                      the evaluation harness + experiment drivers

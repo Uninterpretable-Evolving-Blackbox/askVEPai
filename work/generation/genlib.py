@@ -3,7 +3,7 @@
 
 This module REUSES the demo's deterministic pipeline (vep_assistant) — it never reimplements
 the checker, species logic, parser, or embedder. It defaults the KB env vars to the EXPANDED
-58-option catalogue + the simulated corpus so every reused function operates on the right KB.
+65-option catalogue + the simulated corpus so every reused function operates on the right KB.
 Never mix with the demo KB (different ids — see work/id_migration.json).
 
 Nothing here is mentor-validated: the factor scheme + priorities are PROVISIONAL config files
