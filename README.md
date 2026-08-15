@@ -389,4 +389,4 @@ caught and re-derived offline from logged responses (no re-runs), because every 
 ## Acknowledgements
 
 Built for **Google Summer of Code 2026** with **EMBL-EBI / Ensembl**. Uses [Ollama](https://ollama.com/)
-for local inference and `BAAI/bge-small-en-v1.5` for semantic retrieval. VEP is developed by Ensembl.
+for local inference and `BAAI/bge-small-en-v1.5` for semantic retrieval. VEP is developed by Ensembl. Being honest: Claude is used to assist with coding. It's pretty clever.
