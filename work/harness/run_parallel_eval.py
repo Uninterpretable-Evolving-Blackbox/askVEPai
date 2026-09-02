@@ -139,7 +139,6 @@ def main():
     print(f"Raw outputs -> {rawdir}/{safe}.jsonl ({len(raw_log)} calls)")
 
     # compact summary to stdout
-    n = len(all_results["queries"])
     def avg(key, metric):
         # None-safe (evaluate now returns None for undefined metrics): skip them, don't sum None.
         return ev._safe_mean([q.get(key, q["without_kb"])[metric] for q in all_results["queries"]]) or 0

@@ -3,9 +3,13 @@
 
 A (query, config) pair can be correct yet UNHELPFUL as an in-context example. This screen holds out the
 candidate, runs the STUDENT (gemma4:26b) over the approved corpus in the all-examples condition, and
-scores priority-weighted CRITICAL-RECALL on the candidate: of the config's `critical` options, how many
-does the student recover from the query alone? Critical-recall 0 on a non-minimal query is FLAGGED
-(query too vague / config misaligned) — a screen for review, not an auto-reject.
+scores priority-weighted recall on the candidate: of the config's switched-on options, how many does the
+student recover from the query alone? Recall 0 on a non-minimal query is FLAGGED (query too vague /
+config misaligned) — a screen for review, not an auto-reject.
+
+The JSON keys are still `critical_recall` / `n_critical`, from when there were three tiers. They are NOT
+renamed: saved candidate files, `teacher_sweep.py`, `persona_ablation.py` and the review export all read
+those keys, and the metric they name is unchanged — the switched-on bucket, which is now `recommended`.
 
 Reuses the exact eval path (build_system_prompt / extract_recommendations) and honours the Metal/MoE
 determinism rule: greedy (temp 0), fixed seed, concurrency 1. Also the empirical teacher selector —
@@ -24,8 +28,10 @@ import genlib
 
 
 def critical_options(row):
+    """The switched-on bucket. Named `critical` from when there were three tiers; since the tier was
+    removed on 2026-08-19 the must-have set IS the RECOMMENDED bucket."""
     return {k for k, v in row["recommended_options"].items()
-            if v.get("enabled") and v.get("priority") == "critical"}
+            if v.get("enabled") and v.get("priority") == "recommended"}
 
 
 def is_minimal(row):

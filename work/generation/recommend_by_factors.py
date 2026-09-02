@@ -37,7 +37,7 @@ import sys
 import genlib
 import resolve_config as rc
 
-TIER_ORDER = ["critical", "recommended", "optional"]
+TIER_ORDER = ["recommended", "optional"]
 
 
 def _drivers(oid, factor_tuple, pbf):

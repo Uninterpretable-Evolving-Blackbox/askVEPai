@@ -4,9 +4,10 @@
 Emits a human-scannable review queue (CSV + JSON) and appends one append-only provenance record per
 row. NOTHING here is approved gold — `review_status` starts "pending"; the mentor adjudicates.
 
-TWO buckets, RECOMMENDED and ADD-ONS (agreed 2026-08-07). The engine keeps `critical` internally —
-restore_missing_critical, --minimal and critical-recall are all defined on it — but the reviewer is
-not asked to adjudicate a distinction that never reached the configuration.
+TWO buckets, RECOMMENDED and ADD-ONS (agreed 2026-08-07). The `critical` tier was deleted outright on
+2026-08-19 — restore_missing_recommended and --minimal were redefined on the RECOMMENDED bucket and
+must-have recall was withdrawn — so there is no longer an internal distinction for a reviewer to
+adjudicate, and none that could go unapplied because the display hid it.
 
   VEP_OPTIONS_FILE=work/vep_options_expanded.json \
   python work/generation/export_for_review.py --in candidates/iced.json --outdir candidates/review

@@ -218,8 +218,8 @@ recommender whose errors are asymmetric in cost.**
 The controlled ablation is the only fixture in this line of work where the right answer is known. Each
 of the 31 review queries states all five factors, so exactly one can be removed and everything else held
 fixed. A model rewrites the question so it reads naturally with the fact simply absent; every rewrite is
-re-read and kept only if the target fact really went **and** no other factor moved. 124 attempted, **81
-clean** (22 redundant — words gone, fact still inferable; 15 entangled; 6 rewrite failed).
+re-read and kept only if the target fact really went **and** no other factor moved. 124 attempted, **78
+clean** (24 redundant — words gone, fact still inferable; 16 entangled; 6 rewrite failed).
 
 Resolving each clean ablation and comparing to the configuration the true tuple produces:
 

@@ -177,7 +177,7 @@ def coverage_topup(tuples, factors_cfg, catalogue, pbf, k=8, max_add=12):
 
     def cells(t):
         intent = rc.intent_priorities(t, catalogue, pbf, factors_cfg)
-        return {o for o, (_e, p, g) in intent.items() if not g and p in ("critical", "recommended", "optional")}
+        return {o for o, (_e, p, g) in intent.items() if not g and p in ("recommended", "optional")}
 
     def key(t):
         return tuple(tuple(sorted(v)) if isinstance(v, list) else v

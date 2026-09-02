@@ -236,7 +236,7 @@
         <div class="toggles">
           <select id="ctxSpecies"><option value="">Species — from my description</option><option value="human">Human</option><option value="non-human">Non-human</option></select>
           <select id="ctxOrigin"><option value="">Origin — from my description</option><option value="germline">Germline</option><option value="somatic">Somatic</option></select>
-          <select id="ctxSize"><option value="">Variants — from my description</option><option value="small">Small (SNV/indel)</option><option value="structural-CNV">Structural / CNV</option></select>
+          <select id="ctxSize"><option value="">Variants — from my description</option><option value="small">Small (SNV/indel)</option><option value="structural-CNV">Structural / CNV</option><option value="both">Both (two VEP runs)</option></select>
           <select id="ctxAssembly"><option value="">Assembly — not specified</option><option value="GRCh38">GRCh38</option><option value="GRCh37">GRCh37</option></select>
         </div>
       </div>
@@ -653,19 +653,36 @@ function renderTrace(t){
 // ---- render result (corrected config) ----
 function renderResult(res){
   show("#checkerCard");
-  const vb=$("#violations"); vb.innerHTML="";
+  // TWO RUNS, ONE PAGE. A scenario holding both variant sizes emits one result per size, because the
+  // form cannot express both at once. Only the first clears; the rest append under their own heading.
+  const multi = (res.pass_total||1) > 1;
+  const first = (res.pass_index||1) === 1;
+  // Clear on the FIRST pass only, and before anything is appended — otherwise the second pass of one
+  // query lands under the first, but so does the whole of the next query.
+  if(first){ $("#corrected").innerHTML=""; $("#violations").innerHTML=""; }
+  if(multi && first && res.pass_why){
+    const note=el("div","subtle"); note.style.marginBottom="8px";
+    note.textContent=res.pass_why;
+    $("#corrected").appendChild(note);
+  }
+  if(multi){
+    const h=el("div","sh"); h.style.marginTop="14px";
+    h.textContent=`PASS ${res.pass_index} of ${res.pass_total} — ${res.pass_label}`;
+    $("#corrected").appendChild(h);
+  }
+  const vb=$("#violations");
   if(res.violations && res.violations.length){
     res.violations.forEach(v=>{
       const d=el("div","viol"); d.innerHTML=`<span class="t">${esc(v.type)}</span><span>${esc(v.reason)}</span>`;
       vb.appendChild(d);
     });
-  } else {
+  } else if(!vb.children.length){
     vb.innerHTML='<div class="subtle">No constraint violations — the model\'s configuration was already consistent.</div>';
   }
 
-  const cc=$("#corrected"); cc.innerHTML="";
+  const cc=$("#corrected");
   const secOrder=Object.keys(res.sections);
-  if(!res.enabled.length){ cc.innerHTML='<div class="empty">No options were enabled.</div>'; }
+  if(!res.enabled.length){ cc.appendChild(el("div","empty","No options were enabled.")); }
   secOrder.forEach(sec=>{
     const box=el("div","sec"); box.appendChild(el("div","sh",esc(sec)));
     res.sections[sec].forEach(o=>{
@@ -673,7 +690,8 @@ function renderResult(res){
       const prCls = o.priority.replace(/[^a-z_]/gi,"")||"na";
       line.innerHTML=`<span class="nm">${esc(o.name)}</span>
         <span class="fl">${esc(o.cli_flag||"")}</span>
-        <span class="pr ${prCls}">${esc(o.priority)}</span>`;
+        <span class="pr ${prCls}">${esc(o.priority)}</span>`
+        + (o.dropdown ? `<div class="subtle">drop-down: ${esc(o.dropdown)}</div>` : "");
       line.title=o.when_to_use||"";
       box.appendChild(line);
     });
@@ -694,12 +712,19 @@ function renderResult(res){
     cc.appendChild(a);
   }
 
+  // ONE COMMAND PER PASS. Two runs need two commands, and a single copy button that quietly held the
+  // second one would be worse than showing neither.
   const cw=$("#cmdWrap");
+  if(first) cw.innerHTML="";
   const choiceNote=(res.command_choices||[]).map(c=>
     `\n# ${esc(c.id)} — choose ONE: ${c.alternatives.map(esc).join(" | ")}`).join("");
-  cw.innerHTML=`<button class="copy" id="copyBtn">Copy</button><pre>${esc(res.command)}${choiceNote}</pre>`;
-  $("#copyBtn").onclick=()=>{ navigator.clipboard.writeText(res.command);
-    $("#copyBtn").textContent="Copied"; setTimeout(()=>$("#copyBtn").textContent="Copy",1200); };
+  const btnId = `copyBtn${res.pass_index||1}`;
+  const blk=el("div","cmdblk"); blk.style.position="relative";
+  blk.innerHTML=(multi ? `<div class="sh">${esc(res.pass_label)}</div>` : "")
+    + `<button class="copy" id="${btnId}">Copy</button><pre>${esc(res.command)}${choiceNote}</pre>`;
+  cw.appendChild(blk);
+  $("#"+btnId).onclick=()=>{ navigator.clipboard.writeText(res.command);
+    $("#"+btnId).textContent="Copied"; setTimeout(()=>$("#"+btnId).textContent="Copy",1200); };
 }
 
 // ---- tiny markdown renderer (handles the model's ✓/✗ + [source:] format) ----

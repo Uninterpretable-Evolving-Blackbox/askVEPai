@@ -63,29 +63,29 @@ MINIMAL_ASSUMPTIONS = {
     "variant_size_class": None,
 }
 
-# The bar is the option set whose movement justifies an interruption. WIDE is the bucket the user is
-# shown; NARROW is the internal must-have tier. The engine uses WIDE — see ASK_BAR_PRIORITIES.
-NARROW = ("critical",)
-WIDE = ("critical", "recommended")
+# The bar is the option set whose movement justifies an interruption.
+#
+# There used to be two: WIDE (the bucket the user is shown) and NARROW (the internal must-have tier).
+# The comparison between them was one of the design doc's arguments — the two bars raised identical
+# questions on the shipped guesses and diverged only without them. The `critical` tier was removed on
+# 2026-08-19, so NARROW no longer names anything and the comparison is gone with it. The narrow arms
+# are dropped rather than left to score an empty set and report a misleading zero.
+WIDE = ("recommended",)
 
 ASSUME_SETS = {"guess-goal": GUESS_GOAL_ASSUMPTIONS, "shipped": SHIPPED_ASSUMPTIONS,
                "minimal": MINIMAL_ASSUMPTIONS}
 
 ARMS = {
-    "single-select": dict(assume="guess-goal", multi=False, bar=NARROW, assembly=False,
+    "single-select": dict(assume="guess-goal", multi=False, bar=WIDE, assembly=False,
                           note="size single-select and asked, goal guessed, no assembly question"),
     "shipped": dict(assume="shipped", multi=True, bar=WIDE, assembly=True,
                     note="what the engine does"),
     "shipped, no assembly": dict(assume="shipped", multi=True, bar=WIDE, assembly=False,
                                  note="isolates how much of the shipped rate is the assembly question"),
-    "shipped, narrow bar": dict(assume="shipped", multi=True, bar=NARROW, assembly=True,
-                                note="bar on the internal must-have tier instead of the visible bucket"),
     "goal guessed": dict(assume="guess-goal", multi=True, bar=WIDE, assembly=True,
                          note="shipped, but guessing analysis_goal — prices the cost of asking it"),
     "ask-all": dict(assume="minimal", multi=True, bar=WIDE, assembly=True,
                     note="guess only where free, ask about the rest"),
-    "ask-all, narrow bar": dict(assume="minimal", multi=True, bar=NARROW, assembly=True,
-                                note="where the two bars diverge: the narrow one drops the origin questions"),
 }
 
 

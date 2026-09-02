@@ -107,7 +107,9 @@ def audit(rec, filled, assumptions, questions, opts):
             en, res = enabled_under(t, opts)
             sets[v] = en or set()
             if res:
-                crit.append({o for o, (e, p, _) in res.items() if e and p == "critical"})
+                # `critical` was removed as a tier on 2026-08-19; the must-have set is now the
+                # RECOMMENDED bucket.
+                crit.append({o for o, (e, p, _) in res.items() if e and p == "recommended"})
         differ = sorted({o for x in values for y in values for o in (sets[x] ^ sets[y])})
         essential = sorted(set().union(*[a ^ b for i, a in enumerate(crit)
                                          for b in crit[i + 1:]])) if len(crit) > 1 else []
@@ -178,20 +180,29 @@ def main():
             print(f"  → using {shown(ans)}")
 
     # --- 2. the answer they came for ---
-    en, resolved = enabled_under(filled, opts)
-    if en is None:
-        sys.exit("could not resolve a configuration from this tuple")
-    tiers = va.tier_by_importance(en, resolved)
-    print(f"\n{BOLD}RECOMMENDED{OFF} — switched on for this scenario  [{len(tiers['recommended'])}]")
-    for oid in tiers["recommended"]:
-        print(f"  ✓ {oid}")
-    if tiers["addons_on"]:
-        print(f"\n{BOLD}ADD-ONS (on){OFF}  [{len(tiers['addons_on'])}]")
-        for oid in tiers["addons_on"]:
-            print(f"  + {oid}")
-    if tiers["addons_offered"]:
-        print(f"\n{BOLD}ADD-ONS{OFF} — offered, off by default  [{len(tiers['addons_offered'])}]")
-        print("  " + ", ".join(tiers["addons_offered"]))
+    # One configuration per variant size, matching run_recommend: a both-size tuple is two VEP runs,
+    # because the form cannot cover both at once (CADD's annotation-file drop-down forces the choice).
+    passes = va.size_passes(filled)
+    if len(passes) > 1:
+        print(f"\n{BOLD}TWO VEP RUNS{OFF} — this callset holds both variant sizes, and the web form "
+              "cannot cover both in one configuration.")
+    for _i, (size_value, pass_label, pass_tuple) in enumerate(passes, 1):
+        en, resolved = enabled_under(pass_tuple, opts)
+        if en is None:
+            sys.exit("could not resolve a configuration from this tuple")
+        hdr = f" — pass {_i} of {len(passes)}: {pass_label}" if len(passes) > 1 else ""
+        tiers = va.tier_by_importance(en, resolved)
+        print(f"\n{BOLD}RECOMMENDED{OFF} — switched on for this scenario{hdr}  [{len(tiers['recommended'])}]")
+        for oid in tiers["recommended"]:
+            choice, _ = va.size_dependent_choice(oid, size_value, opts)
+            print(f"  ✓ {oid}" + (f"   {DIM}drop-down: {choice}{OFF}" if choice else ""))
+        if tiers["addons_on"]:
+            print(f"\n{BOLD}ADD-ONS (on){OFF}  [{len(tiers['addons_on'])}]")
+            for oid in tiers["addons_on"]:
+                print(f"  + {oid}")
+        if tiers["addons_offered"]:
+            print(f"\n{BOLD}ADD-ONS{OFF} — offered, off by default  [{len(tiers['addons_offered'])}]")
+            print("  " + ", ".join(tiers["addons_offered"]))
 
     # --- 3. one short note at the end, not a lecture at the start ---
     notes = []

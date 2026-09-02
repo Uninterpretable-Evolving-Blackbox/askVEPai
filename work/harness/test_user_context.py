@@ -132,7 +132,7 @@ def main():
     check("saying nothing leaves both in place (fail-open, unchanged behaviour)",
           "mane" in ennone, "assembly gating must not fire when nobody said anything")
 
-    # The bug this guards: restore_missing_critical re-adds anything the factor table rates critical,
+    # The bug this guards: restore_missing_recommended re-adds anything the factor table rates critical,
     # and its internal re-check used to run WITHOUT the assembly, so it handed MANE straight back to a
     # GRCh37 run one step after the gate removed it. Every layer that can put an option back has to see
     # the same context as the layer that took it out.
@@ -141,8 +141,8 @@ def main():
         en = {o for o, (e, _, _) in r.items() if e}
         dis = set()
         va.check_and_fix_violations(en, dis, CAT, CORPUS, "variant analysis", assembly_override=asm)
-        va.restore_missing_critical(en, dis, r, CAT, CORPUS, "variant analysis", assembly_override=asm)
-        check(f"{asm}: restore_missing_critical does not undo the assembly gate",
+        va.restore_missing_recommended(en, dis, r, CAT, CORPUS, "variant analysis", assembly_override=asm)
+        check(f"{asm}: restore_missing_recommended does not undo the assembly gate",
               ("mane" in en) == want, f"mane present={'mane' in en}, expected {want}")
 
     if "--llm" in sys.argv:

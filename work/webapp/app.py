@@ -200,15 +200,14 @@ def build_trace(query, vep_options, training_examples, retrieval, resolved=None)
     # The priority map shows every catalogue option with the priority that applies to THIS scenario.
     # When the factors resolved, use them (the same source as the recommendation's tiers) so the two
     # panels agree; otherwise fall back to the legacy per-use-case column. Either way, SORT by
-    # importance — critical first — rather than leaving the catalogue's arbitrary order, so the map
+    # importance — recommended first — rather than leaving the catalogue's arbitrary order, so the map
     # reads top-to-bottom as "what matters most".
     #
-    # THE ONE PLACE THAT KEEPS THE THREE INTERNAL LABELS. Everywhere else the user is shown two
-    # buckets, but this panel is the provenance view — its stated job is showing what the knowledge
-    # base actually contains and what the engine actually used. Mapping it to two would make the trace
-    # a less faithful account of the decision, which is the opposite of what it is for. The heading
-    # says so, so the vocabularies do not read as a contradiction.
-    RANK = {"critical": 0, "recommended": 1, "optional": 2}
+    # This panel is the provenance view: its job is showing what the knowledge base contains and what
+    # the engine used, in the engine's own vocabulary. That used to mean three labels against the
+    # display's two; since the `critical` tier was deleted on 2026-08-19 there are two either way, and
+    # this RANK is kept separate only because it orders rows rather than naming buckets.
+    RANK = {"recommended": 0, "optional": 1}
     rows = []
     for opt in vep_options:
         if resolved is not None:
@@ -226,7 +225,8 @@ def build_trace(query, vep_options, training_examples, retrieval, resolved=None)
     return trace
 
 
-def build_result(enabled, disabled, violations, vep_options, use_case, resolved=None):
+def build_result(enabled, disabled, violations, vep_options, use_case, resolved=None,
+                 size_value=None, assembly=None):
     """Structured authoritative config (the post-checker 'dispose' step), plus the
     VEP web-form section mapping.
 
@@ -237,7 +237,7 @@ def build_result(enabled, disabled, violations, vep_options, use_case, resolved=
 
     Priorities are mapped through `va.display_tier` on the way out, so the payload speaks the same
     two-tier vocabulary as every other surface. The internal label survives in `resolved`, which is
-    what the checker, --minimal and restore_missing_critical read."""
+    what the checker, --minimal and restore_missing_recommended read."""
     by_id = {o["id"]: o for o in vep_options}
 
     def detail(oid):
@@ -247,9 +247,14 @@ def build_result(enabled, disabled, violations, vep_options, use_case, resolved=
             priority = va.display_tier(priority) if priority else "unpriced here"
         else:
             priority = va.display_tier(o.get("priority_by_use_case", {}).get(use_case, "n/a"))
+        # The form control whose VALUE depends on the variant size — CADD's annotation file. Named
+        # per option because "switch CADD on" is not actionable when the drop-down offers four files
+        # and only one of them scores what this pass is about.
+        dropdown, _ = va.size_dependent_choice(oid, size_value, vep_options, assembly)
         return {
             "id": oid,
             "name": o.get("name", oid),
+            "dropdown": dropdown,
             "cli_flag": va.display_flag(o.get("cli_flag", "")),
             "section": o.get("web_form_section", "") or "other",
             "subsection": o.get("web_form_subsection", ""),
@@ -380,8 +385,12 @@ def api_recommend():
     do_check = request.args.get("check", "1") == "1"
     explain = request.args.get("explain", "1") == "1"
     model = request.args.get("model") or DEFAULT_MODEL
+    # "both" -> the multi value, mirroring the CLI's --size. The factor is multi-select precisely
+    # because a WGS callset holds both classes; a form that cannot state the honest answer forces the
+    # user back through the classifier.
+    _size = request.args.get("size")
     context = {"species": request.args.get("species"), "origin": request.args.get("origin"),
-               "variant_size_class": request.args.get("size"),
+               "variant_size_class": (["small", "structural-CNV"] if _size == "both" else _size),
                "assembly": request.args.get("assembly")}
     if retrieval not in ("keyword", "semantic", "all"):
         retrieval = "keyword"
@@ -417,8 +426,13 @@ def api_recommend():
             if factor_tuple:
                 filled, assumed, open_qs = va.clarification_plan(factor_tuple, vep_options)
                 factor_tuple = filled
-                for f, why, _ in assumed:
-                    yield sse("status", {"message": f"Assumed {f} — {why}."})
+                # (factor, value, why) — unpacked wrongly here once, which bound `why` to the VALUE
+                # and dropped the reason. The web is the product, so it is the surface where the
+                # override instruction actually has to reach someone; an assumption announced without
+                # it tells the user what happened and not how to change it.
+                for f, value, why in assumed:
+                    shown = ", ".join(value) if isinstance(value, list) else value
+                    yield sse("status", {"message": f"Assumed {f} = {shown} — {why}."})
                 for f, why, at_stake in open_qs:
                     yield sse("status", {"message": f"Left open: {why} (affects {', '.join(at_stake)})."})
             resolved = va.resolve_for_query(factor_tuple, vep_options)
@@ -476,20 +490,57 @@ def api_recommend():
                 yield sse("status", {"message": "Running constraint checker…"})
                 aliases = va.build_option_aliases(vep_options)
                 enabled, disabled = va.extract_recommendations(response_text, aliases)
-                violations = va.check_and_fix_violations(
-                    enabled, disabled, vep_options, training_examples, query,
-                    retrieval_mode=retrieval, assembly_override=assembly,
-                )
-                result = build_result(enabled, disabled, violations, vep_options, use_case,
-                                      resolved=resolved)
-                yield sse("result", result)
+                # ONE CONFIGURATION PER VARIANT SIZE, as on the CLI. The form cannot express both at
+                # once — CADD's annotation-file drop-down forces the choice — so a both-size scenario
+                # emits two results and the page renders them one after the other. Each pass gets its
+                # own copies of the sets, because the checker repairs in place.
+                passes = va.size_passes(factor_tuple)
+                written = []
+                for _i, (size_value, pass_label, pass_tuple) in enumerate(passes, 1):
+                    p_enabled, p_disabled = set(enabled), set(disabled)
+                    p_resolved = va.resolve_for_query(pass_tuple, vep_options)
+                    _species = (context.get("species")
+                                if context.get("species") in ("human", "non-human") else None)
+                    violations = va.check_and_fix_violations(
+                        p_enabled, p_disabled, vep_options, training_examples, query,
+                        retrieval_mode=retrieval, assembly_override=assembly,
+                        species_override=_species, resolved=p_resolved,
+                    )
+                    # Restore BEFORE the size-file drop, exactly as the CLI orders it. This call was
+                    # missing here entirely: a draft the parser could not read produced "No options
+                    # were enabled" on the web while the CLI repaired the same draft to the full
+                    # recommended set — the surfaces disagreed about the authoritative configuration.
+                    restored = va.restore_missing_recommended(
+                        p_enabled, p_disabled, p_resolved, vep_options, training_examples, query,
+                        retrieval_mode=retrieval, assembly_override=assembly,
+                        species_override=_species)
+                    if restored:
+                        yield sse("status", {"message": f"Draft was missing {len(restored)} "
+                                                        f"recommended option(s); switched back on."})
+                    dropped = va.drop_unavailable_size_values(p_enabled, vep_options, size_value, assembly)
+                    for oid, why in dropped:
+                        yield sse("status", {"message": f"Dropped {oid} from the "
+                                                        f"{pass_label} run: {why}."})
+                    result = build_result(p_enabled, p_disabled, violations, vep_options, use_case,
+                                          resolved=p_resolved, size_value=size_value, assembly=assembly)
+                    result["pass_index"] = _i
+                    result["pass_total"] = len(passes)
+                    result["pass_label"] = pass_label
+                    result["pass_why"] = ("The web form cannot cover both variant sizes in one "
+                                          "configuration, so this scenario needs two VEP runs."
+                                          if len(passes) > 1 else "")
+                    yield sse("result", result)
 
-                # Persist identically to the CLI (provenance), reusing va helpers.
-                warn = va.format_violation_warnings(violations)
-                corrected = va.format_corrected_config(
-                    enabled, disabled, vep_options, violations, resolved=resolved,
-                )
-                warnings = (warn + "\n" + corrected) if warn else corrected
+                    # Persist identically to the CLI (provenance), reusing va helpers.
+                    warn = va.format_violation_warnings(violations)
+                    corrected = va.format_corrected_config(
+                        p_enabled, p_disabled, vep_options, violations, resolved=p_resolved,
+                        size_value=size_value, assembly=assembly,
+                    )
+                    if len(passes) > 1:
+                        written.append(f"PASS {_i} of {len(passes)} — {pass_label}")
+                    written.extend(x for x in (warn, corrected) if x)
+                warnings = "\n".join(written)
             else:
                 warnings = ""
 

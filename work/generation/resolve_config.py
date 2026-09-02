@@ -10,7 +10,7 @@ Algorithm (taxonomy_proposal.md §5):
   1. hard gates: drop an option if a HARD factor (species, variant_size_class) marks it not_applicable,
      or the origin=somatic -> frequency (the 'filter_common' rule; catalogue id is 'frequency') fires;
   2. soft ranking: among survivors, take the strongest priority across all active factor values
-     (critical>recommended>optional); enable critical+recommended;
+     (recommended>optional); enable `recommended` (one tier since 2026-08-19);
   3. apply depends_on / conflicts_with / species via the reused checker, to a fixed point.
 
 CLI: read factor tuples (from sample_factors.py) and write resolved candidate rows.
@@ -110,7 +110,7 @@ def unsatisfiable_factors(factor_tuple, pbf, intent, catalogue=None):
     return out
 
 
-def resolve_row(factor_tuple, catalogue, pbf, factors_cfg, va, corpus, enable=("critical", "recommended")):
+def resolve_row(factor_tuple, catalogue, pbf, factors_cfg, va, corpus, enable=("recommended",)):
     """Resolve one factor tuple to a checker-clean candidate row (no user_query yet)."""
     intent = intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=enable)
     raw_enabled = {oid for oid, (en, _, _) in intent.items() if en}
@@ -178,7 +178,7 @@ def resolve_row(factor_tuple, catalogue, pbf, factors_cfg, va, corpus, enable=("
         "factor_labels": factor_tuple,
         "use_case_category": None,        # deprecated under the factor scheme; kept nullable for the harness
         "confidence": "provisional",
-        "recommended_options": rec,       # the CORE: critical + recommended (on) + meaningful disables (off)
+        "recommended_options": rec,       # the CORE: `recommended` (on) + meaningful disables (off)
         "add_on_options": add_ons,        # the ADD-ONS: optional (offered, not on by default)
         "justification": None,            # optionally drafted by Stage 3b
         "_resolver": {
@@ -198,11 +198,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tuples", required=True, help="JSON list of factor tuples (from sample_factors.py)")
     ap.add_argument("--out", required=True, help="output JSON of resolved candidate rows")
-    ap.add_argument("--enable", choices=["critical", "critical+recommended"], default="critical+recommended",
-                    help="which priority labels switch an option ON (default critical+recommended, per §5)")
+    # The `critical` tier was removed on 2026-08-19, so the tighter arm this flag offered no longer
+    # exists. Kept as a single choice rather than deleted: the pipeline's saved commands name it.
+    ap.add_argument("--enable", choices=["recommended"], default="recommended",
+                    help="which priority labels switch an option ON (one tier since 2026-08-19)")
     args = ap.parse_args()
 
-    enable = ("critical",) if args.enable == "critical" else ("critical", "recommended")
+    enable = ("recommended",)
     va = genlib.load_va()
     catalogue = genlib.load_catalogue()
     pbf = genlib.load_priority_by_factor()

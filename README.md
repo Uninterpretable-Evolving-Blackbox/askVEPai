@@ -86,7 +86,7 @@ noticeably faster if you have a small model pulled as well.
 
 > **The model does not reason before answering, on purpose.** `gemma4:26b` is a reasoning
 > model, and letting it think costs about half the wall clock for no measurable gain: **34.9s vs
-> 18.1s** per query, with enable-F1 unchanged and critical-recall slightly *better* without it.
+> 18.1s** per query, with enable-F1 unchanged (must-have recall is withdrawn — see the priorities section).
 > `--think` turns it back on. See [Speed](#speed-the-reasoning-phase-is-half-the-wait-and-buys-nothing).
 
 See [`vep_ai_demo/README.md`](vep_ai_demo/README.md) for all modes and flags.
@@ -127,20 +127,18 @@ python recommend_by_factors.py --species human --origin germline --size small \
     --region regulatory-noncoding --goal clinical-interpretation --explain
 ```
 
-This is the provenance view, so it prints the **internal** `critical` / `recommended` / `optional`
-priorities rather than the two buckets a user is shown — its job is reporting what the table did. It
+This is the provenance view — its job is reporting what the table did. It
 separates what to switch on from the add-ons (defensible extras, not on by default), lists what the
 factors **gated out** and why, and flags anything a human still needs to settle:
 
 ```
 CORE — switch these on (14)
-  [critical   ] clinvar                --check_existing (derived; no
-  [critical   ] core_type              --refseq | --merged | --gencod
-  [critical   ] hgvs                   --hgvs
-  [critical   ] regulatory             --regulatory
+  [recommended] clinvar                --check_existing (derived; no
+  [recommended] core_type              --refseq | --merged | --gencod
+  [recommended] hgvs                   --hgvs
+  [recommended] regulatory             --regulatory
   [recommended] biotype                --biotype
   [recommended] cadd                   --plugin CADD
-  [recommended] cell_type              --cell_type
   ...
 ADD-ONS — defensible extras, not on by default (11)
   [optional   ] dbscsnv                --plugin dbscSNV
@@ -234,25 +232,27 @@ python work/harness/ask_rate.py
 
 Design and every number: [`work/research/reprompting_proposal.md`](work/research/reprompting_proposal.md).
 
-### Per-option priorities: critical / recommended / optional
+### Per-option priorities: recommended / optional
 
 Every option carries a priority **per factor value**, not one global label — `priority_by_factor.json`, keyed
 `option → factor → value → priority`. Priorities compose by taking the **strongest** label across all active
 factor values, while a hard gate can remove an option outright. That per-value keying is what lets one table
-say that ClinVar is **critical** for clinical interpretation, merely **optional** in a population scan, and
-**absent** from a basic consequence lookup — a single label per option cannot express that.
+say that ClinVar is **recommended** for clinical interpretation, merely **optional** in a population scan,
+and **absent** from a basic consequence lookup — a single label per option cannot express that.
 
-| Tier (internal) | Meaning | In the output |
+| Tier | Meaning | In the output |
 |---|---|---|
-| `critical` | omitting it makes the analysis unanswerable | **RECOMMENDED**, on |
 | `recommended` | standard practice for this scenario | **RECOMMENDED**, on |
 | `optional` | defensible and useful, but redundant or niche | **ADD-ONS**, offered, not on by default |
 | `not_applicable` | a hard gate removes it | gated out, with the reason shown |
 
-**The user sees two buckets, not three.** `critical` and `recommended` were always switched on together,
-so the split was only ever a label on the way out; merging them changed no configuration and was verified
-as a pure regrouping over all 72 factor tuples. The three internal priorities survive because real
-mechanisms are defined on them (`--minimal`, repair of an under-recommending draft, critical-recall).
+**There used to be a third tier, and it was deleted rather than hidden.** `critical` sat above
+`recommended`; the display merged the two on 2026-08-07, and the merge made the expert corrections to
+exactly that boundary invisible — twelve of the reviewer's twenty edits moved options across it and were
+never applied, while `--minimal`, the under-recommending-draft repair and the recall metric went on
+reading the uncorrected line. The tier was removed from the scheme on 2026-08-19: one enabled label,
+those three mechanisms redefined on the visible RECOMMENDED bucket, and must-have recall withdrawn.
+The merge itself changed no configuration, verified as a pure regrouping over all 72 factor tuples.
 "Default" was rejected as a name because it reads as *applies automatically*, which is wrong for a bucket
 the user still has to switch on — that distinction is carried by an *already on* marker instead, and it
 earns its place: **54%** of a typical recommendation is switched on by the form before anything is
@@ -298,12 +298,11 @@ proposal and the deterministic resolver agree. Factor-keyed, LOO over the 31-row
 | Metric | Result |
 |---|---|
 | Enable-F1 (tier-aware) | **89.5% ± 0.6%** |
-| Critical-recall (excl. always-on `core_type`) | **95.1% ± 0.3%** |
+| ~~Critical-recall~~ | withdrawn — it scored against the deleted `critical` tier, the one boundary its reviewer had corrected; do not quote 95.1% |
 
 **Self-consistency, not a benchmark** — the gold config is itself built by the provisional table, so
 this measures *reproduction of that table*, not correctness against expert gold; it is **not comparable
-to the 84% below**. Critical-recall is reported net of `core_type` (critical in every row, so trivially
-recovered). Signing off the priorities turns this into a real enable-F1.
+to the 84% below**. Signing off the priorities turns this into a real enable-F1.
 
 **Pass `--factors inferred`.** The harness defaults to `none`, which skips the classifier entirely and
 withholds the scenario-resolved priorities from the prompt — worth about ten points of enable-F1, and

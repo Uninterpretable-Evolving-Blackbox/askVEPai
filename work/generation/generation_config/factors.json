@@ -7,59 +7,90 @@
   },
   "factors": {
     "species": {
-      "values": ["human", "non-human"],
+      "values": [
+        "human",
+        "non-human"
+      ],
       "kind": "data_fact",
       "hard_gate": true,
       "select": "single"
     },
     "origin": {
-      "values": ["germline", "somatic"],
+      "values": [
+        "germline",
+        "somatic"
+      ],
       "kind": "data_fact",
       "hard_gate": false,
       "select": "single",
       "hard_rules": [
-        {"when_value": "somatic", "not_applicable": ["frequency"], "why": "the frequency pre-filter (--check_frequency) must not drop common variants in a somatic workflow (taxonomy_proposal §3). NB the catalogue id is 'frequency', not 'filter_common'."}
+        {
+          "when_value": "somatic",
+          "not_applicable": [
+            "frequency"
+          ],
+          "why": "the frequency pre-filter (--check_frequency) must not drop common variants in a somatic workflow (taxonomy_proposal §3). NB the catalogue id is 'frequency', not 'filter_common'."
+        }
       ]
     },
     "variant_size_class": {
-      "values": ["small", "structural-CNV"],
+      "values": [
+        "small",
+        "structural-CNV"
+      ],
       "kind": "data_fact",
       "hard_gate": true,
       "select": "multi",
-      "_select_note": "AMENDS taxonomy_proposal §3, which declares this single-select — pending mentor sign-off, same status as the region_focus gate note below. The factor describes the variant SET, not one variant: a single variant is of course one or the other, but a WGS callset routinely holds both, so 'both' is the normal answer for whole-genome work rather than an edge case. Single-select made the tool ask a question it could not accept the honest answer to — review row 1 states both in its text and had half of it discarded, which is the factor_unrecoverable flag the reviewer queried. Evidence: across the 29 clean ablations where this fact was deleted, single-select-left-empty loses options on 15 of 29 queries; multi-select filled with both loses on 0 of 29, at no measurable cost in added options (4.21 -> 4.28). Multi-select gating is ALL-values, as for region_focus, so a mixed set keeps the tools for both halves and only a purely structural or purely small set is gated."
+      "_select_note": "AMENDS taxonomy_proposal §3, which declares this single-select — pending mentor sign-off, same status as the region_focus gate note below. The factor describes the variant SET, not one variant: a single variant is of course one or the other, but a WGS callset routinely holds both, so 'both' is the normal answer for whole-genome work rather than an edge case. Single-select made the tool ask a question it could not accept the honest answer to — review row 1 states both in its text and had half of it discarded, which is the factor_unrecoverable flag the reviewer queried. Evidence: across the 29 clean ablations where this fact was deleted, single-select-left-empty loses options on 15 of 29 queries; multi-select filled with both loses on 0 of 29, at no measurable cost in added options (4.21 -> 4.28). Multi-select gating is ALL-values, as for region_focus, so a mixed set keeps the tools for both halves and only a purely structural or purely small set is gated. SPLIT AT RENDER TIME (2026-08-31): the factor stays multi-select, and a scenario carrying both sizes now emits ONE CONFIGURATION PER SIZE rather than one union of them (`vep_assistant.size_passes`). The web form cannot express both at once — CADD's control is a four-way annotation-file drop-down and the files are mutually exclusive (Likhitha, in reply to the re-prompting proposal). Nothing above is withdrawn: multi-select is still what lets a WGS callset be described honestly, and `verify_pipeline.py` §8b checks that across all 36 both-size tuples the two passes together enable exactly what the single configuration did, so the split re-assigns options to the run that can use them and neither loses nor invents any."
     },
     "region_focus": {
-      "values": ["coding", "regulatory-noncoding"],
+      "values": [
+        "coding",
+        "regulatory-noncoding"
+      ],
       "kind": "intent",
       "hard_gate": true,
       "select": "multi",
       "_gate_note": "AMENDS taxonomy_proposal §3, which calls region_focus 'purely soft' — pending mentor sign-off. Evidence: the catalogue rates 9 of the 10 missense predictors (and mane/protein/nmd) regulatory_noncoding=not_applicable, and constraints_dossier.md:123 prescribes 'a recommender gate ... apply only to missense/coding variants'. CADD is the documented exception (it scores non-coding variants too) and is not gated. Multi-select gating is ALL-values: a coding+regulatory variant set keeps its predictors; only a purely regulatory one loses them."
     },
     "analysis_goal": {
-      "values": ["basic-consequence", "clinical-interpretation", "population-frequency"],
+      "values": [
+        "basic-consequence",
+        "clinical-interpretation",
+        "population-frequency"
+      ],
       "kind": "intent",
       "hard_gate": false,
       "select": "multi"
     }
   },
-
   "_exclusions_note": "Factor-value pairs the CATALOGUE cannot satisfy: every option the second value asks for is gated away by the first, so the resolved config cannot answer the question the query will ask. The sampler skips these. Excluding the PAIR costs no coverage, because both floors are on individual VALUES and both are still reachable without their intersection: `non-human` still reaches 15 rows via basic/clinical goals (the species gate is fully exercised), and `population-frequency`/`structural-CNV` still reach 15 via human rows (the frequency and SV options are fully exercised). Only the impossible overlap is dropped. NOTE this is a CATALOGUE gap, not a taxonomy error — 'can I get population frequencies for mouse?' is a real question whose correct answer is 'VEP has no non-human frequency source'. Teaching the tool to say that is a capability question for the mentor; until then, a gold row whose query asks for something unanswerable is a bad gold row.",
   "exclusions": [
     {
-      "pair": {"species": "non-human", "analysis_goal": "population-frequency"},
+      "pair": {
+        "species": "non-human",
+        "analysis_goal": "population-frequency"
+      },
       "why": "gnomAD (af_gnomade/af_gnomadg), 1000 Genomes (af/af_1kg) and the --frequency filter are all human-only, so a non-human population-frequency scenario resolves to a config with no frequency source at all."
     },
     {
-      "pair": {"species": "non-human", "variant_size_class": "structural-CNV"},
+      "pair": {
+        "species": "non-human",
+        "variant_size_class": "structural-CNV"
+      },
       "why": "gnomAD-SV is human-only and is the catalogue's only structural-variant frequency source, so a non-human SV scenario resolves with no SV data source."
     }
   ],
-
   "_conditional_rules_note": "Priorities are keyed one factor VALUE at a time, and compose by taking the strongest label across the active values. That cannot express a JOINT condition ('A and B together imply X'), because each value votes alone. These rules add exactly that: they fire only when EVERY 'when' pair is active, and they RAISE an option to at least the given priority (never lower it, and never resurrect an option a hard gate removed).",
   "conditional_rules": [
     {
-      "when": {"species": "non-human", "analysis_goal": "clinical-interpretation"},
-      "then": {"maxentscan": "recommended"},
+      "when": {
+        "species": "non-human",
+        "analysis_goal": "clinical-interpretation"
+      },
+      "then": {
+        "maxentscan": "recommended"
+      },
       "why": "SpliceAI and dbscSNV are human-only, so the species gate removes them and a NON-HUMAN clinical query is left with no recommended splice tool at all. MaxEntScan is the only all-species splice option (its species_restriction is 'all species (sequence-based)'). It cannot be promoted under `species` alone — that would recommend a splice predictor to a non-human population-frequency scan — nor under `analysis_goal` alone, which would duplicate SpliceAI for human. It needs both."
     }
   ]

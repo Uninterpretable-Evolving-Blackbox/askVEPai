@@ -34,7 +34,10 @@
     "is_new": false,
     "web_form_subsection": "Transcript database",
     "web_default": "Ensembl/GENCODE core (no flag)",
-    "provenance": "InputForm.pm _build_core_type pre-section + Object_VEP.pm get_form_details; confirmed against ensembl.org vep_options.html (--refseq/--merged/--gencode_basic/--gencode_primary). CORRECTED from demo transcript_set; adds gencode_primary; default core has no CLI flag. [NOTE: rendered as a top-level/pre-section radiolist in get_cacheable_form_node, not inside any of the 6 CONFIG_SECTIONS; mapped to 'advanced' as least-wrong within the enum]"
+    "provenance": "InputForm.pm _build_core_type pre-section + Object_VEP.pm get_form_details; confirmed against ensembl.org vep_options.html (--refseq/--merged/--gencode_basic/--gencode_primary). CORRECTED from demo transcript_set; adds gencode_primary; default core has no CLI flag. [NOTE: rendered as a top-level/pre-section radiolist in get_cacheable_form_node, not inside any of the 6 CONFIG_SECTIONS; mapped to 'advanced' as least-wrong within the enum]",
+    "web_default_on": true,
+    "web_default_value": "core",
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "hgvs",
@@ -55,7 +58,7 @@
       "somatic_cancer": "recommended",
       "regulatory_noncoding": "optional",
       "population_genetics": "optional",
-      "structural_variants": "optional",
+      "structural_variants": "not_applicable",
       "non_human": "recommended",
       "quick_lookup": "recommended"
     },
@@ -70,7 +73,15 @@
     "is_new": false,
     "web_form_subsection": "Identifiers",
     "web_default": "off",
-    "provenance": "InputForm.pm identifiers section + ensembl.org vep_options.html (--hgvs: 'Not used by default', requires FASTA). Default OFF per InputForm (no checked key) - corrects brief's 'ON'; CORRECTED section to identifiers."
+    "provenance": "InputForm.pm identifiers section + ensembl.org vep_options.html (--hgvs: 'Not used by default', requires FASTA). Default OFF per InputForm (no checked key) - corrects brief's 'ON'; CORRECTED section to identifiers.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "af_gnomade",
@@ -105,7 +116,15 @@
     "is_new": false,
     "web_form_subsection": "Variants and frequency data",
     "web_default": "off",
-    "provenance": "InputForm.pm variants_frequency_data (human-only field) + ensembl.org vep_options.html (--af_gnomade exome populations, must be used with --cache). CORRECTED - split from demo gnomad_af (exomes half)."
+    "provenance": "InputForm.pm variants_frequency_data (human-only field) + ensembl.org vep_options.html (--af_gnomade exome populations, must be used with --cache). CORRECTED - split from demo gnomad_af (exomes half).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "tsl",
@@ -140,7 +159,10 @@
     "is_new": true,
     "web_form_subsection": "Transcript annotation",
     "web_default": "on",
-    "provenance": "InputForm.pm additional_annotations/Transcript annotation (human-only, default ON) + ensembl.org vep_options.html (--tsl, GRCh38 only, incompatible with --most_severe/--summary) + vep_other.html pick_order (TSL is criterion 5)."
+    "provenance": "InputForm.pm additional_annotations/Transcript annotation (human-only, default ON) + ensembl.org vep_options.html (--tsl, GRCh38 only, incompatible with --most_severe/--summary) + vep_other.html pick_order (TSL is criterion 5).",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "domains",
@@ -176,7 +198,15 @@
     "is_new": false,
     "web_form_subsection": "Protein annotation",
     "web_default": "off",
-    "provenance": "InputForm.pm additional_annotations/Protein annotation (label 'Protein matches', default off) + ensembl.org vep_options.html (--domains: 'Adds names of overlapping protein domains', incompatible with --most_severe/--summary). CORRECTED label 'Protein matches' and section additional_annotations."
+    "provenance": "InputForm.pm additional_annotations/Protein annotation (label 'Protein matches', default off) + ensembl.org vep_options.html (--domains: 'Adds names of overlapping protein domains', incompatible with --most_severe/--summary). CORRECTED label 'Protein matches' and section additional_annotations.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "frequency",
@@ -211,7 +241,10 @@
     "is_new": true,
     "web_form_subsection": "Filtering options",
     "web_default": "no",
-    "provenance": "InputForm.pm filters section + ensembl.org vep_options.html (--check_frequency, --freq_pop/--freq_freq/--freq_gt_lt/--freq_filter; FREQS output). Human-only per InputForm field_class."
+    "provenance": "InputForm.pm filters section + ensembl.org vep_options.html (--check_frequency, --freq_pop/--freq_freq/--freq_gt_lt/--freq_filter; FREQS output). Human-only per InputForm field_class.",
+    "web_default_on": false,
+    "web_default_value": "no",
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "most_severe",
@@ -238,31 +271,44 @@
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
+      "alphamissense",
+      "appris",
+      "biotype",
+      "cadd",
+      "canonical",
+      "ccds",
+      "clinpred",
+      "dbnsfp",
+      "dbscsnv",
+      "domains",
+      "eve",
+      "hgvs",
+      "mane",
+      "maxentscan",
+      "numbers",
+      "paralogues",
+      "per_gene",
       "pick",
       "pick_allele",
-      "per_gene",
-      "summary",
-      "sift",
       "polyphen",
-      "hgvs",
-      "domains",
-      "symbol",
       "protein",
-      "ccds",
-      "uniprot",
-      "biotype",
-      "numbers",
+      "revel",
+      "sift",
+      "spliceai",
+      "summary",
+      "symbol",
       "tsl",
-      "appris",
-      "mane",
-      "canonical"
+      "uniprot"
     ],
     "side_effects": "Suppresses all per-transcript detail (transcript-specific columns blanked). Mutually exclusive with the other 'Restrict results' values (pick, pick_allele, per_gene, summary) since they are one dropdown control, and incompatible with most per-transcript annotation options.",
     "source_type": "native",
     "is_new": false,
     "web_form_subsection": "Restrict results",
     "web_default": "no (the 'Restrict results' dropdown defaults to 'all/no restriction')",
-    "provenance": "InputForm.pm filters 'Restrict results' dropdown (one control, mutually-exclusive values) + ensembl.org vep_options.html (--most_severe: 'Output only the most severe consequence per variant. Transcript-specific columns will be left blank.', long incompatibility list)."
+    "provenance": "InputForm.pm filters 'Restrict results' dropdown (one control, mutually-exclusive values) + ensembl.org vep_options.html (--most_severe: 'Output only the most severe consequence per variant. Transcript-specific columns will be left blank.', long incompatibility list).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "dbnsfp",
@@ -298,7 +344,15 @@
     "is_new": true,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (dbNSFP available) + ensembl.org vep_plugins.html (dbNSFP: missense variants, tabix-indexed file, user-selectable columns, GRCh37+GRCh38). Plugin exposed under predictions."
+    "provenance": "vep_plugins_web_config.txt (dbNSFP available) + ensembl.org vep_plugins.html (dbNSFP: missense variants, tabix-indexed file, user-selectable columns, GRCh37+GRCh38). Plugin exposed under predictions.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "loeuf",
@@ -331,7 +385,10 @@
     "is_new": true,
     "web_form_subsection": "Gene tolerance to change",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (LOEUF available) + ensembl.org vep_plugins.html (LOEUF: gnomAD LoF observed/expected upper bound, gene constraint, GRCh37 v2.1.1 / GRCh38 v4.1). Plugin exposed under additional_annotations."
+    "provenance": "vep_plugins_web_config.txt (LOEUF available) + ensembl.org vep_plugins.html (LOEUF: gnomAD LoF observed/expected upper bound, gene constraint, GRCh37 v2.1.1 / GRCh38 v4.1). Plugin exposed under additional_annotations.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "mastermind",
@@ -364,7 +421,10 @@
     "is_new": true,
     "web_form_subsection": "Variant data",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (Mastermind available) + ensembl.org vep_plugins.html (Mastermind Genomic Search Engine, clinical literature citations, MMCNT1/2/3 + MMID3, GRCh37+GRCh38). Plugin exposed under variants_frequency_data."
+    "provenance": "vep_plugins_web_config.txt (Mastermind available) + ensembl.org vep_plugins.html (Mastermind Genomic Search Engine, clinical literature citations, MMCNT1/2/3 + MMID3, GRCh37+GRCh38). Plugin exposed under variants_frequency_data.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "symbol",
@@ -403,7 +463,10 @@
     "is_new": false,
     "web_form_subsection": "Identifiers",
     "web_default": "on",
-    "provenance": "InputForm.pm identifiers section + Object_VEP.pm get_form_details (label 'Gene symbol'); description confirmed from Ensembl VEP options docs (vep_options.html, --symbol). Default ON per native dossier."
+    "provenance": "InputForm.pm identifiers section + Object_VEP.pm get_form_details (label 'Gene symbol'); description confirmed from Ensembl VEP options docs (vep_options.html, --symbol). Default ON per native dossier.",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "check_existing",
@@ -438,7 +501,10 @@
     "is_new": false,
     "web_form_subsection": "Variant data",
     "web_default": "yes",
-    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details (label 'Find co-located short variants', dropdown values); description confirmed from Ensembl VEP options docs (vep_options.html, --check_existing). Available only for species with variation data."
+    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details (label 'Find co-located short variants', dropdown values); description confirmed from Ensembl VEP options docs (vep_options.html, --check_existing). Available only for species with variation data.",
+    "web_default_on": true,
+    "web_default_value": "yes",
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "af_gnomadg",
@@ -474,7 +540,15 @@
     "is_new": false,
     "web_form_subsection": "Variants and frequency data",
     "web_default": "off",
-    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details (label 'gnomAD (exomes/genomes) allele frequencies'); description confirmed from Ensembl VEP options docs (vep_options.html, --af_gnomadg). Human-only per InputForm field_class _stt_Homo_sapiens. Corrects demo gnomad_af split."
+    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details (label 'gnomAD (exomes/genomes) allele frequencies'); description confirmed from Ensembl VEP options docs (vep_options.html, --af_gnomadg). Human-only per InputForm field_class _stt_Homo_sapiens. Corrects demo gnomad_af split.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "appris",
@@ -510,7 +584,10 @@
     "is_new": true,
     "web_form_subsection": "Transcript annotation",
     "web_default": "on",
-    "provenance": "InputForm.pm additional_annotations Transcript annotation subsection + Object_VEP.pm get_form_details (label 'APPRIS'); description confirmed from Ensembl VEP options docs (vep_options.html, --appris). Human-only per InputForm field_class _stt_Homo_sapiens; default ON per native dossier."
+    "provenance": "InputForm.pm additional_annotations Transcript annotation subsection + Object_VEP.pm get_form_details (label 'APPRIS'); description confirmed from Ensembl VEP options docs (vep_options.html, --appris). Human-only per InputForm field_class _stt_Homo_sapiens; default ON per native dossier.",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "regulatory",
@@ -543,7 +620,10 @@
     "is_new": false,
     "web_form_subsection": "Regulatory data",
     "web_default": "reg (Yes)",
-    "provenance": "InputForm.pm additional_annotations Regulatory data subsection + Object_VEP.pm get_form_details (label 'Get regulatory region consequences', dropdown values, default reg); description confirmed from Ensembl VEP options docs (vep_options.html, --regulatory). Buffer-cap behaviour from web InputForm logic. Corrects demo default 'no' -> reg/Yes."
+    "provenance": "InputForm.pm additional_annotations Regulatory data subsection + Object_VEP.pm get_form_details (label 'Get regulatory region consequences', dropdown values, default reg); description confirmed from Ensembl VEP options docs (vep_options.html, --regulatory). Buffer-cap behaviour from web InputForm logic. Corrects demo default 'no' -> reg/Yes.",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "coding_only",
@@ -577,7 +657,15 @@
     "is_new": true,
     "web_form_subsection": "Filtering options",
     "web_default": "off",
-    "provenance": "InputForm.pm filters section + Object_VEP.pm get_form_details (label 'Return results for variants in coding regions only'); description confirmed from Ensembl VEP options docs (vep_options.html, --coding_only). Available all species; default off per native dossier."
+    "provenance": "InputForm.pm filters section + Object_VEP.pm get_form_details (label 'Return results for variants in coding regions only'); description confirmed from Ensembl VEP options docs (vep_options.html, --coding_only). Available all species; default off per native dossier.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "buffer_size",
@@ -609,7 +697,10 @@
     "is_new": true,
     "web_form_subsection": "Advanced options",
     "web_default": "5000",
-    "provenance": "InputForm.pm advanced section + Object_VEP.pm get_form_details (label 'Buffer size', dropdown 5000..100); description and default 5000 confirmed from Ensembl VEP options docs (vep_options.html, --buffer_size). Regulatory cap-to-500 from web InputForm logic."
+    "provenance": "InputForm.pm advanced section + Object_VEP.pm get_form_details (label 'Buffer size', dropdown 5000..100); description and default 5000 confirmed from Ensembl VEP options docs (vep_options.html, --buffer_size). Regulatory cap-to-500 from web InputForm logic.",
+    "web_default_on": true,
+    "web_default_value": "5000",
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "clinpred",
@@ -645,7 +736,15 @@
     "is_new": true,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (ClinPred available=>1) injected into predictions; description and covered consequence types from VEP_plugins ClinPred.pm header (github.com/Ensembl/VEP_plugins/blob/main/ClinPred.pm). Human-only data; GRCh37/GRCh38 prep documented."
+    "provenance": "vep_plugins_web_config.txt (ClinPred available=>1) injected into predictions; description and covered consequence types from VEP_plugins ClinPred.pm header (github.com/Ensembl/VEP_plugins/blob/main/ClinPred.pm). Human-only data; GRCh37/GRCh38 prep documented.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "dosage_sensitivity",
@@ -678,7 +777,10 @@
     "is_new": true,
     "web_form_subsection": "Gene tolerance to change",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (DosageSensitivity available=>1) injected into additional_annotations; pHaplo/pTriplo definitions, Collins rCNV 2022 source, GRCh38 support and cover=1 option from VEP_plugins DosageSensitivity.pm header (github.com/Ensembl/VEP_plugins/blob/main/DosageSensitivity.pm)."
+    "provenance": "vep_plugins_web_config.txt (DosageSensitivity available=>1) injected into additional_annotations; pHaplo/pTriplo definitions, Collins rCNV 2022 source, GRCh38 support and cover=1 option from VEP_plugins DosageSensitivity.pm header (github.com/Ensembl/VEP_plugins/blob/main/DosageSensitivity.pm).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "geno2mp",
@@ -710,7 +812,15 @@
     "is_new": true,
     "web_form_subsection": "Variant data",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (Geno2MP available=>1) injected into variants_frequency_data; HPO_CT/HPO_count default field, cols parameter, GRCh37 coordinate basis and url option from VEP_plugins Geno2MP.pm header (github.com/Ensembl/VEP_plugins/blob/main/Geno2MP.pm)."
+    "provenance": "vep_plugins_web_config.txt (Geno2MP available=>1) injected into variants_frequency_data; HPO_CT/HPO_count default field, cols parameter, GRCh37 coordinate basis and url option from VEP_plugins Geno2MP.pm header (github.com/Ensembl/VEP_plugins/blob/main/Geno2MP.pm).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "transcript_version",
@@ -744,7 +854,10 @@
     "is_new": true,
     "web_form_subsection": "Identifiers",
     "web_default": "ON",
-    "provenance": "InputForm.pm identifiers section + Object_VEP.pm get_form_details (label 'Transcript version', default ON); confirmed by vep_options.html (--transcript_version: 'Add version numbers to Ensembl transcript identifiers')."
+    "provenance": "InputForm.pm identifiers section + Object_VEP.pm get_form_details (label 'Transcript version', default ON); confirmed by vep_options.html (--transcript_version: 'Add version numbers to Ensembl transcript identifiers').",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "clinvar",
@@ -779,7 +892,10 @@
     "is_new": false,
     "web_form_subsection": "Variants and frequency data",
     "web_default": "yes (via check_existing)",
-    "provenance": "Authoritative dossier: ClinVar significance on the web comes via check_existing/co-located variants, not a standalone checkbox. vep_options.html (--check_existing 'Checks for the existence of known variants that are co-located with your input'). Corrects demo modelling issue."
+    "provenance": "Authoritative dossier: ClinVar significance on the web comes via check_existing/co-located variants, not a standalone checkbox. vep_options.html (--check_existing 'Checks for the existence of known variants that are co-located with your input'). Corrects demo modelling issue.",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "pubmed",
@@ -815,7 +931,10 @@
     "is_new": true,
     "web_form_subsection": "Variants and frequency data",
     "web_default": "ON",
-    "provenance": "InputForm.pm variants_frequency_data section (label 'PubMed IDs for citations of co-located variants', default ON, Homo_sapiens). vep_options.html (--pubmed: 'Report Pubmed IDs for publications that cite existing variant'; must be used with --cache, incompatible with --database)."
+    "provenance": "InputForm.pm variants_frequency_data section (label 'PubMed IDs for citations of co-located variants', default ON, Homo_sapiens). vep_options.html (--pubmed: 'Report Pubmed IDs for publications that cite existing variant'; must be used with --cache, incompatible with --database).",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "mane",
@@ -850,7 +969,10 @@
     "is_new": false,
     "web_form_subsection": "Transcript annotation",
     "web_default": "ON",
-    "provenance": "InputForm.pm additional_annotations / Transcript annotation (label 'MANE', default ON, Homo_sapiens). vep_options.html (--mane: flags MANE Select or MANE Plus Clinical, human GRCh38 only, incompatible with --most_severe/--summary). Corrects demo mane_select modelling issue. | assembly scope made machine-readable 2026-07-15: was 'human only', while its own when_not_to_use already stated 'MANE is human GRCh38 only'. The restriction lived in prose no code parses, so a GRCh37 clinical query was recommended MANE, which has no data there. Now encoded the same way eve/gnomad_sv already did it. Note the web form shows the checkbox for any human assembly (InputForm.pm:694-702 gates on species only), so the form does not protect the user here."
+    "provenance": "InputForm.pm additional_annotations / Transcript annotation (label 'MANE', default ON, Homo_sapiens). vep_options.html (--mane: flags MANE Select or MANE Plus Clinical, human GRCh38 only, incompatible with --most_severe/--summary). Corrects demo mane_select modelling issue. | assembly scope made machine-readable 2026-07-15: was 'human only', while its own when_not_to_use already stated 'MANE is human GRCh38 only'. The restriction lived in prose no code parses, so a GRCh37 clinical query was recommended MANE, which has no data there. Now encoded the same way eve/gnomad_sv already did it. Note the web form shows the checkbox for any human assembly (InputForm.pm:694-702 gates on species only), so the form does not protect the user here.",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "cell_type",
@@ -884,7 +1006,10 @@
     "is_new": true,
     "web_form_subsection": "Regulatory data",
     "web_default": "n/a (only shown when regulatory = cell)",
-    "provenance": "InputForm.pm additional_annotations / Regulatory data (label 'Limit to cell type(s)', gated by _stt_cell on the regulatory dropdown). vep_options.html (--cell_type: 'Report only regulatory regions that are found in the given cell type(s)'; --cell_type list)."
+    "provenance": "InputForm.pm additional_annotations / Regulatory data (label 'Limit to cell type(s)', gated by _stt_cell on the regulatory dropdown). vep_options.html (--cell_type: 'Report only regulatory regions that are found in the given cell type(s)'; --cell_type list).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "pick",
@@ -912,17 +1037,20 @@
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
-      "pick_allele",
+      "most_severe",
       "per_gene",
-      "summary",
-      "most_severe"
+      "pick_allele",
+      "summary"
     ],
     "side_effects": "May hide clinically relevant annotation on non-picked transcripts. As one mutually-exclusive value of the single 'Restrict results' dropdown it cannot be combined with the other restrict-results values (pick_allele, per_gene, summary, most_severe). Does NOT suppress per-transcript columns.",
     "source_type": "native",
     "is_new": false,
     "web_form_subsection": "Restrict results",
     "web_default": "no",
-    "provenance": "InputForm.pm filters: one 'Restrict results'/summary dropdown with mutually-exclusive values (pick=--pick, pick_allele, per_gene, summary, most_severe, all). vep_options.html (--pick ranking; --pick_order; incompatible with summary-style filtering). Corrects demo modelling of these as separate checkboxes."
+    "provenance": "InputForm.pm filters: one 'Restrict results'/summary dropdown with mutually-exclusive values (pick=--pick, pick_allele, per_gene, summary, most_severe, all). vep_options.html (--pick ranking; --pick_order; incompatible with summary-style filtering). Corrects demo modelling of these as separate checkboxes.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "shift_3prime",
@@ -955,7 +1083,10 @@
     "is_new": true,
     "web_form_subsection": "Advanced options",
     "web_default": "no",
-    "provenance": "InputForm.pm advanced (label 'Right align variants...', dropdown, default no). vep_options.html (--shift_3prime: 'Right aligns all variants relative to their associated transcripts prior to consequence calculation', default 0, incompatible with --shift_hgvs)."
+    "provenance": "InputForm.pm advanced (label 'Right align variants...', dropdown, default no). vep_options.html (--shift_3prime: 'Right aligns all variants relative to their associated transcripts prior to consequence calculation', default 0, incompatible with --shift_hgvs).",
+    "web_default_on": false,
+    "web_default_value": "no",
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "eve",
@@ -991,7 +1122,15 @@
     "is_new": true,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (EVE, available=>1). vep_plugins.html / EVE.pm: 'adds information from EVE (evolutionary model of variant effect)', missense pathogenicity, GRCh38 only, default Class75, requires file= VCF."
+    "provenance": "vep_plugins_web_config.txt (EVE, available=>1). vep_plugins.html / EVE.pm: 'adds information from EVE (evolutionary model of variant effect)', missense pathogenicity, GRCh38 only, default Class75, requires file= VCF.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "nmd",
@@ -1025,7 +1164,10 @@
     "is_new": true,
     "web_form_subsection": "Functional effect",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (NMD, available=>1). NMD.pm: identifies variants that 'escape nonsense-mediated mRNA decay'; four rules (last exon, 50 bp of penultimate exon, first 100 coding bases, intronless); output NMD='NMD_escaping_variant'; no species restriction stated."
+    "provenance": "vep_plugins_web_config.txt (NMD, available=>1). NMD.pm: identifies variants that 'escape nonsense-mediated mRNA decay'; four rules (last exon, 50 bp of penultimate exon, first 100 coding bases, intronless); output NMD='NMD_escaping_variant'; no species restriction stated.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "phenotypes",
@@ -1059,7 +1201,10 @@
     "is_new": true,
     "web_form_subsection": "Phenotype data and citations",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (Phenotypes, available=>1); drives the 'Phenotype data and citations' subsection. Phenotypes.pm: 'retrieves overlapping phenotype information' for Gene/Variation/QTL/RegulatoryFeature; params file, dir, expand_right (100000), phenotype_feature, include/exclude_types and _sources; operates across Ensembl species."
+    "provenance": "vep_plugins_web_config.txt (Phenotypes, available=>1); drives the 'Phenotype data and citations' subsection. Phenotypes.pm: 'retrieves overlapping phenotype information' for Gene/Variation/QTL/RegulatoryFeature; params file, dir, expand_right (100000), phenotype_feature, include/exclude_types and _sources; operates across Ensembl species.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "ccds",
@@ -1095,7 +1240,15 @@
     "is_new": true,
     "web_form_subsection": "Identifiers",
     "web_default": "off",
-    "provenance": "InputForm.pm identifiers section + Object_VEP.pm get_form_details label \"CCDS\"; --ccds flag and description confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html (\"Adds the CCDS transcript identifer (where available) to the output\"). Human+mouse field_class per authoritative public-plugins dossier (release/115)."
+    "provenance": "InputForm.pm identifiers section + Object_VEP.pm get_form_details label \"CCDS\"; --ccds flag and description confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html (\"Adds the CCDS transcript identifer (where available) to the output\"). Human+mouse field_class per authoritative public-plugins dossier (release/115).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "var_synonyms",
@@ -1130,7 +1283,15 @@
     "is_new": true,
     "web_form_subsection": "Variant data",
     "web_default": "off",
-    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details label \"Variant synonyms\"; --var_synonyms flag and \"Report known synonyms for co-located variants. Must be used with --cache\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. human+pig field_class per release/115 dossier."
+    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details label \"Variant synonyms\"; --var_synonyms flag and \"Report known synonyms for co-located variants. Must be used with --cache\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. human+pig field_class per release/115 dossier.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "failed",
@@ -1164,7 +1325,10 @@
     "is_new": true,
     "web_form_subsection": "Variant data",
     "web_default": "off",
-    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details label \"Include flagged variants\"; --failed flag and default behaviour (\"by default Ensembl VEP will exclude variants that have been flagged as failed\", default 0) confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. Variation-species restriction per release/115 dossier."
+    "provenance": "InputForm.pm variants_frequency_data section + Object_VEP.pm get_form_details label \"Include flagged variants\"; --failed flag and default behaviour (\"by default Ensembl VEP will exclude variants that have been flagged as failed\", default 0) confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. Variation-species restriction per release/115 dossier.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "canonical",
@@ -1201,7 +1365,10 @@
     "is_new": false,
     "web_form_subsection": "Transcript annotation",
     "web_default": "off",
-    "provenance": "InputForm.pm additional_annotations / Transcript annotation + Object_VEP.pm get_form_details label \"Identify canonical transcripts\"; --canonical and \"Adds a flag indicating if the transcript is the canonical transcript for the gene\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. All-species per release/115 dossier."
+    "provenance": "InputForm.pm additional_annotations / Transcript annotation + Object_VEP.pm get_form_details label \"Identify canonical transcripts\"; --canonical and \"Adds a flag indicating if the transcript is the canonical transcript for the gene\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. All-species per release/115 dossier.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "pick_allele",
@@ -1229,17 +1396,20 @@
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
-      "pick",
+      "most_severe",
       "per_gene",
-      "summary",
-      "most_severe"
+      "pick",
+      "summary"
     ],
     "side_effects": "Reduces output to one consequence block per allele; may omit clinically relevant annotations on non-selected transcripts. As one value of the 'Restrict results' dropdown it is mutually exclusive with pick, per_gene, summary and most_severe.",
     "source_type": "native",
     "is_new": true,
     "web_form_subsection": "Restrict results",
     "web_default": "no",
-    "provenance": "InputForm.pm filters 'Restrict results' (summary) dropdown value; --pick_allele and \"Like --pick, but chooses one line or block of consequence data per variant allele ... differs from --pick only with multiple alternate alleles\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. Modelled as a mutually-exclusive dropdown value per release/115 dossier correction."
+    "provenance": "InputForm.pm filters 'Restrict results' (summary) dropdown value; --pick_allele and \"Like --pick, but chooses one line or block of consequence data per variant allele ... differs from --pick only with multiple alternate alleles\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. Modelled as a mutually-exclusive dropdown value per release/115 dossier correction.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "cadd",
@@ -1276,7 +1446,40 @@
     "is_new": false,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (CADD available=>1); plugin form --plugin CADD; function and SNV/indel/SV support confirmed at ensembl.org/info/docs/tools/vep/script/vep_plugins.html (\"Combined Annotation Dependent Depletion ... retrieves CADD scores ... SNV, indel, and structural variant data files\"). Human GRCh37/GRCh38 per plugin docs."
+    "provenance": "vep_plugins_web_config.txt (CADD available=>1); plugin form --plugin CADD; function and SNV/indel/SV support confirmed at ensembl.org/info/docs/tools/vep/script/vep_plugins.html (\"Combined Annotation Dependent Depletion ... retrieves CADD scores ... SNV, indel, and structural variant data files\"). Human GRCh37/GRCh38 per plugin docs. The web control is a four-way drop-down and the files are MUTUALLY EXCLUSIVE, so one VEP run cannot score small and structural variants together (Likhitha, reply to the re-prompting proposal) — see web_form_values.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "web_form_values": [
+      {
+        "label": "CADD SNVs and InDels annotation file",
+        "covers": [
+          "small"
+        ],
+        "web_default": true
+      },
+      {
+        "label": "CADD SNVs annotation file",
+        "covers": [
+          "small"
+        ]
+      },
+      {
+        "label": "CADD InDels annotation file",
+        "covers": [
+          "small"
+        ]
+      },
+      {
+        "label": "CADD-SV annotation file (supported only in GRCh38)",
+        "covers": [
+          "structural-CNV"
+        ],
+        "assembly_restriction": "GRCh38"
+      }
+    ],
+    "_web_form_values_basis": "The live VEP web form, screenshot supplied by David 2026-08-31. NOT in our release/115 snapshot: vep_plugins_web_config.txt records CADD as a flat `available => 1` with no control, and vep_web_interface_reference.md lists it under Missense pathogenicity with no drop-down. Re-verify against the form before relying on the exact labels.",
+    "size_dependent_value": true
   },
   {
     "id": "spliceai",
@@ -1313,7 +1516,15 @@
     "is_new": false,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (SpliceAI available=>1); plugin form --plugin SpliceAI; delta scores (AG/AL/DG/DL), 0.2/0.5/0.8 cutoffs and GRCh37+GRCh38 support confirmed at github.com/Ensembl/VEP_plugins/blob/main/SpliceAI.pm."
+    "provenance": "vep_plugins_web_config.txt (SpliceAI available=>1); plugin form --plugin SpliceAI; delta scores (AG/AL/DG/DL), 0.2/0.5/0.8 cutoffs and GRCh37+GRCh38 support confirmed at github.com/Ensembl/VEP_plugins/blob/main/SpliceAI.pm.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "utrannotator",
@@ -1346,7 +1557,15 @@
     "is_new": true,
     "web_form_subsection": "Functional effect",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (UTRAnnotator available=>1); plugin form --plugin UTRAnnotator; purpose, uAUG/uSTOP/uFrameshift event types, Kozak strength and GRCh37/GRCh38 data files confirmed at github.com/Ensembl/VEP_plugins/blob/main/UTRAnnotator.pm."
+    "provenance": "vep_plugins_web_config.txt (UTRAnnotator available=>1); plugin form --plugin UTRAnnotator; purpose, uAUG/uSTOP/uFrameshift event types, Kozak strength and GRCh37/GRCh38 data files confirmed at github.com/Ensembl/VEP_plugins/blob/main/UTRAnnotator.pm.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "enformer",
@@ -1379,7 +1598,15 @@
     "is_new": true,
     "web_form_subsection": "Regulatory impact",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (Enformer available=>1); plugin form --plugin Enformer; function (chromatin/expression, 896 bins, 5313 features), SAD/SAR/PC outputs and GRCh37+GRCh38 support confirmed at ensembl.org/info/docs/tools/vep/script/vep_plugins.html and github.com/Ensembl/VEP_plugins/blob/main/Enformer.pm."
+    "provenance": "vep_plugins_web_config.txt (Enformer available=>1); plugin form --plugin Enformer; function (chromatin/expression, 896 bins, 5313 features), SAD/SAR/PC outputs and GRCh37+GRCh38 support confirmed at ensembl.org/info/docs/tools/vep/script/vep_plugins.html and github.com/Ensembl/VEP_plugins/blob/main/Enformer.pm.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "protein",
@@ -1415,7 +1642,15 @@
     "is_new": true,
     "web_form_subsection": "Identifiers",
     "web_default": "off",
-    "provenance": "InputForm.pm _build_identifiers (no checked key => default OFF, corrects brief's 'on'); label/helptip from Object_VEP.pm get_form_details; description confirmed via ensembl.org vep_options.html (--protein)."
+    "provenance": "InputForm.pm _build_identifiers (no checked key => default OFF, corrects brief's 'on'); label/helptip from Object_VEP.pm get_form_details; description confirmed via ensembl.org vep_options.html (--protein).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "af",
@@ -1450,7 +1685,15 @@
     "is_new": false,
     "web_form_subsection": "Variants and frequency data",
     "web_default": "on",
-    "provenance": "InputForm.pm _build_variants_frequency_data (field_class _stt_Homo_sapiens, default ON); label from Object_VEP.pm get_form_details; description confirmed via ensembl.org vep_options.html (--af = 1000 Genomes Phase 3 global AF)."
+    "provenance": "InputForm.pm _build_variants_frequency_data (field_class _stt_Homo_sapiens, default ON); label from Object_VEP.pm get_form_details; description confirmed via ensembl.org vep_options.html (--af = 1000 Genomes Phase 3 global AF).",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "biotype",
@@ -1488,7 +1731,10 @@
     "is_new": true,
     "web_form_subsection": "Transcript annotation",
     "web_default": "on",
-    "provenance": "InputForm.pm _build_additional_annotations Transcript annotation block (default ON); label from Object_VEP.pm get_form_details; description confirmed via ensembl.org vep_options.html (--biotype)."
+    "provenance": "InputForm.pm _build_additional_annotations Transcript annotation block (default ON); label from Object_VEP.pm get_form_details; description confirmed via ensembl.org vep_options.html (--biotype).",
+    "web_default_on": true,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "distance",
@@ -1521,7 +1767,10 @@
     "is_new": true,
     "web_form_subsection": "Transcript annotation",
     "web_default": "5000",
-    "provenance": "InputForm.pm _build_additional_annotations Transcript annotation block (free-text, default 5000); label from Object_VEP.pm get_form_details; default 5000 bp confirmed via ensembl.org vep_options.html (--distance)."
+    "provenance": "InputForm.pm _build_additional_annotations Transcript annotation block (free-text, default 5000); label from Object_VEP.pm get_form_details; default 5000 bp confirmed via ensembl.org vep_options.html (--distance).",
+    "web_default_on": true,
+    "web_default_value": "5000",
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "sift",
@@ -1558,7 +1807,15 @@
     "is_new": false,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "b",
-    "provenance": "InputForm.pm _build_predictions Pathogenicity predictions (dropdown, default 'b', field_class for species with SIFT data => multi-species, NOT human-only); description confirmed via ensembl.org vep_options.html ('Species limited SIFT...')."
+    "provenance": "InputForm.pm _build_predictions Pathogenicity predictions (dropdown, default 'b', field_class for species with SIFT data => multi-species, NOT human-only); description confirmed via ensembl.org vep_options.html ('Species limited SIFT...').",
+    "web_default_on": true,
+    "web_default_value": "b",
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "per_gene",
@@ -1586,17 +1843,20 @@
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
+      "most_severe",
       "pick",
       "pick_allele",
-      "summary",
-      "most_severe"
+      "summary"
     ],
     "side_effects": "Reduces output significantly but preserves multi-gene overlaps. Discards non-selected transcripts, which may hide a clinically relevant alternative annotation within the same gene.",
     "source_type": "native",
     "is_new": false,
     "web_form_subsection": "Restrict results",
     "web_default": "no",
-    "provenance": "VEPConstants.pm CONFIG_SECTIONS (filters) + InputForm.pm 'Restrict results' single dropdown (mutually-exclusive values: no/pick/pick_allele/per_gene/summary/most_severe/all); description confirmed via ensembl.org vep_options.html (--per_gene)."
+    "provenance": "VEPConstants.pm CONFIG_SECTIONS (filters) + InputForm.pm 'Restrict results' single dropdown (mutually-exclusive values: no/pick/pick_allele/per_gene/summary/most_severe/all); description confirmed via ensembl.org vep_options.html (--per_gene).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "revel",
@@ -1632,7 +1892,15 @@
     "is_new": false,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (REVEL available=>1); CLI form --plugin <Name>; human GRCh37/GRCh38, missense-only and column header 'Rare Exome Variant Ensemble Learner' confirmed via github.com/Ensembl/VEP_plugins REVEL.pm. Corrects demo source_type to plugin."
+    "provenance": "vep_plugins_web_config.txt (REVEL available=>1); CLI form --plugin <Name>; human GRCh37/GRCh38, missense-only and column header 'Rare Exome Variant Ensemble Learner' confirmed via github.com/Ensembl/VEP_plugins REVEL.pm. Corrects demo source_type to plugin.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "maxentscan",
@@ -1669,7 +1937,15 @@
     "is_new": false,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (MaxEntScan available=>1); CLI form --plugin <Name>; donor/acceptor maximum-entropy scoring and ref/alt/difference output confirmed via ensembl.org vep_plugins.html and github MaxEntScan.pm. Corrects demo source_type to plugin; sequence-based => not human-only."
+    "provenance": "vep_plugins_web_config.txt (MaxEntScan available=>1); CLI form --plugin <Name>; donor/acceptor maximum-entropy scoring and ref/alt/difference output confirmed via ensembl.org vep_plugins.html and github MaxEntScan.pm. Corrects demo source_type to plugin; sequence-based => not human-only.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "paralogues",
@@ -1705,7 +1981,15 @@
     "is_new": true,
     "web_form_subsection": "Functional effect",
     "web_default": "off",
-    "provenance": "vep_plugins_web_config.txt (Paralogues available=>1); CLI form --plugin <Name>; purpose ('fetches variants overlapping the genomic coordinates of amino acids aligned between paralogue proteins'), output fields, and species/assembly requirements confirmed via github.com/Ensembl/VEP_plugins Paralogues.pm. | category corrected 2026-07-15: was 'pathogenicity_prediction', but the web form files this under 'Functional effect', not 'Missense pathogenicity' (vep_web_interface_reference.md:152). The old label made category-keyed rules (predictor tiering, the structural-variant size gate) treat it as a missense predictor by accident."
+    "provenance": "vep_plugins_web_config.txt (Paralogues available=>1); CLI form --plugin <Name>; purpose ('fetches variants overlapping the genomic coordinates of amino acids aligned between paralogue proteins'), output fields, and species/assembly requirements confirmed via github.com/Ensembl/VEP_plugins Paralogues.pm. | category corrected 2026-07-15: was 'pathogenicity_prediction', but the web form files this under 'Functional effect', not 'Missense pathogenicity' (vep_web_interface_reference.md:152). The old label made category-keyed rules (predictor tiering, the structural-variant size gate) treat it as a missense predictor by accident.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "gnomad_sv",
@@ -1739,7 +2023,10 @@
     "is_new": false,
     "web_form_subsection": "Variants and frequency data",
     "web_default": "off",
-    "provenance": "vep_custom_web_config.json (gnomAD_SV, human, section 'Variants and frequency data', type=exact with overlap_cutoff 80/90/100/exact). Corrects demo web_form_section from 'N/A' to canonical id variants_frequency_data."
+    "provenance": "vep_custom_web_config.json (gnomAD_SV, human, section 'Variants and frequency data', type=exact with overlap_cutoff 80/90/100/exact). Corrects demo web_form_section from 'N/A' to canonical id variants_frequency_data.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "id": "uniprot",
@@ -1775,7 +2062,15 @@
     "is_new": true,
     "web_form_subsection": "Identifiers",
     "web_default": "off",
-    "provenance": "vep_options.html (--uniprot); InputForm.pm identifiers section, label 'UniProt' from Object_VEP.pm get_form_details."
+    "provenance": "vep_options.html (--uniprot); InputForm.pm identifiers section, label 'UniProt' from Object_VEP.pm get_form_details.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "af_1kg",
@@ -1809,7 +2104,15 @@
     "is_new": false,
     "web_form_subsection": "Variants and frequency data",
     "web_default": "off",
-    "provenance": "vep_options.html (--af_1kg, 'continental populations (AFR,AMR,EAS,EUR,SAS) of 1000 Genomes Phase 3 ... Must be used with --cache'); InputForm.pm variants_frequency_data (human-only field class)."
+    "provenance": "vep_options.html (--af_1kg, 'continental populations (AFR,AMR,EAS,EUR,SAS) of 1000 Genomes Phase 3 ... Must be used with --cache'); InputForm.pm variants_frequency_data (human-only field class).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "numbers",
@@ -1845,7 +2148,10 @@
     "is_new": true,
     "web_form_subsection": "Transcript annotation",
     "web_default": "off",
-    "provenance": "vep_options.html (--numbers, 'affected exon and intron numbering ... Format is Number/Total'); InputForm.pm additional_annotations Transcript annotation section."
+    "provenance": "vep_options.html (--numbers, 'affected exon and intron numbering ... Format is Number/Total'); InputForm.pm additional_annotations Transcript annotation section.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "mirna",
@@ -1877,7 +2183,10 @@
     "is_new": true,
     "web_form_subsection": "Transcript annotation",
     "web_default": "off",
-    "provenance": "vep_options.html (--mirna, 'Reports where the variant lies in the miRNA secondary structure (only for Ensembl/GENCODE transcripts)'); InputForm.pm additional_annotations Transcript annotation section."
+    "provenance": "vep_options.html (--mirna, 'Reports where the variant lies in the miRNA secondary structure (only for Ensembl/GENCODE transcripts)'); InputForm.pm additional_annotations Transcript annotation section.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "polyphen",
@@ -1913,7 +2222,15 @@
     "is_new": false,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "b (both prediction and score)",
-    "provenance": "vep_options.html (--polyphen, 'Human only ... predicts possible impact of an amino acid substitution ... output the prediction term, score or both'); InputForm.pm predictions Pathogenicity predictions, human-only field class."
+    "provenance": "vep_options.html (--polyphen, 'Human only ... predicts possible impact of an amino acid substitution ... output the prediction term, score or both'); InputForm.pm predictions Pathogenicity predictions, human-only field class.",
+    "web_default_on": true,
+    "web_default_value": "b",
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "summary",
@@ -1940,31 +2257,44 @@
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
+      "alphamissense",
+      "appris",
+      "biotype",
+      "cadd",
+      "canonical",
+      "ccds",
+      "clinpred",
+      "dbnsfp",
+      "dbscsnv",
+      "domains",
+      "eve",
+      "hgvs",
+      "mane",
+      "maxentscan",
+      "most_severe",
+      "numbers",
+      "paralogues",
+      "per_gene",
       "pick",
       "pick_allele",
-      "per_gene",
-      "most_severe",
-      "sift",
       "polyphen",
-      "hgvs",
-      "domains",
-      "symbol",
       "protein",
-      "ccds",
-      "uniprot",
-      "biotype",
-      "numbers",
+      "revel",
+      "sift",
+      "spliceai",
+      "symbol",
       "tsl",
-      "appris",
-      "mane",
-      "canonical"
+      "uniprot"
     ],
     "side_effects": "Suppresses all per-transcript detail; transcript-specific columns are left blank and only a comma-separated consequence list per variant is returned. As one value of the single 'Restrict results' dropdown, it cannot be combined with the other restrict-results values.",
     "source_type": "native",
     "is_new": false,
     "web_form_subsection": "Restrict results",
     "web_default": "no (Restrict results dropdown defaults to 'no')",
-    "provenance": "vep_options.html (--summary, 'comma-separated list of all observed consequences per variant; transcript-specific columns will be left blank'); InputForm.pm filters section, single 'Restrict results' control (name=summary) with mutually-exclusive values per VEPConstants.pm."
+    "provenance": "vep_options.html (--summary, 'comma-separated list of all observed consequences per variant; transcript-specific columns will be left blank'); InputForm.pm filters section, single 'Restrict results' control (name=summary) with mutually-exclusive values per VEPConstants.pm.",
+    "web_default_on": false,
+    "web_default_value": "no",
+    "_web_default_basis": "InputForm.pm"
   },
   {
     "id": "alphamissense",
@@ -2000,7 +2330,15 @@
     "is_new": false,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "off",
-    "provenance": "vep_plugins.html / VEP_plugins AlphaMissense.pm (am_pathogenicity, am_class, GRCh37+GRCh38 human only, 90% precision thresholds); vep_plugins_web_config.txt (available=>1). source_type corrected to plugin."
+    "provenance": "vep_plugins.html / VEP_plugins AlphaMissense.pm (am_pathogenicity, am_class, GRCh37+GRCh38 human only, 90% precision thresholds); vep_plugins_web_config.txt (available=>1). source_type corrected to plugin.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "dbscsnv",
@@ -2036,7 +2374,15 @@
     "is_new": true,
     "web_form_subsection": "Pathogenicity predictions",
     "web_default": "off",
-    "provenance": "vep_plugins.html / VEP_plugins dbscSNV.pm (ada_score, rf_score; splicing consensus regions; GRCh37/GRCh38; tabix requirement); vep_plugins_web_config.txt (available=>1)."
+    "provenance": "vep_plugins.html / VEP_plugins dbscSNV.pm (ada_score, rf_score; splicing consensus regions; GRCh37/GRCh38; tabix requirement); vep_plugins_web_config.txt (available=>1).",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "id": "mutfunc",
@@ -2069,7 +2415,15 @@
     "is_new": true,
     "web_form_subsection": "Functional effect",
     "web_default": "off",
-    "provenance": "vep_plugins.html / VEP_plugins mutfunc.pm ('destabilization of protein structure, interaction interface, and motif'; four categories motif/int/mod/exp; SQLite db + FASTA); vep_plugins_web_config.txt (available=>1). | category corrected 2026-07-15: was 'pathogenicity_prediction', but the web form files this under 'Functional effect', not 'Missense pathogenicity' (vep_web_interface_reference.md:152). The old label made category-keyed rules (predictor tiering, the structural-variant size gate) treat it as a missense predictor by accident."
+    "provenance": "vep_plugins.html / VEP_plugins mutfunc.pm ('destabilization of protein structure, interaction interface, and motif'; four categories motif/int/mod/exp; SQLite db + FASTA); vep_plugins_web_config.txt (available=>1). | category corrected 2026-07-15: was 'pathogenicity_prediction', but the web form files this under 'Functional effect', not 'Missense pathogenicity' (vep_web_interface_reference.md:152). The old label made category-keyed rules (predictor tiering, the structural-variant size gate) treat it as a missense predictor by accident.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "use_case_tags": [],
@@ -2090,7 +2444,10 @@
     "when_to_use": "Population and evolutionary analyses where the direction of a change matters - selection scans, derived-allele frequency spectra, polarising alleles against an outgroup.",
     "when_not_to_use": "Clinical interpretation, where ancestral state carries no diagnostic weight, and any run where the ancestral FASTA for the species is not available.",
     "side_effects": "Requires the ancestral-sequence FASTA for the assembly; adds one column and no filtering.",
-    "provenance": "vep_plugins_web_config.txt (AncestralAllele, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)"
+    "provenance": "vep_plugins_web_config.txt (AncestralAllele, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "use_case_tags": [],
@@ -2111,7 +2468,10 @@
     "when_to_use": "Adding cheap amino-acid substitution context to missense calls, particularly for species with no trained predictor available - the matrix is sequence-based and needs no species-specific data.",
     "when_not_to_use": "As a pathogenicity call in its own right; it measures chemical/evolutionary similarity of the substitution, not the effect on a protein. Also inapplicable to non-missense variants.",
     "side_effects": "No external data download; scores only variants with a missense consequence.",
-    "provenance": "vep_plugins_web_config.txt (Blosum62, available=>1); description from work/research/plugins_dossier.md (release/115 source + live plugin docs)"
+    "provenance": "vep_plugins_web_config.txt (Blosum62, available=>1); description from work/research/plugins_dossier.md (release/115 source + live plugin docs)",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "use_case_tags": [],
@@ -2137,7 +2497,10 @@
         "clinical-interpretation": "optional"
       }
     },
-    "provenance": "vep_plugins_web_config.txt (GO, available=>1); description from work/research/plugins_dossier.md (release/115 source + live plugin docs); requested by the reviewer on row 29"
+    "provenance": "vep_plugins_web_config.txt (GO, available=>1); description from work/research/plugins_dossier.md (release/115 source + live plugin docs); requested by the reviewer on row 29",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "use_case_tags": [],
@@ -2158,11 +2521,16 @@
     "when_to_use": "Mechanistic follow-up on a candidate variant - understanding whether a change disrupts a documented interaction interface rather than only whether it is damaging.",
     "when_not_to_use": "First-pass triage, and any variant outside a protein-coding region; coverage is limited to interactions curated in IntAct.",
     "side_effects": "Sparse - most variants have no IntAct entry, so the column is empty for the majority of a typical set.",
-    "provenance": "vep_plugins_web_config.txt (IntAct, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)"
+    "provenance": "vep_plugins_web_config.txt (IntAct, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "use_case_tags": [],
-    "priority_by_use_case": {},
+    "priority_by_use_case": {
+      "structural_variants": "not_applicable"
+    },
     "depends_on": [],
     "conflicts_with": [],
     "source_type": "plugin",
@@ -2179,7 +2547,15 @@
     "when_to_use": "Where experimental evidence beats prediction: a gene with a published saturation mutagenesis screen gives a measured effect for the exact variant, which ACMG treats as functional evidence.",
     "when_not_to_use": "Genes with no published assay, which is most of them, and non-GRCh38 runs. Assay relevance to the disease mechanism has to be judged case by case.",
     "side_effects": "Coverage is per-gene rather than genome-wide; requires GRCh38.",
-    "provenance": "vep_plugins_web_config.txt (MaveDB, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)"
+    "provenance": "vep_plugins_web_config.txt (MaveDB, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    }
   },
   {
     "use_case_tags": [],
@@ -2200,7 +2576,10 @@
     "when_to_use": "GWAS follow-up and complex-disease work, where the question is which gene a non-coding association acts through, and for drug-target prioritisation.",
     "when_not_to_use": "Rare monogenic diagnosis, where the causal gene is usually already implicated and L2G evidence built on common-variant association adds little.",
     "side_effects": "Evidence is derived from common-variant association studies; sparse for rare variants.",
-    "provenance": "vep_plugins_web_config.txt (OpenTargets, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)"
+    "provenance": "vep_plugins_web_config.txt (OpenTargets, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   },
   {
     "use_case_tags": [],
@@ -2226,6 +2605,9 @@
         "regulatory-noncoding": "optional"
       }
     },
-    "provenance": "vep_plugins_web_config.txt (RiboseqORFs, available=>1); description from work/research/plugins_dossier.md (release/115 source + live plugin docs); requested by the reviewer on row 23"
+    "provenance": "vep_plugins_web_config.txt (RiboseqORFs, available=>1); description from work/research/plugins_dossier.md (release/115 source + live plugin docs); requested by the reviewer on row 23",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "web_default prose"
   }
 ]

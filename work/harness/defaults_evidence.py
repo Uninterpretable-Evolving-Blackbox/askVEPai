@@ -187,15 +187,20 @@ def audit_origin(rows, opts):
         blank = enabled(dict(r["factor_labels"], origin="unstated"), opts)
         for o in ("germline", "somatic"):
             dropped |= enabled(dict(r["factor_labels"], origin=o), opts) - blank
-    check("...and unstated ALSO drops what both values agree on", dropped == {"check_existing"},
-          f"lost by silence on every row: {sorted(dropped) or 'nothing'}")
+    # AMENDED 2026-08-19. This used to assert that silence ALSO drops `check_existing`, which both
+    # origin values enabled on all 31 rows — the second leg of "silence is strictly worse than either
+    # value". Likhitha's round-1 edit demoted check_existing to an add-on, so neither value enables it
+    # and the leg is gone. The origin=somatic default now rests on the `frequency` asymmetry alone,
+    # which the two checks above still carry. reprompting_proposal.md §2 is amended to match.
+    check("silence drops nothing that both values agreed on (the check_existing leg is withdrawn)",
+          dropped == set(), f"lost by silence on every row: {sorted(dropped) or 'nothing'}")
 
     check("the guessed value is somatic", va.UNDERSPECIFIED_POLICY["origin"]["assume"] == "somatic",
           f"policy={va.UNDERSPECIFIED_POLICY['origin']['assume']!r}")
 
-    note("silence is strictly worse than EITHER value: it carries germline's risk on `frequency` and "
-         "additionally loses `check_existing`, which germline and somatic both enable. That is an "
-         "argument for guessing something rather than for guessing somatic specifically.")
+    note("silence carries germline's risk on `frequency` without germline's benefit, so something has "
+         "to be guessed at all. That is an argument for guessing something rather than for guessing "
+         "somatic specifically.")
     note(f"origin earns its place on ONE option (`frequency`), differing on 9 of {n} tuples — human "
          f"population-frequency only. The taxonomy's own bar is that a factor must gate or shift a "
          f"CLUSTER of options, so whether it earns its place is worth putting to the mentors.")

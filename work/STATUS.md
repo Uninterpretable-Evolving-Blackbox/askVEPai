@@ -13,11 +13,11 @@ built, `underspecification_proposal.md` for the measurements on what a question 
 |---|---|
 | Option catalogue | **65 options**, grounded in Ensembl `public-plugins` release/115 |
 | Recommender + checker + gates | working, published, runnable |
-| Deterministic invariant suite | **36 checks**, seconds, no GPU |
+| Deterministic invariant suite | **65 checks**, seconds, no GPU |
 | Per-query latency | **~18 s** at concurrency 1, reasoning off (`EXPERIMENTS.md` Exp 14: 18.1 s vs 34.9 s with `--think`; **1 seed**, unlike the 3-seed figures below) |
-| Agreement with the priority table | **enable-F1 89.5% ± 0.6**, must-have recall **95.1% ± 0.3** (3 seeds) |
+| Agreement with the priority table | **enable-F1 89.5% ± 0.6** (3 seeds). Must-have recall is withdrawn — see below |
 | Candidate review set | 31 scenarios, reviewed by the Ensembl mentors |
-| Output tiers | **two** — RECOMMENDED and ADD-ONS (merged 2026-08-07) |
+| Output tiers | **two** — RECOMMENDED and ADD-ONS (merged 2026-08-07, third tier deleted 2026-08-19) |
 | Generation pipeline | stages 0–6 built and verified; stage 7 not started |
 
 **What that agreement figure is and is not.** It measures how faithfully the model reproduces the
@@ -25,10 +25,17 @@ configuration our own priority table specifies — self-consistency, on a table 
 provisional. It is not a benchmark, and it will not be one until the priorities are signed off. Every
 number here is directional until then.
 
-**The must-have recall figure measures something the user never sees.** The three internal priorities
-exist for real mechanisms — `restore_missing_critical`, `--minimal` and this metric are all defined on
-the must-have tier — but the output shows two buckets, so 95.1% is not recall on a tier anyone reviewed.
-It is an internal signal until a replacement is agreed.
+**Must-have recall is withdrawn, and 95.1% should not be quoted.** It scored against the internal
+`critical` tier. That tier was the one part of the table an expert reviewed, and twelve of her twenty
+edits moved options across it — corrections never applied, because merging the display had made them
+invisible. Three mechanisms went on reading the uncorrected boundary: `--minimal` filtered on it,
+`restore_missing_critical` restored it, and this metric scored against it. So 95.1% measured agreement
+with a judgement its only reviewer had rejected, scored against itself.
+
+The tier was deleted on 2026-08-19 rather than hidden. `--minimal` now means "no add-ons",
+`restore_missing_recommended` restores the RECOMMENDED bucket, and with one enabled set there is one
+recall to report, which enable-F1 already covers. `enable-F1 89.5%` stands and is unaffected: it was
+always scored on the enabled set, which the merge and the deletion both leave unchanged.
 
 ## Recent work
 
@@ -43,19 +50,42 @@ not exist, and this line should not be read as describing shipped behaviour.
 
 The merge changed **no configuration**: the engine had always enabled must-have ∪ recommended as one
 set, so the split was only ever a label on the way out. Verified as a pure regrouping over all 72
-factor tuples; export totals unchanged at 391 recommended and 121 add-ons.
+factor tuples; export totals unchanged at 391 recommended and 121 add-ons. Those two numbers are the
+2026-08-07 state and are quoted only as the before/after of the merge. The mentor corrections landed
+afterwards, so the sheet as generated today reads **328 recommended and 183 add-ons**.
 
 ## What is next
 
-1. **Apply the mentor review.** Ten rows approved, twenty edited, one rejected. The unopposed edits are
+1. **Two separate passes for short and structural variants — BUILT 2026-08-31, one piece outstanding.**
+   A scenario carrying both sizes now emits one configuration per size instead of one union of them,
+   because the web form cannot express both at once: CADD's control is a four-way annotation-file
+   drop-down and the files are mutually exclusive. The four labels are in the catalogue as
+   `web_form_values`, read off the live form and **absent from our release/115 snapshot**, so they need
+   re-checking against the form.
+
+   `variant_size_class` stays `select: multi` and the evidence for that is untouched — assuming both
+   still loses options on 0 of 29 ablations where single-select loses on 15. The split happens at render
+   time, where the form imposes it. **The two passes together enable exactly what the single
+   configuration did**, checked over all 36 both-size factor tuples (`verify_pipeline.py` §8b), so this
+   re-assigns options to the run that can use them rather than changing any recommendation.
+
+   CADD-SV is GRCh38-only, so a stated GRCh37 drops CADD from the structural pass with a reason rather
+   than leaving it on with no file behind it. An unstated build keeps it, as the assembly gate does
+   everywhere else.
+
+   Outstanding: **the browser rendering is unverified.** The payload and the command are correct per
+   pass and were tested directly; the page itself could not be exercised here because Ollama is not
+   installed on this machine. Her question about whether coding/non-coding should split the same way is
+   still unanswered; the exchange is recorded verbatim in the project log.
+2. **Apply the mentor review.** Ten rows approved, twenty edited, one rejected. The unopposed edits are
    in. About twelve of the edits were must-have↔recommended moves and are **no-ops** under two tiers.
    Newly confirmed and not yet applied: `check_existing` → add-on wherever the condition holds (21 rows,
    not the 6 originally flagged), and the 8 missing web-exposed plugins.
-2. **Run the recommended configuration against Web VEP** and check the output. The largest remaining
+3. **Run the recommended configuration against Web VEP** and check the output. The largest remaining
    independent piece.
-3. **Ask when it matters, assume when it does not.** Built, tested and live. On 78 controlled ablations,
-   one fact removed from our own queries so the right answer is known, the tool interrupts on **38 of
-   78**, raising 44 questions: **32** about assembly and **12** about `analysis_goal`. Reproduce with
+4. **Ask when it matters, assume when it does not.** Built, tested and live. On 78 controlled ablations,
+   one fact removed from our own queries so the right answer is known, the tool interrupts on **40 of
+   78**, raising 46 questions: **34** about assembly and **12** about `analysis_goal`. Reproduce with
    `harness/ask_rate.py`, which prices every candidate policy on the same cases with no model.
 
    That is a lot of interruption for a design whose first principle is that asking is the exception, and

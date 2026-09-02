@@ -3,8 +3,8 @@
 
 Runs the RAG recommender (prose query -> retrieval over the other examples -> LLM -> parser) on each
 generated query and scores its predicted config against that row's DETERMINISTIC gold config. Unlike the
-main harness, critical-recall / critical-F1 are computed from each row's OWN factor priorities
-(priority == "critical" in recommended_options), because the factor rows carry no `use_case_category` and
+main harness, recall is computed from each row's OWN factor priorities (the enabled set in
+recommended_options), because the factor rows carry no `use_case_category` and
 the catalogue's `priority_by_use_case` does not apply to them.
 
 What it measures: whether the LLM recommender reproduces the deterministic priority table when it only
@@ -50,11 +50,11 @@ def main():
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--merged-tiers", action="store_true",
                     help="render in-context examples with the TWO-tier scheme the user now sees "
-                         "(critical+recommended as one RECOMMENDED bucket). Only meaningful with "
+                         "(one RECOMMENDED bucket). Retained for command compatibility; since the tier "
                          "--show-tiers. The A/B against the three-tier arm is what says whether the "
                          "merge costs the recommender anything.")
     ap.add_argument("--show-tiers", action="store_true",
-                    help="render each in-context example WITH its tiers (critical/recommended/optional "
+                    help="render each in-context example WITH its tier (recommended / optional "
                          "add-ons) instead of the demo's tier-blind ON/OFF. The factor gold carries tiers; "
                          "hiding them makes the recommended-vs-optional line unlearnable from examples.")
     ap.add_argument("--factors", choices=["none", "oracle", "inferred"], default="none",
@@ -74,9 +74,17 @@ def main():
                          "Reasoning is ~55%% of wall-clock, so this is the speed/accuracy knob.")
     ap.add_argument("--full-desc", action="store_true",
                     help="send each option's COMPLETE description instead of the first 120 chars. "
-                         "All 58 exceed 120, so the default truncates every one of them mid-sentence "
+                         "All 65 exceed 120, so the default truncates every one of them mid-sentence "
                          "(check_existing is cut one character before the word ClinVar). Costs ~+2.9k "
                          "prompt tokens; prefill is not the bottleneck.")
+    ap.add_argument("--gold", choices=["live", "stored"], default="live",
+                    help="where the gold config comes from. 'live' (default) RESOLVES each row's "
+                         "factor_labels through the current priority table, which is what this "
+                         "harness claims to measure. 'stored' reads the frozen recommended_options "
+                         "in the set file — the round-1 snapshot, kept for export_round2's "
+                         "what-changed-since-your-review diff. They drifted apart on 2026-08-19 when "
+                         "the mentor corrections landed in DRIVES but not in the frozen file, so "
+                         "'stored' now scores every applied correction as an error.")
     ap.add_argument("--json", default=None, help="write the aggregate result to this path")
     args = ap.parse_args()
     THINK = {"default": None, "off": False, "low": "low"}[args.think]
@@ -88,19 +96,16 @@ def main():
             opts = ex.get("recommended_options", {})
             lines = [f"Query: {ex['user_query']}", "Options (by importance):"]
             if args.merged_tiers:
-                # The two-tier output the user now sees. `critical` and `recommended` were always
-                # switched on together, so merging them costs the CONFIGURATION nothing — but the
-                # in-context examples are the only place the recommender learns the distinction, so
-                # merging here is the arm that tests whether hiding it costs the MODEL anything.
-                # crit_recall is still scored against the gold must-have set, which the model can no
-                # longer see: that is the point of the comparison, not a leak.
+                # The two-tier output the user sees.
                 for o in sorted(k for k, c in opts.items()
-                                if c.get("enabled") and c.get("priority") in ("critical", "recommended")):
+                                if c.get("enabled") and c.get("priority") == "recommended"):
                     lines.append(f"  {o}: ON [recommended]")
             else:
-                for tier in ("critical", "recommended"):
-                    for o in sorted(k for k, c in opts.items() if c.get("enabled") and c.get("priority") == tier):
-                        lines.append(f"  {o}: ON [{tier}]")
+                # There is one enabled tier since 2026-08-19, so --merged-tiers and the plain arm now
+                # render identically. The flag survives so old commands keep working.
+                for o in sorted(k for k, c in opts.items()
+                                if c.get("enabled") and c.get("priority") == "recommended"):
+                    lines.append(f"  {o}: ON [recommended]")
             for o in sorted(ex.get("add_on_options", {})):
                 lines.append(f"  {o}: add-on [optional, off by default]")
             return "\n".join(lines)
@@ -124,20 +129,35 @@ def main():
                     api_key="ollama")
     seeds = [int(s) for s in args.seeds.split(",")][:args.runs]
 
-    # gold per row: enabled set + critical set (from the row's own factor priorities)
-    # `critical_nocore` drops core_type from the must-have set. core_type ("choose a transcript
-    # database") is critical in EVERY row and trivially recovered, so it inflates critical-recall by a
-    # fixed floor; worse, it is a radiolist whose default emits NO flag, so "did the model recover it"
-    # is itself a scoring artefact. Reporting recall over the non-core_type must-haves — and dropping
-    # the rows whose ONLY must-have was core_type (their nocore set is empty) — is the honest figure.
+    # gold per row: the enabled set, from the row's own factor priorities.
     CORE = "core_type"
     gold = {}
     for r in rows:
         opts = r["recommended_options"]
         en = {o for o, c in opts.items() if c.get("enabled")}
-        crit = {o for o, c in opts.items() if c.get("enabled") and c.get("priority") == "critical"}
-        gold[r["id"]] = {"query": r.get("user_query"), "enabled": en,
-                         "critical": crit, "critical_nocore": crit - {CORE}}
+        # MUST-HAVE RECALL IS WITHDRAWN (2026-08-19). It scored against `priority == "critical"`, a
+        # tier that no longer exists — and which, while it did, was the one boundary the reviewer
+        # corrected twelve times without those corrections ever being applied. With a single enabled
+        # set there is one recall to report and `enable_f1` already covers it. Do not quote the old
+        # 95.1%: it measured agreement with an unvalidated judgement, scored against itself.
+        if args.gold == "live":
+            res = va.resolve_for_query(r["factor_labels"], catalogue)
+            en = {o for o, (e, _p, _g) in (res or {}).items() if e}
+        gold[r["id"]] = {"query": r.get("user_query"), "enabled": en}
+
+    # DRIFT ALARM. The frozen set and the live table disagreeing is not a nuisance to route around:
+    # it means a published figure is scoring the model against a table that no longer exists. It went
+    # unnoticed once already, so it is reported on every run rather than left to be rediscovered.
+    drift = 0
+    for r in rows:
+        res = va.resolve_for_query(r["factor_labels"], catalogue) or {}
+        if {o for o, c in r["recommended_options"].items() if c.get("enabled")} != \
+           {o for o, (e, _p, _g) in res.items() if e}:
+            drift += 1
+    if drift:
+        print(f"  !! {drift}/{len(rows)} rows: the set file's frozen config differs from what the "
+              f"priority table resolves today.\n     Scoring against --gold {args.gold}. "
+              f"'stored' would count every applied mentor correction as a model error.")
 
     by_id = {r["id"]: r for r in rows}
 
@@ -169,13 +189,7 @@ def main():
             "seconds": elapsed,
             "n_pred": len(pred),
             "enable_f1": f1(pred, g["enabled"]),
-            "crit_recall": (len(pred & g["critical"]) / len(g["critical"])) if g["critical"] else None,
-            "crit_recall_nocore": ((len(pred & g["critical_nocore"]) / len(g["critical_nocore"]))
-                                   if g["critical_nocore"] else None),
-            # NOTE: no critical-F1 — the recommender emits one flat enabled set, it does not tier its
-            # output, so there is no "predicted critical set" to compute precision against. Comparing the
-            # full enabled set to the critical-only gold just penalises it for enabling the (correct)
-            # recommended options. critical-RECALL is the meaningful must-have metric.
+            "enable_recall": (len(pred & g["enabled"]) / len(g["enabled"])) if g["enabled"] else None,
         }
 
     per_run = []
@@ -196,26 +210,23 @@ def main():
         with ThreadPoolExecutor(max_workers=args.concurrency) as ex:
             res = list(ex.map(lambda rid: one_progress(rid, seed), [r["id"] for r in rows]))
         ef = [x["enable_f1"] for x in res if x["enable_f1"] is not None]
-        cr = [x["crit_recall"] for x in res if x["crit_recall"] is not None]
-        crn = [x["crit_recall_nocore"] for x in res if x["crit_recall_nocore"] is not None]
-        run = {"enable_f1": statistics.mean(ef), "crit_recall": statistics.mean(cr),
-               "crit_recall_nocore": statistics.mean(crn), "n_crit_rows": len(cr),
-               "n_crit_nocore_rows": len(crn),
+        er = [x["enable_recall"] for x in res if x["enable_recall"] is not None]
+        run = {"enable_f1": statistics.mean(ef), "enable_recall": statistics.mean(er),
+               "n_rows": len(ef),
                "seconds": statistics.mean(x["seconds"] for x in res),
                "n_pred": statistics.mean(x["n_pred"] for x in res)}
         per_run.append(run)
         print(f"  seed {seed}: enable-F1 {run['enable_f1']*100:.0f}%  "
-              f"crit-recall {run['crit_recall']*100:.0f}%  "
-              f"crit-recall(no core_type) {run['crit_recall_nocore']*100:.0f}%  "
+              f"enable-recall {run['enable_recall']*100:.0f}%  "
               f"{run['seconds']:.1f}s/query")
 
     def agg(k):
         xs = [r[k] for r in per_run]
         return statistics.mean(xs), (statistics.stdev(xs) if len(xs) > 1 else 0.0)
     print(f"\n{len(rows)} rows, {args.runs} runs (seeds {seeds}), model {args.model}, all-examples LOO, "
-          f"factors={args.factors}, tiers={'shown' if args.show_tiers else 'hidden'}")
-    for label, key in [("enable-F1", "enable_f1"), ("critical-recall", "crit_recall"),
-                       ("crit-recall −core_type", "crit_recall_nocore")]:
+          f"factors={args.factors}, gold={args.gold}, "
+          f"tiers={'shown' if args.show_tiers else 'hidden'}")
+    for label, key in [("enable-F1", "enable_f1"), ("enable-recall", "enable_recall")]:
         m, sd = agg(key)
         print(f"  {label:22s} {m*100:.0f}% ± {sd*100:.0f}%")
     sec_m, sec_sd = agg("seconds")
@@ -232,18 +243,16 @@ def main():
         Path(args.json).write_text(json.dumps({
             "model": args.model, "think": args.think, "runs": args.runs, "seeds": seeds,
             "rows": len(rows), "show_tiers": args.show_tiers, "factors": args.factors,
+            "gold": args.gold, "gold_drift_rows": drift,
             "concurrency": args.concurrency, "temperature": args.temperature,
             "full_desc": args.full_desc,
-            "enable_f1": agg("enable_f1"), "crit_recall": agg("crit_recall"),
-            "crit_recall_nocore": agg("crit_recall_nocore"),
+            "enable_f1": agg("enable_f1"), "enable_recall": agg("enable_recall"),
             "seconds": agg("seconds"), "n_pred": agg("n_pred"),
             "per_run": per_run,
         }, indent=2))
         print(f"  -> {args.json}")
-    print(f"  (critical-recall scored on {per_run[0]['n_crit_rows']}/{len(rows)} rows with a critical set; "
-          f"−core_type on {per_run[0]['n_crit_nocore_rows']}/{len(rows)} rows —")
-    print("   the rest had core_type as their ONLY must-have. The −core_type figure is the honest one:")
-    print("   core_type is critical in every row and trivially recovered, so it inflates the plain recall.)")
+    print("  (must-have recall is withdrawn as of 2026-08-19: it scored against the `critical` tier,")
+    print("   which no longer exists. There is one enabled set now, so there is one recall.)")
 
 
 def catalogue_ids(catalogue):

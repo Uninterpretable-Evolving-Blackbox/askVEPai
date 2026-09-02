@@ -21,7 +21,7 @@ we"), then `research/` for the design rationale.** This file is the directory ma
 ## Generation pipeline (build the gold data)
 
 - **`generation/`** — the reproducible `(query → config)` example generator (Stages 0–6): sampler → resolver
-  → query generator → gates → ICE screen → review export, plus `verify_pipeline.py` (**36** no-GPU checks,
+  → query generator → gates → ICE screen → review export, plus `verify_pipeline.py` (**65** no-GPU checks,
   seconds) and `run_generation.sh`. Self-contained; see `generation/README.md`.
 - **`generation/generation_config/factors.json`** — the factor scheme **the engine reads**. Cardinality
   (`select: single|multi`) and the hard-gate flags live here, not in code. Kept byte-identical to

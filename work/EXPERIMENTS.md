@@ -329,6 +329,44 @@ prior already covers — useful for deciding where to strengthen the KB. Raw: `r
 
 ## Experiment 6 — Attribution: KB-component decomposition (6a) + real-query generalization (6b)  [DONE 2026-06-10]
 
+> ### CORRECTION 2026-08-23 — the harness was wrong, and 6a was re-run. The 79 / 56 / 26 table below is superseded.
+>
+> **Two faults, both in the harness.**
+> 1. The `description` mode blanked `when_to_use` and `when_not_to_use`. `compress_options` never puts
+>    either field in the prompt, so two of that mode's four ablations were no-ops: it removed things the
+>    model could not have been reading.
+> 2. It ran the retired pre-migration prompt rather than the shipped factor-resolved one.
+>
+> Fixed, `--mode description` split into `text` (the description string) and `priority` (the scenario's
+> priority label), and re-run. **Seed 42, concurrency 1, one seed.** Raw:
+> `work/results_fixedparser/attribution/*_v2.json`.
+>
+> | arm | what is ablated | faithfulness | n_recs |
+> |---|---|---|---|
+> | `combined` | text + priority + examples | **90%** | 58 |
+> | `examples` | the worked demonstrations | **71%** | 58 |
+> | `text_fulldesc` | the full option description | **8%** | 60 |
+> | `text` | the compressed description, as the prompt actually shows it | **2%** | 58 |
+> | `priority` | the scenario's priority label | **0%** | 58 |
+> | the two thinking arms | — | **FAILED** (`EmptyCompletionError`) | — |
+>
+> **What this changes.** The option description and the priority label do essentially nothing — 26% falls
+> to 2% at the length the prompt uses and 8% at full length, and the priority label scores zero. The
+> worked examples carry the grounding, and carry it with redundancy: either channel alone is removable,
+> all three together reach 90%. The 6a reading below — "descriptions are a substantial complementary
+> channel", "not redundant" — is withdrawn.
+>
+> **Caveats.** One seed, so no spread is quoted; the earlier run's determinism argument applies but a
+> single seed is a single seed. `text_fulldesc` scored 60 recommendations against the others' 58, so the
+> arms are not subtractable. Five of seven arms completed.
+>
+> **6b was NOT re-run.** Its real-query table stands on the old harness and is not comparable with 90%.
+> It also rests on `preliminary_examples/real_queries_biostars.json`, which is **WITHDRAWN** (see
+> `work/README.md`) — the replacement is `real_queries_fetched.json`, 43 tracker issues pulled verbatim
+> with a per-body SHA-256, of which 8 are configuration questions. **Do not cite the 6b numbers.** They
+> need a re-run on the fetched set before they mean anything.
+
+
 Two analyses extending Exp 5, sharing ONE harness/model/KB so they are directly comparable. Each changes
 exactly one variable; everything else (`gemma4:26b`, expanded 58-option KB, all-examples retrieval,
 temp=0, combined-mode unless noted) is held fixed. Driver: `work/harness/run_exp6.sh`.
@@ -456,7 +494,9 @@ citation validity. Audited against 240 logged gemma4:26b responses:
   `[source:]` on every line, a *correct* version of this metric is ~always 100% — uninformative.
 
 **Superseded by attribution** (`run_attribution.py`, Exp 5/6): "is the citation *correct/grounded*" is
-faithfulness, measured causally (79% combined, ±0.6 over 3 seeds). Citation-rate should not be reported;
+faithfulness, measured causally (**90% combined**, one seed — the harness is deterministic per seed, so
+no spread is quoted; the earlier 79% and its "±0.6 over 3 seeds" both belonged to the pre-fix harness,
+and the spread was enable-F1's). Citation-rate should not be reported;
 the structured-output migration makes cited-ness structural (every recommendation carries its `option_id`
 provenance). The related `extract_use_case` parser has the same scrape-the-prose fragility (logged: real
 misclassifications, e.g. regulatory/non-human → structural_variants via the "variants" substring) and is
@@ -860,10 +900,16 @@ inert and `think` is the entire effect**. Confirmed again live on one query, 3 r
 
 **Result — end to end.** `eval_factor_set.py --factors inferred --think off`, 3 seeds (42-44), 31 rows:
 
-| classifier reasoning | enable-F1 | crit-recall | −core_type | options |
+| classifier reasoning | enable-F1 | ~~crit-recall~~ | ~~−core_type~~ | options |
 |---|---|---|---|---|
-| ON (old behaviour) | 89.3% ± 0.5 | 96.5% ± 0.2 | 95.3% ± 0.1 | 12.3 |
-| **OFF (new default)** | **89.5% ± 0.6** | 96.4% ± 0.3 | 95.1% ± 0.3 | 12.2 |
+| ON (old behaviour) | 89.3% ± 0.5 | ~~96.5% ± 0.2~~ | ~~95.3% ± 0.1~~ | 12.3 |
+| **OFF (new default)** | **89.5% ± 0.6** | ~~96.4% ± 0.3~~ | ~~95.1% ± 0.3~~ | 12.2 |
+
+> **The two recall columns are WITHDRAWN (2026-08-19) and 95.1% should not be quoted.** They scored
+> against the internal `critical` tier, which was the one part of the priority table an expert
+> reviewed — and twelve of her twenty edits moved options across it. The tier was deleted rather than
+> corrected in place. **enable-F1 is unaffected and carries this experiment's finding**: it was always
+> scored on the enabled set, which the tier removal leaves unchanged. See `STATUS.md`.
 
 **Findings.**
 1. **5.8x faster on the classifier at no cost.** 29 of 31 rows produce a byte-identical factor tuple; all

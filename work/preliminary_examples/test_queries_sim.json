@@ -118,5 +118,23 @@
     "query": "I have a short list of rsIDs and just want their gene, consequence, and ClinVar significance - nothing heavy.",
     "ground_truth_id": "quick_lookup_batch",
     "source": "simulated"
+  },
+  {
+    "id": "test_rare_disease_clinical_report",
+    "query": "I'm finalising a diagnostic clinical report for a patient with a suspected Mendelian disorder. I need reproducible, version-stable transcript identifiers (e.g. ENST00000380152.7) and HGVS on a single clinically preferred transcript per variant, so the report stays consistent across Ensembl releases and our records.",
+    "ground_truth_id": "rare_disease_clinical_report",
+    "source": "simulated"
+  },
+  {
+    "id": "test_somatic_clinical_report",
+    "query": "I'm preparing a clinical somatic variant report and need versioned Ensembl transcript identifiers so the annotation matches our oncology knowledge bases exactly across releases. Keep every overlapping transcript, since different oncology databases reference different ones.",
+    "ground_truth_id": "somatic_clinical_report",
+    "source": "simulated"
+  },
+  {
+    "id": "test_rare_disease_phenotype_priority",
+    "query": "I have a shortlist of candidate genes from a rare-disease exome and want to prioritise variants that fall in genes with known disease or phenotype associations. Which VEP options surface gene-phenotype links?",
+    "ground_truth_id": "rare_disease_phenotype_priority",
+    "source": "simulated"
   }
 ]

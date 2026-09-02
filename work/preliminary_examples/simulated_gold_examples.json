@@ -1091,5 +1091,210 @@
       }
     },
     "justification": "A batch rsID lookup needs only gene symbol, co-located known-variant resolution, ClinVar significance, and HGVS; predictors/frequency/regulatory are unnecessary overhead."
+  },
+  {
+    "id": "rare_disease_clinical_report",
+    "user_query": "I'm finalising a diagnostic clinical report for a patient with a suspected Mendelian disorder. I need reproducible, version-stable transcript identifiers (e.g. ENST00000380152.7) and HGVS on a single clinically preferred transcript per variant, so the report stays consistent across Ensembl releases and our records.",
+    "use_case_category": "rare_disease_germline",
+    "confidence": "high",
+    "recommended_options": {
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "mane": {
+        "value": true,
+        "enabled": true
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true
+      },
+      "pick": {
+        "value": true,
+        "enabled": true
+      },
+      "transcript_version": {
+        "value": true,
+        "enabled": true
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true
+      },
+      "protein": {
+        "value": true,
+        "enabled": true
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true
+      },
+      "af_gnomade": {
+        "value": true,
+        "enabled": true
+      },
+      "af_gnomadg": {
+        "value": true,
+        "enabled": true
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true
+      },
+      "polyphen": {
+        "value": "b",
+        "enabled": true
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Need full annotation on the picked transcript, not a single collapsed consequence"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "Need detailed per-transcript fields, not a summary"
+      }
+    },
+    "justification": "A diagnostic report needs reproducible identifiers and one clean line per variant: transcript_version appends release-stable version numbers to Ensembl transcript IDs so the annotation is reproducible across releases, and pick restricts output to a single representative consequence using the MANE > canonical ranking. HGVS/protein on the MANE/canonical transcript give report-ready nomenclature, with ClinVar significance and gnomAD exome+genome frequencies for pathogenicity and rarity. most_severe/summary stay off so the picked transcript retains full annotation."
+  },
+  {
+    "id": "somatic_clinical_report",
+    "user_query": "I'm preparing a clinical somatic variant report and need versioned Ensembl transcript identifiers so the annotation matches our oncology knowledge bases exactly across releases. Keep every overlapping transcript, since different oncology databases reference different ones.",
+    "use_case_category": "somatic_cancer",
+    "confidence": "high",
+    "recommended_options": {
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true
+      },
+      "transcript_version": {
+        "value": true,
+        "enabled": true
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true
+      },
+      "polyphen": {
+        "value": "b",
+        "enabled": true
+      },
+      "cadd": {
+        "value": true,
+        "enabled": true
+      },
+      "af_gnomade": {
+        "value": true,
+        "enabled": true
+      },
+      "af_gnomadg": {
+        "value": true,
+        "enabled": true
+      },
+      "pick": {
+        "value": false,
+        "enabled": false,
+        "note": "Somatic interpretation references different transcripts across oncology databases, so keep all overlapping transcripts rather than restricting to one"
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Need per-transcript detail, not a collapsed summary"
+      },
+      "summary": {
+        "value": false,
+        "enabled": false,
+        "note": "Need per-transcript detail, not a collapsed summary"
+      }
+    },
+    "justification": "Clinical somatic reporting needs version-stable transcript identifiers (transcript_version) so variants can be matched exactly against oncology knowledge bases across Ensembl releases. pick is deliberately left OFF: unlike germline reporting, somatic interpretation references different transcripts in different databases, so all overlapping transcripts should be retained. The rest is the standard somatic suite (known-variant flagging, ClinVar, SIFT/PolyPhen/CADD, gnomAD frequencies to remove residual germline)."
+  },
+  {
+    "id": "rare_disease_phenotype_priority",
+    "user_query": "I have a shortlist of candidate genes from a rare-disease exome and want to prioritise variants that fall in genes with known disease or phenotype associations. Which VEP options surface gene-phenotype links?",
+    "use_case_category": "rare_disease_germline",
+    "confidence": "high",
+    "recommended_options": {
+      "core_type": {
+        "value": "Ensembl/GENCODE",
+        "enabled": true
+      },
+      "mane": {
+        "value": true,
+        "enabled": true
+      },
+      "canonical": {
+        "value": true,
+        "enabled": true
+      },
+      "symbol": {
+        "value": true,
+        "enabled": true
+      },
+      "hgvs": {
+        "value": true,
+        "enabled": true
+      },
+      "phenotypes": {
+        "value": true,
+        "enabled": true
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true
+      },
+      "clinvar": {
+        "value": true,
+        "enabled": true
+      },
+      "af_gnomade": {
+        "value": true,
+        "enabled": true
+      },
+      "af_gnomadg": {
+        "value": true,
+        "enabled": true
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true
+      },
+      "polyphen": {
+        "value": "b",
+        "enabled": true
+      },
+      "most_severe": {
+        "value": false,
+        "enabled": false,
+        "note": "Need per-transcript detail, not a collapsed summary"
+      }
+    },
+    "justification": "Prioritising variants in known disease genes is exactly what the Phenotypes plugin is for: it retrieves reported phenotype/disease associations for the genes (and overlapped variants/QTLs/regulatory features) a variant hits. Combined with gene symbol/MANE/canonical/HGVS for identification, ClinVar significance, and gnomAD frequencies for rarity, it lets known-disease-gene candidates be flagged and ranked."
   }
 ]

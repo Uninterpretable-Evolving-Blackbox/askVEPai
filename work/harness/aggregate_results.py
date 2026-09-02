@@ -55,7 +55,7 @@ def main():
                      "wf1_all": pct(wf1[3]) if wf1 else None})
     rows.sort(key=lambda x: ORDER.index(x["model"]) if x["model"] in ORDER else 99)
 
-    print(f"Cross-model Enable F1 (real system: 58 options, 20 examples, LOO, N=3)\n")
+    print("Cross-model Enable F1 (real system: 58 options, 20 examples, LOO, N=3)\n")
     print(f"{'model':14s} {'bare':>5s} {'keyword':>8s} {'all-ex':>7s} {'semantic':>9s} {'all−kw':>7s}")
     print("-" * 56)
     for r in rows:

@@ -51,10 +51,13 @@ and what to guess for each:
   somatic harms 0 of 16 germline rows, while leaving it empty lets that filter through on 6 of 15 somatic
   rows, which is the identical harm to guessing germline outright.
 
-  Leaving it empty is **strictly worse than either value**. Silence carries germline's risk on
-  `frequency` *and* additionally drops `check_existing`, which germline and somatic both enable — on all
-  31 rows. So the first half of this decision is that something must be guessed at all; only the second
-  half is that the something is somatic.
+  Leaving it empty carries germline's risk on `frequency` without germline's benefit, so something has
+  to be guessed at all; only the second half of the decision is that the something is somatic.
+
+  *Amended 2026-08-19.* This paragraph used to add that silence also drops `check_existing`, which both
+  values enabled on all 31 rows. Likhitha's round-1 edit demoted `check_existing` to an add-on, so
+  neither value enables it now and that leg is gone. The argument rests on the `frequency` asymmetry
+  alone. `defaults_evidence.py` asserts it.
 
   **This is the one default that is not loss-free, and the cost is not an add-on.** Measured on the 31
   rows, guessing somatic costs `frequency` on **7 of 31**, and `frequency` resolves at `recommended`,
@@ -145,6 +148,18 @@ flag. The values `small` and `structural-CNV` are not the problem; single-select
 one answer per dataset where the honest unit holds both — and a user who answers *both* has half of it
 discarded, which is worse than never asking.
 
+**Amended 2026-08-31 — the output side.** Your CADD point settled what a both-size answer should *emit*:
+the web form cannot cover both sizes in one configuration, because CADD's control is a drop-down over
+four annotation files (SNVs and InDels / SNVs / InDels / CADD-SV) and the files are mutually exclusive.
+So the factor stays multi-select — everything above about describing the callset honestly stands, and
+the ablation evidence is unchanged — but a both-size scenario now emits **one configuration per size,
+two VEP runs**, instead of one union configuration nobody can enter on the form. Each pass names the
+annotation file it needs, and CADD-SV being GRCh38-only means a stated GRCh37 drops CADD from the
+structural pass with a reason rather than leaving it on with no data behind it. The safety argument is
+checked, not asserted: across all 36 both-size factor tuples, the two passes together enable exactly
+what the single configuration did — the split re-assigns options to the run that can use them and
+neither loses nor invents any (`verify_pipeline.py` §8b).
+
 Allowing both values, as `region_focus` already does, is what makes the safe guess expressible. On the
 same 23 ablations:
 
@@ -220,7 +235,7 @@ clinical or field standard · **[Meas]** measured in this repository · **[Judg]
 | Design choice | Grounding | Specific basis |
 |---|---|---|
 | Guess by default; ask only as an exception | **[Judg]** | a recommender that interrogates its users has moved the work back onto them. Not measured, and not measurable without frequency data we do not have |
-| Ask only when something in the RECOMMENDED bucket is at stake | **[Judg]** + **[Meas]** | needs no threshold, and the question can name what is at stake **[Judg]**. Fires 44 times over the 78 clean ablations — 32 assembly, 12 `analysis_goal` **[Meas]**. Reproduce with `work/harness/ask_rate.py`, which prices every candidate policy on the same 78 cases |
+| Ask only when something in the RECOMMENDED bucket is at stake | **[Judg]** + **[Meas]** | needs no threshold, and the question can name what is at stake **[Judg]**. Fires 46 times over the 78 clean ablations — 34 assembly, 12 `analysis_goal` **[Meas]**. Reproduce with `work/harness/ask_rate.py`, which prices every candidate policy on the same 78 cases |
 | The bar is the RECOMMENDED bucket the user is shown | **[Meas]** | the alternative is the internal `critical` tier, and that boundary is the one the review found unstable — twelve of the twenty mentor edits were critical↔recommended moves, which is why the display was merged. An interruption should not depend on a label the reviewer redrew twelve times and the user never sees. Priced before choosing: on the current guesses both bars raise identical questions, diverging only if the guesses are removed (+6 `origin`). `ASK_BAR_PRIORITIES` keeps the comparison runnable |
 | Guesses are stated, never silent | **[Judg]** | the failure this design answers is invisible omission, and a silent fix reproduces it |
 | `region_focus` guessed *both* | **[Meas]** | 0.00 options lost across 22 ablations, confirmed independently by a deterministic sweep (4.4 vs 4.6 options recovered by two different methods) |
@@ -249,7 +264,7 @@ is made about how their model performed.
 
 ```bash
 python vep_assistant.py "human tumour WGS, which variants are damaging?"      # guesses, stated
-python vep_assistant.py --assume "..."                                        # guesses, silent
+python vep_assistant.py --quiet "..."                                         # guesses, silent
 python vep_assistant.py --ask "..."                                           # also prompt
 
 python work/harness/try_reprompting.py --why "human tumour WGS, ..."          # what it did, and why
@@ -282,9 +297,9 @@ single line — and `ask_rate.py` already carries an arm that prices the alterna
 | Assembly is asked (§6) | `assembly_question` | 32 over the 78 ablations; the text already names it on 4 of the 8 real questions |
 | The interrupt bar is the visible RECOMMENDED bucket (§4) | `ASK_BAR_PRIORITIES` | identical to the narrow bar on the current guesses; the two diverge only without them (+6 `origin`) |
 
-**The headline cost.** The tool interrupts on **38 of the 78 ablations**, raising 44 questions. That is a
+**The headline cost.** The tool interrupts on **40 of the 78 ablations**, raising 46 questions. That is a
 lot for a design whose first principle is that asking is the exception, and it deserves your eye rather
-than a footnote. Two things temper it and neither disposes of it: 32 of the 44 are about assembly, which
+than a footnote. Two things temper it and neither disposes of it: 34 of the 46 are about assembly, which
 the ablation set can only overstate because its queries never name a build while 4 of 8 real ones do; and
 skipping any question is free and leaves an announced assumption rather than a silent one. If that is
 still too talkative, the lever is §6's relevance test, and `ask_rate.py --arm "goal guessed"` prices the
@@ -292,11 +307,10 @@ other direction.
 
 **Needing your ruling:**
 
-1. **Jamie's alternative to §5.** From his note on row 1: a mixed set is really two analyses, and the tool
-   should say so rather than emit one configuration covering both. What is implemented is the union,
-   because that is what the resolver computes and what the hard gate's semantics already support. His
-   version changes what the tool *outputs*, not what the factor can hold, so the measurements above do not
-   settle it. It is a change to the output shape rather than to the taxonomy.
+1. **Jamie's alternative to §5 — now implemented.** From his note on row 1: a mixed set is really two
+   analyses, and the tool should say so rather than emit one configuration covering both. Your CADD
+   drop-down point settled it from the form side, and the tool now emits one configuration per size
+   (§5, amended). Still open from his note: should coding vs non-coding split the same way?
 2. **Does `origin` earn its place in the taxonomy?** Measured across every tuple, germline and somatic
    produce *identical* configurations except for one option — `frequency` — and they differ on only 9 of
    54 tuples, all of them human population-frequency scenarios. They never even differ in priority. The

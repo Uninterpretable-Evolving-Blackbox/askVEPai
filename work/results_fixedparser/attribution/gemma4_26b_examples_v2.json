@@ -1,0 +1,114 @@
+{
+  "faithfulness_rate": 0.7068965517241379,
+  "mode": "examples",
+  "seed": 42,
+  "concurrency": 1,
+  "n_recs": 58,
+  "per_option": {
+    "af_gnomade": 1.0,
+    "af_gnomadg": 0.75,
+    "cadd": 0.0,
+    "canonical": 1.0,
+    "check_existing": 0.8571428571428571,
+    "clinvar": 0.75,
+    "core_type": 1.0,
+    "hgvs": 0.5,
+    "mane": 1.0,
+    "polyphen": 0.5,
+    "protein": 0.0,
+    "sift": 0.6666666666666666,
+    "symbol": 0.7142857142857143,
+    "biotype": 0.6666666666666666,
+    "numbers": 1.0,
+    "distance": 1.0,
+    "regulatory": 0.5,
+    "gnomad_sv": 0.0,
+    "per_gene": 1.0,
+    "pick": 0.0,
+    "spliceai": 0.0
+  },
+  "per_query": {
+    "test_rare_disease": 0.46153846153846156,
+    "test_non_human": 1.0,
+    "test_regulatory": 0.7142857142857143,
+    "test_structural": 0.875,
+    "test_somatic_cancer": 0.8,
+    "test_population_large_vcf": 0.25,
+    "test_splice": 0.7777777777777778
+  },
+  "baselines": {
+    "test_rare_disease": [
+      "af_gnomade",
+      "af_gnomadg",
+      "cadd",
+      "canonical",
+      "check_existing",
+      "clinvar",
+      "core_type",
+      "hgvs",
+      "mane",
+      "polyphen",
+      "protein",
+      "sift",
+      "symbol"
+    ],
+    "test_non_human": [
+      "biotype",
+      "check_existing",
+      "core_type",
+      "hgvs",
+      "numbers",
+      "sift",
+      "symbol"
+    ],
+    "test_regulatory": [
+      "af_gnomade",
+      "biotype",
+      "check_existing",
+      "core_type",
+      "distance",
+      "regulatory",
+      "symbol"
+    ],
+    "test_structural": [
+      "biotype",
+      "check_existing",
+      "clinvar",
+      "core_type",
+      "gnomad_sv",
+      "per_gene",
+      "regulatory",
+      "symbol"
+    ],
+    "test_somatic_cancer": [
+      "af_gnomade",
+      "af_gnomadg",
+      "cadd",
+      "check_existing",
+      "clinvar",
+      "core_type",
+      "hgvs",
+      "polyphen",
+      "sift",
+      "symbol"
+    ],
+    "test_population_large_vcf": [
+      "af_gnomadg",
+      "check_existing",
+      "pick",
+      "symbol"
+    ],
+    "test_quick": [],
+    "test_splice": [
+      "af_gnomade",
+      "af_gnomadg",
+      "check_existing",
+      "clinvar",
+      "core_type",
+      "hgvs",
+      "numbers",
+      "spliceai",
+      "symbol"
+    ]
+  }
+}

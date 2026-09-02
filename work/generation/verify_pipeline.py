@@ -85,8 +85,11 @@ def main():
     # catalogue marks not_applicable for SVs must be absent from every structural-CNV row's enabled set.
     # This is the strong version of the earlier "SNV predictors" check — it also covers enformer,
     # utrannotator, mutfunc, paralogues, etc. that a hand-authored category gate missed.
+    # Reads the rule where it NOW lives. It moved out of the legacy use-case table on 2026-08-19; if
+    # this kept reading the old column it would pass while a new-location edit went unenforced.
     sv_na = {o["id"] for o in cat
-             if o.get("priority_by_use_case", {}).get("structural_variants") == "not_applicable"}
+             if (o.get("priority_by_factor") or {}).get("variant_size_class", {}).get(
+                 "structural-CNV") == "not_applicable"}
     sz = [(r["id"], o) for r in rows if r["factor_labels"]["variant_size_class"] == "structural-CNV"
           for o in enabled(r) if o in sv_na]
     check("structural-CNV rows never enable a catalogue-SV-not_applicable option", not sz, str(sz[:5]))
@@ -174,19 +177,21 @@ def main():
           "region_focus": ["coding"], "analysis_goal": ["clinical-interpretation"]}
     q = "germline exome variants, rare disease, human GRCh38"
     resolved = va.intent_priorities(ft, cat, pbf, factors)
-    crit = {o for o, (_e, p, g) in resolved.items() if p == "critical" and not g}
+    # The must-have set IS the RECOMMENDED bucket since the tier removal on 2026-08-19. Left as
+    # `crit` because the assertions below read it by that name.
+    crit = {o for o, (_e, p, g) in resolved.items() if p == "recommended" and not g}
 
     def run_draft(draft, level):
         en, dis = set(draft), set()
         va.check_and_fix_violations(en, dis, cat, corpus, q)
-        va.restore_missing_critical(en, dis, resolved, cat, corpus, q)
+        va.restore_missing_recommended(en, dis, resolved, cat, corpus, q)
         if level != "standard":
             va.apply_config_level(en, dis, resolved, level, cat, corpus, q)
         return en
 
     for lvl in ("standard", "minimal", "full"):
         en = run_draft({"core_type", "hgvs"}, lvl)      # the observed two-option draft
-        check(f"a 2-option draft still yields every critical option (--{lvl})",
+        check(f"a 2-option draft still yields every recommended option (--{lvl})",
               not (crit - en), f"missing {sorted(crit - en)}")
     # --full must mean every tier the scenario justifies, not just the add-ons.
     #
@@ -199,8 +204,8 @@ def main():
     build_blocked = {o["id"] for o in cat
                      if (r := va._assembly_restriction(o.get("species_restriction", ""))) and asm not in r}
     want = {o for o, (_e, p, g) in resolved.items()
-            if p in ("critical", "recommended", "optional") and not g} - build_blocked
-    check("--full enables critical + recommended + optional, not optional alone",
+            if p in ("recommended", "optional") and not g} - build_blocked
+    check("--full enables recommended + optional, not optional alone",
           not (want - full), f"missing {sorted(want - full)[:5]}")
     check(f"...and the {asm} assembly gate still removes the other build's sources",
           bool(build_blocked) and not (build_blocked & full), f"blocked={sorted(build_blocked)}")
@@ -211,7 +216,7 @@ def main():
           not (deriv & full) or bool(dist & full),
           f"derivative={sorted(deriv & full)} distinct={sorted(dist & full)}")
     # An empty draft is the worst case and must still produce a usable core.
-    check("even an EMPTY draft is repaired to the full critical set",
+    check("even an EMPTY draft is repaired to the full recommended set",
           not (crit - run_draft(set(), "standard")))
 
     print("\n== 7. The two-tier display is a regrouping, not a filter ==")
@@ -245,21 +250,204 @@ def main():
             offered_on.append(va.factor_slug(t))
     check(f"every enabled option lands in exactly one bucket ({len(tuples)} tuples)",
           not lost, f"lost on {lost[:3]}")
-    check("the merge takes critical+recommended only — no `optional` is promoted",
+    check("the display bucket takes `recommended` only — no `optional` is promoted",
           not promoted, f"promoted on {promoted[:3]}")
     check("options offered as add-ons are never also enabled",
           not offered_on, f"both on {offered_on[:3]}")
-    # The tier survives INTERNALLY. If it ever stops doing so, restore_missing_critical silently
-    # becomes a no-op and --minimal silently becomes --standard, with nothing else failing.
+    # The third tier is GONE as of 2026-08-19, not merely hidden — see the RANK comment in
+    # vep_assistant.py. This asserts the removal rather than the old invariant: if `critical` ever
+    # reappears in a resolved row, something has reintroduced a boundary nobody has validated.
     r = va.intent_priorities(ft, cat, pbf, factors)
-    check("the internal `critical` tier still exists for the mechanisms defined on it",
-          any(p == "critical" for _e, p, _g in r.values()))
+    check("no `critical` survives anywhere in a resolved row",
+          not any(p == "critical" for _e, p, _g in r.values()),
+          sorted({p for _e, p, _g in r.values() if p})),
 
-    print("\n== 8. Helpers ==")
+    # The displayed set and the generated command must be the SAME set. Before 2026-08-19 the output
+    # carried four buckets, two of which were switched on, and the command silently spanned all of
+    # them — so "ALSO AVAILABLE, not switched on" could appear in the command the user was told to
+    # run. One list now, and this asserts it stays one.
+    ft2 = {"species": "human", "origin": "germline", "variant_size_class": ["small"],
+           "region_focus": ["coding"], "analysis_goal": ["clinical-interpretation"]}
+    res2 = va.intent_priorities(ft2, cat, pbf, factors)
+    on2 = {o for o, (e, _p, _g) in res2.items() if e}
+    t2 = va.tier_by_importance(on2, res2)
+    shown = set(t2["recommended"]) | set(t2["unpriced"]) | set(t2["addons_on"])
+    check("what is displayed as switched on IS the enabled set", shown == on2,
+          f"displayed {len(shown)} vs enabled {len(on2)}; diff {sorted(shown ^ on2)[:4]}")
+    check("nothing appears in both 'switch on' and 'also available'",
+          not (shown & set(t2["addons_offered"])), sorted(shown & set(t2["addons_offered"]))[:4])
+
+    print("\n== 8. The shipped CLI path — wiring, not just functions ==")
+    # These three exist because the suites passed while the CLI was broken. test_user_context.py
+    # calls the checker and the restore pass with `assembly_override=` itself, so it proved the
+    # FUNCTIONS honour a stated build while run_recommend was not handing them one: `--assembly
+    # GRCh37` was acknowledged on screen, used to suppress the assembly question, then dropped, and
+    # the run shipped MANE, EVE and MaveDB. A test of a function is not a test of its caller.
+    import inspect
+    body = inspect.getsource(va.run_recommend)
+    # The taxonomy's one HARD rule — somatic must not get the common-variant pre-filter — is the
+    # only gate whose violation destroys data rather than adding a column. The resolver never enables
+    # a gated option; until 2026-08-24 nothing stopped the MODEL from proposing one, and the stored
+    # eval logs show it overriding a gate 33 times, 10 of them exactly this one.
+    ft_som = {"species": "human", "origin": "somatic", "variant_size_class": ["small"],
+              "region_focus": ["coding"], "analysis_goal": ["population-frequency"]}
+    res_som = va.resolve_for_query(ft_som, cat)
+    check("the somatic hard rule gates `frequency` in the table", res_som["frequency"][2])
+    en, dis = {"frequency", "sift"}, set()
+    v = va.check_and_fix_violations(en, dis, cat, corpus, "somatic tumour", resolved=res_som)
+    check("a model-proposed gate violation is removed, not shipped",
+          "frequency" not in en and any(x["type"] == "scenario" for x in v), sorted(en))
+    en, dis = {"frequency", "sift"}, set()
+    va.check_and_fix_violations(en, dis, cat, corpus, "somatic tumour")
+    check("...and without `resolved` the checker is unchanged (callers opt in)",
+          "frequency" in en, sorted(en))
+
+    # The safety property that makes the gate rule non-destructive: run the RESOLVER'S OWN enabled
+    # set back through the checker for every tuple and it must touch nothing. The rule can then only
+    # ever fire on an option the MODEL added, never on the configuration the table itself specifies.
+    scen_hits = []
+    for sp in ("human", "non-human"):
+        for org in ("germline", "somatic"):
+            for sz in ("small", "structural-CNV"):
+                for rf in ("coding", "regulatory-noncoding"):
+                    for ag in ("basic-consequence", "clinical-interpretation", "population-frequency"):
+                        t = {"species": sp, "origin": org, "variant_size_class": [sz],
+                             "region_focus": [rf], "analysis_goal": [ag]}
+                        rr = va.resolve_for_query(t, cat)
+                        e2 = {o for o, (en_, _p, _g) in rr.items() if en_}
+                        vv = va.check_and_fix_violations(e2, set(), cat, corpus, "x", resolved=rr)
+                        scen_hits += [x for x in vv if x["type"] == "scenario"]
+    check("the gate rule never strips the resolver's own configuration (48 tuples)",
+          not scen_hits, f"{len(scen_hits)} unexpected")
+
+    for fn in ("check_and_fix_violations", "restore_missing_recommended", "apply_config_level"):
+        i = body.find(fn + "(")
+        call = body[i:body.find(")", i) + 1] if i >= 0 else ""
+        ok = (i >= 0 and "assembly_override" in call and "species_override" in call
+              and ("resolved" in call or fn != "check_and_fix_violations"))
+        check(f"run_recommend hands the stated assembly AND species to {fn}",
+              ok, "found" if ok else "MISSING — a stated fact will not reach the gate")
+
+    # The gate itself, at the two ends: told the build, it removes the other build's sources; told
+    # nothing, it stays out of the way (fail-open is deliberate — see test_user_context.py).
+    en, dis = {"mane", "eve", "mavedb", "sift"}, set()
+    va.check_and_fix_violations(en, dis, cat, corpus, "human exome", assembly_override="GRCh37")
+    check("a stated GRCh37 removes every GRCh38-only source", en == {"sift"}, sorted(en))
+
+    # The species mirror of the same wiring bug: `--species human` on a query whose TEXT says mouse
+    # must stop the gate re-reading "mouse" out of the prose — the human-only options the table
+    # recommends were being stripped inside restore's re-check, whose violations are never printed.
+    en, dis = {"clinvar", "cadd", "sift", "check_existing"}, set()
+    va.check_and_fix_violations(en, dis, cat, corpus, "somatic SNVs from a mouse tumour",
+                                species_override="human")
+    check("a stated human survives mouse wording in the text",
+          {"clinvar", "cadd"} <= en, sorted(en))
+    en, dis = {"clinvar", "cadd", "sift", "check_existing"}, set()
+    va.check_and_fix_violations(en, dis, cat, corpus, "somatic SNVs from a mouse tumour")
+    check("...and without the override the text still gates (unchanged behaviour)",
+          "clinvar" not in en and "cadd" not in en, sorted(en))
+
+    # A tick the model's own line contradicts. Observed live: the model wrote `✓ regiulatory
+    # [source: regulatory, priority=NOT APPLICABLE]` with `Reason: Not applicable ...`, and a
+    # coding-only exome run shipped --regulatory carrying "Not applicable" as its justification.
+    aliases = va.build_option_aliases(cat)
+    draft = ("\u2713 sift [source: sift, priority=recommended] confidence: high\n"
+             "  Reason: Standard missense predictor.\n"
+             "\u2713 regiulatory [source: regulatory, priority=NOT APPLICABLE] confidence: high\n"
+             "  Reason: Not applicable as the focus is explicitly on coding regions.\n"
+             "\u2713 most_severe [source: most_severe] confidence: high\n"
+             "  Reason: Disabled because clinical interpretation needs every consequence.\n")
+    p_en, p_dis = va.extract_recommendations(draft, aliases)
+    check("a tick its own priority field contradicts is read as OFF",
+          "regulatory" in p_dis and "regulatory" not in p_en, f"enabled={sorted(p_en)}")
+    check("a tick its own Reason contradicts is read as OFF",
+          "most_severe" in p_dis and "most_severe" not in p_en, f"disabled={sorted(p_dis)}")
+    check("an uncontradicted tick is still an enable", p_en == {"sift"}, sorted(p_en))
+    check("every overruled tick is reported, never silent",
+          "regulatory" in va.format_marker_overrides(
+              va.extract_recommendations_detailed(draft, aliases), cat))
+
+    # The web app calls this without reason_by_id; the parameter defaults to None and the body used
+    # to call .get on it.
+    res3 = va.intent_priorities(ft2, cat, pbf, factors)
+    on3 = {o for o, (e, _p, _g) in res3.items() if e}
+    check("format_corrected_config survives a caller that passes no per-option prose",
+          "SWITCH THESE ON" in va.format_corrected_config(on3, set(), cat, [], resolved=res3))
+
+    print("\n== 8b. One VEP run per variant size ==")
+    # The web form cannot express a configuration covering both sizes at once (CADD's annotation-file
+    # drop-down forces the choice), so a both-size scenario resolves to two passes. These checks are the
+    # ones that would fail if the split ever started LOSING or INVENTING options, which is the only way
+    # it could be worse than the union configuration it replaced.
+    both = {"species": "human", "origin": "germline",
+            "variant_size_class": ["small", "structural-CNV"],
+            "region_focus": ["coding"], "analysis_goal": ["clinical-interpretation"]}
+    passes = va.size_passes(both)
+    check("a both-size scenario resolves to two passes", len(passes) == 2,
+          " -> ".join(lbl for _v, lbl, _t in passes))
+    check("short variants come first", passes[0][0] == "small")
+    check("each pass pins the size to exactly one value",
+          all(len(va.active_values(pt)["variant_size_class"]) == 1 for _v, _l, pt in passes))
+    check("a pass changes nothing but the size",
+          all({k: v for k, v in pt.items() if k != "variant_size_class"}
+              == {k: v for k, v in both.items() if k != "variant_size_class"}
+              for _v, _l, pt in passes))
+    check("a single-size scenario still resolves to one pass",
+          len(va.size_passes({**both, "variant_size_class": ["small"]})) == 1)
+
+    def _on(ft):
+        return {o for o, (e, _p, _g) in va.intent_priorities(ft, cat, pbf, factors).items() if e}
+
+    # THE INVARIANT THAT MATTERS. Splitting must be a re-assignment, not a re-decision: every option the
+    # single configuration switched on is switched on by exactly one of the two passes, and no pass
+    # invents anything the union did not already have. Checked over every both-size factor tuple, not
+    # one example.
+    diffs, tuples = [], 0
+    for spc in factors["factors"]["species"]["values"]:
+        for org in factors["factors"]["origin"]["values"]:
+            for reg in (["coding"], ["regulatory-noncoding"], ["coding", "regulatory-noncoding"]):
+                for goal in ([g] for g in factors["factors"]["analysis_goal"]["values"]):
+                    ft = {"species": spc, "origin": org,
+                          "variant_size_class": ["small", "structural-CNV"],
+                          "region_focus": reg, "analysis_goal": goal}
+                    tuples += 1
+                    union = _on(ft)
+                    split = set().union(*(_on(pt) for _v, _l, pt in va.size_passes(ft)))
+                    if union != split:
+                        diffs.append(ft)
+    check("the two passes together enable exactly what one config did, on every both-size tuple",
+          not diffs, f"{tuples} tuples, {len(diffs)} differ")
+
+    a = _on(passes[0][2])
+    b = _on(passes[1][2])
+    check("the passes are not the same configuration twice", a != b,
+          f"{len(a - b)} only in short, {len(b - a)} only in structural")
+
+    # CADD is the one control whose VALUE depends on the size, and it is the reason the split exists.
+    small_lab, _ = va.size_dependent_choice("cadd", "small", cat)
+    sv_lab, _ = va.size_dependent_choice("cadd", "structural-CNV", cat)
+    check("CADD takes a different annotation file in each pass",
+          bool(small_lab) and bool(sv_lab) and small_lab != sv_lab, f"{small_lab} vs {sv_lab}")
+    _lab, why37 = va.size_dependent_choice("cadd", "structural-CNV", cat, "GRCh37")
+    _lab, why38 = va.size_dependent_choice("cadd", "structural-CNV", cat, "GRCh38")
+    _lab, whyopen = va.size_dependent_choice("cadd", "structural-CNV", cat, None)
+    check("the SV annotation file is refused on a stated GRCh37", bool(why37), why37)
+    check("...allowed on GRCh38, and left open when no build is stated",
+          not why38 and not whyopen)
+    dropme = {"cadd", "sift"}
+    gone = va.drop_unavailable_size_values(dropme, cat, "structural-CNV", "GRCh37")
+    check("an option with no usable file for this pass is dropped, not left on empty",
+          [o for o, _w in gone] == ["cadd"] and dropme == {"sift"})
+
+    print("\n== 9. Helpers ==")
     check("rouge_l(identical) == 1", abs(genlib.rouge_l("a b c", "a b c") - 1.0) < 1e-9)
     check("rouge_l(disjoint) == 0", genlib.rouge_l("a b c", "x y z") == 0.0)
-    check("strongest ranks critical > recommended > optional",
-          genlib.strongest(["recommended", "critical", "optional"]) == "critical")
+    check("strongest ranks recommended > optional",
+          genlib.strongest(["optional", "recommended"]) == "recommended")
+    # `critical` is no longer a known label, so it must not outrank anything — a stale table or a
+    # hand-edited priority file carrying it should be ignored, not silently treated as the top tier.
+    check("a stray `critical` label is ignored rather than ranked",
+          genlib.strongest(["optional", "critical"]) == "optional")
 
     print("\n" + "=" * 62)
     print(f"{len(PASS)} passed, {len(FAIL)} failed")
