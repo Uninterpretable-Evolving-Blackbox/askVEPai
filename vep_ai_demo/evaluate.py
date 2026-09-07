@@ -154,6 +154,30 @@ USE_CASE_CATEGORIES = [
 ]
 
 
+# How long Ollama keeps the model resident after a call. -1 means FOREVER, which is right on a
+# dedicated eval box: reloading a 16 GB model between queries would dominate the timings this project
+# publishes. It is wrong on a laptop the user is also working on -- pinning a model larger than free
+# RAM froze a 16 GB machine on 2026-09-03. Env-overridable so the eval boxes keep the measured
+# behaviour and a shared machine can set VEP_KEEP_ALIVE=5m (or 0 to unload immediately).
+def _keep_alive():
+    """Ollama wants a NUMBER (-1 = forever, 0 = unload) or a duration string ("5m"). An env var is
+    always a string, so VEP_KEEP_ALIVE=-1 -- the obvious way to write the default explicitly -- used
+    to be sent as "-1" and Ollama rejected every call with
+        HTTP 400  time: missing unit in duration "-1"
+    Numeric strings are coerced back to int so both spellings work. Confirmed against Ollama on
+    2026-09-06: -1 and "5m" accepted, "-1" rejected."""
+    v = os.environ.get("VEP_KEEP_ALIVE")
+    if v is None:
+        return -1
+    try:
+        return int(v)
+    except ValueError:
+        return v
+
+
+KEEP_ALIVE = _keep_alive()
+
+
 def extract_use_case(response_text):
     """Extract the detected use case category from LLM response text."""
     response_lower = response_text.lower().replace("-", "_").replace(" ", "_")
@@ -415,7 +439,23 @@ def score_response(enabled, disabled, gt_enabled, gt_disabled, vep_options, quer
 # LLM call
 # ---------------------------------------------------------------------------
 
-_MAX_TOKENS = 4096   # single source of truth — referenced by the report header so the two can't drift
+_MAX_TOKENS = int(os.environ.get("VEP_MAX_TOKENS", 4096))   # single source of truth — the report
+                                                            # header reads it, so the two cannot drift
+
+# A REASONING RUN NEEDS ROOM FOR THE REASONING *AND* THE ANSWER. 4096 was sized for the shipped path,
+# where reasoning is off. With `think` on, gemma4:26b spends that budget thinking and returns empty
+# content -- which is the EmptyCompletionError that has failed every attempt at Experiment 6's two
+# thinking arms, most recently on a Colab L4 on 2026-09-04 (`--think low`, 23/23 queries classified,
+# then empty on the first recommender call).
+#
+# So the cap is raised for thinking calls only. The non-thinking path keeps 4096 exactly, which is what
+# every published figure was measured on -- this changes no existing number.
+_THINK_MAX_TOKENS = int(os.environ.get("VEP_THINK_MAX_TOKENS", 16384))
+
+
+def _cap_for(think):
+    """Token budget for this call. Thinking needs a bigger one; everything else is unchanged."""
+    return _THINK_MAX_TOKENS if think not in (None, False, "off") else _MAX_TOKENS
 
 
 class EmptyCompletionError(RuntimeError):
@@ -441,10 +481,10 @@ def _call_llm_native(model, system_prompt, user_query, temperature, seed, think)
     import json as _json
     import urllib.request as _url
     body = {
-        "model": model, "stream": False, "keep_alive": -1, "think": think,
+        "model": model, "stream": False, "keep_alive": KEEP_ALIVE, "think": think,
         "messages": [{"role": "system", "content": system_prompt},
                      {"role": "user", "content": user_query}],
-        "options": {"num_predict": _MAX_TOKENS, "temperature": temperature},
+        "options": {"num_predict": _cap_for(think), "temperature": temperature},
     }
     if seed is not None:
         body["options"]["seed"] = seed

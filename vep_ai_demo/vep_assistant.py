@@ -797,6 +797,30 @@ def parse_factor_classification(raw):
     return out
 
 
+# How long Ollama keeps the model resident after a call. -1 means FOREVER, which is right on a
+# dedicated eval box: reloading a 16 GB model between queries would dominate the timings this project
+# publishes. It is wrong on a laptop the user is also working on -- pinning a model larger than free
+# RAM froze a 16 GB machine on 2026-09-03. Env-overridable so the eval boxes keep the measured
+# behaviour and a shared machine can set VEP_KEEP_ALIVE=5m (or 0 to unload immediately).
+def _keep_alive():
+    """Ollama wants a NUMBER (-1 = forever, 0 = unload) or a duration string ("5m"). An env var is
+    always a string, so VEP_KEEP_ALIVE=-1 -- the obvious way to write the default explicitly -- used
+    to be sent as "-1" and Ollama rejected every call with
+        HTTP 400  time: missing unit in duration "-1"
+    Numeric strings are coerced back to int so both spellings work. Confirmed against Ollama on
+    2026-09-06: -1 and "5m" accepted, "-1" rejected."""
+    v = os.environ.get("VEP_KEEP_ALIVE")
+    if v is None:
+        return -1
+    try:
+        return int(v)
+    except ValueError:
+        return v
+
+
+KEEP_ALIVE = _keep_alive()
+
+
 def _native_chat_url():
     """Ollama's OWN /api/chat, derived from the same OLLAMA_BASE_URL the compat client uses.
 
@@ -821,7 +845,7 @@ def _classify_native(model, user_query, think):
     compat path (temperature 0, seed 42) so `think` is the only variable between them."""
     import urllib.request
     body = {
-        "model": model, "stream": False, "keep_alive": -1, "think": think,
+        "model": model, "stream": False, "keep_alive": KEEP_ALIVE, "think": think,
         "messages": [
             {"role": "system", "content": FACTOR_CLASSIFIER_PROMPT + (user_query or "")},
             {"role": "user", "content": "Return the JSON classification."},
@@ -985,9 +1009,10 @@ UNDERSPECIFIED_POLICY = {
                "your callset is only one of them",
     },
     # ASKED, NOT GUESSED. The rule is: guess where one answer is clearly safer, ask where none is, and
-    # this factor meets neither condition. The rule asks about it on 11 of the 11 ablations where it was
-    # the deleted fact, and the fallback value loses options on 5 of those 11 -- subtractive error, the
-    # direction that costs a user a finding rather than a column.
+    # this factor meets neither condition. The rule asks about it on 12 of the 12 ablations where it was
+    # the deleted fact, and the fallback value loses options on 5 of those 12 -- subtractive error, the
+    # direction that costs a user a finding rather than a column. (11/11 until the ablation set was
+    # rebuilt at three seeds; defaults_evidence.py is the number of record.)
     #
     # The ablations overstate how often this interrupts anyone, because they delete the fact on purpose.
     # On the 8 real configuration questions from the trackers it is genuinely absent and material on 1
@@ -1236,11 +1261,13 @@ def assembly_question(stated, vep_options, user_query=None, assembly=None):
 
     SCORED ON WHAT THE USER STATED, not on the tuple after our own assumptions are folded in, and the
     difference is not small: assuming *both* variant sizes switches gnomAD-SV on for almost every
-    query, and gnomAD-SV is GRCh38-only, so scoring the filled tuple interrupts 42 of the 81 ablations
-    against 33 for the stated one. Nine of those interruptions would exist only because WE guessed.
+    query, and gnomAD-SV is GRCh38-only, so scoring the filled tuple interrupts 40 of the 78 ablations
+    against 34 for the stated one. Six of those interruptions would exist only because WE guessed.
+    Regenerate both counts with ask_rate.py, whose `assembly at stake` line exists so this docstring
+    cannot silently go stale again (its previous figures were the retired 81-ablation set's).
     That follows the asymmetry the whole policy rests on: an option we added is a column the user can
     ignore, so it is not worth a question, while an option their own words called for is. MANE is
-    unaffected either way (17 either way) because a stated clinical goal is what puts it there."""
+    unaffected either way (16 either way) because a stated clinical goal is what puts it there."""
     if (assembly or infer_assembly(user_query)) is not None:
         return []
     if stated.get("species") == "non-human":
@@ -1381,8 +1408,11 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
 
     The default is "state" rather than "ask" because a tool that interrogates its users has moved the
     work back onto them. Asking is opt-in. `analysis_goal` and ASSEMBLY are the two things asked about;
-    every other factor has a safe value and reaches no question. Over the 78 clean ablations that is 44
-    questions on 38 queries, 33 of them assembly (`work/harness/ask_rate.py`).
+    every other factor has a safe value and reaches no question. Over the 78 clean ablations that is 46
+    questions on 40 queries, 34 of them assembly (`work/harness/ask_rate.py`, which is the number of
+    record and is enforced in CI). The ablations are the stress test, not the experience: on the 31
+    review rows AS WRITTEN it asks nothing on 15, never asks two questions, and never asks about
+    `analysis_goal` at all -- the only question that fires is the build, on human rows.
 
     Do not cite "18 of 20 real forum questions" from anywhere: that set was hand-edited and is withdrawn
     (research/underspecification_proposal.md §1).
@@ -2622,8 +2652,15 @@ def format_restored_recommended(restored, vep_options):
     return "\n".join(lines)
 
 
+_WEB_SECTION_LABELS = {                      # canonical CONFIG_SECTIONS ids -> the form's own headings
+    "identifiers": "Identifiers", "variants_frequency_data": "Variants and frequency data",
+    "additional_annotations": "Additional annotations", "predictions": "Predictions",
+    "filters": "Filters", "advanced": "Advanced options"}
+
+
 def format_corrected_config(enabled, disabled, vep_options, violations, resolved=None,
-                            reason_by_id=None, restored=(), size_value=None, assembly=None):
+                            reason_by_id=None, restored=(), size_value=None, assembly=None,
+                            meta_notes=False, show_cli=True):
     """Render the authoritative post-checker configuration — the 'dispose' step, not just a warning.
 
     check_and_fix_violations has already REPAIRED the option set in place (removed species/conflict
@@ -2666,12 +2703,33 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
         core = set(tiers["recommended"]) | set(tiers["unpriced"])
         extra = set(tiers["addons_on"])
         switch_on = sorted(core | extra)
+        # WEB FORM FIRST, CLI SECOND (mentor feedback, 2026-09-07, public-repo test). The old lines
+        # mixed the two surfaces -- "Transcript database to use [core_type] --refseq | --merged | ..."
+        # read as internal labels plus flags a web user cannot type anywhere. Web users get the
+        # form's own control names and section headings here; every flag now lives only in the CLI
+        # block below. `sect_by_id` is the InputForm.pm section, so "where on the form" is answered.
+        sect_by_id = {o["id"]: _WEB_SECTION_LABELS.get(o.get("web_form_section") or "", "")
+                      for o in vep_options}
+        defval_by_id = {o["id"]: o.get("web_default_value") for o in vep_options}
         if switch_on:
-            lines.append(f"SWITCH THESE ON  [{len(switch_on)}]")
+            lines.append(f"SWITCH THESE ON — on the VEP web form  [{len(switch_on)}]")
+            unpriced = set(tiers["unpriced"])
             for oid in switch_on:
-                tag = "   (add-on, included for this scenario)" if oid in extra else ""
-                lines.append(f"  {'+' if oid in extra else '✓'} {name_by_id.get(oid, oid)} [{oid}] "
-                             f"{display_flag(flag_by_id.get(oid, ''))}".rstrip() + tag)
+                # An option only the MODEL wants -- the table prices nothing for it here -- must not
+                # render identically to the table's own picks. The mentor-reported case was `pick`
+                # on a rare-disease query, shown as confidently as ClinVar.
+                tag = ("   (add-on, included for this scenario)" if oid in extra else
+                       "   (model-suggested; not in the priority table for this scenario)"
+                       if oid in unpriced else "")
+                where = f"   ({sect_by_id[oid]} section)" if sect_by_id.get(oid) else ""
+                lines.append(f"  {'+' if oid in extra else '✓'} {name_by_id.get(oid, oid)}"
+                             f"{where}{tag}")
+                # A radiolist recommended AT ITS OWN DEFAULT is an instruction to leave it alone,
+                # and the output should say so instead of making the user hunt for what to change.
+                if oid == "core_type" and (defval_by_id.get(oid) or "core") == "core":
+                    lines.append("      keep the form's default: Ensembl/GENCODE transcripts")
+                if oid in ("pick", "pick_allele", "per_gene", "most_severe", "summary"):
+                    lines.append(f"      set the 'Restrict results' drop-down to: {oid}")
                 if (reason_by_id or {}).get(oid):
                     lines.append(f"      {reason_by_id[oid]}")   # guarded above
                 # A form control whose VALUE depends on the variant size. Naming the file is the whole
@@ -2686,12 +2744,15 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
         if offered:
             lines.append("")
             lines.append(f"ALSO AVAILABLE — not switched on  [{len(offered)}]")
-            lines.extend(f"  · {name_by_id.get(oid, oid)} [{oid}] "
-                         f"{display_flag(flag_by_id.get(oid, ''))}".rstrip()
+            lines.extend((f"  · {name_by_id.get(oid, oid)}"
+                          + (f"   ({sect_by_id[oid]} section)" if sect_by_id.get(oid) else ""))
                          for oid in offered)
-        lines.append("")
-        lines.append("  The recommended/add-on split comes from the PROVISIONAL factor priority table — "
-                     "VEP itself ranks nothing.")
+        if meta_notes:
+            # Provenance for --explain readers. Out of the default output on mentor feedback
+            # (2026-09-07): it describes OUR decision-making, not the user's next action.
+            lines.append("")
+            lines.append("  The recommended/add-on split comes from the PROVISIONAL factor priority "
+                         "table — VEP itself ranks nothing.")
     else:
         lines.append("ENABLE:")
         for oid in on:
@@ -2700,8 +2761,14 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
         if not on:
             lines.append("  (none)")
     flag_list, choices = cli_flags_for(on, vep_options)
+    if not show_cli:
+        # WEB-FORM-ONLY BY DEFAULT (mentor feedback, 2026-09-07): the target of record is the web
+        # form, and a web user cannot type a flag anywhere. --cli appends the command for the users
+        # who do run VEP locally; the JSON output's generated_command is unaffected either way.
+        lines.append("=" * 60)
+        return "\n".join(lines)
     lines.append("")
-    lines.append("VEP command (fill in values/paths):")
+    lines.append("CLI EQUIVALENT — the same configuration as one command (fill in values/paths):")
     lines.append(f"  vep --input_file <in.vcf> --output_file <out.txt> --cache "
                  f"{' '.join(flag_list)}".rstrip())
     for oid, alts in choices:
@@ -2783,7 +2850,7 @@ def _first_sentence(text: str, limit: int = 240) -> str:
 
 def build_recommendation_json(query, response_text, vep_options, training_examples,
                               option_aliases=None, retrieval_mode="keyword",
-                              model=None, kb_version=None, run_checker=True):
+                              model=None, kb_version=None, run_checker=True, resolved_override=None):
     """Assemble a schema-valid recommendation JSON from a model response — deterministically.
 
     Pipeline reuse (no logic fork): extract_recommendations_detailed (parse) +
@@ -2821,6 +2888,14 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
     species = infer_species(query)
     use_case = _detect_use_case(enabled, vep_options, training_examples, query, retrieval_mode)
 
+    # DERIVED HERE, not 40 lines further down where the command is built. The checker call below
+    # passes it as assembly_override, so leaving the assignment later made every call with the
+    # checker on -- the default -- raise UnboundLocalError. Introduced 2026-08-06 (8978356) when the
+    # override was threaded through; nothing caught it because build_output_json.py is the only
+    # caller and it had not been run since.
+    am = _ASSEMBLY_RE.search(query or "")
+    assembly = am.group(1) if am else None
+
     violations = []
     if run_checker:
         # Mutates enabled/disabled in place into the corrected, authoritative set.
@@ -2845,8 +2920,15 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
             "action": action,
             "value": value,
             "cli_flag": opt.get("cli_flag", ""),
-            "priority": priority if priority in ("recommended", "optional", "not_applicable") else "not_applicable",
-            "confidence": get_confidence(oid, use_case, vep_options),
+            # `critical` STAYS IN THIS LIST. It was removed here on 2026-09-02 as part of deleting the
+            # third tier, which was wrong: `priority` above is read from the LEGACY
+            # priority_by_use_case field, a different axis that still carries 26 `critical` entries,
+            # and the output schema's enum allows all four. Dropping it from the allow-list silently
+            # demoted every legacy critical to `not_applicable` -- the exact failure get_confidence's
+            # comment warns about, committed in the function next door.
+            "priority": priority if priority in ("critical", "recommended", "optional",
+                                                 "not_applicable") else "not_applicable",
+            "confidence": get_confidence(oid, use_case, vep_options, resolved=resolved_override),
             "source": f"[source: {oid}]",
             "reason": reason,
         }
@@ -2865,9 +2947,6 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
             if k in v:
                 item[k] = v[k]
         viol_out.append(item)
-
-    am = _ASSEMBLY_RE.search(query or "")
-    assembly = am.group(1) if am else None
 
     # generated_command mirrors the final (post-checker) enabled set. Shares cli_flags_for() with
     # format_corrected_config so the printed command and the JSON command cannot drift apart.
@@ -3126,7 +3205,7 @@ def format_example(ex):
     )
 
 
-def get_confidence(option_id, use_case, vep_options):
+def get_confidence(option_id, use_case, vep_options, resolved=None):
     """Derive confidence level from priority_by_use_case metadata.
 
     NOTE THE SCHEME. This reads `priority_by_use_case` — the LEGACY seven-use-case table
@@ -3138,7 +3217,18 @@ def get_confidence(option_id, use_case, vep_options):
     That said, this function is stale in a second way the removal did not cause: it prices against a
     use case picked from the top-scoring retrieved example rather than the query's factor tuple. It
     feeds `--explain` Layer 2 and the JSON `confidence` field, both of which should be rebuilt on
-    `resolve_for_query`."""
+    `resolve_for_query`.
+
+    FIRST STEP OF THAT REBUILD (mentor-reported, 2026-09-07): when this query's factor resolution is
+    available and does not raise the option AT ALL, confidence is capped at "low" regardless of what
+    the legacy table says. The reported case: the model proposed `pick` on a rare-disease query
+    (three gold examples teach it; the factor table never enables it -- 0 of 108 tuples) and the
+    legacy `rare_disease_germline: recommended` entry stamped it "high". An option only the model
+    wants, that the live table declines to price, must not outrank the table's own picks."""
+    if resolved is not None:
+        e, pri, _g = resolved.get(option_id, (False, None, None))
+        if not e and pri not in ("recommended", "optional"):
+            return "low"
     for opt in vep_options:
         if opt["id"] == option_id:
             priority = opt.get("priority_by_use_case", {}).get(use_case, "")
@@ -3518,7 +3608,7 @@ def _stream_native(model, system_prompt, user_message, think):
     """
     import urllib.request
     body = {
-        "model": model, "stream": True, "keep_alive": -1, "think": think,
+        "model": model, "stream": True, "keep_alive": KEEP_ALIVE, "think": think,
         "messages": [{"role": "system", "content": system_prompt},
                      {"role": "user", "content": user_message}],
         "options": {"num_predict": _STREAM_MAX_TOKENS},
@@ -3586,7 +3676,7 @@ def stream_response(client, model, system_prompt, user_message, think=None):
         max_tokens=_STREAM_MAX_TOKENS,
         stream=True,
         # Keep the model resident between calls, so a second query pays no reload.
-        extra_body={"keep_alive": -1},
+        extra_body={"keep_alive": KEEP_ALIVE},
     )
     for chunk in stream:
         if not chunk.choices:                      # usage-only chunks carry no choices
@@ -3679,7 +3769,7 @@ def _parse_context_flags(args):
 
 def run_recommend(client, model, vep_options, training_examples, user_query,
                    explain=False, skip_check=False, retrieval_mode="keyword", level="standard",
-                   think=False, factor_think=False, clarify="state", context=None):
+                   think=False, factor_think=False, clarify="state", context=None, show_cli=False):
     """Run the recommendation mode (default).
 
     Args:
@@ -3868,7 +3958,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
             corrected = format_corrected_config(p_enabled, p_disabled, vep_options, violations,
                                                 resolved=resolved, reason_by_id=_reasons,
                                                 restored=restored,
-                                                size_value=size_value, assembly=assembly)
+                                                size_value=size_value, assembly=assembly,
+                                                show_cli=show_cli, meta_notes=explain)
             print(corrected)
             reports.extend(x for x in (pass_warnings, restored_report, corrected) if x)
         warnings = "\n".join(x for x in ([audit_report, override_report] + reports) if x)
@@ -3941,7 +4032,7 @@ def main():
 
     # --- Mode: recommend (with optional --explain, --no-check, --semantic) ---
     known_flags = ("--explain", "--no-check", "--semantic", "--minimal", "--full", "--think",
-                   "--factor-think", "--quiet", "--assume", "--ask") + tuple(_CONTEXT_FLAGS)
+                   "--factor-think", "--quiet", "--assume", "--ask", "--cli") + tuple(_CONTEXT_FLAGS)
 
     # --help is the first thing anyone types, and rejecting it with "Unknown option(s): --help" (exit 2)
     # is a poor greeting for someone who just cloned the repo. Handled before the unknown-flag check.
@@ -3954,6 +4045,7 @@ def main():
         for f, h in (("--explain", "show the decision trace and retrieval scores"),
                      ("--minimal", "smallest runnable configuration"),
                      ("--full", "add every add-on"),
+                     ("--cli", "append the equivalent VEP command line (web-form output is the default)"),
                      ("--semantic", "BGE embedding retrieval instead of sending every example"),
                      ("--think", "let the recommender reason first (~2x slower, no measured gain)"),
                      ("--factor-think", "let the factor classifier reason first"),
@@ -4069,7 +4161,8 @@ def main():
     run_recommend(make_client(required=False), model, vep_options, training_examples, user_query,
                   explain=explain, skip_check=skip_check,
                   retrieval_mode=retrieval_mode, level=level, think=think,
-                  factor_think=factor_think, clarify=clarify, context=context)
+                  factor_think=factor_think, clarify=clarify, context=context,
+                  show_cli="--cli" in sys.argv)
 
 
 if __name__ == "__main__":
