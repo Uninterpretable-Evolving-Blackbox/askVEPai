@@ -1,5 +1,3 @@
-EDITING!
-
 # Re-prompting: what the assistant assumes, what it states, and what it asks
 
 ## 1. The problem
@@ -27,9 +25,9 @@ guess, naming what was assumed and how to override it: *"Assumed origin = somati
 these are inherited."* Nothing is blocked, and the lines can be ignored.
 
 Four of the five factors have a safe guess: `region_focus`, `variant_size_class`, `origin` and
-`species`, argued factor-by-factor in §3. One does not: `analysis_goal` is asked. Assembly, which is not a factor at all, is also asked when the text does not name it — §5.
+`species`, argued factor-by-factor in §3. One does not: `analysis_goal` is asked. Assembly, which is not a factor at all, is also asked when the text does not name it — §5. `[assembly-default pending]`
 
-**PENDING, should we just default to Ghr38 like thw web?**
+**PENDING, should we just default to Ghr38 like thw web?** `[assembly-default pending]`
 
 Species does the same take from text, guess, or ask, but because it is a hard gate rather than a soft priority factor, its disclosure lives in the constraint checker's removal report rather than in the upfront ask-lines. Same policy, different disclosure surface.
 
@@ -55,7 +53,7 @@ The factor is `select: multi` in `factors.json`, so *both* is expressible; the r
 removes an option only when every active value rules it out, which is why a coding+regulatory query
 keeps its predictors.
 
-### `variant_size_class` = *both* — the only expressible safe value (if default to ghr38 then we can just do both)
+### `variant_size_class` = *both* — the only expressible safe value (if default to ghr38 then we can just do both) `[assembly-default pending]`
 
 **Input-side: the factor is multi-select.** This factor describes the variant *set*, not one
 variant. A WGS callset routinely holds both classes, so *both* is the normal answer for whole-genome
@@ -64,12 +62,12 @@ the catalogue, so neither single value is safe:
 
 | policy | options missing per query | options added per query | queries missing a RECOMMENDED option |
 |---|---|---|---|
-| single-select, no safe value, asked | 1.13 | 4.13 | 13/23 |
-| **multi-select, guessed *both*** | **0.00** | 4.22 | **0/23** |
+| single-select, no safe value, asked | 1.70 | 5.22 | 13/23 |
+| **multi-select, guessed *both*** | **0.00** | 5.35 | **0/23** |
 
 Multi-select in Ask VEPai makes *both* available. The error becomes purely additive, and the factor
 asks nothing. This amends `taxonomy_proposal.md` §3, which had signed off `select: single`. One
-field flips it back. [unverified — the numbers predate the tier split.]
+field flips it back.
 
 ## Two VEP runs when both sizes are present
 
@@ -81,17 +79,29 @@ VEP runs**: one small, one structural.
 Across all 36 both-size factor tuples, the two passes together enable exactly what the single
 configuration did (`verify_pipeline.py` §8b).
 
-### `origin` defaulting to somatic *somatic* 
+### `origin` defaulting to *somatic* — danger audit
 
-Not because somatic is more likely. Because the two directions fail very differently.
+Two arms wearing three labels, measured on the 31 review rows (15 somatic, 16 germline).
 
-- Across the review rows, guessing somatic harms **0 of 16** germline rows.
-- Leaving origin empty switches frequency on for 6 of 15 somatic rows, dropping common variants the study is looking for. Same harm as guessing germline outright.
+| origin arm | somatic rows destroyed | germline rows costed |
+|---|---|---|
+| **somatic** (the guess) | **0/15** | 7/16 |
+| germline or unstated (identical lookup) | 6/15 | 0/16 |
 
-Guessing somatic costs frequency — a RECOMMENDED option — on 7 of 31 rows: a germline user asking about frequency doesn't see it switched on. Guessing germline is worse: it enables the filter on somatic queries and drops the variants those studies are looking for.
+The two harms are not symmetric:
 
+- **Destructive** — on a somatic row, `frequency` switched on filters out the common variants the
+  study is looking for. The analysis is destroyed.
+- **Recoverable** — on a germline row, `frequency` switched off is a RECOMMENDED option the user
+  might have wanted. They turn it back on in one line.
+
+Somatic is the only arm with zero destructive harm; it costs 7 recoverable ones. The other arm
+destroys 6 somatic analyses. Silence is not the neutral choice — it shares a code path with
+germline, so it inherits germline's destructive-side failure.
 
 ### `species` = *human on unknown* — judgement
+
+THIS NEEDS ANOTHER RUN WITH THE ABLATION
 
 A keyword rule reads it from the text and returns `unknown` when it cannot tell — **4 of the 8** real
 tracker questions — and `unknown` runs as human, because treating it as non-human would strip
@@ -101,27 +111,39 @@ guessed value chosen by judgement rather than by a measurement, and the weakest 
 
 ## 4. What silence costs, given those guesses
 
-The four fallbacks above were chosen before this measurement ran. This section validates them: it
-does not choose them, and it cannot, because filling the gap with the value under test is what the
-tool already does at runtime.
+§3 chose the four fallback values. This section measures what each one costs when the classifier
+returns nothing and the tool has to fill the gap with the fallback under test.
 
-**Method.** Each of the 31 generated queries states all five factors. One of the four ablatable
-factors is deleted (species is not ablated — §3) with the other four held fixed, and a rewrite model
-recasts the query to read naturally with that fact absent. Every rewrite is re-read before use. A
-case counts as **clean** only when the target fact really went and no other factor moved: **78 of 124
-attempts** (31 × 4). Of the remaining 46, 24 lost the words but left the fact still inferable from
-context, 16 took a second factor with them, and 6 failed to remove the words at all. Reproducible:
-three seeds matching the LOO's, spread zero.
+**Method.** 31 queries, each naming all five factors. For every query we produce four test versions,
+each with one factor removed (species is not tested this way; see §3).
+
+Removing a factor is not just a delete: a rewrite model recasts the sentence naturally with that
+fact absent, so the query still reads like a real one. Every rewrite is checked before use.
+
+A case counts as **clean** only when the target fact is truly gone and no other factor moved.
+**78 of 124 attempts (31 × 4) qualified.** The other 46 broke as follows:
+
+- 24 removed the words but left the fact still inferable from context
+- 16 also removed a second factor
+- 6 failed to remove the words at all
+
+Reproduced across three seeds, matching the seeds used in the main evaluation. Zero variance across
+seeds.
 
 Each clean case then goes through the tool's normal path. The classifier reads the rewritten query,
-the gap is filled with the fallback under test, and the resulting configuration is compared against
+the gap is filled with the default under test, and the resulting configuration is compared against
 the one the true factor values produce. Each row of the table names the value that filled the gap.
 
-**Scored per output tier.** Losing a RECOMMENDED option costs a finding the user never learns they
-missed. Losing an ADD-ON costs an option they were never shown they could have. **Lost** is options
-the true configuration has and ours does not, per query. **Added** is the reverse. Regenerate with
-`work/harness/score_ablations.py --markdown`; it re-resolves through the current priority table, so
-it moves when the table moves.
+**Scored per output tier.** RECOMMENDED and ADD-ONS drift independently, so both are counted.
+
+- **RECOMMENDED lost** — options in the truth configuration's RECOMMENDED bucket that aren't in
+  ours. The tool didn't tell the user to switch these on. Depending on where the option landed, it
+  either sits in our ADD-ONS list (visible, but the user has to opt in) or disappears entirely.
+- **ADD-ONS lost** — options in the truth configuration's ADD-ONS bucket that aren't in ours. 
+- **Added** — the reverse of each: options in our bucket but not the truth's.
+
+Regenerate with `work/harness/score_ablations.py --markdown`; it re-resolves through the current
+priority table, so it moves when the table moves.
 
 | fact deleted | n | REC lost | REC added | ADD lost | ADD added | rows losing a REC option |
 |---|---|---|---|---|---|---|
@@ -130,48 +152,50 @@ it moves when the table moves.
 | `origin` — filled with *somatic* | 20 | 0.35 | 0.75 | 0.20 | 0.85 | 6/20 |
 | `analysis_goal` — asked; *basic-consequence* on skip | 12 | 1.00 | 0.00 | 0.75 | 0.50 | 5/12 |
 
-**Read the REC-lost column and the three fallbacks are confirmed.** `region_focus` and
-`variant_size_class` lose no user-visible finding on any query, so the *both* fallbacks are additive
-only. `origin` loses 0.35 REC options on average and hits 6 of 20 queries — the deliberate cost
-already argued in §3.
+**From the REC-lost column.**:
+`region_focus = both` and `variant_size_class = both` both show **0.00** — silence plus these
+fallbacks removes no RECOMMENDED option from any query in the set (0/23 queries lose). The only
+cost is a few extra options in ADD-ONS.
 
-**`analysis_goal` fails both conditions for guessing.** It loses on both tiers while gaining nothing.
-That is why it has no fallback and is asked instead. §5 gives the argument.
+`origin = somatic` shows **0.35** — silence plus somatic removes at least one RECOMMENDED option
+on **6 of 20** queries.
 
-**Where this table stops.** It counts options; whether a lost option would have carried DATA for the
-user's variants is measured in `EXPERIMENTS.md` Exp 16, which runs the truth configuration through
-VEP itself. The same "1.00 lost" line spans a total loss on a known missense variant and a near
-no-op on a synonymous one. Score realized ANSWER losses, not counts, is the proposed refinement; it
-lives there.
+**`analysis_goal` has no fallback and is asked.** The ablation shows why: silence plus the
+`basic-consequence` fallback loses 1.00 RECOMMENDED options per query on average (5 of 12 queries
+losing at least one) and adds none in their place. ADD-ONS drift the same way: 0.75 lost against
+0.50 added. Both tiers move against the fallback, so no candidate value earns the trade. §5 gives
+the ask-side argument.
+
+
+QUANTIFY THIS:
+**What this table misses.** It counts every lost option the same. i.e. Losing SIFT costs a real column
+on a missense variant, where SIFT would have scored something, and costs nothing on a synonymous
+variant, where SIFT would have been empty anyway. `EXPERIMENTS.md` Exp 16 runs the truth
+configuration through VEP itself to see which fields actually get populated for each variant class,
+and proposes scoring the options that would have carried a value rather than the raw count.
 
 ## 5. What we ask, and why
 
 Two things are asked, on the same mechanism: `analysis_goal` and assembly. For each still-empty
-factor, the resolver reruns the configuration under every candidate answer and compares. If nothing
-in the RECOMMENDED bucket differs, the question cannot change what the user is shown, so it is never
-asked. No model decides this; it is arithmetic over the priority table, cheap against a classifier
-call, and auditable per query.
-
-Asking is opt-in, because the evaluation harness and the generation pipeline call this code with
-nobody present and would otherwise hang.
+factor, the resolver checks whether any candidate answer would change what the tool would show. If
+not, the question is skipped. No model decides this — it's arithmetic over the priority table,
+auditable per query.
 
 ### `analysis_goal`
 
-The only factor whose error is subtractive: reading a question as a plain consequence call drops
-ClinVar and the predictors. It fails both conditions for guessing on the ablation set:
+The only factor whose error is subtractive: the fallback value basic-consequence drops ClinVar and the predictors that clinical-interpretation would have brought in. It fails both conditions for guessing on the ablation set:
 
 - asked on **12 of 12** ablations with the guess removed;
 - fallback value loses REC options on **5 of 12**.
 
 The ablations overstate how often this interrupts anyone, because they delete the fact on purpose.
-On the eight real configuration questions from the trackers, `analysis_goal` is genuinely absent
-**once**; it reads as absent three more times only because the two readers recovered it and
-disagreed, which is a fact about our classifier rather than about the prose. Eight questions cannot
-carry a frequency claim and none is made. Skipping is free: the fallback supplies `basic-consequence`
-and announces itself, because a configuration cannot resolve without a goal at all — an empty one
-gives about 6 options instead of about 13.
+Real users likely mention their analysis goal more often than the ablation set assumes, though we
+don't have the sample size to say by how much. Skipping is free either way: the fallback supplies
+`basic-consequence` and announces itself, because a configuration cannot resolve without a goal at
+all — an empty one gives about 6 options instead of about 13.
 
-### Assembly
+
+### Assembly `[assembly-default pending]`
 
 Not a factor. Assembly describes the input data rather than the analysis, and the taxonomy is a
 description of the analysis. But it is the only gap where silence produces a *wrong* answer rather
@@ -194,14 +218,13 @@ not asked to measure it.
 
 **The question is scored on what the user stated, not on what we assumed for them.** Because §3
 guesses *both* variant sizes, gnomAD-SV — GRCh38-only — is switched on for almost every query, and
-scoring the filled tuple would raise the assembly question on 42 of the 78 ablations against 32 for
+scoring the filled tuple would raise the assembly question on 40 of the 78 ablations against 34 for
 the stated one. That follows the same asymmetry the whole policy rests on: an option we added is a
 column the user can ignore and is not worth a question, while an option their own words called for
 is. Suppressed for non-human queries, whose options are gated on species long before a build could
-matter, and for a query that described no analysis at all. [unverified — 42/32 come from a scoring
-alternative not exposed by `ask_rate.py`; the shipped run reports 34 assembly questions.]
+matter, and for a query that described no analysis at all.
 
-### Why `origin` is asked-by-others rather than by-us
+### Why `origin` is asked-by-others rather than by-us GONE IF WE ASSUME GRCh38 `[assembly-default pending]`
 
 `origin` failed the guessing conditions less badly than `analysis_goal`: it does lose REC options
 under silence (0.35 on average, 6 of 20 queries), but being wrong the other way is cheap and
@@ -211,41 +234,8 @@ produced 0 origin questions across the 20 ablations, so the ask rule appeared to
 guess independently. That tier was deleted on 2026-08-19, so the corroboration went with it. The
 guess still stands on the asymmetry alone.
 
-## 6. Provenance
 
-Tags as in `taxonomy_proposal.md`: **[Src]** Ensembl VEP source / form / docs · **[Std]** external
-clinical or field standard · **[Meas]** measured in this repository · **[Judg]** a design judgement,
-with no external source behind it.
-
-| Design choice | Grounding | Specific basis |
-|---|---|---|
-| Guess by default; ask only as an exception | **[Judg]** | a recommender that interrogates its users has moved the work back onto them. Not measured, and not measurable without frequency data we do not have |
-| Ask only when something in the RECOMMENDED bucket is at stake | **[Judg]** + **[Meas]** | needs no threshold, and the question can name what is at stake **[Judg]**. Fires 46 times over the 78 clean ablations — 34 assembly, 12 `analysis_goal` **[Meas]** |
-| The bar is the RECOMMENDED bucket the user is shown | **[Meas]** | the alternative was the internal `critical` tier, deleted on 2026-08-19 after the review found it unstable — twelve of the twenty mentor edits moved options across it |
-| Guesses are stated, never silent | **[Judg]** | the failure this design answers is invisible omission, and a silent fix reproduces it |
-| `region_focus` guessed *both* | **[Meas]** | deterministic sweep across the 31 rows: F1 0.91 *both*, 0.88 *coding*, 0.79 *regulatory-noncoding*, 0.79 blank. 0.00 REC lost across 23 ablations |
-| `variant_size_class` guessed *both* | **[Meas]** | under single-select no value was safe — the two candidates gate opposite halves of the catalogue. Multi-select makes *both* available and it loses 0 REC on 23 of 23 ablations |
-| `origin` fail-closed to somatic | **[Meas]** + **[Std]** | leaving it empty lets the frequency filter through on 6/15 somatic rows; guessing somatic harms 0/16 germline rows **[Meas]**. That a somatic workflow must not drop common variants is the taxonomy's one hard `origin` rule **[Std]**. Guessing somatic costs `frequency` on 7/31 rows — paid deliberately |
-| `analysis_goal` asked, not guessed | **[Meas]** | fails both conditions: asked on 12 of 12 ablations with the guess removed, and the fallback loses REC options on 5 of 12. On the 8 real questions it is genuinely absent once |
-| Assembly asked, not guessed | **[Src]** + **[Judg]** + **[Meas]** | MANE is GRCh38-only and `InputForm.pm:694-702` gates its checkbox on species alone **[Src]**. Assembly describes the input data rather than the analysis **[Judg]**. Both directions delete something real, and the text names a build on 4 of the 8 real questions, one of them GRCh37 **[Meas]** |
-| How often users omit things | **not established** | `fetch_real_queries.py` pulls tracker issues verbatim with a per-body SHA-256 and a `--verify` re-fetch, but only 8 of 43 are configuration questions. Biostars is Cloudflare-blocked at both the HTML and the API. Too few to carry a frequency claim |
-
-The structure is a synthesis, grounded in measurements taken on this repository and in how VEP's own
-form behaves. No published interface standard was found that applies. The ablations are reproducible
-with `ablate_queries.py`, without a GPU, and the judgement calls are marked.
-
-Cost and consequence are measured; the tables above say what each gap does to the configuration. How
-often real users leave a fact out is not, and that number decides how aggressive to be. The cheapest
-route to it is the `real_data` Likhitha has offered.
-
-Nearest literature: Gervits et al., ICMI '21 (arXiv:2110.06288) select clarification questions by
-maximum expected utility over a decision network, setting the utility of asking about an already-known
-property to zero. Our relevance gate is the same principle in deterministic form. Theirs needs
-priors, a corpus and a model of the interlocutor; ours needs none and is auditable per query, at the
-cost of not being able to trade the cost of asking against its benefit. Read pp. 1–5 of 9, with §5–6
-not read, so no claim is made about how their model performed.
-
-## 7. Trying it
+## 6. Trying it
 
 ```bash
 python vep_assistant.py "human tumour WGS, which variants are damaging?"      # guesses, stated
@@ -259,3 +249,4 @@ python work/harness/ask_rate.py                                                #
 python work/harness/ask_rate.py --by-row --arm shipped                         # and on which cases
 python work/harness/defaults_evidence.py --verbose                             # why each default is that
 python work/harness/score_ablations.py --markdown                              # the §4 table, live
+```
