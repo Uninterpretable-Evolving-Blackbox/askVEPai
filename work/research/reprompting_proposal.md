@@ -27,8 +27,7 @@ guess, naming what was assumed and how to override it: *"Assumed origin = somati
 these are inherited."* Nothing is blocked, and the lines can be ignored.
 
 Four of the five factors have a safe guess: `region_focus`, `variant_size_class`, `origin` and
-`species`, argued factor-by-factor in §3. One does not: `analysis_goal` is asked. Assembly, which is not a factor at all, is also
-asked when the text does not name it — §5.
+`species`, argued factor-by-factor in §3. One does not: `analysis_goal` is asked. Assembly, which is not a factor at all, is also asked when the text does not name it — §5.
 
 **PENDING, should we just default to Ghr38 like thw web?**
 
@@ -43,7 +42,7 @@ below and fails if one no longer holds.
 ### `region_focus` = *both* — deterministic sweep
 
 Resolve every one of the 31 rows under each candidate `region_focus` value and score enable-F1
-against the truth. *Both* wins, ahead of leaving it blank by a wide margin:
+against the true options. *Both* win:
 
 | value | mean F1 |
 |---|---|
@@ -56,64 +55,41 @@ The factor is `select: multi` in `factors.json`, so *both* is expressible; the r
 removes an option only when every active value rules it out, which is why a coding+regulatory query
 keeps its predictors.
 
-### `variant_size_class` = *both* — the only expressible safe value
+### `variant_size_class` = *both* — the only expressible safe value (if default to ghr38 then we can just do both)
 
-This factor describes the **variant set**, not one variant. A single variant is one or the other, but
-a WGS callset routinely contains both classes, so both is the normal answer for whole-genome work.
-Review row 1 is such a question. The values `small` and `structural-CNV` gate away opposite halves of
+**Input-side: the factor is multi-select.** This factor describes the variant *set*, not one
+variant. A WGS callset routinely holds both classes, so *both* is the normal answer for whole-genome
+work. Review row 1 is such a query. The values `small` and `structural-CNV` gate opposite halves of
 the catalogue, so neither single value is safe:
 
-| policy for `variant_size_class` | mean lost | mean added | queries losing something |
+| policy | options missing per query | options added per query | queries missing a RECOMMENDED option |
 |---|---|---|---|
 | single-select, no safe value, asked | 1.13 | 4.13 | 13/23 |
 | **multi-select, guessed *both*** | **0.00** | 4.22 | **0/23** |
 
-Multi-select makes *both* available and the error becomes purely additive at no measurable cost in
-added options. `variant_size_class` is `select: multi` in `factors.json` and
-`UNDERSPECIFIED_POLICY["variant_size_class"].assume` is `["small", "structural-CNV"]`. This amends
-the taxonomy signed off in `taxonomy_proposal.md` §3, so the argument is spelled out in full; one
-field plus one line of policy overturns it. [unverified — the single-select row predates the tier
-split and needs regenerating once `score_ablations.py` carries the arm.]
+Multi-select in Ask VEPai makes *both* available. The error becomes purely additive, and the factor
+asks nothing. This amends `taxonomy_proposal.md` §3, which had signed off `select: single`. One
+field flips it back. [unverified — the numbers predate the tier split.]
 
-Offering "both" as a third choice in the question would not fix this. The classifier's schema is
-generated from the same `select` field, so it can only ever return one value under single-select, and
-review row 1 *states* both in its text rather than leaving it out. Under a prompt-only fix, someone
-who writes "SNVs and CNVs" still has half of it discarded and is never asked, because the factor
-looks answered. Only someone who says nothing gets the right answer.
+## Two VEP runs when both sizes are present
 
-**On the output side, one configuration per size.** The web form cannot cover both sizes in one
-configuration: CADD's control is a drop-down over four annotation files (SNVs and InDels / SNVs /
-InDels / CADD-SV) and the files are mutually exclusive. So a both-size scenario emits **one
-configuration per size, two VEP runs**, instead of one union nobody can enter on the form. CADD-SV
-is GRCh38-only, so a stated GRCh37 drops CADD from the structural pass with a reason rather than
-leaving it on with no data behind it. Across all 36 both-size factor tuples, the two passes together
-enable exactly what the single configuration did (`verify_pipeline.py` §8b).
+**Output-side: one configuration per size.** The web form cannot express both sizes in one
+configuration. CADD's control is a drop-down over four mutually exclusive annotation files
+(SNVs and InDels / SNVs / InDels / CADD-SV). A both-size scenario emits **two configurations, two
+VEP runs**: one small, one structural.
 
-**Consequence.** Guessing *both* switches gnomAD-SV on for almost every query. That is the "added
-options" cost the table already prices, and it is harmless as a column, but gnomAD-SV is GRCh38-only,
-so it also drags the assembly question of §5 into scope on queries that never mentioned structural
-variants. The assembly rule is scored on what the user stated for exactly this reason.
+Across all 36 both-size factor tuples, the two passes together enable exactly what the single
+configuration did (`verify_pipeline.py` §8b).
 
-### `origin` = *somatic* — danger audit
+### `origin` defaulting to somatic *somatic* 
 
 Not because somatic is more likely. Because the two directions fail very differently.
 
 - Across the review rows, guessing somatic harms **0 of 16** germline rows.
-- Leaving `origin` empty lets the common-variant filter through on **6 of 15** somatic rows, which is
-  the identical harm to guessing germline outright.
+- Leaving origin empty switches frequency on for 6 of 15 somatic rows, dropping common variants the study is looking for. Same harm as guessing germline outright.
 
-Leaving it empty carries germline's risk on `frequency` without germline's benefit, so something has
-to be guessed at all. Only the second half of the decision is that the something is somatic.
+Guessing somatic costs frequency — a RECOMMENDED option — on 7 of 31 rows: a germline user asking about frequency doesn't see it switched on. Guessing germline is worse: it enables the filter on somatic queries and drops the variants those studies are looking for.
 
-**This is the one guess that is not loss-free, and the cost is not an add-on.** Guessing somatic
-costs `frequency` on **7 of 31** rows, and `frequency` resolves at `recommended`, which puts it in
-the RECOMMENDED bucket the user sees switched on. So a germline user on a frequency question loses
-something that would have been on for them. That is the price of the fail-closed direction, paid
-deliberately.
-
-Being wrong is cheap for the *other* direction, though — guessing somatic and being wrong costs a
-line the user can correct in a sentence, which is why the factor is not asked. §4 gives the ablation
-side of this argument.
 
 ### `species` = *human on unknown* — judgement
 
