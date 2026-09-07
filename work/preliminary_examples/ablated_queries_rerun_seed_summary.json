@@ -1,0 +1,46 @@
+{
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "temperature": 0.0,
+ "model": "gemma4:26b",
+ "per_seed": [
+  {
+   "seed": 42,
+   "n": 155,
+   "clean": 95,
+   "outcomes": {
+    "entangled": 13,
+    "rewrite failed": 6,
+    "pure": 95,
+    "redundant": 41
+   }
+  },
+  {
+   "seed": 43,
+   "n": 155,
+   "clean": 95,
+   "outcomes": {
+    "entangled": 13,
+    "rewrite failed": 6,
+    "pure": 95,
+    "redundant": 41
+   }
+  },
+  {
+   "seed": 44,
+   "n": 155,
+   "clean": 95,
+   "outcomes": {
+    "entangled": 13,
+    "rewrite failed": 6,
+    "pure": 95,
+    "redundant": 41
+   }
+  }
+ ],
+ "clean_mean": 95.0,
+ "clean_sd": 0.0
+}
