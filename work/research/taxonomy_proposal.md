@@ -155,7 +155,7 @@ cited but full-text read not confirmed here; **[Judg]** = a design judgement; no
 | Dropping `scale` (single-variant vs cohort) | **[Judg]** over **[Src]** | my reasoning: scale changes no *core* annotation on the web form (only output-restriction + compute knobs) |
 | Per-option, per-factor priorities (§5) | **[Judg]** (provisional) | **no** authoritative Ensembl source ranks option importance per scenario; expert judgment, mentor-gated |
 | Two-tier resolution (hard gates → soft ranking) | **[Judg]** | mirrors the deterministic checker's own conflict logic |
-| Multi-label stratified holdout splits | **[Lit ✓]** | Sechidis, Tsoumakas & Vlahavas 2011 (ECML PKDD) — **read + verified from full text 2026-07-12** (`CITATION_VERIFICATION.md`); iterative stratification beats random on label distribution. Caveat: 3-way comparison, iterative is not *universally* best (labelsets wins small-ratio sets) |
+| Multi-label stratified holdout splits | **[Lit ✓]** | Sechidis, Tsoumakas & Vlahavas 2011 (ECML PKDD) — **read + verified from full text 2026-07-12**; iterative stratification beats random on label distribution. Caveat: 3-way comparison, iterative is not *universally* best (labelsets wins small-ratio sets) |
 | Dataset sizing (≥3/≥5/≥10 per value; ~50–200 rows) | **[Lit ✓/⚠]** | Sechidis **verified**; the informal "~50–200 rows" golden-dataset sizing heuristic is a soft/blog-level source, **not** verified in this pass |
 
 **Bottom line:** the large majority of this proposal is **[Judg]/[Src]/[Std]** — domain design grounded in

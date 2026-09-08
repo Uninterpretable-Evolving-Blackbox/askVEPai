@@ -31,12 +31,5 @@ Everything else they documented now lives in `../vep_options_expanded.json`, whi
 `species_restriction`, `web_form_section` and a per-option `provenance` string for all 65 options. That
 is the file to read, not these.
 
-## Literature
-
-| | |
-|---|---|
-| `LITERATURE.md` | the reading behind each part of the system, grouped by which part |
-| `CITATION_VERIFICATION.md` | a full-text pass over every citation, recording what each source does and does not support |
-
 Model choice is **not** decided here. It was settled empirically — `../EXPERIMENTS.md` Exp 10, a 5-seed
 comparison of the three Gemma sizes under the corrected parser.

@@ -73,8 +73,7 @@ we"), then `research/` for the design rationale.** This file is the directory ma
 ## Research & docs
 
 - **`research/`** — the design proposals (`taxonomy_proposal.md`, `generation_pipeline_proposal.md`), the
-  literature grounding (`LITERATURE.md`, `CITATION_VERIFICATION.md`), the model landscape, and the reading
-  lists (`interp_reading/`, `systems_reading/`).
+  model landscape, and the reading lists (`interp_reading/`, `systems_reading/`).
 - **`webapp/`** — the web front-end (`app.py`).
 - **Top-level docs:** `STATUS.md` (where the project stands) and `EXPERIMENTS.md` (the experiment
   ledger — every number, with the command that produced it).

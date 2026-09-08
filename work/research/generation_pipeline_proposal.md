@@ -14,7 +14,7 @@ the non-human, somatic, structural-variant and regulatory cases that are otherwi
 
 > **Citations note (all read + verified from full text, 2026-07-12).** Earlier drafts over-claimed uniform
 > verification while the notes flagged SynthIE / Quality-Matters / Self-Instruct as cited-but-unread. A
-> full-text verification pass (2026-07-12, logged in `CITATION_VERIFICATION.md`) has now **read every source
+> full-text verification pass (2026-07-12) has now **read every source
 > here from the full paper and matched each claim to a verbatim quote**. Result: all citations **SUPPORT**
 > their claims — no fabrications, no misattributions among the generation citations — with a handful of
 > omitted caveats now folded in (e.g. SynthIE's inverse-frequency is over KG entities by *running*
@@ -67,7 +67,7 @@ defense-in-depth architecture and Exp 6 (examples-dominant grounding).
 Every row of the table above is a *literature-motivated* pattern, but the **binding design decisions** below
 mix literature with my own engineering, and the literature they rest on is at **different read-tiers** (see
 the Citations note). Tags: **[L✓]** literature read from full text; **[L⚠]** flagged as cited-but-unread in
-earlier drafts — **all [L⚠] rows were read + verified on 2026-07-12** (`CITATION_VERIFICATION.md`) and
+earlier drafts — **all [L⚠] rows were read + verified on 2026-07-12** against the primary sources and
 SUPPORT their claims; the tag is kept to mark which were late-verified; **[Src]** Ensembl VEP source / our
 checker / KB; **[Judg]** my own choice, no external source claims it.
 
@@ -87,13 +87,13 @@ checker / KB; **[Judg]** my own choice, no external source claims it.
 
 **Bottom line (updated 2026-07-12):** the pipeline's *spine* — reverse generation (SynthIE), stratified
 coverage (SynthIE §3.2 + Sechidis), and the ICE screen (Quality-Matters + Alberti) — has now been **read from
-full text and verified to SUPPORT** its claims (`CITATION_VERIFICATION.md`); the earlier "still-unread"
+full text and verified to SUPPORT** its claims; the earlier "still-unread"
 caveat is **resolved**, and all [L⚠] rows above are verified (with the per-row caveats folded in). What
 remains genuinely **my own judgment** (not a literature fact) are the binding knobs: the **persona axis**
 (DataMorgana finds persona marginal — keeping it is my audience-realism call), the **dedup thresholds** (0.92
 hand-picked, the AND rule mine), and **"don't evolve configs"** — all flagged for ablation. Note also that
 NeMo Guardrails grounds the *programmable-rails* concept, **not** determinism (its own rails are LLM-mediated;
-our Python checker is the deterministic part) — see fix #4 in `CITATION_VERIFICATION.md`.
+our Python checker is the deterministic part).
 
 ---
 
@@ -420,10 +420,10 @@ The simulated 23-example set remains **directional** until this pipeline produce
 
 ## References
 
-**Read-status — ALL read + verified from full text on 2026-07-12** (`CITATION_VERIFICATION.md`); every
+**Read-status — ALL read + verified from full text on 2026-07-12**; every
 citation below **SUPPORTS** its claim, no misattributions. Earlier drafts flagged 1/3/6 (SynthIE,
 Quality-Matters, Self-Instruct) as cited-but-unread and 2/7/8/9 (Alberti, ARES, Sechidis, WizardLM) as
-read-status-unconfirmed — now closed. Per-row caveats are in `CITATION_VERIFICATION.md` §2.
+read-status-unconfirmed — now closed. Per-row caveats are folded into the Citations note at the top.
 
 1. Josifoski, M., Šakota, M., Peyrard, M., & West, R. (2023). Exploiting Asymmetry for Synthetic Training
    Data Generation: SynthIE **and the Case of Information Extraction**. *EMNLP 2023.*

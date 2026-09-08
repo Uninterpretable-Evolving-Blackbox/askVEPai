@@ -8,6 +8,14 @@ justifications, source citations, and a deterministic safety net.**
 
 ---
 
+## Where to start
+
+Read [`work/STATUS.md`](work/STATUS.md) first — where the project stands. Then the two design documents:
+[`work/research/reprompting_proposal.md`](work/research/reprompting_proposal.md) (the design) and
+[`work/research/taxonomy_proposal.md`](work/research/taxonomy_proposal.md) (the factor scheme).
+[`work/EXPERIMENTS.md`](work/EXPERIMENTS.md) is the evidence ledger behind every number quoted anywhere in
+this repo, and `work/results*/` holds its machine-generated reports. Everything else is reference.
+
 ## What it does
 
 Configuring the Variant Effect Predictor (VEP) means choosing from dozens of options (predictors,
