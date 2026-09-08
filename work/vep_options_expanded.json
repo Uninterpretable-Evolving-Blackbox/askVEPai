@@ -1248,7 +1248,8 @@
       "variant_size_class": {
         "structural-CNV": "not_applicable"
       }
-    }
+    },
+    "deprecated": "superseded by MANE for human; field kept while the web form still shows it (round-2 reply, 2026-09-08)"
   },
   {
     "id": "var_synonyms",

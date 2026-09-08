@@ -1,5 +1,5 @@
 {
-  "_catalogue_sha256": "5c231e5fed532b42a56db62709c41b972de50d79089820cce64199fbecaad63d",
+  "_catalogue_sha256": "54ac874f71f2a532b5dd87ee0558664d09370af47a4b288307255b7a5c767278",
   "_status": "PROVISIONAL \u2014 derived from the DRIVES spec in vep_assistant.py and this catalogue. NOT mentor-validated. A validated table dropped in as priority_by_factor.json overrides this derivation; no code changes are needed.",
   "_authoring": {
     "drives": {
