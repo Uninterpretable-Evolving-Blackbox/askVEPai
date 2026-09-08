@@ -458,5 +458,4 @@ read-status-unconfirmed — now closed. Per-row caveats are folded into the Cita
 not roundtrip; roundtrip is credited there to Alberti et al.); an unnamed "NeurIPS 2024 constraint" paper,
 "Crab (ACL 2025)", and "LONGFAITH" — unverifiable, no locatable source.
 
-Internal: `research/taxonomy_proposal.md`, `preliminary_examples/README.md`, `HANDOFF.md` §10–12,
-`EXPERIMENTS.md`.
+Internal: `research/taxonomy_proposal.md`, `preliminary_examples/README.md`, `EXPERIMENTS.md`.
