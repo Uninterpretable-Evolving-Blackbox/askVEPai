@@ -1109,6 +1109,36 @@ def _enabled_for(factor_tuple, vep_options):
 ASK_BAR_PRIORITIES = ("recommended",)
 
 
+# The one option family whose leakage DESTROYS data instead of adding noise. These are values of the
+# form's single "Restrict results" drop-down: each collapses the result file (a leaked per_gene
+# measured 334 -> 19 transcript rows on the 10-variant panel — 94% of the user's annotation lines
+# gone, work/results/leak_rate_README.md). The priority table prices none of them for any of the
+# 108 factor tuples, yet the model proposes them from old examples (a tester hit `pick` on a
+# rare-disease query, 2026-09-07). Everything else the model adds is at worst an extra column, so
+# the gate is deliberately THIS NARROW: enforcing the whole table would change the enabled set the
+# published numbers describe, while this family is unpriced everywhere, so stripping it moves
+# nothing the table ever endorsed. The eval harnesses score the raw parse and never see this gate.
+RESTRICT_RESULTS_FAMILY = ("pick", "pick_allele", "per_gene", "most_severe", "summary")
+
+
+def enforce_restrict_results_gate(enabled, resolved):
+    """Remove restrict-results values the priority table did not price for THIS scenario.
+
+    Returns the removed ids. No-op when the factor resolution is unavailable (legacy path), and a
+    family member the table DOES price for the scenario passes — the gate enforces the table's
+    silence, it does not overrule its voice."""
+    if not resolved:
+        return []
+    removed = []
+    for oid in RESTRICT_RESULTS_FAMILY:
+        if oid in enabled:
+            e, pri, _g = resolved.get(oid, (False, None, None))
+            if not e and pri not in ("recommended", "optional"):
+                enabled.discard(oid)
+                removed.append(oid)
+    return sorted(removed)
+
+
 def factor_must_haves_at_stake(factor, factor_tuple, vep_options):
     """Options at the ASK_BAR whose presence depends on how this factor is answered.
 
@@ -4026,6 +4056,11 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
             for _r in _recs:
                 if _r.get("reason"):
                     _reasons.setdefault(_r["option_id"], _r["reason"])
+            gated = enforce_restrict_results_gate(p_enabled, resolved)
+            if gated:
+                print(f"\n  (removed {', '.join(gated)}: a 'Restrict results' value the priority "
+                      f"table does not price for this scenario — it would collapse the output to a "
+                      f"fraction of its rows. Add it back only if that is what you want.)")
             corrected = format_corrected_config(p_enabled, p_disabled, vep_options, violations,
                                                 resolved=resolved, reason_by_id=_reasons,
                                                 restored=restored,
