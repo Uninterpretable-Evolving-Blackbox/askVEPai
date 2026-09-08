@@ -414,7 +414,7 @@ The simulated 23-example set remains **directional** until this pipeline produce
    we already find it marginal)?
 3. **Web-VEP panel** — which variant fixtures per species?
 4. **Combination plausibility** — which factor-value *combinations* are worth building (the sampler treats
-   factors as independent; see `PROGRESS.md` §10)?
+   factors as independent; see "Design notes & open items" in `generation/README.md`)?
 
 ---
 

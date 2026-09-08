@@ -72,16 +72,18 @@ we"), then `research/` for the design rationale.** This file is the directory ma
 
 ## Research & docs
 
-- **`research/`** — the design proposals (`taxonomy_proposal.md`, `generation_pipeline_proposal.md`), the
-  model landscape, and the reading lists (`interp_reading/`, `systems_reading/`).
+- **`research/`** — the design proposals (`taxonomy_proposal.md`, `generation_pipeline_proposal.md`,
+  `underspecification_proposal.md`, `reprompting_proposal.md`) and the two Ensembl extraction dossiers
+  (`constraints_dossier.md`, `plugins_dossier.md`); `research/README.md` says what each is for.
 - **`webapp/`** — the web front-end (`app.py`).
 - **Top-level docs:** `STATUS.md` (where the project stands) and `EXPERIMENTS.md` (the experiment
   ledger — every number, with the command that produced it).
 
-## Outputs (git-ignored — regenerable)
+## Outputs
 
 - **`results/`, `results_fixedparser/`, `results_noex/`** — evaluation outputs per experiment. Written via
-  `VEP_RESULTS_DIR`; not tracked in this repo.
+  `VEP_RESULTS_DIR`. The aggregated reports (the `.md` reports and attribution `.json`s) are published
+  here; only the per-call raw logs (`raw/`, `_archive/`, `*.log`) are git-ignored.
 
 ## Running things (env-var contract)
 
