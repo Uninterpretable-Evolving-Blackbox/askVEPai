@@ -2646,21 +2646,41 @@ def format_restored_recommended(restored, vep_options):
         return ""
     name_by_id = {o["id"]: o.get("name", o["id"]) for o in vep_options}
     lines = ["", f"⚠️  RECOMMENDED OPTIONS THE DRAFT LEFT OUT ({len(restored)}):",
-             "   The factor table recommends these for this scenario, so they are switched on:"]
+             "   The factor table recommends these for this scenario, so they were added back:"]
     lines += [f"     + {name_by_id.get(oid, oid)} [{oid}]" for oid in restored]
     lines.append("")
     return "\n".join(lines)
 
 
-_WEB_SECTION_LABELS = {                      # canonical CONFIG_SECTIONS ids -> the form's own headings
+# Canonical CONFIG_SECTIONS ids -> the label on the COLLAPSIBLE TOGGLE the user clicks to open that
+# part of the form. Checked against the live form 2026-09-08: the six toggles are exactly these. The
+# form also carries h2 sub-headings inside each one (Transcript annotation, Pathogenicity
+# predictions, Splicing predictions, Conservation...), which is a level down and not what we name.
+# `filters` was "Filters" here, which is the h2 inside it; the toggle says "Filtering options".
+_WEB_SECTION_LABELS = {
     "identifiers": "Identifiers", "variants_frequency_data": "Variants and frequency data",
     "additional_annotations": "Additional annotations", "predictions": "Predictions",
-    "filters": "Filters", "advanced": "Advanced options"}
+    "filters": "Filtering options", "advanced": "Advanced options"}
+
+
+# TYPES, NOT TOOLS, where several tools answer the same question (round-2 item 11, Likhitha,
+# 2026-09-08): "we should recommend the suite/type of tool by category. (We particularly don't want
+# to endorse a commercial tool like Mastermind)." Options in these categories render as ONE line
+# naming the type and listing every member the species/assembly gates left standing — her template —
+# instead of a per-tool line each carrying its own reason. DISPLAY ONLY: the enabled set, the
+# generated command and every scored metric are untouched, because the other half of her item-11
+# question ("what should the accuracy figure become?") is still unanswered, so the tiers underneath
+# must not move yet.
+TYPE_GROUPED_CATEGORIES = {
+    "pathogenicity_prediction": "Pathogenicity predictors",
+    "splice_prediction": "Splice-effect predictors",
+    "literature_citation": "Literature/citation evidence",
+}
 
 
 def format_corrected_config(enabled, disabled, vep_options, violations, resolved=None,
                             reason_by_id=None, restored=(), size_value=None, assembly=None,
-                            meta_notes=False, show_cli=True):
+                            meta_notes=False, show_cli=True, species=None):
     """Render the authoritative post-checker configuration — the 'dispose' step, not just a warning.
 
     check_and_fix_violations has already REPAIRED the option set in place (removed species/conflict
@@ -2683,9 +2703,10 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
         if violations:
             parts.append(f"{len(violations)} removed or resolved")
         if restored:
-            parts.append(f"{len(restored)} switched back on")
+            parts.append(f"{len(restored)} added back")
+        hint = "" if meta_notes else "  --explain shows how"
         lines.append(f"  (the constraint checker corrected {n_fixed} thing"
-                     f"{'s' if n_fixed != 1 else ''}: {', '.join(parts)})")
+                     f"{'s' if n_fixed != 1 else ''}: {', '.join(parts)}){hint}")
     lines.append("=" * 60)
     if resolved:
         # Essential-vs-optional view: group the SAME corrected set by this scenario's priorities.
@@ -2711,26 +2732,42 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
         sect_by_id = {o["id"]: _WEB_SECTION_LABELS.get(o.get("web_form_section") or "", "")
                       for o in vep_options}
         defval_by_id = {o["id"]: o.get("web_default_value") for o in vep_options}
+        cat_by_id = {o["id"]: o.get("category") for o in vep_options}
+        dep_by_id = {o["id"]: o.get("deprecated") for o in vep_options}
+        unpriced = set(tiers["unpriced"])
+        # A grouped member the table prices NOTHING for stays individual: its "model-suggested"
+        # warning below matters more than the tidier line, and folding it in would launder a
+        # model-only pick into the type's listing.
+        grouped_on = {oid for oid in switch_on
+                      if cat_by_id.get(oid) in TYPE_GROUPED_CATEGORIES and oid not in unpriced}
+        grouped_cats = {cat_by_id[oid] for oid in grouped_on}
+        grouped_offered = {oid for oid in tiers["addons_offered"]
+                           if cat_by_id.get(oid) in grouped_cats}
         if switch_on:
-            lines.append(f"SWITCH THESE ON — on the VEP web form  [{len(switch_on)}]")
-            unpriced = set(tiers["unpriced"])
+            lines.append(f"RECOMMENDED — set these on the VEP web form  [{len(switch_on)}]")
             for oid in switch_on:
+                if oid in grouped_on:
+                    continue
                 # An option only the MODEL wants -- the table prices nothing for it here -- must not
                 # render identically to the table's own picks. The mentor-reported case was `pick`
                 # on a rare-disease query, shown as confidently as ClinVar.
-                tag = ("   (add-on, included for this scenario)" if oid in extra else
-                       "   (model-suggested; not in the priority table for this scenario)"
+                tag = ("   (add-on)" if oid in extra else
+                       "   (model-suggested)"
                        if oid in unpriced else "")
                 where = f"   ({sect_by_id[oid]} section)" if sect_by_id.get(oid) else ""
-                lines.append(f"  {'+' if oid in extra else '✓'} {name_by_id.get(oid, oid)}"
-                             f"{where}{tag}")
+                dep = (f"   (deprecated — {dep_by_id[oid].split(';')[0]})"
+                       if dep_by_id.get(oid) else "")
+                lines.append(f"  {name_by_id.get(oid, oid)}{where}{tag}{dep}")
                 # A radiolist recommended AT ITS OWN DEFAULT is an instruction to leave it alone,
                 # and the output should say so instead of making the user hunt for what to change.
                 if oid == "core_type" and (defval_by_id.get(oid) or "core") == "core":
                     lines.append("      keep the form's default: Ensembl/GENCODE transcripts")
                 if oid in ("pick", "pick_allele", "per_gene", "most_severe", "summary"):
                     lines.append(f"      set the 'Restrict results' drop-down to: {oid}")
-                if (reason_by_id or {}).get(oid):
+                # The model's per-option prose is its own commentary, of uneven quality, and it
+                # triples the length of the list a user is trying to work through on the form.
+                # --explain keeps it for whoever is auditing the draft.
+                if meta_notes and (reason_by_id or {}).get(oid):
                     lines.append(f"      {reason_by_id[oid]}")   # guarded above
                 # A form control whose VALUE depends on the variant size. Naming the file is the whole
                 # point of splitting the passes: "switch CADD on" is not actionable when the drop-down
@@ -2738,14 +2775,44 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
                 _choice, _ = size_dependent_choice(oid, size_value, vep_options, assembly)
                 if _choice:
                     lines.append(f"      drop-down: {_choice}")
+            # One line per TYPE, after the singles. Members switched on are starred; the rest of
+            # the type rides on the same line as available, so no member reads as our pick.
+            for cat, label in TYPE_GROUPED_CATEGORIES.items():
+                on_members = [oid for oid in switch_on if oid in grouped_on
+                              and cat_by_id.get(oid) == cat]
+                if not on_members:
+                    continue
+                off_members = [oid for oid in sorted(tiers["addons_offered"])
+                               if cat_by_id.get(oid) == cat]
+                sect = next((sect_by_id.get(oid) for oid in on_members
+                             if sect_by_id.get(oid)), "")
+                for_clause = (f" for {species}" if species and species != "unknown" else "")
+                if assembly:
+                    for_clause += f" ({assembly})"
+                picked = ", ".join(name_by_id.get(o, o) for o in on_members)
+                lines.append(f"  {label}: {picked}" + (f"   ({sect} section)" if sect else ""))
+                # The rest of the family, and the "any subset works" caveat, are --explain material:
+                # true, and not what someone filling in the form needs on the screen.
+                if meta_notes:
+                    listing = ", ".join([f"{name_by_id.get(o, o)}*" for o in on_members]
+                                        + [name_by_id.get(o, o) for o in off_members])
+                    lines.append(f"      supported in Ensembl VEP{for_clause}: {listing}")
+                    lines.append("      * recommended here — any subset works; leaving the choice "
+                                 "alone keeps all of them")
+                for oid in on_members:
+                    _choice, _ = size_dependent_choice(oid, size_value, vep_options, assembly)
+                    if _choice:
+                        lines.append(f"      {name_by_id.get(oid, oid)} drop-down: {_choice}")
         else:
-            lines.append("ENABLE: (none)")
-        offered = sorted(tiers["addons_offered"])
+            lines.append("RECOMMENDED: (none)")
+        offered = sorted(set(tiers["addons_offered"]) - grouped_offered)
         if offered:
             lines.append("")
-            lines.append(f"ALSO AVAILABLE — not switched on  [{len(offered)}]")
-            lines.extend((f"  · {name_by_id.get(oid, oid)}"
-                          + (f"   ({sect_by_id[oid]} section)" if sect_by_id.get(oid) else ""))
+            lines.append(f"OPTIONAL  [{len(offered)}]")
+            lines.extend((f"  {name_by_id.get(oid, oid)}"
+                          + (f"   ({sect_by_id[oid]} section)" if sect_by_id.get(oid) else "")
+                          + (f"   (deprecated — {dep_by_id[oid].split(';')[0]})"
+                             if dep_by_id.get(oid) else ""))
                          for oid in offered)
         if meta_notes:
             # Provenance for --explain readers. Out of the default output on mentor feedback
@@ -3507,7 +3574,7 @@ def print_decision_trace(user_query, vep_options, training_examples,
     add = sorted(o for o, t in tr.items() if t["priority"] == "optional")
     gated = sorted(o for o, t in tr.items() if t["gated_by"])
 
-    print(f"RECOMMENDED — switched on  [{len(on)}]")
+    print(f"RECOMMENDED  [{len(on)}]")
     for oid in on:
         t = tr[oid]
         w = t["winner"]
@@ -3871,9 +3938,13 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                         reasoning=reasoning_text)
             return
 
+        # DIAGNOSTICS ARE BUFFERED, NOT PRINTED HERE. They explain how the configuration was
+        # repaired, so they belong after it: a user who wanted the answer had to scroll past two
+        # warning blocks to reach it. Order among themselves is unchanged.
+        diagnostics = []
         audit_report = format_citation_audit(audit, len(vep_options))
         if audit_report:
-            print(audit_report)
+            diagnostics.append(audit_report)
         # ONE parse of the draft, reused for the sets, the per-option prose and the override
         # report, so the three cannot disagree about what the model actually said.
         _recs = extract_recommendations_detailed(response_text, option_aliases)
@@ -3881,7 +3952,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         disabled = {r["option_id"] for r in _recs if r["action"] == "disable"}
         override_report = format_marker_overrides(_recs, vep_options)
         if override_report:
-            print(override_report)
+            diagnostics.append(override_report)
         # `assembly_override=assembly` is NOT optional. Without it the checker falls back to
         # infer_assembly(user_query), which reads a build out of the PROSE only — so `--assembly
         # GRCh37` was acknowledged on screen, used to suppress the assembly question, and then
@@ -3933,10 +4004,10 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
             # name the options that came back.
             pass_warnings = format_violation_warnings(violations, reinstated=set(p_enabled))
             if pass_warnings:
-                print(pass_warnings)
+                diagnostics.append(pass_warnings)
             restored_report = format_restored_recommended(restored, vep_options)
             if restored_report:
-                print(restored_report)
+                diagnostics.append(restored_report)
             if resolved and level != "standard":
                 removed = apply_config_level(p_enabled, p_disabled, resolved, level, vep_options,
                                              training_examples, user_query,
@@ -3945,7 +4016,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                                              species_override=species_stated)
                 note = (f"  ({len(removed)} recommended options dropped to leave the smallest runnable "
                         f"set; dependencies kept)"
-                        if level == "minimal" else "  (every applicable add-on switched on)")
+                        if level == "minimal" else "  (every applicable add-on included)")
                 print(f"\nCONFIG LEVEL: {level}\n{note}")
             elif level != "standard":
                 print(f"\nCONFIG LEVEL: {level} requested, but the scenario's factors could not be "
@@ -3959,10 +4030,28 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                                                 resolved=resolved, reason_by_id=_reasons,
                                                 restored=restored,
                                                 size_value=size_value, assembly=assembly,
-                                                show_cli=show_cli, meta_notes=explain)
+                                                show_cli=show_cli, meta_notes=explain,
+                                                species=species_stated or infer_species(user_query))
             print(corrected)
-            reports.extend(x for x in (pass_warnings, restored_report, corrected) if x)
-        warnings = "\n".join(x for x in ([audit_report, override_report] + reports) if x)
+            # DIAGNOSTICS ARE --explain ONLY. A corrected configuration is just a configuration; the
+            # repair log is for whoever audits the decision, not for someone who wants the answer.
+            # The header line already says how many things were corrected, and the saved .md keeps
+            # the full log either way, so nothing is lost by leaving it off the screen.
+            if diagnostics and explain:
+                print("\nHOW THIS WAS CORRECTED\n" + "-" * 60)
+                for d in diagnostics:
+                    print(d)
+            diagnostics.clear()
+            # Same order as the screen: the configuration, then how it was repaired. The saved file
+            # and the terminal must not disagree about which came first.
+            reports.extend(x for x in (corrected, pass_warnings, restored_report) if x)
+        # Safety net: the flush above lives inside the per-pass loop, so anything left here means the
+        # loop never ran. A buffered warning that never prints is worse than one printed too early.
+        if diagnostics and explain:
+            print("\nHOW THIS WAS CORRECTED\n" + "-" * 60)
+            for d in diagnostics:
+                print(d)
+        warnings = "\n".join(x for x in (reports + [audit_report, override_report]) if x)
     save_result(user_query, response_text, mode="recommend", warnings=warnings,
                 reasoning=reasoning_text)
 

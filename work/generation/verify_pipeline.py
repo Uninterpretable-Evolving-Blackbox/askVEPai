@@ -371,8 +371,11 @@ def main():
     # to call .get on it.
     res3 = va.intent_priorities(ft2, cat, pbf, factors)
     on3 = {o for o, (e, _p, _g) in res3.items() if e}
+    # Header renamed 2026-09-08 ("SWITCH THESE ON" -> "RECOMMENDED"): the tool does not run VEP, so
+    # it cannot switch anything on. The check is that the call SURVIVES a None reason_by_id, not the
+    # wording, so it asserts on the tier name the output schema already uses.
     check("format_corrected_config survives a caller that passes no per-option prose",
-          "SWITCH THESE ON" in va.format_corrected_config(on3, set(), cat, [], resolved=res3))
+          "RECOMMENDED" in va.format_corrected_config(on3, set(), cat, [], resolved=res3))
 
     print("\n== 8b. One VEP run per variant size ==")
     # The web form cannot express a configuration covering both sizes at once (CADD's annotation-file
