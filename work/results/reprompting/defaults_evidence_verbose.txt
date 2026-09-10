@@ -1,0 +1,57 @@
+
+Re-deriving every default from 31 review rows and 78 clean ablations. No model is run.
+
+== the loss ledger — what each CURRENT default costs, per option ==
+        default                             rows losing  mean lost  mean added  lost
+        region_focus = both                      0/31         0.00        1.68  —
+        origin = somatic                         7/31         0.23        0.00  frequency x7
+        variant_size_class = both                0/31         0.00        4.23  —
+  [PASS] region_focus loses nothing on any row
+  [PASS] variant_size_class loses nothing on any row
+  [PASS] origin is the only default that loses anything  — and it is a deliberate trade, not an oversight
+  [PASS] what origin costs is NOT an add-on  — frequency is recommended -> shown as recommended
+  [PASS] the species guess fails by ADDING, which is the tolerable direction  — 6.60 human-only options per row forced onto a non-human scenario that never said so — worst case, not expected case
+
+== region_focus = both — chosen by a deterministic sweep over the 31 rows ==
+        both                   mean F1 0.91
+        coding                 mean F1 0.88
+        (left blank)           mean F1 0.79
+        regulatory-noncoding   mean F1 0.79
+  [PASS] `both` is the best of the four candidate values  — both=0.91  coding=0.88  (left blank)=0.79  regulatory-noncoding=0.79
+  [PASS] `both` beats leaving it blank  — both=0.91 vs blank=0.79
+  [PASS] the guessed value matches the winner  — policy=['coding', 'regulatory-noncoding']
+
+== origin = somatic — chosen by a danger audit, not by accuracy ==
+  [PASS] across every tuple, origin moves exactly one option: `frequency`  — 54 tuples, moved=['frequency']
+  [PASS] origin never merely shifts a priority  — shifted=none
+  [PASS] guessing somatic enables the common-variant filter on 0 germline rows  — 0/16 germline rows harmed
+  [PASS] leaving origin unstated leaks that filter onto somatic rows  — 6/15 somatic rows — silence is not the safe option
+  [PASS] on the destructive option, unstated behaves exactly like germline  — which is why silence is not the neutral choice
+  [PASS] silence drops nothing that both values agreed on (the check_existing leg is withdrawn)  — lost by silence on every row: nothing
+  [PASS] the guessed value is somatic  — policy='somatic'
+  [note] silence carries germline's risk on `frequency` without germline's benefit, so something has to be guessed at all. That is an argument for guessing something rather than for guessing somatic specifically.
+  [note] origin earns its place on ONE option (`frequency`), differing on 9 of 54 tuples — human population-frequency only. The taxonomy's own bar is that a factor must gate or shift a CLUSTER of options, so whether it earns its place is worth putting to the mentors.
+
+== variant_size_class = both — the value only existed after the scheme changed ==
+  [PASS] filling the gap with `both` loses nothing on any ablation  — 0/23 queries lose an option
+  [PASS] leaving it empty loses options on a large minority  — 13/23 queries lose an option
+  [PASS] `both` is strictly better than leaving it empty  — both=0 vs empty=13, over n=23
+  [PASS] the factor is declared multi-select, which is what makes `both` expressible
+  [PASS] the guessed value is both
+
+== species = human on unknown — judgement, with no experiment behind it ==
+  [PASS] the keyword rule abstains on a large share of real questions  — unknown on 4/8 real configuration questions
+  [PASS] resolving an abstention as non-human would strip a real block of options  — 33 human-only options at risk
+  [PASS] the fail direction is toward human
+  [note] NO experiment chose this value. It is the weakest-evidenced of the four defaults and it fails in the other direction — a non-human query that never says so keeps human-only options. The constraint checker announces it; that is the mitigation, not a measurement.
+
+== analysis_goal and assembly — asked, not guessed ==
+  [PASS] analysis_goal carries no guess  — policy=None
+  [PASS] with no guess, the rule asks about analysis_goal on every such ablation  — 12/12
+  [PASS] ...and the fallback value loses options on some of them  — 5/12 — subtractive error, which is the direction that costs a finding
+  [PASS] assembly is not a factor, so it has no guess path
+  [PASS] both assembly answers delete something real, which is why neither is guessed  — GRCh38-only=['eve', 'gnomad_sv', 'mane', 'mavedb']  GRCh37-only=['geno2mp']
+
+==============================================================================
+28 passed, 0 failed
+ALL PASS ✓ — every guessed value still matches the evidence given for it

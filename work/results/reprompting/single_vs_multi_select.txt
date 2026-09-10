@@ -1,0 +1,6 @@
+
+§3 arm — variant_size_class on 23 pure ablations, RECOMMENDED tier
+
+  policy                    REC lost  REC gained  queries losing a REC
+  empty (single-select)         1.70        5.22                 13/23
+  both (shipped)                0.00        5.35                  0/23

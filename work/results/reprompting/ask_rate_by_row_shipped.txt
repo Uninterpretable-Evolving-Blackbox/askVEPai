@@ -1,0 +1,53 @@
+
+ask rate over 78 clean ablations from ablated_queries.json  (the gate only; no model is run)
+
+  arm                 questions  queries asked   factors
+  ------------------ ---------- --------------   ------------------------------
+  shipped                    46         40/78   assembly 34, analysis_goal 12
+
+  shipped            what the engine does
+
+  shipped — cases raising a question:
+    row  1  deleted=variant_size_class   asks assembly
+    row  2  deleted=analysis_goal        asks analysis_goal
+    row  3  deleted=origin               asks assembly
+    row  3  deleted=variant_size_class   asks assembly
+    row  3  deleted=region_focus         asks assembly
+    row  5  deleted=variant_size_class   asks assembly
+    row  5  deleted=region_focus         asks assembly
+    row  6  deleted=analysis_goal        asks analysis_goal
+    row  7  deleted=region_focus         asks assembly
+    row  7  deleted=analysis_goal        asks analysis_goal, assembly
+    row  8  deleted=analysis_goal        asks analysis_goal
+    row 10  deleted=origin               asks assembly
+    row 10  deleted=analysis_goal        asks analysis_goal, assembly
+    row 11  deleted=origin               asks assembly
+    row 11  deleted=variant_size_class   asks assembly
+    row 11  deleted=region_focus         asks assembly
+    row 13  deleted=origin               asks assembly
+    row 13  deleted=region_focus         asks assembly
+    row 15  deleted=analysis_goal        asks analysis_goal
+    row 16  deleted=origin               asks assembly
+    row 16  deleted=region_focus         asks assembly
+    row 16  deleted=analysis_goal        asks analysis_goal, assembly
+    row 17  deleted=region_focus         asks assembly
+    row 17  deleted=analysis_goal        asks analysis_goal, assembly
+    row 18  deleted=origin               asks assembly
+    row 22  deleted=origin               asks assembly
+    row 23  deleted=variant_size_class   asks assembly
+    row 23  deleted=region_focus         asks assembly
+    row 23  deleted=analysis_goal        asks analysis_goal, assembly
+    row 24  deleted=analysis_goal        asks analysis_goal
+    row 25  deleted=variant_size_class   asks assembly
+    row 25  deleted=region_focus         asks assembly
+    row 27  deleted=variant_size_class   asks assembly
+    row 28  deleted=analysis_goal        asks analysis_goal
+    row 29  deleted=origin               asks assembly
+    row 29  deleted=variant_size_class   asks assembly
+    row 29  deleted=region_focus         asks assembly
+    row 31  deleted=origin               asks assembly
+    row 31  deleted=region_focus         asks assembly
+    row 31  deleted=analysis_goal        asks analysis_goal, assembly
+
+
+  assembly at stake, filled tuple vs stated: 40 vs 34 (6 interruptions would exist only because we guessed)

@@ -1,0 +1,485 @@
+  writing to ablated_queries_rerun.json; ablated_queries.json is left alone. Pass --update-primary to adopt this run.
+
+=== seed 42 (temperature 0.0) ===
+  row  1 −origin              entangled      collateral:analysis_goal
+  row  1 −variant_size_class  entangled      collateral:analysis_goal
+  row  1 −region_focus        entangled      collateral:analysis_goal
+  row  1 −analysis_goal       rewrite failed 
+  row  1 −species             entangled      collateral:analysis_goal
+  row  2 −origin              pure           
+  row  2 −variant_size_class  redundant      
+  row  2 −region_focus        redundant      
+  row  2 −analysis_goal       pure           
+  row  2 −species             pure           
+  row  3 −origin              pure           
+  row  3 −variant_size_class  pure           
+  row  3 −region_focus        pure           
+  row  3 −analysis_goal       redundant      
+  row  3 −species             redundant      
+  row  4 −origin              pure           
+  row  4 −variant_size_class  pure           
+  row  4 −region_focus        pure           
+  row  4 −analysis_goal       pure           
+  row  4 −species             pure           
+  row  5 −origin              pure           
+  row  5 −variant_size_class  pure           
+  row  5 −region_focus        pure           
+  row  5 −analysis_goal       pure           
+  row  5 −species             entangled      collateral:origin
+  row  6 −origin              pure           
+  row  6 −variant_size_class  pure           
+  row  6 −region_focus        pure           
+  row  6 −analysis_goal       pure           
+  row  6 −species             pure           
+  row  7 −origin              pure           
+  row  7 −variant_size_class  pure           
+  row  7 −region_focus        pure           
+  row  7 −analysis_goal       pure           
+  row  7 −species             redundant      
+  row  8 −origin              pure           
+  row  8 −variant_size_class  pure           
+  row  8 −region_focus        pure           
+  row  8 −analysis_goal       redundant      
+  row  8 −species             pure           
+  row  9 −origin              pure           
+  row  9 −variant_size_class  pure           
+  row  9 −region_focus        pure           
+  row  9 −analysis_goal       entangled      collateral:region_focus
+  row  9 −species             pure           
+  row 10 −origin              pure           
+  row 10 −variant_size_class  pure           
+  row 10 −region_focus        redundant      
+  row 10 −analysis_goal       pure           
+  row 10 −species             redundant      
+  row 11 −origin              pure           
+  row 11 −variant_size_class  pure           
+  row 11 −region_focus        pure           
+  row 11 −analysis_goal       redundant      
+  row 11 −species             redundant      
+  row 12 −origin              rewrite failed 
+  row 12 −variant_size_class  pure           
+  row 12 −region_focus        pure           
+  row 12 −analysis_goal       redundant      
+  row 12 −species             entangled      collateral:origin
+  row 13 −origin              pure           
+  row 13 −variant_size_class  pure           
+  row 13 −region_focus        pure           
+  row 13 −analysis_goal       redundant      
+  row 13 −species             redundant      
+  row 14 −origin              pure           
+  row 14 −variant_size_class  pure           
+  row 14 −region_focus        redundant      
+  row 14 −analysis_goal       redundant      
+  row 14 −species             pure           
+  row 15 −origin              pure           
+  row 15 −variant_size_class  pure           
+  row 15 −region_focus        pure           
+  row 15 −analysis_goal       pure           
+  row 15 −species             pure           
+  row 16 −origin              pure           
+  row 16 −variant_size_class  pure           
+  row 16 −region_focus        pure           
+  row 16 −analysis_goal       pure           
+  row 16 −species             redundant      
+  row 17 −origin              redundant      
+  row 17 −variant_size_class  pure           
+  row 17 −region_focus        pure           
+  row 17 −analysis_goal       pure           
+  row 17 −species             redundant      
+  row 18 −origin              pure           
+  row 18 −variant_size_class  pure           
+  row 18 −region_focus        pure           
+  row 18 −analysis_goal       redundant      
+  row 18 −species             pure           
+  row 19 −origin              redundant      
+  row 19 −variant_size_class  pure           
+  row 19 −region_focus        entangled      collateral:analysis_goal
+  row 19 −analysis_goal       redundant      
+  row 19 −species             rewrite failed 
+  row 20 −origin              rewrite failed 
+  row 20 −variant_size_class  redundant      
+  row 20 −region_focus        redundant      
+  row 20 −analysis_goal       redundant      
+  row 20 −species             pure           
+  row 21 −origin              pure           
+  row 21 −variant_size_class  redundant      
+  row 21 −region_focus        redundant      
+  row 21 −analysis_goal       redundant      
+  row 21 −species             pure           
+  row 22 −origin              pure           
+  row 22 −variant_size_class  pure           
+  row 22 −region_focus        redundant      
+  row 22 −analysis_goal       redundant      
+  row 22 −species             redundant      
+  row 23 −origin              entangled      collateral:analysis_goal
+  row 23 −variant_size_class  pure           
+  row 23 −region_focus        pure           
+  row 23 −analysis_goal       redundant      
+  row 23 −species             entangled      collateral:origin,analysis_goal
+  row 24 −origin              redundant      
+  row 24 −variant_size_class  pure           
+  row 24 −region_focus        pure           
+  row 24 −analysis_goal       pure           
+  row 24 −species             pure           
+  row 25 −origin              redundant      
+  row 25 −variant_size_class  pure           
+  row 25 −region_focus        pure           
+  row 25 −analysis_goal       redundant      
+  row 25 −species             rewrite failed 
+  row 26 −origin              pure           
+  row 26 −variant_size_class  pure           
+  row 26 −region_focus        pure           
+  row 26 −analysis_goal       redundant      
+  row 26 −species             pure           
+  row 27 −origin              entangled      collateral:analysis_goal
+  row 27 −variant_size_class  redundant      
+  row 27 −region_focus        redundant      
+  row 27 −analysis_goal       redundant      
+  row 27 −species             rewrite failed 
+  row 28 −origin              pure           
+  row 28 −variant_size_class  pure           
+  row 28 −region_focus        pure           
+  row 28 −analysis_goal       entangled      collateral:region_focus
+  row 28 −species             pure           
+  row 29 −origin              pure           
+  row 29 −variant_size_class  pure           
+  row 29 −region_focus        pure           
+  row 29 −analysis_goal       entangled      collateral:region_focus
+  row 29 −species             redundant      
+  row 30 −origin              pure           
+  row 30 −variant_size_class  pure           
+  row 30 −region_focus        pure           
+  row 30 −analysis_goal       redundant      
+  row 30 −species             pure           
+  row 31 −origin              pure           
+  row 31 −variant_size_class  pure           
+  row 31 −region_focus        pure           
+  row 31 −analysis_goal       pure           
+  row 31 −species             redundant      
+  seed 42: clean 95/155 (61%)  -> ablated_queries_rerun.json
+
+=== seed 43 (temperature 0.0) ===
+  row  1 −origin              entangled      collateral:analysis_goal
+  row  1 −variant_size_class  entangled      collateral:analysis_goal
+  row  1 −region_focus        entangled      collateral:analysis_goal
+  row  1 −analysis_goal       rewrite failed 
+  row  1 −species             entangled      collateral:analysis_goal
+  row  2 −origin              pure           
+  row  2 −variant_size_class  redundant      
+  row  2 −region_focus        redundant      
+  row  2 −analysis_goal       pure           
+  row  2 −species             pure           
+  row  3 −origin              pure           
+  row  3 −variant_size_class  pure           
+  row  3 −region_focus        pure           
+  row  3 −analysis_goal       redundant      
+  row  3 −species             redundant      
+  row  4 −origin              pure           
+  row  4 −variant_size_class  pure           
+  row  4 −region_focus        pure           
+  row  4 −analysis_goal       pure           
+  row  4 −species             pure           
+  row  5 −origin              pure           
+  row  5 −variant_size_class  pure           
+  row  5 −region_focus        pure           
+  row  5 −analysis_goal       pure           
+  row  5 −species             entangled      collateral:origin
+  row  6 −origin              pure           
+  row  6 −variant_size_class  pure           
+  row  6 −region_focus        pure           
+  row  6 −analysis_goal       pure           
+  row  6 −species             pure           
+  row  7 −origin              pure           
+  row  7 −variant_size_class  pure           
+  row  7 −region_focus        pure           
+  row  7 −analysis_goal       pure           
+  row  7 −species             redundant      
+  row  8 −origin              pure           
+  row  8 −variant_size_class  pure           
+  row  8 −region_focus        pure           
+  row  8 −analysis_goal       redundant      
+  row  8 −species             pure           
+  row  9 −origin              pure           
+  row  9 −variant_size_class  pure           
+  row  9 −region_focus        pure           
+  row  9 −analysis_goal       entangled      collateral:region_focus
+  row  9 −species             pure           
+  row 10 −origin              pure           
+  row 10 −variant_size_class  pure           
+  row 10 −region_focus        redundant      
+  row 10 −analysis_goal       pure           
+  row 10 −species             redundant      
+  row 11 −origin              pure           
+  row 11 −variant_size_class  pure           
+  row 11 −region_focus        pure           
+  row 11 −analysis_goal       redundant      
+  row 11 −species             redundant      
+  row 12 −origin              rewrite failed 
+  row 12 −variant_size_class  pure           
+  row 12 −region_focus        pure           
+  row 12 −analysis_goal       redundant      
+  row 12 −species             entangled      collateral:origin
+  row 13 −origin              pure           
+  row 13 −variant_size_class  pure           
+  row 13 −region_focus        pure           
+  row 13 −analysis_goal       redundant      
+  row 13 −species             redundant      
+  row 14 −origin              pure           
+  row 14 −variant_size_class  pure           
+  row 14 −region_focus        redundant      
+  row 14 −analysis_goal       redundant      
+  row 14 −species             pure           
+  row 15 −origin              pure           
+  row 15 −variant_size_class  pure           
+  row 15 −region_focus        pure           
+  row 15 −analysis_goal       pure           
+  row 15 −species             pure           
+  row 16 −origin              pure           
+  row 16 −variant_size_class  pure           
+  row 16 −region_focus        pure           
+  row 16 −analysis_goal       pure           
+  row 16 −species             redundant      
+  row 17 −origin              redundant      
+  row 17 −variant_size_class  pure           
+  row 17 −region_focus        pure           
+  row 17 −analysis_goal       pure           
+  row 17 −species             redundant      
+  row 18 −origin              pure           
+  row 18 −variant_size_class  pure           
+  row 18 −region_focus        pure           
+  row 18 −analysis_goal       redundant      
+  row 18 −species             pure           
+  row 19 −origin              redundant      
+  row 19 −variant_size_class  pure           
+  row 19 −region_focus        entangled      collateral:analysis_goal
+  row 19 −analysis_goal       redundant      
+  row 19 −species             rewrite failed 
+  row 20 −origin              rewrite failed 
+  row 20 −variant_size_class  redundant      
+  row 20 −region_focus        redundant      
+  row 20 −analysis_goal       redundant      
+  row 20 −species             pure           
+  row 21 −origin              pure           
+  row 21 −variant_size_class  redundant      
+  row 21 −region_focus        redundant      
+  row 21 −analysis_goal       redundant      
+  row 21 −species             pure           
+  row 22 −origin              pure           
+  row 22 −variant_size_class  pure           
+  row 22 −region_focus        redundant      
+  row 22 −analysis_goal       redundant      
+  row 22 −species             redundant      
+  row 23 −origin              entangled      collateral:analysis_goal
+  row 23 −variant_size_class  pure           
+  row 23 −region_focus        pure           
+  row 23 −analysis_goal       redundant      
+  row 23 −species             entangled      collateral:origin,analysis_goal
+  row 24 −origin              redundant      
+  row 24 −variant_size_class  pure           
+  row 24 −region_focus        pure           
+  row 24 −analysis_goal       pure           
+  row 24 −species             pure           
+  row 25 −origin              redundant      
+  row 25 −variant_size_class  pure           
+  row 25 −region_focus        pure           
+  row 25 −analysis_goal       redundant      
+  row 25 −species             rewrite failed 
+  row 26 −origin              pure           
+  row 26 −variant_size_class  pure           
+  row 26 −region_focus        pure           
+  row 26 −analysis_goal       redundant      
+  row 26 −species             pure           
+  row 27 −origin              entangled      collateral:analysis_goal
+  row 27 −variant_size_class  redundant      
+  row 27 −region_focus        redundant      
+  row 27 −analysis_goal       redundant      
+  row 27 −species             rewrite failed 
+  row 28 −origin              pure           
+  row 28 −variant_size_class  pure           
+  row 28 −region_focus        pure           
+  row 28 −analysis_goal       entangled      collateral:region_focus
+  row 28 −species             pure           
+  row 29 −origin              pure           
+  row 29 −variant_size_class  pure           
+  row 29 −region_focus        pure           
+  row 29 −analysis_goal       entangled      collateral:region_focus
+  row 29 −species             redundant      
+  row 30 −origin              pure           
+  row 30 −variant_size_class  pure           
+  row 30 −region_focus        pure           
+  row 30 −analysis_goal       redundant      
+  row 30 −species             pure           
+  row 31 −origin              pure           
+  row 31 −variant_size_class  pure           
+  row 31 −region_focus        pure           
+  row 31 −analysis_goal       pure           
+  row 31 −species             redundant      
+  seed 43: clean 95/155 (61%)  -> ablated_queries_rerun_seed43.json
+
+=== seed 44 (temperature 0.0) ===
+  row  1 −origin              entangled      collateral:analysis_goal
+  row  1 −variant_size_class  entangled      collateral:analysis_goal
+  row  1 −region_focus        entangled      collateral:analysis_goal
+  row  1 −analysis_goal       rewrite failed 
+  row  1 −species             entangled      collateral:analysis_goal
+  row  2 −origin              pure           
+  row  2 −variant_size_class  redundant      
+  row  2 −region_focus        redundant      
+  row  2 −analysis_goal       pure           
+  row  2 −species             pure           
+  row  3 −origin              pure           
+  row  3 −variant_size_class  pure           
+  row  3 −region_focus        pure           
+  row  3 −analysis_goal       redundant      
+  row  3 −species             redundant      
+  row  4 −origin              pure           
+  row  4 −variant_size_class  pure           
+  row  4 −region_focus        pure           
+  row  4 −analysis_goal       pure           
+  row  4 −species             pure           
+  row  5 −origin              pure           
+  row  5 −variant_size_class  pure           
+  row  5 −region_focus        pure           
+  row  5 −analysis_goal       pure           
+  row  5 −species             entangled      collateral:origin
+  row  6 −origin              pure           
+  row  6 −variant_size_class  pure           
+  row  6 −region_focus        pure           
+  row  6 −analysis_goal       pure           
+  row  6 −species             pure           
+  row  7 −origin              pure           
+  row  7 −variant_size_class  pure           
+  row  7 −region_focus        pure           
+  row  7 −analysis_goal       pure           
+  row  7 −species             redundant      
+  row  8 −origin              pure           
+  row  8 −variant_size_class  pure           
+  row  8 −region_focus        pure           
+  row  8 −analysis_goal       redundant      
+  row  8 −species             pure           
+  row  9 −origin              pure           
+  row  9 −variant_size_class  pure           
+  row  9 −region_focus        pure           
+  row  9 −analysis_goal       entangled      collateral:region_focus
+  row  9 −species             pure           
+  row 10 −origin              pure           
+  row 10 −variant_size_class  pure           
+  row 10 −region_focus        redundant      
+  row 10 −analysis_goal       pure           
+  row 10 −species             redundant      
+  row 11 −origin              pure           
+  row 11 −variant_size_class  pure           
+  row 11 −region_focus        pure           
+  row 11 −analysis_goal       redundant      
+  row 11 −species             redundant      
+  row 12 −origin              rewrite failed 
+  row 12 −variant_size_class  pure           
+  row 12 −region_focus        pure           
+  row 12 −analysis_goal       redundant      
+  row 12 −species             entangled      collateral:origin
+  row 13 −origin              pure           
+  row 13 −variant_size_class  pure           
+  row 13 −region_focus        pure           
+  row 13 −analysis_goal       redundant      
+  row 13 −species             redundant      
+  row 14 −origin              pure           
+  row 14 −variant_size_class  pure           
+  row 14 −region_focus        redundant      
+  row 14 −analysis_goal       redundant      
+  row 14 −species             pure           
+  row 15 −origin              pure           
+  row 15 −variant_size_class  pure           
+  row 15 −region_focus        pure           
+  row 15 −analysis_goal       pure           
+  row 15 −species             pure           
+  row 16 −origin              pure           
+  row 16 −variant_size_class  pure           
+  row 16 −region_focus        pure           
+  row 16 −analysis_goal       pure           
+  row 16 −species             redundant      
+  row 17 −origin              redundant      
+  row 17 −variant_size_class  pure           
+  row 17 −region_focus        pure           
+  row 17 −analysis_goal       pure           
+  row 17 −species             redundant      
+  row 18 −origin              pure           
+  row 18 −variant_size_class  pure           
+  row 18 −region_focus        pure           
+  row 18 −analysis_goal       redundant      
+  row 18 −species             pure           
+  row 19 −origin              redundant      
+  row 19 −variant_size_class  pure           
+  row 19 −region_focus        entangled      collateral:analysis_goal
+  row 19 −analysis_goal       redundant      
+  row 19 −species             rewrite failed 
+  row 20 −origin              rewrite failed 
+  row 20 −variant_size_class  redundant      
+  row 20 −region_focus        redundant      
+  row 20 −analysis_goal       redundant      
+  row 20 −species             pure           
+  row 21 −origin              pure           
+  row 21 −variant_size_class  redundant      
+  row 21 −region_focus        redundant      
+  row 21 −analysis_goal       redundant      
+  row 21 −species             pure           
+  row 22 −origin              pure           
+  row 22 −variant_size_class  pure           
+  row 22 −region_focus        redundant      
+  row 22 −analysis_goal       redundant      
+  row 22 −species             redundant      
+  row 23 −origin              entangled      collateral:analysis_goal
+  row 23 −variant_size_class  pure           
+  row 23 −region_focus        pure           
+  row 23 −analysis_goal       redundant      
+  row 23 −species             entangled      collateral:origin,analysis_goal
+  row 24 −origin              redundant      
+  row 24 −variant_size_class  pure           
+  row 24 −region_focus        pure           
+  row 24 −analysis_goal       pure           
+  row 24 −species             pure           
+  row 25 −origin              redundant      
+  row 25 −variant_size_class  pure           
+  row 25 −region_focus        pure           
+  row 25 −analysis_goal       redundant      
+  row 25 −species             rewrite failed 
+  row 26 −origin              pure           
+  row 26 −variant_size_class  pure           
+  row 26 −region_focus        pure           
+  row 26 −analysis_goal       redundant      
+  row 26 −species             pure           
+  row 27 −origin              entangled      collateral:analysis_goal
+  row 27 −variant_size_class  redundant      
+  row 27 −region_focus        redundant      
+  row 27 −analysis_goal       redundant      
+  row 27 −species             rewrite failed 
+  row 28 −origin              pure           
+  row 28 −variant_size_class  pure           
+  row 28 −region_focus        pure           
+  row 28 −analysis_goal       entangled      collateral:region_focus
+  row 28 −species             pure           
+  row 29 −origin              pure           
+  row 29 −variant_size_class  pure           
+  row 29 −region_focus        pure           
+  row 29 −analysis_goal       entangled      collateral:region_focus
+  row 29 −species             redundant      
+  row 30 −origin              pure           
+  row 30 −variant_size_class  pure           
+  row 30 −region_focus        pure           
+  row 30 −analysis_goal       redundant      
+  row 30 −species             pure           
+  row 31 −origin              pure           
+  row 31 −variant_size_class  pure           
+  row 31 −region_focus        pure           
+  row 31 −analysis_goal       pure           
+  row 31 −species             redundant      
+  seed 44: clean 95/155 (61%)  -> ablated_queries_rerun_seed44.json
+
+========================================================================
+  seed 42: clean 95/155  {'entangled': 13, 'rewrite failed': 6, 'pure': 95, 'redundant': 41}
+  seed 43: clean 95/155  {'entangled': 13, 'rewrite failed': 6, 'pure': 95, 'redundant': 41}
+  seed 44: clean 95/155  {'entangled': 13, 'rewrite failed': 6, 'pure': 95, 'redundant': 41}
+
+  clean ablations across 3 seeds: 95.0 ± 0.0   (min 95, max 95)
+  spread is ZERO — at temperature 0 this run was exactly reproducible across seeds,
+  so the single-draw figure this experiment published was not an artefact of its seed.
+  -> work/preliminary_examples/ablated_queries_rerun.json  (+ per-seed files, summary in ablated_queries_rerun_seed_summary.json)

@@ -1,0 +1,136 @@
+################ clinical-interpretation:basic-consequence
+A/B OUTPUT DIFF   clinical-interpretation  ->  basic-consequence
+Ensembl REST release 116, species human
+
+  truth: 20 recommended   fallback:  9 recommended
+  options fallback loses: alphamissense, cadd, clinvar, eve, mane, mastermind, mavedb, phenotypes, polyphen, sift, spliceai
+
+  measurable here : 13 column options, 1 row options
+  UNMEASURABLE    : biotype, clinvar, polyphen, sift, symbol
+                    biotype -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+                    clinvar -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+                    polyphen -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+                    sift -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+                    symbol -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+  not exposed     : 1 options — mastermind
+
+  coding_known  (missense, colocated record present: predictors, HGVS, ClinVar, frequencies)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  lost in fallback:   alphamissense[transcript_consequences], cadd_phred[transcript_consequences], cadd_raw[transcript_consequences], mane[transcript_consequences], mane_select[transcript_consequences], phenotypes[transcript_consequences], popeve_eve[transcript_consequences], popeve_gap_frequency[transcript_consequences], popeve_gene[transcript_consequences], popeve_mutant[transcript_consequences], popeve_pop_adjusted_eve[transcript_consequences], popeve_protein[transcript_consequences], popeve_score[transcript_consequences], spliceai[transcript_consequences]
+
+  coding_novel  (missense with NO colocated record: predictors yes, frequencies no)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  lost in fallback:   alphamissense[transcript_consequences], cadd_phred[transcript_consequences], cadd_raw[transcript_consequences], mane[transcript_consequences], mane_select[transcript_consequences], phenotypes[transcript_consequences], popeve_eve[transcript_consequences], popeve_gap_frequency[transcript_consequences], popeve_gene[transcript_consequences], popeve_mutant[transcript_consequences], popeve_pop_adjusted_eve[transcript_consequences], popeve_protein[transcript_consequences], popeve_score[transcript_consequences], spliceai[transcript_consequences]
+
+  coding_synonymous  (synonymous: colocated data yes, missense predictors have nothing to score)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  lost in fallback:   cadd_phred[transcript_consequences], cadd_raw[transcript_consequences], mane[transcript_consequences], mane_select[transcript_consequences], phenotypes[transcript_consequences], spliceai[transcript_consequences]
+
+  regulatory_utr  (IL6 promoter, 2 regulatory_feature_consequences: regulatory and UTR options)
+    ROWS     identical  (10 transcript rows both sides)
+    COLUMNS  lost in fallback:   cadd_phred[transcript_consequences], cadd_raw[transcript_consequences], mane[transcript_consequences], mane_select[transcript_consequences], phenotypes[transcript_consequences], spliceai[transcript_consequences]
+
+  intronic  (intron, no protein consequence)
+    ROWS     identical  (6 transcript rows both sides)
+    COLUMNS  lost in fallback:   cadd_phred[transcript_consequences], cadd_raw[transcript_consequences], mane[transcript_consequences], mane_select[transcript_consequences], phenotypes[transcript_consequences], spliceai[transcript_consequences]
+
+  splice_acceptor  (CFTR splice acceptor: dbscSNV, MaxEntScan, SpliceAI)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  lost in fallback:   alphamissense[transcript_consequences], cadd_phred[transcript_consequences], cadd_raw[transcript_consequences], eve_class[transcript_consequences], eve_score[transcript_consequences], mane[transcript_consequences], mane_select[transcript_consequences], phenotypes[transcript_consequences], popeve_esm1v[transcript_consequences], popeve_eve[transcript_consequences], popeve_gap_frequency[transcript_consequences], popeve_gene[transcript_consequences], popeve_mutant[transcript_consequences], popeve_pop_adjusted_esm1v[transcript_consequences], popeve_pop_adjusted_eve[transcript_consequences], popeve_protein[transcript_consequences], popeve_score[transcript_consequences], spliceai[transcript_consequences]
+
+  stop_gained  (MYOC nonsense: NMD, OpenTargets)
+    ROWS     identical  (1 transcript rows both sides)
+    COLUMNS  lost in fallback:   cadd_phred[transcript_consequences], cadd_raw[transcript_consequences], mane[transcript_consequences], mane_select[transcript_consequences], phenotypes[transcript_consequences], spliceai[transcript_consequences]
+
+  upstream  (FASLG upstream: Enformer)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  lost in fallback:   cadd_phred[transcript_consequences], cadd_raw[transcript_consequences], mane[transcript_consequences], mane_select[transcript_consequences], phenotypes[transcript_consequences]
+
+  mirna  (MIR146A precursor: the only class exercising `mirna`)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  lost in fallback:   cadd_phred[transcript_consequences], cadd_raw[transcript_consequences]
+
+  assay_mapped  (BRCA1 missense in a MaveDB assay: MaveDB, IntAct)
+    ROWS     identical  (1104 transcript rows both sides)
+    COLUMNS  lost in fallback:   alphamissense[transcript_consequences], cadd_phred[transcript_consequences], cadd_raw[transcript_consequences], eve_class[transcript_consequences], eve_score[transcript_consequences], mane[transcript_consequences], mane_select[transcript_consequences], mavedb[transcript_consequences], phenotypes[transcript_consequences], popeve_esm1v[transcript_consequences], popeve_eve[transcript_consequences], popeve_gap_frequency[transcript_consequences], popeve_gene[transcript_consequences], popeve_mutant[transcript_consequences], popeve_pop_adjusted_esm1v[transcript_consequences], popeve_pop_adjusted_eve[transcript_consequences], popeve_protein[transcript_consequences], popeve_score[transcript_consequences], spliceai[transcript_consequences]
+
+  COHORT — all 10 panel variants as one callset
+    ROWS     identical (1133 transcript rows both sides)
+    COLUMNS in the whole result file: truth=70  fallback=51
+    lost in fallback: 19 — alphamissense, cadd_phred, cadd_raw, eve_class, eve_score, mane, mane_select, mavedb, phenotypes, popeve_esm1v, popeve_eve, popeve_gap_frequency, popeve_gene, popeve_mutant, popeve_pop_adjusted_esm1v, popeve_pop_adjusted_eve, popeve_protein, popeve_score, spliceai
+    per-variant columns lost: min 2  mean 9.6  max 19   -> cohort-level 19
+
+  Read the ROWS lines first: they are what an option-set metric and Exp 16 both miss.
+  An UNMEASURABLE option is NOT a null result — REST cannot apply it, so its effect on
+  the output file is unknown and needs a local VEP install or the web form.
+
+  wrote work/results/output_axis_2026-09-07/ab_clinical-interpretation.json
+################ population-frequency:basic-consequence
+A/B OUTPUT DIFF   population-frequency  ->  basic-consequence
+Ensembl REST release 116, species human
+
+  truth: 14 recommended   fallback:  9 recommended
+  options fallback loses: af, af_1kg, af_gnomade, af_gnomadg, frequency
+
+  measurable here : 6 column options, 1 row options
+  UNMEASURABLE    : af, af_1kg, af_gnomade, af_gnomadg, biotype, frequency, symbol
+                    af -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+                    af_1kg -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+                    af_gnomade -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+                    af_gnomadg -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+                    biotype -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+                    frequency -> REST ignores check_frequency (rs1800795 is common (MAF~0.4) and survives exclude-common)
+                    symbol -> RETURNED_BY_DEFAULT: REST returns it with no parameter at all, so a diff cannot see it
+
+  coding_known  (missense, colocated record present: predictors, HGVS, ClinVar, frequencies)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  coding_novel  (missense with NO colocated record: predictors yes, frequencies no)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  coding_synonymous  (synonymous: colocated data yes, missense predictors have nothing to score)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  regulatory_utr  (IL6 promoter, 2 regulatory_feature_consequences: regulatory and UTR options)
+    ROWS     identical  (10 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  intronic  (intron, no protein consequence)
+    ROWS     identical  (6 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  splice_acceptor  (CFTR splice acceptor: dbscSNV, MaxEntScan, SpliceAI)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  stop_gained  (MYOC nonsense: NMD, OpenTargets)
+    ROWS     identical  (1 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  upstream  (FASLG upstream: Enformer)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  mirna  (MIR146A precursor: the only class exercising `mirna`)
+    ROWS     identical  (2 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  assay_mapped  (BRCA1 missense in a MaveDB assay: MaveDB, IntAct)
+    ROWS     identical  (1104 transcript rows both sides)
+    COLUMNS  identical key sets
+
+  COHORT — all 10 panel variants as one callset
+    ROWS     identical (1133 transcript rows both sides)
+    COLUMNS in the whole result file: truth=51  fallback=51
+    lost in fallback: 0 — 
+    per-variant columns lost: min 0  mean 0.0  max 0   -> cohort-level 0
+
+  Read the ROWS lines first: they are what an option-set metric and Exp 16 both miss.
+  An UNMEASURABLE option is NOT a null result — REST cannot apply it, so its effect on
+  the output file is unknown and needs a local VEP install or the web form.
+
+  wrote work/results/output_axis_2026-09-07/ab_population-frequency.json
+DONE_ALL

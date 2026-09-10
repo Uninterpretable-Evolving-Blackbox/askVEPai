@@ -966,6 +966,90 @@ immediately, so **no scenario-resolved priorities reach the prompt at all**. Two
 
 ---
 
+## Experiment 16 — Realized output loss: what a dropped option costs in VEP's OWN output  [DONE 2026-09-03, REST proxy; RESULT CORRECTED 2026-09-07]
+
+> **Correction (2026-09-07).** The method stands; the result table below does not. It ran only the
+> TRUTH configuration and inferred the fallback's output by subtraction — assuming a dropped option
+> means a dropped column. That assumption fails twice: REST returns SIFT, PolyPhen, clin_sig and all
+> four `af_*` with **no parameter at all**, and those same options are `web_default_on`, so the form
+> ships them ticked and this tool never emits a disable. Of the 8 options the table marks "lost",
+> only `mane` is genuinely losable. The two-sided measurement that replaces it
+> (`run_vep_ab.py`: 49-option REST map, 10-class panel, HONOURED/RETURNED_BY_DEFAULT/IGNORED
+> verdicts as positive controls, per-variant AND whole-panel-as-one-callset):
+>
+> | fallback | per-variant columns lost | 10-variant cohort | rows |
+> |---|---|---|---|
+> | clinical→basic | 2–19, class-dependent | **19 — the ceiling** | identical (1,133 both sides) |
+> | popfreq→basic | 0 | **0** | identical |
+>
+> So at callset scale — the shape users actually submit — a clinical-shaped loss realizes every
+> lost option (option-counting is a fair proxy, which is enable-F1's defence), while a
+> frequency-shaped loss realizes NOTHING on the REST-measurable axis (option-counting overstates
+> it entirely; the unmeasurable remainder is `check_frequency`, the Stage-7 item). The proposed
+> realized-ANSWER metric below is superseded by this cohort protocol. Raw:
+> `work/results/output_axis_2026-09-07/` (`ab_*.json`, `run.txt`).
+
+**Question.** The ask/assume policy is scored by counting options lost when a default fills a gap
+(§2 of `reprompting_proposal.md`). But a lost option only harms the user if its field would have been
+POPULATED for their variants — losing SIFT on a synonymous variant loses nothing; losing it on a
+missense variant deletes the evidence a clinical question asked for. Are the two distinguishable in
+practice, and should the evaluation weight them differently?
+
+**Method.** `work/harness/exp_output_loss.py`. The two goal fallbacks are the only defaults that lose
+RECOMMENDED options at all, so both are tested: clinical→basic and population-frequency→basic. For
+each, both configurations are resolved through the live table, and the truth configuration is run
+through **Ensembl's own VEP over REST** (release recorded per run; this one answered from **116**) on
+a four-class panel: known missense / novel missense / known synonymous / known noncoding (an rsID).
+Each lost option gets two labels: **CLASS**, read from the engine's own decision trace (ANSWER =
+raised by the query's `analysis_goal`; SCOPE = raised by size/region/species; CONTEXT = baseline),
+and **REALIZED** — its field was populated in the truth run for that variant.
+
+**Result.** Every checkable loss in both pairs is ANSWER-class, and whether it is realized splits
+cleanly by variant class, in opposite directions for the two goals:
+
+| pair | lost option | known missense | novel missense | known synonymous | known noncoding |
+|---|---|---|---|---|---|
+| clinical→basic | `clinvar` | **lost** | no-op | no-op | **lost** |
+| clinical→basic | `mane` | **lost** | **lost** | **lost** | **lost** |
+| clinical→basic | `polyphen` | **lost** | **lost** | no-op | no-op |
+| clinical→basic | `sift` | **lost** | **lost** | no-op | no-op |
+| popfreq→basic | `af` ×4 sources | **lost** | no-op | **lost** | **lost** |
+
+Predictions are lost only where there is a missense change to score; frequencies are lost exactly
+where the variant is KNOWN — the mirror image. So the same "1.00 options lost per query" from the
+ablation table spans everything from a total loss (known missense under a clinical goal: 4 of 4
+checkable fields deleted) to a near no-op (synonymous: 1 of 4). The flat count cannot see this.
+
+**Proposed metric.** Score gap-filling policies by **realized ANSWER losses** — lost options that are
+(a) the goal's own evidence by the engine's trace and (b) populated for the variant class at hand —
+rather than raw option counts. Both labels are mechanical: one from `intent_priorities`' trace, one
+from the run output. `score_ablations.py` carries the tier split already; this adds the output side
+once variant panels exist per row.
+
+**Follow-up 2026-09-04 — the empty-column verdict needed a per-class panel, and then it cleared.**
+A first sweep over the 31 rows reported `regulatory` EMPTY on all 22 rows that recommend it. That was
+an artifact of the harness's single coding-missense test variant, which overlaps no regulatory feature:
+the option had nothing to return. Re-run with a five-class panel (known missense / novel missense /
+synonymous / regulatory / intronic), each option judged on the class it is FOR, **all 17 checkable
+options DELIVER on every human row — no empty columns**. So EMPTY is only meaningful against a variant
+of the matching class, and the metric needs harder cases (GRCh37 with CADD-SV, non-human frequency) to
+find real failures. Panel and verdicts: `work/results/colab_2026-09-04/rest_sweep_panel.json`.
+
+**Upstream limitation found while doing it:** Ensembl REST returns **HTTP 500 for
+`regulatory=1` combined with `check_existing=1`**, confirmed by bisection (either alone returns 200).
+Configurations that recommend both — a regulatory row that also wants ClinVar — cannot be checked in a
+single REST call, so the harness now requests one option at a time. Whether the web form shares the
+limitation is unknown and worth asking the mentors.
+
+**Caveats.** REST is a proxy: the same VEP, not the web form, and it exposes almost none of the 26
+plugins — **7 of the 11 options the clinical fallback loses are unmeasured here** (CADD, SpliceAI,
+AlphaMissense, MaveDB, Mastermind, Phenotypes, EVE), which biases realized loss LOW, since those are
+precisely the deep-evidence channels. The panel is constructed, small, human-only: it demonstrates
+the variant-class dependence, it does not estimate population rates. `origin`'s cost
+(`--check_frequency`, a pre-filter) is invisible to REST and stays unmeasured. Raw payload:
+`work/results/rest_output_loss.json` (committed; regenerate with the script, re-print with
+`--cached`).
+
 ## Implications for the GSoC project
 
 - **Retrieval design (in-range, actionable):** at a ~58-option KB, **do not hard top-k filter the options** — the semantic top-10 condition loses relevant options (recall failure) and underperforms keeping all 58. It stays flat (~37–39% Enable F1) as the model scales while keyword/all-examples climb, so filtering forfeits the larger model's gains. Keep all options in-prompt, or use high-recall hybrid retrieval; reserve aggressive filtering for when the option set genuinely exceeds context.

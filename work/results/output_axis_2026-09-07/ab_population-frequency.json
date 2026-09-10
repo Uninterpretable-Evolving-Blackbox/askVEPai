@@ -1,0 +1,268 @@
+{
+ "ensembl_release": "116",
+ "header": "population-frequency  ->  basic-consequence",
+ "species": "human",
+ "cohort": {
+  "cohort_rows_a": {
+   "transcript_consequences": 1133,
+   "colocated_variants": 20,
+   "regulatory_feature_consequences": 2,
+   "variant_records": 10
+  },
+  "cohort_rows_b": {
+   "transcript_consequences": 1133,
+   "colocated_variants": 20,
+   "regulatory_feature_consequences": 2,
+   "variant_records": 10
+  },
+  "columns_lost": [],
+  "columns_gained": [],
+  "per_variant_lost": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "n_variants": 10,
+  "measurable_options": [
+   "appris",
+   "domains",
+   "hgvs",
+   "numbers",
+   "protein",
+   "tsl"
+  ]
+ },
+ "recommended_a": [
+  "af",
+  "af_1kg",
+  "af_gnomade",
+  "af_gnomadg",
+  "appris",
+  "biotype",
+  "core_type",
+  "domains",
+  "frequency",
+  "hgvs",
+  "numbers",
+  "protein",
+  "symbol",
+  "tsl"
+ ],
+ "recommended_b": [
+  "appris",
+  "biotype",
+  "core_type",
+  "domains",
+  "hgvs",
+  "numbers",
+  "protein",
+  "symbol",
+  "tsl"
+ ],
+ "options_lost": [
+  "af",
+  "af_1kg",
+  "af_gnomade",
+  "af_gnomadg",
+  "frequency"
+ ],
+ "unmeasurable": [
+  "af",
+  "af_1kg",
+  "af_gnomade",
+  "af_gnomadg",
+  "biotype",
+  "frequency",
+  "symbol"
+ ],
+ "not_exposed": [],
+ "panel": [
+  {
+   "class": "coding_known",
+   "rows_a": {
+    "transcript_consequences": 2,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 2,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "coding_novel",
+   "rows_a": {
+    "transcript_consequences": 2,
+    "colocated_variants": 0,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 2,
+    "colocated_variants": 0,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "coding_synonymous",
+   "rows_a": {
+    "transcript_consequences": 2,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 2,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "regulatory_utr",
+   "rows_a": {
+    "transcript_consequences": 10,
+    "colocated_variants": 2,
+    "regulatory_feature_consequences": 2,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 10,
+    "colocated_variants": 2,
+    "regulatory_feature_consequences": 2,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "intronic",
+   "rows_a": {
+    "transcript_consequences": 6,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 6,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "splice_acceptor",
+   "rows_a": {
+    "transcript_consequences": 2,
+    "colocated_variants": 3,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 2,
+    "colocated_variants": 3,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "stop_gained",
+   "rows_a": {
+    "transcript_consequences": 1,
+    "colocated_variants": 3,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 1,
+    "colocated_variants": 3,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "upstream",
+   "rows_a": {
+    "transcript_consequences": 2,
+    "colocated_variants": 2,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 2,
+    "colocated_variants": 2,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "mirna",
+   "rows_a": {
+    "transcript_consequences": 2,
+    "colocated_variants": 2,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 2,
+    "colocated_variants": 2,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "assay_mapped",
+   "rows_a": {
+    "transcript_consequences": 1104,
+    "colocated_variants": 5,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 1104,
+    "colocated_variants": 5,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [],
+   "columns_gained": [],
+   "fill_shift": {}
+  }
+ ]
+}

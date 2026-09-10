@@ -237,5 +237,25 @@ def main():
     print()
 
 
+def assembly_at_stake_pair():
+    """The §5 / vep_assistant.assembly_question figures: on how many pure ablations is something
+    assembly-restricted at the bar, scored on the FILLED tuple vs on what the user STATED. The
+    stated count must equal the shipped arm's assembly-question count above — it is the same test."""
+    cat, _ = va.load_knowledge_base()
+    rows = [r for r in json.load(open(ABLATIONS)) if r["pure"]]
+    f = s = g = 0
+    for r in rows:
+        if va.infer_assembly(r["ablated"]):
+            continue
+        st = bool(va.assembly_at_stake(dict(r["read_after"]), cat))
+        ft, _a = va.resolve_underspecified(dict(r["read_after"]), cat, mode="assume",
+                                           user_query=r["ablated"], assembly=None)
+        fl = bool(va.assembly_at_stake(ft, cat))
+        s += st; f += fl; g += fl and not st
+    print(f"\n  assembly at stake, filled tuple vs stated: {f} vs {s} "
+          f"({g} interruptions would exist only because we guessed)")
+
+
 if __name__ == "__main__":
     main()
+    assembly_at_stake_pair()

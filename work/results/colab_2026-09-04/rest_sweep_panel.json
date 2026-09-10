@@ -1,0 +1,75 @@
+{
+ "ensembl_release": "116",
+ "verdict": {
+  "af": [
+   "coding_known",
+   true
+  ],
+  "domains": [
+   "coding_known",
+   true
+  ],
+  "hgvs": [
+   "coding_known",
+   true
+  ],
+  "numbers": [
+   "coding_known",
+   true
+  ],
+  "regulatory": [
+   "regulatory",
+   true
+  ],
+  "sift": [
+   "coding_known",
+   true
+  ],
+  "symbol": [
+   "coding_known",
+   true
+  ],
+  "tsl": [
+   "coding_known",
+   true
+  ],
+  "af_1kg": [
+   "coding_known",
+   true
+  ],
+  "af_gnomade": [
+   "coding_known",
+   true
+  ],
+  "af_gnomadg": [
+   "coding_known",
+   true
+  ],
+  "appris": [
+   "coding_known",
+   true
+  ],
+  "biotype": [
+   "coding_known",
+   true
+  ],
+  "clinvar": [
+   "coding_known",
+   true
+  ],
+  "mane": [
+   "coding_known",
+   true
+  ],
+  "polyphen": [
+   "coding_known",
+   true
+  ],
+  "protein": [
+   "coding_known",
+   true
+  ]
+ },
+ "probe_failed": [],
+ "note": "each option requested ALONE on the variant class it is for; REST 500s on some combinations (regulatory+check_existing confirmed)"
+}

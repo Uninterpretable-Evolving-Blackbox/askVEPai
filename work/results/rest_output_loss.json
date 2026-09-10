@@ -1,0 +1,147 @@
+{
+ "ensembl_release": "116",
+ "panel": {
+  "known missense": {
+   "ident": "ENST00000366667.4:c.803C>T",
+   "consequence": "missense_variant",
+   "known": true
+  },
+  "novel missense": {
+   "ident": "ENST00000366667.4:c.802G>C",
+   "consequence": "missense_variant",
+   "known": false
+  },
+  "known synonymous": {
+   "ident": "ENST00000366667.4:c.798C>T",
+   "consequence": "synonymous_variant",
+   "known": true
+  },
+  "known noncoding": {
+   "ident": "rs12979860",
+   "consequence": "intron_variant",
+   "known": true
+  }
+ },
+ "pairs": {
+  "clinical-interpretation->basic-consequence": {
+   "lost": [
+    "alphamissense",
+    "cadd",
+    "clinvar",
+    "eve",
+    "mane",
+    "mastermind",
+    "mavedb",
+    "phenotypes",
+    "polyphen",
+    "sift",
+    "spliceai"
+   ],
+   "lost_checkable": [
+    "clinvar",
+    "mane",
+    "polyphen",
+    "sift"
+   ],
+   "lost_unmeasured": [
+    "alphamissense",
+    "cadd",
+    "eve",
+    "mastermind",
+    "mavedb",
+    "phenotypes",
+    "spliceai"
+   ],
+   "class": {
+    "alphamissense": "ANSWER",
+    "cadd": "ANSWER",
+    "clinvar": "ANSWER",
+    "eve": "ANSWER",
+    "mane": "ANSWER",
+    "mastermind": "ANSWER",
+    "mavedb": "ANSWER",
+    "phenotypes": "ANSWER",
+    "polyphen": "ANSWER",
+    "sift": "ANSWER",
+    "spliceai": "ANSWER"
+   },
+   "realized": {
+    "known missense": {
+     "clinvar": true,
+     "mane": true,
+     "polyphen": true,
+     "sift": true
+    },
+    "novel missense": {
+     "clinvar": false,
+     "mane": true,
+     "polyphen": true,
+     "sift": true
+    },
+    "known synonymous": {
+     "clinvar": false,
+     "mane": true,
+     "polyphen": false,
+     "sift": false
+    },
+    "known noncoding": {
+     "clinvar": true,
+     "mane": true,
+     "polyphen": false,
+     "sift": false
+    }
+   }
+  },
+  "population-frequency->basic-consequence": {
+   "lost": [
+    "af",
+    "af_1kg",
+    "af_gnomade",
+    "af_gnomadg",
+    "frequency"
+   ],
+   "lost_checkable": [
+    "af",
+    "af_1kg",
+    "af_gnomade",
+    "af_gnomadg"
+   ],
+   "lost_unmeasured": [
+    "frequency"
+   ],
+   "class": {
+    "af": "ANSWER",
+    "af_1kg": "ANSWER",
+    "af_gnomade": "ANSWER",
+    "af_gnomadg": "ANSWER",
+    "frequency": "ANSWER"
+   },
+   "realized": {
+    "known missense": {
+     "af": true,
+     "af_1kg": true,
+     "af_gnomade": true,
+     "af_gnomadg": true
+    },
+    "novel missense": {
+     "af": false,
+     "af_1kg": false,
+     "af_gnomade": false,
+     "af_gnomadg": false
+    },
+    "known synonymous": {
+     "af": true,
+     "af_1kg": true,
+     "af_gnomade": true,
+     "af_gnomadg": true
+    },
+    "known noncoding": {
+     "af": true,
+     "af_1kg": true,
+     "af_gnomade": true,
+     "af_gnomadg": true
+    }
+   }
+  }
+ }
+}

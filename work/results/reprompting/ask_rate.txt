@@ -1,0 +1,19 @@
+
+ask rate over 78 clean ablations from ablated_queries.json  (the gate only; no model is run)
+
+  arm                 questions  queries asked   factors
+  ------------------ ---------- --------------   ------------------------------
+  single-select              21         21/78   variant_size_class 21
+  shipped                    46         40/78   assembly 34, analysis_goal 12
+  shipped, no assembly         12         12/78   analysis_goal 12
+  goal guessed               34         34/78   assembly 34
+  ask-all                    52         40/78   assembly 34, analysis_goal 12, origin 6
+
+  single-select      size single-select and asked, goal guessed, no assembly question
+  shipped            what the engine does
+  shipped, no assembly isolates how much of the shipped rate is the assembly question
+  goal guessed       shipped, but guessing analysis_goal — prices the cost of asking it
+  ask-all            guess only where free, ask about the rest
+
+
+  assembly at stake, filled tuple vs stated: 40 vs 34 (6 interruptions would exist only because we guessed)

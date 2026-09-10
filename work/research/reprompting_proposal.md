@@ -49,6 +49,8 @@ against the true options. *Both* win:
 | regulatory-noncoding | 0.79 |
 | (left blank) | 0.79 |
 
+Full sweep and the 28 checks that assert it: `work/results/reprompting/defaults_evidence_verbose.txt`.
+
 The factor is `select: multi` in `factors.json`, so *both* is expressible; the resolver's hard gate
 removes an option only when every active value rules it out, which is why a coding+regulatory query
 keeps its predictors.
@@ -64,6 +66,8 @@ the catalogue, so neither single value is safe:
 |---|---|---|---|
 | single-select, no safe value, asked | 1.70 | 5.22 | 13/23 |
 | **multi-select, guessed *both*** | **0.00** | 5.35 | **0/23** |
+
+Result file: `work/results/reprompting/single_vs_multi_select.txt`.
 
 Multi-select in Ask VEPai makes *both* available. The error becomes purely additive, and the factor
 asks nothing. This amends `taxonomy_proposal.md` §3, which had signed off `select: single`. One
@@ -88,6 +92,9 @@ Two arms wearing three labels, measured on the 31 review rows (15 somatic, 16 ge
 | **somatic** (the guess) | **0/15** | 7/16 |
 | germline or unstated (identical lookup) | 6/15 | 0/16 |
 
+The danger audit as run, with the per-tuple check that `origin` moves exactly one option:
+`work/results/reprompting/defaults_evidence_verbose.txt`.
+
 The two harms are not symmetric:
 
 - **Destructive** — on a somatic row, `frequency` switched on filters out the common variants the
@@ -108,6 +115,15 @@ tracker questions — and `unknown` runs as human, because treating it as non-hu
 gnomAD, ClinVar and the predictors from human studies that merely never use the word. It fails in the
 other direction: a non-human query that never says so keeps the human-only options. This is the one
 guessed value chosen by judgement rather than by a measurement, and the weakest of them.
+
+It has since been run through the ablation. `work/preliminary_examples/ablated_queries_rerun.json`
+(plus `_seed43`, `_seed44`) rebuilds the set with `species` as a fifth target; the scored table is
+`work/results/reprompting/silence_cost_species_rerun.md` and the build log
+`work/results/species_ablation_2026-09-07/build_3seeds.txt`. On the 14 clean cases the human guess
+loses 1.57 RECOMMENDED options per query (14/14 rows lose, 0 exact) — it swaps `canonical` and
+`maxentscan` for human-only options rather than merely adding — so "fails by adding" is too kind.
+One real output-vs-output diff on a mouse variant is in
+`work/results/species_ablation_2026-09-07/README_output_diff.md`.
 
 ## 4. What silence costs, given those guesses
 
@@ -152,6 +168,10 @@ priority table, so it moves when the table moves.
 | `origin` — filled with *somatic* | 20 | 0.35 | 0.75 | 0.20 | 0.85 | 6/20 |
 | `analysis_goal` — asked; *basic-consequence* on skip | 12 | 1.00 | 0.00 | 0.75 | 0.50 | 5/12 |
 
+Result file: `work/results/reprompting/silence_cost_tier_split.md`. The 124 rewrites it scores, with
+the classifier's reading before and after each deletion and the purity verdict per case, are
+`work/preliminary_examples/ablated_queries.json`.
+
 **From the REC-lost column.**:
 `region_focus = both` and `variant_size_class = both` both show **0.00** — silence plus these
 fallbacks removes no RECOMMENDED option from any query in the set (0/23 queries lose). The only
@@ -174,6 +194,11 @@ variant, where SIFT would have been empty anyway. `EXPERIMENTS.md` Exp 16 runs t
 configuration through VEP itself to see which fields actually get populated for each variant class,
 and proposes scoring the options that would have carried a value rather than the raw count.
 
+Result files: `work/results/rest_output_loss.json` (the first run, truth configuration only) and
+`work/results/output_axis_2026-09-07/` (the corrected two-sided run: both configurations through
+VEP, per variant class and as a 10-variant cohort, `ab_*.json` plus `run.txt`). The five-class
+panel from the empty-column follow-up is `work/results/colab_2026-09-04/rest_sweep_panel.json`.
+
 ## 5. What we ask, and why
 
 Two things are asked, on the same mechanism: `analysis_goal` and assembly. For each still-empty
@@ -187,6 +212,9 @@ The only factor whose error is subtractive: the fallback value basic-consequence
 
 - asked on **12 of 12** ablations with the guess removed;
 - fallback value loses REC options on **5 of 12**.
+
+Every case the shipped policy asks about, by row: `work/results/reprompting/ask_rate_by_row_shipped.txt`;
+all candidate policies side by side: `work/results/reprompting/ask_rate.txt`.
 
 The ablations overstate how often this interrupts anyone, because they delete the fact on purpose.
 Real users likely mention their analysis goal more often than the ablation set assumes, though we
@@ -250,3 +278,12 @@ python work/harness/ask_rate.py --by-row --arm shipped                         #
 python work/harness/defaults_evidence.py --verbose                             # why each default is that
 python work/harness/score_ablations.py --markdown                              # the §4 table, live
 ```
+
+## 7. Result files
+
+The outputs of every command above, as they stood on 2026-09-10, are under
+`work/results/reprompting/` with a README mapping each file to its section and its regenerating
+command. The VEP-measured files that the deterministic harnesses cannot regenerate — Exp 16 in both
+its forms, the REST panel, and the species ablation build — are under `work/results/` beside it,
+listed in that README.
+
