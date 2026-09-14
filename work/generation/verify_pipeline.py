@@ -138,8 +138,12 @@ def main():
         return bool(rc.unsatisfiable_factors(t, pbf, rc.intent_priorities(t, cat, pbf, factors), cat))
     check("human somatic SV + population is SATISFIABLE (gnomAD-SV, cross-factor)",
           not _unsat("human", "somatic", "structural-CNV"))
-    check("non-human + population is UNSATISFIABLE (no frequency source exists)",
-          _unsat("non-human", "germline", "small"))
+    # Since 2026-09-15 a non-human population query DOES resolve a frequency source -- `species_frequency`,
+    # the form's custom files -- but only four species have one; the checker's species-DATA gate withholds
+    # it for the rest (section 10). So the resolver-level answer is now "satisfiable", and the per-species
+    # truth is tested where it is decided.
+    check("non-human + population is SATISFIABLE at the resolver (species_frequency, four species have files)",
+          not _unsat("non-human", "germline", "small"))
 
     print("\n== 4. Arbitrary-conflict flag (coin-flip tiebreaks are surfaced, not buried) ==")
     eq = rc.flag_arbitrary_conflicts(
@@ -442,6 +446,18 @@ def main():
     check("an option with no usable file for this pass is dropped, not left on empty",
           [o for o, _w in gone] == ["cadd"] and dropme == {"sift"})
 
+    # -- 8c. the restrict-results gate stays closed ------------------------------------------
+    _res = va.resolve_for_query({"species": "human", "origin": "germline",
+                                 "variant_size_class": ["small"], "region_focus": ["coding"],
+                                 "analysis_goal": ["clinical-interpretation"]}, cat)
+    _en = {"symbol", "per_gene", "pick"}
+    _rm = va.enforce_restrict_results_gate(_en, _res)
+    check("an unpriced restrict-results value never reaches the user",
+          _rm == ["per_gene", "pick"] and "symbol" in _en, _rm)
+    _en2 = {"pick"}
+    _rm2 = va.enforce_restrict_results_gate(_en2, {"pick": (True, "recommended", None)})
+    check("...but the gate enforces the table's silence, not its voice", _rm2 == [] and "pick" in _en2)
+
     print("\n== 9. Helpers ==")
     check("rouge_l(identical) == 1", abs(genlib.rouge_l("a b c", "a b c") - 1.0) < 1e-9)
     check("rouge_l(disjoint) == 0", genlib.rouge_l("a b c", "x y z") == 0.0)
@@ -451,6 +467,57 @@ def main():
     # hand-edited priority file carrying it should be ignored, not silently treated as the top tier.
     check("a stray `critical` label is ignored rather than ranked",
           genlib.strongest(["optional", "critical"]) == "optional")
+
+
+    print("\n== 10. 2026-09-14/15 invariants: canonical, the destructive class, species, scope ==")
+    _tuples = [{"species": sp, "origin": og, "variant_size_class": list(sz), "region_focus": list(rg), "analysis_goal": list(ag)}
+               for sp in ("human", "non-human") for og in ("germline", "somatic")
+               for sz in (("small",), ("structural-CNV",), ("small", "structural-CNV"))
+               for rg in (("coding",), ("regulatory-noncoding",), ("coding", "regulatory-noncoding"))
+               for ag in (("basic-consequence",), ("clinical-interpretation",), ("population-frequency",),
+                          ("basic-consequence", "clinical-interpretation"), ("clinical-interpretation", "population-frequency"))]
+    _res = [va.resolve_for_query(t, cat) or {} for t in _tuples]
+    check("canonical is RECOMMENDED on every tuple (David 2026-09-14; Likhitha rows 1/7/10)",
+          all(r.get("canonical", (False, None, False))[1] == "recommended" and not r["canonical"][2] for r in _res),
+          f"{len(_res)} tuples")
+    _rr = ("pick", "pick_allele", "per_gene", "summary")
+    check("the four Restrict-results values are never enabled and always gated, on every tuple",
+          all(not r.get(o, (False, None, False))[0] and r.get(o, (False, None, True))[2] for r in _res for o in _rr))
+    check("`frequency` is never RECOMMENDED on any tuple (add-on at most, David 2026-09-14)",
+          all(r.get("frequency", (False, None, False))[1] != "recommended" for r in _res))
+    check("no option in the removes-rows class is RECOMMENDED anywhere",
+          all(r.get(o, (False, None, False))[1] != "recommended" for r in _res
+              for o in ("coding_only", "most_severe", "summary", "per_gene", "pick", "pick_allele", "frequency")))
+    _base = {"origin": "somatic", "variant_size_class": ["small"], "region_focus": ["coding"], "analysis_goal": ["basic-consequence"]}
+    check("species has an assume-human policy entry, and it is disclosed like the other factors",
+          "species" in va.UNDERSPECIFIED_POLICY
+          and any(f == "species" for f, _v, _w in va.clarification_plan(dict(_base, species="unstated"), cat)[1]))
+    check("a stated species is NOT disclosed as assumed",
+          not any(f == "species" for f, _v, _w in va.clarification_plan(dict(_base, species="human"), cat)[1]))
+    _p = va.parse_factor_classification
+    check("request_type: absent -> configure; the three values parse; junk -> configure",
+          _p('{"species":"human"}')["_request_type"] == "configure"
+          and _p('{"request_type":"not-vep"}')["_request_type"] == "not-vep"
+          and _p('{"request_type":"vep-support"}')["_request_type"] == "vep-support"
+          and _p('{"request_type":"banana"}')["_request_type"] == "configure")
+    check("ALREADY-ON is species-aware: tsl/appris/mane are form defaults for human, not for mouse",
+          all(va._form_default_on(o, cat, "human") for o in ("tsl", "appris", "mane"))
+          and not any(va._form_default_on(o, cat, "mus_musculus") for o in ("tsl", "appris", "mane"))
+          and va._form_default_on("biotype", cat, "mus_musculus"))
+    def _gate(q, goal):
+        t = {"species": "non-human", "origin": "germline", "variant_size_class": ["small"], "region_focus": ["coding"], "analysis_goal": [goal]}
+        r = va.resolve_for_query(t, cat); en = {o for o, (e, _p2, _g) in r.items() if e}; dis = set()
+        v = va.check_and_fix_violations(en, dis, cat, corpus, q, retrieval_mode="all", species_override="non-human", resolved=r)
+        return en, {x["option_disabled"] for x in v if x["type"] == "species_data"}
+    _en, _wd = _gate("germline coding SNVs in Taeniopygia guttata, pathogenicity", "clinical-interpretation")
+    check("species-DATA gate: a zebra finch loses SIFT (Ensembl computes SIFT for 12 species)", "sift" in _wd and "sift" not in _en)
+    _en, _wd = _gate("germline coding SNVs in a mouse model, pathogenicity", "clinical-interpretation")
+    check("species-DATA gate: mouse keeps SIFT", "sift" in _en and "sift" not in _wd)
+    _en, _wd = _gate("chicken variants, allele frequencies", "population-frequency")
+    check("species-DATA gate: chicken keeps its frequency file", "species_frequency" in _en)
+    _en, _wd = _gate("cattle SNVs, allele frequencies", "population-frequency")
+    check("species-DATA gate: cattle has no frequency file and is told so", "species_frequency" in _wd,
+          "round-2 item 6: 'provide frequency files for non-human where applicable' -- cattle is not applicable")
 
     print("\n" + "=" * 62)
     print(f"{len(PASS)} passed, {len(FAIL)} failed")

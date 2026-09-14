@@ -15,7 +15,12 @@ import argparse, json, os, re, subprocess, statistics as st, sys, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-BLOCK = re.compile(r"^RECOMMENDED —.*?\[(\d+)\]\n(.*?)(?=\n(?:OPTIONAL|=====)|\Z)", re.S | re.M)
+BLOCK = re.compile(r"^RECOMMENDED —.*?\[(\d+)\]\n(.*?)(?=\n(?:OPTIONAL|ALREADY ON|=====)|\Z)", re.S | re.M)
+# Since 2026-09-14 options the form ships ticked are listed once under ALREADY ON instead of inside
+# RECOMMENDED. They are still ENABLED, and gold (resolve + restore) still contains them, so they must
+# be counted as shown or every arm's F1 drops together and the number stops matching Exp 20.
+ALREADY = re.compile(r"^ALREADY ON when the form loads.*?\[(\d+)\]\n\s*(.*?)$", re.M)
+
 
 
 def run(query, model, single):
@@ -30,7 +35,10 @@ def run(query, model, single):
         return None, None, el, p.stdout[-160:]
     names = [l.strip() for l in m.group(2).split("\n")
              if l.strip() and not l.startswith("      ")]
-    return int(m.group(1)), names, el, None
+    a = ALREADY.search(p.stdout)
+    if a:
+        names += [n.strip() for n in a.group(2).split(",") if n.strip()]
+    return int(m.group(1)) + (int(a.group(1)) if a else 0), names, el, None
 
 
 def main():

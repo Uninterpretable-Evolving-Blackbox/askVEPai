@@ -31,7 +31,12 @@ sys.path.insert(0, str(ROOT / "vep_ai_demo"))
 os.environ.setdefault("VEP_OPTIONS_FILE", str(ROOT / "work" / "vep_options_expanded.json"))
 import vep_assistant as va                                              # noqa: E402
 
-BLOCK = re.compile(r"^RECOMMENDED —.*?\[(\d+)\]\n(.*?)(?=\n(?:OPTIONAL|=====)|\Z)", re.S | re.M)
+BLOCK = re.compile(r"^RECOMMENDED —.*?\[(\d+)\]\n(.*?)(?=\n(?:OPTIONAL|ALREADY ON|=====)|\Z)", re.S | re.M)
+# Since 2026-09-14 options the form ships ticked are listed once under ALREADY ON instead of inside
+# RECOMMENDED. They are still ENABLED, and gold (resolve + restore) still contains them, so they must
+# be counted as shown or every arm's F1 drops together and the number stops matching Exp 20.
+ALREADY = re.compile(r"^ALREADY ON when the form loads.*?\[(\d+)\]\n\s*(.*?)$", re.M)
+
 
 
 def block_names(stdout):
@@ -44,16 +49,30 @@ def block_names(stdout):
             continue
         # strip the trailing "   (Section section)" and any "(add-on)"/"(model-suggested)" tag
         out.append(re.split(r"\s{2,}\(", line.strip())[0])
+    a = ALREADY.search(stdout)
+    if a:
+        out.extend(n.strip() for n in a.group(2).split(",") if n.strip())
     return set(out)
 
 
+DEFAULTS = frozenset()   # names of the form's ticked-by-default options; set in main()
+
+
+def form_default_names(catalogue):
+    """Options the web form ships ticked. Excluded from BOTH sides of the plain F1 since 2026-09-15:
+    the display lists them once under ALREADY ON (enabled and merely offered alike), so they cannot be
+    read back as enabled-or-not, and they cannot change the user's file either way. Exp 20's 0.898
+    counted them; the number of record from here on does not, and says so."""
+    return frozenset(o.get("name", o["id"]) for o in catalogue if o.get("web_default_on"))
+
+
 def gold_names(row, catalogue, examples):
-    """The names the user WOULD see for this row's true factor tuple."""
+    """The names the user WOULD see for this row's true factor tuple, minus the form defaults."""
     resolved = va.resolve_for_query(row["factor_labels"], catalogue) or {}
     en, dis = set(), set()
     va.restore_missing_recommended(en, dis, resolved, catalogue, examples, row["user_query"])
     by_id = {o["id"]: o.get("name", o["id"]) for o in catalogue}
-    return {by_id.get(o, o) for o in en}
+    return {by_id.get(o, o) for o in en} - DEFAULTS
 
 
 def f1(p, g):
@@ -74,7 +93,8 @@ def run(query, model, single, examples_path):
     t = time.perf_counter()
     p = subprocess.run(cmd, cwd=ROOT / "vep_ai_demo", env=env,
                        capture_output=True, text=True, timeout=900)
-    return block_names(p.stdout), time.perf_counter() - t
+    names = block_names(p.stdout)
+    return (names - DEFAULTS if names is not None else None), time.perf_counter() - t
 
 
 def main():
@@ -83,6 +103,8 @@ def main():
     ap.add_argument("--json", default=str(ROOT / "work/results/pass_corpus_ablation.json"))
     args = ap.parse_args()
     catalogue, legacy = va.load_knowledge_base()
+    global DEFAULTS
+    DEFAULTS = form_default_names(catalogue)
     rows = json.load(open(ROOT / "work/generation/candidates/iced.json"))
     tmp = Path(tempfile.mkdtemp())
     (tmp / "none.json").write_text("[]")

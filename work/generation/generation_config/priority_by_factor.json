@@ -1,5 +1,5 @@
 {
-  "_catalogue_sha256": "7f0a8b78a26d1414a19b1215b5225523782e02242b467c84d0fe24b44686a4e4",
+  "_catalogue_sha256": "44327cc0a217ed6a48189769dbaaf0cdf922c12f67b9abbdf79f29ea598cb5b4",
   "_status": "PROVISIONAL \u2014 derived from the DRIVES spec in vep_assistant.py and this catalogue. NOT mentor-validated. A validated table dropped in as priority_by_factor.json overrides this derivation; no code changes are needed.",
   "_authoring": {
     "drives": {
@@ -247,7 +247,14 @@
         "non-human": "not_applicable"
       }
     },
-    "ancestral_allele": {},
+    "ancestral_allele": {
+      "analysis_goal": {
+        "population-frequency": "optional"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
     "appris": {
       "region_focus": {
         "coding": "recommended"
@@ -274,7 +281,17 @@
         "population-frequency": "recommended"
       }
     },
-    "blosum62": {},
+    "blosum62": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
     "buffer_size": {},
     "cadd": {
       "analysis_goal": {
@@ -682,6 +699,17 @@
       },
       "analysis_goal": {
         "clinical-interpretation": "recommended"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "species_frequency": {
+      "analysis_goal": {
+        "population-frequency": "recommended"
+      },
+      "species": {
+        "human": "not_applicable"
       },
       "variant_size_class": {
         "structural-CNV": "not_applicable"

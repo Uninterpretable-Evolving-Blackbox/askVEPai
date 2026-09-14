@@ -2156,6 +2156,25 @@ def _species_hint_on():
     return os.environ.get("VEP_SPECIES_HINT", "1") != "0"
 
 
+_SPECIES_DATA = None
+
+
+def load_species_data():
+    """Per-species DATA availability -- SIFT, PolyPhen, CCDS, variant synonyms, custom frequency files --
+    built by work/harness/build_species_data.py from Ensembl's own sources. None if absent (additive:
+    without it the gate below does nothing and non-human keeps the pre-2026-09-15 behaviour)."""
+    global _SPECIES_DATA
+    if _SPECIES_DATA is None:
+        p = BASE_DIR.parent / "work" / "generation" / "generation_config" / "species_data.json"
+        _SPECIES_DATA = json.load(open(p)) if p.exists() else {}
+    return _SPECIES_DATA or None
+
+
+def species_key(production_name):
+    """`ovis_aries_texel` -> `ovis_aries`: the data lists are per species, the index is per strain."""
+    return "_".join((production_name or "").split("_")[:2])
+
+
 def load_species_index():
     """The 756-name / 356-species index, or None if it has not been generated.
 
@@ -2215,6 +2234,29 @@ def format_species_hint(user_query: str) -> str:
         "an idiom (\"rabbit hole\", \"used as a guinea pig\") or a clinical term. Judge from the whole "
         "question and say \"human\" for human data. Reject a match that does not fit.")
     return "\n".join(lines)
+
+
+_WORD_TO_PRODUCTION = {"mouse": "mus_musculus", "rat": "rattus_norvegicus", "pig": "sus_scrofa",
+                       "dog": "canis_lupus_familiaris", "zebrafish": "danio_rerio", "chicken": "gallus_gallus",
+                       "cow": "bos_taurus", "sheep": "ovis_aries", "horse": "equus_caballus",
+                       "yeast": "saccharomyces_cerevisiae", "rabbit": "oryctolagus_cuniculus",
+                       "drosophila": "drosophila_melanogaster"}
+
+
+def resolve_species_name(user_query: str):
+    """The Ensembl production name of the organism the query names, or None.
+
+    First the 356-species index (a non-trap, non-English-word hit; then any non-trap hit), then the
+    16-word keyword scan. Used only to look up DATA availability once the factor value is already
+    non-human -- it never decides the factor."""
+    hits = species_candidates(user_query) or []
+    for h in hits:
+        if not h.get("trap") and not h.get("english_word"):
+            return h["species"]
+    for h in hits:
+        if not h.get("trap"):
+            return h["species"]
+    return _WORD_TO_PRODUCTION.get(infer_species(user_query))
 
 
 def infer_species(user_query: str) -> str:
@@ -2436,6 +2478,38 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                 })
                 enabled.discard(oid)
                 disabled.add(oid)
+
+    # --- Species DATA violations (2026-09-15) ---
+    # "non-human" is one factor value, but Ensembl's data is not uniform across it: SIFT for eleven
+    # non-human species, PolyPhen for none, CCDS for mouse, variant synonyms for pig, custom frequency
+    # files for chicken/dog/goat/sheep (generation_config/species_data.json, from Ensembl's own pages
+    # and form source). An option that needs such data is withheld for a species that lacks it, and
+    # the reason names the species and the list. Same posture as assembly: a lookup beside the factor,
+    # not a new factor value. Applies only to a POSITIVELY non-human query; the assume-human path is
+    # untouched. An organism the index cannot resolve is treated as having no species-specific data.
+    if species not in ("human", "unknown"):
+        sdata = load_species_data()
+        req_map = {o["id"]: o.get("requires_species_data") for o in vep_options if o.get("requires_species_data")}
+        if sdata and req_map:
+            sp_name = resolve_species_name(user_query)
+            for oid in list(enabled):
+                need = req_map.get(oid)
+                if not need:
+                    continue
+                have = list(sdata.get("frequency_files", {})) if need == "frequency_files" else (sdata.get(need) or [])
+                have_keys = {species_key(x) for x in have}
+                if sp_name is None or species_key(sp_name) not in have_keys:
+                    shown = ", ".join(sorted(have_keys)) if have_keys else "no species"
+                    _nm = next((o.get("name", oid) for o in vep_options if o["id"] == oid), oid)
+                    violations.append({
+                        "type": "species_data",
+                        "option_disabled": oid,
+                        "reason": (f"{_nm} [{oid}] needs {need.replace('_', ' ')}, which Ensembl provides for "
+                                   f"{len(have_keys)} species ({shown}); this analysis is "
+                                   f"{species_key(sp_name) if sp_name else species}, which is not among them"),
+                    })
+                    enabled.discard(oid)
+                    disabled.add(oid)
 
     # --- Assembly violations ---
     # Some human sources exist for only ONE build: MANE and EVE are GRCh38-only, Geno2MP is GRCh37-only.
@@ -2833,17 +2907,23 @@ def apply_config_level(enabled, disabled, resolved, level, vep_options, training
         # justifies".
         enabled.update(oid for oid, (_, priority, gated) in resolved.items()
                        if priority in ("recommended", "optional") and not gated)
+        # An add-on the re-check then REMOVES (a conflict it loses -- most_severe against the form's
+        # own biotype) must be reported, or the level note says "every add-on included" while one is
+        # silently missing. Seen 2026-09-14 on a basic coding query under --full.
+        before = set(enabled)
     else:
         return set()
     check_and_fix_violations(enabled, disabled, vep_options, training_examples, user_query,
                              retrieval_mode=retrieval_mode, assembly_override=assembly_override,
                              species_override=species_override, resolved=resolved)
+    if level == "full":
+        return before - set(enabled)
     return removed - set(enabled)          # a dep the re-check restored was not really removed
 
 
 def restore_missing_recommended(enabled, disabled, resolved, vep_options, training_examples,
                              user_query, retrieval_mode="keyword", assembly_override=None,
-                             species_override=None):
+                             species_override=None, violations_out=None):
     # `resolved` is this function's own argument already, and it is what the re-check below gates on.
     """Switch on any option the factor table RECOMMENDS here that the draft left out.
 
@@ -2865,6 +2945,11 @@ def restore_missing_recommended(enabled, disabled, resolved, vep_options, traini
     something the model did propose.
 
     Returns the ids actually restored (an option the re-check then removed is not reported as restored).
+
+    `violations_out`: pass a list and the RE-CHECK's violations are appended to it. Under the single-pass
+    default the first checker pass sees an EMPTY set, so every gate removal in a run happens inside this
+    re-check -- and until 2026-09-15 its violation list was discarded, so a zebra finch lost SIFT to the
+    species-data gate with no line saying so.
     """
     if not resolved:
         return []
@@ -2878,9 +2963,11 @@ def restore_missing_recommended(enabled, disabled, resolved, vep_options, traini
     # The re-check MUST see the same assembly the first pass did. Without it this function happily
     # restored an option the assembly gate had just removed — a GRCh37 run got MANE back, which is the
     # precise hazard the assembly field exists to prevent, reintroduced one step later.
-    check_and_fix_violations(enabled, disabled, vep_options, training_examples, user_query,
-                             retrieval_mode=retrieval_mode, assembly_override=assembly_override,
-                             species_override=species_override, resolved=resolved)
+    v2 = check_and_fix_violations(enabled, disabled, vep_options, training_examples, user_query,
+                                  retrieval_mode=retrieval_mode, assembly_override=assembly_override,
+                                  species_override=species_override, resolved=resolved)
+    if violations_out is not None:
+        violations_out.extend(v2)
     return [oid for oid in missing if oid in enabled]
 
 
@@ -3224,10 +3311,20 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
     assembly = am.group(1) if am else None
 
     violations = []
+    restored = []
     if run_checker:
-        # Mutates enabled/disabled in place into the corrected, authoritative set.
+        # Mutates enabled/disabled in place into the corrected, authoritative set. Same two steps as
+        # the CLI: the checker (with THIS scenario's gates) and then restore_missing_recommended, which
+        # rebuilds the RECOMMENDED set from the factor tuple. Until 2026-09-15 the second step was
+        # missing here, so under the single-pass default -- an empty draft -- this serialised ZERO
+        # recommendations while the CLI printed twenty-one.
         violations = check_and_fix_violations(enabled, disabled, vep_options, training_examples,
-                                              query, retrieval_mode=retrieval_mode, assembly_override=assembly)
+                                              query, retrieval_mode=retrieval_mode, assembly_override=assembly,
+                                              resolved=resolved_override)
+        if resolved_override:
+            restored = restore_missing_recommended(enabled, disabled, resolved_override, vep_options,
+                                                   training_examples, query, retrieval_mode=retrieval_mode,
+                                                   assembly_override=assembly, violations_out=violations)
 
     species_out = "human" if species == "unknown" else species
     species_form = _SPECIES_FORM_NAME.get(species_out, species_out.replace(" ", "_").title())
@@ -3301,6 +3398,8 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
         # surfaced so a caller can prompt instead of emitting an unrunnable flag.
         "command_choices": [{"option_id": oid, "alternatives": alts} for oid, alts in choices],
         "metadata": {
+            # ids the table restored rather than the draft proposed (all of them under single-pass)
+            "restored_from_table": sorted(restored),
             "retrieval_mode": retrieval_mode,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         },
@@ -4253,6 +4352,13 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         # "Left open". test_user_context.py passed throughout because it calls these helpers with
         # the override directly; it tests the functions, not this wiring.
         species_stated = (context or {}).get("species") or None
+        # The checker's own species reading is the 16-word keyword scan, which does not know a zebra
+        # finch from a human; the TUPLE does (the classifier, or the species hint). Hand it down through
+        # the override channel so the human-only pass and the species-DATA gate see what the resolver
+        # saw. --species still wins when given. (2026-09-15)
+        species_for_checker = species_stated or ("non-human" if (factor_tuple or {}).get("species") == "non-human" else None)
+        # For the ALREADY-ON list (human-only form defaults) the production name is the useful thing.
+        species_for_display = species_stated or resolve_species_name(user_query) or infer_species(user_query)
         # ONE VEP RUN PER VARIANT SIZE. The form cannot express both sizes at once (see size_passes),
         # so a scenario carrying both prints two configurations rather than one union of them. Each pass
         # starts from the SAME parsed draft and its OWN copies of the sets, because the checker repairs
@@ -4276,7 +4382,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
             violations = check_and_fix_violations(
                 p_enabled, p_disabled, vep_options, training_examples, user_query,
                 retrieval_mode=retrieval_mode, assembly_override=assembly,
-                species_override=species_stated, resolved=resolved,
+                species_override=species_for_checker, resolved=resolved,
             )
             # Restore must-haves BEFORE the depth flags run, so --minimal narrows a complete core rather
             # than a partial one, and --full widens from the same base.
@@ -4284,7 +4390,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                                                 training_examples, user_query,
                                                 retrieval_mode=retrieval_mode,
                                                 assembly_override=assembly,
-                                                species_override=species_stated)
+                                                species_override=species_for_checker,
+                                                violations_out=violations)
             # An option whose data file this pass cannot use is dropped here, AFTER the restore, so the
             # restore cannot put it back. Reported rather than removed silently.
             for oid, why in drop_unavailable_size_values(p_enabled, vep_options, size_value, assembly):
@@ -4297,6 +4404,15 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
             pass_warnings = format_violation_warnings(violations, reinstated=set(p_enabled))
             if pass_warnings:
                 diagnostics.append(pass_warnings)
+            # Species-DATA removals are said BY DEFAULT, not only under --explain. STATUS.md's open
+            # question "should the assistant say what it cannot do?" -- a mouse frequency query used to
+            # return a configuration with no frequency data and no explanation. Now a cattle user asking
+            # for frequencies is told there is no file for cattle, and for which species there is one.
+            _sd = [v["reason"] for v in violations if v.get("type") == "species_data"]
+            if _sd:
+                print("\nNOT AVAILABLE FOR THIS SPECIES:")
+                for _r in _sd:
+                    print(f"  - {_r}")
             restored_report = format_restored_recommended(restored, vep_options)
             if restored_report:
                 diagnostics.append(restored_report)
@@ -4305,10 +4421,15 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                                              training_examples, user_query,
                                              retrieval_mode=retrieval_mode,
                                              assembly_override=assembly,
-                                             species_override=species_stated)
-                note = (f"  ({len(removed)} recommended options dropped to leave the smallest runnable "
-                        f"set; dependencies kept)"
-                        if level == "minimal" else "  (every applicable add-on included)")
+                                             species_override=species_for_checker)
+                if level == "minimal":
+                    note = (f"  ({len(removed)} recommended options dropped to leave the smallest "
+                            f"runnable set; dependencies kept)")
+                elif removed:
+                    note = (f"  (every applicable add-on included, except {len(removed)} the checker "
+                            f"removed on a conflict: {', '.join(sorted(removed))})")
+                else:
+                    note = "  (every applicable add-on included)"
                 print(f"\nCONFIG LEVEL: {level}\n{note}")
             elif level != "standard":
                 print(f"\nCONFIG LEVEL: {level} requested, but the scenario's factors could not be "
@@ -4328,7 +4449,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                                                 restored=restored,
                                                 size_value=size_value, assembly=assembly,
                                                 show_cli=show_cli, meta_notes=explain,
-                                                species=species_stated or infer_species(user_query))
+                                                species=species_for_display)
             print(corrected)
             # DIAGNOSTICS ARE --explain ONLY. A corrected configuration is just a configuration; the
             # repair log is for whoever audits the decision, not for someone who wants the answer.

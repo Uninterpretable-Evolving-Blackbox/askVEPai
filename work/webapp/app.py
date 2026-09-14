@@ -498,6 +498,9 @@ def api_recommend():
                     p_resolved = va.resolve_for_query(pass_tuple, vep_options)
                     _species = (context.get("species")
                                 if context.get("species") in ("human", "non-human") else None)
+                    # The tuple knows the species the keyword scan may not (2026-09-15); see run_recommend.
+                    if _species is None and (factor_tuple or {}).get("species") == "non-human":
+                        _species = "non-human"
                     violations = va.check_and_fix_violations(
                         p_enabled, p_disabled, vep_options, training_examples, query,
                         retrieval_mode=retrieval, assembly_override=assembly,
@@ -510,10 +513,16 @@ def api_recommend():
                     restored = va.restore_missing_recommended(
                         p_enabled, p_disabled, p_resolved, vep_options, training_examples, query,
                         retrieval_mode=retrieval, assembly_override=assembly,
-                        species_override=_species)
+                        species_override=_species, violations_out=violations)
                     if restored:
-                        yield sse("status", {"message": f"Draft was missing {len(restored)} "
-                                                        f"recommended option(s); switched back on."})
+                        # Under the single-pass default there is no draft to have "missed" anything:
+                        # the table resolved the set. Word it by what happened.
+                        if response_text:
+                            yield sse("status", {"message": f"Draft was missing {len(restored)} "
+                                                            f"recommended option(s); switched back on."})
+                        else:
+                            yield sse("status", {"message": f"Resolved {len(restored)} recommended "
+                                                            f"option(s) from the factor tuple."})
                     dropped = va.drop_unavailable_size_values(p_enabled, vep_options, size_value, assembly)
                     for oid, why in dropped:
                         yield sse("status", {"message": f"Dropped {oid} from the "

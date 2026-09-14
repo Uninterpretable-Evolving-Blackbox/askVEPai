@@ -620,7 +620,7 @@
     "name": "Geno2MP",
     "cli_flag": "--plugin Geno2MP",
     "web_form_section": "additional_annotations",
-    "category": "variant_data",
+    "category": "phenotype_data_and_citations",
     "description": "Plugin that annotates variants with data from Geno2MP, a web-accessible database of rare variant genotypes linked to phenotypic information. By default it reports HPO_CT (the number of HPO phenotypic profiles associated with each variant); additional INFO columns can be requested via the cols parameter. Coordinates are GRCh37-based.",
     "when_to_use": "Rare disease analysis where you want to see whether a variant has been observed in individuals with phenotype profiles (HPO terms) in the Geno2MP cohort, providing supporting phenotypic evidence for candidate variants.",
     "when_not_to_use": "Non-human species. GRCh38-only workflows that cannot map to GRCh37 coordinates (Geno2MP locations and links are GRCh37-based). Analyses where rare-variant phenotype cohort data is not relevant.",
@@ -644,7 +644,8 @@
       "variant_size_class": {
         "structural-CNV": "not_applicable"
       }
-    }
+    },
+    "_category_before_2026-09-15": "variant_data"
   },
   {
     "id": "transcript_version",
@@ -895,7 +896,7 @@
     "name": "NMD",
     "cli_flag": "--plugin NMD",
     "web_form_section": "additional_annotations",
-    "category": "functional_effect",
+    "category": "transcript_annotation",
     "description": "Plugin that predicts whether a premature termination codon escapes nonsense-mediated mRNA decay (NMD). It applies the established rule set (variant in the last exon, within ~50 bp of the penultimate exon's 3' end, within the first ~100 coding bases, or in an intronless/single-exon transcript) to stop-gained, frameshift and splice variants, and reports 'NMD_escaping_variant' when a transcript is predicted to evade decay. Organism-agnostic / sequence-rule based.",
     "when_to_use": "Interpreting loss-of-function variants (stop-gained, frameshift, splice) to distinguish truncating alleles that trigger NMD from those likely to escape it and produce a (potentially dominant-negative or gain-of-function) truncated protein. Valuable in rare-disease LoF triage.",
     "when_not_to_use": "Missense, synonymous, regulatory or non-truncating variants where NMD is not relevant. Quick lookups that do not need LoF mechanism detail.",
@@ -916,7 +917,8 @@
     "provenance": "vep_plugins_web_config.txt (NMD, available=>1). NMD.pm: identifies variants that 'escape nonsense-mediated mRNA decay'; four rules (last exon, 50 bp of penultimate exon, first 100 coding bases, intronless); output NMD='NMD_escaping_variant'; no species restriction stated.",
     "web_default_on": false,
     "web_default_value": null,
-    "_web_default_basis": "web_default prose"
+    "_web_default_basis": "web_default prose",
+    "_category_before_2026-09-15": "functional_effect"
   },
   {
     "id": "phenotypes",
@@ -980,7 +982,8 @@
         "structural-CNV": "not_applicable"
       }
     },
-    "deprecated": "superseded by MANE for human; field kept while the web form still shows it (round-2 reply, 2026-09-08)"
+    "deprecated": "superseded by MANE for human; field kept while the web form still shows it (round-2 reply, 2026-09-08)",
+    "requires_species_data": "ccds"
   },
   {
     "id": "var_synonyms",
@@ -1014,7 +1017,8 @@
       "variant_size_class": {
         "structural-CNV": "not_applicable"
       }
-    }
+    },
+    "requires_species_data": "var_synonyms"
   },
   {
     "id": "failed",
@@ -1215,7 +1219,7 @@
     "name": "UTRAnnotator",
     "cli_flag": "--plugin UTRAnnotator",
     "web_form_section": "additional_annotations",
-    "category": "regulatory",
+    "category": "transcript_annotation",
     "description": "Plugin. Annotates the effect of 5' UTR variants, especially those creating or disrupting upstream ORFs. Detects uAUG_gained, uAUG_lost, uSTOP_gained, uSTOP_lost and uFrameshift events, and reports Kozak context strength (Weak/Moderate/Strong), distance to the CDS and resulting ORF type.",
     "when_to_use": "Rare disease and clinical interpretation of 5' UTR variants where an upstream ORF gain or loss could alter translation of the main coding sequence. Useful for variants that consequence prediction labels only as 5_prime_UTR_variant.",
     "when_not_to_use": "Variants outside the 5' UTR. Coding-only or purely intergenic analyses. Non-human species (data files are human GRCh37/GRCh38).",
@@ -1240,7 +1244,8 @@
       "variant_size_class": {
         "structural-CNV": "not_applicable"
       }
-    }
+    },
+    "_category_before_2026-09-15": "regulatory"
   },
   {
     "id": "enformer",
@@ -1436,7 +1441,8 @@
       "variant_size_class": {
         "structural-CNV": "not_applicable"
       }
-    }
+    },
+    "requires_species_data": "sift"
   },
   {
     "id": "per_gene",
@@ -1552,7 +1558,7 @@
     "name": "Paralogues",
     "cli_flag": "--plugin Paralogues",
     "web_form_section": "variants_frequency_data",
-    "category": "functional_effect",
+    "category": "variant_data",
     "description": "Plugin. Annotates a variant by fetching known variants that overlap the genomic coordinates of amino acids aligned between paralogue proteins, enabling paralogue-transfer prediction of pathogenicity. Reports paralogue variants (identifier, alleles, and configurable clinical significance) and the paralogue regions examined (coordinates and transcript IDs).",
     "when_to_use": "Missense and other protein-coding variant interpretation where a position lacks direct evidence but the equivalent residue in a paralogue gene has known pathogenic variation. Useful for resolving variants of uncertain significance in gene families.",
     "when_not_to_use": "Non-coding or intergenic variants with no protein alignment. Genes without paralogues. Species lacking Ensembl paralogue annotations. Cannot be combined with --most_severe or --summary.",
@@ -1580,7 +1586,8 @@
       "variant_size_class": {
         "structural-CNV": "not_applicable"
       }
-    }
+    },
+    "_category_before_2026-09-15": "functional_effect"
   },
   {
     "id": "gnomad_sv",
@@ -1767,7 +1774,8 @@
       "variant_size_class": {
         "structural-CNV": "not_applicable"
       }
-    }
+    },
+    "requires_species_data": "polyphen"
   },
   {
     "id": "summary",
@@ -1906,7 +1914,7 @@
     "name": "mutfunc",
     "cli_flag": "--plugin mutfunc",
     "web_form_section": "additional_annotations",
-    "category": "functional_effect",
+    "category": "protein_annotation",
     "description": "Plugin that retrieves data from the mutfunc database predicting the destabilising effect of variants on protein structure, protein-protein interaction interfaces and linear motifs. Provides results across four analysis categories: linear motif (motif), interaction interface (int), homology-model protein structure (mod) and experimental structure (exp); all four are included by default.",
     "when_to_use": "Mechanistic interpretation of missense/coding variants in human proteins, to assess whether a substitution destabilises protein structure, disrupts an interaction interface, or breaks a functional motif.",
     "when_not_to_use": "Non-coding variants, non-human data, or quick triage. Adds structural/interaction detail that is unnecessary for purely frequency- or consequence-based workflows.",
@@ -1931,7 +1939,8 @@
       "variant_size_class": {
         "structural-CNV": "not_applicable"
       }
-    }
+    },
+    "_category_before_2026-09-15": "functional_effect"
   },
   {
     "use_case_tags": [],
@@ -1945,16 +1954,25 @@
     "cli_flag": "--plugin AncestralAllele",
     "web_form_section": "predictions",
     "web_form_subsection": "Transcript annotation",
-    "category": "variant_data",
+    "category": "conservation",
     "species_restriction": "all species",
     "description": "Retrieves the ancestral allele for a variant from an Ensembl ancestral-sequence FASTA file, so an allele can be polarised as ancestral or derived.",
-    "when_to_use": "Population and evolutionary analyses where the direction of a change matters - selection scans, derived-allele frequency spectra, polarising alleles against an outgroup.",
+    "when_to_use": "Population and evolutionary analyses where the direction of a change matters - selection scans, derived-allele frequency spectra, polarising alleles against an outgroup. Priced 2026-09-15: an add-on for population-frequency work (ancestral state is a population-genetics quantity).",
     "when_not_to_use": "Clinical interpretation, where ancestral state carries no diagnostic weight, and any run where the ancestral FASTA for the species is not available.",
     "side_effects": "Requires the ancestral-sequence FASTA for the assembly; adds one column and no filtering.",
     "provenance": "vep_plugins_web_config.txt (AncestralAllele, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)",
     "web_default_on": false,
     "web_default_value": null,
-    "_web_default_basis": "web_default prose"
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "analysis_goal": {
+        "population-frequency": "optional"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "_category_before_2026-09-15": "variant_data"
   },
   {
     "use_case_tags": [],
@@ -1968,16 +1986,28 @@
     "cli_flag": "--plugin Blosum62",
     "web_form_section": "predictions",
     "web_form_subsection": null,
-    "category": "pathogenicity_prediction",
+    "category": "conservation",
     "species_restriction": "all species (sequence-based)",
     "description": "Looks up the BLOSUM62 substitution matrix score for the reference and alternative amino acids of a missense change. A substitution-similarity score, not a trained pathogenicity predictor.",
-    "when_to_use": "Adding cheap amino-acid substitution context to missense calls, particularly for species with no trained predictor available - the matrix is sequence-based and needs no species-specific data.",
+    "when_to_use": "Adding cheap amino-acid substitution context to missense calls, particularly for species with no trained predictor available - the matrix is sequence-based and needs no species-specific data. Priced 2026-09-15: an add-on for pathogenicity work; needs no species data, so it is the one substitution score available to non-human missense variants.",
     "when_not_to_use": "As a pathogenicity call in its own right; it measures chemical/evolutionary similarity of the substitution, not the effect on a protein. Also inapplicable to non-missense variants.",
     "side_effects": "No external data download; scores only variants with a missense consequence.",
     "provenance": "vep_plugins_web_config.txt (Blosum62, available=>1); description from work/research/plugins_dossier.md (release/115 source + live plugin docs)",
     "web_default_on": false,
     "web_default_value": null,
-    "_web_default_basis": "web_default prose"
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "_category_before_2026-09-15": "pathogenicity_prediction"
   },
   {
     "use_case_tags": [],
@@ -1991,7 +2021,7 @@
     "cli_flag": "--plugin GO",
     "web_form_section": "additional_annotations",
     "web_form_subsection": "Functional effect",
-    "category": "functional_effect",
+    "category": "phenotype_data_and_citations",
     "species_restriction": "all species",
     "description": "Retrieves Gene Ontology terms associated with the overlapping transcript or its translation, giving the biological process, molecular function and cellular component annotated for the gene.",
     "when_to_use": "Interpreting a variant list in functional terms, or preparing gene-set and enrichment analysis downstream, where knowing what the affected genes do matters more than per-variant scores.",
@@ -2005,7 +2035,8 @@
     "provenance": "vep_plugins_web_config.txt (GO, available=>1); description from work/research/plugins_dossier.md (release/115 source + live plugin docs); requested by the reviewer on row 29",
     "web_default_on": false,
     "web_default_value": null,
-    "_web_default_basis": "web_default prose"
+    "_web_default_basis": "web_default prose",
+    "_category_before_2026-09-15": "functional_effect"
   },
   {
     "use_case_tags": [],
@@ -2070,7 +2101,7 @@
     "cli_flag": "--plugin OpenTargets",
     "web_form_section": "variants_frequency_data",
     "web_form_subsection": "Functional effect",
-    "category": "functional_effect",
+    "category": "variant_data",
     "species_restriction": "human only",
     "description": "Integrates Open Targets Genetics evidence, including locus-to-gene (L2G) scores that link a variant to the gene it most plausibly acts through, and associated drug-target information.",
     "when_to_use": "GWAS follow-up and complex-disease work, where the question is which gene a non-coding association acts through, and for drug-target prioritisation.",
@@ -2079,7 +2110,8 @@
     "provenance": "vep_plugins_web_config.txt (OpenTargets, available=>1); description and source from work/research/plugins_dossier.md (release/115 source + live plugin docs)",
     "web_default_on": false,
     "web_default_value": null,
-    "_web_default_basis": "web_default prose"
+    "_web_default_basis": "web_default prose",
+    "_category_before_2026-09-15": "functional_effect"
   },
   {
     "use_case_tags": [],
@@ -2093,7 +2125,7 @@
     "cli_flag": "--plugin RiboseqORFs",
     "web_form_section": "additional_annotations",
     "web_form_subsection": "Functional effect",
-    "category": "functional_effect",
+    "category": "transcript_annotation",
     "species_restriction": "human only",
     "description": "Uses the standardised GENCODE catalogue of human Ribo-seq ORFs to recalculate consequences for variants falling in these translated regions, which the standard annotation treats as non-coding.",
     "when_to_use": "Regulatory and non-coding analyses where a variant in an apparently untranslated region may in fact fall in a translated small ORF - upstream ORFs in particular affect downstream translation.",
@@ -2107,7 +2139,8 @@
     "provenance": "vep_plugins_web_config.txt (RiboseqORFs, available=>1); description from work/research/plugins_dossier.md (release/115 source + live plugin docs); requested by the reviewer on row 23",
     "web_default_on": false,
     "web_default_value": null,
-    "_web_default_basis": "web_default prose"
+    "_web_default_basis": "web_default prose",
+    "_category_before_2026-09-15": "functional_effect"
   },
   {
     "id": "avi",
@@ -2191,5 +2224,42 @@
         "non-human": "not_applicable"
       }
     }
+  },
+  {
+    "id": "species_frequency",
+    "name": "Population frequency data for this species",
+    "cli_flag": "--custom (the species' frequency file offered on the form)",
+    "web_form_section": "variants_frequency_data",
+    "category": "frequency_data",
+    "description": "Custom population-frequency dataset the web form offers for a NON-HUMAN species: chicken (EVA PRJEB44919), dog (EVA PRJEB24066, one file per assembly), goat (NextGen, 5 populations), sheep (NextGen Iranian + Moroccan, per assembly). Rendered from vep_custom_web_config.json for exactly these species; no other non-human species has frequency data on the form.",
+    "when_to_use": "A population-frequency question on one of the four species with a file. The output names the file(s) for the resolved species; dog and sheep have one per assembly, so both are named.",
+    "when_not_to_use": "Human (the native AF options cover it). Any other non-human species: there is no file, and the option is withheld with the list of species that have one (mentor thread, item 6: 'provide frequency files for non-human where applicable').",
+    "use_case_tags": [
+      "population_genetics"
+    ],
+    "species_restriction": "chicken, dog, goat, sheep only",
+    "depends_on": [],
+    "conflicts_with": [],
+    "side_effects": "Adds the dataset's frequency columns. A custom file, so it must be selected on the form; it does not filter.",
+    "source_type": "custom",
+    "is_new": true,
+    "web_form_subsection": "Variants and frequency data",
+    "web_default": "off",
+    "provenance": "ensembl_source/vep_custom_web_config.json (release/115): 8 non-human entries across 4 species / 7 species-assembly keys. Added 2026-09-15 to answer round-2 item 6 from the form's own inventory.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "custom dataset, unchecked",
+    "priority_by_factor": {
+      "analysis_goal": {
+        "population-frequency": "recommended"
+      },
+      "species": {
+        "human": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      }
+    },
+    "requires_species_data": "frequency_files"
   }
 ]

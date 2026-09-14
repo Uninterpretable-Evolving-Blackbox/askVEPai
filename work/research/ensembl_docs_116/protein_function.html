@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+
+<head>
+  <title>Pathogenicity predictions</title>
+
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/bf7fa94804cc780f606b9a4a584a3a49.ie7.css"/><![endif]--><!--[if gt IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/bf7fa94804cc780f606b9a4a584a3a49.css"/><![endif]--><!--[if !IE]><!--><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/bf7fa94804cc780f606b9a4a584a3a49.css"/><!--<![endif]--><!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/83e4f3a09860a9877e49a5cf0e14f6e7.image.ie7.css"/><![endif]--><!--[if gt IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/83e4f3a09860a9877e49a5cf0e14f6e7.image.css"/><![endif]--><!--[if !IE]><!--><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/83e4f3a09860a9877e49a5cf0e14f6e7.image.css"/><!--<![endif]-->
+  <script type="text/javascript">
+
+  // Function to highlight a line
+  function highlight_line() {
+    if(window.location.hash) {
+      var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+      if (document.getElementById(hash)) {
+        element = document.getElementById(hash);
+        if (element.nodeName == "TR") {
+          element.style.backgroundColor="#d6ff97";
+        }
+      }
+    }
+  }
+</script>
+  <script type="text/javascript">
+
+  // Function to highlight a line
+  function highlight_line() {
+    if(window.location.hash) {
+      var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+      if (document.getElementById(hash)) {
+        element = document.getElementById(hash);
+        if (element.nodeName == "TR") {
+          element.style.backgroundColor="#d6ff97";
+        }
+      }
+    }
+  }
+</script>
+
+  <link href="//static.ensembl.org/i/ensembl-favicon.png" type="image/png" rel="icon" />
+  <link href="/apple-touch-icon.png" type="image/png" rel="apple-touch-icon" />
+  <link href="//jun2026.archive.ensembl.org/opensearch/all.xml" type="application/opensearchdescription+xml" rel="search" title="Ensembl (All)" />
+
+  <meta name="google-site-verification" content="tG3WW0bg9gNaIHH002gJl-fV2k0bzf-ZxC8pBqXTaNo" />
+<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+<script>var prefetch = ['/minified/35a717a4475e04c3ffa9b8a224fc081e.png','/minified/a6ae9bf9efe8fbf6981985ab77faa2f3.png','/minified/a8d43fbd196113816742d5331b7c6a50.png','/minified/52e8582f289ca8afbfbbaaeb38eae23e.png','/minified/ce64c940745dc5b1441f9be516921487.png','/minified/c4422ca5e9d311c28cb02222687e088e.png','/minified/7ddf5a861dc3142f79b0ea0b0a865a1d.jpg'];</script>
+</head>
+<body data-pace="2" class="static" id="ensembl-webpage">
+
+  <div id="min_width_container">
+    <div id="min_width_holder">
+    
+    <!-- Announcement Banner -->    
+        
+    <!-- /Announcement Banner -->
+
+      <div id="masthead" class="js_panel">
+        <input type="hidden" class="panel_type" value="Masthead" />
+        <div class="logo_holder"><a href="/"><div class="logo-header print_hide" title="Ensembl Home">&nbsp;</div></a><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png screen_hide_inline" style="background-position: -7.4px -325.125px;height: 45px;background-size: 1233.33333333333px 879.75px;width: 185px" alt="Ensembl Home" title="Ensembl Home"/></div>
+        <div class="mh print_hide">
+          <div class="account_holder"><div class="_account_holder"><div class="account-loading">Loading&hellip;</div><form action="/Ajax/accounts_dropdown"></form></div></div>
+          <div class="tools_holder"><ul class="tools"><li><a class="constant" href="/Multi/Tools/Blast">BLAST/BLAT</a></li><li><a class="constant" href="/info/docs/tools/vep/">VEP</a></li><li><a class="constant" href="/info/docs/tools/index.html">Tools</a></li><li><a class="constant" href="/biomart/martview">BioMart</a></li><li><a class="constant" rel="nofollow" href="/info/data/">Downloads</a></li><li><a class="constant" rel="nofollow" href="/info/">Help &amp; Docs</a></li><li class="last"><a class="constant" target="_blank" href="https://www.ensembl.info">Blog</a></li></ul><div class="more"><a href="#">More <span class="arrow">&#9660;</span></a></div></div>
+          <div class="search_holder print_hide">
+    <div id="searchPanel" class="js_panel">
+      <input type="hidden" class="panel_type" value="SearchBox" />
+      <form action="/Multi/Psychic">
+        <div class="search print_hide">
+          <div class="sites button">
+            <img class="search_image no-sprite badge-16" src="//static.ensembl.org/i/search/ensembl.gif" alt="" />
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-position: -798px -47px;height: 16px;background-size: 1000px 782px;width: 7px" />
+            <input type="hidden" name="site" value="ensembl_all" />
+          </div>
+          <div>
+            <label class="hidden" for="se_q">Search terms</label>
+            <input class="query inactive" id="se_q" type="text" name="q" value="Search all species&hellip;" data-role="none" onkeydown="if (event.keyCode == 13) { $(this).closest('form').submit(); return false; }" />
+          </div>
+          <div class="button"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="cursor: pointer;background-size: 1000px 782px;width: 16px;background-position: -292px -47px;height: 16px" alt="Search&nbsp;&raquo;" onClick="$(this).closest('form').submit()"/></div>
+        </div>
+        <div class="site_menu hidden">
+          <div class="ensembl_all"><img class="no-sprite" src="//static.ensembl.org/i/search/ensembl.gif" class="badge-16" alt="Search all species"/>Search all species<input type="hidden" value="Search all species&hellip;" /></div>
+<div class="ensembl_genomes"><img class="no-sprite" src="//static.ensembl.org/i/search/ensembl_genomes.gif" class="badge-16" alt="Search Ensembl genomes"/>Search Ensembl genomes<input type="hidden" value="Search Ensembl genomes&hellip;" /></div>
+<div class="vega"><img class="no-sprite" src="//static.ensembl.org/i/search/vega.gif" class="badge-16" alt="Search Vega"/>Search Vega<input type="hidden" value="Search Vega&hellip;" /></div>
+<div class="ebi"><img class="no-sprite" src="//static.ensembl.org/i/search/ebi.gif" class="badge-16" alt="Search EMBL-EBI"/>Search EMBL-EBI<input type="hidden" value="Search EMBL-EBI&hellip;" /></div>
+<div class="sanger"><img class="no-sprite" src="//static.ensembl.org/i/search/sanger.gif" class="badge-16" alt="Search Sanger"/>Search Sanger<input type="hidden" value="Search Sanger&hellip;" /></div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+        </div>
+  
+        
+        <div class="tabs_holder print_hide"><ul class="tabs"><li class=" short_tab" style="display:none"><a href="/info/website/" title="Using this website">Using</a></li><li class=" active short_tab" style="display:none"><a href="/info/genome/" title="Annotation and prediction">Annotation</a></li><li class=" short_tab" style="display:none"><a href="/info/data/" title="Data access">Data</a></li><li class=" short_tab" style="display:none"><a href="/info/docs/" title="API &amp; software">API</a></li><li class=" short_tab" style="display:none"><a href="/info/about/" title="About us">About</a></li><li class=" long_tab" style="display:block"><a href="/info/website/">Using this website</a></li><li class=" active long_tab" style="display:block"><a href="/info/genome/">Annotation and prediction</a></li><li class=" long_tab" style="display:block"><a href="/info/data/">Data access</a></li><li class=" long_tab" style="display:block"><a href="/info/docs/">API &amp; software</a></li><li class=" long_tab" style="display:block"><a href="/info/about/">About us</a></li></ul></div>
+        
+      </div>
+
+      <div id="main_holder">
+      
+      <div id="page_nav_wrapper">
+        <div id="page_nav" class="nav print_hide js_panel floating">
+          
+    <input type="hidden" class="panel_type" value="LocalContext" />
+    <div class="header">In this section</div>
+    <ul class="local_context">
+      <li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle predicted_data.html" alt=""><a href="predicted_data.html"><b>Calculated consequences</b></a></li><li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle protein_function.html" alt=""><a href="protein_function.html"><b>Pathogenicity predictions</b></a></li><li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle classification.html" alt=""><a href="classification.html"><b>Variant classification</b></a></li><li class="last"><img src="//static.ensembl.org/i/leaf.gif" class="toggle variant_quality.html" alt=""><a href="variant_quality.html"><b>Variant quality</b></a></li>
+    </ul>
+    
+      <div class="subheader">On this page</div>
+      <ul class="local_context" style="border-width:0">
+        <li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 14px;background-position: -452px -3px;height: 14px" /><a href="#GERP">GERP</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 14px;background-position: -452px -3px;width: 14px;background-size: 1000px 782px" /><a href="#CADD">CADD</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 14px;background-position: -452px -3px;height: 14px" /><a href="#sift">SIFT</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-position: -452px -3px;height: 14px;background-size: 1000px 782px;width: 14px" /><a href="#polyphen">PolyPhen</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 14px;background-size: 1000px 782px;height: 14px;background-position: -452px -3px" /><a href="#AlphaMissense">AlphaMissense</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 14px;background-position: -452px -3px;height: 14px" /><a href="#ESM1b">ESM1b</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 14px;background-position: -452px -3px;height: 14px" /><a href="#nsSNP_data_format">Prediction data format</a></li><li class="last"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 14px;background-size: 1000px 782px;height: 14px;background-position: -452px -3px" /><a href="#references">References</a></li>
+      </ul>
+    
+    
+      <div class="js_panel" style="margin:16px 0 0 8px">
+        <input type="hidden" class="panel_type" value="SearchBox" />
+        <form class="clear search-form" method="get" action="/Multi/Psychic"><fieldset><input type="hidden" value="ensembl" name="site" /><input value="Documentation" type="hidden" name="facet_feature_type" /><div class="form-field ff-multi"><div class="ff-inline ff-right"><input size="20" name="q" id="q" class="ftext input optional query inactive _string" value="Search documentation&#8230;" type="text" /><input class="fbutton" id="UpuTwvca_1" value="Go" type="submit" /></div></div></fieldset></form>
+      </div>
+    
+  
+          
+          
+          <p class="invisible">.</p>
+        </div>
+      </div>
+    
+
+      <div id="main">
+          <ul class="breadcrumbs print_hide"><li><a class="home" href="//jun2026.archive.ensembl.org">Home</a></li><li><a href="/info/">Help &amp; Documentation</a></li><li><a href="/info/genome/" title="Annotation & Prediction">Annotation & Prediction</a></li><li><a href="/info/genome/variation/" title="Variation">Variation</a></li><li><a href="/info/genome/variation/prediction/" title="Data prediction">Data prediction</a></li><li class="last">Pathogenicity predictions</li></ul>
+          
+          <div id="content"><div id="static">
+
+<h1 style="margin-top:15px">Ensembl Variation - Pathogenicity predictions</h1>
+<p>
+We provide results from a range of algorithms to help assess the potential pathogenicity of a variant. 
+</p>
+<p>
+Genome-wide variant deleteriousness rankings from the <a href="#CADD">CADD</a> algorithm are available for human variants
+and conservation scores are calculated for many species using <a href="#GERP">GERP</a>.
+</p>
+<p>
+For human variants that are predicted to result in an <a href ="./predicted_data.html">amino acid substitution</a> we 
+use SIFT and PolyPhen-2 to predict the likely effect of the change on
+protein function. We compute predictions for each of these tools for all possible 
+single amino acid substitutions in the Ensembl human proteome. This enables us to provide 
+results for novel variant alleles via Ensembl VEP and the Esnembl API . We were able to compute predictions
+from at least one tool for over 95% of the human proteins in Ensembl. 
+<br /> SIFT predictions are also available for cat, chicken, cow, dog, goat, horse, mouse, pig, rat, sheep and zebrafish.
+</p>
+
+<p>
+Pathogenicity scores from <a href="#AlphaMissense">AlphaMissense</a> 
+and <a href="#ESM1b">ESM1b</a> are also available for human missense variants.
+To improve compatibility with other resources, these scores are taken from dbNSFP (version 5.2c).
+</p>
+
+<p>
+We provide a brief description of each of these tools and how they are made available in Ensembl. 
+For more detail please see the representative papers listed <a href="#references">below</a>, 
+and the relevant publications available on each tool's website. 
+</p>
+
+<br />
+<h2>Genome wide scores</h2>
+
+<p>
+The level of conservation at a locus is strong predictor of the deleteriousness of any change. As an 
+indicator change tolerance, we display GERP conservation scores on our variant pages. 
+CADD scores are also available for human single nucleotide substitutions.
+</p>
+
+<div style="border:1px solid #CCC;margin-bottom:10px">
+  <div style="padding: 6px 6px">
+    <h2 id="GERP">GERP</h2>
+    <p>
+      We display conservation scores as computed with the Genomic Evolutionary Rate Profiling 
+      <a rel="external" href = "https://europepmc.org/article/MED/21152010">GERP</a> software
+      on <a href = "/info/genome/compara/multiple_genome_alignments.html">Multiple Sequence Alignments</a> of whole-genomes.
+      GERP identifies constrained loci in multiple sequence alignments by comparing the level of substitution 
+      observed to that expected if there was no functional constraint.<br /> 
+      Positive scores represent highly-conserved positions while negative scores represent highly-variable positions.
+    </p>
+    <ul>
+      <li>the highest score of any base in a multi-base deletion is displayed</li>
+      <li>the mean of the scores of the two flanking bases is shown for an insertion</li>
+    </ul>
+  </div>
+</div>
+<br />
+
+
+<div style="border:1px solid #CCC">
+  <div style="padding: 6px 6px">
+    <h2 id="CADD">CADD</h2>
+    <p>
+      The Combined Annotation Dependent Depletion (<a rel="external" href="https://cadd.gs.washington.edu/">CADD</a>) tool scores
+      the predicted deleteriousness of single nucleotide variants and insertion/deletions variants in the human genome by integrating
+      multiple annotations including conservation and functional information into one metric.
+      Phred-style CADD raw scores are displayed and variants with higher scores are more likely to be deleterious.
+    </p>
+    <p>CADD provides genome wide scores. These are displayed on our variant pages in the summary section as well as on transcript-specific variation tables.</p>
+    <p>
+      CADD provides a ranking rather than a prediction or default cut-off, with higher scores more likely to be deleterious.</p>
+      For convenience, in our transcript tables we display scores above 30 as 'likely deleterious' and scores below as 'likely benign'. Variants with scores
+      over 30 are predicted to be the 0.1% most deleterious possible substitutions in the human genome.<br />
+      <b>We strongly recommend the actual score is used when assessing a variant and a cut-off appropriate to your requirements is chosen.</b>
+    </p>
+    <p>CADD scores are taken from the <a rel="external" href="https://cadd.gs.washington.edu/download">CADD</a> project web site (version v1.7) for
+    consistency with other resources.</p>
+  </div>
+</div>
+<br />
+
+<br />
+<h2> Algorithms to evaluate missense variants</h2>
+
+<p>We provide results from a number of algorithms to help evaluate the impact of variants predicted change a genes peptide sequence.</p>
+<p>In our transcript tables, we display colour-coded scores for each algorithm to support immediate assessment of a set of
+variants, but recommend the actual scores are taken into account when interpreting the impact
+of an individual variant. This is especially important for CADD which do not have
+default cut-offs for different possible levels of deleteriousness. Our tables displaying the
+variants found within a transcript can be filtered on the appropriate cut-offs for a specific investigation.
+</p>
+
+<a href="pathogenicity_predictions.png" target="_blank">
+  <img class="bordered" src="pathogenicity_predictions.png" style="width:750px" alt="predictions table" />
+</a>
+<p style="margin-top:0.5em"><i>A Variant table for a Transcript showing the colour coding scheme and filtering options.</i></p>
+
+
+<br />
+<div class="bottom-margin" style="border:1px solid #CCC">
+  <div style="padding: 6px 6px">
+    <h2 id="sift">SIFT</h2>
+
+<p>
+<a rel="external" href="http://sift.bii.a-star.edu.sg">SIFT</a> predicts whether an amino acid 
+substitution is likely to affect protein function based on sequence homology and the
+physico-chemical similarity between the alternate amino acids. The data we provide for each amino
+acid substitution is a score and a qualitative prediction (either 'tolerated' or 'deleterious'). 
+The score is the normalized probability that the amino acid change is 
+tolerated so scores nearer zero are more likely to be deleterious.
+The qualitative prediction is derived from this score such that substitutions with 
+a score &lt; 0.05 are called 'deleterious' and all others are called 'tolerated'.
+</p>
+
+<p>
+We ran <b>SIFT version <!-- sift_version - start -->6.2.1<!-- sift_version - end --></b> following the instructions from the authors and used SIFT
+to choose homologous proteins rather than supplying them ourselves. We used all 
+protein sequences available from <!-- sift_protein_db_version - start -->UniRef90 (release 2014_11)<!-- sift_protein_db_version - end --> as the protein database. 
+</p>
+</div>
+<div style="border-top:1px dotted #CCC;border-bottom:1px dotted #CCC;background-color:#FAFAFA;padding:2px 6px;margin-top:5px">
+  <div style="float:left;margin-right:10px;margin-top:8px">Species with SIFT results:</div>
+  <!-- sift_species - start -->
+
+  <div style="float:left;font-style:italic">
+    <ul style="margin-bottom:0px">
+      <li>Bos taurus</li>
+      <li>Canis familiaris</li>
+      <li>Capra hircus</li>
+      <li>Danio rerio</li>
+    </ul>
+  </div>
+  <div style="float:left;font-style:italic;margin-left:10px">
+    <ul style="margin-bottom:0px">
+      <li>Equus caballus</li>
+      <li>Felis catus</li>
+      <li>Gallus gallus</li>
+      <li>Homo sapiens</li>
+    </ul>
+  </div>
+  <div style="float:left;font-style:italic;margin-left:10px">
+    <ul style="margin-bottom:0px">
+      <li>Mus musculus</li>
+      <li>Ovis aries</li>
+      <li>Rattus norvegicus</li>
+      <li>Sus scrofa</li>
+    </ul>
+  </div><!-- sift_species - end -->
+  <div class="clear"></div>
+</div>
+<div style="padding:6px;margin:10px 0px">
+  <table id="sift_values" class="ss" style="min-width:500px;width:auto;margin:0px">
+    <tr>
+      <th>SIFT value</th>
+      <th>Qualitative prediction</th>
+      <th colspan="2">Website display example</th>
+    </tr>
+    <tr>
+      <td>Less than 0.05</td>
+      <td>"Deleterious"</td>
+      <td>
+        <div class="score score_bad" title="deleterious">0.01</div>
+      </td>
+    </tr>
+    <tr class="bg2">
+      <td></td>
+      <td>"Deleterious - low confidence"</td> 
+      <td>
+        <div class="score score_neutral" title="deleterious - low confidence">0.01</div>
+      </td>
+    </tr>
+    <tr>
+      <td>Greater than or equal to 0.05</td>
+      <td>"Tolerated"</td>
+      <td>
+        <div class="score score_good" title="tolerated">0.8</div>
+      </td>
+    </tr>
+    <tr class="bg2">
+      <td></td>
+      <td>"Tolerated - low confidence"</td>
+      <td>
+        <div class="score score_neutral" title="tolerated - low confidence">0.8</div>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+<br />
+
+<h2>Results only available for human variants</h2>
+
+<div class="bottom-margin" style="border:1px solid #CCC">
+  <div style="padding: 6px 6px">
+    <h2 id="polyphen">PolyPhen</h2>
+
+<p>
+<a rel="external" href="http://genetics.bwh.harvard.edu/pph2/">PolyPhen-2</a> predicts
+the effect of an amino acid substitution on the structure and function of a protein
+using sequence homology, Pfam annotations, 3D structures from PDB where available, and
+a number of other databases and tools (including DSSP, ncoils etc.). As with SIFT, for each amino
+acid substitution where we have been able to calculate a prediction, we provide both a
+qualitative prediction (one of 'probably damaging', 'possibly damaging', 'benign'
+or 'unknown') and a score. The PolyPhen score represents the probability that a substitution 
+is damaging, so values nearer one are more confidently predicted to be deleterious (note 
+that this the opposite to SIFT). The qualitative prediction is based on the False 
+Positive Rate of the classifier model used to make the predictions.
+</p>
+
+<p>
+We ran <b>PolyPhen-2 version <!-- polyphen_version - start -->2.2.3<!-- polyphen_version - end -->, release <!-- polyphen_release - start -->405c<!-- polyphen_release - end --></b> (available 
+<a rel="external" href="http://genetics.bwh.harvard.edu/wiki/!pph2/downloads">here</a>)
+following all instructions from the authors and using the UniProtKB UniRef100 (release 2013_10) 
+non-redundant protein set as the protein database and DSSP (snapshot 22-Nov-2013) and PDB (snapshot 22-Nov-2013) 
+as the structural databases. 
+When computing the predictions we store results for the classifier models trained on the HumDiv 
+and HumVar datasets. Both result sets are available through the variation API which defaults to HumVar if no selection is made.</a>
+ (Please refer to the PolyPhen  <a rel="external" href="http://genetics.bwh.harvard.edu/wiki/!pph2/overview">website</a> or publications for more details of the classification system).
+<!-- HumDiv aims to discriminate variants that alter protein function, whereas HumVar aims to discriminate functions that cause human disease.-->
+</p>
+</div>
+
+<div style="padding:6px;margin:10px 0px">
+  <table id="polyphen_values" class="ss" style="min-width:625px;width:auto;margin:0px">
+    <tr>
+      <th>Polyphen value</th>
+      <th>Qualitative prediction</th>
+      <th>Website display example</th>
+    </tr>
+    <tr class="bg2">
+      <td>greater than 0.908</td>
+      <td>"Probably Damaging"</td>
+      <td><div class="score score_bad">0.95</div></td>
+    </tr>
+    <tr>
+      <td>greater than 0.446 and less than or equal to 0.908</td>
+      <td>"Possibly Damaging"</td>
+      <td><div class="score score_ok">0.5</div></td>
+    </tr>
+    <tr class="bg2">
+      <td>less than or equal to 0.446</td>
+      <td>"Benign"</td>
+      <td><div class="score score_good">0.25</div></td>
+    </tr>
+    <tr>
+      <td>unknown</td>
+      <td>"Unknown"</td>
+      <td><div class="score score_neutral">unknown</div></td>
+    </tr>
+  </table>
+</div>
+</div>
+<br />
+
+
+
+<div class="bottom-margin" style="border:1px solid #CCC">
+  <div style="padding: 6px 6px">
+    <h2 id="AlphaMissense">AlphaMissense</h2>
+  
+<p>
+<a rel="external" href="https://www.science.org/doi/10.1126/science.adg7492">AlphaMissense</a>
+is a deep learning model developed by Google DeepMind that predicts the pathogenicity of single nucleotide missense variants.
+Variants are classified as 'likely benign', 'likely pathogenic', or 'ambiguous'. A score between 0 and 1 is provided and variants with higher 
+scores are more likely to be pathogenic. 
+<p>
+<p>The thresholds for classification were chosen to achieve 90% precision for both pathogenic and benign ClinVar variants. Note that AlphaMissense was not trained on ClinVar variants. 
+Variants labeled as 'ambiguous' should be treated as 'unknown' or 'uncertain' according to AlphaMissense.</p>
+<p>
+ <b>Disclaimer:</b> The AlphaMissense Database and other information provided on or linked to this site is 
+ for theoretical modelling only, caution should be exercised in use. It is provided "as-is" without 
+ any warranty of any kind, whether express or implied. For clarity, no warranty is given that use of 
+ the information shall not infringe the rights of any third party (and this disclaimer takes precedence 
+ over any contrary provisions in the Google Cloud Platform Terms of Service). The information provided 
+ is not intended to be a substitute for professional medical advice, diagnosis, or treatment, and does 
+ not constitute medical or other professional advice.
+</p>
+</div>
+</div>
+<br />
+
+
+
+<div class="bottom-margin" style="border:1px solid #CCC">
+  <div style="padding: 6px 6px">
+    <h2 id="ESM1b">ESM1b</h2>
+  
+<p>
+<a rel="external" href="https://doi.org/10.1038/s41588-023-01465-0">ESM1b</a> 
+predicts pathogenic effects of coding variants using a 650-million-parameter protein language model. The scores we show here are taken from dbNSFP
+and range from -24.358 to 6.937. The smaller the score the more likely the variant is pathogenic.
+The prediction class (tolerated or deleterious) also exists in dbNSFP and we show them here. The authors do not recommend a threshold for separating deleterious 
+variants versus tolerated variants. The prediction in dbNSFP is based on the threshold of -7.5 described in the ESM1b paper that yields a true-positive rate of 81% 
+and a true-negative rate of 82% in their ClinVar and HGMD test datasets.
+</p>
+</div>
+</div>
+<br />
+
+
+
+<div style="max-width:1000px" class="info">
+  <h3>Inconsistent predictions</h3>
+  <div class="message-pad">
+	  <p><b>PolyPhen</b> and <b>SIFT</b> results are heavily dependent on sequence conservation estimates derived from protein sequence alignments and using different versions of the protein databases can result in substantial variance in the predictions and scores obtained. Ensembl releases are not synchronised with updates to the SIFT and PolyPhen web servers, so <b>differences are to be expected</b>. Changes in calls will also be seen between some Ensembl releases due to updates in the software and databases used.</p>
+	</div>
+</div>
+
+<br />
+
+<h2 id="nsSNP_data_format">Prediction data format</h2>
+
+<p>
+Precomputed predictions and scores for missense variants are stored in the variation
+databases and are accessible in the variation API by using methods such as <i>sift_prediction</i>, 
+<i>sift_score</i>, <i>polyphen_prediction</i> and <i>polyphen_score</i>  on a 
+<i>Bio::EnsEMBL::Variation::TranscriptVariationAllele</i> object. For anyone wishing
+to access the complete set of predictions from the MySQL database or API, an explanation of
+the format used is provided here.
+</p>
+
+
+<p>
+The predictions and associated scores are stored as a matrix, with a column for 
+each possible alternate amino acid and a row for each position in the translation. Each prediction
+for a position and amino acid is stored as a 2-byte value which encodes both the qualitative
+prediction and score encoded as described below. A simple example matrix is shown in the figure 
+below, though note we only show the decoded score rather than the actual binary value stored
+in the database.
+</p>
+
+<p>
+<a href="/img/protein_function_prediction_matrix.png" target="_blank">
+  <img src="/img/protein_function_prediction_matrix.png" style="width:500px;height:143px" alt="protein function encoding"/>
+</a>
+</p>
+
+<p>
+Prediction matrices can be fetched and manipulated in a user-friendly manner using the variation API, specifically
+using the <i>ProteinFunctionPredictionMatrixAdaptor</i> which allows you to fetch a prediction matrix
+using either a transcript or a translation stable ID. This adaptor returns a <i>ProteinFunctionPredictionMatrix</i>
+object and you can use the <i>get_prediction</i> method to retrieve a prediction for a given position
+and amino acid. If you want to use entire matrices, you should use the <i>deserialize</i> method to decode
+an entire binary formatted matrix into a simple Perl hash. Please refer to the <a
+href="/info/docs/Doxygen/variation-api/index.html">API documentation</a> for both 
+of these classes for more details. If you require direct access to the MySQL database (for instance 
+because they are accessing the database in a language other than Perl) we provide a description of the 
+binary format used below.
+</p>
+
+<p>
+Prediction matrices for each translation from each of SIFT and PolyPhen are stored in the 
+<i>protein_function_predictions</i> table. The analysis used to calculate the predictions
+is identified in the <i>analysis_attrib_id</i> column which refers to a value stored in the
+<i>attrib</i> table, and the protein sequence the predictions
+apply to is identified by the <i>translation_md5_id</i> column which refers to a hexadecimal 
+MD5 hash of the sequence stored in the <i>translation_md5</i> table. The 
+prediction matrices are stored in the <i>prediction_matrix</i> column as a gzip compressed binary string.
+Once uncompressed, this string contains a 40 byte substring for each row in the matrix
+concatenated together in position order. Each row is composed of 20 2-byte predictions, 
+one for each possible alternative amino acid in alphabetical order, though note that the 
+value for the amino acid that matches the reference amino acid is 
+identified as a 2-byte value with all bits set, or <i>0xFFFF</i> in hexadecimal notation. 
+The prediction itself is packed as a 16 bit little-endian 
+("VAX" order, or "v" format if using the perl <i>pack</i> subroutine) unsigned short value. 
+The top three bits of this short 
+are used to encode the qualitative prediction, and the bottom ten bits are used to encode the prediction score. To decode the qualitative 
+prediction you should mask off all bits except the top two, and shift the resulting short
+right by 14 bits and treat this as an integer between zero and three. The corresponding prediction can then 
+be looked up in the table below. To decode the prediction score you should mask off the 
+top six bits and the resulting value can be treated as a number between zero and 1000, which 
+should be divided by 1000 to give a three decimal place score (casting to a floating point type
+if necessary). Bits 11-14 are not used, except to encode the "same as reference" dummy prediction 
+<i>0xFFFF</i>.
+</p>
+<p>
+  Note, for CADD prediction scores you do not need to divide by 1000 and use the value as is. For ESM1b scores
+  you need to multiply by 100 and subtract by 50 <kbd>(value * 100 - 50)</kbd> after dividing by 1000.
+  Also, for AlphaMissense and ESM1b, the qualitative prediction is encoded using top three bits, and should be 
+  decoded accordingly.
+</p>
+
+<img src="/img/protein_function_encoding.png" style="width:500px;height:143px" alt="protein function encoding"/>
+
+<p>
+A diagram of the encoding scheme is shown above. In this example from a polyphen prediction, 
+the top prediction bits are <i>0b001</i> which in decimal is the number 1, which corresponds to 
+the top prediction bits are <i>0b00 1</i> which in decimal is the number 1, which corresponds to 
+"possibly damaging" in the table below. The score bits are <i>0b1110001010</i> which in decimal 
+is the number 906, which when divided by 1000, gives a score of 0.906.
+</p>
+
+<table id="prediction_values" class="ss" style="width:50%;">
+<tr>
+  <th>Tool</th>
+  <th>Encoded value</th>
+  <th>Qualitative prediction</th>
+</tr>
+<tr>
+  <td>PolyPhen</td>
+  <td>0</td>
+  <td>"probably damaging"</td>
+</tr>
+<tr class="bg2">
+  <td>PolyPhen</td>
+  <td>1</td>
+  <td>"possibly damaging"</td>
+</tr>
+<tr>
+  <td>PolyPhen</td>
+  <td>2</td>
+  <td>"benign"</td>
+</tr>
+<tr class="bg2">
+  <td>PolyPhen</td>
+  <td>3</td>
+  <td>"unknown"</td>
+</tr>
+<tr>
+  <td>SIFT</td>
+  <td>0</td>
+  <td>"tolerated"</td>
+</tr>
+<tr class="bg2">
+  <td>SIFT</td>
+  <td>1</td>
+  <td>"deleterious"</td>
+</tr>
+<tr">
+  <td>SIFT</td>
+  <td>2</td>
+  <td>"tolerated - low confidence"</td>
+</tr>
+<tr class="bg2">
+  <td>SIFT</td>
+  <td>3</td>
+  <td>"deleterious - low confidence"</td>
+</tr>
+</table>
+
+<p>
+To retrieve a prediction for a particular amino acid substitution at a given position
+in a translation, first you must retrieve the binary matrix from the database and
+uncompress it using gzip. You can calculate the offset into this string by multiplying 
+the desired position (starting at zero) by 20 and then adding the index of the desired amino acid in an alphabetical ordering of
+amino acids (also starting at zero), and then multiply this value by two to take into account the fact that each 
+prediction uses two bytes. Each matrix also includes a three byte header used check if the data is corrupted etc. so
+you will also need to add three to the calculated offset. The two bytes at the calculated position 
+can then be extracted and the approach described above can be used to retrieve the prediction and score. 
+A perl implementation of this scheme can be found in the <i>Bio::EnsEMBL::Variation::ProteinFunctionPredictionMatrix</i>
+module in the variation API and should hopefully inform attempts to reimplement this 
+scheme in other languages.
+</p>
+
+
+<br />
+<h2 id="references">References</h2>
+
+<ul>
+  <li>
+    <p>Adzhubei IA, Schmidt S, Peshkin L, Ramensky VE, Gerasimova A, Bork P, Kondrashov AS, Sunyaev SR. <br />
+    <strong>A method and server for predicting damaging missense mutations</strong><br />
+    <em>Nature Methods</em> 7(4):248-249 (2010)<br />
+    <a href="http://dx.doi.org/10.1038/nmeth0410-248" rel="external">doi:10.1038/nmeth0410-248</a></p> 
+  </li>
+
+  <li>
+    <p>Dong C., Wei P., Jian X., et al. <br /> 
+    <strong>Comparison and integration of deleteriousness prediction methods for nonsynonymous SNVs in whole exome sequencing studies.</strong><br /> 
+    <em>Human Molecular Genetics</em> 24(8):2125-2137. doi:10.1093/hmg/ddu733. (2015) <br/>
+    <a href="https://doi.org/10.1093/hmg/ddu733" rel="external"> doi:10.1093/hmg/ddu733 </a></p>
+  </li>
+  <li>
+    <p>Cooper G.M., Stone E. A., Asimenos G. et al. <br />
+    <strong>Distribution and intensity of constraint in mammalian genomic sequence</strong><br />
+    <em> Genome Res. </em>15: 901-913 (2005)<br />
+    <a href="https://doi.org/10.1101/gr.3577405" rel="external">doi:10.1101/gr.3577405</a></p>
+  </li>
+
+  <li>
+    <p>Kumar P, Henikoff S, Ng PC.<br />
+    <strong>Predicting the effects of coding non-synonymous variants on protein function using the SIFT algorithm</strong><br />
+    <em>Nature Protocols</em> 4(8):1073-1081 (2009)<br />
+    <a href="http://dx.doi.org/10.1038/nprot.2009.86" rel="external">doi:10.1038/nprot.2009.86</a></p> 
+  </li>
+
+  <li>
+    <p>Liu X, Li C, Mou C, Dong Y, and Tu Y.<br />
+    <strong>dbNSFP v4: a comprehensive database of transcript-specific functional predictions and annotations for human nonsynonymous and splice-site SNVs.</strong><br />
+    <em>Genome Medicine 12</em> 103 (2020)<br />
+    <a href="https://doi.org/10.1186/s13073-020-00803-9" rel="external">doi:10.1186/s13073-020-00803-9</a></p>
+  </li>
+
+  <li>
+    <p>Rentzsch, P. , Witten, D.M., Cooper, G.M. and Shendure, J., Kircher, M. <br />
+    <strong>CADD: predicting the deleteriousness of variants throughout the human genome</strong><br />
+    <em>Nucleic Acids Res.</em> 47:D886–D894  (2018) <br />
+    <a href="https://doi.org/10.1093/nar/gky1016" rel="external">doi:10.1093/nar/gky1016</a></p>
+  </li>
+
+
+  <li>
+    <p>Jun Cheng et al. <br />
+    <strong>Accurate proteome-wide missense variant effect prediction with AlphaMissense</strong><br />
+    <em>Science</em> 381, eadg7492 (2023)<br />
+    <a href="https://doi.org/10.1126/science.adg7492" rel="external">doi:10.1126/science.adg7492</a></p>
+  </li>
+
+
+  <li>
+    <p>Brandes, N., Goldman, G., Wang, C.H. et al<br />
+    <strong>Genome-wide prediction of disease variant effects with a deep protein language model</strong><br />
+    <em>Nature Genetics</em> 55, 1512–1522 (2023)<br />
+    <a href="https://doi.org/10.1038/s41588-023-01465-0" rel="external">doi:10.1038/s41588-023-01465-0</a></p>
+  </li>
+</ul>
+
+</div></div>
+      </div>
+  
+        <div id="footer">
+          <div class="column-wrapper">
+    <div class="column-two left">
+      <p>Ensembl release 116 - June 2026 &copy;
+        <span class="print_hide"><a href="http://www.ebi.ac.uk/" class="nowrap constant">EMBL-EBI</a></span>
+        <span class="screen_hide_inline">EMBL-EBI<br />http://jun2026.archive.ensembl.org</span>
+      </p>
+      
+    </div>
+    <div class="column-two right print_hide"><p>
+        <a class="modal_link" id="p_link" href="/Help/Permalink?url=http%3A%2F%2Fjun2026.archive.ensembl.org">Permanent link</a>
+     - <a href="http://www.ensembl.org/info/genome/variation/prediction/protein_function.html">View in current Ensembl</a></p></div>
+            <p class="invisible">.</p>
+          </div>
+          <div class="column-wrapper"><hr /><div id="fat-footer">
+              <div class="column-four left">
+                <h3>About Us</h3>
+                <p><a href="/info/about" rel="nofollow">About us</a></p>
+                <p><a href="/info/about/contact/" rel="nofollow">Contact us</a></p>
+                <p><a href="/info/about/publications.html" rel="nofollow">Citing Ensembl</a></p>
+                <p><a href="https://www.ensembl.org/info/about/legal/privacy.html" rel="nofollow">Privacy policy</a></p>
+                <p><a href="https://www.ebi.ac.uk/long-term-data-preservation" rel="nofollow">Long-term data preservation</a></p>
+                <p><a href="/info/about/legal/" rel="nofollow">Disclaimer</a></p>
+              </div>
+  
+              <div class="column-four left">
+                <h3>Get help</h3>
+                <p><a href="/info/website/" rel="nofollow">Using this website</a></p>
+                <p><a href="/info/website/upload" rel="nofollow">Adding custom tracks</a></p>
+                <p><a href="/downloads.html" rel="nofollow">Downloading data</a></p>
+                <p><a href="/info/website/tutorials/" rel="nofollow">Video tutorials</a></p>
+                <p><a href="/info/docs/tools/vep/" rel="nofollow">Ensembl Variant Effect Predictor (VEP)</a></p>
+              </div>
+  
+              <div class="column-four left">
+                <h3>Our sister sites</h3>
+                <p><a href="http://bacteria.ensembl.org" rel="nofollow">Ensembl Bacteria</a></p>
+                <p><a href="http://fungi.ensembl.org" rel="nofollow">Ensembl Fungi</a></p>
+                <p><a href="http://plants.ensembl.org" rel="nofollow">Ensembl Plants</a></p>
+                <p><a href="http://protists.ensembl.org" rel="nofollow">Ensembl Protists</a></p>
+                <p><a href="http://metazoa.ensembl.org" rel="nofollow">Ensembl Metazoa</a></p>
+              </div>
+  
+              <div class="column-four left">
+                <h3>Follow us</h3>
+                <p><a class="media-icon" href="http://www.ensembl.info/" rel="nofollow">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 16px;background-size: 1000px 782px;height: 16px;background-position: -776px -47px" alt="[RSS logo]" title="Ensembl blog"/></a>
+                  <a href="http://www.ensembl.info/" rel="nofollow">Blog</a></p>
+                <p><a class="media-icon" href="http://www.twitter.com/Ensembl" rel="nofollow">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-position: -346px -69px;height: 16px;background-size: 1000px 782px;width: 20px" alt="[twitter logo]" title="Follow us on Twitter!"/></a>
+                    <a href="http://www.twitter.com/ensembl" rel="nofollow">Twitter</a></p>
+                <p><a class="media-icon" href="http://www.facebook.com/Ensembl.org" rel="nofollow">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 16px;background-size: 1000px 782px;height: 16px;background-position: -600px -47px" alt="[Facebook logo]" title="Our Facebook page"/></a>
+                  <a href="http://www.facebook.com/Ensembl.org" rel="nofollow">Facebook</a></p>
+              </div>
+  </div>
+            <p class="invisible">.</p>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <form id="core_params" action="#" style="display:none">
+    <fieldset><input type="hidden" name="db" value="core" /></fieldset>
+  </form>
+  <input type="hidden" id="species_path" name="species_path" value="" />
+  <input type="hidden" id="gdpr_version" name="gdpr_version" value="2.0.0" />
+  <input type="hidden" id="gdpr_policy_url" name="gdpr_policy_url" value="https://www.ensembl.org/info/about/legal/privacy.html" />
+  <input type="hidden" id="gdpr_terms_url" name="gdpr_terms_url" value="https://www.ebi.ac.uk/about/terms-of-use" />
+  <input type="hidden" id="gdpr_cookie_name" name="gdpr_cookie_name" value="ENSEMBL_PRIVACY_POLICY" />
+  <input type="hidden" id="species_common_name" name="species_common_name" value="Human" />
+  <input type="hidden" id="ensembl_image_root" name="ensembl_image_root" value="/i/" />
+  <input type="hidden" id="max_region_length" name="max_region_length" value="1000100" />
+  <input type="hidden" id="ensembl_species_image" name="ensembl_species_image" value="/i/species/Homo_sapiens.png" />
+    
+  <div id="modal_bg"></div>
+  <div id="modal_panel" class="js_panel">
+    <input type="hidden" class="panel_type" value="ModalContainer" />
+    <div class="modal_title">
+      <ul class="tabs">
+        <li><a class="modal_user_data" href="UserData/ManageData?time=1789399533">Personal Data</a></li>
+      </ul>
+      <div class="modal_caption"></div>
+      <div class="modal_close"></div>
+    </div>
+    <div id="modal_user_data" class="modal_content js_panel fixed_width" style="display:none"></div>
+    <div id="modal_default" class="modal_content js_panel fixed_width" style="display:none"></div>
+    <div class="modal_overlay"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png overlay_close" style="height: 20px;background-position: -642px -115px;width: 20px;background-size: 1000px 782px" alt="close" title="Cancel"/><div class="overlay_content"></div></div>
+    <div class="modal_overlay_bg"></div>
+  </div>
+  
+    
+    <script type="text/javascript" src="//static.ensembl.org/minified/1dedb9539c2da47014070b317c6b3ba6.js"></script>
+<script type="text/javascript" src="//static.ensembl.org/minified/2244b87fc07dc64eaec6dfb62a828c37.js"></script>
+
+  <input type="hidden" id="hidden_species_list" name="hidden_species_list" value=Bos_taurus|Stachyris_ruficeps|Loxodonta_africana|Gambusia_affinis|Mesocricetus_auratus|Aquila_chrysaetos_chrysaetos|Delphinapterus_leucas|Ornithorhynchus_anatinus|Ovis_aries_GCA_022416775.1|Macaca_fascicularis|Canis_lupus_familiarisgreatdane|Astyanax_mexicanus_pachon|Lepisosteus_oculatus|Cebus_imitator|Pogona_vitticeps|Ovis_aries_qiaoke|Nannospalax_galili|Cavia_porcellus|Rattus_norvegicus_SHRUtx|Sorex_araneus|Cricetulus_griseus_crigri|Tupaia_belangeri|Sus_scrofa_ossabaw_miniature|Saimiri_boliviensis_boliviensis|Falco_tinnunculus|Larimichthys_crocea|Microtus_ochrogaster|Mus_musculus_BALB_cJ|Strigops_habroptila|Mus_musculus_JF1_MsJ|Mus_musculus_NZO_HlLtJ|Macaca_nemestrina|Sus_scrofa_usmarc|Ovis_aries_east_friesian|Mus_spicilegus|Sus_scrofa_GCA_040869115.1|Mastacembelus_armatus|Prolemur_simus|Ovis_aries_romanov|Panthera_tigris_altaica|Ictalurus_punctatus|Anolis_carolinensis|Zosterops_lateralis_melanops|Otolemur_garnettii|Eptatretus_burgeri|Gadus_morhua|Rattus_norvegicus_SHRSPBbbUtx|Gasterosteus_aculeatus_marine_bam|Capra_hircus_saanen_dairy|Oryzias_javanicus|Cercocebus_atys|Gallus_gallus_GCA_016700215.2|Papio_anubis|Betta_splendens|Saccharomyces_cerevisiae|Ovis_aries_texel|Physeter_catodon|Amphiprion_ocellaris|Amphilophus_citrinellus|Corvus_moneduloides|Mandrillus_leucophaeus|Pseudonaja_textilis|Amphiprion_percula|Xenopus_tropicalis|Sus_scrofa_GCA_044906185.1|Myotis_lucifugus|Meriones_unguiculatus|Jaculus_jaculus|Oncorhynchus_tshawytscha|Apteryx_rowi|Gadus_morhua_GCA_010882105.1|Cottoperca_gobio|Cricetulus_griseus_chok1gshd|Mus_musculus_NOD_ShiLtJ|Pongo_abelii|Cyclopterus_lumpus|Mus_musculus|Bos_taurus_hybrid|Sus_scrofa_meishan|Cyprinodon_variegatus|Zonotrichia_albicollis|Parambassis_ranga|Callorhinchus_milii|Malurus_cyaneus_samueli|Phocoena_sinus|Gopherus_evgoodei|Salmo_salar|Rhinopithecus_roxellana|Sander_lucioperca|Poecilia_mexicana|Danio_rerio|Astyanax_mexicanus|Ovis_aries_kermani|Oryzias_latipes|Microcebus_murinus|Coturnix_japonica|Sus_scrofa_bama_miniature|Amazona_collaria|Chrysolophus_pictus|Ovis_aries_white_dorper|Fundulus_heteroclitus|Sus_scrofa_norwegian_landrace|Cavia_aperea|Sus_scrofa_ghungroo|Cynoglossus_semilaevis|Sinocyclocheilus_grahami|Lynx_canadensis|Canis_lupus_familiarisboxer|Oryzias_latipes_hni|Equus_asinus_gca041296235v2|Oreochromis_niloticus|Salmo_trutta|Piliocolobus_tephrosceles|Ciona_savignyi|Mus_musculus_LP_J|Bison_bison_bison|Balaenoptera_musculus|Ochotona_princeps|Monodelphis_domestica|Anas_platyrhynchos|Fukomys_damarensis|Procavia_capensis|Monodon_monoceros|Labrus_bergylta|Xiphophorus_couchianus|Serinus_canaria|Sus_scrofa_GCA_044906105.1|Erythrura_gouldiae|Sus_scrofa_GCA_039654815.1|Mus_musculus_AKR_J|Ovis_aries_hu|Mus_caroli|Gasterosteus_aculeatus|Laticauda_laticaudata|Bos_indicus_hybrid|Vombatus_ursinus|Varanus_komodoensis|Rhinolophus_ferrumequinum|Mustela_putorius_furo|Gouania_willdenowi|Canis_lupus_familiarisgermanshepherd|Echinops_telfairi|Anser_brachyrhynchus|Erinaceus_europaeus|Anabas_testudineus|Bos_mutus|Sphaeramia_orbicularis|Petromyzon_marinus|Oncorhynchus_mykiss|Salmo_salar_european_origin_alta|Sciurus_vulgaris|Gorilla_gorilla|Maylandia_zebra|Poecilia_latipinna|Oryzias_melastigma|Apteryx_owenii|Hippocampus_comes|Colobus_angolensis_palliatus|Sphenodon_punctatus|Anas_platyrhynchos_platyrhynchos|Taeniopygia_guttata|Capra_hircus_blackbengal|Astatotilapia_calliptera|Xiphophorus_maculatus|Manacus_vitellinus|Cyanistes_caeruleus|Oryctolagus_cuniculus|Sus_scrofa_pietrain|Equus_caballus|Catharus_ustulatus|Mus_musculus_WSB_EiJ|Sus_scrofa_pb115|Oncorhynchus_kisutch|Haplochromis_burtoni|Sus_scrofa_wuzhishan|Phasianus_colchicus|Canis_lupus_dingo|Paramormyrops_kingsleyae|Sus_scrofa_berkshire|Mus_musculus_CBA_J|Mus_musculus_129S1_SvImJ|Camelus_dromedarius|Sus_scrofa_GCA_041937265.1|Macaca_mulatta|Sarcophilus_harrisii|Canis_lupus_familiarisbasenji|Latimeria_chalumnae|Ovis_aries_ujimqin|Ciona_intestinalis|Phascolarctos_cinereus|Accipiter_nisus|Felis_catus_abyssinian|Mus_musculus_DBA_2J|Sparus_aurata|Callithrix_jacchus|Peromyscus_maniculatus_bairdii|Octodon_degus|Bos_taurus_tuli|Pelusios_castaneus|Pavo_cristatus|Camarhynchus_parvulus|Periophthalmus_magnuspinnatus|Panthera_pardus|Bos_taurus_wagyu|Acanthochromis_polyacanthus|Moschus_moschiferus|Parus_major|Pan_troglodytes|Ovis_aries_chinese_merino|Salarias_fasciatus|Carlito_syrichta|Bubo_bubo|Sus_scrofa_bamei|Panthera_leo|Pelodiscus_sinensis|Nothoprocta_perdicaria|Scophthalmus_maximus|Pteropus_vampyrus|Calidris_pygmaea|Sus_scrofa_tibetan|Rhinopithecus_bieti|Dicentrarchus_labrax|Anser_cygnoides|Sus_scrofa_rongchang|Monopterus_albus|Cyprinus_carpio_german_mirror|Bos_grunniens|Cricetulus_griseus_picr|Cyprinus_carpio_huanghe|Nothobranchius_furzeri|Denticeps_clupeoides|Marmota_marmota_marmota|Nomascus_leucogenys|Pygocentrus_nattereri|Naja_naja|Dasypus_novemcinctus|Cyprinus_carpio_carpio|Terrapene_carolina_triunguis|Suricata_suricatta|Oryzias_latipes_hsok|Tetraodon_nigroviridis|Hucho_hucho|Scleropages_formosus|Kryptolebias_marmoratus|Chelydra_serpentina|Heterocephalus_glaber_female|Erpetoichthys_calabaricus|Myripristis_murdjan|Sus_scrofa_GCA_037447515.1|Sus_scrofa_duroc|Mus_musculus_CAST_EiJ|Poecilia_formosa|Melopsittacus_undulatus|Gopherus_agassizii|Castor_canadensis|Gasterosteus_aculeatus_marine_syl|Dromaius_novaehollandiae|Mus_spretus|Ovis_aries|Salvator_merianae|Sus_scrofa_domesticus_GCA_017957985.1|Carassius_auratus|Buteo_japonicus|Mus_musculus_FVB_NJ|Salmo_salar_north_american_origin_brian|Dipodomys_ordii|Sus_scrofa_largewhite|Gasterosteus_aculeatus_freshwater_bot|Podarcis_muralis|Chelonoidis_abingdonii|Electrophorus_electricus|Cairina_moschata_domestica|Tursiops_truncatus|Sus_scrofa|Capra_hircus_xinong_saanen_dairy|Bos_taurus_norwegian_red|Seriola_lalandi_dorsalis|Poecilia_reticulata|Geospiza_fortis|Chinchilla_lanigera|Seriola_dumerili|Catagonus_wagneri|Mus_musculus_C3H_HeJ|Gallus_gallus_GCA_000002315.5|Ursus_maritimus|Equus_asinus|Notechis_scutatus|Sus_scrofa_landrace|Zalophus_californianus|Chrysemys_picta_bellii|Vicugna_pacos|Meleagris_gallopavo|Lonchura_striata_domestica|Neolamprologus_brichardi|Urocitellus_parryii|Pundamilia_nyererei|Canis_lupus_familiaris|Struthio_camelus_australis|Anas_zonorhyncha|Sus_scrofa_jinhua|Ovis_aries_polled_dorset|Aotus_nancymaae|Oreochromis_aureus|Ursus_thibetanus_thibetanus|Spermophilus_dauricus|Pan_paniscus|Sus_scrofa_hampshire|Theropithecus_gelada|Rattus_norvegicus|Apteryx_haastii|Sus_scrofa_euw1|Notamacropus_eugenii|Gallus_gallus|Heterocephalus_glaber_male|Clupea_harengus|Drosophila_melanogaster|Mus_musculus_A_J|Salmo_salar_north_american_atlantic_salmon|Neogobius_melanostomus|Lates_calcarifer|Athene_cunicularia|Mola_mola|Junco_hyemalis|Echeneis_naucrates|Vulpes_vulpes|Mus_musculus_PWK_PhJ|Takifugu_rubripes|Numida_meleagris|Caenorhabditis_elegans|Leptobrachium_leishanense|Neovison_vison|Mus_musculus_C57BL_6NJ|Propithecus_coquereli|Ictidomys_tridecemlineatus|Oryzias_sinensis|Sinocyclocheilus_rhinocerous|Crocodylus_porosus|Choloepus_hoffmanni|Homo_sapiens|Sus_scrofa_nihs_2020|Cervus_hanglu_yarkandensis|Strix_occidentalis_caurina|Felis_catus|Rattus_norvegicus_WKYBbb|Sus_scrofa_ningxiang|Esox_lucius|Sus_scrofa_GCA_048338725.1|Mus_pahari|Cyprinus_carpio_hebao_red|Ursus_americanus|Stegastes_partitus|Chlorocebus_sabaeus|Ficedula_albicollis|Ailuropoda_melanoleuca|Sinocyclocheilus_anshuiensis|Capra_hircus|Calidris_pugnax|Lepidothrix_coronata|Otus_sunia>
+</body>
+</html>

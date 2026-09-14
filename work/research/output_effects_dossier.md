@@ -110,9 +110,9 @@ which are offered on the web form and in which section.
 | option | form control (section) | page category | ours | page description (first sentence) | ours: priority |
 |---|---|---|---|---|---|
 | `alphamissense` | AlphaMissense (Predictions) | pathogenicity_predictions | pathogenicity_prediction |  | region_focus.regulatory-noncoding=not_applicable; analysis_goal.clinical-interpretation=recommended; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
-| `ancestral_allele` | Ancestral allele (Predictions) | conservation | variant_data | An Ensembl VEP plugin that retrieves ancestral allele sequences from a FASTA file. | unpriced `{}` |
+| `ancestral_allele` | Ancestral allele (Predictions) | conservation | conservation | An Ensembl VEP plugin that retrieves ancestral allele sequences from a FASTA file. | analysis_goal.population-frequency=optional; variant_size_class.structural-CNV=not_applicable |
 | `avi` | AVI (Predictions) | pathogenicity_predictions | pathogenicity_prediction | An Ensembl VEP plugin that retrieves AlphaGenome Variant Impact (AVI) scores for single nucleotide variants from a tabix-indexed, bgzip-compressed TSV file. | analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
-| `blosum62` | BLOSUM62 (Predictions) | conservation | pathogenicity_prediction | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that looks up the BLOSUM 62 substitution matrix score for the reference and alternative amino acids predicted for a missense mutation. | unpriced `{}` |
+| `blosum62` | BLOSUM62 (Predictions) | conservation | conservation | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that looks up the BLOSUM 62 substitution matrix score for the reference and alternative amino acids predicted for a missense mutation. | analysis_goal.clinical-interpretation=optional; region_focus.regulatory-noncoding=not_applicable; variant_size_class.structural-CNV=not_applicable |
 | `cadd` | CADD (Predictions) | pathogenicity_predictions | pathogenicity_prediction | **Combined Annotation Dependent Depletion** — An Ensembl VEP plugin that retrieves CADD scores for variants from one or more tabix-indexed CADD data files. | analysis_goal.clinical-interpretation=recommended; species.non-human=not_applicable |
 | `clinpred` | ClinPred (Predictions) | pathogenicity_predictions | pathogenicity_prediction | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds pre-calculated scores from ClinPred. | region_focus.regulatory-noncoding=not_applicable; analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
 | `dbnsfp` | dbNSFP (Predictions) | pathogenicity_predictions | pathogenicity_prediction | An Ensembl VEP plugin that retrieves data for missense variants from a tabix-indexed dbNSFP file. | region_focus.regulatory-noncoding=not_applicable; analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
@@ -120,24 +120,25 @@ which are offered on the web form and in which section.
 | `dosage_sensitivity` | DosageSensitivity (Additional annotations) | gene_tolerance_to_change | gene_constraint |  | analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=recommended; species.non-human=not_applicable |
 | `enformer` | Enformer (Additional annotations) | regulatory_impact | regulatory | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds pre-calculated Enformer predictions of variant impact on chromatin and gene expression. | region_focus.regulatory-noncoding=optional; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
 | `eve` | EVE (Predictions) | pathogenicity_predictions | pathogenicity_prediction | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds information from EVE (evolutionary model of variant effect). | region_focus.regulatory-noncoding=not_applicable; analysis_goal.clinical-interpretation=recommended; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
-| `geno2mp` | Geno2MP (Additional annotations) | phenotype_data_and_citations | variant_data |  | analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
+| `geno2mp` | Geno2MP (Additional annotations) | phenotype_data_and_citations | phenotype_data_and_citations |  | analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
 | `gnomad_sv` | *(not on form page)* | — | frequency_data | *(not on plugins page)* | variant_size_class.structural-CNV=recommended; species.non-human=not_applicable |
-| `go` | Gene Ontology (Additional annotations) | phenotype_data_and_citations | functional_effect | **Gene Ontology** — An Ensembl VEP plugin that retrieves Gene Ontology (GO) terms associated with transcripts (e.g. | analysis_goal.clinical-interpretation=optional |
+| `go` | Gene Ontology (Additional annotations) | phenotype_data_and_citations | phenotype_data_and_citations | **Gene Ontology** — An Ensembl VEP plugin that retrieves Gene Ontology (GO) terms associated with transcripts (e.g. | analysis_goal.clinical-interpretation=optional |
 | `intact` | IntAct (Additional annotations) | functional_effect | functional_effect |  | species.non-human=not_applicable |
 | `loeuf` | LOEUF (Additional annotations) | gene_tolerance_to_change | gene_constraint | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds the LOEUF scores to VEP output. | analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=recommended; species.non-human=not_applicable |
 | `mastermind` | Mastermind (Additional annotations) | phenotype_data_and_citations | literature_citation | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that uses the Mastermind Genomic Search Engine ( https://www.genomenon.com/mastermind ) to report variants that have clinical evidence cited in the medical  | analysis_goal.clinical-interpretation=recommended; species.non-human=not_applicable |
 | `mavedb` | MaveDB (Additional annotations) | functional_effect | functional_effect |  | analysis_goal.clinical-interpretation=recommended; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
 | `maxentscan` | MaxEntScan (Predictions) | splicing_predictions | splice_prediction | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that runs MaxEntScan ( http://hollywood.mit.edu/burgelab/maxent/Xmaxentscan_scoreseq.html ) to get splice site predictions. | analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable |
-| `mutfunc` | mutfunc (Additional annotations) | protein_annotation | functional_effect |  | region_focus.regulatory-noncoding=not_applicable; analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
-| `nmd` | NMD (Additional annotations) | transcript_annotation | functional_effect | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that predicts if a variant allows the transcript escape nonsense-mediated mRNA decay based on certain rules. | region_focus.coding=optional; region_focus.regulatory-noncoding=not_applicable |
-| `opentargets` | Open Targets Platform (Variants and frequency data) | variant_data | functional_effect |  | species.non-human=not_applicable |
-| `paralogues` | Paralogue variants (Variants and frequency data) | variant_data | functional_effect |  | region_focus.regulatory-noncoding=not_applicable; analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable |
+| `mutfunc` | mutfunc (Additional annotations) | protein_annotation | protein_annotation |  | region_focus.regulatory-noncoding=not_applicable; analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
+| `nmd` | NMD (Additional annotations) | transcript_annotation | transcript_annotation | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that predicts if a variant allows the transcript escape nonsense-mediated mRNA decay based on certain rules. | region_focus.coding=optional; region_focus.regulatory-noncoding=not_applicable |
+| `opentargets` | Open Targets Platform (Variants and frequency data) | variant_data | variant_data |  | species.non-human=not_applicable |
+| `paralogues` | Paralogue variants (Variants and frequency data) | variant_data | variant_data |  | region_focus.regulatory-noncoding=not_applicable; analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable |
 | `phenotypes` | Phenotypes (Additional annotations) | phenotype_data_and_citations | phenotype |  | analysis_goal.clinical-interpretation=recommended |
 | `protvar` | ProtVar (Additional annotations) | protein_annotation | protein_annotation |  | analysis_goal.clinical-interpretation=optional; region_focus.regulatory-noncoding=not_applicable; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
 | `revel` | REVEL (Predictions) | pathogenicity_predictions | pathogenicity_prediction | This is a plugin for the Ensembl Variant Effect Predictor (VEP) that adds the REVEL score for missense variants to the output. | region_focus.regulatory-noncoding=not_applicable; analysis_goal.clinical-interpretation=optional; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
-| `riboseqorfs` | RiboseqORFs (Additional annotations) | transcript_annotation | functional_effect | An Ensembl VEP plugin that uses a standardized catalog of human Ribo-seq ORFs to re-calculate consequences for variants located in these translated regions. | region_focus.regulatory-noncoding=optional; species.non-human=not_applicable |
+| `riboseqorfs` | RiboseqORFs (Additional annotations) | transcript_annotation | transcript_annotation | An Ensembl VEP plugin that uses a standardized catalog of human Ribo-seq ORFs to re-calculate consequences for variants located in these translated regions. | region_focus.regulatory-noncoding=optional; species.non-human=not_applicable |
+| `species_frequency` | *(not on form page)* | — | frequency_data | *(not on plugins page)* | analysis_goal.population-frequency=recommended; species.human=not_applicable; variant_size_class.structural-CNV=not_applicable |
 | `spliceai` | SpliceAI (Predictions) | splicing_predictions | splice_prediction | An Ensembl VEP plugin that retrieves pre-calculated annotations from SpliceAI. | analysis_goal.clinical-interpretation=recommended; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
-| `utrannotator` | UTRAnnotator (Additional annotations) | transcript_annotation | regulatory |  | region_focus.regulatory-noncoding=recommended; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
+| `utrannotator` | UTRAnnotator (Additional annotations) | transcript_annotation | transcript_annotation |  | region_focus.regulatory-noncoding=recommended; variant_size_class.structural-CNV=not_applicable; species.non-human=not_applicable |
 
 ## 4. Interactions — the page's incompatibility graph
 
@@ -172,23 +173,11 @@ variants that have a co-located existing variant with global AF > 0.01 (1%)".
 
 - `cell_type` — ON THE FORM: InputForm.pm:763-795 renders one checkbox per available cell type (`cell_type_<name>`) at runtime, so the documentation page has no static control for it
 - `gnomad_sv` — ON THE FORM as a `--custom` dataset rendered from vep_custom_web_config.json, not a documented control
+- `species_frequency` — catalogue web_form_section = variants_frequency_data
 
 **Form section differs from our `web_form_section`**
 
 - `core_type` — form: Data input; ours: `advanced`
-
-**Plugin category differs from the plugins page**
-
-- `geno2mp` — page: `phenotype_data_and_citations`; ours: `variant_data`
-- `nmd` — page: `transcript_annotation`; ours: `functional_effect`
-- `utrannotator` — page: `transcript_annotation`; ours: `regulatory`
-- `paralogues` — page: `variant_data`; ours: `functional_effect`
-- `mutfunc` — page: `protein_annotation`; ours: `functional_effect`
-- `ancestral_allele` — page: `conservation`; ours: `variant_data`
-- `blosum62` — page: `conservation`; ours: `pathogenicity_prediction`
-- `go` — page: `phenotype_data_and_citations`; ours: `functional_effect`
-- `opentargets` — page: `variant_data`; ours: `functional_effect`
-- `riboseqorfs` — page: `transcript_annotation`; ours: `functional_effect`
 
 **Modelled as a switch on our side, a value or multi-control on theirs**
 
@@ -207,7 +196,7 @@ reason to keep one local VEP install: not to characterise options, but to catch 
 
 ## 6. What this changes in the priority table
 
-Sourced from the page, not from a run:
+Sourced from the page, not from a run. **Applied 2026-09-14/15** unless marked open:
 
 1. **Do not recommend any option in the removes-rows class from a factor value.** The form's own instruction is
    "if you aren't sure, don't use any of these options!" That removes `frequency` from
@@ -216,12 +205,13 @@ Sourced from the page, not from a run:
 2. **Price `pick`, `pick_allele`, `per_gene`, `summary` as `not_applicable`** so the resolver blocks them from the
    table rather than from a special-case function. They are never recommended today, so no configuration moves.
 3. **Add the two missing conflict edges** so the checker sees what the page sees.
-4. **`core_type` needs a value, not a switch.** Recommending it on 108/108 tuples with no value is recommending
-   the form's default back to the user. Either name the value or drop it from the floor.
-5. **`distance` is unpriced and on by default at 5000.** It changes which rows exist. Leave it at the form default
-   and say so, or model it; silence is the one option the page does not offer.
-6. **AVI and ProtVar** are on the form and not in the catalogue. Both are plugins in the add-fields class; AVI is a
-   pathogenicity predictor and belongs in the type-grouped predictor line the mentors asked for.
+4. **`core_type`** — OPEN by decision (David, 2026-09-14): it is the form's default and now sits under ALREADY ON,
+   so the user is never told to change it. Its value question (Likhitha, row 11) stays with the mentors.
+5. **`distance`** — OPEN: unpriced, on by default at 5000, listed under ALREADY ON. Left at the form default.
+6. **AVI and ProtVar** — applied 2026-09-13 as add-ons. blosum62 and ancestral_allele priced 2026-09-15 (add-ons);
+   blosum62 moved to Ensembl's `conservation` category and out of the pathogenicity line.
+7. **Species data** — applied 2026-09-15: `generation_config/species_data.json` from Ensembl's own sources, gated
+   like assembly; `species_frequency` added for the four species with files; removals printed by default.
 
 ## 7. Evaluation rule going forward
 

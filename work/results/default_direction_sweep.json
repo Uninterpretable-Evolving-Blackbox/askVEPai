@@ -42,7 +42,9 @@
      "lost_row_options": [],
      "lost_row_blind_options": [],
      "lost_noop_mean": 0.0,
-     "lost_unmeasurable_options": []
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
     },
     {
      "guess": [
@@ -61,7 +63,9 @@
       "maxentscan"
      ],
      "gained_noop_mean": 0.0,
-     "gained_unmeasurable_options": [],
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
      "lost_column_mean": 3.62,
      "lost_column_options": [
       "alphamissense",
@@ -80,6 +84,1810 @@
       "gnomad_sv",
       "mastermind"
      ]
+    }
+   ]
+  },
+  "origin": {
+   "shipped_default": [
+    "somatic"
+   ],
+   "asked_not_guessed": false,
+   "n_contexts": 126,
+   "pairs": [
+    {
+     "guess": [
+      "germline"
+     ],
+     "truth": [
+      "somatic"
+     ],
+     "n_contexts": 126,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "somatic"
+     ],
+     "truth": [
+      "germline"
+     ],
+     "n_contexts": 126,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    }
+   ]
+  },
+  "variant_size_class": {
+   "shipped_default": [
+    "small",
+    "structural-CNV"
+   ],
+   "asked_not_guessed": false,
+   "n_contexts": 84,
+   "pairs": [
+    {
+     "guess": [
+      "small"
+     ],
+     "truth": [
+      "structural-CNV"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.76,
+     "gained_column_options": [
+      "alphamissense",
+      "domains",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "protein",
+      "spliceai",
+      "utrannotator"
+     ],
+     "gained_noop_mean": 1.71,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 1.0,
+     "lost_column_options": [
+      "dosage_sensitivity",
+      "loeuf"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": [
+      "gnomad_sv"
+     ]
+    },
+    {
+     "guess": [
+      "small"
+     ],
+     "truth": [
+      "small",
+      "structural-CNV"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 1.0,
+     "lost_column_options": [
+      "dosage_sensitivity",
+      "loeuf"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": [
+      "gnomad_sv"
+     ]
+    },
+    {
+     "guess": [
+      "structural-CNV"
+     ],
+     "truth": [
+      "small"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 1.0,
+     "gained_column_options": [
+      "dosage_sensitivity",
+      "loeuf"
+     ],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [
+      "gnomad_sv"
+     ],
+     "lost_column_mean": 3.76,
+     "lost_column_options": [
+      "alphamissense",
+      "domains",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "protein",
+      "spliceai",
+      "utrannotator"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.71,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "structural-CNV"
+     ],
+     "truth": [
+      "small",
+      "structural-CNV"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.76,
+     "lost_column_options": [
+      "alphamissense",
+      "domains",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "protein",
+      "spliceai",
+      "utrannotator"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.71,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "small",
+      "structural-CNV"
+     ],
+     "truth": [
+      "small"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 1.0,
+     "gained_column_options": [
+      "dosage_sensitivity",
+      "loeuf"
+     ],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [
+      "gnomad_sv"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "small",
+      "structural-CNV"
+     ],
+     "truth": [
+      "structural-CNV"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.76,
+     "gained_column_options": [
+      "alphamissense",
+      "domains",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "protein",
+      "spliceai",
+      "utrannotator"
+     ],
+     "gained_noop_mean": 1.71,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    }
+   ]
+  },
+  "region_focus": {
+   "shipped_default": [
+    "coding",
+    "regulatory-noncoding"
+   ],
+   "asked_not_guessed": false,
+   "n_contexts": 84,
+   "pairs": [
+    {
+     "guess": [
+      "coding"
+     ],
+     "truth": [
+      "regulatory-noncoding"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.0,
+     "gained_column_options": [
+      "alphamissense",
+      "domains",
+      "eve",
+      "hgvs",
+      "numbers",
+      "protein"
+     ],
+     "gained_noop_mean": 2.86,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.33,
+     "lost_column_options": [
+      "utrannotator"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "coding"
+     ],
+     "truth": [
+      "coding",
+      "regulatory-noncoding"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.33,
+     "lost_column_options": [
+      "utrannotator"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "regulatory-noncoding"
+     ],
+     "truth": [
+      "coding"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.33,
+     "gained_column_options": [
+      "utrannotator"
+     ],
+     "gained_noop_mean": 1.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.0,
+     "lost_column_options": [
+      "alphamissense",
+      "domains",
+      "eve",
+      "hgvs",
+      "numbers",
+      "protein"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 2.86,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "regulatory-noncoding"
+     ],
+     "truth": [
+      "coding",
+      "regulatory-noncoding"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.0,
+     "lost_column_options": [
+      "alphamissense",
+      "domains",
+      "eve",
+      "hgvs",
+      "numbers",
+      "protein"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 2.86,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "coding",
+      "regulatory-noncoding"
+     ],
+     "truth": [
+      "coding"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.33,
+     "gained_column_options": [
+      "utrannotator"
+     ],
+     "gained_noop_mean": 1.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "coding",
+      "regulatory-noncoding"
+     ],
+     "truth": [
+      "regulatory-noncoding"
+     ],
+     "n_contexts": 84,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.0,
+     "gained_column_options": [
+      "alphamissense",
+      "domains",
+      "eve",
+      "hgvs",
+      "numbers",
+      "protein"
+     ],
+     "gained_noop_mean": 2.86,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    }
+   ]
+  },
+  "analysis_goal": {
+   "shipped_default": null,
+   "asked_not_guessed": true,
+   "n_contexts": 36,
+   "pairs": [
+    {
+     "guess": [
+      "basic-consequence"
+     ],
+     "truth": [
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence"
+     ],
+     "truth": [
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence"
+     ],
+     "truth": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence"
+     ],
+     "truth": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 2.83,
+     "lost_unmeasurable_options": [
+      "mastermind",
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 2.83,
+     "lost_unmeasurable_options": [
+      "mastermind",
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "basic-consequence"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "population-frequency"
+     ],
+     "truth": [
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "population-frequency"
+     ],
+     "truth": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "basic-consequence"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.33,
+     "lost_unmeasurable_options": [
+      "species_frequency"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "truth": [
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "truth": [
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "truth": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.17,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 1.5,
+     "lost_unmeasurable_options": [
+      "mastermind"
+     ]
+    },
+    {
+     "guess": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 2.83,
+     "gained_unmeasurable_options": [
+      "mastermind",
+      "species_frequency"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 2.83,
+     "gained_unmeasurable_options": [
+      "mastermind",
+      "species_frequency"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 1.33,
+     "gained_unmeasurable_options": [
+      "species_frequency"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "basic-consequence",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.17,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "eve",
+      "hgvs",
+      "mavedb",
+      "maxentscan",
+      "phenotypes",
+      "spliceai"
+     ],
+     "gained_noop_mean": 1.5,
+     "gained_unmeasurable_options": [
+      "mastermind"
+     ],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "basic-consequence",
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "truth": [
+      "clinical-interpretation",
+      "population-frequency"
+     ],
+     "n_contexts": 36,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.0,
+     "gained_column_options": [],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 0.0,
+     "lost_column_options": [],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
     }
    ]
   }

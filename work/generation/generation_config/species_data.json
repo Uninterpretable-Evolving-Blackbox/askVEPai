@@ -1,0 +1,163 @@
+{
+ "_sources": {
+  "sift": "research/ensembl_docs_116/protein_function.html: 'SIFT predictions are also available for cat, chicken, cow, dog, goat, horse, mouse, pig, rat, sheep and zebrafish.'",
+  "polyphen": "same page: 'For human variants ... we use SIFT and PolyPhen-2'",
+  "ccds": "ensembl_source/VEP/InputForm.pm:401 field_class '_stt_Homo_sapiens _stt_Mus_musculus'",
+  "var_synonyms": "ensembl_source/VEP/InputForm.pm:472 class '_stt_Homo_sapiens _stt_Sus_scrofa'",
+  "frequency_files": "ensembl_source/vep_custom_web_config.json (release/115 snapshot), non-human entries"
+ },
+ "_built": "2026-09-15 by work/harness/build_species_data.py",
+ "sift": [
+  "bos_taurus",
+  "bos_taurus_gca963921495v1",
+  "bos_taurus_hybrid",
+  "bos_taurus_tuli",
+  "bos_taurus_wagyu",
+  "canis_lupus_dingo",
+  "canis_lupus_familiaris",
+  "canis_lupus_familiarisbasenji",
+  "canis_lupus_familiarisboxer",
+  "canis_lupus_familiarisgreatdane",
+  "canis_lupus_familiarisgsd",
+  "capra_hircus",
+  "capra_hircus_blackbengal",
+  "capra_hircus_gca015443085v1",
+  "capra_hircus_gca026652205v1",
+  "danio_rerio",
+  "equus_caballus",
+  "felis_catus",
+  "felis_catus_abyssinian",
+  "gallus_gallus",
+  "gallus_gallus_gca000002315v5",
+  "gallus_gallus_gca016700215v2",
+  "homo_sapiens",
+  "mus_musculus",
+  "mus_musculus_129s1svimj",
+  "mus_musculus_aj",
+  "mus_musculus_akrj",
+  "mus_musculus_balbcj",
+  "mus_musculus_c3hhej",
+  "mus_musculus_c57bl6nj",
+  "mus_musculus_casteij",
+  "mus_musculus_cbaj",
+  "mus_musculus_dba2j",
+  "mus_musculus_fvbnj",
+  "mus_musculus_lpj",
+  "mus_musculus_molossinusjf1msj",
+  "mus_musculus_nodshiltj",
+  "mus_musculus_nzohlltj",
+  "mus_musculus_pwkphj",
+  "mus_musculus_wsbeij",
+  "ovis_aries",
+  "ovis_aries_gca011170295v1",
+  "ovis_aries_gca018804185v1",
+  "ovis_aries_gca022416685v1",
+  "ovis_aries_gca022416695v1",
+  "ovis_aries_gca022416755v1",
+  "ovis_aries_gca022416775v1",
+  "ovis_aries_gca022416915v1",
+  "ovis_aries_gca022432825v1",
+  "ovis_aries_gca022432835v1",
+  "ovis_aries_gca024222175v1",
+  "ovis_aries_texel",
+  "rattus_norvegicus",
+  "rattus_norvegicus_shrspbbbutx",
+  "rattus_norvegicus_shrutx",
+  "rattus_norvegicus_wkybbb",
+  "sus_scrofa",
+  "sus_scrofa_bamei",
+  "sus_scrofa_berkshire",
+  "sus_scrofa_gca007644095v1",
+  "sus_scrofa_gca015776825v1",
+  "sus_scrofa_gca017957985v1",
+  "sus_scrofa_gca018555405v1",
+  "sus_scrofa_gca019290145v1",
+  "sus_scrofa_gca020567905v1",
+  "sus_scrofa_gca021656055v1",
+  "sus_scrofa_gca024718415v1",
+  "sus_scrofa_gca037447515v1",
+  "sus_scrofa_gca039654815v1",
+  "sus_scrofa_gca040869115v1",
+  "sus_scrofa_gca041937265v1",
+  "sus_scrofa_gca044906105v1",
+  "sus_scrofa_gca044906185v1",
+  "sus_scrofa_gca046128825v1",
+  "sus_scrofa_gca048338725v1",
+  "sus_scrofa_gca963921485v1",
+  "sus_scrofa_hampshire",
+  "sus_scrofa_jinhua",
+  "sus_scrofa_landrace",
+  "sus_scrofa_largewhite",
+  "sus_scrofa_meishan",
+  "sus_scrofa_pietrain",
+  "sus_scrofa_rongchang",
+  "sus_scrofa_tibetan",
+  "sus_scrofa_usmarc",
+  "sus_scrofa_wuzhishan"
+ ],
+ "polyphen": [
+  "homo_sapiens"
+ ],
+ "ccds": [
+  "homo_sapiens",
+  "mus_musculus"
+ ],
+ "var_synonyms": [
+  "homo_sapiens",
+  "sus_scrofa"
+ ],
+ "frequency_files": {
+  "canis_lupus_familiaris": [
+   {
+    "assembly": "ROS_Cfam_1.0",
+    "name": "custom_canis_lupus_familiaris_PRJEB24066",
+    "section": "Variants and frequency data"
+   }
+  ],
+  "canis_lupus_familiarisboxer": [
+   {
+    "assembly": "Dog10K_Boxer_Tasha",
+    "name": "custom_canis_lupus_familiarisboxer_PRJEB24066",
+    "section": "Variants and frequency data"
+   }
+  ],
+  "capra_hircus": [
+   {
+    "assembly": "ARS1",
+    "name": "custom_capra_hircus_nextgen",
+    "section": "Variants and frequency data"
+   }
+  ],
+  "gallus_gallus": [
+   {
+    "assembly": "bGalGal1.mat.broiler.GRCg7b",
+    "name": "custom_gallus_gallus_PRJEB44919",
+    "section": "Variants and frequency data"
+   }
+  ],
+  "ovis_aries": [
+   {
+    "assembly": "Oar_v3.1",
+    "name": "custom_ovis_aries_nextgen_iroa",
+    "section": "Variants and frequency data"
+   },
+   {
+    "assembly": "Oar_v3.1",
+    "name": "custom_ovis_aries_nextgen_mooa",
+    "section": "Variants and frequency data"
+   }
+  ],
+  "ovis_aries_rambouillet": [
+   {
+    "assembly": "ARS-UI_Ramb_v2.0",
+    "name": "custom_ovis_aries_rambouillet_nextgen_iroa",
+    "section": "Variants and frequency data"
+   },
+   {
+    "assembly": "ARS-UI_Ramb_v2.0",
+    "name": "custom_ovis_aries_rambouillet_nextgen_mooa",
+    "section": "Variants and frequency data"
+   }
+  ]
+ }
+}
