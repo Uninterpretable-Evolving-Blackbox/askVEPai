@@ -1,0 +1,1779 @@
+[
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+  "n_gold": 16,
+  "arms": {
+   "single": {
+    "n": 24,
+    "f1": 0.55,
+    "secs": 2.6,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "Filter by frequency",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "UTRAnnotator",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "DosageSensitivity",
+     "LOEUF",
+     "Mastermind",
+     "gnomAD structural variant frequencies"
+    ]
+   },
+   "two_none": {
+    "n": 27,
+    "f1": 0.6047,
+    "secs": 22.6,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "BLOSUM62 substitution score",
+     "Filter by frequency",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "UTRAnnotator",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind",
+     "gnomAD structural variant frequencies"
+    ]
+   },
+   "two_23": {
+    "n": 26,
+    "f1": 0.619,
+    "secs": 19.0,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "Filter by frequency",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "UTRAnnotator",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "DosageSensitivity",
+     "Mastermind"
+    ]
+   },
+   "two_31loo": {
+    "n": 28,
+    "f1": 0.6364,
+    "secs": 21.5,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "Filter by frequency",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "UTRAnnotator",
+     "UniProt",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+  "n_gold": 8,
+  "arms": {
+   "single": {
+    "n": 8,
+    "f1": 1.0,
+    "secs": 1.0,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 10,
+    "f1": 0.8889,
+    "secs": 34.8,
+    "extra": [
+     "Find co-located short variants",
+     "Get regulatory region consequences"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 9,
+    "f1": 0.9412,
+    "secs": 11.5,
+    "extra": [
+     "BLOSUM62 substitution score"
+    ],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 8,
+    "f1": 1.0,
+    "secs": 15.4,
+    "extra": [],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+  "n_gold": 28,
+  "arms": {
+   "single": {
+    "n": 24,
+    "f1": 0.8077,
+    "secs": 1.2,
+    "extra": [
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Splice-effect predictors: SpliceAI"
+    ],
+    "missing": [
+     "AlphaMissense",
+     "CADD",
+     "EVE",
+     "Mastermind",
+     "PolyPhen",
+     "SIFT",
+     "SpliceAI"
+    ]
+   },
+   "two_none": {
+    "n": 25,
+    "f1": 0.7925,
+    "secs": 20.6,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Splice-effect predictors: SpliceAI"
+    ],
+    "missing": [
+     "AlphaMissense",
+     "CADD",
+     "EVE",
+     "Mastermind",
+     "PolyPhen",
+     "SIFT",
+     "SpliceAI"
+    ]
+   },
+   "two_23": {
+    "n": 24,
+    "f1": 0.8077,
+    "secs": 21.8,
+    "extra": [
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Splice-effect predictors: SpliceAI"
+    ],
+    "missing": [
+     "AlphaMissense",
+     "CADD",
+     "EVE",
+     "Mastermind",
+     "PolyPhen",
+     "SIFT",
+     "SpliceAI"
+    ]
+   },
+   "two_31loo": {
+    "n": 25,
+    "f1": 0.7925,
+    "secs": 23.8,
+    "extra": [
+     "Limit to cell type(s)",
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Splice-effect predictors: SpliceAI"
+    ],
+    "missing": [
+     "AlphaMissense",
+     "CADD",
+     "EVE",
+     "Mastermind",
+     "PolyPhen",
+     "SIFT",
+     "SpliceAI"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+  "n_gold": 4,
+  "arms": {
+   "single": {
+    "n": 4,
+    "f1": 1.0,
+    "secs": 1.2,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 6,
+    "f1": 0.8,
+    "secs": 16.1,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Find co-located short variants"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 4,
+    "f1": 1.0,
+    "secs": 12.5,
+    "extra": [],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 6,
+    "f1": 0.8,
+    "secs": 36.0,
+    "extra": [
+     "Find co-located short variants",
+     "HGVS"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+  "n_gold": 16,
+  "arms": {
+   "single": {
+    "n": 16,
+    "f1": 0.875,
+    "secs": 1.3,
+    "extra": [
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: CADD"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   },
+   "two_none": {
+    "n": 17,
+    "f1": 0.8485,
+    "secs": 21.3,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: CADD"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   },
+   "two_23": {
+    "n": 16,
+    "f1": 0.875,
+    "secs": 17.4,
+    "extra": [
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: CADD"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   },
+   "two_31loo": {
+    "n": 16,
+    "f1": 0.875,
+    "secs": 19.9,
+    "extra": [
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: CADD"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+  "n_gold": 7,
+  "arms": {
+   "single": {
+    "n": 7,
+    "f1": 0.8571,
+    "secs": 1.2,
+    "extra": [
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan"
+    ]
+   },
+   "two_none": {
+    "n": 9,
+    "f1": 0.75,
+    "secs": 30.4,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "GO terms",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan"
+    ]
+   },
+   "two_23": {
+    "n": 12,
+    "f1": 0.6316,
+    "secs": 53.1,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Find co-located short variants",
+     "GO terms",
+     "Protein matches",
+     "Splice-effect predictors: MaxEntScan",
+     "miRNA structure"
+    ],
+    "missing": [
+     "MaxEntScan"
+    ]
+   },
+   "two_31loo": {
+    "n": 8,
+    "f1": 0.8,
+    "secs": 32.8,
+    "extra": [
+     "Protein matches",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+  "n_gold": 10,
+  "arms": {
+   "single": {
+    "n": 10,
+    "f1": 1.0,
+    "secs": 1.2,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 12,
+    "f1": 0.9091,
+    "secs": 38.5,
+    "extra": [
+     "CADD",
+     "NMD"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 10,
+    "f1": 1.0,
+    "secs": 18.4,
+    "extra": [],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 11,
+    "f1": 0.9524,
+    "secs": 17.0,
+    "extra": [
+     "BLOSUM62 substitution score"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+  "n_gold": 11,
+  "arms": {
+   "single": {
+    "n": 11,
+    "f1": 0.8182,
+    "secs": 1.2,
+    "extra": [
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_none": {
+    "n": 14,
+    "f1": 0.72,
+    "secs": 48.9,
+    "extra": [
+     "GO terms",
+     "NMD",
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan",
+     "UniProt"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_23": {
+    "n": 12,
+    "f1": 0.7826,
+    "secs": 18.1,
+    "extra": [
+     "Find co-located short variants",
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_31loo": {
+    "n": 14,
+    "f1": 0.72,
+    "secs": 38.1,
+    "extra": [
+     "GO terms",
+     "NMD",
+     "Paralogues",
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+  "n_gold": 9,
+  "arms": {
+   "single": {
+    "n": 9,
+    "f1": 1.0,
+    "secs": 1.2,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 14,
+    "f1": 0.7826,
+    "secs": 37.8,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Limit to cell type(s)",
+     "NMD",
+     "Return results for variants in coding regions only",
+     "UniProt"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 10,
+    "f1": 0.9474,
+    "secs": 16.3,
+    "extra": [
+     "SIFT"
+    ],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 10,
+    "f1": 0.9474,
+    "secs": 30.8,
+    "extra": [
+     "BLOSUM62 substitution score"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+  "n_gold": 11,
+  "arms": {
+   "single": {
+    "n": 11,
+    "f1": 1.0,
+    "secs": 1.2,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 11,
+    "f1": 1.0,
+    "secs": 15.3,
+    "extra": [],
+    "missing": []
+   },
+   "two_23": {
+    "n": 11,
+    "f1": 1.0,
+    "secs": 13.9,
+    "extra": [],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 13,
+    "f1": 0.9167,
+    "secs": 16.9,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Get regulatory region consequences"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+  "n_gold": 16,
+  "arms": {
+   "single": {
+    "n": 16,
+    "f1": 0.875,
+    "secs": 1.3,
+    "extra": [
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: CADD"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   },
+   "two_none": {
+    "n": 16,
+    "f1": 0.875,
+    "secs": 24.1,
+    "extra": [
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: CADD"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   },
+   "two_23": {
+    "n": 17,
+    "f1": 0.8485,
+    "secs": 17.4,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: CADD"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   },
+   "two_31loo": {
+    "n": 16,
+    "f1": 0.875,
+    "secs": 19.9,
+    "extra": [
+     "Literature/citation evidence: Mastermind",
+     "Pathogenicity predictors: CADD"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+  "n_gold": 12,
+  "arms": {
+   "single": {
+    "n": 12,
+    "f1": 0.8333,
+    "secs": 1.2,
+    "extra": [
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_none": {
+    "n": 21,
+    "f1": 0.6061,
+    "secs": 41.6,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Buffer size",
+     "Find co-located short variants",
+     "GO terms",
+     "Limit to cell type(s)",
+     "NMD",
+     "Pathogenicity predictors: SIFT",
+     "Return results for variants in coding regions only",
+     "Splice-effect predictors: MaxEntScan",
+     "UniProt",
+     "miRNA structure"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_23": {
+    "n": 17,
+    "f1": 0.6897,
+    "secs": 43.1,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "GO terms",
+     "Paralogues",
+     "Pathogenicity predictors: SIFT",
+     "Return results for variants in coding regions only",
+     "Splice-effect predictors: MaxEntScan",
+     "UniProt"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_31loo": {
+    "n": 15,
+    "f1": 0.7407,
+    "secs": 45.4,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "GO terms",
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan",
+     "UniProt"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+  "n_gold": 12,
+  "arms": {
+   "single": {
+    "n": 12,
+    "f1": 1.0,
+    "secs": 1.3,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 13,
+    "f1": 0.96,
+    "secs": 19.2,
+    "extra": [
+     "BLOSUM62 substitution score"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 12,
+    "f1": 1.0,
+    "secs": 16.3,
+    "extra": [],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 13,
+    "f1": 0.96,
+    "secs": 27.0,
+    "extra": [
+     "BLOSUM62 substitution score"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+  "n_gold": 7,
+  "arms": {
+   "single": {
+    "n": 7,
+    "f1": 0.8571,
+    "secs": 1.2,
+    "extra": [
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan"
+    ]
+   },
+   "two_none": {
+    "n": 9,
+    "f1": 0.75,
+    "secs": 17.6,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Find co-located short variants",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan"
+    ]
+   },
+   "two_23": {
+    "n": 9,
+    "f1": 0.75,
+    "secs": 32.6,
+    "extra": [
+     "GO terms",
+     "Limit to cell type(s)",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan"
+    ]
+   },
+   "two_31loo": {
+    "n": 10,
+    "f1": 0.7059,
+    "secs": 35.1,
+    "extra": [
+     "Find co-located short variants",
+     "GO terms",
+     "Splice-effect predictors: MaxEntScan",
+     "miRNA structure"
+    ],
+    "missing": [
+     "MaxEntScan"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+  "n_gold": 9,
+  "arms": {
+   "single": {
+    "n": 9,
+    "f1": 1.0,
+    "secs": 1.1,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 11,
+    "f1": 0.9,
+    "secs": 34.3,
+    "extra": [
+     "GO terms",
+     "NMD"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 11,
+    "f1": 0.9,
+    "secs": 37.5,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "UniProt"
+    ],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 12,
+    "f1": 0.8571,
+    "secs": 38.7,
+    "extra": [
+     "NMD",
+     "UniProt",
+     "Upstream/Downstream distance (bp)"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+  "n_gold": 6,
+  "arms": {
+   "single": {
+    "n": 6,
+    "f1": 1.0,
+    "secs": 1.1,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 6,
+    "f1": 1.0,
+    "secs": 38.0,
+    "extra": [],
+    "missing": []
+   },
+   "two_23": {
+    "n": 9,
+    "f1": 0.8,
+    "secs": 42.5,
+    "extra": [
+     "Find co-located short variants",
+     "Limit to cell type(s)",
+     "PubMed IDs for citations of co-located variants"
+    ],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 7,
+    "f1": 0.9231,
+    "secs": 36.5,
+    "extra": [
+     "Find co-located short variants"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+  "n_gold": 8,
+  "arms": {
+   "single": {
+    "n": 8,
+    "f1": 1.0,
+    "secs": 1.1,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 11,
+    "f1": 0.8421,
+    "secs": 35.8,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Limit to cell type(s)",
+     "miRNA structure"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 8,
+    "f1": 1.0,
+    "secs": 16.1,
+    "extra": [],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 9,
+    "f1": 0.9412,
+    "secs": 13.6,
+    "extra": [
+     "BLOSUM62 substitution score"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+  "n_gold": 12,
+  "arms": {
+   "single": {
+    "n": 12,
+    "f1": 0.8333,
+    "secs": 1.2,
+    "extra": [
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_none": {
+    "n": 14,
+    "f1": 0.7692,
+    "secs": 36.5,
+    "extra": [
+     "GO terms",
+     "NMD",
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_23": {
+    "n": 18,
+    "f1": 0.6667,
+    "secs": 35.3,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Find co-located short variants",
+     "GO terms",
+     "NMD",
+     "Paralogues",
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan",
+     "miRNA structure"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_31loo": {
+    "n": 13,
+    "f1": 0.8,
+    "secs": 29.7,
+    "extra": [
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan",
+     "UniProt"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+  "n_gold": 12,
+  "arms": {
+   "single": {
+    "n": 12,
+    "f1": 1.0,
+    "secs": 1.2,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 13,
+    "f1": 0.96,
+    "secs": 15.1,
+    "extra": [
+     "BLOSUM62 substitution score"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 13,
+    "f1": 0.96,
+    "secs": 14.7,
+    "extra": [
+     "CADD"
+    ],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 12,
+    "f1": 1.0,
+    "secs": 16.1,
+    "extra": [],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+  "n_gold": 11,
+  "arms": {
+   "single": {
+    "n": 11,
+    "f1": 0.8182,
+    "secs": 1.2,
+    "extra": [
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_none": {
+    "n": 11,
+    "f1": 0.8182,
+    "secs": 25.3,
+    "extra": [
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_23": {
+    "n": 11,
+    "f1": 0.8182,
+    "secs": 16.1,
+    "extra": [
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_31loo": {
+    "n": 15,
+    "f1": 0.6923,
+    "secs": 34.1,
+    "extra": [
+     "GO terms",
+     "NMD",
+     "Paralogues",
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan",
+     "UniProt"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+  "n_gold": 11,
+  "arms": {
+   "single": {
+    "n": 8,
+    "f1": 0.8421,
+    "secs": 1.0,
+    "extra": [],
+    "missing": [
+     "MaxEntScan",
+     "Phenotypes",
+     "SIFT"
+    ]
+   },
+   "two_none": {
+    "n": 11,
+    "f1": 0.8182,
+    "secs": 42.8,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "NMD"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_23": {
+    "n": 10,
+    "f1": 0.7619,
+    "secs": 38.1,
+    "extra": [
+     "NMD",
+     "UniProt"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "Phenotypes",
+     "SIFT"
+    ]
+   },
+   "two_31loo": {
+    "n": 11,
+    "f1": 0.8182,
+    "secs": 45.2,
+    "extra": [
+     "NMD",
+     "UniProt"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+  "n_gold": 9,
+  "arms": {
+   "single": {
+    "n": 9,
+    "f1": 1.0,
+    "secs": 1.2,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 10,
+    "f1": 0.9474,
+    "secs": 18.3,
+    "extra": [
+     "CADD"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 9,
+    "f1": 1.0,
+    "secs": 14.8,
+    "extra": [],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 9,
+    "f1": 1.0,
+    "secs": 73.0,
+    "extra": [],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+  "n_gold": 11,
+  "arms": {
+   "single": {
+    "n": 6,
+    "f1": 0.7059,
+    "secs": 1.1,
+    "extra": [],
+    "missing": [
+     "CADD",
+     "ClinVar clinical significance",
+     "Find co-located short variants",
+     "Mastermind",
+     "Phenotypes"
+    ]
+   },
+   "two_none": {
+    "n": 11,
+    "f1": 0.7273,
+    "secs": 44.1,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Limit to cell type(s)",
+     "Transcript support level"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind",
+     "Phenotypes"
+    ]
+   },
+   "two_23": {
+    "n": 8,
+    "f1": 0.7368,
+    "secs": 14.2,
+    "extra": [
+     "Upstream/Downstream distance (bp)"
+    ],
+    "missing": [
+     "CADD",
+     "ClinVar clinical significance",
+     "Mastermind",
+     "Phenotypes"
+    ]
+   },
+   "two_31loo": {
+    "n": 9,
+    "f1": 0.7,
+    "secs": 41.6,
+    "extra": [
+     "Limit to cell type(s)",
+     "Ribo-seq ORFs"
+    ],
+    "missing": [
+     "CADD",
+     "ClinVar clinical significance",
+     "Mastermind",
+     "Phenotypes"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+  "n_gold": 4,
+  "arms": {
+   "single": {
+    "n": 4,
+    "f1": 1.0,
+    "secs": 1.0,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 5,
+    "f1": 0.8889,
+    "secs": 35.9,
+    "extra": [
+     "Find co-located short variants"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 5,
+    "f1": 0.8889,
+    "secs": 11.2,
+    "extra": [
+     "BLOSUM62 substitution score"
+    ],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 5,
+    "f1": 0.8889,
+    "secs": 38.9,
+    "extra": [
+     "Find co-located short variants"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+  "n_gold": 17,
+  "arms": {
+   "single": {
+    "n": 24,
+    "f1": 0.5854,
+    "secs": 1.2,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "UTRAnnotator",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "DosageSensitivity",
+     "LOEUF",
+     "Mastermind",
+     "gnomAD structural variant frequencies"
+    ]
+   },
+   "two_none": {
+    "n": 28,
+    "f1": 0.6667,
+    "secs": 35.8,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "CCDS",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "UTRAnnotator",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   },
+   "two_23": {
+    "n": 26,
+    "f1": 0.6512,
+    "secs": 20.1,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, dbNSFP, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "UTRAnnotator",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "DosageSensitivity",
+     "Mastermind"
+    ]
+   },
+   "two_31loo": {
+    "n": 30,
+    "f1": 0.6383,
+    "secs": 26.5,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "BLOSUM62 substitution score",
+     "Enformer",
+     "HGVS",
+     "Limit to cell type(s)",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "UTRAnnotator",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+  "n_gold": 7,
+  "arms": {
+   "single": {
+    "n": 4,
+    "f1": 0.7273,
+    "secs": 1.1,
+    "extra": [],
+    "missing": [
+     "HGVS",
+     "MaxEntScan",
+     "Phenotypes"
+    ]
+   },
+   "two_none": {
+    "n": 8,
+    "f1": 0.5333,
+    "secs": 34.0,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "Find co-located short variants",
+     "Limit to cell type(s)",
+     "miRNA structure"
+    ],
+    "missing": [
+     "HGVS",
+     "MaxEntScan",
+     "Phenotypes"
+    ]
+   },
+   "two_23": {
+    "n": 4,
+    "f1": 0.7273,
+    "secs": 13.0,
+    "extra": [],
+    "missing": [
+     "HGVS",
+     "MaxEntScan",
+     "Phenotypes"
+    ]
+   },
+   "two_31loo": {
+    "n": 7,
+    "f1": 0.7143,
+    "secs": 38.4,
+    "extra": [
+     "Exon and intron numbers",
+     "Find co-located short variants"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "Phenotypes"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+  "n_gold": 11,
+  "arms": {
+   "single": {
+    "n": 6,
+    "f1": 0.7059,
+    "secs": 1.3,
+    "extra": [],
+    "missing": [
+     "CADD",
+     "ClinVar clinical significance",
+     "Find co-located short variants",
+     "Mastermind",
+     "Phenotypes"
+    ]
+   },
+   "two_none": {
+    "n": 6,
+    "f1": 0.7059,
+    "secs": 35.3,
+    "extra": [],
+    "missing": [
+     "CADD",
+     "ClinVar clinical significance",
+     "Find co-located short variants",
+     "Mastermind",
+     "Phenotypes"
+    ]
+   },
+   "two_23": {
+    "n": 7,
+    "f1": 0.7778,
+    "secs": 19.6,
+    "extra": [],
+    "missing": [
+     "CADD",
+     "ClinVar clinical significance",
+     "Mastermind",
+     "Phenotypes"
+    ]
+   },
+   "two_31loo": {
+    "n": 8,
+    "f1": 0.6316,
+    "secs": 44.2,
+    "extra": [
+     "Limit to cell type(s)",
+     "Ribo-seq ORFs"
+    ],
+    "missing": [
+     "CADD",
+     "ClinVar clinical significance",
+     "Find co-located short variants",
+     "Mastermind",
+     "Phenotypes"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+  "n_gold": 8,
+  "arms": {
+   "single": {
+    "n": 8,
+    "f1": 1.0,
+    "secs": 1.0,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 13,
+    "f1": 0.7619,
+    "secs": 38.1,
+    "extra": [
+     "Find co-located short variants",
+     "Get regulatory region consequences",
+     "NMD",
+     "SIFT",
+     "miRNA structure"
+    ],
+    "missing": []
+   },
+   "two_23": {
+    "n": 8,
+    "f1": 1.0,
+    "secs": 31.1,
+    "extra": [],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 10,
+    "f1": 0.8889,
+    "secs": 42.6,
+    "extra": [
+     "NMD",
+     "UniProt"
+    ],
+    "missing": []
+   }
+  }
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+  "n_gold": 15,
+  "arms": {
+   "single": {
+    "n": 21,
+    "f1": 0.5556,
+    "secs": 1.2,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "DosageSensitivity",
+     "LOEUF",
+     "Mastermind",
+     "gnomAD structural variant frequencies"
+    ]
+   },
+   "two_none": {
+    "n": 24,
+    "f1": 0.6154,
+    "secs": 21.0,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "BLOSUM62 substitution score",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind",
+     "gnomAD structural variant frequencies"
+    ]
+   },
+   "two_23": {
+    "n": 41,
+    "f1": 0.4643,
+    "secs": 34.5,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "Ancestral allele",
+     "BLOSUM62 substitution score",
+     "CCDS",
+     "GO terms",
+     "Geno2MP",
+     "HGVS",
+     "Include flagged variants",
+     "IntAct molecular interactions",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "NMD",
+     "Paralogues",
+     "Pathogenicity predictors: AlphaMissense, CADD, ClinPred, dbNSFP, EVE, PolyPhen, REVEL, SIFT",
+     "Protein",
+     "Protein matches",
+     "PubMed IDs for citations of co-located variants",
+     "Return results for variants in coding regions only",
+     "Ribo-seq ORFs",
+     "Splice-effect predictors: dbscSNV, MaxEntScan, SpliceAI",
+     "Transcript version",
+     "UTRAnnotator",
+     "UniProt",
+     "Variant synonyms",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies",
+     "mutfunc"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   },
+   "two_31loo": {
+    "n": 26,
+    "f1": 0.6341,
+    "secs": 21.3,
+    "extra": [
+     "1000 Genomes continental allele frequencies",
+     "1000 Genomes global minor allele frequency",
+     "BLOSUM62 substitution score",
+     "HGVS",
+     "Literature/citation evidence: Mastermind",
+     "MaveDB functional scores",
+     "Pathogenicity predictors: AlphaMissense, CADD, EVE, PolyPhen, SIFT",
+     "Protein",
+     "Protein matches",
+     "Splice-effect predictors: SpliceAI",
+     "UniProt",
+     "gnomAD (exomes) allele frequencies",
+     "gnomAD (genomes) allele frequencies"
+    ],
+    "missing": [
+     "CADD",
+     "Mastermind"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+  "n_gold": 12,
+  "arms": {
+   "single": {
+    "n": 12,
+    "f1": 0.8333,
+    "secs": 1.2,
+    "extra": [
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_none": {
+    "n": 19,
+    "f1": 0.6452,
+    "secs": 43.2,
+    "extra": [
+     "BLOSUM62 substitution score",
+     "GO terms",
+     "Limit to cell type(s)",
+     "NMD",
+     "Paralogues",
+     "Pathogenicity predictors: SIFT",
+     "Return results for variants in coding regions only",
+     "Splice-effect predictors: MaxEntScan",
+     "UniProt"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_23": {
+    "n": 13,
+    "f1": 0.8,
+    "secs": 18.5,
+    "extra": [
+     "Find co-located short variants",
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   },
+   "two_31loo": {
+    "n": 13,
+    "f1": 0.8,
+    "secs": 37.2,
+    "extra": [
+     "Pathogenicity predictors: SIFT",
+     "Splice-effect predictors: MaxEntScan",
+     "UniProt"
+    ],
+    "missing": [
+     "MaxEntScan",
+     "SIFT"
+    ]
+   }
+  }
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+  "n_gold": 10,
+  "arms": {
+   "single": {
+    "n": 10,
+    "f1": 1.0,
+    "secs": 1.1,
+    "extra": [],
+    "missing": []
+   },
+   "two_none": {
+    "n": 10,
+    "f1": 1.0,
+    "secs": 36.3,
+    "extra": [],
+    "missing": []
+   },
+   "two_23": {
+    "n": 10,
+    "f1": 1.0,
+    "secs": 13.3,
+    "extra": [],
+    "missing": []
+   },
+   "two_31loo": {
+    "n": 11,
+    "f1": 0.9524,
+    "secs": 16.6,
+    "extra": [
+     "Find co-located short variants"
+    ],
+    "missing": []
+   }
+  }
+ }
+]

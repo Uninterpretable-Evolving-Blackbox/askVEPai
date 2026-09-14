@@ -214,7 +214,7 @@ def build_trace(query, vep_options, training_examples, retrieval, resolved=None)
             _, priority, gated = resolved.get(opt["id"], (False, None, False))
             priority = "not_applicable" if gated else (priority or "—")
         else:
-            priority = opt.get("priority_by_use_case", {}).get(top_uc, "n/a")
+            priority = "n/a"          # legacy path: the use-case labels were retired 2026-09-13
         rows.append({
             "id": opt["id"],
             "priority": priority,
@@ -232,8 +232,8 @@ def build_result(enabled, disabled, violations, vep_options, use_case, resolved=
 
     When `resolved` is given (intent_priorities for this scenario's factors) each option carries the
     bucket that applies HERE, and the payload gains the same recommended/add-on grouping the CLI
-    prints. Without it the per-option priority falls back to the legacy use-case column, which is the
-    same for every query and is what this UI showed before factors existed.
+    prints. Without it (legacy path, no factor resolution) every option reads "unpriced here": the
+    per-query use-case column that used to fill this in was retired on 2026-09-13.
 
     Priorities are mapped through `va.display_tier` on the way out, so the payload speaks the same
     two-tier vocabulary as every other surface. The internal label survives in `resolved`, which is
@@ -246,7 +246,7 @@ def build_result(enabled, disabled, violations, vep_options, use_case, resolved=
             _, priority, _ = resolved.get(oid, (False, None, None))
             priority = va.display_tier(priority) if priority else "unpriced here"
         else:
-            priority = va.display_tier(o.get("priority_by_use_case", {}).get(use_case, "n/a"))
+            priority = "unpriced here"   # legacy path: the use-case labels were retired 2026-09-13
         # The form control whose VALUE depends on the variant size — CADD's annotation file. Named
         # per option because "switch CADD on" is not actionable when the drop-down offers four files
         # and only one of them scores what this pass is about.
@@ -412,7 +412,7 @@ def api_recommend():
             # scenario rather than the flat legacy use-case table. A classifier failure is non-fatal —
             # factor_tuple stays None and everything falls back to the pre-factor path.
             yield sse("status", {"message": "Reading the scenario…"})
-            factor_tuple = va.infer_factors(client, model, query)
+            factor_tuple = va.infer_factors(client, model, query, apply_defaults=False)
             # Whatever the user stated on the "About your data" bar replaces what the classifier read.
             # These are facts about their sample, not judgements: asking a model to infer them from prose
             # is where every measured misclassification came from, and assembly cannot be inferred at all.
@@ -420,6 +420,16 @@ def api_recommend():
             if overridden:
                 yield sse("status", {"message": "Using what you specified for: "
                                                 + ", ".join(overridden)})
+            # SCOPE, decided on the classifier call (2026-09-13). The CLI stops here for a non-VEP or
+            # a VEP-support question; the web surface never had a stop at all, and with no draft
+            # there is nothing downstream that could refuse. Sent as a status line too, so it renders
+            # with the handlers the page already has.
+            _rt = (factor_tuple or {}).get("_request_type", "configure")
+            if _rt != "configure":
+                _note = va.OUT_OF_SCOPE_NOTE if _rt == "not-vep" else va.VEP_SUPPORT_NOTE
+                yield sse("status", {"message": " ".join(_note.split())})
+                yield sse("out_of_scope", {"kind": _rt, "text": _note})
+                return
             # Same assume-and-say-so policy the CLI uses. Without this the web surface silently
             # under-configured a vague query while the command line explained itself — two different
             # products from one engine.
@@ -465,24 +475,11 @@ def api_recommend():
                 yield sse("factors", {"factors": factor_tuple,
                                       "text": va.describe_factors(factor_tuple)})
 
-            yield sse("status", {"message": f"Querying {model}…"})
-            system_prompt = va.build_system_prompt(
-                vep_options, training_examples, query, retrieval_mode=retrieval,
-                factor_tuple=factor_tuple,
-            )
-            chunks = []
-            try:
-                for kind, delta in stream_tokens(model, system_prompt, query):
-                    if kind == "content":
-                        chunks.append(delta)
-                        yield sse("token", {"text": delta})
-                    else:
-                        yield sse("reasoning", {"text": delta})
-            except Exception as e:
-                yield sse("error", {"message": f"Ollama error: {e}. Is the model pulled and the "
-                                               f"server running? (model={model})"})
-                return
-            response_text = "".join(chunks)
+            # SINGLE PASS -- the default since 2026-09-13, as on the CLI. The draft call is skipped: the
+            # checker rebuilds RECOMMENDED from the factor tuple whatever the draft said (31/31 rows,
+            # results/singlepass_2026-09-09), so the page resolves straight from the tuple. The
+            # citation event still fires, empty, so the client handlers do not change.
+            response_text = ""
 
             yield sse("citations", compute_citation_stats(response_text, vep_options))
 

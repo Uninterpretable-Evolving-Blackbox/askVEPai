@@ -143,9 +143,13 @@ def audit_origin(rows, opts):
                             moved.add(k)
                         elif g[1] != s[1]:
                             prio_moved.add(k)
-    check("across every tuple, origin moves exactly one option: `frequency`", moved == {"frequency"},
-          f"{n} tuples, moved={sorted(moved) or 'nothing'}")
-    check("origin never merely shifts a priority", not prio_moved,
+    # SINCE 2026-09-14 `frequency` is an ADD-ON under population-frequency (David; MENTOR_MESSAGES.md
+    # 2026-09-14), so origin no longer changes the ENABLED set at all: its entire effect is that one
+    # option moving between add-on (germline) and not-applicable (somatic). Both checks below encode the
+    # new fact; the old ones ("moves exactly one option: frequency") were the number of record until then.
+    check("across every tuple, origin changes NOTHING in the enabled set (frequency is an add-on now)",
+          moved == set(), f"{n} tuples, moved={sorted(moved) or 'nothing'}")
+    check("origin's whole effect is `frequency` shifting add-on <-> not-applicable", prio_moved == {"frequency"},
           f"shifted={sorted(prio_moved) or 'none'}")
 
     germline = [r for r in rows if r["factor_labels"]["origin"] == "germline"]
@@ -170,7 +174,9 @@ def audit_origin(rows, opts):
         blank = dict(row["factor_labels"], origin="unstated")
         if "frequency" in enabled(blank, opts):
             leaked += 1
-    check("leaving origin unstated leaks that filter onto somatic rows", leaked > 0,
+    # Silence used to leak the filter into RECOMMENDED on somatic rows. With frequency an add-on there
+    # is nothing in RECOMMENDED to leak; the somatic hard rule still strips it from the add-ons.
+    check("leaving origin unstated no longer leaks the filter into RECOMMENDED on somatic rows", leaked == 0,
           f"{leaked}/{len(somatic)} somatic rows — silence is not the safe option")
 
     # Silence inherits germline's DANGER without inheriting germline's benefits, and that asymmetry is
@@ -310,9 +316,9 @@ def loss_ledger(rows, opts):
 
     check("region_focus loses nothing on any row", "region_focus" in zero_loss)
     check("variant_size_class loses nothing on any row", "variant_size_class" in zero_loss)
-    check("origin is the only default that loses anything", zero_loss == ["region_focus",
-                                                                          "variant_size_class"],
-          "and it is a deliberate trade, not an oversight")
+    check("no guessed default loses anything (origin joined the list when frequency became an add-on)",
+          zero_loss == ["region_focus", "origin", "variant_size_class"],
+          f"zero-loss defaults: {zero_loss}")
 
     # The tier of what origin costs, because "one optional pre-filter" was the wrong description and
     # the difference matters: `recommended` is inside the bucket the user is shown as switched on.

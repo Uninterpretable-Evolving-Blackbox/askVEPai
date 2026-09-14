@@ -27,7 +27,9 @@ import vep_assistant as va  # noqa: E402
 
 RES = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE.parent / "results"
 CAT = json.load(open(os.environ.get("VEP_OPTIONS_FILE", HERE.parent / "vep_options_expanded.json")))
-PRIO = {o["id"]: o.get("priority_by_use_case", {}) for o in CAT}
+# The seven-use-case labels were retired from the live catalogue on 2026-09-13; this scorer exists
+# to re-score OLD raw logs, so it reads the frozen copy taken before the deletion.
+PRIO = json.load(open(HERE / "legacy" / "priority_by_use_case_snapshot.json"))["priorities"]
 CATEGORY = {o["id"]: o.get("category", "?") for o in CAT}
 SPECIES = {o["id"]: o.get("species_restriction", "all species") for o in CAT}
 ORDER = ["bare", "noex", "keyword", "all", "semantic"]

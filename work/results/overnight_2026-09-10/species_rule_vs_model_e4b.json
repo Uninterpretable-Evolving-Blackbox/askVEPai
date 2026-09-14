@@ -1,0 +1,564 @@
+{
+ "model": "gemma4:e4b",
+ "seed": 42,
+ "rows": [
+  {
+   "row": 1,
+   "outcome": "entangled",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 2,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mouse"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 3,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 4,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "zebrafish"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 5,
+   "outcome": "entangled",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 6,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mouse"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 7,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 8,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mouse"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "unstated",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 9,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mouse"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "unstated",
+    "hinted": "unstated"
+   }
+  },
+  {
+   "row": 10,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 11,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 12,
+   "outcome": "entangled",
+   "pure": false,
+   "truth": "non-human",
+   "hints_original": [
+    "mouse"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "unstated",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 13,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 14,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "zebrafish"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 15,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mouse"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 16,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 17,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 18,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mouse"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 20,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "zebrafish"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 21,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mus musculus"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 22,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 23,
+   "outcome": "entangled",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "unstated",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 24,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mus musculus"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 26,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "zebrafish"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 28,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "unstated",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 29,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 30,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mouse"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "unstated",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 31,
+   "outcome": "redundant",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  }
+ ]
+}

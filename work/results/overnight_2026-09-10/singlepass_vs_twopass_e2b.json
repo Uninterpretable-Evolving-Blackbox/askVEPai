@@ -1,0 +1,367 @@
+[
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+  "n_two": 19,
+  "n_single": 17,
+  "identical": false,
+  "core_subset": true,
+  "only_two": [
+   "MANE   (Additional annotations section)   (model-suggested)",
+   "Transcript version   (Identifiers section)   (model-suggested)"
+  ],
+  "only_single": [],
+  "secs_two": 12.4,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+  "n_two": 8,
+  "n_single": 8,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.6,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+  "n_two": 28,
+  "n_single": 28,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 9.3,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+  "n_two": 4,
+  "n_single": 4,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 7.3,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+  "n_two": 16,
+  "n_single": 16,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 10.3,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+  "n_two": 9,
+  "n_single": 7,
+  "identical": false,
+  "core_subset": true,
+  "only_two": [
+   "Exon and intron numbers   (Additional annotations section)   (model-suggested)",
+   "Find co-located short variants   (Variants and frequency data section)   (add-on)"
+  ],
+  "only_single": [],
+  "secs_two": 9.7,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+  "n_two": 10,
+  "n_single": 10,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.9,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+  "n_two": 11,
+  "n_single": 11,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 10.5,
+  "secs_single": 1.0
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+  "n_two": 9,
+  "n_single": 9,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 9.6,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+  "n_two": 11,
+  "n_single": 11,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.4,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+  "n_two": 16,
+  "n_single": 16,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 9.7,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+  "n_two": 12,
+  "n_single": 12,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.4,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+  "n_two": 12,
+  "n_single": 12,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.4,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+  "n_two": 10,
+  "n_single": 7,
+  "identical": false,
+  "core_subset": true,
+  "only_two": [
+   "Find co-located short variants   (Variants and frequency data section)   (add-on)",
+   "GO terms   (Additional annotations section)   (add-on)",
+   "Include flagged variants   (Variants and frequency data section)   (model-suggested)"
+  ],
+  "only_single": [],
+  "secs_two": 11.2,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+  "n_two": 9,
+  "n_single": 9,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.5,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+  "n_two": 7,
+  "n_single": 6,
+  "identical": false,
+  "core_subset": true,
+  "only_two": [
+   "Find co-located short variants   (Variants and frequency data section)   (add-on)"
+  ],
+  "only_single": [],
+  "secs_two": 7.3,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+  "n_two": 8,
+  "n_single": 8,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.4,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+  "n_two": 13,
+  "n_single": 12,
+  "identical": false,
+  "core_subset": true,
+  "only_two": [
+   "Find co-located short variants   (Variants and frequency data section)   (add-on)"
+  ],
+  "only_single": [],
+  "secs_two": 8.3,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+  "n_two": 12,
+  "n_single": 12,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.7,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+  "n_two": 11,
+  "n_single": 11,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.7,
+  "secs_single": 1.0
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+  "n_two": 11,
+  "n_single": 11,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 7.4,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+  "n_two": 10,
+  "n_single": 9,
+  "identical": false,
+  "core_subset": true,
+  "only_two": [
+   "Find co-located short variants   (Variants and frequency data section)   (add-on)"
+  ],
+  "only_single": [],
+  "secs_two": 8.3,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+  "n_two": 11,
+  "n_single": 11,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 8.4,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+  "n_two": 7,
+  "n_single": 4,
+  "identical": false,
+  "core_subset": true,
+  "only_two": [
+   "Find co-located short variants   (Variants and frequency data section)   (add-on)",
+   "Protein matches   (Additional annotations section)   (model-suggested)",
+   "Upstream/Downstream distance (bp)   (Additional annotations section)   (model-suggested)"
+  ],
+  "only_single": [],
+  "secs_two": 11.9,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+  "n_two": 28,
+  "n_single": 28,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 9.8,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+  "n_two": 8,
+  "n_single": 7,
+  "identical": false,
+  "core_subset": true,
+  "only_two": [
+   "Find co-located short variants   (Variants and frequency data section)   (add-on)"
+  ],
+  "only_single": [],
+  "secs_two": 7.4,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+  "n_two": 11,
+  "n_single": 11,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 7.0,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+  "n_two": 8,
+  "n_single": 8,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 12.5,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+  "n_two": 15,
+  "n_single": 15,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 12.0,
+  "secs_single": 1.2
+ },
+ {
+  "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+  "n_two": 13,
+  "n_single": 12,
+  "identical": false,
+  "core_subset": true,
+  "only_two": [
+   "Find co-located short variants   (Variants and frequency data section)   (add-on)"
+  ],
+  "only_single": [],
+  "secs_two": 10.1,
+  "secs_single": 1.1
+ },
+ {
+  "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+  "n_two": 10,
+  "n_single": 10,
+  "identical": true,
+  "core_subset": true,
+  "only_two": [],
+  "only_single": [],
+  "secs_two": 7.7,
+  "secs_single": 1.1
+ }
+]

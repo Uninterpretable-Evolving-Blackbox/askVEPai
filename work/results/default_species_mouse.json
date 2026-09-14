@@ -1,0 +1,140 @@
+{
+ "ensembl_release": "116",
+ "header": "species=non-human,origin=germline,variant_size_class=small,region_focus=coding,analysis_goal=clinical-interpretation  ->  species=human,origin=germline,variant_size_class=small,region_focus=coding,analysis_goal=clinical-interpretation",
+ "species": "mouse",
+ "cohort": null,
+ "recommended_a": [
+  "biotype",
+  "canonical",
+  "core_type",
+  "domains",
+  "hgvs",
+  "maxentscan",
+  "numbers",
+  "phenotypes",
+  "protein",
+  "sift",
+  "symbol"
+ ],
+ "recommended_b": [
+  "alphamissense",
+  "appris",
+  "biotype",
+  "cadd",
+  "clinvar",
+  "core_type",
+  "domains",
+  "eve",
+  "hgvs",
+  "mane",
+  "mastermind",
+  "mavedb",
+  "numbers",
+  "phenotypes",
+  "polyphen",
+  "protein",
+  "sift",
+  "spliceai",
+  "symbol",
+  "tsl"
+ ],
+ "options_lost": [
+  "canonical",
+  "maxentscan"
+ ],
+ "unmeasurable": [
+  "biotype",
+  "clinvar",
+  "polyphen",
+  "sift",
+  "symbol"
+ ],
+ "not_exposed": [
+  "mastermind"
+ ],
+ "panel": [
+  {
+   "class": "coding_known",
+   "rows_a": {
+    "transcript_consequences": 1,
+    "colocated_variants": 0,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 1,
+    "colocated_variants": 0,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [
+    "canonical"
+   ],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "utr",
+   "rows_a": {
+    "transcript_consequences": 2,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 2,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [
+    "canonical"
+   ],
+   "columns_gained": [],
+   "fill_shift": {}
+  },
+  {
+   "class": "intronic",
+   "rows_a": {
+    "transcript_consequences": 37,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 1,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 37,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 1,
+    "variant_records": 1
+   },
+   "columns_lost": [
+    "canonical"
+   ],
+   "columns_gained": [
+    "cadd_phred",
+    "cadd_raw"
+   ],
+   "fill_shift": {}
+  },
+  {
+   "class": "intronic_alt",
+   "rows_a": {
+    "transcript_consequences": 24,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "rows_b": {
+    "transcript_consequences": 24,
+    "colocated_variants": 1,
+    "regulatory_feature_consequences": 0,
+    "variant_records": 1
+   },
+   "columns_lost": [
+    "canonical"
+   ],
+   "columns_gained": [],
+   "fill_shift": {}
+  }
+ ]
+}

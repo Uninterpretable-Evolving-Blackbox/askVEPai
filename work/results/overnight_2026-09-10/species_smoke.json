@@ -1,0 +1,46 @@
+{
+ "model": "gemma4:26b",
+ "seed": 42,
+ "rows": [
+  {
+   "row": 1,
+   "outcome": "entangled",
+   "pure": false,
+   "truth": "human",
+   "hints_original": [
+    "human"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "human",
+    "hinted": "human"
+   }
+  },
+  {
+   "row": 2,
+   "outcome": "pure",
+   "pure": true,
+   "truth": "non-human",
+   "hints_original": [
+    "mouse"
+   ],
+   "hints_ablated": [],
+   "original": {
+    "rule": "non-human",
+    "model": "non-human",
+    "hinted": "non-human"
+   },
+   "ablated": {
+    "rule": "human",
+    "model": "unstated",
+    "hinted": "unstated"
+   }
+  }
+ ]
+}

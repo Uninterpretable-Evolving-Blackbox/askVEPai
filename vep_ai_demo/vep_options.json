@@ -17,15 +17,6 @@
       "structural_variants",
       "non_human"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "critical",
-      "regulatory_noncoding": "critical",
-      "population_genetics": "critical",
-      "structural_variants": "critical",
-      "non_human": "critical",
-      "quick_lookup": "critical"
-    },
     "species_restriction": "all species (field only shown when a species has RefSeq data)",
     "depends_on": [],
     "conflicts_with": [],
@@ -53,15 +44,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "recommended",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -97,15 +79,6 @@
       "clinical",
       "population_genetics"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "critical",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "human only",
     "depends_on": [
       "check_existing"
@@ -139,15 +112,6 @@
       "rare_disease",
       "clinical"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [
@@ -178,15 +142,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "recommended",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -222,15 +177,6 @@
       "population_genetics",
       "clinical"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "not_applicable",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "recommended",
-      "structural_variants": "optional",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [
       "check_existing"
@@ -259,15 +205,6 @@
       "population_genetics",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "not_applicable",
-      "somatic_cancer": "not_applicable",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -278,6 +215,7 @@
       "canonical",
       "ccds",
       "clinpred",
+      "coding_only",
       "dbnsfp",
       "dbscsnv",
       "domains",
@@ -324,15 +262,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [
@@ -368,15 +297,6 @@
       "clinical",
       "population_genetics"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [],
@@ -394,7 +314,7 @@
     "id": "mastermind",
     "name": "Mastermind",
     "cli_flag": "--plugin Mastermind",
-    "web_form_section": "variants_frequency_data",
+    "web_form_section": "additional_annotations",
     "category": "literature_citation",
     "description": "Plugin that reports variants with clinical evidence cited in the medical literature, via the Mastermind Genomic Search Engine. For co-located variants it returns article counts at three matching levels (MMCNT1/2/3) and a Mastermind variant identifier (MMID3) enabling links into the Mastermind database.",
     "when_to_use": "Clinical and rare-disease variant interpretation where literature support is valuable evidence (e.g. checking whether a variant has prior clinical citations). Also useful for reviewing somatic variants reported in the literature.",
@@ -404,15 +324,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "not_applicable",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "human only (GRCh37+GRCh38)",
     "depends_on": [],
     "conflicts_with": [],
@@ -443,15 +354,6 @@
       "population_genetics",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "recommended",
-      "structural_variants": "recommended",
-      "non_human": "recommended",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -484,15 +386,6 @@
       "population_genetics",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "critical",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "recommended",
-      "structural_variants": "recommended",
-      "non_human": "recommended",
-      "quick_lookup": "critical"
-    },
     "species_restriction": "species with variation data",
     "depends_on": [],
     "conflicts_with": [],
@@ -521,15 +414,6 @@
       "population_genetics",
       "regulatory"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "critical",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "human only",
     "depends_on": [
       "check_existing"
@@ -564,15 +448,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [
@@ -603,15 +478,6 @@
       "rare_disease",
       "population_genetics"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "critical",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "species with regulatory build",
     "depends_on": [],
     "conflicts_with": [],
@@ -640,18 +506,12 @@
       "somatic",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
-    "conflicts_with": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
     "side_effects": "Removes non-coding consequence lines (per source: intronic and intergenic) from output; variants with no coding-region consequence may disappear entirely from results.",
     "source_type": "native",
     "is_new": true,
@@ -680,15 +540,6 @@
       "population_genetics",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [],
@@ -716,15 +567,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [
@@ -760,15 +602,6 @@
       "clinical",
       "structural_variants"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "recommended",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [],
@@ -786,7 +619,7 @@
     "id": "geno2mp",
     "name": "Geno2MP",
     "cli_flag": "--plugin Geno2MP",
-    "web_form_section": "variants_frequency_data",
+    "web_form_section": "additional_annotations",
     "category": "variant_data",
     "description": "Plugin that annotates variants with data from Geno2MP, a web-accessible database of rare variant genotypes linked to phenotypic information. By default it reports HPO_CT (the number of HPO phenotypic profiles associated with each variant); additional INFO columns can be requested via the cols parameter. Coordinates are GRCh37-based.",
     "when_to_use": "Rare disease analysis where you want to see whether a variant has been observed in individuals with phenotype profiles (HPO terms) in the Geno2MP cohort, providing supporting phenotypic evidence for candidate variants.",
@@ -795,15 +628,6 @@
       "rare_disease",
       "clinical"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only (GRCh37)",
     "depends_on": [],
     "conflicts_with": [],
@@ -837,15 +661,6 @@
       "somatic",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "recommended",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [],
@@ -873,15 +688,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "recommended",
-      "non_human": "not_applicable",
-      "quick_lookup": "critical"
-    },
     "species_restriction": "human only (data)",
     "depends_on": [
       "check_existing"
@@ -912,15 +718,6 @@
       "somatic",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "not_applicable",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "human only",
     "depends_on": [
       "check_existing"
@@ -949,15 +746,6 @@
       "rare_disease",
       "clinical"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "not_applicable",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "human only (GRCh38)",
     "depends_on": [],
     "conflicts_with": [
@@ -987,15 +775,6 @@
       "regulatory",
       "non_human"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "species with regulatory build",
     "depends_on": [
       "regulatory"
@@ -1025,15 +804,6 @@
       "population_genetics",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "recommended",
-      "structural_variants": "optional",
-      "non_human": "recommended",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -1050,7 +820,13 @@
     "provenance": "InputForm.pm filters: one 'Restrict results'/summary dropdown with mutually-exclusive values (pick=--pick, pick_allele, per_gene, summary, most_severe, all). vep_options.html (--pick ranking; --pick_order; incompatible with summary-style filtering). Corrects demo modelling of these as separate checkboxes.",
     "web_default_on": false,
     "web_default_value": null,
-    "_web_default_basis": "web_default prose"
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "species": {
+        "human": "not_applicable",
+        "non-human": "not_applicable"
+      }
+    }
   },
   {
     "id": "shift_3prime",
@@ -1066,15 +842,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [],
@@ -1102,15 +869,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only (GRCh38)",
     "depends_on": [],
     "conflicts_with": [
@@ -1147,15 +905,6 @@
       "somatic",
       "non_human"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [],
@@ -1184,15 +933,6 @@
       "regulatory",
       "non_human"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species with phenotype data",
     "depends_on": [],
     "conflicts_with": [],
@@ -1220,15 +960,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human + mouse only",
     "depends_on": [],
     "conflicts_with": [
@@ -1265,15 +996,6 @@
       "rare_disease",
       "population_genetics"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human + pig only",
     "depends_on": [
       "check_existing"
@@ -1307,15 +1029,6 @@
       "population_genetics",
       "rare_disease"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "species with variation data",
     "depends_on": [
       "check_existing"
@@ -1346,15 +1059,6 @@
       "somatic",
       "non_human"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "recommended",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -1385,15 +1089,6 @@
       "population_genetics",
       "rare_disease"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "recommended",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -1410,7 +1105,13 @@
     "provenance": "InputForm.pm filters 'Restrict results' (summary) dropdown value; --pick_allele and \"Like --pick, but chooses one line or block of consequence data per variant allele ... differs from --pick only with multiple alternate alleles\" confirmed at ensembl.org/info/docs/tools/vep/script/vep_options.html. Modelled as a mutually-exclusive dropdown value per release/115 dossier correction.",
     "web_default_on": false,
     "web_default_value": null,
-    "_web_default_basis": "web_default prose"
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "species": {
+        "human": "not_applicable",
+        "non-human": "not_applicable"
+      }
+    }
   },
   {
     "id": "cadd",
@@ -1427,15 +1128,6 @@
       "somatic",
       "regulatory"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "optional",
-      "structural_variants": "recommended",
-      "non_human": "not_applicable",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "human only (GRCh37+GRCh38)",
     "depends_on": [],
     "conflicts_with": [
@@ -1497,15 +1189,6 @@
       "splice",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "not_applicable",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only (GRCh37+GRCh38)",
     "depends_on": [],
     "conflicts_with": [
@@ -1541,15 +1224,6 @@
       "clinical",
       "regulatory"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only (GRCh37+GRCh38)",
     "depends_on": [],
     "conflicts_with": [],
@@ -1582,15 +1256,6 @@
       "population_genetics",
       "rare_disease"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only (GRCh37+GRCh38)",
     "depends_on": [],
     "conflicts_with": [],
@@ -1623,15 +1288,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "not_applicable",
-      "structural_variants": "not_applicable",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -1667,15 +1323,6 @@
       "clinical",
       "population_genetics"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "critical",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "critical"
-    },
     "species_restriction": "human only",
     "depends_on": [
       "check_existing"
@@ -1712,15 +1359,6 @@
       "regulatory",
       "population_genetics"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "recommended",
-      "structural_variants": "optional",
-      "non_human": "recommended",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -1751,15 +1389,6 @@
       "population_genetics",
       "rare_disease"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [],
@@ -1788,15 +1417,6 @@
       "somatic",
       "non_human"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "recommended",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "species with SIFT data",
     "depends_on": [],
     "conflicts_with": [
@@ -1832,15 +1452,6 @@
       "population_genetics",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "recommended",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -1857,7 +1468,13 @@
     "provenance": "VEPConstants.pm CONFIG_SECTIONS (filters) + InputForm.pm 'Restrict results' single dropdown (mutually-exclusive values: no/pick/pick_allele/per_gene/summary/most_severe/all); description confirmed via ensembl.org vep_options.html (--per_gene).",
     "web_default_on": false,
     "web_default_value": null,
-    "_web_default_basis": "web_default prose"
+    "_web_default_basis": "web_default prose",
+    "priority_by_factor": {
+      "species": {
+        "human": "not_applicable",
+        "non-human": "not_applicable"
+      }
+    }
   },
   {
     "id": "revel",
@@ -1873,15 +1490,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "not_applicable",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [
@@ -1918,15 +1526,6 @@
       "splice",
       "non_human"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "not_applicable",
-      "structural_variants": "not_applicable",
-      "non_human": "optional",
-      "quick_lookup": "not_applicable"
-    },
     "species_restriction": "all species (sequence-based)",
     "depends_on": [],
     "conflicts_with": [
@@ -1952,7 +1551,7 @@
     "id": "paralogues",
     "name": "Paralogues",
     "cli_flag": "--plugin Paralogues",
-    "web_form_section": "additional_annotations",
+    "web_form_section": "variants_frequency_data",
     "category": "functional_effect",
     "description": "Plugin. Annotates a variant by fetching known variants that overlap the genomic coordinates of amino acids aligned between paralogue proteins, enabling paralogue-transfer prediction of pathogenicity. Reports paralogue variants (identifier, alleles, and configurable clinical significance) and the paralogue regions examined (coordinates and transcript IDs).",
     "when_to_use": "Missense and other protein-coding variant interpretation where a position lacks direct evidence but the equivalent residue in a paralogue gene has known pathogenic variation. Useful for resolving variants of uncertain significance in gene families.",
@@ -1962,15 +1561,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "species with Ensembl paralogues",
     "depends_on": [],
     "conflicts_with": [
@@ -2007,15 +1597,6 @@
       "clinical",
       "population_genetics"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "critical",
-      "non_human": "not_applicable",
-      "quick_lookup": "not_applicable"
-    },
     "species_restriction": "human only (GRCh38)",
     "depends_on": [],
     "conflicts_with": [],
@@ -2043,15 +1624,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "not_applicable",
-      "structural_variants": "not_applicable",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -2086,15 +1658,6 @@
       "population_genetics",
       "rare_disease"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "not_applicable",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "critical",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [
       "check_existing"
@@ -2129,15 +1692,6 @@
       "clinical",
       "splice"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -2167,15 +1721,6 @@
       "regulatory",
       "non_human"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "recommended",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "optional",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [],
@@ -2203,15 +1748,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "critical",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [
@@ -2246,15 +1782,6 @@
       "population_genetics",
       "quick_lookup"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "not_applicable",
-      "somatic_cancer": "not_applicable",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "optional",
-      "structural_variants": "optional",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "all species",
     "depends_on": [],
     "conflicts_with": [
@@ -2265,6 +1792,7 @@
       "canonical",
       "ccds",
       "clinpred",
+      "coding_only",
       "dbnsfp",
       "dbscsnv",
       "domains",
@@ -2295,7 +1823,13 @@
     "provenance": "vep_options.html (--summary, 'comma-separated list of all observed consequences per variant; transcript-specific columns will be left blank'); InputForm.pm filters section, single 'Restrict results' control (name=summary) with mutually-exclusive values per VEPConstants.pm.",
     "web_default_on": false,
     "web_default_value": "no",
-    "_web_default_basis": "InputForm.pm"
+    "_web_default_basis": "InputForm.pm",
+    "priority_by_factor": {
+      "species": {
+        "human": "not_applicable",
+        "non-human": "not_applicable"
+      }
+    }
   },
   {
     "id": "alphamissense",
@@ -2311,15 +1845,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "recommended",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "optional",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "recommended"
-    },
     "species_restriction": "human only (GRCh37 and GRCh38)",
     "depends_on": [],
     "conflicts_with": [
@@ -2355,15 +1880,6 @@
       "clinical",
       "splice"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "recommended",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "optional",
-      "population_genetics": "not_applicable",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [
@@ -2399,15 +1915,6 @@
       "clinical",
       "somatic"
     ],
-    "priority_by_use_case": {
-      "rare_disease_germline": "optional",
-      "somatic_cancer": "optional",
-      "regulatory_noncoding": "not_applicable",
-      "population_genetics": "not_applicable",
-      "structural_variants": "not_applicable",
-      "non_human": "not_applicable",
-      "quick_lookup": "optional"
-    },
     "species_restriction": "human only",
     "depends_on": [],
     "conflicts_with": [],
@@ -2428,7 +1935,6 @@
   },
   {
     "use_case_tags": [],
-    "priority_by_use_case": {},
     "depends_on": [],
     "conflicts_with": [],
     "source_type": "plugin",
@@ -2437,7 +1943,7 @@
     "id": "ancestral_allele",
     "name": "Ancestral allele",
     "cli_flag": "--plugin AncestralAllele",
-    "web_form_section": "additional_annotations",
+    "web_form_section": "predictions",
     "web_form_subsection": "Transcript annotation",
     "category": "variant_data",
     "species_restriction": "all species",
@@ -2452,7 +1958,6 @@
   },
   {
     "use_case_tags": [],
-    "priority_by_use_case": {},
     "depends_on": [],
     "conflicts_with": [],
     "source_type": "plugin",
@@ -2476,7 +1981,6 @@
   },
   {
     "use_case_tags": [],
-    "priority_by_use_case": {},
     "depends_on": [],
     "conflicts_with": [],
     "source_type": "plugin",
@@ -2505,7 +2009,6 @@
   },
   {
     "use_case_tags": [],
-    "priority_by_use_case": {},
     "depends_on": [],
     "conflicts_with": [],
     "source_type": "plugin",
@@ -2529,9 +2032,6 @@
   },
   {
     "use_case_tags": [],
-    "priority_by_use_case": {
-      "structural_variants": "not_applicable"
-    },
     "depends_on": [],
     "conflicts_with": [],
     "source_type": "plugin",
@@ -2560,7 +2060,6 @@
   },
   {
     "use_case_tags": [],
-    "priority_by_use_case": {},
     "depends_on": [],
     "conflicts_with": [],
     "source_type": "plugin",
@@ -2569,7 +2068,7 @@
     "id": "opentargets",
     "name": "Open Targets Genetics",
     "cli_flag": "--plugin OpenTargets",
-    "web_form_section": "additional_annotations",
+    "web_form_section": "variants_frequency_data",
     "web_form_subsection": "Functional effect",
     "category": "functional_effect",
     "species_restriction": "human only",
@@ -2584,7 +2083,6 @@
   },
   {
     "use_case_tags": [],
-    "priority_by_use_case": {},
     "depends_on": [],
     "conflicts_with": [],
     "source_type": "plugin",
@@ -2610,5 +2108,88 @@
     "web_default_on": false,
     "web_default_value": null,
     "_web_default_basis": "web_default prose"
+  },
+  {
+    "id": "avi",
+    "name": "AVI",
+    "cli_flag": "--plugin AVI",
+    "web_form_section": "predictions",
+    "category": "pathogenicity_prediction",
+    "description": "Plugin. AlphaGenome Variant Impact (AVI) scores for single nucleotide variants, retrieved from a tabix-indexed, bgzip-compressed TSV file. Adds AVI score columns to the output. Scores developed by Google DeepMind.",
+    "when_to_use": "Variant-impact scoring for SNVs where an AlphaGenome-based prediction is wanted alongside the other predictors. The form lists it under Predictions.",
+    "when_not_to_use": "Non-SNV input (indels, structural variants). Non-human species. It is one predictor among several: EBI does not endorse a specific tool, so it is offered within the predictor type, never singled out.",
+    "use_case_tags": [
+      "clinical",
+      "rare_disease"
+    ],
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds AVI score columns; SNVs only. Requires the AVI data file (tabix-indexed TSV). Available on the web form (release 116).",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Pathogenicity predictions",
+    "web_default": "off",
+    "provenance": "vep_online_input.html release 116 (Predictions) and vep_plugins.html release 116 (category pathogenicity_predictions: 'retrieves AlphaGenome Variant Impact (AVI) scores for single nucleotide variants'). NOT in the release/115 vep_plugins_web_config.txt snapshot: new on the form since 115. Fetched 2026-09-13; see research/ensembl_docs_116/.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "form page release 116",
+    "priority_by_factor": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    }
+  },
+  {
+    "id": "protvar",
+    "name": "ProtVar",
+    "cli_flag": "--plugin ProtVar",
+    "web_form_section": "additional_annotations",
+    "category": "protein_annotation",
+    "description": "Plugin. Contextualised information for missense variation from EMBL-EBI's ProtVar: destabilisation of protein structures, overlapping protein pockets, and protein-protein interaction interfaces. Adds ProtVar columns for missense variants.",
+    "when_to_use": "Missense variants where structural and interaction context helps interpretation. The form lists it under Additional annotations, Protein annotation, beside mutfunc.",
+    "when_not_to_use": "Non-coding or synonymous variants (missense only). Structural variants. Non-human species (human proteome).",
+    "use_case_tags": [
+      "clinical",
+      "rare_disease"
+    ],
+    "species_restriction": "human only",
+    "depends_on": [],
+    "conflicts_with": [
+      "most_severe",
+      "summary"
+    ],
+    "side_effects": "Adds ProtVar columns for missense variants only. Available on the web form (release 116).",
+    "source_type": "plugin",
+    "is_new": true,
+    "web_form_subsection": "Protein annotation",
+    "web_default": "off",
+    "provenance": "vep_online_input.html release 116 (Additional annotations, Protein annotation: 'provides contextualised information for missense variation, including destabilisation of protein structures, overlapping protein pockets, and protein-protein interaction interfaces'). Not matched as a row on vep_plugins.html by id; NOT in the release/115 vep_plugins_web_config.txt snapshot. Fetched 2026-09-13; see research/ensembl_docs_116/.",
+    "web_default_on": false,
+    "web_default_value": null,
+    "_web_default_basis": "form page release 116",
+    "priority_by_factor": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    }
   }
 ]

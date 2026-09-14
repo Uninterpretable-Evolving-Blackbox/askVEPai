@@ -19,7 +19,7 @@ OUT = HERE.parent / "vep_options_expanded.json"                  # the expanded 
 # Canonical demo schema fields (the contract the existing code reads)
 DEMO_FIELDS = [
     "id", "name", "cli_flag", "web_form_section", "category", "description",
-    "when_to_use", "when_not_to_use", "use_case_tags", "priority_by_use_case",
+    "when_to_use", "when_not_to_use", "use_case_tags",
     "species_restriction", "depends_on", "conflicts_with", "side_effects",
 ]
 # Extra provenance/metadata fields we add (harmless to existing code)
@@ -62,10 +62,7 @@ def main():
         for f in DEMO_FIELDS:
             if f not in o:
                 problems.append(f"{o['id']}: missing field '{f}'")
-        pbu = o.get("priority_by_use_case", {})
-        miss = [u for u in USE_CASES if u not in pbu]
-        if miss:
-            problems.append(f"{o['id']}: priority_by_use_case missing {miss}")
+        # priority_by_use_case retired 2026-09-13 (frozen copy in harness/legacy/); no longer required.
         if o.get("web_form_section") not in SECTIONS:
             problems.append(f"{o['id']}: web_form_section '{o.get('web_form_section')}' not in 6 canonical ids")
         for ref in o.get("conflicts_with", []) + o.get("depends_on", []):

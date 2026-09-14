@@ -159,6 +159,20 @@ USE_CASE_CATEGORIES = [
 # publishes. It is wrong on a laptop the user is also working on -- pinning a model larger than free
 # RAM froze a 16 GB machine on 2026-09-03. Env-overridable so the eval boxes keep the measured
 # behaviour and a shared machine can set VEP_KEEP_ALIVE=5m (or 0 to unload immediately).
+_LEGACY_PRIO = None
+
+
+def _legacy_priority_lookup():
+    """The retired `priority_by_use_case` table, from work/harness/legacy/. {} if the file is absent."""
+    global _LEGACY_PRIO
+    if _LEGACY_PRIO is None:
+        import json as _json
+        from pathlib import Path as _P
+        f = _P(__file__).resolve().parent.parent / "work" / "harness" / "legacy" / "priority_by_use_case_snapshot.json"
+        _LEGACY_PRIO = _json.load(open(f))["priorities"] if f.exists() else {}
+    return _LEGACY_PRIO
+
+
 def _keep_alive():
     """Ollama wants a NUMBER (-1 = forever, 0 = unload) or a duration string ("5m"). An env var is
     always a string, so VEP_KEEP_ALIVE=-1 -- the obvious way to write the default explicitly -- used
@@ -398,7 +412,9 @@ def score_response(enabled, disabled, gt_enabled, gt_disabled, vep_options, quer
     # models that each made exactly one junk recommendation can differ in weighted precision purely by how
     # important the option they got RIGHT was (that is recall's job, not precision's). Prefer weighted
     # RECALL (enable_recall_weighted) as the cleaner headline; enable_f1_weighted inherits this property.
-    priority_lookup = {o["id"]: o.get("priority_by_use_case", {}) for o in vep_options}
+    # Legacy seven-use-case labels, frozen 2026-09-13 when the field left the live catalogue. Read
+    # from the snapshot so weighted F1 on old logs is unchanged; ids absent from it weight as {}.
+    priority_lookup = _legacy_priority_lookup()
     def w(oid):
         return _option_weight(oid, gt_category, priority_lookup)
     num = sum(w(o) for o in correct_en)      # weighted true positives

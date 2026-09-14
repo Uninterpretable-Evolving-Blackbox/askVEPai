@@ -1,0 +1,4075 @@
+{
+ "model": "gemma4:e4b",
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "n_rows": 31,
+ "per_seed": [
+  {
+   "seed": 42,
+   "n": 31,
+   "secs": 36.6,
+   "species": 31,
+   "origin": 31,
+   "variant_size_class": 25,
+   "region_focus": 31,
+   "analysis_goal": 22,
+   "exact": 19,
+   "e2e": 0.9265111877694318,
+   "rule_species_right": 31,
+   "model_species_right": 31
+  },
+  {
+   "seed": 43,
+   "n": 31,
+   "secs": 22.9,
+   "species": 31,
+   "origin": 31,
+   "variant_size_class": 25,
+   "region_focus": 31,
+   "analysis_goal": 22,
+   "exact": 19,
+   "e2e": 0.9265111877694318,
+   "rule_species_right": 31,
+   "model_species_right": 31
+  },
+  {
+   "seed": 44,
+   "n": 31,
+   "secs": 23.0,
+   "species": 31,
+   "origin": 31,
+   "variant_size_class": 25,
+   "region_focus": 31,
+   "analysis_goal": 22,
+   "exact": 19,
+   "e2e": 0.9265111877694318,
+   "rule_species_right": 31,
+   "model_species_right": 31
+  }
+ ],
+ "rows": [
+  {
+   "seed": 42,
+   "detail": [
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.6808510638297872,
+     "n_gold": 16,
+     "n_pred": 31,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 8,
+     "n_pred": 8,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.9491525423728813,
+     "n_gold": 28,
+     "n_pred": 31,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 4,
+     "n_pred": 4,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 16,
+     "n_pred": 16,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 7,
+     "n_pred": 7,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.6896551724137931,
+     "n_gold": 10,
+     "n_pred": 19,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV",
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 9,
+     "n_pred": 9,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0,
+     "n_gold": 16,
+     "n_pred": 16,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0,
+     "n_gold": 7,
+     "n_pred": 7,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 9,
+     "n_pred": 9,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 6,
+     "n_pred": 6,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 8,
+     "n_pred": 8,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 9,
+     "n_pred": 9,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7058823529411764,
+     "n_gold": 11,
+     "n_pred": 6,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 4,
+     "n_pred": 4,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7083333333333333,
+     "n_gold": 17,
+     "n_pred": 31,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7272727272727273,
+     "n_gold": 7,
+     "n_pred": 4,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7058823529411764,
+     "n_gold": 11,
+     "n_pred": 6,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 8,
+     "n_pred": 8,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.6976744186046512,
+     "n_gold": 15,
+     "n_pred": 28,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.8571428571428571,
+     "n_gold": 12,
+     "n_pred": 9,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 10,
+     "n_pred": 10,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "seed": 43,
+   "detail": [
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.6808510638297872,
+     "n_gold": 16,
+     "n_pred": 31,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 8,
+     "n_pred": 8,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.9491525423728813,
+     "n_gold": 28,
+     "n_pred": 31,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 4,
+     "n_pred": 4,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 16,
+     "n_pred": 16,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 7,
+     "n_pred": 7,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.6896551724137931,
+     "n_gold": 10,
+     "n_pred": 19,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV",
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 9,
+     "n_pred": 9,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0,
+     "n_gold": 16,
+     "n_pred": 16,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0,
+     "n_gold": 7,
+     "n_pred": 7,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 9,
+     "n_pred": 9,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 6,
+     "n_pred": 6,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 8,
+     "n_pred": 8,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 9,
+     "n_pred": 9,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7058823529411764,
+     "n_gold": 11,
+     "n_pred": 6,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 4,
+     "n_pred": 4,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7083333333333333,
+     "n_gold": 17,
+     "n_pred": 31,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7272727272727273,
+     "n_gold": 7,
+     "n_pred": 4,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7058823529411764,
+     "n_gold": 11,
+     "n_pred": 6,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 8,
+     "n_pred": 8,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.6976744186046512,
+     "n_gold": 15,
+     "n_pred": 28,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.8571428571428571,
+     "n_gold": 12,
+     "n_pred": 9,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 10,
+     "n_pred": 10,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "seed": 44,
+   "detail": [
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.6808510638297872,
+     "n_gold": 16,
+     "n_pred": 31,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 8,
+     "n_pred": 8,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.9491525423728813,
+     "n_gold": 28,
+     "n_pred": 31,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 4,
+     "n_pred": 4,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 16,
+     "n_pred": 16,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 7,
+     "n_pred": 7,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.6896551724137931,
+     "n_gold": 10,
+     "n_pred": 19,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV",
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 9,
+     "n_pred": 9,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0,
+     "n_gold": 16,
+     "n_pred": 16,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0,
+     "n_gold": 7,
+     "n_pred": 7,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 9,
+     "n_pred": 9,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 6,
+     "n_pred": 6,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 8,
+     "n_pred": 8,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 12,
+     "n_pred": 12,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 11,
+     "n_pred": 11,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 9,
+     "n_pred": 9,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7058823529411764,
+     "n_gold": 11,
+     "n_pred": 6,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 4,
+     "n_pred": 4,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7083333333333333,
+     "n_gold": 17,
+     "n_pred": 31,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7272727272727273,
+     "n_gold": 7,
+     "n_pred": 4,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "small",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.7058823529411764,
+     "n_gold": 11,
+     "n_pred": 6,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 8,
+     "n_pred": 8,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.6976744186046512,
+     "n_gold": 15,
+     "n_pred": 28,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "somatic",
+      "variant_size_class": [
+       "small",
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding"
+      ],
+      "analysis_goal": [
+       "basic-consequence",
+       "clinical-interpretation",
+       "population-frequency"
+      ]
+     }
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.8571428571428571,
+     "n_gold": 12,
+     "n_pred": 9,
+     "truth_species": "non-human",
+     "rule_species": "non-human",
+     "model_species": "non-human",
+     "truth": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "clinical-interpretation"
+      ]
+     },
+     "got": {
+      "species": "non-human",
+      "origin": "germline",
+      "variant_size_class": [
+       "small"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0,
+     "n_gold": 10,
+     "n_pred": 10,
+     "truth_species": "human",
+     "rule_species": "human",
+     "model_species": "human",
+     "truth": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "structural-CNV",
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     },
+     "got": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": [
+       "structural-CNV"
+      ],
+      "region_focus": [
+       "coding",
+       "regulatory-noncoding"
+      ],
+      "analysis_goal": [
+       "basic-consequence"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

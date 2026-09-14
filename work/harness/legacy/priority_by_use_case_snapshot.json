@@ -1,0 +1,538 @@
+{
+ "_frozen": "2026-09-13",
+ "_from": "work/vep_options_expanded.json sha256:e369ed412866aa09 (before the field was deleted)",
+ "_why": "priority_by_use_case was the retired seven-use-case scheme; kept only so score_metrics.py and evaluate.py can re-score OLD raw logs identically. Do not edit.",
+ "priorities": {
+  "core_type": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "critical",
+   "regulatory_noncoding": "critical",
+   "population_genetics": "critical",
+   "structural_variants": "critical",
+   "non_human": "critical",
+   "quick_lookup": "critical"
+  },
+  "hgvs": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "recommended",
+   "quick_lookup": "recommended"
+  },
+  "af_gnomade": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "critical",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "recommended"
+  },
+  "tsl": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "domains": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "recommended",
+   "quick_lookup": "optional"
+  },
+  "frequency": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "not_applicable",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "recommended",
+   "structural_variants": "optional",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "most_severe": {
+   "rare_disease_germline": "not_applicable",
+   "somatic_cancer": "not_applicable",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "recommended"
+  },
+  "dbnsfp": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "loeuf": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "mastermind": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "not_applicable",
+   "quick_lookup": "recommended"
+  },
+  "symbol": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "recommended",
+   "structural_variants": "recommended",
+   "non_human": "recommended",
+   "quick_lookup": "recommended"
+  },
+  "check_existing": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "critical",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "recommended",
+   "structural_variants": "recommended",
+   "non_human": "recommended",
+   "quick_lookup": "critical"
+  },
+  "af_gnomadg": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "critical",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "recommended"
+  },
+  "appris": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "regulatory": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "critical",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "coding_only": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "buffer_size": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "clinpred": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "dosage_sensitivity": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "recommended",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "geno2mp": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "transcript_version": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "recommended",
+   "quick_lookup": "optional"
+  },
+  "clinvar": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "recommended",
+   "non_human": "not_applicable",
+   "quick_lookup": "critical"
+  },
+  "pubmed": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "not_applicable",
+   "quick_lookup": "recommended"
+  },
+  "mane": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "not_applicable",
+   "quick_lookup": "recommended"
+  },
+  "cell_type": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "pick": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "recommended",
+   "structural_variants": "optional",
+   "non_human": "recommended",
+   "quick_lookup": "recommended"
+  },
+  "shift_3prime": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "eve": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "nmd": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "phenotypes": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "ccds": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "var_synonyms": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "failed": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "canonical": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "recommended",
+   "quick_lookup": "recommended"
+  },
+  "pick_allele": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "recommended",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "recommended"
+  },
+  "cadd": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "optional",
+   "structural_variants": "recommended",
+   "non_human": "not_applicable",
+   "quick_lookup": "recommended"
+  },
+  "spliceai": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "not_applicable",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "utrannotator": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "enformer": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "protein": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "not_applicable",
+   "structural_variants": "not_applicable",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "af": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "critical",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "critical"
+  },
+  "biotype": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "recommended",
+   "structural_variants": "optional",
+   "non_human": "recommended",
+   "quick_lookup": "recommended"
+  },
+  "distance": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "sift": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "recommended",
+   "quick_lookup": "recommended"
+  },
+  "per_gene": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "recommended",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "revel": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "not_applicable",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "maxentscan": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "not_applicable",
+   "structural_variants": "not_applicable",
+   "non_human": "optional",
+   "quick_lookup": "not_applicable"
+  },
+  "paralogues": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "gnomad_sv": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "critical",
+   "non_human": "not_applicable",
+   "quick_lookup": "not_applicable"
+  },
+  "uniprot": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "not_applicable",
+   "structural_variants": "not_applicable",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "af_1kg": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "not_applicable",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "critical",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "numbers": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "mirna": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "recommended",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "optional",
+   "quick_lookup": "optional"
+  },
+  "polyphen": {
+   "rare_disease_germline": "critical",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "recommended"
+  },
+  "summary": {
+   "rare_disease_germline": "not_applicable",
+   "somatic_cancer": "not_applicable",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "optional",
+   "structural_variants": "optional",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "alphamissense": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "recommended",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "optional",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "recommended"
+  },
+  "dbscsnv": {
+   "rare_disease_germline": "recommended",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "optional",
+   "population_genetics": "not_applicable",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "mutfunc": {
+   "rare_disease_germline": "optional",
+   "somatic_cancer": "optional",
+   "regulatory_noncoding": "not_applicable",
+   "population_genetics": "not_applicable",
+   "structural_variants": "not_applicable",
+   "non_human": "not_applicable",
+   "quick_lookup": "optional"
+  },
+  "ancestral_allele": {},
+  "blosum62": {},
+  "go": {},
+  "intact": {},
+  "mavedb": {
+   "structural_variants": "not_applicable"
+  },
+  "opentargets": {},
+  "riboseqorfs": {}
+ }
+}

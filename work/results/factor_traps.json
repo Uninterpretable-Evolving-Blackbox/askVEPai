@@ -1,0 +1,753 @@
+{
+ "model": "gemma4:26b",
+ "seed": 42,
+ "hits": {
+  "rule": 6,
+  "model": 24,
+  "hinted": 23
+ },
+ "cases": [
+  {
+   "factor": "origin",
+   "truth": "germline",
+   "why": "'tumour' negated",
+   "query": "Human exome from a rare-disease trio. This is not a tumour study; we are calling inherited coding SNVs for diagnosis.",
+   "got": {
+    "rule": "germline",
+    "model": "germline",
+    "hinted": "germline"
+   },
+   "ok": {
+    "rule": true,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "somatic": [
+     "tumour"
+    ],
+    "germline": [
+     "inherited",
+     "rare-disease",
+     "trio"
+    ]
+   }
+  },
+  {
+   "factor": "origin",
+   "truth": "germline",
+   "why": "'cancer' names the registry, not the sample",
+   "query": "Healthy controls recruited through a cancer registry, human exome SNVs, coding, just the consequences please.",
+   "got": {
+    "rule": "somatic",
+    "model": "germline",
+    "hinted": "germline"
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "somatic": [
+     "cancer"
+    ],
+    "germline": [
+     "healthy"
+    ]
+   }
+  },
+  {
+   "factor": "origin",
+   "truth": "germline",
+   "why": "'cancer' is the family history; the variants are inherited",
+   "query": "Germline BRCA1/2 testing in a family with a strong history of breast cancer. Human, coding SNVs, pathogenicity.",
+   "got": {
+    "rule": "germline",
+    "model": "germline",
+    "hinted": "germline"
+   },
+   "ok": {
+    "rule": true,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "somatic": [
+     "cancer"
+    ],
+    "germline": [
+     "germline",
+     "family"
+    ]
+   }
+  },
+  {
+   "factor": "origin",
+   "truth": "germline",
+   "why": "'COSMIC' is a database the user browses",
+   "query": "We keep COSMIC open for lookups but this cohort is population controls, human, exome SNVs, basic consequences.",
+   "got": {
+    "rule": "germline",
+    "model": "germline",
+    "hinted": "germline"
+   },
+   "ok": {
+    "rule": true,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "somatic": [
+     "cosmic"
+    ],
+    "germline": [
+     "cohort",
+     "population"
+    ]
+   }
+  },
+  {
+   "factor": "origin",
+   "truth": "germline",
+   "why": "'tumour' refers to the discarded half",
+   "query": "Matched normal samples only -- the tumour half was dropped from this batch. Human WES, coding, clinical interpretation.",
+   "got": {
+    "rule": "somatic",
+    "model": "germline",
+    "hinted": "somatic"
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": false
+   },
+   "rule_fired_on": {
+    "somatic": [
+     "tumour",
+     "matched normal"
+    ]
+   }
+  },
+  {
+   "factor": "origin",
+   "truth": "somatic",
+   "why": "'de novo' is a germline cue; the sample is a tumour",
+   "query": "De novo mutations acquired in a glioma, tumour-only sequencing, human, coding SNVs, which are likely drivers?",
+   "got": {
+    "rule": "somatic",
+    "model": "somatic",
+    "hinted": "somatic"
+   },
+   "ok": {
+    "rule": true,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "somatic": [
+     "glioma"
+    ],
+    "germline": [
+     "de novo"
+    ]
+   }
+  },
+  {
+   "factor": "origin",
+   "truth": "germline",
+   "why": "'somatic' in a different sense, explicitly disclaimed",
+   "query": "Somatic hypermutation of the antibody genes is NOT what I mean; these are constitutional variants from blood, human exome, clinical.",
+   "got": {
+    "rule": "somatic",
+    "model": "germline",
+    "hinted": "germline"
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "somatic": [
+     "somatic"
+    ],
+    "germline": [
+     "constitutional"
+    ]
+   }
+  },
+  {
+   "factor": "variant_size_class",
+   "truth": [
+    "small"
+   ],
+   "why": "'CNV'/'SV' negated",
+   "query": "No CNVs or SVs were called on this human exome; SNVs and indels only, coding, clinical interpretation.",
+   "got": {
+    "rule": [
+     "structural-CNV",
+     "small"
+    ],
+    "model": [
+     "small"
+    ],
+    "hinted": [
+     "small"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "structural-CNV": [
+     "\\bsvs?\\b",
+     "cnvs?"
+    ],
+    "small": [
+     "snvs?",
+     "indels?",
+     "exome"
+    ]
+   }
+  },
+  {
+   "factor": "variant_size_class",
+   "truth": [
+    "small"
+   ],
+   "why": "'Manta' names a tool whose output was discarded",
+   "query": "Manta was run but produced nothing we trust, so this is the SNV callset from a human tumour, coding, clinical.",
+   "got": {
+    "rule": [
+     "structural-CNV",
+     "small"
+    ],
+    "model": [
+     "small"
+    ],
+    "hinted": [
+     "small"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "structural-CNV": [
+     "manta"
+    ],
+    "small": [
+     "snvs?"
+    ]
+   }
+  },
+  {
+   "factor": "variant_size_class",
+   "truth": [
+    "small"
+   ],
+   "why": "'duplication'/'deletion' at 1 bp are small variants",
+   "query": "A 1-bp duplication and a handful of single-base deletions from a human rare-disease exome, coding, pathogenicity.",
+   "got": {
+    "rule": [
+     "structural-CNV",
+     "small"
+    ],
+    "model": [
+     "small"
+    ],
+    "hinted": [
+     "small"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "structural-CNV": [
+     "deletions?",
+     "duplications?"
+    ],
+    "small": [
+     "exome"
+    ]
+   }
+  },
+  {
+   "factor": "variant_size_class",
+   "truth": [
+    "structural-CNV"
+   ],
+   "why": "'exome' cues small; the variants are CNVs",
+   "query": "Exome capture data, but we are only interested in multi-exon deletions and duplications (CNVs) in a human germline cohort, clinical.",
+   "got": {
+    "rule": [
+     "structural-CNV",
+     "small"
+    ],
+    "model": [
+     "structural-CNV"
+    ],
+    "hinted": [
+     "structural-CNV"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "structural-CNV": [
+     "cnvs?",
+     "deletions?",
+     "duplications?"
+    ],
+    "small": [
+     "exome"
+    ]
+   }
+  },
+  {
+   "factor": "variant_size_class",
+   "truth": [
+    "structural-CNV"
+   ],
+   "why": "'single nucleotide' describes breakpoint resolution, not the variant",
+   "query": "Single-nucleotide-resolution breakpoints for a set of large translocations and inversions, human, germline, clinical interpretation.",
+   "got": {
+    "rule": [
+     "structural-CNV"
+    ],
+    "model": [
+     "structural-CNV"
+    ],
+    "hinted": [
+     "structural-CNV"
+    ]
+   },
+   "ok": {
+    "rule": true,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "structural-CNV": [
+     "inversions?",
+     "translocations?",
+     "breakpoint\\w*"
+    ]
+   }
+  },
+  {
+   "factor": "variant_size_class",
+   "truth": [
+    "small"
+   ],
+   "why": "'structural variants' were removed",
+   "query": "We dropped the structural variants and kept the indels; human somatic, coding, what do these do?",
+   "got": {
+    "rule": [
+     "structural-CNV",
+     "small"
+    ],
+    "model": [
+     "small"
+    ],
+    "hinted": [
+     "small"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "structural-CNV": [
+     "structural variant\\w*"
+    ],
+    "small": [
+     "indels?"
+    ]
+   }
+  },
+  {
+   "factor": "region_focus",
+   "truth": [
+    "coding"
+   ],
+   "why": "'WGS' cues non-coding; the question is exon-only",
+   "query": "Coding SNVs from a human WGS run -- we are ignoring everything outside exons. Germline, clinical.",
+   "got": {
+    "rule": [
+     "coding",
+     "regulatory-noncoding"
+    ],
+    "model": [
+     "coding"
+    ],
+    "hinted": [
+     "coding"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "coding": [
+     "coding",
+     "exon\\w*"
+    ],
+    "regulatory-noncoding": [
+     "\\bwgs\\b"
+    ]
+   }
+  },
+  {
+   "factor": "region_focus",
+   "truth": [
+    "coding"
+   ],
+   "why": "'intronic'/'intergenic' negated",
+   "query": "Nothing intronic or intergenic: exonic, protein-altering variants only, human germline, clinical interpretation.",
+   "got": {
+    "rule": [
+     "coding",
+     "regulatory-noncoding"
+    ],
+    "model": [
+     "coding"
+    ],
+    "hinted": [
+     "coding"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "coding": [
+     "exon\\w*",
+     "protein.altering"
+    ],
+    "regulatory-noncoding": [
+     "intron\\w*",
+     "intergenic"
+    ]
+   }
+  },
+  {
+   "factor": "region_focus",
+   "truth": [
+    "coding"
+   ],
+   "why": "'promoter' is a person",
+   "query": "Our PI is the main promoter of this project; the data are human germline missense variants, exome, clinical.",
+   "got": {
+    "rule": [
+     "coding",
+     "regulatory-noncoding"
+    ],
+    "model": [
+     "coding"
+    ],
+    "hinted": [
+     "coding"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "coding": [
+     "missense",
+     "exome"
+    ],
+    "regulatory-noncoding": [
+     "promoter\\w*"
+    ]
+   }
+  },
+  {
+   "factor": "region_focus",
+   "truth": [
+    "coding"
+   ],
+   "why": "'enhancer' is idiomatic",
+   "query": "This finding is a real enhancer of the hypothesis: human somatic missense SNVs in exons, what are their consequences?",
+   "got": {
+    "rule": [
+     "coding",
+     "regulatory-noncoding"
+    ],
+    "model": [
+     "coding"
+    ],
+    "hinted": [
+     "coding"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "coding": [
+     "missense",
+     "exon\\w*"
+    ],
+    "regulatory-noncoding": [
+     "enhancer\\w*"
+    ]
+   }
+  },
+  {
+   "factor": "region_focus",
+   "truth": [
+    "regulatory-noncoding"
+   ],
+   "why": "'exome'/'coding' negated",
+   "query": "Human germline variants in enhancers and promoters only -- no exome, no coding interest -- want regulatory consequences.",
+   "got": {
+    "rule": [
+     "coding",
+     "regulatory-noncoding"
+    ],
+    "model": [
+     "regulatory-noncoding"
+    ],
+    "hinted": [
+     "regulatory-noncoding"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "coding": [
+     "coding",
+     "exome"
+    ],
+    "regulatory-noncoding": [
+     "regulatory",
+     "enhancer\\w*",
+     "promoter\\w*"
+    ]
+   }
+  },
+  {
+   "factor": "analysis_goal",
+   "truth": [
+    "basic-consequence"
+   ],
+   "why": "'population' is cells, not people",
+   "query": "A population of cultured cells with induced mutations, human, SNVs, just annotate what these variants hit.",
+   "got": {
+    "rule": [
+     "population-frequency"
+    ],
+    "model": [
+     "basic-consequence"
+    ],
+    "hinted": [
+     "basic-consequence"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "population-frequency": [
+     "population\\w*"
+    ],
+    "basic-consequence": [
+     "annotat\\w*"
+    ]
+   }
+  },
+  {
+   "factor": "analysis_goal",
+   "truth": [
+    "basic-consequence"
+   ],
+   "why": "'frequently' is about the pipeline",
+   "query": "How frequently does this VEP pipeline fail on our human somatic SNV set? Separately: give me basic consequences for the variants.",
+   "got": {
+    "rule": [
+     "basic-consequence"
+    ],
+    "model": [
+     "basic-consequence"
+    ],
+    "hinted": [
+     "basic-consequence"
+    ]
+   },
+   "ok": {
+    "rule": true,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "basic-consequence": [
+     "consequence\\w*",
+     "basic"
+    ]
+   }
+  },
+  {
+   "factor": "analysis_goal",
+   "truth": [
+    "basic-consequence"
+   ],
+   "why": "'clinical'/'diagnostic' negated",
+   "query": "No clinical question here and diagnostic yield is not the aim: human germline coding SNVs, which gene and what consequence.",
+   "got": {
+    "rule": [
+     "clinical-interpretation"
+    ],
+    "model": [
+     "basic-consequence"
+    ],
+    "hinted": [
+     "basic-consequence"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "clinical-interpretation": [
+     "clinical\\w*",
+     "diagnos\\w*"
+    ],
+    "basic-consequence": [
+     "consequence\\w*",
+     "which gene"
+    ]
+   }
+  },
+  {
+   "factor": "analysis_goal",
+   "truth": [
+    "basic-consequence"
+   ],
+   "why": "'pathogenicity' is deferred elsewhere",
+   "query": "Pathogenicity is assessed downstream by another team; for now, human germline exome SNVs, coding, just the consequence calls.",
+   "got": {
+    "rule": [
+     "clinical-interpretation"
+    ],
+    "model": [
+     "basic-consequence"
+    ],
+    "hinted": [
+     "basic-consequence"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "clinical-interpretation": [
+     "pathogenic\\w*"
+    ],
+    "basic-consequence": [
+     "consequence\\w*"
+    ]
+   }
+  },
+  {
+   "factor": "analysis_goal",
+   "truth": [
+    "clinical-interpretation"
+   ],
+   "why": "'population' is the clinical cohort; goal is clinical",
+   "query": "The patient population is small but every variant needs an ACMG-style call: human germline exome, coding SNVs.",
+   "got": {
+    "rule": [
+     "clinical-interpretation",
+     "population-frequency"
+    ],
+    "model": [
+     "clinical-interpretation"
+    ],
+    "hinted": [
+     "clinical-interpretation"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "clinical-interpretation": [
+     "patient\\w*"
+    ],
+    "population-frequency": [
+     "population\\w*"
+    ]
+   }
+  },
+  {
+   "factor": "analysis_goal",
+   "truth": [
+    "population-frequency"
+   ],
+   "why": "'clinical' negated; frequency stated",
+   "query": "Not a clinical question -- I want gnomAD and 1000 Genomes allele frequencies for these human germline coding SNVs.",
+   "got": {
+    "rule": [
+     "clinical-interpretation",
+     "population-frequency"
+    ],
+    "model": [
+     "population-frequency"
+    ],
+    "hinted": [
+     "population-frequency"
+    ]
+   },
+   "ok": {
+    "rule": false,
+    "model": true,
+    "hinted": true
+   },
+   "rule_fired_on": {
+    "clinical-interpretation": [
+     "clinical\\w*"
+    ],
+    "population-frequency": [
+     "allele frequenc\\w*",
+     "frequenc\\w*",
+     "gnomad",
+     "1000 genomes"
+    ]
+   }
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 {
-  "_catalogue_sha256": "54ac874f71f2a532b5dd87ee0558664d09370af47a4b288307255b7a5c767278",
+  "_catalogue_sha256": "7f0a8b78a26d1414a19b1215b5225523782e02242b467c84d0fe24b44686a4e4",
   "_status": "PROVISIONAL \u2014 derived from the DRIVES spec in vep_assistant.py and this catalogue. NOT mentor-validated. A validated table dropped in as priority_by_factor.json overrides this derivation; no code changes are needed.",
   "_authoring": {
     "drives": {
@@ -8,7 +8,7 @@
           "recommended": [
             "hgvs",
             "numbers",
-            "cat:protein_annotation",
+            "domains",
             "tsl",
             "appris",
             "protein"
@@ -23,7 +23,8 @@
         "regulatory-noncoding": {
           "recommended": [
             "regulatory",
-            "utrannotator"
+            "utrannotator",
+            "canonical"
           ],
           "optional": [
             "cell_type",
@@ -49,6 +50,9 @@
       },
       "analysis_goal": {
         "basic-consequence": {
+          "recommended": [
+            "canonical"
+          ],
           "optional": [
             "most_severe",
             "hgvs"
@@ -59,6 +63,7 @@
             "clinvar",
             "hgvs",
             "mane",
+            "canonical",
             "sift",
             "polyphen",
             "cadd",
@@ -90,10 +95,11 @@
             "af_gnomadg",
             "af",
             "af_1kg",
-            "frequency"
+            "canonical"
           ],
           "optional": [
-            "clinvar"
+            "clinvar",
+            "frequency"
           ]
         }
       },
@@ -250,6 +256,17 @@
         "non-human": "not_applicable"
       }
     },
+    "avi": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      },
+      "species": {
+        "non-human": "not_applicable"
+      }
+    },
     "biotype": {
       "analysis_goal": {
         "basic-consequence": "recommended",
@@ -268,6 +285,14 @@
       }
     },
     "canonical": {
+      "region_focus": {
+        "regulatory-noncoding": "recommended"
+      },
+      "analysis_goal": {
+        "basic-consequence": "recommended",
+        "clinical-interpretation": "recommended",
+        "population-frequency": "recommended"
+      },
       "species": {
         "non-human": "recommended"
       }
@@ -405,7 +430,7 @@
     "failed": {},
     "frequency": {
       "analysis_goal": {
-        "population-frequency": "recommended"
+        "population-frequency": "optional"
       },
       "origin": {
         "somatic": "not_applicable"
@@ -555,14 +580,29 @@
         "structural-CNV": "not_applicable"
       }
     },
-    "per_gene": {},
+    "per_gene": {
+      "species": {
+        "human": "not_applicable",
+        "non-human": "not_applicable"
+      }
+    },
     "phenotypes": {
       "analysis_goal": {
         "clinical-interpretation": "recommended"
       }
     },
-    "pick": {},
-    "pick_allele": {},
+    "pick": {
+      "species": {
+        "human": "not_applicable",
+        "non-human": "not_applicable"
+      }
+    },
+    "pick_allele": {
+      "species": {
+        "human": "not_applicable",
+        "non-human": "not_applicable"
+      }
+    },
     "polyphen": {
       "region_focus": {
         "regulatory-noncoding": "not_applicable"
@@ -584,6 +624,20 @@
       },
       "variant_size_class": {
         "structural-CNV": "not_applicable"
+      }
+    },
+    "protvar": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
+      "region_focus": {
+        "regulatory-noncoding": "not_applicable"
+      },
+      "variant_size_class": {
+        "structural-CNV": "not_applicable"
+      },
+      "species": {
+        "non-human": "not_applicable"
       }
     },
     "pubmed": {
@@ -644,7 +698,12 @@
         "non-human": "not_applicable"
       }
     },
-    "summary": {},
+    "summary": {
+      "species": {
+        "human": "not_applicable",
+        "non-human": "not_applicable"
+      }
+    },
     "symbol": {
       "region_focus": {
         "regulatory-noncoding": "not_applicable"

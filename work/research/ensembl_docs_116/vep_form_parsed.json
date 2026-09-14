@@ -1,0 +1,536 @@
+{
+ "controls": [
+  {
+   "section_id": "input",
+   "section": "Data input",
+   "control": "File upload",
+   "equivalent_flags": [],
+   "text": "- click the \"Choose file\" button and locate the file on your system. Please ensure your files are sorted by location if you are using VCF or other input formats using location. This greatly improves speed of analysis"
+  },
+  {
+   "section_id": "input",
+   "section": "Data input",
+   "control": "Paste file",
+   "equivalent_flags": [],
+   "text": "- simply copy and paste the contents of your file into the large text box"
+  },
+  {
+   "section_id": "input",
+   "section": "Data input",
+   "control": "File URL",
+   "equivalent_flags": [],
+   "text": "- point the Ensembl VEP to a file hosted on a publically accessible address. This can be either a http:// or ftp:// address."
+  },
+  {
+   "section_id": "ident",
+   "section": "Identifiers",
+   "control": "Gene symbol",
+   "equivalent_flags": [
+    "symbol"
+   ],
+   "text": "Add the gene symbol for the gene to the output. This will typically be, for example, the HGNC identifier for genes in human. Equivalent to --symbol in the Ensembl VEP script."
+  },
+  {
+   "section_id": "ident",
+   "section": "Identifiers",
+   "control": "Transcript version",
+   "equivalent_flags": [
+    "transcript_version"
+   ],
+   "text": "Add the transcript version to the transcript identifier. Equivalent to --transcript_version ."
+  },
+  {
+   "section_id": "ident",
+   "section": "Identifiers",
+   "control": "CCDS",
+   "equivalent_flags": [
+    "ccds"
+   ],
+   "text": "Add the Consensus CDS transcript identifier where available. Equivalent to --ccds ."
+  },
+  {
+   "section_id": "ident",
+   "section": "Identifiers",
+   "control": "Protein",
+   "equivalent_flags": [
+    "protein"
+   ],
+   "text": "Add the Ensembl protein identifer (ENSP). Equivalent to --protein ."
+  },
+  {
+   "section_id": "ident",
+   "section": "Identifiers",
+   "control": "UniProt",
+   "equivalent_flags": [
+    "uniprot"
+   ],
+   "text": "Add identifiers for translated protein products from three UniProt -related databases (SWISSPROT, TREMBL and UniParc). Equivalent to --uniprot ."
+  },
+  {
+   "section_id": "ident",
+   "section": "Identifiers",
+   "control": "HGVS",
+   "equivalent_flags": [
+    "hgvs"
+   ],
+   "text": "Generate HGVS identifiers for your input variants relative to the transcript coding sequence (HGVSc) and the protein sequence (HGVSp). Equivalent to --hgvs ."
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "Variant synonyms",
+   "equivalent_flags": [],
+   "text": "Report known synonyms for co-located variants."
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "Frequency data for co-located variants",
+   "equivalent_flags": [],
+   "text": "Ensembl VEP can also report allele frequency (AF) data for existing variants from several major genotyping projects, the 1000 Genomes Project , and gnomAD ; this only applies when you have selected human as your species."
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "1000 Genomes global",
+   "equivalent_flags": [
+    "af"
+   ],
+   "text": "- the combined phase 3 population (i.e. all individuals from all populations). Equivalent to --af"
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "1000 Genomes continental",
+   "equivalent_flags": [
+    "af_1kg"
+   ],
+   "text": "- the four continent-level populations - AFR (African), AMR (American), ASN (Asian) and EUR (European). Equivalent to --af_1kg"
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "gnomAD exomes",
+   "equivalent_flags": [
+    "af_gnomade"
+   ],
+   "text": "- combined, AFR, AMR, ASJ, EAS, FIN, NFE, OTH, SAS populations. Equivalent to --af_gnomade"
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "gnomAD genomes",
+   "equivalent_flags": [
+    "af_gnomadg"
+   ],
+   "text": "- combined, AFR, AMR, AMI, ASJ, EAS, FIN, MID, NFE, OTH, SAS populations. Equivalent to --af_gnomadg"
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "PubMed IDs for citations of co-located variants",
+   "equivalent_flags": [],
+   "text": "Report the PubMed IDs of any publications that cite the co-located variant(s)."
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "Include flagged variants",
+   "equivalent_flags": [],
+   "text": "Variants flagged as failed by the Ensembl Variation quality control."
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "Paralogue variants",
+   "equivalent_flags": [],
+   "text": "Retrieves variants that overlap genomic coordinates corresponding to aligned amino acid positions in paralogous proteins. This functionality is provided by the Paralogues plugin."
+  },
+  {
+   "section_id": "freq",
+   "section": "Variants and frequency data",
+   "control": "Open Targets Platform",
+   "equivalent_flags": [],
+   "text": "Report trait associations from Open Targets Platform through GWAS- or QTL-gene associations, including locus-to-gene (L2G) scores for GWAS loci Open Targets Platform . This functionality is provided by the OpenTargets plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "DosageSensitivity",
+   "equivalent_flags": [],
+   "text": "Retrieves haploinsufficiency and triplosensitivity probability scores for affected genes from a dosage sensitivity catalogue published in paper - https://www.sciencedirect.com/science/article/pii/S0092867422007887 ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "LOEUF",
+   "equivalent_flags": [],
+   "text": "LOEUF stands for the 'loss-of-function observed/expected upper bound fraction'. This plugin adds constraint scores derived from gnomAD to Ensembl VEP. Equivalent to the Ensembl VEP plugin LOEUF ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Transcript biotype",
+   "equivalent_flags": [
+    "biotype"
+   ],
+   "text": "Add the transcript biotype to the output. Equivalent to --biotype in the Ensembl VEP script."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Exon and intron numbers",
+   "equivalent_flags": [
+    "numbers"
+   ],
+   "text": "Report the exon or intron number that a variant falls in as NUMBER / TOTAL, i.e. exon 2/5 means the variant falls in the 2nd of 5 exons in the transcript. Equivalent to --numbers ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Transcript support level",
+   "equivalent_flags": [
+    "tsl"
+   ],
+   "text": "Report the transcript support level of the overlapped transcript. Equivalent to --tsl ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "APPRIS",
+   "equivalent_flags": [
+    "appris"
+   ],
+   "text": "Report the APPRIS score of the overlapped transcript. Equivalent to --appris ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Identify canonical transcripts",
+   "equivalent_flags": [
+    "canonical"
+   ],
+   "text": "Add a flag to the output indicating if the reported transcript is the canonical transcript for the gene. Equivalent to --canonical ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Upstream/Downstream distance (bp)",
+   "equivalent_flags": [
+    "distance"
+   ],
+   "text": "Change the distance to assign the upstream and downstream consequences. Equivalent to --distance ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "miRNA structure",
+   "equivalent_flags": [
+    "mirna"
+   ],
+   "text": "Determines where in the secondary structure of a miRNA a variant falls (only for Ensembl/GENCODE transcripts). Equivalent to --mirna ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "NMD",
+   "equivalent_flags": [],
+   "text": "Predicts if a stop_gained variant allows the transcript to escape nonsense-mediated mRNA decay based on certain rules. This functionality is provided by the NMD plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "UTRAnnotator",
+   "equivalent_flags": [],
+   "text": "Annotates the effect of 5' UTR variant especially for variant creating/disrupting upstream ORFs. This functionality is provided by the UTRAnnotator plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "RiboseqORFs",
+   "equivalent_flags": [],
+   "text": "Annotates the consequences of variants overlapping Ribo-seq ORFs. This functionality is provided by the RiboseqORFs plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Protein matches",
+   "equivalent_flags": [
+    "domains"
+   ],
+   "text": "Shows the variant location on PDBe and AlphaFold protein structures in interactive 3d displays, where available. Report protein domains from PDBe , Pfam , Prosite and InterPro that overlap input variants. Equivalent to --domains ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "mutfunc",
+   "equivalent_flags": [],
+   "text": "mutfunc predicts destabilization effect of protein structure, interaction, regulatory region, etc. caused by a variant. This functionality is provided by the mutfunc plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "ProtVar",
+   "equivalent_flags": [],
+   "text": "ProtVar ProtVar provides contextualised information for missense variation, including destabilisation of protein structures, overlapping protein pockets, and protein-protein interaction interfaces. This functionality is provided by the ProtVar plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "IntAct",
+   "equivalent_flags": [],
+   "text": "Reports relevant data for variants that falls within molecular interaction site as reprted by IntAct database. This functionality is provided by the IntAct plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "MaveDB",
+   "equivalent_flags": [],
+   "text": "MaveDB holds experimentally determined measures of variant effect. This functionality is provided by the MaveDB plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Get regulatory region consequences",
+   "equivalent_flags": [
+    "regulatory"
+   ],
+   "text": "In addition to predicting consequences with overlapping transcripts, Ensembl VEP can find overlaps with known regulatory regions as determined in the Ensembl Regulatory build . Using this option, Ensembl VEP will also report if a variant falls in a transcription factor binding motif, and give a score that reflects whether the altered motif sequence is more or less similar to the consensus. Get regulatory consequences is equivalent to --regulatory ."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Enformer",
+   "equivalent_flags": [],
+   "text": "Predictions of variant impact on gene expression. This functionality is provided by the Enformer plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Phenotypes",
+   "equivalent_flags": [],
+   "text": "Report the phenotypic data overlapping the genomic features. This functionality is provided by the Phenotypes plugin. For more information on the imported phenotypic data for genes, variation and QTLs see our phenotype documentation . Note: This web functionality is not reporting cancer phenotypic data this release. However the cancer phenotypic data is available in the command line version."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Gene Ontology",
+   "equivalent_flags": [],
+   "text": "Add terms to describe any overlapping gene's function, the cellular component in which the function is performed and the biological processes to which this contributes."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Geno2MP",
+   "equivalent_flags": [],
+   "text": "Geno2MP is a web-accessible database of rare variant genotypes linked to individual-level phenotypic profiles defined by human phenotype ontology (HPO) terms. This functionality is provided by the Geno2MP plugin."
+  },
+  {
+   "section_id": "annotation",
+   "section": "Additional annotations",
+   "control": "Mastermind",
+   "equivalent_flags": [],
+   "text": "Uses the Mastermind Genomic Search Engine to report variants that have clinical evidence cited in the medical literature. This functionality is provided by the Mastermind plugin. Note: This web functionality is only reporting the URL to the Mastermind Genomic Search Engine webpage."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "SIFT predictions",
+   "equivalent_flags": [
+    "sift"
+   ],
+   "text": "SIFT predicts whether an amino acid substitution affects protein function based on sequence homology and the physical properties of amino acids. Only available in popular species. For both SIFT and PolyPhen Ensembl VEP can report either a score between 0 and 1, a prediction in words, or both. Equivalent to --sift ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "PolyPhen predictions",
+   "equivalent_flags": [
+    "polyphen"
+   ],
+   "text": "PolyPhen is a tool which predicts possible impact of an amino acid substitution on the structure and function of a human protein using straightforward physical and comparative considerations. Equivalent to --polyphen ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "dbNSFP",
+   "equivalent_flags": [],
+   "text": "Retrieves data for missense variants from dbNSFP . Equivalent to the Ensembl VEP plugin dbNSFP ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "AlphaMissense",
+   "equivalent_flags": [],
+   "text": "AlphaMissense is a deep learning model developed by Google DeepMind that predicts the pathogenicity of single nucleotide missense variants. Equivalent to the Ensembl VEP plugin AlphaMissense ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "CADD",
+   "equivalent_flags": [],
+   "text": "Combined Annotation Dependent Depletion (CADD) is a tool for scoring the deleteriousness of single nucleotide variants and insertion/deletion variants in the human genome. CADD integrates multiple annotations into one metric by contrasting variants that survived natural selection with simulated mutations. CADD is only available here for non-commercial use. See CADD website for more information. Equivalent to the Ensembl VEP plugin CADD ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "REVEL",
+   "equivalent_flags": [],
+   "text": "Rare Exome Variant Ensemble Learner (REVEL) is an ensemble method for predicting the pathogenicity of missense variants based on a combination of scores from multiple individual tools. REVEL is only available here for non-commercial use. Equivalent to the Ensembl VEP plugin REVEL ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "ClinPred",
+   "equivalent_flags": [],
+   "text": "ClinPred is a prediction tool to identify disease-relevant nonsynonymous single nucleotide variants. The predictor incorporates existing pathogenicity scores and benefits from normal population allele frequencies. ClinPred is only available here for non-commercial use. Equivalent to the Ensembl VEP plugin ClinPred ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "EVE",
+   "equivalent_flags": [],
+   "text": "Adds information from EVE (evolutionary model of variant effect). Equivalent to the Ensembl VEP plugin EVE ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "AVI",
+   "equivalent_flags": [],
+   "text": "Provides AlphaGenome Variant Impact scores developed by Google DeepMind . Equivalent to the Ensembl VEP plugin AVI ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "dbscSNV",
+   "equivalent_flags": [],
+   "text": "Retrieves data for splicing variants from dbscSNV . Equivalent to the Ensembl VEP plugin dbscSNV ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "MaxEntScan",
+   "equivalent_flags": [],
+   "text": "Get splice site predictions from MaxEntScan . Equivalent to the Ensembl VEP plugin MaxEntScan ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "SpliceAI",
+   "equivalent_flags": [],
+   "text": "Pre-calculated annotations from SpliceAI a deep neural network, developed by Illumina, Inc that predicts splice junctions from an arbitrary pre-mRNA transcript sequence. Used for non-commercial purposes. This functionality is provided by the SpliceAI plugin. The pre-calculated annotations for all possible single nucleotide substitutions can be retrieved from: Ensembl/GENCODE v24 canonical transcripts Masked scores Ensembl/GENCODE v37 MANE transcripts Raw scores"
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "BLOSUM62",
+   "equivalent_flags": [],
+   "text": "Looks up the BLOSUM 62 substitution matrix score for the reference and alternative amino acids predicted for a missense mutation. Equivalent to the Ensembl VEP plugin Blosum62 ."
+  },
+  {
+   "section_id": "prediction",
+   "section": "Predictions",
+   "control": "Ancestral allele",
+   "equivalent_flags": [],
+   "text": "Retrieves ancestral allele sequences from a FASTA file. Ensembl produces FASTA file dumps of the ancestral sequences of key species. Equivalent to the Ensembl VEP plugin AncestralAllele ."
+  },
+  {
+   "section_id": "filter",
+   "section": "Filtering options",
+   "control": "By frequency",
+   "equivalent_flags": [],
+   "text": "Filter variants by minor allele frequency (MAF). Two options are provided:"
+  },
+  {
+   "section_id": "filter",
+   "section": "Filtering options",
+   "control": "Exclude common variants",
+   "equivalent_flags": [
+    "filter_common"
+   ],
+   "text": "Filter out variants that are co-located with an existing variant that has a frequency greater than 0.01 (1%) in the 1000 Genomes global population. Equivalent to --filter_common in the Ensembl VEP script."
+  },
+  {
+   "section_id": "filter",
+   "section": "Filtering options",
+   "control": "Advanced filtering",
+   "equivalent_flags": [],
+   "text": "Enabling this option allows you to specify a population and frequency to compare to, as well whether matching variants should be included or excluded from the results."
+  },
+  {
+   "section_id": "filter",
+   "section": "Filtering options",
+   "control": "Return results for variants in coding regions only",
+   "equivalent_flags": [
+    "coding_only"
+   ],
+   "text": "Exclude variants that don't fall in a coding region of a transcript. Equivalent to --coding_only ."
+  },
+  {
+   "section_id": "filter",
+   "section": "Filtering options",
+   "control": "Restrict results",
+   "equivalent_flags": [],
+   "text": "For many variants Ensembl VEP will report multiple consequence types - typically this is because the variant overlaps more than one transcript. For each of these options Ensembl VEP uses consequence ranks that are subjectively determined by Ensembl. This table gives all of the consquence types predicted by Ensembl, ordered by rank. Note that enabling one of these options not only loses potentially relevant data, but in some cases may be scientifically misleading. Options:"
+  },
+  {
+   "section_id": "filter",
+   "section": "Filtering options",
+   "control": "Show one selected consequence",
+   "equivalent_flags": [
+    "per_gene"
+   ],
+   "text": "Pick one consequence type across all those predicted for the variant; the output will include transcript- or feature-specific information. Consequences are chosen by the canonical, biotype status and length of the transcript, along with the ranking of the consequence type according to this table . This is the best method to use if you are interested only in one consequence per variant. Equivalent to --pick ."
+  },
+  {
+   "section_id": "filter",
+   "section": "Filtering options",
+   "control": "Show one selected consequence per gene",
+   "equivalent_flags": [
+    "per_gene"
+   ],
+   "text": "Pick one consequence type for each gene using the same criteria as above. Note that if a variant overlaps more than one gene, output for each gene will be reported. Equivalent to --per_gene ."
+  },
+  {
+   "section_id": "filter",
+   "section": "Filtering options",
+   "control": "Show only list of consequences per variant",
+   "equivalent_flags": [
+    "summary"
+   ],
+   "text": "Give a comma-separated list of all observed consequence types for each variant. No transcript-specific or gene-specific output will be given. Equivalent to --summary ."
+  },
+  {
+   "section_id": "filter",
+   "section": "Filtering options",
+   "control": "Show most severe per variant",
+   "equivalent_flags": [
+    "most_severe"
+   ],
+   "text": "Only the most severe of all observed consequence types is reported for each variant. No transcript-specific or gene-specific output will be given. Equivalent to --most_severe ."
+  },
+  {
+   "section_id": "advanced",
+   "section": "Advanced options",
+   "control": "Buffer size",
+   "equivalent_flags": [],
+   "text": "By default Ensembl VEP process the variants by blocks of 5000 (i.e. what we call \"buffer size\"). In some cases, reducing the size of the blocks (buffer size) could prevent memory issues for large Ensembl VEP queries (e.g. use of regulatory data, many plugins or custom annotations). This is why the maximum buffer size is automatically set to 500 on the Ensembl VEP Web interface when the \"Regulatory data\" option is selected."
+  },
+  {
+   "section_id": "advanced",
+   "section": "Advanced options",
+   "control": "Right align variants prior to consequence calculation",
+   "equivalent_flags": [],
+   "text": "By default Ensembl VEP performs consequence calculation at the given input coordinates. Optionally, Ensembl VEP can shift insertions and deletions found within repeated regions as far as possible in the 3' direction, normalising output."
+  }
+ ],
+ "section_prose": {
+  "input": "Data input First select the correct species for your data. Ensembl hosts many vertebrate genomes; genomes for plants, protists and fungi can be found at Ensembl Genomes . You can optionally choose a name for the data you upload - this can make it easier for you to identify jobs and files that you have uploaded to the Ensembl VEP at a later point. You have three options for uploading your data: Once you have uploaded some data, you can select it as the input for future jobs by choosing the data from the drop down menu. The format of your data is automatically detected; see the examples or the input format documentation. For pasted data you can get an instant preview of the results of your first variant by clicking the button that appears when you paste your data. This quickly shows you the consequence type, the IDs of any overlapping variants, genes, transcripts and regulatory features, as well as SIFT and PolyPhen predictions. To see the full results set submit your job as normal. For some species you can select which transcript database to use. The default is to use Ensembl transcripts, which offer the most rich annotation through Ensembl VEP. GENCODE Basic is a subset of the GENCODE gene set, and is intended to provide a simplified, high-quality subset of the GENCODE transcript annotations that will be useful to the majority of users. GENCODE Basic includes all genes in the GENCODE gene set, with a representative subset of the transcripts (splice variants). GENCODE Primary is a new transcript subset which covers all human exons in a minimal set of transcripts. This aims to enable annotation of all potential variant consequences without duplication across multiple transcripts. You can also select to use RefSeq transcripts from the otherfeatures database ; note though that these transcripts are simply aligned to the reference genome and the database is missing much of the annotation found when using the main Ensembl database (e.g. protein domains, CCDS identifiers). Species: Homo_sapiens x Assembly: GRCh38.p13 Change species If you are looking for Ensembl VEP for Human GRCh37, please go to GRCh37 website . Homo_sapiens Name for this job (optional): Input data: Either paste data: rs699 rs171 rs665 Examples: Ensembl default , VCF , Variant identifiers , HGVS notations , SPDI Or upload file: Or provide file URL: Transcript database to use : Ensembl /GENCODE transcripts Ensembl/GENCODE basic transcripts Ensembl/GENCODE primary transcripts RefSeq transcripts Ensembl /GENCODE and RefSeq transcripts",
+  "ident": "Identifiers Ensembl VEP can provide additional identifiers for genes, transcripts, proteins and variants. Identifiers Additional identifiers for genes, transcripts and variants Identifiers Gene symbol : Transcript version : CCDS : Protein : UniProt : HGVS :",
+  "freq": "Variants and frequency data Ensembl VEP can also search the Ensembl database for known variants that are co-located with variants from your input data. PubMed IDs for citations of co-located variants Report the PubMed IDs of any publications that cite the co-located variant(s). Include flagged variants Variants flagged as failed by the Ensembl Variation quality control. Paralogue variants Retrieves variants that overlap genomic coordinates corresponding to aligned amino acid positions in paralogous proteins. This functionality is provided by the Paralogues plugin. Open Targets Platform Report trait associations from Open Targets Platform through GWAS- or QTL-gene associations, including locus-to-gene (L2G) scores for GWAS loci Open Targets Platform . This functionality is provided by the OpenTargets plugin. Variants and frequency data Co-located variants and frequency data Variants and frequency data Find co-located known variants : Yes Variant synonyms : Frequency data for co-located variants: 1000 Genomes global minor allele frequency 1000 Genomes continental allele frequencies gnomAD (exomes) allele frequencies gnomAD (genomes) allele frequencies PubMed IDs for citations of co-located variants : Include flagged variants : Paralogue variants : Disabled Enabled Open Targets Platform :",
+  "annotation": "Additional annotations Additional annotations Addtional transcript, protein and regulatory annotations Gene tolerance to change DosageSensitivity : LOEUF : Transcript annotation Transcript biotype : Exon and intron numbers : Transcript support level: APPRIS : MANE : Identify canonical transcripts: Upstream/Downstream distance (bp) : miRNA structure : NMD : UTRAnnotator : RiboseqORFs : Protein annotation Protein matches : mutfunc : Disabled Enabled ProtVar : Disabled Enabled Functional effect IntAct : Disabled Enabled MaveDB : Regulatory data Get regulatory region consequences : Yes Regulatory impact Enformer : Phenotype data and citations Phenotypes : Gene Ontology : Mastermind :",
+  "prediction": "Predictions Note: The pre-calculated annotations for 1 base insertions, and 1-4 base deletions are only available for Ensembl/GENCODE v24 canonical transcripts. BLOSUM62 Looks up the BLOSUM 62 substitution matrix score for the reference and alternative amino acids predicted for a missense mutation. Equivalent to the Ensembl VEP plugin Blosum62 . Ancestral allele Retrieves ancestral allele sequences from a FASTA file. Ensembl produces FASTA file dumps of the ancestral sequences of key species. Equivalent to the Ensembl VEP plugin AncestralAllele . Predictions Variant predictions, e.g. SIFT, PolyPhen Pathogenicity predictions SIFT : Prediction and score PolyPhen : Prediction and score dbNSFP : Disabled Enabled Fields to include : aapos Field descriptions in dbNSFP README Transcript match : AlphaMissense : CADD : REVEL : ClinPred : EVE : AVI : Splicing predictions dbscSNV : MaxEntScan : SpliceAI : Disabled Enabled Select analysis mode: Masked scores (Ensembl/GENCODE v24 canonical transcripts) Raw scores (Ensembl/GENCODE v37 MANE transcripts, SNV only) Conservation BLOSUM62 : Ancestral allele :",
+  "filter": "Filtering options Ensembl VEP allows you to pre-filter your results e.g. by MAF or consequence type. Note that it is also possible to perform equivalent operations on the results page for Ensembl VEP, so if you aren't sure, don't use any of these options! Return results for variants in coding regions only Exclude variants that don't fall in a coding region of a transcript. Equivalent to --coding_only . Restrict results For many variants Ensembl VEP will report multiple consequence types - typically this is because the variant overlaps more than one transcript. For each of these options Ensembl VEP uses consequence ranks that are subjectively determined by Ensembl. This table gives all of the consquence types predicted by Ensembl, ordered by rank. Note that enabling one of these options not only loses potentially relevant data, but in some cases may be scientifically misleading. Options: Filtering options Pre-filter results by frequency or consequence type Filters Filter by frequency : No filtering Exclude common variants Advanced filtering Exclude Include only variants with MAF greater than variants with MAF less than in 1000 genomes (1KG) combined population Return results for variants in coding regions only : Restrict results : Show all results NB: Restricting results may exclude biologically important data!",
+  "advanced": "Advanced options The Ensembl VEP web interface allows you to use/setup advanced options: Advanced options Additional enhancements Advanced options Buffer size : 5000 NB: When the Regulatory data option is selected then due to the large amount of regulatory data available, the maximum buffer size is automatically reduced from the default value of 5000 to 500 . This reduces the memory requirement but might increase the run time. If you find that your jobs are still failing due to memory limitations then you can select a value lower than 500 . Right align variants prior to consequence calculation : Right align relative to transcript"
+ }
+}

@@ -1,0 +1,1856 @@
+[
+ {
+  "id": "help",
+  "flag": "--help",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Display help message and quit",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "quiet",
+  "flag": "--quiet",
+  "alternate": "-q",
+  "section": "Basic options",
+  "description": "Suppress warning messages.Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "--verbose",
+  "incompatible_with": []
+ },
+ {
+  "id": "verbose",
+  "flag": "--verbose",
+  "alternate": "-v",
+  "section": "Basic options",
+  "description": "Print out a bit more information while running. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "--quiet",
+  "incompatible_with": []
+ },
+ {
+  "id": "config",
+  "flag": "--config [filename]",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Load configuration options from a config file. The config file should consist of whitespace-separated pairs of option names and settings e.g.: output_file my_output.txt species mus_musculus format vcf host useastdb.ensembl.org A config file can also be implicitly read; save the file as $HOME/.vep/vep.ini (or equivalent directory if using --dir). Any options in this file will be overridden by those specified in a config file using --config, and in turn by any options specified on the command line. You can create a quick version file of this by setting the flags as normal and running Ensembl VEP in verbose (-v) mode. This will output lines that can be copied to a config file that can be loaded in on the next run using --config. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "everything",
+  "flag": "--everything",
+  "alternate": "-e",
+  "section": "Basic options",
+  "description": "Shortcut flag to switch on all of the following: --sift b, --polyphen b, --ccds, --hgvs, --symbol, --numbers, --domains, --regulatory, --canonical, --protein, --biotype, --af, --af_1kg, --af_gnomade, --af_gnomadg, --max_af, --pubmed, --uniprot, --mane, --tsl, --appris, --variant_class, --gene_phenotype, --mirna",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "species",
+  "flag": "--species [species]",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Species for your data. This can be the latin name e.g. \"homo_sapiens\" or any Ensembl alias e.g. \"mouse\". Specifying the latin name can speed up initial database connection as the registry does not have to load all available database aliases on the server. Default = \"homo_sapiens\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "assembly",
+  "flag": "--assembly [name]",
+  "alternate": "-a",
+  "section": "Basic options",
+  "description": "Select the assembly version to use if more than one available. If using the cache, you must have the appropriate assembly's cache file installed. If not specified and you have only 1 assembly version installed, this will be chosen by default. Default = use found assembly version",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "input_file",
+  "flag": "--input_file [filename]",
+  "alternate": "-i",
+  "section": "Basic options",
+  "description": "Input file name. If not specified, Ensembl VEP will attempt to read from STDIN. Can use compressed file (gzipped).",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "input_data",
+  "flag": "--input_data [string]",
+  "alternate": "--id",
+  "section": "Basic options",
+  "description": "Raw input data as a string. May be used, for example, to input a single rsID or HGVS notation quickly to Ensembl VEP: --input_data rs699",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "format",
+  "flag": "--format [format]",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Input file format - one of \"ensembl\", \"vcf\", \"hgvs\", \"id\", \"region\", \"spdi\". By default, Ensembl VEP auto-detects the input file format. Using this option you can specify the input file is Ensembl, VCF, IDs, HGVS, SPDI or region format. Can use compressed version (gzipped) of any file format listed above. Auto-detects format by default",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "output_file",
+  "flag": "--output_file [filename]",
+  "alternate": "-o",
+  "section": "Basic options",
+  "description": "Output file name. Results can write to STDOUT by specifying 'STDOUT' as the output file name - this will force quiet mode. Default = \"variant_effect_output.txt\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "force_overwrite",
+  "flag": "--force_overwrite",
+  "alternate": "--force",
+  "section": "Basic options",
+  "description": "By default, Ensembl VEP will fail with an error if the output file already exists. You can force the overwrite of the existing file by using this flag. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "no_stats",
+  "flag": "--no_stats",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Don't generate a stats file. Provides marginal gains in run time.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "stats_file",
+  "flag": "--stats_file [filename]",
+  "alternate": "--sf",
+  "section": "Basic options",
+  "description": "Summary stats file name. This file contains a summary of the Ensembl VEP run. If stats are returned in an HTML file (default), the filename should end in .html or .htm. Default = \"variant_effect_output.txt_summary.html\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "stats_html",
+  "flag": "--stats_html",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Generate a HTML stats file (default).",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "stats_text",
+  "flag": "--stats_text",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Generate a plain text stats file. Can be combined with --stats_html to generate both plain text and HTML stats files.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "warning_file",
+  "flag": "--warning_file [filename]",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "File name to write warnings and errors to. Default = STDERR (standard error)",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "skipped_variants_file",
+  "flag": "--skipped_variants_file [filename]",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "File name to write skipped variants to. Default = STDERR (standard error)",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "max_sv_size",
+  "flag": "--max_sv_size",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Limit the maximum Structural Variant size Ensembl VEP will process to reduce potential memory usage. Set to -1 to disable this filter. Warning: disabling this filter can result in a large memory usage and slow runtime. Default = 10000000",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "no_check_variants_order",
+  "flag": "--no_check_variants_order",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Permit the use of unsorted input files. However running Ensembl VEP on unsorted input files slows down the tool and requires more memory.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "fork",
+  "flag": "--fork [num_forks]",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "Enable forking, using the specified number of forks. Forking can dramatically improve runtime. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "safe",
+  "flag": "--safe",
+  "alternate": "",
+  "section": "Basic options",
+  "description": "By default, an Ensembl VEP run is successful even when a plugin reports issues. Use this flag to ensure Ensembl VEP fails if a plugin raises warnings or generates compilation errors. This is particularly useful to ensure plugins run successfully when using Ensembl VEP in pipelines. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "cache",
+  "flag": "--cache",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Enables use of the cache. Add --refseq or --merged to use the refseq or merged cache, (if installed).",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--database"
+  ]
+ },
+ {
+  "id": "dir",
+  "flag": "--dir [directory]",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Specify the base cache/plugin directory to use. Default = \"$HOME/.vep/\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "dir_cache",
+  "flag": "--dir_cache [directory]",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Specify the cache directory to use. Default = \"$HOME/.vep/\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "dir_plugins",
+  "flag": "--dir_plugins [directory]",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Specify the plugin directory to use. Default = \"$HOME/.vep/\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "offline",
+  "flag": "--offline",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Enable offline mode. No database connections will be made, and a cache file or GFF/GTF file is required for annotation. Add --refseq to use the refseq cache (if installed). Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--database",
+   "--check_svs",
+   "--lrg"
+  ]
+ },
+ {
+  "id": "fasta",
+  "flag": "--fasta [file|dir]",
+  "alternate": "--fa",
+  "section": "Cache options",
+  "description": "Specify a FASTA file or a directory containing FASTA files to use to look up reference sequence. The first time you run Ensembl VEP with this parameter an index will be built which can take a few minutes. This is required if fetching HGVS annotations (--hgvs) or checking reference sequences (--check_ref) in offline mode (--offline), and optional with some performance increase in cache mode (--cache). See documentation for more details. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "refseq",
+  "flag": "--refseq",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Specify this option if you have installed the RefSeq cache in order for Ensembl VEP to pick up the alternate cache directory. This cache contains transcript objects corresponding to RefSeq transcripts. Consequence output will be given relative to these transcripts in place of the default Ensembl transcripts (see documentation)",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "REFSEQ_MATCH, BAM_EDIT",
+  "incompatible_with": [
+   "--gencode_basic",
+   "--gencode_primary",
+   "--merged"
+  ]
+ },
+ {
+  "id": "merged",
+  "flag": "--merged",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Use the merged Ensembl and RefSeq cache. Consequences are flagged with the SOURCE of each transcript used.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "REFSEQ_MATCH, BAM_EDIT, SOURCE",
+  "incompatible_with": [
+   "--refseq"
+  ]
+ },
+ {
+  "id": "cache_version",
+  "flag": "--cache_version",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Use a different cache version than the assumed default (the Ensembl VEP version). This should be used with Ensembl Genomes caches since their version numbers do not match Ensembl versions. For example, the VEP/Ensembl version may be 88 and the Ensembl Genomes version 35. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "show_cache_info",
+  "flag": "--show_cache_info",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Show source version information for selected cache and quit",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "buffer_size",
+  "flag": "--buffer_size [number]",
+  "alternate": "",
+  "section": "Cache options",
+  "description": "Sets the internal buffer size, corresponding to the number of variants that are read in to memory simultaneously. Set this lower to use less memory at the expense of longer run time, and higher to use more memory with a faster run time. Default = 5000",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "plugin",
+  "flag": "--plugin [plugin name]",
+  "alternate": "",
+  "section": "Other annotation sources",
+  "description": "Use named plugin. Plugin modules should be installed in the Plugins subdirectory of the Ensembl VEP cache directory (defaults to $HOME/.vep/). Multiple plugins can be used by supplying the --plugin flag multiple times. See plugin documentation. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "Plugin-dependent",
+  "incompatible_with": []
+ },
+ {
+  "id": "custom",
+  "flag": "--custom file=[filename]",
+  "alternate": "",
+  "section": "Other annotation sources",
+  "description": "Add custom annotation to the output. Files must be tabix indexed or in the bigWig format. Multiple files can be specified by supplying the --custom flag multiple times. See here for full details. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "SOURCE, Custom file dependent",
+  "incompatible_with": []
+ },
+ {
+  "id": "gff",
+  "flag": "--gff [filename]",
+  "alternate": "",
+  "section": "Other annotation sources",
+  "description": "Use GFF transcript annotations in [filename] as an annotation source. Requires a FASTA file of genomic sequence. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "SOURCE",
+  "incompatible_with": []
+ },
+ {
+  "id": "gtf",
+  "flag": "--gtf [filename]",
+  "alternate": "",
+  "section": "Other annotation sources",
+  "description": "Use GTF transcript annotations in [filename] as an annotation source. Requires a FASTA file of genomic sequence. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "SOURCE",
+  "incompatible_with": []
+ },
+ {
+  "id": "bam",
+  "flag": "--bam [filename]",
+  "alternate": "",
+  "section": "Other annotation sources",
+  "description": "ADVANCED Use BAM file of sequence alignments to correct transcript models not derived from reference genome sequence. Used to correct RefSeq transcript models. Not required when using with the refseq or merged caches as they are already corrected, if used with those caches, errors may occur. Enables --use_transcript_ref; add --use_given_ref to override this behaviour. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "BAM_EDIT",
+  "incompatible_with": []
+ },
+ {
+  "id": "use_transcript_ref",
+  "flag": "--use_transcript_ref",
+  "alternate": "",
+  "section": "Other annotation sources",
+  "description": "By default Ensembl VEP uses the reference allele provided in the input file to calculate consequences for the provided alternate allele(s). Use this flag to force Ensembl VEP to replace the provided reference allele with sequence derived from the overlapped transcript. This is especially relevant when using the RefSeq cache, see documentation for more details. The GIVEN_REF and USED_REF fields are set in the output to indicate any change. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "GIVEN_REF, USED_REF",
+  "incompatible_with": []
+ },
+ {
+  "id": "use_given_ref",
+  "flag": "--use_given_ref",
+  "alternate": "",
+  "section": "Other annotation sources",
+  "description": "Using --bam or a BAM-edited RefSeq cache by default enables --use_transcript_ref; add this flag to override this behaviour and use the provided reference allele from the input. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "custom_multi_allelic",
+  "flag": "--custom_multi_allelic",
+  "alternate": "",
+  "section": "Other annotation sources",
+  "description": "By default, comma separated lists found within the INFO field of custom annotation VCFs are assumed to be allele specific. For example, a variant with allele_string A/G/C with associated custom annotation 'single,double,triple' will associate triple with C, double with G and single with A. This flag instructs Ensembl VEP to return all annotations for all alleles. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "vcf",
+  "flag": "--vcf",
+  "alternate": "",
+  "section": "Output format options",
+  "description": "Writes output in VCF format. Consequences are added in the INFO field of the VCF file, using the key \"CSQ\". Data fields are encoded separated by \"|\"; the order of fields is written in the VCF header. Output fields in the \"CSQ\" INFO field can be selected by using --fields. If the input format was VCF, the file will remain unchanged save for the addition of the CSQ field (unless using any filtering). Custom data added with --custom are added as separate fields, using the key specified for each data file. Commas in fields are replaced with ampersands (&) to preserve VCF format. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--json",
+   "--tab",
+   "--summary",
+   "--most_severe",
+   "--ga4gh_vrs"
+  ]
+ },
+ {
+  "id": "tab",
+  "flag": "--tab",
+  "alternate": "",
+  "section": "Output format options",
+  "description": "Writes output in tab-delimited format. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--json",
+   "--vcf"
+  ]
+ },
+ {
+  "id": "json",
+  "flag": "--json",
+  "alternate": "",
+  "section": "Output format options",
+  "description": "Writes output in JSON format. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--tab",
+   "--vcf"
+  ]
+ },
+ {
+  "id": "compress_output",
+  "flag": "--compress_output [gzip|bgzip]",
+  "alternate": "",
+  "section": "Output format options",
+  "description": "Writes output compressed using either gzip or bgzip. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "fields",
+  "flag": "--fields [list]",
+  "alternate": "",
+  "section": "Output format options",
+  "description": "Configure the output format using a comma separated list of fields. Can only be used with tab (--tab) or VCF format (--vcf) output. For the tab format output, the selected fields may be those present in the default output columns, or any of those that appear in the Extra column (including those added by plugins or custom annotations) if the appropriate output is available (e.g. use --show_ref_allele to access 'REF_ALLELE'). Output remains tab-delimited. For the VCF format output, the selected fields are those present within the \"CSQ\" INFO field. Example of command for the tab output: --tab --fields \"Uploaded_variation,Location,Allele,Gene\" Example of command for the VCF format output: --vcf --fields \"Allele,Consequence,Feature_type,Feature\" Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "minimal",
+  "flag": "--minimal",
+  "alternate": "",
+  "section": "Output format options",
+  "description": "Convert alleles to their most minimal representation before consequence calculation i.e. sequence that is identical between each pair of reference and alternate alleles is trimmed off from both ends, with coordinates adjusted accordingly. Note this may lead to discrepancies between input coordinates and coordinates reported by Ensembl VEP relative to transcript sequences; to avoid issues, use --allele_number and/or ensure that your input variants have unique identifiers. The MINIMISED flag is set in the Ensembl VEP output where relevant. For an insertion/deletion, the allele is minimised by default. To access the input allele before minimisation, use --uploaded_allele. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "MINIMISED",
+  "incompatible_with": [
+   "--individual"
+  ]
+ },
+ {
+  "id": "variant_class",
+  "flag": "--variant_class",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Output the Sequence Ontology variant class. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "VARIANT_CLASS",
+  "incompatible_with": []
+ },
+ {
+  "id": "sift",
+  "flag": "--sift [p|s|b]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Species limited SIFT predicts whether an amino acid substitution affects protein function based on sequence homology and the physical properties of amino acids. Ensembl VEP can output the prediction term, score or both. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "SIFT",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "polyphen",
+  "flag": "--polyphen [p|s|b]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Human only PolyPhen is a tool which predicts possible impact of an amino acid substitution on the structure and function of a human protein using straightforward physical and comparative considerations. Ensembl VEP can output the prediction term, score or both. Ensembl VEP uses the humVar score by default - use --humdiv to retrieve the humDiv score. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "PolyPhen",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "humdiv",
+  "flag": "--humdiv",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Human only Retrieve the humDiv PolyPhen prediction instead of the default humVar. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "PolyPhen",
+  "incompatible_with": []
+ },
+ {
+  "id": "nearest",
+  "flag": "--nearest [transcript|gene|symbol]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Retrieve the transcript or gene with the nearest protein-coding transcription start site (TSS) to each input variant. Use \"transcript\" to retrieve the transcript stable ID, \"gene\" to retrieve the gene stable ID, or \"symbol\" to retrieve the gene symbol. Note that the nearest TSS may not belong to a transcript that overlaps the input variant, and more than one may be reported in the case where two are equidistant from the input coordinates. Currently only available when using a cache annotation source, and requires the Set::IntervalTree perl module. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "NEAREST",
+  "incompatible_with": []
+ },
+ {
+  "id": "distance",
+  "flag": "--distance [bp_distance(,downstream_distance)]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Modify the distance up and/or downstream between a variant and a transcript for which Ensembl VEP will assign the upstream_gene_variant or downstream_gene_variant consequences. Giving one distance will modify both up- and downstream distances; prodiving two separated by commas will set the up- (5') and down- (3') stream distances respectively. Default: 5000",
+  "not_used_by_default": false,
+  "default": "5000",
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "overlaps",
+  "flag": "--overlaps",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Report the proportion and length of a transcript overlapped by a structural variant in VCF format.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "gene_phenotype",
+  "flag": "--gene_phenotype",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Indicates if the overlapped gene is associated with a phenotype, disease or trait. See list of phenotype sources. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "GENE_PHENO",
+  "incompatible_with": []
+ },
+ {
+  "id": "regulatory",
+  "flag": "--regulatory",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Look for overlaps with regulatory regions. Ensembl VEP can also report if a variant falls in a high information position within a transcription factor binding site. Output lines have a Feature type of RegulatoryFeature or MotifFeature. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "MOTIF_NAME, MOTIF_POS, HIGH_INF_POS, MOTIF_SCORE_CHANGE",
+  "incompatible_with": []
+ },
+ {
+  "id": "cell_type",
+  "flag": "--cell_type",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Report only regulatory regions that are found in the given cell type(s). Can be a single cell type or a comma-separated list. The functional type in each cell type is reported under CELL_TYPE in the output. To retrieve a list of cell types, use --cell_type list. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "CELL_TYPE",
+  "incompatible_with": []
+ },
+ {
+  "id": "regulatory_gff",
+  "flag": "--regulatory_gff [file=filename,...]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Use regulatory annotation from Ensembl regulatory GFF3 files, instead of data from a cache or database. Will override --regulatory if used together. Files available from Ensembl FTP under species/annotation. The argument is comma-separated list of key=value pairs, in the same style as --custom providing one or more of: file (the regulatory-feature GFF3), motifs (a transcription factor binding motif GFF3) and emars (an epigenetically modified accessible region GFF3). Features from file and emars have a Feature type of RegulatoryFeature and the consequence regulatory_region_variant (with short variants, for example), with the feature's type \u2014 for example promoter, enhancer, CTCF_binding_site or open_chromatin_region \u2014 reported under BIOTYPE. Features from motifs have a Feature type of MotifFeature and the consequence TF_binding_site_variant. HIGH_INF_POS and MOTIF_SCORE_CHANGE require the position weight matrix, which the GFF does not carry, and are omitted. --cell_type is ignored, with a warning, as a GFF carries no epigenome activity data. See regulatory annotation from GFF files. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "BIOTYPE, MOTIF_NAME, MOTIF_POS, TRANSCRIPTION_FACTORS",
+  "incompatible_with": []
+ },
+ {
+  "id": "extended_promoters",
+  "flag": "--extended_promoters",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Use the extended boundaries of promoter features when annotating with --regulatory_gff. Ensembl regulatory GFF files record both a core promoter region and a wider region, given in the extended_start and extended_end attributes; by default the core coordinates are used, matching the VEP cache. The extended region is never smaller than the core region, so this option only ever adds annotation. Affects promoter features only. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "individual",
+  "flag": "--individual [all|ind list]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Consider only alternate alleles present in the genotypes of the specified individual(s). May be a single individual, a comma-separated list or \"all\" to assess all individuals separately. Individual variant combinations homozygous for the given reference allele will not be reported. Each individual and variant combination is given on a separate line of output. Only works with VCF files containing individual genotype data; individual IDs are taken from column headers. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "IND, ZYG",
+  "incompatible_with": [
+   "--minimal",
+   "--individual_zyg"
+  ]
+ },
+ {
+  "id": "individual_zyg",
+  "flag": "--individual_zyg [all|ind list]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Consider alternate and reference alleles present in the genotypes of the specified individual(s). May be a single individual, a comma-separated list or \"all\" to assess all individuals separately. Returns a list of individuals and their zygosity. Only works with VCF files containing individual genotype data; individual IDs are taken from column headers. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "ZYG",
+  "incompatible_with": [
+   "--individual"
+  ]
+ },
+ {
+  "id": "phased",
+  "flag": "--phased",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Force VCF genotypes to be interpreted as phased. For use with plugins that depend on phased data. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "allele_number",
+  "flag": "--allele_number",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Identify allele number from VCF input, where 1 = first ALT allele, 2 = second ALT allele etc. Useful when using --minimal Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "ALLELE_NUM",
+  "incompatible_with": []
+ },
+ {
+  "id": "show_ref_allele",
+  "flag": "--show_ref_allele",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Adds the reference allele in the output (after minimisation). Mainly useful for the Ensembl VEP \"default\" and tab-delimited output formats. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "REF_ALLELE",
+  "incompatible_with": []
+ },
+ {
+  "id": "uploaded_allele",
+  "flag": "--uploaded_allele",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Adds the uploaded allele string in the output (before minimisation).",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "UPLOADED_ALLELE",
+  "incompatible_with": []
+ },
+ {
+  "id": "total_length",
+  "flag": "--total_length",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Give cDNA, CDS and protein positions as Position/Length. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "numbers",
+  "flag": "--numbers",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Adds affected exon and intron numbering to to output. Format is Number/Total. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "EXON, INTRON",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "mirna",
+  "flag": "--mirna",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Reports where the variant lies in the miRNA secondary structure (only for Ensembl/GENCODE transcripts). Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "no_escape",
+  "flag": "--no_escape",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Don't URI escape HGVSp field. Default = escape",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "keep_csq",
+  "flag": "--keep_csq",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Don't overwrite existing CSQ entry in VCF INFO field. A new consequence will be added, not merged with the original. Overwrites by default",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "vcf_info_field",
+  "flag": "--vcf_info_field [CSQ|ANN|(other)]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Change the name of the INFO key that Ensembl VEP write the consequences to in its VCF output. Use \"ANN\" for compatibility with other tools such as snpEff. Default: CSQ",
+  "not_used_by_default": false,
+  "default": "CSQ",
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "terms",
+  "flag": "--terms [SO|display|NCBI]",
+  "alternate": "-t",
+  "section": "Output options",
+  "description": "The type of consequence terms to output. The Ensembl terms are described here. The Sequence Ontology is a joint effort by genome annotation centres to standardise descriptions of biological sequences. Default = \"SO\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "no_headers",
+  "flag": "--no_headers",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Don't write header lines in output files. Default = add headers",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "shift_3prime",
+  "flag": "--shift_3prime [0|1]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Right aligns all variants relative to their associated transcripts prior to consequence calculation. An example using this option can be found here. Default = 0",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--shift_hgvs"
+  ]
+ },
+ {
+  "id": "shift_genomic",
+  "flag": "--shift_genomic [0|1]",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Right aligns all variants, including intergenic variants, before consequence calculation and updates the Location field. An example using this option can be found here. Default = 0",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--shift_hgvs"
+  ]
+ },
+ {
+  "id": "shift_length",
+  "flag": "--shift_length",
+  "alternate": "",
+  "section": "Output options",
+  "description": "Reports the distance each variant has been shifted when used in conjuction with --shift_3prime",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "hgvs",
+  "flag": "--hgvs",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Add HGVS nomenclature based on Ensembl stable identifiers to the output. Both coding and protein sequence names are added where appropriate. To generate HGVS identifiers when using --cache or --offline you must use a FASTA file and --fasta. HGVS notations given on Ensembl identifiers are versioned. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "HGVSc, HGVSp, HGVS_OFFSET",
+  "incompatible_with": []
+ },
+ {
+  "id": "hgvsg",
+  "flag": "--hgvsg",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Add genomic HGVS nomenclature based on the input chromosome name. To generate HGVS identifiers when using --cache or --offline you must use a FASTA file and --fasta. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "HGVSg",
+  "incompatible_with": []
+ },
+ {
+  "id": "hgvsg_use_accession",
+  "flag": "--hgvsg_use_accession",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Force --hgvsg to return RefSeq reference sequence. For example, reports NC_000002.11 for human chromosome 2 (build GRCh38).",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "HGVSg",
+  "incompatible_with": []
+ },
+ {
+  "id": "hgvsp_use_prediction",
+  "flag": "--hgvsp_use_prediction",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Force --hgvs to return the HGVSp notation in predicted format. For example, ENSP00000233741.4:p.Thr367AsnfsTer13 will be returned as ENSP00000233741.4:p.(Thr367AsnfsTer13).",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "HGVSp",
+  "incompatible_with": []
+ },
+ {
+  "id": "ambiguous_hgvs",
+  "flag": "--ambiguous_hgvs [0|1]",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Allow input HGVSp to resolve to all genomic locations. Otherwise, most likely transcript will be selected. Default: 0 (most likely transcript selected)",
+  "not_used_by_default": false,
+  "default": "0 (most likely transcript selected)",
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "spdi",
+  "flag": "--spdi",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Add genomic SPDI notation. To generate SPDI when using --cache or --offline you must use a FASTA file and --fasta. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "SPDI",
+  "incompatible_with": []
+ },
+ {
+  "id": "ga4gh_vrs",
+  "flag": "--ga4gh_vrs",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Add GA4GH Variation Representation Specification (VRS) notation. To generate GA4GH VRS when using --cache or --offline you must use a FASTA file and --fasta. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "GA4GH_VRS",
+  "incompatible_with": [
+   "--vcf"
+  ]
+ },
+ {
+  "id": "shift_hgvs",
+  "flag": "--shift_hgvs [0|1]",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Enable or disable 3' shifting of HGVS notations. HGVS nomenclature requires an ambiguous sequence change to be described at the most 3' possible location. When enabled, this causes \"shifting\" to the most 3' possible coordinates (relative to the transcript sequence and strand) before the HGVS notations are calculated; the flag HGVS_OFFSET is set to the number of bases by which the variant has shifted, relative to the input genomic coordinates. If HGVS_OFFSET is equals to 0, no value will be added to HGVS_OFFSET column. To disable the changing of location at transcript level set --shift_hgvs to 0. Default: 1 (shift)",
+  "not_used_by_default": false,
+  "default": "1 (shift)",
+  "output_fields": "",
+  "incompatible_with": [
+   "--shift_3prime",
+   "--shift_genomic"
+  ]
+ },
+ {
+  "id": "transcript_version",
+  "flag": "--transcript_version",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Add version numbers to Ensembl transcript identifiers",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "gene_version",
+  "flag": "--gene_version",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Add version numbers to Ensembl gene identifiers",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "protein",
+  "flag": "--protein",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Add the Ensembl protein identifier to the output where appropriate. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "ENSP",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "symbol",
+  "flag": "--symbol",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Adds the gene symbol (e.g. HGNC) (where available) to the output. Some gene symbol, e.g. HGNC, are only available in merged and Ensembl caches and therefore should not be used with the --refseq cache option. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "SYMBOL, SYMBOL_SOURCE, HGNC_ID",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "ccds",
+  "flag": "--ccds",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Adds the CCDS transcript identifer (where available) to the output. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "CCDS",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "uniprot",
+  "flag": "--uniprot",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Adds best match accessions for translated protein products from three UniProt-related databases (SWISSPROT, TREMBL and UniParc) to the output. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "SWISSPROT, TREMBL, UNIPARC, UNIPROT_ISOFORM",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "tsl",
+  "flag": "--tsl",
+  "alternate": "",
+  "section": "Identifiers",
+  "description": "Adds the transcript support level for this transcript to the output. Not used by default Note Only available for human on the GRCh38 assembly",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "TSL",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "appris",
+  "flag": "--appris",
+  "alternate": "",
+  "section": "Note",
+  "description": "Adds the APPRIS isoform annotation for this transcript to the output. Not used by default Note Only available for human on the GRCh38 assembly",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "APPRIS",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "canonical",
+  "flag": "--canonical",
+  "alternate": "",
+  "section": "Note",
+  "description": "Adds a flag indicating if the transcript is the canonical transcript for the gene. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "CANONICAL",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "mane",
+  "flag": "--mane",
+  "alternate": "",
+  "section": "Note",
+  "description": "Adds a flag indicating if the transcript is the MANE Select or MANE Plus Clinical transcript for the gene. If --cache or --database annotation source is used, the alternative transcript stable ID is also added. Not used by default Note Only available for human on the GRCh38 assembly",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "MANE, MANE_SELECT, MANE_PLUS_CLINICAL",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "mane_select",
+  "flag": "--mane_select",
+  "alternate": "",
+  "section": "Note",
+  "description": "Adds a flag indicating if the transcript is the MANE Select transcript for the gene. If --cache or --database annotation source is used, the alternative transcript stable ID is also added. Not used by default Note Only available for human on the GRCh38 assembly",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "MANE, MANE_SELECT",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "biotype",
+  "flag": "--biotype",
+  "alternate": "",
+  "section": "Note",
+  "description": "Adds the biotype of the transcript or regulatory feature. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "BIOTYPE",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "domains",
+  "flag": "--domains",
+  "alternate": "",
+  "section": "Note",
+  "description": "Adds names of overlapping protein domains to output. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "DOMAINS",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "xref_refseq",
+  "flag": "--xref_refseq",
+  "alternate": "",
+  "section": "Note",
+  "description": "Output aligned RefSeq mRNA identifier for transcript. Not used by default Note The RefSeq and Ensembl transcripts aligned in this way MAY NOT, AND FREQUENTLY WILL NOT, match exactly in sequence, exon structure and protein product",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "RefSeq",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "synonyms",
+  "flag": "--synonyms [file]",
+  "alternate": "",
+  "section": "Note",
+  "description": "Load a file of chromosome synonyms. File should be tab-delimited with the primary identifier in column 1 and the synonym in column 2. Synonyms allow different chromosome identifiers to be used in the input file and any annotation source (cache, database, GFF, custom file, FASTA file). Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "check_existing",
+  "flag": "--check_existing",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Checks for the existence of known variants that are co-located with your input. By default the alleles are compared and variants on an allele-specific basis - to compare only coordinates, use --no_check_alleles. Some databases may contain variants with unknown (null) alleles and these are included by default; to exclude them use --exclude_null_alleles. See this page for more details. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "Existing_variation, CLIN_SIG, SOMATIC, PHENO",
+  "incompatible_with": []
+ },
+ {
+  "id": "check_svs",
+  "flag": "--check_svs",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Checks for the existence of structural variants that overlap your input. Currently requires database access. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "SV",
+  "incompatible_with": [
+   "--offline"
+  ]
+ },
+ {
+  "id": "clin_sig_allele",
+  "flag": "--clin_sig_allele [1|0]",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Return allele specific clinical significance. Setting this option to 0 will provide all known clinical significance values at the given locus. Default: 1 (Provide allele-specific annotations)",
+  "not_used_by_default": false,
+  "default": "1 (Provide allele-specific annotations)",
+  "output_fields": "CLIN_SIG",
+  "incompatible_with": []
+ },
+ {
+  "id": "clinvar_somatic",
+  "flag": "--clinvar_somatic_classification",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Return the somatic classification of a variant as reported by ClinVar. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "SOMATIC_CLASSIFICATION",
+  "incompatible_with": []
+ },
+ {
+  "id": "exclude_null_alleles",
+  "flag": "--exclude_null_alleles",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Do not include variants with unknown alleles when checking for co-located variants. Our human database contains variants from HGMD and COSMIC for which the alleles are not publically available; by default these are included when using --check_existing, use this flag to exclude them. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "no_check_alleles",
+  "flag": "--no_check_alleles",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "When checking for existing variants, by default Ensembl VEP only reports a co-located variant if none of the input alleles are novel. For example, if your input variant has alleles A/G, and an existing co-located variant has alleles A/C, the co-located variant will not be reported. Strand is also taken into account - in the same example, if the input variant has alleles T/G but on the negative strand, then the co-located variant will be reported since its alleles match the reverse complement of input variant. Use this flag to disable this behaviour and compare using coordinates alone. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "af",
+  "flag": "--af",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Add the global allele frequency (AF) from 1000 Genomes Phase 3 data for any known co-located variant to the output. For this and all --af_* flags, the frequency reported is for the input allele only, not necessarily the non-reference or derived allele. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "AF",
+  "incompatible_with": []
+ },
+ {
+  "id": "max_af",
+  "flag": "--max_af",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Report the highest allele frequency observed in any population from 1000 genomes, ESP or gnomAD. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "MAX_AF, MAX_AF_POPS",
+  "incompatible_with": [
+   "--database"
+  ]
+ },
+ {
+  "id": "af_1kg",
+  "flag": "--af_1kg",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Add allele frequency from continental populations (AFR,AMR,EAS,EUR,SAS) of 1000 Genomes Phase 3 to the output. Must be used with --cache. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "AFR_AF, AMR_AF, EAS_AF, EUR_AF, SAS_AF",
+  "incompatible_with": [
+   "--database"
+  ]
+ },
+ {
+  "id": "af_esp",
+  "flag": "--af_esp",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Include allele frequency from NHLBI-ESP populations. Must be used with --cache. Please note this option is deprecated and will produce an error from Ensembl VEP version 107 onwards.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "AA_AF, EA_AF",
+  "incompatible_with": [
+   "--database"
+  ]
+ },
+ {
+  "id": "af_gnomade",
+  "flag": "--af_gnomade",
+  "alternate": "--af_gnomad",
+  "section": "Co-located variants",
+  "description": "Include allele frequency from Genome Aggregation Database (gnomAD) exome populations. Note only data from the gnomAD exomes are included; to retrieve data from the additional genomes data set, see this guide. Must be used with --cache Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "gnomADe_AF, gnomADe_AFR_AF, gnomADe_AMR_AF, gnomADe_ASJ_AF, gnomADe_EAS_AF, gnomADe_FIN_AF, gnomADe_NFE_AF, gnomADe_OTH_AF, gnomADe_SAS_AF",
+  "incompatible_with": [
+   "--database",
+   "--af_gnomad"
+  ]
+ },
+ {
+  "id": "af_gnomadg",
+  "flag": "--af_gnomadg",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Include allele frequency from Genome Aggregation Database (gnomAD) genome populations. Note only data from the gnomAD genomes are included; to retrieve data from the additional genomes data set, see this guide. Must be used with --cache Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "gnomADg_AF, gnomADg_AFR_AF, gnomADg_AMI_AF, gnomADg_AMR_AF, gnomADg_ASJ_AF, gnomADg_EAS_AF, gnomADg_FIN_AF, gnomADg_MID_AF, gnomADg_NFE_AF, gnomADg_OTH_AF, gnomADg_SAS_AF",
+  "incompatible_with": [
+   "--database"
+  ]
+ },
+ {
+  "id": "af_exac",
+  "flag": "--af_exac",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Include allele frequency from ExAC project populations. Must be used with --cache. Deprecated.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "ExAC_AF, ExAC_Adj_AF, ExAC_AFR_AF, ExAC_AMR_AF, ExAC_EAS_AF, ExAC_FIN_AF, ExAC_NFE_AF, ExAC_OTH_AF, ExAC_SAS_AF",
+  "incompatible_with": [
+   "--database"
+  ]
+ },
+ {
+  "id": "pubmed",
+  "flag": "--pubmed",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Report Pubmed IDs for publications that cite existing variant. Must be used with --cache. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "PUBMED",
+  "incompatible_with": [
+   "--database"
+  ]
+ },
+ {
+  "id": "var_synonyms",
+  "flag": "--var_synonyms",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "Report known synonyms for co-located variants. Must be used with --cache. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "VAR_SYNONYMS",
+  "incompatible_with": [
+   "--database"
+  ]
+ },
+ {
+  "id": "failed",
+  "flag": "--failed [0|1]",
+  "alternate": "",
+  "section": "Co-located variants",
+  "description": "When checking for co-located variants, by default Ensembl VEP will exclude variants that have been flagged as failed. Set this flag to include such variants. Default: 0 (exclude)",
+  "not_used_by_default": false,
+  "default": "0 (exclude)",
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "gencode_basic",
+  "flag": "--gencode_basic",
+  "alternate": "",
+  "section": "Filtering and QC options",
+  "description": "Limit your analysis to transcripts belonging to the GENCODE basic set. This set has fragmented or problematic transcripts removed. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--gencode_primary",
+   "--refseq"
+  ]
+ },
+ {
+  "id": "gencode_primary",
+  "flag": "--gencode_primary",
+  "alternate": "",
+  "section": "Filtering and QC options",
+  "description": "Limit your analysis to transcripts belonging to the GENCODE primary set. This set covers all human exons in a minimal set of transcripts. Not used by default Note Only available for human on the GRCh38 assembly",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--gencode_basic",
+   "--refseq"
+  ]
+ },
+ {
+  "id": "exclude_predicted",
+  "flag": "--exclude_predicted",
+  "alternate": "",
+  "section": "Note",
+  "description": "When using the RefSeq or merged cache, exclude predicted transcripts (i.e. those with identifiers beginning with \"XM_\" or \"XR_\"). Note We do not support predicted RefSeq transcripts for GRCh37.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "transcript_filter",
+  "flag": "--transcript_filter",
+  "alternate": "",
+  "section": "Note",
+  "description": "ADVANCED Filter transcripts according to any arbitrary set of rules. Uses similar notation to filter_vep. You may filter on any key defined in the root of the transcript object; most commonly this will be \"stable_id\": --transcript_filter \"stable_id match N[MR]_\" or, a list of stable ids in file acting as a allowlist or a blocklist: --transcript_filter \"not stable_id in blocklist.txt\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "check_ref",
+  "flag": "--check_ref",
+  "alternate": "",
+  "section": "Note",
+  "description": "Force Ensembl VEP to check the supplied reference allele against the sequence stored in the Ensembl Core database or supplied FASTA file. Lines that do not match are skipped. Checking is done on the minimised sequence. Example chr13 32900399 . AGT A . the As are removed and the reference sequence is checked from 32900400 to see if it matches GTNot used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--lookup_ref"
+  ]
+ },
+ {
+  "id": "lookup_ref",
+  "flag": "--lookup_ref",
+  "alternate": "",
+  "section": "Note",
+  "description": "Force overwrite the supplied reference allele with the sequence stored in the Ensembl Core database or supplied FASTA file. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--check_ref"
+  ]
+ },
+ {
+  "id": "allow_non_variant",
+  "flag": "--allow_non_variant",
+  "alternate": "",
+  "section": "Note",
+  "description": "When using VCF format as input and output, by default Ensembl VEP will skip non-variant lines of input (where the ALT allele is null). Enabling this option the lines will be printed in the VCF output with no consequence data added.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "chr",
+  "flag": "--chr [list]",
+  "alternate": "",
+  "section": "Note",
+  "description": "Select a subset of chromosomes to analyse from your file. Any data not on this chromosome in the input will be skipped. The list can be comma separated, with \"-\" characters representing an interval. For example, to include chromosomes 1, 2, 3, 10 and X you could use --chr 1-3,10,X Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "coding_only",
+  "flag": "--coding_only",
+  "alternate": "",
+  "section": "Note",
+  "description": "Only return consequences that fall in the coding regions of transcripts. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "no_intergenic",
+  "flag": "--no_intergenic",
+  "alternate": "",
+  "section": "Note",
+  "description": "Do not include intergenic consequences in the output. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "pick",
+  "flag": "--pick",
+  "alternate": "",
+  "section": "Note",
+  "description": "Pick one line or block of consequence data per variant, including transcript-specific columns. Consequences are chosen according to the criteria described here, and the order the criteria are applied may be customised with --pick_order. This is the best method to use if you are interested only in one consequence per variant. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "pick_allele",
+  "flag": "--pick_allele",
+  "alternate": "",
+  "section": "Note",
+  "description": "Like --pick, but chooses one line or block of consequence data per variant allele. Will only differ in behaviour from --pick when the input variant has multiple alternate alleles. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "per_gene",
+  "flag": "--per_gene",
+  "alternate": "",
+  "section": "Note",
+  "description": "Output only the most severe consequence per gene. The transcript selected is arbitrary if more than one has the same predicted consequence. Uses the same ranking system as --pick therefore, the highest ranking transcript is selected before the most severe consequence. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "pick_allele_gene",
+  "flag": "--pick_allele_gene",
+  "alternate": "",
+  "section": "Note",
+  "description": "Like --pick_allele, but chooses one line or block of consequence data per variant allele and gene combination. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "flag_pick",
+  "flag": "--flag_pick",
+  "alternate": "",
+  "section": "Note",
+  "description": "As per --pick, but adds the PICK flag to the chosen block of consequence data and retains others. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "PICK",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "flag_pick_allele",
+  "flag": "--flag_pick_allele",
+  "alternate": "",
+  "section": "Note",
+  "description": "As per --pick_allele, but adds the PICK flag to the chosen block of consequence data and retains others. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "PICK",
+  "incompatible_with": [
+   "--most_severe",
+   "--summary"
+  ]
+ },
+ {
+  "id": "flag_pick_allele_gene",
+  "flag": "--flag_pick_allele_gene",
+  "alternate": "",
+  "section": "Note",
+  "description": "As per --pick_allele_gene, but adds the PICK flag to the chosen block of consequence data and retains others. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "PICK",
+  "incompatible_with": []
+ },
+ {
+  "id": "pick_order",
+  "flag": "--pick_order [c1,c2,...,cN]",
+  "alternate": "",
+  "section": "Note",
+  "description": "Customise the order of criteria (and the list of criteria) applied when choosing a block of annotation data with one of the following options: --pick, --pick_allele, --per_gene, --pick_allele_gene, --flag_pick, --flag_pick_allele, --flag_pick_allele_gene. See this page for the default order. Valid criteria are: mane_select, mane_plus_clinical, canonical, appris, tsl, biotype, ccds, rank, length, ensembl, refseq. e.g.: --pick --pick_order tsl,appris,rank",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "most_severe",
+  "flag": "--most_severe",
+  "alternate": "",
+  "section": "Note",
+  "description": "Output only the most severe consequence per variant. Transcript-specific columns will be left blank. Consequence ranks are given in this table. To include regulatory consequences, use the --regulatory option in combination with this flag. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--appris",
+   "--biotype",
+   "--canonical",
+   "--ccds",
+   "--coding_only",
+   "--domains",
+   "--flag_pick",
+   "--flag_pick_allele",
+   "--no_intergenic",
+   "--numbers",
+   "--pick",
+   "--pick_allele",
+   "--polyphen",
+   "--protein",
+   "--sift",
+   "--summary",
+   "--symbol",
+   "--tsl",
+   "--uniprot",
+   "--xref_refseq",
+   "--mane",
+   "--mane_select",
+   "--vcf"
+  ]
+ },
+ {
+  "id": "summary",
+  "flag": "--summary",
+  "alternate": "",
+  "section": "Note",
+  "description": "Output only a comma-separated list of all observed consequences per variant. Transcript-specific columns will be left blank. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--appris",
+   "--biotype",
+   "--canonical",
+   "--ccds",
+   "--coding_only",
+   "--domains",
+   "--flag_pick",
+   "--flag_pick_allele",
+   "--most_severe",
+   "--no_intergenic",
+   "--numbers",
+   "--pick",
+   "--pick_allele",
+   "--polyphen",
+   "--protein",
+   "--sift",
+   "--symbol",
+   "--tsl",
+   "--uniprot",
+   "--xref_refseq",
+   "--mane",
+   "--mane_select",
+   "--vcf"
+  ]
+ },
+ {
+  "id": "flag_gencode_primary",
+  "flag": "--flag_gencode_primary",
+  "alternate": "",
+  "section": "Note",
+  "description": "Flags transcripts as GENCODE primary using a boolean value. Not used by default Note Only available for human on the GRCh38 assembly",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "GENCODE_PRIMARY",
+  "incompatible_with": []
+ },
+ {
+  "id": "filter_common",
+  "flag": "--filter_common",
+  "alternate": "",
+  "section": "Note",
+  "description": "Shortcut flag for the filters below - this will exclude variants that have a co-located existing variant with global AF > 0.01 (1%). May be modified using any of the following freq_* filters. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "FREQS",
+  "incompatible_with": []
+ },
+ {
+  "id": "check_frequency",
+  "flag": "--check_frequency",
+  "alternate": "",
+  "section": "Note",
+  "description": "Turns on frequency filtering. Use this to include or exclude variants based on the frequency of co-located existing variants in the Ensembl Variation database. You must also specify all of the --freq_* flags below. Frequencies used in filtering are added to the output under the FREQS key in the Extra field. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "FREQS",
+  "incompatible_with": []
+ },
+ {
+  "id": "freq_freq",
+  "flag": "--freq_freq [freq]",
+  "alternate": "",
+  "section": "Note",
+  "description": "Allele frequency to use for filtering. Must be a float value between 0 and 1",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "freq_gt_lt",
+  "flag": "--freq_gt_lt [gt|lt]",
+  "alternate": "",
+  "section": "Note",
+  "description": "Specify whether the frequency of the co-located variant must be greater than (gt) or less than (lt) the value specified with --freq_freq",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "freq_filter",
+  "flag": "--freq_filter [exclude|include]",
+  "alternate": "",
+  "section": "Note",
+  "description": "Specify whether to exclude or include only variants that pass the frequency filter",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "database",
+  "flag": "--database",
+  "alternate": "",
+  "section": "Database options",
+  "description": "Enable Ensembl VEP to use local or remote databases.",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--af_1kg",
+   "--af_exac",
+   "--af_gnomad",
+   "--af_gnomade",
+   "--af_gnomadg",
+   "--cache",
+   "--max_af",
+   "--offline",
+   "--pubmed",
+   "--var_synonyms"
+  ]
+ },
+ {
+  "id": "host",
+  "flag": "--host [hostname]",
+  "alternate": "",
+  "section": "Database options",
+  "description": "Manually define the database host to connect to. Users in the US may find connection and transfer speeds quicker using our East coast mirror, useastdb.ensembl.org. Default = \"ensembldb.ensembl.org\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "user",
+  "flag": "--user [username]",
+  "alternate": "-u",
+  "section": "Database options",
+  "description": "Manually define the database username. Default = \"anonymous\"",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "password",
+  "flag": "--password [password]",
+  "alternate": "--pass",
+  "section": "Database options",
+  "description": "Manually define the database password. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "port",
+  "flag": "--port [number]",
+  "alternate": "",
+  "section": "Database options",
+  "description": "Manually define the database port. Default = 5306",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "genomes",
+  "flag": "--genomes",
+  "alternate": "",
+  "section": "Database options",
+  "description": "Override the default connection settings with those for the Ensembl Genomes public MySQL server. Required when using any of the Ensembl Genomes species. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "is_multispecies",
+  "flag": "--is_multispecies [0|1]",
+  "alternate": "",
+  "section": "Database options",
+  "description": "Some of the Ensembl Genomes databases (mainly bacteria and protists) are composed of a collection of close species. It updates the database connection settings (i.e. the database name) if the value is set to 1. Default: 0",
+  "not_used_by_default": false,
+  "default": "0",
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "lrg",
+  "flag": "--lrg",
+  "alternate": "",
+  "section": "Database options",
+  "description": "Map input variants to LRG coordinates (or to chromosome coordinates if given in LRG coordinates), and provide consequences on both LRG and chromosomal transcripts. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": [
+   "--offline"
+  ]
+ },
+ {
+  "id": "db_version",
+  "flag": "--db_version [number]",
+  "alternate": "",
+  "section": "Database options",
+  "description": "Force Ensembl VEP to connect to a specific version of the Ensembl databases. Not recommended as there may be conflicts between software and database versions. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
+  "id": "registry",
+  "flag": "--registry [filename]",
+  "alternate": "",
+  "section": "Database options",
+  "description": "Defining a registry file overwrites other connection settings and uses those found in the specified registry file to connect. Not used by default",
+  "not_used_by_default": true,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ }
+]

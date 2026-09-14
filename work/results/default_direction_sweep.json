@@ -1,0 +1,87 @@
+{
+ "factors": {
+  "species": {
+   "shipped_default": [
+    "human"
+   ],
+   "asked_not_guessed": false,
+   "n_contexts": 126,
+   "pairs": [
+    {
+     "guess": [
+      "human"
+     ],
+     "truth": [
+      "non-human"
+     ],
+     "n_contexts": 126,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 3.62,
+     "gained_column_options": [
+      "alphamissense",
+      "cadd",
+      "dosage_sensitivity",
+      "eve",
+      "loeuf",
+      "mavedb",
+      "spliceai",
+      "utrannotator"
+     ],
+     "gained_noop_mean": 4.06,
+     "gained_unmeasurable_options": [
+      "gnomad_sv",
+      "mastermind"
+     ],
+     "lost_column_mean": 0.38,
+     "lost_column_options": [
+      "maxentscan"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 0.0,
+     "lost_unmeasurable_options": []
+    },
+    {
+     "guess": [
+      "non-human"
+     ],
+     "truth": [
+      "human"
+     ],
+     "n_contexts": 126,
+     "gained_row_instances": 0,
+     "contexts_gaining_a_row_deleter": 0,
+     "gained_row_options": [],
+     "gained_row_blind_options": [],
+     "gained_column_mean": 0.38,
+     "gained_column_options": [
+      "maxentscan"
+     ],
+     "gained_noop_mean": 0.0,
+     "gained_unmeasurable_options": [],
+     "lost_column_mean": 3.62,
+     "lost_column_options": [
+      "alphamissense",
+      "cadd",
+      "dosage_sensitivity",
+      "eve",
+      "loeuf",
+      "mavedb",
+      "spliceai",
+      "utrannotator"
+     ],
+     "lost_row_options": [],
+     "lost_row_blind_options": [],
+     "lost_noop_mean": 4.06,
+     "lost_unmeasurable_options": [
+      "gnomad_sv",
+      "mastermind"
+     ]
+    }
+   ]
+  }
+ }
+}
