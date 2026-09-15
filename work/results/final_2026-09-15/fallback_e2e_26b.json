@@ -1,0 +1,646 @@
+{
+ "model": "gemma4:26b",
+ "tally": {
+  "variant_size_class": {
+   "FALLBACK": 23
+  },
+  "origin": {
+   "FALLBACK": 20
+  },
+  "analysis_goal": {
+   "FALLBACK": 11,
+   "FILLED": 1
+  },
+  "region_focus": {
+   "FALLBACK": 22,
+   "FILLED": 1
+  },
+  "species": {}
+ },
+ "rows": [
+  {
+   "row": 1,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 2,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 2,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 3,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 3,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 3,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 4,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 4,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 4,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 5,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 5,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 6,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 6,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 6,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 6,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 7,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 7,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 7,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 8,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 8,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 8,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 9,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 9,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 10,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 10,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 10,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 11,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 11,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 11,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 12,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 12,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 13,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 13,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 13,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 14,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 14,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 14,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 15,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 15,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 15,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 15,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 16,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 16,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 16,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 16,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 17,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 17,
+   "target": "analysis_goal",
+   "verdict": "FILLED",
+   "detected": "population-frequency",
+   "assumed_line": null,
+   "read_after": []
+  },
+  {
+   "row": 18,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 18,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 18,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 21,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 22,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 22,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 23,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 23,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 23,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 24,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 24,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 24,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 25,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 25,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 26,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 26,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 26,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 27,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 28,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 28,
+   "target": "region_focus",
+   "verdict": "FILLED",
+   "detected": "coding",
+   "assumed_line": null,
+   "read_after": []
+  },
+  {
+   "row": 28,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  },
+  {
+   "row": 29,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 29,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 29,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 30,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 30,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 30,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 31,
+   "target": "origin",
+   "verdict": "FALLBACK",
+   "detected": "somatic",
+   "assumed_line": "somatic",
+   "read_after": "unstated"
+  },
+  {
+   "row": 31,
+   "target": "variant_size_class",
+   "verdict": "FALLBACK",
+   "detected": "small, structural-CNV",
+   "assumed_line": "small, structural-CNV",
+   "read_after": []
+  },
+  {
+   "row": 31,
+   "target": "region_focus",
+   "verdict": "FALLBACK",
+   "detected": "coding, regulatory-noncoding",
+   "assumed_line": "coding, regulatory-noncoding",
+   "read_after": []
+  },
+  {
+   "row": 31,
+   "target": "analysis_goal",
+   "verdict": "FALLBACK",
+   "detected": "basic-consequence",
+   "assumed_line": "basic-consequence",
+   "read_after": []
+  }
+ ]
+}

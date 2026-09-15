@@ -1074,3 +1074,119 @@ regenerable, so a path to one of them in the text below names a private artifact
 you can open. The same applies to `example_sweep_*.md`, which was never carried across. Nothing here
 depends on reading them — the reports carry the figures — but the citations are honest about their
 source rather than pretending the source is to hand.
+
+## Exp 20 — Single pass: the draft call adds nothing the checker keeps (2026-09-09/10, 26b local)
+
+**Claim.** `restore_missing_recommended` rebuilds the RECOMMENDED set from the factor tuple whatever the
+draft says, so the second model call only ever adds. Verified four ways on a clinical human germline
+tuple: an empty draft, `{"sift"}`, and a draft explicitly DISABLING sift/clinvar/mane all yield the
+same 20 table options; an addition the table does not price survives.
+
+**Design.** `--single-pass` (default since 2026-09-14; `--two-pass` restores the draft). 31 review rows,
+gold = the config resolved from each row's TRUE tuple. Four arms: single; two-pass with the 23 legacy
+examples (shipped); two-pass with the other 30 factor rows; two-pass with no corpus.
+
+| arm | F1 (26b, 3 repeats) | F1 (e4b) | class-weighted F1 (26b) |
+|---|---|---|---|
+| single | **0.898 ± 0.000** | 0.874 | **0.942** |
+| two_23 | 0.870 ± 0.002 | 0.834 | 0.936 |
+| two_31loo | 0.866 ± 0.001 | 0.826 | 0.934 |
+| two_none | 0.855 ± 0.001 | 0.803 | 0.925 |
+
+single ⊆ two on 31/31 rows, 0 options only in single, identical block 25/31 after the already-on
+change. What the draft added across 31 rows: `check_existing` ×12 (a form default), `coding_only` ×4
+(removes rows), one column each ×3. Latency 17.9 s → 1.2 s. The two-pass arms are unseeded
+(`stream_response` sets no temperature) and moved on 16/10/6 rows between repeats; single moved on 0.
+Files: `results/singlepass_2026-09-09/`, `results/overnight_2026-09-10/`, `harness/pass_and_corpus_ablation.py`,
+`harness/singlepass_vs_twopass.py`, `harness/class_weighted_f1.py`.
+
+**Re-run on the final table, 2026-09-15** (`results/final_2026-09-15/`): plain F1 is now scored with the
+form's 16 ticked-by-default options excluded from BOTH sides. Since the ALREADY-ON change the display
+lists those once (enabled and merely offered alike), so they cannot be read back as enabled, and they
+cannot change the user's file either way. The 0.898 above counted them; the re-run's figure is on the
+smaller set and is not the same number. Both are stated with their definition.
+
+| arm | plain F1 (defaults excluded) | class-weighted F1 | row-deleting extras (31 rows) |
+|---|---|---|---|
+| single | **0.858** | **0.900** | **0** |
+| two_23 | 0.840 | 0.862 | 5 |
+| two_31loo | 0.830 | 0.836 | 7 |
+| two_none | 0.829 | 0.842 | 7 |
+
+The ordering is unchanged. The weighted gap widened from 0.006 to 0.038 because `frequency` is now an
+add-on, so the draft can switch it on and did (with `coding_only`) — on one human germline row the
+draft switched on 21 add-ons at once. 31-row single-vs-two on the same table: single ⊆ two on 31/31 at
+the option level (the harness reports 30/31 because the type-grouped predictor line lists different
+members in the two arms, a rendering artifact); draft additions per row 1.2, led by `nmd` ×5,
+`uniprot` ×3, `frequency` ×2, `coding_only` ×2. **Do not quote this run's latencies** (41.9 s / 2.1 s):
+the queue took eleven hours for ~45 minutes of work, so the GPU was contended overnight; the option
+sets are seeded and stand, the timings are not representative.
+
+**Consequence.** enable-F1 is undefined on the default path (it scored the draft). The factor tuple is
+the only model decision; Exp 21 scores it. Scope is decided on the same call (`request_type`; 0/31
+review rows affected; `hi`, a FASTA error and a column question each stop in <1 s).
+
+## Exp 21 — Factor accuracy, the keyword question, and 24 traps (2026-09-10/13, 26b local)
+
+**Factor accuracy**, 31 rows, seeds 42/43/44, after adding `request_type` to the classifier prompt:
+species 31/31 · origin 28/31 · variant_size_class 30/31 · region_focus 31/31 · analysis_goal 25/31 ·
+**exact tuple 22/31** · end-to-end F1 **0.969 ± 0.000** (re-run on the final table 2026-09-15: goal 24/31, exact 21/31, F1 0.970 ± 0.000 — one goal row flipped during a contended overnight run; was 0.975 before the field; the shift is
+deterministic and costs no configuration on the two origin rows). 4 of 6 goal misses are the
+generator co-labelling `basic-consequence` beside a richer goal while the prompt says return only the
+richer one — configuration identical. `harness/factor_accuracy.py`.
+
+**Keyword rules lose.** `harness/rules_vs_model.py`: a keyword rule per factor gets 9/31 exact against
+the model's 22; showing its matches as hints does nothing at 26b (22 → 21) and helps e4b (19 → 21).
+The model is the better "unstated" detector at 26b (origin 15 vs 11 of 20, region 22 vs 10 of 23).
+
+**24 keyword traps** (`harness/factor_traps.py`): the cue word present and WRONG — negated ("not a
+tumour study"), idiomatic ("an enhancer of the hypothesis"), a tool or database name ("Manta was run
+but produced nothing"), a different sense ("the patient population"). Model alone **24/24**, hints
+23/24 (one lost: `somatic ← tumour` on "the tumour half was dropped"), keyword override **6/24**.
+Same shape as species (override 7/14, model-decides 14/14). Decision: no keyword layer for the four
+model-read factors; the species scan stays as recall over 356 names with the model deciding
+(`VEP_SPECIES_HINT=1` default). One seed, synthetic cases, an upper bound.
+
+## Exp 22 — What each option does to the output, from Ensembl's documentation (2026-09-13)
+
+The mentors' position: the official pages record what every option does and how options interact, so
+evaluation rests on that record, not on running VEP. `harness/build_output_effects_dossier.py` parses
+the release-116 options page (Output fields, Incompatible with), the web-form page and the plugins page
+(saved under `research/ensembl_docs_116/`) into `research/output_effects_dossier.md`, reconciled against
+the catalogue. Five classes: removes rows (7), swaps the transcript set (`core_type`), changes row extent
+(`distance`), adds fields, values only. Found by reading: two conflict edges missing from the catalogue,
+AVI and ProtVar on the form and not in it, six form-section labels and ten plugin categories that
+differed from Ensembl's. Found only by running (the one thing the page cannot say): `--check_frequency`
+deletes nothing at its own default population on a release-116 cache, because `1KG_ALL` is
+special-cased to read two fields the cache no longer carries; every other population filters as
+documented (`results/local_vep_2026-09-10/`). The local option sweep (`results/local_option_sweep_2026-09-10/`)
+is kept as direction only: its percentages are input-dependent and its plugin rows are void.
+
+## Exp 23 — Every default priced in both directions, on the output axis (2026-09-13)
+
+`harness/default_direction_sweep.py`: for each factor, every ordered (guess, truth) pair over the full
+space of the other four, graded by the dossier's classes. `origin` and `species` were the only guesses
+that could switch on a row-deleter (`frequency`, on 36/126 tuples); with `frequency` an add-on both are
+now 0 in both directions. The multi-select guesses lose nothing either way; `species=human` remains the
+weakest guess on columns (over-includes 3.62, loses 0.38 for a non-human truth). `results/default_direction_sweep.json`.
+
+## Exp 24 — Does a missing factor reach the decided fallback, end to end? (2026-09-14, 26b local)
+
+`harness/fallback_e2e.py` runs the shipped CLI on the 78 pure ablations. origin 20/20, size 23/23,
+region 22/23, goal 11/12 reached the decided default AND disclosed it; the two "filled" rows still
+carried a cue (`population cohort`, `exome`) and the model read it. Species: 0/14 disclosed before the
+fix, **14/14** after — the classifier's `unstated` had been mapped to "human" inside `infer_factors`,
+`clarification_plan` skipped species, and the keyword scan's analysis words ("somatic", "tumour") read
+as human. In hint mode the scan now supplies non-human recall only. **Re-run 2026-09-15** (`results/final_2026-09-15/`): identical — 76/78, the same two cue-carrying rows.
+
+## Exp 25 — Species data as a lookup beside the binary factor (2026-09-15)
+
+From Ensembl's own sources — the pathogenicity-predictions page ("SIFT predictions are also available
+for cat, chicken, cow, dog, goat, horse, mouse, pig, rat, sheep and zebrafish"; PolyPhen-2 human only),
+`InputForm.pm` species gating (CCDS: human + mouse; variant synonyms: human + pig) and
+`vep_custom_web_config.json` (frequency files: chicken, dog, goat, sheep) — `harness/build_species_data.py`
+writes `generation_config/species_data.json`. The checker withholds an option a species lacks
+(`requires_species_data`), matching on the genus-species prefix so strains count, and the removal is
+printed by default under NOT AVAILABLE FOR THIS SPECIES. A cattle frequency query is told there is no
+file and which four species have one; a zebra finch loses SIFT; mouse keeps it. Answers round-2 item 6
+from the form's inventory. 12 invariants in `verify_pipeline.py` §10.
