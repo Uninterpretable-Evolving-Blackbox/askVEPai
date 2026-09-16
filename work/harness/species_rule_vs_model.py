@@ -39,9 +39,7 @@ def model_read(client, model, q, seed, hint):
     from openai import OpenAI                                           # noqa: F401
     resp = client.chat.completions.create(
         model=model, temperature=0.0, seed=seed, max_tokens=va._CLASSIFY_MAX_TOKENS,
-        messages=[{"role": "system", "content": va.FACTOR_CLASSIFIER_PROMPT + q
-                   + (va.format_species_hint(q) if hint else "")},
-                  {"role": "user", "content": "Return the JSON classification."}],
+        messages=va.classifier_messages(q, va.format_species_hint(q) if hint else ""),
         extra_body={"keep_alive": va.KEEP_ALIVE, "think": False})
     rec = va.parse_factor_classification(resp.choices[0].message.content or "")
     if rec is None:

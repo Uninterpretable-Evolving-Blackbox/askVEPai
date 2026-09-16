@@ -1,0 +1,373 @@
+{
+ "_what": "Where every catalogue option sits on the Ensembl VEP web form, read from the live page.",
+ "_url": "https://jun2026.archive.ensembl.org/Homo_sapiens/Tools/VEP",
+ "_release": "Ensembl 116 (page title 'Variant Effect Predictor - Homo_sapiens - Ensembl genome browser 116')",
+ "_read_on": "2026-09-15",
+ "_method": "Every <input>/<select> on the page mapped to the nearest preceding <h2> in document order; plugins as plugin_<Key>, regulatory/cell type as regulatory_Homo_sapiens / cell_type_Homo_sapiens, gnomAD-SV as custom_custom_homo_sapiens_gnomAD_SV. The <h2> is the box; the six top-level sections are VEPConstants.pm CONFIG_SECTIONS, and each box sits in exactly one of them (checked by DOM ancestry on the same page).",
+ "_structure": {
+  "identifiers": [],
+  "variants_frequency_data": [],
+  "additional_annotations": [
+   "Gene tolerance to change",
+   "Transcript annotation",
+   "Protein annotation",
+   "Functional effect",
+   "Regulatory data",
+   "Regulatory impact",
+   "Phenotype data and citations"
+  ],
+  "predictions": [
+   "Pathogenicity predictions",
+   "Splicing predictions",
+   "Conservation"
+  ],
+  "filters": [],
+  "advanced": []
+ },
+ "_counts": {
+  "read_directly": 62,
+  "placed_by_a_stated_fact": 6
+ },
+ "options": {
+  "af": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "af_1kg": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "af_gnomade": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "af_gnomadg": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "alphamissense": {
+   "section": "predictions",
+   "subsection": "Pathogenicity predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "ancestral_allele": {
+   "section": "predictions",
+   "subsection": "Conservation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "appris": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "avi": {
+   "section": "predictions",
+   "subsection": "Pathogenicity predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "biotype": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "blosum62": {
+   "section": "predictions",
+   "subsection": "Conservation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "buffer_size": {
+   "section": "advanced",
+   "subsection": "Advanced options",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "cadd": {
+   "section": "predictions",
+   "subsection": "Pathogenicity predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "canonical": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "ccds": {
+   "section": "identifiers",
+   "subsection": "Identifiers",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "cell_type": {
+   "section": "additional_annotations",
+   "subsection": "Regulatory data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "check_existing": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "clinpred": {
+   "section": "predictions",
+   "subsection": "Pathogenicity predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "clinvar": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "no control of its own; returned with 'Frequency data for co-located variants' (check_existing), so placed where that control is"
+  },
+  "coding_only": {
+   "section": "filters",
+   "subsection": "Filters",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "core_type": {
+   "section": "input",
+   "subsection": null,
+   "how": "read off the page: 'Transcript database to use' sits in the input block at the top, above every configuration section"
+  },
+  "dbnsfp": {
+   "section": "predictions",
+   "subsection": "Pathogenicity predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "dbscsnv": {
+   "section": "predictions",
+   "subsection": "Splicing predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "distance": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "domains": {
+   "section": "additional_annotations",
+   "subsection": "Protein annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "dosage_sensitivity": {
+   "section": "additional_annotations",
+   "subsection": "Gene tolerance to change",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "enformer": {
+   "section": "additional_annotations",
+   "subsection": "Regulatory impact",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "eve": {
+   "section": "predictions",
+   "subsection": "Pathogenicity predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "failed": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "frequency": {
+   "section": "filters",
+   "subsection": "Filters",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "geno2mp": {
+   "section": "additional_annotations",
+   "subsection": "Phenotype data and citations",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "gnomad_sv": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "go": {
+   "section": "additional_annotations",
+   "subsection": "Phenotype data and citations",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "hgvs": {
+   "section": "identifiers",
+   "subsection": "Identifiers",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "intact": {
+   "section": "additional_annotations",
+   "subsection": "Functional effect",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "loeuf": {
+   "section": "additional_annotations",
+   "subsection": "Gene tolerance to change",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "mane": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "mastermind": {
+   "section": "additional_annotations",
+   "subsection": "Phenotype data and citations",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "mavedb": {
+   "section": "additional_annotations",
+   "subsection": "Functional effect",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "maxentscan": {
+   "section": "predictions",
+   "subsection": "Splicing predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "mirna": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "most_severe": {
+   "section": "filters",
+   "subsection": "Filters",
+   "how": "a value of the 'Restrict results' drop-down (input name `summary`), which was read under Filters"
+  },
+  "mutfunc": {
+   "section": "additional_annotations",
+   "subsection": "Protein annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "nmd": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "numbers": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "opentargets": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "paralogues": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "per_gene": {
+   "section": "filters",
+   "subsection": "Filters",
+   "how": "a value of the 'Restrict results' drop-down (input name `summary`), which was read under Filters"
+  },
+  "phenotypes": {
+   "section": "additional_annotations",
+   "subsection": "Phenotype data and citations",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "pick": {
+   "section": "filters",
+   "subsection": "Filters",
+   "how": "a value of the 'Restrict results' drop-down (input name `summary`), which was read under Filters"
+  },
+  "pick_allele": {
+   "section": "filters",
+   "subsection": "Filters",
+   "how": "a value of the 'Restrict results' drop-down (input name `summary`), which was read under Filters"
+  },
+  "polyphen": {
+   "section": "predictions",
+   "subsection": "Pathogenicity predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "protein": {
+   "section": "identifiers",
+   "subsection": "Identifiers",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "protvar": {
+   "section": "additional_annotations",
+   "subsection": "Protein annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "pubmed": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "regulatory": {
+   "section": "additional_annotations",
+   "subsection": "Regulatory data",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "revel": {
+   "section": "predictions",
+   "subsection": "Pathogenicity predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "riboseqorfs": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "shift_3prime": {
+   "section": "advanced",
+   "subsection": "Advanced options",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "sift": {
+   "section": "predictions",
+   "subsection": "Pathogenicity predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "species_frequency": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "non-human custom files do not render on the Homo_sapiens page; section taken from vep_custom_web_config.json, which gives \"section\": \"Variants and frequency data\" for every non-human entry"
+  },
+  "spliceai": {
+   "section": "predictions",
+   "subsection": "Splicing predictions",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "summary": {
+   "section": "filters",
+   "subsection": "Filters",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "symbol": {
+   "section": "identifiers",
+   "subsection": "Identifiers",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "transcript_version": {
+   "section": "identifiers",
+   "subsection": "Identifiers",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "tsl": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "uniprot": {
+   "section": "identifiers",
+   "subsection": "Identifiers",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "utrannotator": {
+   "section": "additional_annotations",
+   "subsection": "Transcript annotation",
+   "how": "read off the page: the control sits under this <h2>"
+  },
+  "var_synonyms": {
+   "section": "variants_frequency_data",
+   "subsection": "Variants and frequency data",
+   "how": "read off the page: the control sits under this <h2>"
+  }
+ }
+}

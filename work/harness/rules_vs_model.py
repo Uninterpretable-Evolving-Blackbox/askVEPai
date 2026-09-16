@@ -121,8 +121,7 @@ def hint_block(rr):
 def model_read(client, model, query, seed, hint=""):
     resp = client.chat.completions.create(
         model=model, temperature=0.0, seed=seed, max_tokens=va._CLASSIFY_MAX_TOKENS,
-        messages=[{"role": "system", "content": va.FACTOR_CLASSIFIER_PROMPT + query + hint},
-                  {"role": "user", "content": "Return the JSON classification."}],
+        messages=va.classifier_messages(query, hint),
         extra_body={"keep_alive": va.KEEP_ALIVE, "think": False})
     return va.parse_factor_classification(resp.choices[0].message.content or "")
 

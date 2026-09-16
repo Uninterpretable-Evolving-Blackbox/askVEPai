@@ -381,7 +381,9 @@ def api_meta():
 def api_recommend():
     query = (request.args.get("query") or "").strip()
     kb = request.args.get("kb", "expanded")
-    retrieval = request.args.get("retrieval", "all")
+    # The Retrieval selector was removed 2026-09-16: it chose which examples went into the draft prompt,
+    # and the recommend path no longer makes a draft call. Every example is used, as in the CLI.
+    retrieval = "all"
     do_check = request.args.get("check", "1") == "1"
     explain = request.args.get("explain", "1") == "1"
     model = request.args.get("model") or DEFAULT_MODEL
@@ -392,8 +394,6 @@ def api_recommend():
     context = {"species": request.args.get("species"), "origin": request.args.get("origin"),
                "variant_size_class": (["small", "structural-CNV"] if _size == "both" else _size),
                "assembly": request.args.get("assembly")}
-    if retrieval not in ("keyword", "semantic", "all"):
-        retrieval = "keyword"
 
     def gen():
         if not query:
@@ -440,9 +440,11 @@ def api_recommend():
                 # and dropped the reason. The web is the product, so it is the surface where the
                 # override instruction actually has to reach someone; an assumption announced without
                 # it tells the user what happened and not how to change it.
+                # The VALUE, not the argument for it -- same change the CLI took on 2026-09-15.
+                # `why` is still carried in the event so the page can show it on demand.
                 for f, value, why in assumed:
                     shown = ", ".join(value) if isinstance(value, list) else value
-                    yield sse("status", {"message": f"Assumed {f} = {shown} — {why}."})
+                    yield sse("status", {"message": f"Assumed {f} = {shown}", "why": why})
                 for f, why, at_stake in open_qs:
                     yield sse("status", {"message": f"Left open: {why} (affects {', '.join(at_stake)})."})
             resolved = va.resolve_for_query(factor_tuple, vep_options)
@@ -455,7 +457,7 @@ def api_recommend():
                 return
 
             use_case = trace["use_case"]
-            species = va.infer_species(query)
+            species = (factor_tuple or {}).get("species") or "human"
             selected = [e for e in trace["examples"] if e["selected"]]
             yield sse("meta", {
                 "use_case": use_case,
@@ -498,9 +500,10 @@ def api_recommend():
                     p_resolved = va.resolve_for_query(pass_tuple, vep_options)
                     _species = (context.get("species")
                                 if context.get("species") in ("human", "non-human") else None)
-                    # The tuple knows the species the keyword scan may not (2026-09-15); see run_recommend.
-                    if _species is None and (factor_tuple or {}).get("species") == "non-human":
-                        _species = "non-human"
+                    # The tuple's species, human included: the model decides it (2026-09-16), and a
+                    # None here would send the checker back to the keyword scan. See run_recommend.
+                    if _species is None and (factor_tuple or {}).get("species") in ("human", "non-human"):
+                        _species = factor_tuple["species"]
                     violations = va.check_and_fix_violations(
                         p_enabled, p_disabled, vep_options, training_examples, query,
                         retrieval_mode=retrieval, assembly_override=assembly,

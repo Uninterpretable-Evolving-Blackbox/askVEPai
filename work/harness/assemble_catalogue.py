@@ -26,7 +26,10 @@ DEMO_FIELDS = [
 META_FIELDS = ["source_type", "is_new", "web_form_subsection", "web_default", "provenance"]
 USE_CASES = ["rare_disease_germline", "somatic_cancer", "regulatory_noncoding",
              "population_genetics", "structural_variants", "non_human", "quick_lookup"]
-SECTIONS = ["identifiers", "variants_frequency_data", "additional_annotations",
+# "input" is the block at the top of the form, above every CONFIG_SECTIONS panel. One control lives
+# there -- `core_type`, "Transcript database to use" -- read off the live release-116 page on
+# 2026-09-15 (research/ensembl_docs_116/form_layout_live.json).
+SECTIONS = ["input", "identifiers", "variants_frequency_data", "additional_annotations",
             "predictions", "filters", "advanced"]
 
 

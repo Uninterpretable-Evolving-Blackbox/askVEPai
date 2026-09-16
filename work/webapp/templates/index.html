@@ -251,23 +251,6 @@
       </div>
 
       <div class="grp">
-        <span class="glabel">Retrieval
-          <i class="info" tabindex="0" role="button" aria-label="What is Retrieval?" data-tip="How many reference examples, and which, are placed in the model's prompt.
-
-• Keyword — top 2 by fast word-overlap.
-
-• Semantic — top 2 by sentence-embedding similarity (BGE); more robust to wording, loads an embedding model the first time.
-
-• All examples — every example in the knowledge base (no filtering). This is the best-performing setup in the project's experiments, but builds a larger prompt, so it's slower.">i</i>
-        </span>
-        <div class="seg" id="retSeg">
-          <button data-ret="keyword">Keyword</button>
-          <button data-ret="semantic">Semantic</button>
-          <button data-ret="all" class="on">All examples</button>
-        </div>
-      </div>
-
-      <div class="grp">
         <span class="glabel">Output</span>
         <div class="toggles">
           <span class="toggle-wrap">
@@ -423,7 +406,6 @@ function wireSeg(id, attr, key, cb){
   });
 }
 wireSeg("#modeSeg","mode","mode",updateModeUI);
-wireSeg("#retSeg","ret","retrieval");
 $("#explainTog").onchange = e => state.explain = e.target.checked;
 $("#checkTog").onchange = e => state.check = e.target.checked;
 $("#modelSel").onchange = e => state.model = e.target.value;
@@ -505,7 +487,7 @@ function run(){
   let url;
   if(state.mode==="explain"){ url="/api/explain_result?"+p; }
   else {
-    p.set("kb",state.kb); p.set("retrieval",state.retrieval);
+    p.set("kb",state.kb);
     p.set("explain",state.explain?"1":"0"); p.set("check",state.check?"1":"0");
     // Only send what the user actually chose. An empty value means "read it from my description",
     // which is the default, so an untouched bar leaves the request byte-identical to before.
@@ -562,7 +544,6 @@ function renderMeta(d){
   show("#summaryCard"); $("#summaryChips").innerHTML="";
   chip("Use case", d.use_case, true);
   chip("Species", d.species);
-  chip("Retrieval", d.retrieval);
   chip("KB", `${d.kb_label} · ${d.n_options} opts / ${d.n_examples} ex`);
   chip("Model", d.model);
   if(d.selected_examples && d.selected_examples.length){

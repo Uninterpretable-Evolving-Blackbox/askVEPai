@@ -47,8 +47,7 @@ def classify_raw(client, model, query, seed):
     """infer_factors' call, but keeping the model's OWN species answer instead of the keyword rule."""
     resp = client.chat.completions.create(
         model=model, temperature=0.0, seed=seed,
-        messages=[{"role": "system", "content": va.FACTOR_CLASSIFIER_PROMPT + (query or "")},
-                  {"role": "user", "content": "Return the JSON classification."}])
+        messages=va.classifier_messages(query))
     rec = va.parse_factor_classification(resp.choices[0].message.content or "")
     if rec is None:
         return None, None

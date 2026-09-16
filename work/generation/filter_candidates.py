@@ -166,8 +166,9 @@ def llm_factor_recovery(rows, ev, model, attempts=FACTOR_ATTEMPTS):
         for k in range(attempts):
             seed = 42 if k == 0 else 42 + k * 1000
             try:
-                raw = ev.call_llm(client, model, genlib.FACTOR_CLASSIFIER_PROMPT + q,
-                                  "Return the JSON classification.", temperature=0.0, seed=seed)
+                _msgs = genlib._VA.classifier_messages(q)
+                raw = ev.call_llm(client, model, _msgs[0]["content"], _msgs[1]["content"],
+                                  temperature=0.0, seed=seed)
             except Exception as e:                  # noqa: BLE001 - empty/transport = one bad attempt
                 raw = f"<call failed: {type(e).__name__}: {e}>"
             raws.append({"attempt": k + 1, "seed": seed, "raw": (raw or "")[:RAW_KEEP_CHARS]})
