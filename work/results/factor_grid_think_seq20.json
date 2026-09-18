@@ -1,0 +1,2277 @@
+{
+  "model": "gemma4:26b",
+  "seeds": [
+    42
+  ],
+  "style": "natural",
+  "reader": "think",
+  "classifier_prompt": "v2",
+  "species_hint": false,
+  "n_cases": 20,
+  "arms": {
+    "model": {
+      "plain": 20,
+      "trap": 20,
+      "twin": 20,
+      "absent": 20,
+      "all_four": 20
+    },
+    "rule": {
+      "plain": 20,
+      "trap": 11,
+      "twin": 15,
+      "absent": 0,
+      "all_four": 0
+    },
+    "majority": {
+      "plain": 11,
+      "trap": 11,
+      "twin": 9,
+      "absent": 0,
+      "all_four": 0
+    }
+  },
+  "by_factor": {
+    "species": {
+      "plain": 20,
+      "trap": 20,
+      "twin": 20,
+      "absent": 20,
+      "all_four": 20,
+      "n": 20
+    },
+    "origin": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "variant_size_class": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "region_focus": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "analysis_goal": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    }
+  },
+  "grid": {
+    "species|negation": {
+      "plain": 6,
+      "trap": 6,
+      "twin": 6,
+      "absent": 6,
+      "all_four": 6,
+      "n": 6
+    },
+    "species|word_sense": {
+      "plain": 6,
+      "trap": 6,
+      "twin": 6,
+      "absent": 6,
+      "all_four": 6,
+      "n": 6
+    },
+    "species|tool_name": {
+      "plain": 6,
+      "trap": 6,
+      "twin": 6,
+      "absent": 6,
+      "all_four": 6,
+      "n": 6
+    },
+    "species|attachment": {
+      "plain": 2,
+      "trap": 2,
+      "twin": 2,
+      "absent": 2,
+      "all_four": 2,
+      "n": 2
+    },
+    "species|domain": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "origin|negation": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "origin|word_sense": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "origin|tool_name": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "origin|attachment": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "origin|domain": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "variant_size_class|negation": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "variant_size_class|word_sense": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "variant_size_class|tool_name": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "variant_size_class|attachment": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "variant_size_class|domain": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "region_focus|negation": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "region_focus|word_sense": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "region_focus|tool_name": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "region_focus|attachment": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "region_focus|domain": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "analysis_goal|negation": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "analysis_goal|word_sense": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "analysis_goal|tool_name": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "analysis_goal|attachment": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    },
+    "analysis_goal|domain": {
+      "plain": 0,
+      "trap": 0,
+      "twin": 0,
+      "absent": 0,
+      "all_four": 0,
+      "n": 0
+    }
+  },
+  "workers": 1,
+  "timing": {
+    "calls": 80,
+    "total_s": 354.5,
+    "mean_s": 4.43,
+    "median_s": 4.283,
+    "p90_s": 5.152,
+    "max_s": 9.186,
+    "median_output_tokens": 524,
+    "p90_output_tokens": 611,
+    "max_output_tokens": 1056,
+    "unparseable": 0,
+    "hit_token_cap": 0
+  },
+  "single_user_latency": null,
+  "timings": [
+    {
+      "seconds": 4.064,
+      "eval_count": 572,
+      "prompt_eval_count": 719,
+      "thinking_chars": 1795,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.422,
+      "eval_count": 580,
+      "prompt_eval_count": 726,
+      "thinking_chars": 1836,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.385,
+      "eval_count": 593,
+      "prompt_eval_count": 725,
+      "thinking_chars": 1871,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 5.018,
+      "eval_count": 665,
+      "prompt_eval_count": 714,
+      "thinking_chars": 2079,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.619,
+      "eval_count": 482,
+      "prompt_eval_count": 716,
+      "thinking_chars": 1390,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.709,
+      "eval_count": 495,
+      "prompt_eval_count": 725,
+      "thinking_chars": 1464,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.715,
+      "eval_count": 500,
+      "prompt_eval_count": 724,
+      "thinking_chars": 1522,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.724,
+      "eval_count": 479,
+      "prompt_eval_count": 709,
+      "thinking_chars": 1523,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.21,
+      "eval_count": 563,
+      "prompt_eval_count": 712,
+      "thinking_chars": 1685,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.768,
+      "eval_count": 499,
+      "prompt_eval_count": 719,
+      "thinking_chars": 1491,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.211,
+      "eval_count": 564,
+      "prompt_eval_count": 718,
+      "thinking_chars": 1679,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.726,
+      "eval_count": 484,
+      "prompt_eval_count": 705,
+      "thinking_chars": 1408,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.92,
+      "eval_count": 516,
+      "prompt_eval_count": 713,
+      "thinking_chars": 1629,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.858,
+      "eval_count": 514,
+      "prompt_eval_count": 720,
+      "thinking_chars": 1552,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.641,
+      "eval_count": 481,
+      "prompt_eval_count": 719,
+      "thinking_chars": 1495,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.639,
+      "eval_count": 456,
+      "prompt_eval_count": 708,
+      "thinking_chars": 1454,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.115,
+      "eval_count": 540,
+      "prompt_eval_count": 716,
+      "thinking_chars": 1678,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.161,
+      "eval_count": 541,
+      "prompt_eval_count": 724,
+      "thinking_chars": 1655,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.16,
+      "eval_count": 537,
+      "prompt_eval_count": 723,
+      "thinking_chars": 1621,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.742,
+      "eval_count": 477,
+      "prompt_eval_count": 711,
+      "thinking_chars": 1495,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.286,
+      "eval_count": 560,
+      "prompt_eval_count": 716,
+      "thinking_chars": 1666,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.119,
+      "eval_count": 526,
+      "prompt_eval_count": 726,
+      "thinking_chars": 1559,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.067,
+      "eval_count": 516,
+      "prompt_eval_count": 723,
+      "thinking_chars": 1584,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.152,
+      "eval_count": 524,
+      "prompt_eval_count": 710,
+      "thinking_chars": 1572,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.137,
+      "eval_count": 526,
+      "prompt_eval_count": 717,
+      "thinking_chars": 1568,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 6.538,
+      "eval_count": 821,
+      "prompt_eval_count": 725,
+      "thinking_chars": 2751,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 5.735,
+      "eval_count": 717,
+      "prompt_eval_count": 724,
+      "thinking_chars": 2357,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.152,
+      "eval_count": 510,
+      "prompt_eval_count": 710,
+      "thinking_chars": 1484,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.963,
+      "eval_count": 472,
+      "prompt_eval_count": 716,
+      "thinking_chars": 1394,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.984,
+      "eval_count": 501,
+      "prompt_eval_count": 725,
+      "thinking_chars": 1487,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.283,
+      "eval_count": 540,
+      "prompt_eval_count": 724,
+      "thinking_chars": 1626,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.149,
+      "eval_count": 494,
+      "prompt_eval_count": 711,
+      "thinking_chars": 1437,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.12,
+      "eval_count": 497,
+      "prompt_eval_count": 710,
+      "thinking_chars": 1483,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.048,
+      "eval_count": 506,
+      "prompt_eval_count": 720,
+      "thinking_chars": 1496,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.508,
+      "eval_count": 552,
+      "prompt_eval_count": 715,
+      "thinking_chars": 1687,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.785,
+      "eval_count": 440,
+      "prompt_eval_count": 705,
+      "thinking_chars": 1344,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.326,
+      "eval_count": 518,
+      "prompt_eval_count": 718,
+      "thinking_chars": 1544,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.672,
+      "eval_count": 559,
+      "prompt_eval_count": 722,
+      "thinking_chars": 1695,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.243,
+      "eval_count": 504,
+      "prompt_eval_count": 720,
+      "thinking_chars": 1488,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.722,
+      "eval_count": 429,
+      "prompt_eval_count": 711,
+      "thinking_chars": 1241,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.743,
+      "eval_count": 451,
+      "prompt_eval_count": 715,
+      "thinking_chars": 1351,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.215,
+      "eval_count": 516,
+      "prompt_eval_count": 720,
+      "thinking_chars": 1527,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 9.186,
+      "eval_count": 1056,
+      "prompt_eval_count": 718,
+      "thinking_chars": 3760,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.922,
+      "eval_count": 437,
+      "prompt_eval_count": 708,
+      "thinking_chars": 1268,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.412,
+      "eval_count": 532,
+      "prompt_eval_count": 717,
+      "thinking_chars": 1611,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 5.038,
+      "eval_count": 601,
+      "prompt_eval_count": 725,
+      "thinking_chars": 1857,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 6.581,
+      "eval_count": 773,
+      "prompt_eval_count": 725,
+      "thinking_chars": 2520,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.947,
+      "eval_count": 602,
+      "prompt_eval_count": 712,
+      "thinking_chars": 1865,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.765,
+      "eval_count": 454,
+      "prompt_eval_count": 714,
+      "thinking_chars": 1416,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.582,
+      "eval_count": 544,
+      "prompt_eval_count": 722,
+      "thinking_chars": 1662,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.957,
+      "eval_count": 480,
+      "prompt_eval_count": 719,
+      "thinking_chars": 1461,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.326,
+      "eval_count": 512,
+      "prompt_eval_count": 709,
+      "thinking_chars": 1560,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.876,
+      "eval_count": 586,
+      "prompt_eval_count": 717,
+      "thinking_chars": 1796,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.868,
+      "eval_count": 584,
+      "prompt_eval_count": 720,
+      "thinking_chars": 1782,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.305,
+      "eval_count": 515,
+      "prompt_eval_count": 721,
+      "thinking_chars": 1449,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.869,
+      "eval_count": 587,
+      "prompt_eval_count": 710,
+      "thinking_chars": 1792,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.443,
+      "eval_count": 536,
+      "prompt_eval_count": 712,
+      "thinking_chars": 1632,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.707,
+      "eval_count": 573,
+      "prompt_eval_count": 717,
+      "thinking_chars": 1740,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 5.418,
+      "eval_count": 662,
+      "prompt_eval_count": 717,
+      "thinking_chars": 2110,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.974,
+      "eval_count": 602,
+      "prompt_eval_count": 707,
+      "thinking_chars": 1875,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.13,
+      "eval_count": 502,
+      "prompt_eval_count": 711,
+      "thinking_chars": 1458,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 5.152,
+      "eval_count": 606,
+      "prompt_eval_count": 722,
+      "thinking_chars": 1912,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.344,
+      "eval_count": 512,
+      "prompt_eval_count": 719,
+      "thinking_chars": 1561,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.77,
+      "eval_count": 439,
+      "prompt_eval_count": 705,
+      "thinking_chars": 1368,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.886,
+      "eval_count": 574,
+      "prompt_eval_count": 720,
+      "thinking_chars": 1812,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 5.516,
+      "eval_count": 699,
+      "prompt_eval_count": 729,
+      "thinking_chars": 2241,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 5.35,
+      "eval_count": 653,
+      "prompt_eval_count": 730,
+      "thinking_chars": 2048,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.625,
+      "eval_count": 557,
+      "prompt_eval_count": 714,
+      "thinking_chars": 1752,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.284,
+      "eval_count": 502,
+      "prompt_eval_count": 717,
+      "thinking_chars": 1502,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.536,
+      "eval_count": 537,
+      "prompt_eval_count": 727,
+      "thinking_chars": 1640,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.698,
+      "eval_count": 449,
+      "prompt_eval_count": 719,
+      "thinking_chars": 1400,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.445,
+      "eval_count": 507,
+      "prompt_eval_count": 712,
+      "thinking_chars": 1541,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.796,
+      "eval_count": 455,
+      "prompt_eval_count": 718,
+      "thinking_chars": 1406,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.326,
+      "eval_count": 513,
+      "prompt_eval_count": 726,
+      "thinking_chars": 1513,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.421,
+      "eval_count": 517,
+      "prompt_eval_count": 729,
+      "thinking_chars": 1536,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 3.996,
+      "eval_count": 453,
+      "prompt_eval_count": 713,
+      "thinking_chars": 1414,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.976,
+      "eval_count": 554,
+      "prompt_eval_count": 718,
+      "thinking_chars": 1708,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 5.262,
+      "eval_count": 611,
+      "prompt_eval_count": 727,
+      "thinking_chars": 1899,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.492,
+      "eval_count": 524,
+      "prompt_eval_count": 722,
+      "thinking_chars": 1563,
+      "done_reason": "stop",
+      "parsed": true
+    },
+    {
+      "seconds": 4.543,
+      "eval_count": 545,
+      "prompt_eval_count": 711,
+      "thinking_chars": 1641,
+      "done_reason": "stop",
+      "parsed": true
+    }
+  ],
+  "rows": [
+    {
+      "id": "spec-nega-1",
+      "factor": "species",
+      "trick": "negation",
+      "plain_query": "Our lab just got back constitutional single-nucleotide changes, and I only care about the non-coding regulatory ones. These are human samples. All I really want is to know what each one hits.",
+      "plain_truth": "human",
+      "trap_query": "Our lab just got back constitutional single-nucleotide changes, and I only care about the non-coding regulatory ones. Not a mouse study: the samples are from human volunteers. All I really want is to know what each one hits.",
+      "trap_truth": "human",
+      "twin_query": "Our lab just got back constitutional single-nucleotide changes, and I only care about the non-coding regulatory ones. A mouse study: the samples are from laboratory mice. All I really want is to know what each one hits.",
+      "twin_truth": "non-human",
+      "absent_query": "Our lab just got back constitutional single-nucleotide changes, and I only care about the non-coding regulatory ones. All I really want is to know what each one hits.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-nega-2",
+      "factor": "species",
+      "trick": "negation",
+      "plain_query": "It's all human data. So I've got somatic single-nucleotide changes, mostly in protein-coding regions. I need to work out if any of them are pathogenic.",
+      "plain_truth": "human",
+      "trap_query": "No zebrafish involved this time, the DNA is from people in our volunteer cohort. So I've got somatic single-nucleotide changes, mostly in protein-coding regions. I need to work out if any of them are pathogenic.",
+      "trap_truth": "human",
+      "twin_query": "Zebrafish only this time, the DNA is from our fish facility. So I've got somatic single-nucleotide changes, mostly in protein-coding regions. I need to work out if any of them are pathogenic.",
+      "twin_truth": "non-human",
+      "absent_query": "So I've got somatic single-nucleotide changes, mostly in protein-coding regions. I need to work out if any of them are pathogenic.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-nega-3",
+      "factor": "species",
+      "trick": "negation",
+      "plain_query": "It's all human data. Basically we have acquired somatic SNVs and small indels, mostly in regulatory regions. I just need the basic consequences, nothing fancy.",
+      "plain_truth": "human",
+      "trap_query": "We are not working with dog genomes here; the reads are human. Basically we have acquired somatic SNVs and small indels, mostly in regulatory regions. I just need the basic consequences, nothing fancy.",
+      "trap_truth": "human",
+      "twin_query": "We are working with dog genomes here; the reads are canine. Basically we have acquired somatic SNVs and small indels, mostly in regulatory regions. I just need the basic consequences, nothing fancy.",
+      "twin_truth": "non-human",
+      "absent_query": "Basically we have acquired somatic SNVs and small indels, mostly in regulatory regions. I just need the basic consequences, nothing fancy.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-nega-4",
+      "factor": "species",
+      "trick": "negation",
+      "plain_query": "Our lab just got back germline single-nucleotide changes, and I only care about the ones in coding sequence. The goal is clinical interpretation. These are zebrafish samples.",
+      "plain_truth": "non-human",
+      "trap_query": "Our lab just got back germline single-nucleotide changes, and I only care about the ones in coding sequence. The goal is clinical interpretation. Not human data: the reads come from our pig herd.",
+      "trap_truth": "non-human",
+      "twin_query": "Our lab just got back germline single-nucleotide changes, and I only care about the ones in coding sequence. The goal is clinical interpretation. Human data: the reads come from our volunteer donors.",
+      "twin_truth": "human",
+      "absent_query": "Our lab just got back germline single-nucleotide changes, and I only care about the ones in coding sequence. The goal is clinical interpretation.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "trap": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "twin": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-nega-5",
+      "factor": "species",
+      "trick": "negation",
+      "plain_query": "I'm working with tumour-derived somatic SNVs and small indels, mostly in regulatory regions. These are zebrafish samples. I need to work out if any of them are pathogenic.",
+      "plain_truth": "non-human",
+      "trap_query": "I'm working with tumour-derived somatic SNVs and small indels, mostly in regulatory regions. Nothing from people in this set, it is all chicken lines. I need to work out if any of them are pathogenic.",
+      "trap_truth": "non-human",
+      "twin_query": "I'm working with tumour-derived somatic SNVs and small indels, mostly in regulatory regions. Everything is from people in this set, no chicken lines. I need to work out if any of them are pathogenic.",
+      "twin_truth": "human",
+      "absent_query": "I'm working with tumour-derived somatic SNVs and small indels, mostly in regulatory regions. I need to work out if any of them are pathogenic.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "trap": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "twin": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-nega-6",
+      "factor": "species",
+      "trick": "negation",
+      "plain_query": "The samples are from sheep. Basically we have inherited SNVs and small indels, and I only care about the ones in coding sequence. I just need the basic consequences, nothing fancy.",
+      "plain_truth": "non-human",
+      "trap_query": "These aren't Homo sapiens samples, they are Rattus norvegicus. Basically we have inherited SNVs and small indels, and I only care about the ones in coding sequence. I just need the basic consequences, nothing fancy.",
+      "trap_truth": "non-human",
+      "twin_query": "These are Homo sapiens samples, not Rattus norvegicus. Basically we have inherited SNVs and small indels, and I only care about the ones in coding sequence. I just need the basic consequences, nothing fancy.",
+      "twin_truth": "human",
+      "absent_query": "Basically we have inherited SNVs and small indels, and I only care about the ones in coding sequence. I just need the basic consequences, nothing fancy.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "trap": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "twin": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-word-1",
+      "factor": "species",
+      "trick": "word_sense",
+      "plain_query": "Hi, we called inherited single-nucleotide changes, and they're mostly in promoters and enhancers. Are any of these likely to be disease-causing? It's all human data.",
+      "plain_truth": "human",
+      "trap_query": "Hi, we called inherited single-nucleotide changes, and they're mostly in promoters and enhancers. Are any of these likely to be disease-causing? I've been going down a rabbit hole with these human exomes.",
+      "trap_truth": "human",
+      "twin_query": "Hi, we called inherited single-nucleotide changes, and they're mostly in promoters and enhancers. Are any of these likely to be disease-causing? I've been going through these rabbit exomes from the colony.",
+      "twin_truth": "non-human",
+      "absent_query": "Hi, we called inherited single-nucleotide changes, and they're mostly in promoters and enhancers. Are any of these likely to be disease-causing?",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-word-2",
+      "factor": "species",
+      "trick": "word_sense",
+      "plain_query": "I'm trying to annotate tumour-derived somatic single-nucleotide changes, mostly in protein-coding regions. I just need the basic consequences, nothing fancy. These are human samples.",
+      "plain_truth": "human",
+      "trap_query": "I'm trying to annotate tumour-derived somatic single-nucleotide changes, mostly in protein-coding regions. I just need the basic consequences, nothing fancy. Our guinea pig for the new pipeline is a set of human genomes.",
+      "trap_truth": "human",
+      "twin_query": "I'm trying to annotate tumour-derived somatic single-nucleotide changes, mostly in protein-coding regions. I just need the basic consequences, nothing fancy. Our guinea pig colony genomes are the set for the new pipeline.",
+      "twin_truth": "non-human",
+      "absent_query": "I'm trying to annotate tumour-derived somatic single-nucleotide changes, mostly in protein-coding regions. I just need the basic consequences, nothing fancy.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-word-3",
+      "factor": "species",
+      "trick": "word_sense",
+      "plain_query": "Basically we have somatic single-nucleotide changes, mostly in regulatory regions. The samples are human. I need to work out if any of them are pathogenic.",
+      "plain_truth": "human",
+      "trap_query": "Basically we have somatic single-nucleotide changes, mostly in regulatory regions. Getting consent for these human samples was a cat-and-mouse chase. I need to work out if any of them are pathogenic.",
+      "trap_truth": "human",
+      "twin_query": "Basically we have somatic single-nucleotide changes, mostly in regulatory regions. Getting these cat and mouse samples was a chase. I need to work out if any of them are pathogenic.",
+      "twin_truth": "non-human",
+      "absent_query": "Basically we have somatic single-nucleotide changes, mostly in regulatory regions. I need to work out if any of them are pathogenic.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-word-4",
+      "factor": "species",
+      "trick": "word_sense",
+      "plain_query": "I'm working with germline SNVs and small indels, and they're mostly in coding exons. I just need the basic consequences, nothing fancy. It's all zebrafish data.",
+      "plain_truth": "non-human",
+      "trap_query": "I'm working with germline SNVs and small indels, and they're mostly in coding exons. I just need the basic consequences, nothing fancy. We need human-readable output for these zebrafish variants.",
+      "trap_truth": "non-human",
+      "twin_query": "I'm working with germline SNVs and small indels, and they're mostly in coding exons. I just need the basic consequences, nothing fancy. We need readable output for these human variants.",
+      "twin_truth": "human",
+      "absent_query": "I'm working with germline SNVs and small indels, and they're mostly in coding exons. I just need the basic consequences, nothing fancy.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "trap": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "twin": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-word-5",
+      "factor": "species",
+      "trick": "word_sense",
+      "plain_query": "It's all mouse data. Basically we have germline SNVs and small indels, and I only care about the non-coding regulatory ones. The goal is clinical interpretation.",
+      "plain_truth": "non-human",
+      "trap_query": "Human error aside, these calls are from the cattle herd. Basically we have germline SNVs and small indels, and I only care about the non-coding regulatory ones. The goal is clinical interpretation.",
+      "trap_truth": "non-human",
+      "twin_query": "Error aside, these calls are from human donors. Basically we have germline SNVs and small indels, and I only care about the non-coding regulatory ones. The goal is clinical interpretation.",
+      "twin_truth": "human",
+      "absent_query": "Basically we have germline SNVs and small indels, and I only care about the non-coding regulatory ones. The goal is clinical interpretation.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "trap": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "twin": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-word-6",
+      "factor": "species",
+      "trick": "word_sense",
+      "plain_query": "These are pig samples. Basically we have tumour-derived somatic SNVs and small indels, and I only care about the ones in coding sequence. Can you just tell me the consequence types?",
+      "plain_truth": "non-human",
+      "trap_query": "After hundreds of man-hours the goat genomes are finally called. Basically we have tumour-derived somatic SNVs and small indels, and I only care about the ones in coding sequence. Can you just tell me the consequence types?",
+      "trap_truth": "non-human",
+      "twin_query": "After hundreds of hours the donors' human genomes are finally called. Basically we have tumour-derived somatic SNVs and small indels, and I only care about the ones in coding sequence. Can you just tell me the consequence types?",
+      "twin_truth": "human",
+      "absent_query": "Basically we have tumour-derived somatic SNVs and small indels, and I only care about the ones in coding sequence. Can you just tell me the consequence types?",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "trap": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        },
+        "twin": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-tool-1",
+      "factor": "species",
+      "trick": "tool_name",
+      "plain_query": "We have tumour-derived somatic SNVs and small indels, mostly in protein-coding regions. These are human samples. Are any of these likely to be disease-causing?",
+      "plain_truth": "human",
+      "trap_query": "We have tumour-derived somatic SNVs and small indels, mostly in protein-coding regions. Expression was quantified with Salmon beforehand, and the samples are human. Are any of these likely to be disease-causing?",
+      "trap_truth": "human",
+      "twin_query": "We have tumour-derived somatic SNVs and small indels, mostly in protein-coding regions. The samples are Atlantic salmon from the fish farm. Are any of these likely to be disease-causing?",
+      "twin_truth": "non-human",
+      "absent_query": "We have tumour-derived somatic SNVs and small indels, mostly in protein-coding regions. Are any of these likely to be disease-causing?",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-tool-2",
+      "factor": "species",
+      "trick": "tool_name",
+      "plain_query": "We have constitutional SNVs and small indels, and I only care about the non-coding regulatory ones. It's all human data. I just need the basic consequences, nothing fancy.",
+      "plain_truth": "human",
+      "trap_query": "We have constitutional SNVs and small indels, and I only care about the non-coding regulatory ones. Phased with Beagle; the genomes are human. I just need the basic consequences, nothing fancy.",
+      "trap_truth": "human",
+      "twin_query": "We have constitutional SNVs and small indels, and I only care about the non-coding regulatory ones. The genomes are from beagles in the kennel colony. I just need the basic consequences, nothing fancy.",
+      "twin_truth": "non-human",
+      "absent_query": "We have constitutional SNVs and small indels, and I only care about the non-coding regulatory ones. I just need the basic consequences, nothing fancy.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-tool-3",
+      "factor": "species",
+      "trick": "tool_name",
+      "plain_query": "So I've got tumour-derived somatic single-nucleotide changes, mostly in regulatory regions. Can you just tell me the consequence types? The samples are human.",
+      "plain_truth": "human",
+      "trap_query": "So I've got tumour-derived somatic single-nucleotide changes, mostly in regulatory regions. Can you just tell me the consequence types? Scripts are Python and pandas, all human data.",
+      "trap_truth": "human",
+      "twin_query": "So I've got tumour-derived somatic single-nucleotide changes, mostly in regulatory regions. Can you just tell me the consequence types? All data are from the pandas at the zoo.",
+      "twin_truth": "non-human",
+      "absent_query": "So I've got tumour-derived somatic single-nucleotide changes, mostly in regulatory regions. Can you just tell me the consequence types?",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-tool-4",
+      "factor": "species",
+      "trick": "tool_name",
+      "plain_query": "The samples are from chicken. We have inherited single-nucleotide changes, mostly in protein-coding regions. Are any of these likely to be disease-causing?",
+      "plain_truth": "non-human",
+      "trap_query": "Terms were mapped with the Human Phenotype Ontology, but the animals are zebrafish mutants. We have inherited single-nucleotide changes, mostly in protein-coding regions. Are any of these likely to be disease-causing?",
+      "trap_truth": "non-human",
+      "twin_query": "Terms were mapped with the Human Phenotype Ontology for these human donors. We have inherited single-nucleotide changes, mostly in protein-coding regions. Are any of these likely to be disease-causing?",
+      "twin_truth": "human",
+      "absent_query": "We have inherited single-nucleotide changes, mostly in protein-coding regions. Are any of these likely to be disease-causing?",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "trap": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "twin": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-tool-5",
+      "factor": "species",
+      "trick": "tool_name",
+      "plain_query": "Basically we have acquired somatic point mutations and a few short indels, and they're mostly in promoters and enhancers. The samples are from rat. All I really want is to know what each one hits.",
+      "plain_truth": "non-human",
+      "trap_query": "Basically we have acquired somatic point mutations and a few short indels, and they're mostly in promoters and enhancers. Cross-checked against the Human Protein Atlas; the tissue is from pigs. All I really want is to know what each one hits.",
+      "trap_truth": "non-human",
+      "twin_query": "Basically we have acquired somatic point mutations and a few short indels, and they're mostly in promoters and enhancers. Cross-checked against the Human Protein Atlas; the tissue is from human donors. All I really want is to know what each one hits.",
+      "twin_truth": "human",
+      "absent_query": "Basically we have acquired somatic point mutations and a few short indels, and they're mostly in promoters and enhancers. All I really want is to know what each one hits.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "trap": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "twin": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-tool-6",
+      "factor": "species",
+      "trick": "tool_name",
+      "plain_query": "Basically we have germline single-nucleotide changes, and I only care about the ones in coding sequence. These are pig samples. I need to work out if any of them are pathogenic.",
+      "plain_truth": "non-human",
+      "trap_query": "Basically we have germline single-nucleotide changes, and I only care about the ones in coding sequence. The pipeline is called HumanSeq internally, but it runs on chicken samples. I need to work out if any of them are pathogenic.",
+      "trap_truth": "non-human",
+      "twin_query": "Basically we have germline single-nucleotide changes, and I only care about the ones in coding sequence. The pipeline runs on human samples. I need to work out if any of them are pathogenic.",
+      "twin_truth": "human",
+      "absent_query": "Basically we have germline single-nucleotide changes, and I only care about the ones in coding sequence. I need to work out if any of them are pathogenic.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "trap": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "twin": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-atta-1",
+      "factor": "species",
+      "trick": "attachment",
+      "plain_query": "The samples are human. Basically we have tumour-derived somatic point mutations and a few short indels, mostly in protein-coding regions. I need to work out if any of them are pathogenic.",
+      "plain_truth": "human",
+      "trap_query": "My supervisor works on mouse models, but my samples are human. Basically we have tumour-derived somatic point mutations and a few short indels, mostly in protein-coding regions. I need to work out if any of them are pathogenic.",
+      "trap_truth": "human",
+      "twin_query": "My supervisor works on mouse models and so do I: these are mouse samples. Basically we have tumour-derived somatic point mutations and a few short indels, mostly in protein-coding regions. I need to work out if any of them are pathogenic.",
+      "twin_truth": "non-human",
+      "absent_query": "Basically we have tumour-derived somatic point mutations and a few short indels, mostly in protein-coding regions. I need to work out if any of them are pathogenic.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "somatic",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "coding"
+        ],
+        "analysis_goal": [
+          "clinical-interpretation"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    },
+    {
+      "id": "spec-atta-2",
+      "factor": "species",
+      "trick": "attachment",
+      "plain_query": "Hi, we called inherited single-nucleotide changes, and they're mostly in promoters and enhancers. It's all human data. All I really want is to know what each one hits.",
+      "plain_truth": "human",
+      "trap_query": "Hi, we called inherited single-nucleotide changes, and they're mostly in promoters and enhancers. The variants were first reported in a zebrafish screen; ours are from human donors. All I really want is to know what each one hits.",
+      "trap_truth": "human",
+      "twin_query": "Hi, we called inherited single-nucleotide changes, and they're mostly in promoters and enhancers. The variants come from our zebrafish screen, fish embryos. All I really want is to know what each one hits.",
+      "twin_truth": "non-human",
+      "absent_query": "Hi, we called inherited single-nucleotide changes, and they're mostly in promoters and enhancers. All I really want is to know what each one hits.",
+      "absent_truth": "unstated",
+      "background": {
+        "origin": "germline",
+        "variant_size_class": [
+          "small"
+        ],
+        "region_focus": [
+          "regulatory-noncoding"
+        ],
+        "analysis_goal": [
+          "basic-consequence"
+        ]
+      },
+      "result": {
+        "plain": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": true,
+          "majority_ok": true
+        },
+        "trap": {
+          "model": [
+            "human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": false,
+          "majority_ok": true
+        },
+        "twin": {
+          "model": [
+            "non-human"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "non-human",
+          "rule_ok": true,
+          "majority_ok": false
+        },
+        "absent": {
+          "model": [
+            "unstated"
+          ],
+          "model_ok": true,
+          "background_read_ok": true,
+          "rule": "human",
+          "rule_ok": false,
+          "majority_ok": false
+        }
+      }
+    }
+  ]
+}
