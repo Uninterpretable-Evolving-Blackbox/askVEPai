@@ -219,12 +219,6 @@ priorities. See `../work/research/taxonomy_proposal.md`. The scheme still lives 
 places: as the labels on `training_examples.json`, and inside the checker's conflict
 tie-break.
 
-**factor-value inference eval**
-Reasoning on results produced correct inference 148/150, and the non correct cases did not result in config change(one is clincial and basic whereas the correct config is basic, but basic is just a subset of that, second is clinical + pop frequency rather than the correct one being clinical only, one extra optional but nothing changes recommended)
-Reasoning off 138/150 correct, fail to grasp species sometimes.
-work/results/factor_grid_natural_shipped_v2prompt.json (new prompt, reasoning off)
-work/results/factor_grid_natural_think_v2prompt.json (new prompt, reasoning on)
-
 
 ## Evaluation
 
@@ -246,6 +240,12 @@ not been re-run since it was switched off by default.
 recommender's text on 8 hardcoded test queries, weighted by the retired use-case snapshot
 kept in `../work/harness/legacy/`. It never exercises the shipped one-call path. Kept only
 for comparison work against older figures.
+
+**factor-value inference eval**
+Reasoning on results produced correct inference 148/150, and the non correct cases did not result in config change(one is clincial and basic whereas the correct config is basic, but basic is just a subset of that, second is clinical + pop frequency rather than the correct one being clinical only, one extra optional but nothing changes recommended)
+Reasoning off 138/150 correct, fail to grasp species sometimes.
+work/results/factor_grid_natural_shipped_v2prompt.json (new prompt, reasoning off)
+work/results/factor_grid_natural_think_v2prompt.json (new prompt, reasoning on)
 
 ## Known limitations
 
