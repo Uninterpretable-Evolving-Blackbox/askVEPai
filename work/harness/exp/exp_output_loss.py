@@ -84,6 +84,11 @@ def resolve(goal):
     ft = dict(BASE, analysis_goal=[goal])
     catalogue, _ = va.load_knowledge_base()
     pbf = va.load_priority_by_factor(catalogue)
+    # The unconditional floor: recommended under every analysis_goal value. Read from the table, the
+    # source since 2026-09-22; it used to be a list in the engine.
+    _BASELINE.update(oid for oid, b in pbf["priorities"].items()
+                     if all((b.get("analysis_goal") or {}).get(g) == "recommended"
+                            for g in ("basic-consequence", "clinical-interpretation", "population-frequency")))
     cfg = va.load_factors()
     trace = {}
     res = va.intent_priorities(ft, catalogue, pbf, cfg, trace=trace)
@@ -91,9 +96,12 @@ def resolve(goal):
     return on, trace
 
 
+_BASELINE = set()
+
+
 def classify(oid, trace):
     """CLASS from the engine's own decision trace — no new judgement is introduced here."""
-    if oid in set(va.BASELINE_RECOMMENDED):
+    if oid in _BASELINE:
         return "CONTEXT"
     winner = (trace.get(oid) or {}).get("winner")
     if winner and winner[0] == "analysis_goal":

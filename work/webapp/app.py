@@ -580,7 +580,7 @@ def api_explain_result():
                 yield sse("error", {"message": "vep_consequences.json not found."})
                 return
             yield sse("meta", {"mode": "explain_result", "model": model,
-                               "n_terms": len(consequences)})
+                               "n_terms": sum(1 for k in consequences if not k.startswith("_"))})
             yield sse("status", {"message": f"Querying {model}…"})
             system_prompt = va.build_explain_result_prompt(consequences)
             chunks = []

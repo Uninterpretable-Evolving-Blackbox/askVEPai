@@ -20,7 +20,7 @@
       ],
       "hard_gate": true,
       "select": "single",
-      "_gate_note": "Gates exactly one option: `frequency` is not_applicable under `somatic` in the priority table (DRIVES in vep_assistant.py). Until 2026-09-22 this was a separate `hard_rules` entry here, duplicating that table row; the gate flag is now the single mechanism. Why: the frequency pre-filter (--check_frequency) must not drop common variants in a somatic workflow (taxonomy_proposal §3). NB the catalogue id is 'frequency', not 'filter_common'."
+      "_gate_note": "Gates exactly one option: `frequency` is not_applicable under `somatic` in priority_by_factor.json. Until 2026-09-22 this was a separate `hard_rules` entry here, duplicating that table row; the gate flag is now the single mechanism. Why: the frequency pre-filter (--check_frequency) must not drop common variants in a somatic workflow (taxonomy_proposal §3). NB the catalogue id is 'frequency', not 'filter_common'."
     },
     "variant_size_class": {
       "values": [

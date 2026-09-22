@@ -90,7 +90,7 @@ def main():
                          "harness claims to measure. 'stored' reads the frozen recommended_options "
                          "in the set file — the round-1 snapshot, kept for export_round2's "
                          "what-changed-since-your-review diff. They drifted apart on 2026-08-19 when "
-                         "the mentor corrections landed in DRIVES but not in the frozen file, so "
+                         "the mentor corrections landed in the table but not in the frozen file, so "
                          "'stored' now scores every applied correction as an error.")
     ap.add_argument("--json", default=None, help="write the aggregate result to this path")
     args = ap.parse_args()

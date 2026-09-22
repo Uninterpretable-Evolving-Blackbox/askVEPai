@@ -40,11 +40,11 @@ export PYTHONHASHSEED=0
 cd "$GEN"
 mkdir -p candidates
 
-# Stage 0 is a DUMP, not a build step: the table is derived at load time from DRIVES + the catalogue.
+# Stage 0 is a SYNC, not a build step: the table is authored in generation_config/ and the engine reads it.
 # Writing it here on every run was actively harmful, because a file at the default path OVERRIDES the
 # derivation -- so a stale dump could outlive the spec it came from. Run it by hand when you want the
 # JSON to read, diff or hand to a reviewer: `python seed_priorities.py`.
-echo "### Stage 0 — skipped (the priority table is derived at load time; see seed_priorities.py --help)"
+echo "### Stage 0 — skipped (the priority table is authored, not built; seed_priorities.py only syncs the vep_ai_demo/ copies)"
 
 echo; echo "### Stage 1 — sample factor tuples (N=$N balanced, seed=$SEED)"
 # COVER (the option-coverage top-up) is OFF by default. It seemed principled — "exercise every priced

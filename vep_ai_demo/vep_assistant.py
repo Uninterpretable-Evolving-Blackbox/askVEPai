@@ -118,22 +118,20 @@ def load_factors():
         return json.load(f)
 
 
-# --- The importance spec, and the table DERIVED from it ---------------------------------------------
+# --- The importance table ------------------------------------------------------------------------
 #
-# This lives in the engine rather than in the generation pipeline for the same reason `intent_priorities`
-# and the classifier prompt do: the shipped recommender and the pipeline must not be able to disagree
-# about what a scenario's priorities are. `work/generation/seed_priorities.py` imports it back out.
+# AUTHORED, NOT DERIVED (2026-09-22). `priority_by_factor.json` is the single source: one block per option,
+# factor -> value -> priority. Until today it was derived at load from a DRIVES spec here plus per-option
+# blocks in the catalogue, then dumped; four places to read to learn why one option was priced. The
+# spec and the blocks are gone. Every comment they carried -- including the mentor quotes -- is in
+# work/generation/generation_config/priority_by_factor_NOTES.md, unaltered.
 #
-# WHY IT IS DERIVED AND NOT A MAINTAINED FILE. The table is a pure function of this spec and the option
-# catalogue, and computing all 65 options takes ~0.02 ms — there is no reason to precompute it. Keeping
-# it as a generated artifact meant four copies of it existed across two trees, kept in step by hand, with
-# nothing to notice when they drifted: edit the catalogue and forget to regenerate, and the shipped tool
-# silently ran an older table than every measurement was taken on. Deriving it removes that class of bug
-# rather than guarding against it, and reduces "how do I update an option?" to editing one file.
-#
-# A FILE STILL WINS IF PRESENT. That is the point of the override in load_priority_by_factor below: once
-# the mentor signs off a validated table, dropping it in takes precedence over this spec, and its mere
-# presence then means "a human authored this" instead of "a build step ran".
+# What stays computed is the SPECIES GATE: an option's species_restriction is a fact about the tool, not
+# an opinion, so `load_priority_by_factor` stamps species.non-human = not_applicable from it at load.
+# The drift the old derivation guarded against (edit the catalogue, forget the dump) cannot recur: the
+# catalogue no longer holds priorities, so there is nothing to forget. `priority_table_covers` still
+# catches an option the table has never heard of.
+
 # TWO TIERS since 2026-08-19. `critical` is gone from the scheme, not merely hidden. The
 # critical/recommended boundary was the one part of this table an expert reviewed, and twelve of her
 # twenty edits moved options across it. Merging the DISPLAY made those corrections invisible, so they
@@ -141,164 +139,14 @@ def load_factors():
 # uncorrected boundary. Removing the tier removes the unvalidated judgement instead of hiding it.
 RANK = {"recommended": 2, "optional": 1, "not_applicable": 0}
 
-# Predictor tiering. READ THIS BEFORE CHANGING: **VEP itself ranks nothing.** vep_plugins_web_config.txt
-# is a flat `available => 1` map with no rank field, and the web form lists "Missense pathogenicity" as one
-# undifferentiated family. The core-vs-add-on split is OUR EDITORIAL JUDGEMENT, grounded in ACMG PP3/BP4 as
-# refined by ClinGen SVI (Pejaver et al. 2022) — a clinical-genetics standard EXTERNAL to VEP. Cite it as
-# ours; do not imply VEP prescribes it. The axis is METHOD INDEPENDENCE, read from each plugin's own
-# catalogue description: a distinct predictor forms its own call, a derivative one consumes other
-# predictors' scores and so double-counts them.
-PREDICTOR_DISTINCT = ["sift", "polyphen", "cadd", "alphamissense", "eve"]
-PREDICTOR_DERIVATIVE = ["revel", "clinpred", "dbnsfp"]
-# Splice tiering uses a DIFFERENT axis, honestly labelled: maxentscan and dbscsnv are self-contained models,
-# NOT derivative of SpliceAI, so method-independence does not separate them. The split is ADOPTION/RECENCY.
-SPLICE_CORE = ["spliceai"]                 # human only; species-gated below
-SPLICE_ADDON = ["maxentscan", "dbscsnv"]   # maxentscan is the ONLY all-species splice option
-# Missense predictors are INAPPLICABLE to non-coding variants, not merely less important: the catalogue
-# rates 9/10 regulatory_noncoding=not_applicable. CADD is the documented exception (it scores coding AND
-# non-coding) and is deliberately absent from this list.
-MISSENSE_ONLY = [p for p in PREDICTOR_DISTINCT + PREDICTOR_DERIVATIVE if p != "cadd"]
-# `symbol` is in BASELINE_RECOMMENDED, so it went out on every purely regulatory query. Regulatory
-# features carry Ensembl regulatory IDs, not gene symbols (Likhitha, 2026-08-15), so the column is
-# empty for the thing such a query is annotating. Gated rather than demoted: the gate fires only when
-# EVERY active region value rules it out, so a coding+regulatory query keeps it.
-REGION_GATE_NONCODING = MISSENSE_ONLY + ["mutfunc", "paralogues", "mane", "protein", "nmd", "symbol"]
 
-# WHERE-vs-WHY discipline: taxonomy_proposal §3 split region_focus from analysis_goal precisely because a
-# single axis mixed *where* the variant acts with *why* you are annotating. So region_focus drives the
-# STRUCTURAL annotation of a locus and analysis_goal the INTERPRETIVE. Hanging the predictor cluster off
-# both re-mixed them and — since composition takes the max — made a coding+basic-consequence quick lookup
-# pull in the full predictor stack.
-DRIVES = {
-    "region_focus": {
-        "coding": {
-            # tsl/appris are web_default=on, so ranking them optional would recommend LESS than the form
-            # already gives. protein/nmd sit at optional in the catalogue's own columns.
-            # protein promoted per her rows 2/8/9: "protein should be recommended because this is a
-            # protein coding question".
-            # `domains` by name, NOT `cat:protein_annotation`. The category token swept in every member,
-            # and ProtVar (added 2026-09-13, category protein_annotation to match the form's section)
-            # landed in RECOMMENDED on 56 tuples on nothing but its category -- past its own block, which
-            # says clinical-interpretation:optional, and past its peer mutfunc, which is an add-on. Her
-            # item-11 instruction is to recommend the type of tool and not endorse a product.
-            "recommended": ["hgvs", "numbers", "domains", "tsl", "appris", "protein"],
-            "optional": ["uniprot", "ccds", "nmd", "coding_only"],
-        },
-        "regulatory-noncoding": {
-            # The regulatory build IS the annotation a regulatory query asks for; without it the question
-            # is unanswerable, not merely under-served.
-            # cell_type, mirna and enformer demoted per her rows 1/3/4/5/6/7/9: cell_type restricts
-            # regulatory annotation to particular cell types, mirna is miRNA secondary structure.
-            # Specialised rather than standard, so offered rather than switched on.
-            "recommended": ["regulatory", "utrannotator", "canonical"],   # see canonical note above
-            # cell_type stays an add-on and is NOT unpriced (David, 2026-09-14): there is no point
-            # switching it on unless the user names the cell types, and when they do it is exactly what
-            # they want. It is the only option in the catalogue that both adds a field (CELL_TYPE) and
-            # removes rows ("Report ONLY regulatory regions that are found in the given cell type(s)"),
-            # and on the form it is `cell_type_<species>`, hidden until the regulatory dropdown is moved
-            # off its default to "Yes and limit by cell type". So it is offered, never switched on.
-            "optional": ["cell_type", "enformer", "mirna"],
-            "not_applicable": REGION_GATE_NONCODING,
-        },
-    },
-    "analysis_goal": {
-        # canonical: recommended wherever MANE is NOT. Her rows 1/7/10 verbatim, all human, are
-        # "Recommended should have canonical for fallback tx when MANE isn't available", "The query
-        # mentions reliable transcripts, so add mane and canonical to recommended" and "Add canonical,
-        # mane, overlaps, protein to recommended" -- each CONDITIONAL on the scenario. Extending that
-        # to every tuple is OUR inference, not hers, and David approved the narrower human-clinical
-        # case on 2026-09-14; flag it when the sheet goes out. MANE is raised only
-        # under clinical-interpretation and is gated off regulatory rows, so a basic, population-frequency
-        # or regulatory query on human had no main-transcript flag at all. canonical exists for every
-        # species and every gene. The clinical-interpretation block below also lists it, quoting her
-        # rows directly, so the net effect is one navigation column on EVERY tuple -- simpler than
-        # "wherever MANE isn't", and harmless where both are present.
-        "basic-consequence": {"recommended": ["canonical"], "optional": ["most_severe", "hgvs"]},
-        "clinical-interpretation": {
-            # clinvar, hgvs and mane were `critical`. She corrected hgvs and mane off that tier on
-            # rows 3, 5, 6 and 8 ("useful but aren't essential"); the correction was never applied
-            # because it was invisible. One bucket now, so that disagreement cannot recur.
-            # mavedb: measured functional evidence rather than prediction. It had NO positive priority
-            # anywhere, so it could not appear in any configuration (0 of 31 rows). Likhitha and Jamie
-            # asked for it independently. Its size gate lives in the catalogue, which had no
-            # structural_variants key at all.
-            # mastermind: promoted from optional per her row-5 note, "adds useful literature evidence".
-            # canonical rides beside mane. MANE flags only genes that HAVE a MANE transcript, and it is
-            # "Only available for human on the GRCh38 assembly" (vep_options.html), so on a human variant
-            # in a gene MANE does not cover the user gets no navigation flag at all. Her rows 1 and 7:
-            # "Recommended should have canonical for fallback tx when MANE isn't available" and "The
-            # query mentions reliable transcripts, so add mane and canonical to recommended". Costs one
-            # column, removes nothing. The form renders it for every species -- unlike tsl/appris/mane it
-            # carries no `_stt_Homo_sapiens` class -- so the species entry below stays as it is.
-            "recommended": ["clinvar", "hgvs", "mane", "canonical"] + PREDICTOR_DISTINCT + SPLICE_CORE
-                           + ["phenotypes", "mavedb", "mastermind"],
-            # `failed` dropped entirely per her rows 1/3/5: it includes variants flagged as failing QC,
-            # so offering it as an add-on invites someone to switch on known-bad calls.
-            # intact and opentargets were priced for NOTHING, so they could not appear in any
-            # scenario -- while the round-2 sheet's preamble told the mentors they were reachable
-            # (check_round2_ready.py, 2026-09-20). Both are interpretation aids on the form: IntAct
-            # links a change to the protein interactions it disrupts, Open Targets' L2G links a
-            # non-coding variant to the gene it most plausibly acts through. Offered, not recommended:
-            # the pricing is ours, and neither is something we would switch on unasked.
-            "optional": PREDICTOR_DERIVATIVE + SPLICE_ADDON + ["geno2mp", "loeuf",
-                                                              "dosage_sensitivity", "pubmed",
-                                                              "var_synonyms", "intact", "opentargets",
-                                                              "mutfunc", "paralogues"],
-        },
-        "population-frequency": {
-            # `frequency` is an ADD-ON, not a recommendation (David, 2026-09-14). The goal is to REPORT
-            # frequencies; the four af_* options do that by adding columns. `--check_frequency` answers
-            # the same question by DELETING variants -- measured at 4 of 12 on our cohort with freq_pop=AF
-            # -- so recommending both partly answers "show me the frequencies" by removing the variants
-            # whose frequencies were asked for. The form agrees: its radio ships on "No filtering", and
-            # the page says "if you aren't sure, don't use any of these options!".
-            # OPEN: Likhitha is checking whether most human queries are rare-variant work, which would
-            # be the case for raising it again. Not yet answered -- see MENTOR_MESSAGES.md.
-            "recommended": ["af_gnomade", "af_gnomadg", "af", "af_1kg", "canonical"],
-            "optional": ["clinvar", "frequency"],
-        },
-    },
-    "origin": {
-        # Origin modulates which co-located source matters; it does not independently add ClinVar.
-        # Composition is max-only, so listing clinvar here forced it into EVERY germline query.
-        # check_existing demoted to an add-on per her rows 2/4/5/7/9/10: "finding known matches isn't
-        # necessary for such a simple analysis/question". It still returns automatically wherever
-        # ClinVar is switched on, because ClinVar depends on it and the dependency pass restores it.
-        "germline": {"optional": ["check_existing"]},
-        "somatic": {"optional": ["check_existing"], "not_applicable": ["frequency"]},
-    },
-    "variant_size_class": {
-        # loeuf added per Likhitha 2026-08-15. Gene-level constraint is the evidence for a deletion
-        # spanning a gene, where there is no per-variant score to have. It had no size rule at all,
-        # so clinical-interpretation:optional was the only thing raising it and it never reached
-        # RECOMMENDED on an SV row.
-        "structural-CNV": {"recommended": ["gnomad_sv", "dosage_sensitivity", "loeuf"]},
-    },
-    "species": {
-        # canonical is web_default=off and its own when_not_to_use prefers MANE for human clinical work.
-        # Its documented job is the primary-transcript fallback where MANE is unavailable.
-        "non-human": {"recommended": ["canonical"]},
-    },
-}
+def validate_priority_table(table, factors_cfg=None):
+    """Problems in `priority_by_factor.json`, as a list of human-readable strings. [] when clean.
 
-# Unconditional floor, under EVERY analysis_goal value. Deliberately small. NOTE anything here can never be
-# `optional` anywhere, because put() is strongest-wins — which is why hgvs/mane/canonical live in DRIVES.
-# One list since the tier merge (2026-08-19); `core_type` was the sole "critical" baseline.
-BASELINE_RECOMMENDED = ["core_type", "symbol", "biotype"]
-
-SIZE_GATE_SOURCE = "catalogue priority_by_factor['variant_size_class']['structural-CNV'] == 'not_applicable'"
-
-
-def validate_priority_blocks(vep_options, factors_cfg=None):
-    """Problems in the catalogue's own `priority_by_factor` blocks, as a list of human-readable strings.
-
-    This exists because that field is the one a maintainer or reviewer edits by hand, and every kind of
-    typo in it used to fail SILENTLY: a misspelt label was dropped, and a misspelt factor or value was
-    stored under a key nothing ever reads. The entry looked accepted and did nothing. A configuration
-    file that cannot tell you it is wrong is worse than no configuration file.
-
-    Returns [] when clean. `verify_pipeline.py` asserts that; the engine warns and carries on, because a
-    maintainer's typo should not take a user's session down with it."""
+    The table is hand-authored, so every kind of typo in it used to be able to fail silently: a misspelt
+    label was dropped, a misspelt factor or value was stored under a key nothing reads. The entry looked
+    accepted and did nothing. `verify_pipeline.py` asserts this returns []; the engine warns and carries
+    on, because a maintainer's typo should not take a user's session down with it."""
     problems = []
     if factors_cfg is None:
         try:
@@ -306,168 +154,76 @@ def validate_priority_blocks(vep_options, factors_cfg=None):
         except Exception:
             factors_cfg = None
     known = {f: set(spec.get("values", [])) for f, spec in (factors_cfg or {}).get("factors", {}).items()}
-    for o in vep_options:
-        block = o.get("priority_by_factor")
-        if block is None:
-            continue
+    for oid, block in (table.get("priorities") or {}).items():
         if not isinstance(block, dict):
-            problems.append(f"{o['id']}: priority_by_factor must be an object, got {type(block).__name__}")
+            problems.append(f"{oid}: expected an object of factor -> value -> priority, got {type(block).__name__}")
             continue
         for factor, valmap in block.items():
+            if factor.startswith("_"):
+                continue
             if known and factor not in known:
-                problems.append(f"{o['id']}: unknown factor {factor!r} "
-                                f"(expected one of {', '.join(sorted(known))})")
+                problems.append(f"{oid}: unknown factor {factor!r} (expected one of {', '.join(sorted(known))})")
                 continue
             if not isinstance(valmap, dict):
-                problems.append(f"{o['id']}.{factor}: expected an object of value -> priority")
+                problems.append(f"{oid}.{factor}: expected an object of value -> priority")
                 continue
             for value, label in valmap.items():
                 if known and value not in known.get(factor, set()):
-                    problems.append(f"{o['id']}.{factor}: unknown value {value!r} "
+                    problems.append(f"{oid}.{factor}: unknown value {value!r} "
                                     f"(expected one of {', '.join(sorted(known[factor]))})")
                 if label not in RANK:
-                    problems.append(f"{o['id']}.{factor}.{value}: unknown priority {label!r} "
+                    problems.append(f"{oid}.{factor}.{value}: unknown priority {label!r} "
                                     f"(expected one of {', '.join(RANK)})")
     return problems
 
 
-_PRIORITY_BLOCK_WARNED = False
 
-
-def _expand_tokens(tokens, by_cat):
-    """A DRIVES token is a bare option id, or `cat:<category>` meaning every option in that category."""
-    ids = []
-    for t in tokens:
-        ids.extend(by_cat[t[4:]] if t.startswith("cat:") else [t])
-    return ids
-
-
-def build_priority_table(vep_options):
-    """Derive the importance table from DRIVES + this catalogue. Pure function, sub-millisecond."""
-    from collections import defaultdict
-    global _PRIORITY_BLOCK_WARNED
-    # Only pay for validation when something actually uses the field: it loads factors.json to check
-    # names, which doubled the derivation cost for the (currently universal) case of no blocks at all.
-    problems = (validate_priority_blocks(vep_options)
-                if any(o.get("priority_by_factor") for o in vep_options) else [])
-    if problems and not _PRIORITY_BLOCK_WARNED:
-        _PRIORITY_BLOCK_WARNED = True
-        print("\n  Note: problems in the catalogue's priority_by_factor entries — these are IGNORED:")
-        for p in problems[:8]:
-            print(f"    - {p}")
-        if len(problems) > 8:
-            print(f"    ... and {len(problems) - 8} more")
-        print()
-    ids = {o["id"] for o in vep_options}
-    by_cat = defaultdict(list)
-    for o in vep_options:
-        by_cat[o.get("category", "?")].append(o["id"])
-    # sorted() so the table (and any dump of it) is byte-identical run to run: `ids` is a set and set
-    # iteration order depends on PYTHONHASHSEED.
-    priorities = {oid: defaultdict(dict) for oid in sorted(ids)}
-
-    def put(oid, factor, value, label):
-        if oid not in priorities:
-            return
-        cur = priorities[oid][factor].get(value)
-        if cur is None or RANK[label] > RANK[cur]:      # strongest wins; not_applicable only if nothing else
-            priorities[oid][factor][value] = label
-
-    for factor, valmap in DRIVES.items():                                   # (1) the hand-authored spec
-        for value, prio_tokens in valmap.items():
-            for label, tokens in prio_tokens.items():
-                for oid in _expand_tokens(tokens, by_cat):
-                    put(oid, factor, value, label)
-    # (1b) PER-OPTION priorities carried by the catalogue entry itself, in the shape taxonomy_proposal §5
-    # specifies:  "priority_by_factor": {"analysis_goal": {"clinical-interpretation": "optional"}}
-    #
-    # This is what makes adding an option a SINGLE-FILE edit. DRIVES above is authored the other way
-    # round — per factor value, listing the options that value drives — which is how a domain expert
-    # thinks about a scenario, but it means a new catalogue entry is inert until someone also edits
-    # Python: it parses, validates and routes correctly, and is then never recommended in any scenario.
-    # Both views compose through the same strongest-wins put(), so an option may be priced either way,
-    # or both. Nothing here needs migrating; DRIVES simply shrinks as entries move into the catalogue.
-    # (3) PER-OPTION OVERRIDES from the catalogue, applied by ASSIGNMENT, not by strongest-wins.
-    #
-    # These must be able to LOWER a priority, not only raise one. put() takes the max, so a catalogue
-    # entry asking for `optional` lost to a DRIVES entry saying `recommended` and did nothing at all --
-    # silently, since the validator checks spelling and not effect. Nearly every edit a reviewer asks for
-    # is a demotion, so under strongest-wins the field could not express the thing it exists for.
-    # A per-option statement is more specific than the broad spec, so it wins; the deterministic gates
-    # below are applied afterwards and win over both, because they are safety rather than preference.
-    for o in vep_options:
-        for factor, valmap in (o.get("priority_by_factor") or {}).items():
-            for value, label in valmap.items():
-                if label in RANK and o["id"] in priorities:
-                    priorities[o["id"]][factor][value] = label
-    for value in ("basic-consequence", "clinical-interpretation", "population-frequency"):   # (2) the floor
-        for oid in BASELINE_RECOMMENDED:
-            put(oid, "analysis_goal", value, "recommended")
-    # (3) species gate: human-only options, plus NARROW "human + <one species> only" sets (var_synonyms =
-    # human+pig, ccds = human+mouse). The species factor is binary and cannot say "pig but not mouse", so a
-    # generic non-human query cannot be guaranteed to match — gate them. Binary-granularity limitation.
-    narrow_nonhuman = re.compile(r"human\s*\+\s*\w+.*only", re.IGNORECASE)
-    # ENSEMBL'S PLUGIN LISTS DECIDE FOR PLUGINS (2026-09-20). `species_restriction` is our own prose and
-    # it was wrong on seven plugins (CADD is listed for pig, chicken and turkey; MaxEntScan is human
-    # only where we said all species). Where VEP_plugins release/116 gives a species list, that list
-    # decides whether the option can reach a non-human scenario at all; WHICH non-human species it
-    # serves is the checker's job, since the factor is binary.
-    _sd = load_species_data() or {}
-    plugin_lists = _sd.get("plugin_species") or {}
-    plugin_every = set(_sd.get("plugin_species_all") or ())
-    for o in vep_options:
-        restr = o.get("species_restriction", "all species")
-        if o["id"] in plugin_every:
-            continue                                    # no species field in Ensembl's config: all species
-        allowed = plugin_lists.get(o["id"])
-        if allowed is not None:
-            if allowed == ["homo_sapiens"]:
-                priorities[o["id"]]["species"]["non-human"] = "not_applicable"
-            continue
-        if _is_human_only(restr) or narrow_nonhuman.search(restr or ""):
-            priorities[o["id"]]["species"]["non-human"] = "not_applicable"   # safety: overrides all
-    # (4) THE SIZE GATE USED TO LIVE HERE, reading the legacy seven-use-case table's
-    # `structural_variants` column. It was deleted on 2026-08-19 and the rule moved into each option's
-    # own `priority_by_factor` block, which step (3) above already applies by assignment. Two reasons:
-    # the newest correction in the catalogue (HGVS off structural variants) was being enforced by the
-    # oldest table, and a factor-keyed rule belongs with the other factor-keyed rules rather than in a
-    # scheme the engine no longer resolves with. The derived table is byte-identical either way; the
-    # legacy field survives only for the display paths that still read it.
-
-    return {
-        # Recorded so a table DUMPED to disk can later be detected as stale against a moved catalogue.
-        # A table derived in memory is current by construction and this always matches.
-        "_catalogue_sha256": catalogue_fingerprint(vep_options),
-        "_status": ("PROVISIONAL — derived from the DRIVES spec in vep_assistant.py and this catalogue. "
-                    "NOT mentor-validated. A validated table dropped in as priority_by_factor.json "
-                    "overrides this derivation; no code changes are needed."),
-        # No derivation record here. It was a copy of DRIVES, of the gate constants, and of the
-        # ACMG predictor rationale that already lives in the comments beside DRIVES above; the
-        # region-focus amendment it flagged is recorded in taxonomy_proposal.md §3 and in
-        # factors.json. Nothing read it. Dropped 2026-09-22.
-        "priorities": {oid: dict(fac) for oid, fac in priorities.items()},
-    }
+_PRIORITY_TABLE_WARNED = False
 
 
 def load_priority_by_factor(vep_options=None):
-    """The importance table: a file if one is present, otherwise derived from the catalogue.
+    """The importance table from `priority_by_factor.json`, with the species gate stamped on.
 
-    THE FILE IS AN OVERRIDE, NOT THE SOURCE. Deriving by default means updating an option is a single
-    edit to the catalogue — there is no generated artifact to regenerate, no second copy to keep in step,
-    and nothing that can silently go stale. A `priority_by_factor.json` on disk still wins, which is how a
-    mentor-validated table is adopted: drop it in and it takes precedence over the spec.
+    THE FILE IS THE SOURCE. It is required: there is no derivation to fall back to. It carries every
+    authored priority; what it does not carry is species, which is stamped here from each option's
+    `species_restriction` -- a fact about the tool, not an opinion, so it lives with the option. Plugins
+    are skipped: Ensembl's own per-plugin species lists decide for them in the checker (2026-09-20).
     """
+    global _PRIORITY_TABLE_WARNED
     path = _kb_path("VEP_PRIORITY_FACTOR_FILE",
                     "work/generation/generation_config/priority_by_factor.json",
                     "priority_by_factor.json")
-    if path.exists():
-        with open(path) as f:
-            return json.load(f)
+    if not path.exists():
+        raise FileNotFoundError(f"priority table not found at {path} (it is authored, not derived)")
+    with open(path) as f:
+        table = json.load(f)
     if vep_options is None:
         opts_path = _kb_path("VEP_OPTIONS_FILE", "work/vep_options_expanded.json", "vep_options.json")
         with open(opts_path) as f:
             vep_options = json.load(f)
-    return build_priority_table(vep_options)
+    problems = validate_priority_table(table)
+    if problems and not _PRIORITY_TABLE_WARNED:
+        _PRIORITY_TABLE_WARNED = True
+        print("\n  Note: problems in priority_by_factor.json -- these entries are IGNORED:")
+        for pr in problems[:8]:
+            print(f"    - {pr}")
+        if len(problems) > 8:
+            print(f"    ... and {len(problems) - 8} more")
+        print()
+    # SPECIES GATE, computed. Same rule the old derivation applied: a human-only restriction, or a narrow
+    # "human + <one species> only" set the binary factor cannot guarantee matches the query, gates the
+    # option for non-human. Plugins are judged by Ensembl's lists in the checker, not by this prose.
+    narrow_nonhuman = re.compile(r"human\s*\+\s*\w+.*only", re.IGNORECASE)
+    _sd = load_species_data() or {}
+    plugin = set(_sd.get("plugin_species") or {}) | set(_sd.get("plugin_species_all") or ())
+    priorities = table.setdefault("priorities", {})
+    for o in vep_options:
+        if o["id"] in plugin:
+            continue
+        restr = o.get("species_restriction", "all species")
+        if _is_human_only(restr) or narrow_nonhuman.search(restr or ""):
+            priorities.setdefault(o["id"], {}).setdefault("species", {})["non-human"] = "not_applicable"
+    return table
 
 
 
@@ -2961,7 +2717,6 @@ def cli_flags_for(enabled, vep_options):
     return flags, choices
 
 
-_PRIORITY_MISMATCH_WARNED = False
 
 
 def priority_table_covers(vep_options, table):
@@ -2977,59 +2732,20 @@ def priority_table_covers(vep_options, table):
     return {o["id"] for o in vep_options} - set(table.get("priorities", {}))
 
 
-def catalogue_fingerprint(vep_options):
-    """Content hash of a catalogue. Canonical JSON rather than file bytes, so reformatting the file
-    (indentation, key order) does not read as a change while an actual edit always does."""
-    import hashlib
-    return hashlib.sha256(json.dumps(vep_options, sort_keys=True).encode()).hexdigest()
-
-
-def priority_table_is_stale(table, vep_options):
-    """True if this table was built from a DIFFERENT catalogue than the one now loaded.
-
-    Only meaningful for a table loaded from FILE — a derived one is current by construction. It matters
-    because the file is an override that beats the derivation: a hand-authored table left in place while
-    the catalogue moves on would otherwise win silently and forever.
-
-    priority_table_covers() cannot catch this. It only notices ids the table has never heard of, so a
-    catalogue that changed a species restriction or moved an option between categories keeps every id,
-    passes that check, and ships wrong tiers with no warning.
-
-    A table without the fingerprint field returns False rather than crying wolf — that includes every
-    table written before this existed."""
-    want = table.get("_catalogue_sha256")
-    if not want:
-        return False
-    try:
-        return catalogue_fingerprint(vep_options) != want
-    except Exception:
-        return False
-
-
 def resolve_for_query(factor_tuple, vep_options, trace=None):
     """`intent_priorities()` for a factor tuple, or None if the tuple or the config is unusable.
 
     One place for the try/except so the prompt builder and the output formatter can never disagree
     about what this scenario's priorities are."""
-    global _PRIORITY_MISMATCH_WARNED
+    global _PRIORITY_TABLE_WARNED
     if not factor_tuple:
         return None
     try:
         table = load_priority_by_factor(vep_options)
-        if priority_table_is_stale(table, vep_options):
-            # Fall back to deriving rather than disabling tiers: a correct table is always available, so
-            # the stale file is the only thing that needs dropping. Say so — silently ignoring a
-            # hand-authored table would be its own trap.
-            if not _PRIORITY_MISMATCH_WARNED:
-                _PRIORITY_MISMATCH_WARNED = True
-                print("\n  Note: the priority table on disk was built from a different version of this "
-                      "option catalogue.\n  Using the priorities derived from the current catalogue "
-                      "instead.\n  Refresh the file with: python work/generation/seed_priorities.py\n")
-            table = build_priority_table(vep_options)
         missing = priority_table_covers(vep_options, table)
         if missing:
-            if not _PRIORITY_MISMATCH_WARNED:
-                _PRIORITY_MISMATCH_WARNED = True
+            if not _PRIORITY_TABLE_WARNED:
+                _PRIORITY_TABLE_WARNED = True
                 print(f"\n  Note: the priority table does not cover {len(missing)} option(s) in this "
                       f"catalogue ({', '.join(sorted(missing)[:4])}"
                       f"{', …' if len(missing) > 4 else ''}), so importance tiers are switched off for "
@@ -4111,6 +3827,8 @@ def build_explain_result_prompt(consequences):
     """Build system prompt for the VEP output explainer mode."""
     consequence_text = []
     for term, info in consequences.items():
+        if term.startswith("_"):      # `_source` and friends are metadata, not consequence terms
+            continue
         impact = f" (impact: {info['impact']})" if info.get("impact") else ""
         consequence_text.append(f"- **{term}**{impact}: {info['explanation']}")
     consequence_block = "\n".join(consequence_text)

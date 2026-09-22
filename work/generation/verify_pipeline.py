@@ -15,7 +15,6 @@ import sys
 import genlib
 import resolve_config as rc
 import sample_factors as sf
-import seed_priorities as sp_
 
 PASS, FAIL = [], []
 
@@ -27,6 +26,12 @@ def check(name, ok, detail=""):
 
 def enabled(r):
     return {k for k, v in r["recommended_options"].items() if v.get("enabled")}
+
+
+# Test fixture: the missense predictors the region gate must remove on a purely regulatory row. This
+# was `MISSENSE_ONLY` in the engine's DRIVES spec until 2026-09-22; the table is the source now, so the
+# expectation is stated here, where it is asserted. CADD is deliberately absent (it scores non-coding too).
+MISSENSE_ONLY = {"sift", "polyphen", "alphamissense", "eve", "revel", "clinpred", "dbnsfp"}
 
 
 def main():
@@ -55,11 +60,10 @@ def main():
     check(f"all {len(ids)} catalogue options present in priority table",
           set(pbf["priorities"]) == ids, f"{len(pbf['priorities'])} vs {len(ids)}")
     check("priority table self-labels PROVISIONAL", "PROVISIONAL" in pbf.get("_status", ""))
-    # The catalogue's own priority_by_factor blocks are the one part of the config a maintainer edits by
-    # hand to make a new option recommendable. Every typo in them used to be silently ignored, so this
-    # asserts they are well-formed rather than merely present.
-    _pb = va.validate_priority_blocks(cat, factors)
-    check("catalogue priority_by_factor blocks are all well-formed",
+    # The table is the one config file a maintainer edits by hand to make a new option recommendable.
+    # Every typo in it used to be silently ignored, so this asserts it is well-formed, not merely present.
+    _pb = va.validate_priority_table(pbf, factors)
+    check("priority_by_factor.json is well-formed (known factors, values, labels)",
           not _pb, "; ".join(_pb) if _pb else "0 problems")
 
 
@@ -96,24 +100,23 @@ def main():
     sp = [(r["id"], o) for r in rows if r["factor_labels"]["species"] == "non-human"
           for o in enabled(r) if _human_only(o)]
     check("non-human rows never enable an option Ensembl restricts to human", not sp, str(sp[:3]))
-    # The size gate is driven by the catalogue's own structural_variants column: every option the
-    # catalogue marks not_applicable for SVs must be absent from every structural-CNV row's enabled set.
+    # The size gate is driven by the table: every option it marks not_applicable for SVs must be
+    # absent from every structural-CNV row's enabled set.
     # This is the strong version of the earlier "SNV predictors" check — it also covers enformer,
     # utrannotator, mutfunc, paralogues, etc. that a hand-authored category gate missed.
     # Reads the rule where it NOW lives. It moved out of the legacy use-case table on 2026-08-19; if
     # this kept reading the old column it would pass while a new-location edit went unenforced.
-    sv_na = {o["id"] for o in cat
-             if (o.get("priority_by_factor") or {}).get("variant_size_class", {}).get(
-                 "structural-CNV") == "not_applicable"}
+    sv_na = {oid for oid, b in pbf["priorities"].items()
+             if (b.get("variant_size_class") or {}).get("structural-CNV") == "not_applicable"}
     sz = [(r["id"], o) for r in rows if r["factor_labels"]["variant_size_class"] == "structural-CNV"
           for o in enabled(r) if o in sv_na]
-    check("structural-CNV rows never enable a catalogue-SV-not_applicable option", not sz, str(sz[:5]))
+    check("structural-CNV rows never enable a table-SV-not_applicable option", not sz, str(sz[:5]))
     # CADD must survive on SVs (catalogue rates it recommended, not n/a) — the exemption is now automatic.
-    check("CADD is NOT size-gated (catalogue: structural_variants=recommended)", "cadd" not in sv_na)
+    check("CADD is NOT size-gated (table: structural-CNV is not not_applicable)", "cadd" not in sv_na)
     # Region gate (proposed §3 amendment): a purely regulatory query must not get missense predictors.
     reg_only = [(r["id"], o) for r in rows
                 if r["factor_labels"]["region_focus"] == ["regulatory-noncoding"]
-                for o in enabled(r) if o in set(sp_.MISSENSE_ONLY)]
+                for o in enabled(r) if o in MISSENSE_ONLY]
     check("regulatory-only rows never enable a missense predictor", not reg_only, str(reg_only[:3]))
     # ...but a coding+regulatory query MUST keep them — the gate is 'all active values', not 'any'.
     # Constructed explicitly rather than filtered out of `rows`: the sampled tuples need not contain this
@@ -122,7 +125,7 @@ def main():
                                 "region_focus": ["coding", "regulatory-noncoding"],
                                 "analysis_goal": ["clinical-interpretation"]},
                                cat, pbf, factors, va, corpus)
-    kept = sorted(set(sp_.MISSENSE_ONLY) & enabled(mixed_row))
+    kept = sorted(MISSENSE_ONLY & enabled(mixed_row))
     check("coding+regulatory rows still keep missense predictors (gate is ALL, not ANY)",
           bool(kept), f"kept={kept}")
     sm = [r["id"] for r in rows if r["factor_labels"]["variant_size_class"] == "small"
