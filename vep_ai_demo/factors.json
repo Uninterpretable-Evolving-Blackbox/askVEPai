@@ -1,7 +1,7 @@
 {
   "_status": "PROVISIONAL — pending mentor sign-off (see work/research/taxonomy_proposal.md §3). The ENGINE reads this file; on sign-off, edit the values here, not the code.",
   "_notes": {
-    "hard_gate": "true = this factor's not_applicable priority REMOVES the option outright; soft factors only shift how strongly it is recommended. Read by vep_assistant._factor_scheme() -- editing this changes HARD_GATE_FACTORS.",
+    "hard_gate": "true = this factor's not_applicable priorities in the table REMOVE the option outright; false = its priorities only shift how strongly an option is recommended. Read by vep_assistant._factor_scheme() -- editing this changes HARD_GATE_FACTORS.",
     "select": "single = exactly one value per query; multi = one or more."
   },
   "factors": {
@@ -18,17 +18,9 @@
         "germline",
         "somatic"
       ],
-      "hard_gate": false,
+      "hard_gate": true,
       "select": "single",
-      "hard_rules": [
-        {
-          "when_value": "somatic",
-          "not_applicable": [
-            "frequency"
-          ],
-          "why": "the frequency pre-filter (--check_frequency) must not drop common variants in a somatic workflow (taxonomy_proposal §3). NB the catalogue id is 'frequency', not 'filter_common'."
-        }
-      ]
+      "_gate_note": "Gates exactly one option: `frequency` is not_applicable under `somatic` in the priority table (DRIVES in vep_assistant.py). Until 2026-09-22 this was a separate `hard_rules` entry here, duplicating that table row; the gate flag is now the single mechanism. Why: the frequency pre-filter (--check_frequency) must not drop common variants in a somatic workflow (taxonomy_proposal §3). NB the catalogue id is 'frequency', not 'filter_common'."
     },
     "variant_size_class": {
       "values": [

@@ -767,11 +767,6 @@ def intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=("recomm
     av = active_values(factor_tuple)
     priorities = pbf["priorities"]
     cond_rules = factors_cfg.get("conditional_rules", [])
-    somatic_na = set()
-    for f, spec in factors_cfg["factors"].items():
-        for rule in spec.get("hard_rules", []):
-            if factor_tuple.get(f) == rule["when_value"]:
-                somatic_na.update(rule["not_applicable"])
 
     out = {}
     for opt in catalogue:
@@ -788,16 +783,13 @@ def intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=("recomm
             vals = av.get(hf, [])
             if vals and all(pf.get(hf, {}).get(v) == "not_applicable" for v in vals):
                 gated = True
-        if oid in somatic_na:
-            gated = True
         if gated:
             out[oid] = (False, None, True)
             if trace is not None:
                 trace[oid] = {"priority": None, "votes": [], "winner": None,
                               "gated_by": [(hf, av.get(hf, [])) for hf in HARD_GATE_FACTORS
                                            if av.get(hf) and all(pf.get(hf, {}).get(v) == "not_applicable"
-                                                                 for v in av[hf])]
-                              + ([("hard_rule", sorted(somatic_na & {oid}))] if oid in somatic_na else [])}
+                                                                 for v in av[hf])]}
             continue
         # (2) soft ranking over ALL active factor values
         labels, votes = [], []
