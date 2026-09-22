@@ -41,7 +41,7 @@ def main():
     factors = genlib.load_factors()
     pbf = genlib.load_priority_by_factor()
     ids = {o["id"] for o in cat}
-    restr = {o["id"]: o.get("species_restriction", "all species") for o in cat}
+    restr = {o["id"]: o.get("species", "all") for o in cat}
     by_cat = {}
     for o in cat:
         by_cat.setdefault(o.get("category"), []).append(o["id"])
@@ -95,7 +95,7 @@ def main():
             return False
         if oid in _plugin_lists:
             return _plugin_lists[oid] == ["homo_sapiens"]
-        return va._is_human_only(restr.get(oid, "all species"))
+        return va._is_human_only(restr.get(oid, "all"))
 
     sp = [(r["id"], o) for r in rows if r["factor_labels"]["species"] == "non-human"
           for o in enabled(r) if _human_only(o)]
@@ -228,7 +228,7 @@ def main():
     full = run_draft({"core_type", "hgvs"}, "full")
     asm = va.infer_assembly(q)
     build_blocked = {o["id"] for o in cat
-                     if (r := va._assembly_restriction(o.get("species_restriction", ""))) and asm not in r}
+                     if (r := va._assembly_restriction(o.get("assemblies"))) and asm not in r}
     want = {o for o, (_e, p, g) in resolved.items()
             if p in ("recommended", "optional") and not g} - build_blocked
     check("--full enables recommended + optional, not optional alone",

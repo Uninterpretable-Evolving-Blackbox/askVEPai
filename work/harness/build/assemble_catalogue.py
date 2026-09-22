@@ -20,7 +20,7 @@ OUT = HERE.parents[1] / "vep_options_expanded.json"                  # the expan
 DEMO_FIELDS = [
     "id", "name", "cli_flag", "web_form_section", "category", "description",
     "when_to_use", "when_not_to_use", "use_case_tags",
-    "species_restriction", "depends_on", "conflicts_with", "side_effects",
+    "species_restriction", "species", "assemblies", "depends_on", "conflicts_with", "side_effects",
 ]
 # Extra provenance/metadata fields we add (harmless to existing code)
 META_FIELDS = ["source_type", "is_new", "web_form_subsection", "web_default", "provenance"]

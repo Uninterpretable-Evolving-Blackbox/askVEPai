@@ -264,8 +264,7 @@ def judgement_species(opts):
     check("the keyword rule abstains on a large share of real questions", unknown > 0,
           f"unknown on {unknown}/{len(texts)} real configuration questions")
 
-    human_only = {o["id"] for o in opts
-                  if "human" in (o.get("species_restriction") or "").lower()}
+    human_only = {o["id"] for o in opts if va._gates_nonhuman(o.get("species", "all"))}
     check("resolving an abstention as non-human would strip a real block of options",
           len(human_only) > 5, f"{len(human_only)} human-only options at risk")
     check("the fail direction is toward human",
@@ -371,7 +370,7 @@ def not_guessed(ablations, opts):
 
     check("assembly is not a factor, so it has no guess path",
           "assembly" not in va.FACTOR_VALUES and "assembly" not in va.UNDERSPECIFIED_POLICY)
-    restriction = {o.get("id"): o.get("species_restriction", "") for o in opts}
+    restriction = {o.get("id"): o.get("assemblies") for o in opts}
     only38 = {k for k, v in restriction.items() if va._assembly_restriction(v) == {"GRCh38"}}
     only37 = {k for k, v in restriction.items() if va._assembly_restriction(v) == {"GRCh37"}}
     check("both assembly answers delete something real, which is why neither is guessed",

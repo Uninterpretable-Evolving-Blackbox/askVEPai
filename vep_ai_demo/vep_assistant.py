@@ -210,18 +210,16 @@ def load_priority_by_factor(vep_options=None):
         if len(problems) > 8:
             print(f"    ... and {len(problems) - 8} more")
         print()
-    # SPECIES GATE, computed. Same rule the old derivation applied: a human-only restriction, or a narrow
-    # "human + <one species> only" set the binary factor cannot guarantee matches the query, gates the
-    # option for non-human. Plugins are judged by Ensembl's lists in the checker, not by this prose.
-    narrow_nonhuman = re.compile(r"human\s*\+\s*\w+.*only", re.IGNORECASE)
+    # SPECIES GATE, computed from each option's structured `species` field: human-only, or a two-species
+    # set that includes human, is not_applicable for non-human. Plugins are judged by Ensembl's lists
+    # in the checker, not here.
     _sd = load_species_data() or {}
     plugin = set(_sd.get("plugin_species") or {}) | set(_sd.get("plugin_species_all") or ())
     priorities = table.setdefault("priorities", {})
     for o in vep_options:
         if o["id"] in plugin:
             continue
-        restr = o.get("species_restriction", "all species")
-        if _is_human_only(restr) or narrow_nonhuman.search(restr or ""):
+        if _gates_nonhuman(o.get("species", "all")):
             priorities.setdefault(o["id"], {}).setdefault("species", {})["non-human"] = "not_applicable"
     return table
 
@@ -1414,39 +1412,15 @@ def assembly_at_stake(factor_tuple, vep_options):
     resolved = resolve_for_query(factor_tuple, vep_options)
     if not resolved:
         return set()
-    restriction = {o.get("id"): o.get("species_restriction", "all species") for o in vep_options}
+    restriction = {o.get("id"): o.get("assemblies") for o in vep_options}
     at_stake = set()
     for oid, (enabled, priority, _) in resolved.items():
         if not enabled or priority not in ASK_BAR_PRIORITIES:
             continue
-        allowed = _assembly_restriction(restriction.get(oid, "all species"))
+        allowed = _assembly_restriction(restriction.get(oid))
         if allowed and set(allowed) != set(_ASSEMBLY_VALUES):
             at_stake.add(oid)
     return at_stake
-
-
-def _ask_assembly():
-    """Put the assembly question. Same contract as `_ask_factor`: skipping is free and never blocks.
-
-    CURRENTLY UNREACHABLE (2026-09-15). The build is assumed to be GRCh38 and disclosed, because the
-    form of record serves GRCh38 and sends GRCh37 users to a separate site, and because the two wrong
-    guesses are not equal -- GRCh38 costs one add-on, GRCh37 costs four recommendations. See
-    `clarification_plan`. This stays so that restoring the question is a one-line change there."""
-    if not sys.stdin.isatty():
-        return None
-    print("\n  Which human genome assembly is your data on?")
-    for i, v in enumerate(_ASSEMBLY_VALUES, 1):
-        print(f"    {i}) {v}")
-    print("    (enter to skip — no assembly-specific options will be removed)")
-    try:
-        raw = input("  > ").strip()
-    except (EOFError, KeyboardInterrupt):
-        print()
-        return None
-    if raw.isdigit() and 1 <= int(raw) <= len(_ASSEMBLY_VALUES):
-        return _ASSEMBLY_VALUES[int(raw) - 1]
-    match = [v for v in _ASSEMBLY_VALUES if v.lower().replace("grch", "") == raw.lower().replace("grch", "")]
-    return match[0] if len(match) == 1 else None
 
 
 def resolve_underspecified(rec, vep_options, mode="state", user_query=None, assembly=None):
@@ -1488,17 +1462,10 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
 
     if mode == "ask":
         for factor, _why, _delta in questions:
-            # `_ask_assembly` is UNREACHABLE since 2026-09-15: clarification_plan records the build
-            # as a GRCh38 assumption instead of a question, so "assembly" never enters `questions`
-            # (checked: 0 of 252 tuples). Kept so restoring the question is a one-line change there,
-            # not a rewrite here.
-            answer = _ask_assembly() if factor == "assembly" else _ask_factor(factor)
+            answer = _ask_factor(factor)
             if answer is None:
                 continue
-            if factor == "assembly":
-                assembly = answer
-            else:
-                filled[factor] = answer
+            filled[factor] = answer
             # Say back what was understood. Answering a question and being moved straight on gives no
             # way to catch a mistyped answer, and the tool has just claimed this choice matters enough
             # to interrupt for — the least it can do is confirm what it heard.
@@ -2292,27 +2259,30 @@ def _detect_use_case(enabled: set, vep_options: list, training_examples: list,
 
 
 # Non-human species names that can appear in a multi-species restriction ('human + mouse only').
-_OTHER_SPECIES = {"mouse", "rat", "pig", "dog", "zebrafish", "chicken", "cow", "sheep",
-                  "horse", "yeast", "rabbit", "drosophila", "arabidopsis", "rice"}
 
 
-def _is_human_only(restriction: str) -> bool:
-    """True if a species_restriction string denotes a HUMAN-ONLY option (vs all-species or multi-species).
+def _is_human_only(species) -> bool:
+    """True if an option's `species` field says human and nothing else.
 
-    Reads an OPTION's `species_restriction` metadata — NOT the user query (that's infer_species).
-    Human-only iff it mentions 'human', is not an 'all species' restriction, and names NO other species.
-    This keys on actual SPECIES NAMES, which correctly handles the real catalogue vocabulary:
-      'human only', 'human only (GRCh37+GRCh38)', 'human only (GRCh37 and GRCh38)'  -> True
-          (the '+' / 'and' there are ASSEMBLIES, not species)
-      'human + mouse only', 'human + pig only'                                       -> False (multi-species)
-      'all species', 'species with SIFT data'                                        -> False
-    Fixes the earlier literal-'human and' test, which wrongly flagged 'human + mouse only' as human-only
-    and stripped e.g. `ccds` for a mouse query (caught by the demo-path smoke).
+    Reads the OPTION's structured `species` field (2026-09-22): `"all"`, or a list of Ensembl
+    production names. Until today this parsed the `species_restriction` prose with a regex and a
+    hand-kept list of animal words; the prose is kept for display, the gate reads the list.
+      ["homo_sapiens"]                    -> True
+      ["homo_sapiens", "mus_musculus"]    -> False  (multi-species: the checker must not strip it)
+      "all"                               -> False
     """
-    r = (restriction or "all species").lower()
-    if "human" not in r or "all" in r:
-        return False
-    return not any(re.search(r"\b" + re.escape(s) + r"\b", r) for s in _OTHER_SPECIES)
+    return species == ["homo_sapiens"]
+
+
+def _gates_nonhuman(species) -> bool:
+    """True if the resolver should mark an option not_applicable for a non-human scenario.
+
+    Wider than `_is_human_only` by exactly the narrow case: a two-species set that includes human
+    (`ccds` = human + mouse, `var_synonyms` = human + pig). The binary species factor cannot guarantee
+    the query's organism is the other member, so the table gates it; the checker's per-species data
+    lookup lets it back for the right organism. A set of only non-human species is not gated."""
+    return species != "all" and "homo_sapiens" in species and len(species) <= 2
+
 
 
 # Every recognised spelling of a HUMAN build -> its canonical name. Keys are lower-cased and
@@ -2339,14 +2309,11 @@ def infer_assembly(query):
     return _ASSEMBLY_ALIASES.get(token)                 # non-human builds (GRCm39...) -> None
 
 
-def _assembly_restriction(restriction):
-    """Human assemblies an option's data exists for, or None if it isn't assembly-restricted.
+def _assembly_restriction(assemblies):
+    """Human assemblies an option's data exists for, as a set, or None if it isn't assembly-restricted.
+    Reads the OPTION's structured `assemblies` field (2026-09-22); it used to regex the prose."""
+    return set(assemblies) if assemblies else None
 
-      'human only (GRCh38)'         -> {'GRCh38'}
-      'human only (GRCh37+GRCh38)'  -> {'GRCh37','GRCh38'}   (unrestricted in practice)
-      'human only' / 'all species'  -> None
-    """
-    return set(re.findall(r"GRCh3[78]", restriction or "")) or None
 
 
 def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
@@ -2410,10 +2377,14 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
     # Build lookup maps (single pass over the catalogue; mutated sets stay small)
     conflicts_map = {}
     species_map = {}
+    species_spec = {}
+    assembly_map = {}
     depends_map = {}
     for opt in vep_options:                      # (description_map removed — it was built but never used)
         conflicts_map[opt["id"]] = set(opt.get("conflicts_with", []))
         species_map[opt["id"]] = opt.get("species_restriction", "all species")
+        species_spec[opt["id"]] = opt.get("species", "all")          # the gate reads this
+        assembly_map[opt["id"]] = opt.get("assemblies")              # and this; species_map is prose for messages
         depends_map[opt["id"]] = list(opt.get("depends_on", []))
 
     # --- Species violations ---
@@ -2443,7 +2414,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
         for oid in list(enabled):
             if oid in plugin_lists or oid in plugin_every:
                 continue
-            if _is_human_only(species_map.get(oid, "all species")):
+            if _is_human_only(species_spec.get(oid, "all")):
                 violations.append({
                     "type": "species",
                     "option_disabled": oid,
@@ -2510,7 +2481,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
     assembly = assembly_override or infer_assembly(user_query)
     if assembly:
         for oid in list(enabled):
-            allowed = _assembly_restriction(species_map.get(oid, "all species"))
+            allowed = _assembly_restriction(assembly_map.get(oid))
             if allowed and assembly not in allowed:
                 violations.append({
                     "type": "assembly",
@@ -2600,7 +2571,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
             for dep in depends_map.get(oid, []):
                 if dep in enabled:
                     continue
-                if species not in ("human", "unknown") and _is_human_only(species_map.get(dep, "all species")):
+                if species not in ("human", "unknown") and _is_human_only(species_spec.get(dep, "all")):
                     violations.append({
                         "type": "dependency",
                         "option_disabled": oid,
