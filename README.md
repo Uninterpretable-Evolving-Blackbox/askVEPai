@@ -178,8 +178,8 @@ vep_ai_demo/             # THE TOOL — everything needed to run it
   factors.json           #   the factor scheme (values, hard gates, exclusions)
   priority_by_factor.json#   the priority table the resolver reads
   vep_consequences.json  #   41 VEP consequence terms (SO definitions)
-  training_examples.json #   23 stage-B examples; only --two-pass reads them
-  legacy/                #   NOT USED BY THE TOOL — see vep_ai_demo/legacy/README.md
+  legacy/                #   NOT USED BY THE TOOL — the stage-B benchmark and its 23
+                         #   Claude-written examples. See vep_ai_demo/legacy/README.md
   requirements.txt       #   openai (CLI); flask for the web UI
 
 work/                    # THE EVIDENCE — how the tool was built and how it is checked
@@ -208,7 +208,7 @@ factor-keyed priorities the resolver reads.
 **What the shipped path uses.** The five factor values from the classifier, and nothing else.
 They index the priority table; the checker then applies conflicts, gates and dependencies,
 ranking a conflict by the priority the FACTOR RESOLUTION gives each option. The 23 examples in
-`training_examples.json` play no part — only `--two-pass` reads them.
+`vep_ai_demo/legacy/training_examples.json` play no part — only `--two-pass` reads them.
 
 **OUTDATED, measuring. Evaluation scenarios.** The pipeline is scored on the **31 candidate scenarios** in
 `work/generation/candidates/iced.json`, generated and ICE-screened by the pipeline in

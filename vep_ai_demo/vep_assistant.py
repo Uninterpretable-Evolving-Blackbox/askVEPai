@@ -67,19 +67,21 @@ def load_knowledge_base():
     run on the demo KB (default) or the expanded catalogue + bootstrap set.
     """
     options_path = _kb_path("VEP_OPTIONS_FILE", "work/vep_options_expanded.json", "vep_options.json")
-    examples_path = Path(os.environ.get("VEP_EXAMPLES_FILE", BASE_DIR / "training_examples.json"))
+    # The 23 stage-B examples live under legacy/ (moved 2026-09-22): the default path never reads
+    # them, only --two-pass does, so a missing file is an empty corpus rather than an error.
+    examples_path = Path(os.environ.get("VEP_EXAMPLES_FILE", BASE_DIR / "legacy" / "training_examples.json"))
 
     # RAISE, do not exit. Seven harnesses and the web app import this module and call this function;
     # a hard exit here killed their process instead of letting them report. main() catches and prints.
     if not options_path.exists():
         raise FileNotFoundError(f"VEP options file not found at {options_path}")
-    if not examples_path.exists():
-        raise FileNotFoundError(f"Training examples file not found at {examples_path}")
 
     with open(options_path) as f:
         vep_options = json.load(f)
-    with open(examples_path) as f:
-        training_examples = json.load(f)
+    training_examples = []
+    if examples_path.exists():
+        with open(examples_path) as f:
+            training_examples = json.load(f)
 
     return vep_options, training_examples
 

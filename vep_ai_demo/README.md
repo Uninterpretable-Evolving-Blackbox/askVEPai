@@ -60,6 +60,7 @@ Python 3.9+. Only `openai` is required; `flask` is for the web UI in `../work/we
 | `VEP_FACTOR_THINK` | on | `0` turns classifier reasoning off |
 | `VEP_CLASSIFIER_PROMPT` | `v2` | `v1` restores the pre-2026-09-16 prompt |
 | `VEP_OPTIONS_FILE` `VEP_FACTORS_FILE` `VEP_PRIORITY_FACTOR_FILE` | auto | override a data file — see *Two copies* below |
+| `VEP_EXAMPLES_FILE` | `legacy/training_examples.json` | the `--two-pass` corpus; absent means empty. The default path never reads it |
 | `VEP_KEEP_ALIVE` | `-1` | how long Ollama keeps the model loaded |
 | `VEP_RESULTS_DIR` | `results/` | where saved recommendations go |
 
@@ -71,8 +72,8 @@ vep_options.json         the 68-option catalogue
 factors.json             the factor scheme: values, hard gates, exclusions
 priority_by_factor.json  the priority table the resolver reads
 vep_consequences.json    41 consequence terms, for `explain-result`
-training_examples.json   23 stage-B examples; only --two-pass reads them
-legacy/                  NOT USED BY THE TOOL — see legacy/README.md
+legacy/                  NOT USED BY THE TOOL — the stage-B benchmark and its 23
+                         Claude-written examples. See legacy/README.md.
 ```
 
 ### Two copies of each data file
