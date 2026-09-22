@@ -46,7 +46,7 @@ Python 3.9+. Only `openai` is required; `flask` is for the web UI in `../work/we
 | `--no-ask` | never prompt; state the assumed values instead |
 | `--quiet` | apply the safe defaults with no disclosure lines |
 | `--no-factor-think` | skip classifier reasoning: ~0.9 s a query instead of ~4 s, weaker on misleading wording |
-| `--two-pass` | also run the retired draft call, for comparison work |
+| `--two-pass` | also run the retired draft call (loads `legacy/two_pass.py`), for comparison work |
 
 `--think`, `--semantic` and `--no-check` were removed on 2026-09-16; passing one prints why and exits 2.
 

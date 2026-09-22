@@ -6,6 +6,21 @@ entirely; the whole tool is `../vep_assistant.py` plus the four JSON files besid
 
 Moved here 2026-09-22.
 
+## `two_pass.py` — the stage-B draft path, as code
+
+The ~800 lines that made the second model call: example retrieval (keyword and embedding), the draft
+prompt builder, the `✓/✗ [source: id]` marker parser and its citation audit, the override report, and
+the structured-JSON assembler. Moved out of `vep_assistant.py` verbatim on 2026-09-22.
+
+Not imported by a default run. It loads only when `--two-pass` is passed, or when a harness or the web
+app calls one of the eight names the engine keeps as one-line shims (`extract_recommendations`,
+`build_option_aliases`, `build_system_prompt`, ...). It binds the engine's namespace into itself at
+load, so the functions run unchanged.
+
+Why it is here and not deleted: it is the comparison path Exp 20 was measured on, and three scripts
+in `work/harness/exp/` (`singlepass_vs_twopass.py`, `pass_and_corpus_ablation.py`,
+`class_weighted_f1.py`) still run it.
+
 ## `evaluate.py` — the stage-B benchmark
 
 1,102 lines. Scores the **two-pass** design that was the default until 2026-09-14. Imported by
