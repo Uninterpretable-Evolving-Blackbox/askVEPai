@@ -64,7 +64,7 @@ def enabled_from(tuple_, catalogue, examples, query):
     """The config the user receives: resolver + checker, empty draft (single-pass)."""
     resolved = va.resolve_for_query(tuple_, catalogue) or {}
     en, dis = set(), set()
-    va.restore_missing_recommended(en, dis, resolved, catalogue, examples, query)
+    va.restore_missing_recommended(en, dis, resolved, catalogue, query)
     return en
 
 

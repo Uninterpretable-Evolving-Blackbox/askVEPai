@@ -29,7 +29,6 @@ import vep_assistant as va                                              # noqa: 
 
 DOCS = ROOT / "work" / "research" / "ensembl_docs_116"
 OUT = ROOT / "work" / "research" / "output_effects_dossier.md"
-PRIO = ROOT / "work" / "generation" / "generation_config" / "priority_by_factor.json"
 
 # --- behaviour classes, decided from the page's wording -------------------------------------------
 # Verbatim fragments that put an option in the ROWS class. Everything with a non-empty "Output fields"
@@ -96,7 +95,9 @@ def main():
     opts = {r["id"]: r for r in json.load(open(DOCS / "vep_options_parsed.json"))}
     form = json.load(open(DOCS / "vep_form_parsed.json"))
     plugs = {p["id"].lower(): p for p in json.load(open(DOCS / "vep_plugins_parsed.json"))}
-    prio = json.load(open(PRIO))["priorities"]
+    # The table as the engine uses it: the file does not carry the species gate, the loader stamps it on
+    # (since engine commit 7401b98). Reading the file raw drops every species.non-human row.
+    prio = va.load_priority_by_factor(catalogue)["priorities"]
 
     # --- form control -> catalogue id ---------------------------------------------------------
     form_of = defaultdict(list)          # id -> [(section, control)]
@@ -135,7 +136,7 @@ def main():
     missing_edges = []
     for o in catalogue:
         f = flag_of(o)
-        r = opts.get(f) if o.get("source_type") == "native" else None
+        r = opts.get(f) if va.option_source(o) == "native" else None
         if not r:
             continue
         ours = set(o.get("conflicts_with") or [])
@@ -177,7 +178,7 @@ def main():
             "literature_citation": "phenotype", "regulatory_impact": "regulatory", "regulatory": "regulatory"}
     cat_mismatch = []
     for o in catalogue:
-        if o.get("source_type") == "native":
+        if va.option_source(o) == "native":
             continue
         p = plugs.get(plugin_key(o))
         if p and norm.get(p["category"], p["category"]) != norm.get(o.get("category"), o.get("category")):
@@ -245,7 +246,7 @@ def main():
     w("| option | form control | behaviour | output fields (page) | default (page) | incompatible with (page) | ours: conflicts_with | ours: priority | form default |")
     w("|---|---|---|---|---|---|---|---|---|")
     for o in sorted(catalogue, key=lambda x: x["id"]):
-        if o.get("source_type") != "native":
+        if va.option_source(o) != "native":
             continue
         f = flag_of(o)
         r = opts.get(f, {})
@@ -291,7 +292,7 @@ def main():
     w("| option | form control (section) | page category | ours | page description (first sentence) | ours: priority |")
     w("|---|---|---|---|---|---|")
     for o in sorted(catalogue, key=lambda x: x["id"]):
-        if o.get("source_type") == "native":
+        if va.option_source(o) == "native":
             continue
         p = plugs.get(plugin_key(o))
         places = form_of.get(o["id"], [])
@@ -366,8 +367,8 @@ def main():
     w("5. **`distance`** — OPEN: unpriced, on by default at 5000, listed under ALREADY ON. Left at the form default.")
     w("6. **AVI and ProtVar** — applied 2026-09-13 as add-ons. blosum62 and ancestral_allele priced 2026-09-15 (add-ons);")
     w("   blosum62 moved to Ensembl's `conservation` category and out of the pathogenicity line.")
-    w("7. **Species data** — applied 2026-09-15: `generation_config/species_data.json` from Ensembl's own sources, gated")
-    w("   like assembly; `species_frequency` added for the four species with files; removals printed by default.")
+    w("7. **Species data** — applied 2026-09-15, gated like assembly; since 2026-09-22 each option's own `species`")
+    w("   list from Ensembl's sources; `species_frequency` added for the four species with files; removals printed by default.")
     w("")
     w("## 7. Evaluation rule going forward")
     w("")

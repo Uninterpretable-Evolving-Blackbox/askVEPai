@@ -76,25 +76,16 @@ def main():
         en = {k for k, v in opts.items() if v.get("enabled")}
         dis = {k for k, v in opts.items() if not v.get("enabled")}
         cue = genlib.species_cue_query(r["factor_labels"]["species"])
-        changed = [v for v in va.check_and_fix_violations(set(en), set(dis), cat, corpus, cue)
+        changed = [v for v in va.check_and_fix_violations(set(en), set(dis), cat, cue)
                    if v.get("option_disabled") or v.get("option_enabled")]
         allclean &= not changed
     check("every resolved config is checker-clean (0 further mutations)", allclean, f"{len(rows)} rows")
 
     print("\n== 3. Gate properties across the resolved rows ==")
-    # "Human only" is Ensembl's answer where it gives one: for plugins, the `species` field of
-    # VEP_plugins release/116 (species_data.json `plugin_species`) decides, and our catalogue prose is
-    # only consulted for everything else. Without this the check failed on UTRAnnotator, which our text
-    # calls human only and Ensembl's config does not restrict at all (2026-09-20).
-    _sd = va.load_species_data() or {}
-    _plugin_lists = _sd.get("plugin_species") or {}
-    _plugin_every = set(_sd.get("plugin_species_all") or ())
-
+    # "Human only" is read off each option's `species` list, which for plugins is Ensembl's own
+    # (VEP_plugins release/116 plugin_config.txt, written by build_plugin_species.py). Before
+    # 2026-09-22 the plugin lists sat in a separate species_data.json that overrode the catalogue.
     def _human_only(oid):
-        if oid in _plugin_every:
-            return False
-        if oid in _plugin_lists:
-            return _plugin_lists[oid] == ["homo_sapiens"]
         return va._is_human_only(restr.get(oid, "all"))
 
     sp = [(r["id"], o) for r in rows if r["factor_labels"]["species"] == "non-human"
@@ -176,8 +167,7 @@ def main():
         {"most_severe": (True, "optional", False), "sift": (True, "recommended", False)})
     check("flags an equal-priority (arbitrary) conflict", len(eq) == 1)
     check("stays silent on an unequal-priority conflict", len(ne) == 0)
-    conf = [v for v in va.check_and_fix_violations({"pick", "per_gene"}, set(), cat, corpus,
-                                                   "human variant analysis") if v.get("type") == "conflict"]
+    conf = [v for v in va.check_and_fix_violations({"pick", "per_gene"}, set(), cat, "human variant analysis") if v.get("type") == "conflict"]
     e2e = rc.flag_arbitrary_conflicts(conf, {"pick": (True, None, False), "per_gene": (True, None, False)})
     check("real pick/per_gene tie flagged end-to-end through the checker", len(e2e) == 1)
 
@@ -209,10 +199,10 @@ def main():
 
     def run_draft(draft, level):
         en, dis = set(draft), set()
-        va.check_and_fix_violations(en, dis, cat, corpus, q)
-        va.restore_missing_recommended(en, dis, resolved, cat, corpus, q)
+        va.check_and_fix_violations(en, dis, cat, q)
+        va.restore_missing_recommended(en, dis, resolved, cat, q)
         if level != "standard":
-            va.apply_config_level(en, dis, resolved, level, cat, corpus, q)
+            va.apply_config_level(en, dis, resolved, level, cat, q)
         return en
 
     for lvl in ("standard", "minimal", "full"):
@@ -320,11 +310,11 @@ def main():
     res_som = va.resolve_for_query(ft_som, cat)
     check("the somatic hard rule gates `frequency` in the table", res_som["frequency"][2])
     en, dis = {"frequency", "sift"}, set()
-    v = va.check_and_fix_violations(en, dis, cat, corpus, "somatic tumour", resolved=res_som)
+    v = va.check_and_fix_violations(en, dis, cat, "somatic tumour", resolved=res_som)
     check("a model-proposed gate violation is removed, not shipped",
           "frequency" not in en and any(x["type"] == "scenario" for x in v), sorted(en))
     en, dis = {"frequency", "sift"}, set()
-    va.check_and_fix_violations(en, dis, cat, corpus, "somatic tumour")
+    va.check_and_fix_violations(en, dis, cat, "somatic tumour")
     check("...and without `resolved` the checker is unchanged (callers opt in)",
           "frequency" in en, sorted(en))
 
@@ -341,7 +331,7 @@ def main():
                              "region_focus": [rf], "analysis_goal": [ag]}
                         rr = va.resolve_for_query(t, cat)
                         e2 = {o for o, (en_, _p, _g) in rr.items() if en_}
-                        vv = va.check_and_fix_violations(e2, set(), cat, corpus, "x", resolved=rr)
+                        vv = va.check_and_fix_violations(e2, set(), cat, "x", resolved=rr)
                         scen_hits += [x for x in vv if x["type"] == "scenario"]
     check("the gate rule never strips the resolver's own configuration (48 tuples)",
           not scen_hits, f"{len(scen_hits)} unexpected")
@@ -357,19 +347,19 @@ def main():
     # The gate itself, at the two ends: told the build, it removes the other build's sources; told
     # nothing, it stays out of the way (fail-open is deliberate — see test_user_context.py).
     en, dis = {"mane", "eve", "mavedb", "sift"}, set()
-    va.check_and_fix_violations(en, dis, cat, corpus, "human exome", assembly_override="GRCh37")
+    va.check_and_fix_violations(en, dis, cat, "human exome", assembly_override="GRCh37")
     check("a stated GRCh37 removes every GRCh38-only source", en == {"sift"}, sorted(en))
 
     # The species mirror of the same wiring bug: `--species human` on a query whose TEXT says mouse
     # must stop the gate re-reading "mouse" out of the prose — the human-only options the table
     # recommends were being stripped inside restore's re-check, whose violations are never printed.
     en, dis = {"clinvar", "cadd", "sift", "check_existing"}, set()
-    va.check_and_fix_violations(en, dis, cat, corpus, "somatic SNVs from a mouse tumour",
+    va.check_and_fix_violations(en, dis, cat, "somatic SNVs from a mouse tumour",
                                 species_override="human")
     check("a stated human survives mouse wording in the text",
           {"clinvar", "cadd"} <= en, sorted(en))
     en, dis = {"clinvar", "cadd", "sift", "check_existing"}, set()
-    va.check_and_fix_violations(en, dis, cat, corpus, "somatic SNVs from a mouse tumour")
+    va.check_and_fix_violations(en, dis, cat, "somatic SNVs from a mouse tumour")
     check("...and without the override the text still gates (unchanged behaviour)",
           "clinvar" not in en and "cadd" not in en, sorted(en))
 
@@ -401,7 +391,7 @@ def main():
     # it cannot switch anything on. The check is that the call SURVIVES a None reason_by_id, not the
     # wording, so it asserts on the tier name the output schema already uses.
     check("format_corrected_config survives a caller that passes no per-option prose",
-          "RECOMMENDED" in va.format_corrected_config(on3, set(), cat, [], resolved=res3))
+          "RECOMMENDED" in va.format_corrected_config(on3, cat, [], resolved=res3))
 
     print("\n== 8b. One VEP run per variant size ==")
     # The web form cannot express a configuration covering both sizes at once (CADD's annotation-file
@@ -529,7 +519,7 @@ def main():
     def _gate(q, goal):
         t = {"species": "non-human", "origin": "germline", "variant_size_class": ["small"], "region_focus": ["coding"], "analysis_goal": [goal]}
         r = va.resolve_for_query(t, cat); en = {o for o, (e, _p2, _g) in r.items() if e}; dis = set()
-        v = va.check_and_fix_violations(en, dis, cat, corpus, q, retrieval_mode="all", species_override="non-human", resolved=r)
+        v = va.check_and_fix_violations(en, dis, cat, q, species_override="non-human", resolved=r)
         return en, {x["option_disabled"] for x in v if x["type"] == "species_data"}
     _en, _wd = _gate("germline coding SNVs in Taeniopygia guttata, pathogenicity", "clinical-interpretation")
     check("species-DATA gate: a zebra finch loses SIFT (Ensembl computes SIFT for 12 species)", "sift" in _wd and "sift" not in _en)

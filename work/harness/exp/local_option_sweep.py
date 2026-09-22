@@ -169,7 +169,7 @@ def main():
 
     print("\n--- plugins: none are installed here, so a failure means NOT MEASURABLE ---")
     for o in sorted(catalogue, key=lambda x: x["id"]):
-        if o.get("source_type") == "native" or (keep and o["id"] not in keep):
+        if va.option_source(o) == "native" or (keep and o["id"] not in keep):
             continue
         flag = o.get("cli_flag", "")
         if not flag.startswith("--plugin"):

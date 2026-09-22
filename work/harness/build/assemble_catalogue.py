@@ -19,18 +19,29 @@ OUT = HERE.parents[1] / "vep_options_expanded.json"                  # the expan
 # Canonical demo schema fields (the contract the existing code reads)
 DEMO_FIELDS = [
     "id", "name", "cli_flag", "web_form_section", "category", "description",
-    "when_to_use", "when_not_to_use", "use_case_tags",
-    "species_restriction", "species", "assemblies", "depends_on", "conflicts_with", "side_effects",
+    "species", "assemblies", "depends_on", "conflicts_with",
 ]
 # Extra provenance/metadata fields we add (harmless to existing code)
-META_FIELDS = ["source_type", "is_new", "web_form_subsection", "web_default", "provenance"]
+META_FIELDS = ["web_form_subsection", "provenance"]
 # Fields added to the catalogue after this script was written. Listing them here is not enough on its
 # own -- KEEP_UNKNOWN below carries anything else across too -- but naming them documents what the
-# engine now reads: the form's defaults, the per-option priorities, the species-data links and the
-# CADD annotation-file values. Rebuilding without them silently un-ships four features.
-LATER_FIELDS = ["web_default_on", "web_default_value", "_web_default_basis", "priority_by_factor",
-                "requires_species_data", "web_form_values", "_web_form_values_basis",
-                "size_dependent_value", "deprecated"]
+# engine now reads: the form's defaults and the CADD annotation-file values.
+LATER_FIELDS = ["web_default_on", "web_default_value", "web_form_values", "deprecated"]
+# Removed from the catalogue 2026-09-22: no reader in any of the three trees. `side_effects` is
+# superseded by Ensembl's own Output fields / Incompatible with columns (research/output_effects_dossier.md);
+# `use_case_tags` belonged to the use-case labels retired 2026-09-13. `web_default` and its `_basis` were
+# the prose `web_default_on` was first read from; all 68 on/off defaults now check against InputForm.pm
+# and the release-116 plugin_config.txt (research/form_defaults_check_2026-09-22.md). The priority
+# blocks moved to priority_by_factor.json. `when_to_use` / `when_not_to_use` were our advice prose with no
+# Ensembl equivalent; `name` and `description` are now Ensembl's own words (source in `provenance`).
+# `source_type` repeated `cli_flag`; `vep_assistant.option_source()` reads it off the flag.
+# `species_restriction` (prose) and `requires_species_data` (a pointer to a second copy of the species
+# list) repeated `species`, which now holds Ensembl's list for every option.
+# Dropped here so a rebuild from an older workflow output does not carry them back in.
+RETIRED_FIELDS = ["use_case_tags", "side_effects", "is_new", "size_dependent_value",
+                  "_category_before_2026-09-15", "web_default", "_web_default_basis",
+                  "_web_form_values_basis", "priority_by_factor", "when_to_use", "when_not_to_use", "source_type",
+                  "species_restriction", "requires_species_data"]
 USE_CASES = ["rare_disease_germline", "somatic_cancer", "regulatory_noncoding",
              "population_genetics", "structural_variants", "non_human", "quick_lookup"]
 # "input" is the block at the top of the form, above every CONFIG_SECTIONS panel. One control lives
@@ -89,7 +100,8 @@ def main():
         entry = {f: o.get(f) for f in DEMO_FIELDS}
         # Anything the existing catalogue carries and this script does not know about is kept as it
         # is. Before this, a rebuild wrote only the fields listed above and dropped the rest.
-        for f in (LATER_FIELDS + [k for k in o if k not in DEMO_FIELDS + META_FIELDS + LATER_FIELDS]):
+        for f in (LATER_FIELDS + [k for k in o
+                                  if k not in DEMO_FIELDS + META_FIELDS + LATER_FIELDS + RETIRED_FIELDS]):
             if f in o:
                 entry[f] = o[f]
         for f in META_FIELDS:
@@ -100,8 +112,7 @@ def main():
 
     # --- Report ---
     print(f"\nBy section: {dict(Counter(o['web_form_section'] for o in built))}")
-    print(f"By source_type: {dict(Counter(o.get('source_type') for o in built))}")
-    print(f"New (is_new): {sum(1 for o in built if o.get('is_new'))}")
+    print(f"By flag kind: {dict(Counter(('plugin' if (o.get('cli_flag') or '').startswith('--plugin') else 'custom' if (o.get('cli_flag') or '').startswith('--custom') else 'native') for o in built))}")
     print(f"\nSCHEMA PROBLEMS ({len(problems)}):")
     for p in problems:
         print("  -", p)

@@ -70,7 +70,7 @@ def gold_names(row, catalogue, examples):
     """The names the user WOULD see for this row's true factor tuple, minus the form defaults."""
     resolved = va.resolve_for_query(row["factor_labels"], catalogue) or {}
     en, dis = set(), set()
-    va.restore_missing_recommended(en, dis, resolved, catalogue, examples, row["user_query"])
+    va.restore_missing_recommended(en, dis, resolved, catalogue, row["user_query"])
     by_id = {o["id"]: o.get("name", o["id"]) for o in catalogue}
     return {by_id.get(o, o) for o in en} - DEFAULTS
 
@@ -108,7 +108,7 @@ def main():
     rows = json.load(open(ROOT / "work/generation/candidates/iced.json"))
     tmp = Path(tempfile.mkdtemp())
     (tmp / "none.json").write_text("[]")
-    legacy_path = str(ROOT / "vep_ai_demo" / "training_examples.json")
+    legacy_path = str(ROOT / "vep_ai_demo" / "legacy" / "training_examples.json")
 
     ARMS = ["single", "two_none", "two_23", "two_31loo"]
     res = []

@@ -121,7 +121,7 @@ def resolve_row(factor_tuple, catalogue, pbf, factors_cfg, va, corpus, enable=("
     en, dis = set(raw_enabled), set()
     seen, checker_changes = set(), []
     for _ in range(6):
-        viol = va.check_and_fix_violations(en, dis, catalogue, corpus, cue)
+        viol = va.check_and_fix_violations(en, dis, catalogue, cue)
         changed = [v for v in viol if v.get("option_disabled") or v.get("option_enabled")]
         # Record DISTINCT fixes (type, option) — the fixed-point loop can re-report the same fix
         # across iterations, and set-iteration order otherwise makes the raw count non-reproducible.

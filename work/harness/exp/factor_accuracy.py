@@ -100,8 +100,7 @@ def score_row(client, model, row, catalogue, examples, seed):
     gold = {o for o, (e, _p, _g) in (va.resolve_for_query(truth, catalogue) or {}).items() if e}
     pred_resolved = va.resolve_for_query(got, catalogue) or {}
     enabled, disabled = set(), set()
-    va.restore_missing_recommended(enabled, disabled, pred_resolved, catalogue, examples,
-                                   row["user_query"])
+    va.restore_missing_recommended(enabled, disabled, pred_resolved, catalogue, row["user_query"])
     return {"id": row["id"], "per": per, "exact": all(per.values()),
             "per_config": per_cfg, "exact_config": all(per_cfg.values()),
             "e2e_f1": f1(enabled, gold), "n_gold": len(gold), "n_pred": len(enabled),

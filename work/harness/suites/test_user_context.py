@@ -55,7 +55,7 @@ def resolve(tup, assembly=None, query="variant analysis"):
     en = {o for o, (e, _, _) in ip.items() if e}
     dis = set()
     for _ in range(6):
-        v = va.check_and_fix_violations(en, dis, CAT, CORPUS, query, assembly_override=assembly)
+        v = va.check_and_fix_violations(en, dis, CAT, query, assembly_override=assembly)
         if not [x for x in v if x.get("option_disabled") or x.get("option_enabled")]:
             break
     return en
@@ -104,7 +104,7 @@ def main():
         rec, asm, _ = va.apply_user_context(read, ctx)
         en = resolve(rec, assembly=asm)
         # re-running the checker must be a no-op: the emitted set is already its own output
-        again = va.check_and_fix_violations(set(en), set(), CAT, CORPUS, "variant analysis",
+        again = va.check_and_fix_violations(set(en), set(), CAT, "variant analysis",
                                             assembly_override=asm)
         if [x for x in again if x.get("option_disabled") or x.get("option_enabled")] or not en:
             bad.append(ctx)
@@ -140,8 +140,8 @@ def main():
         r = genlib.intent_priorities(base, CAT, PBF, FC)
         en = {o for o, (e, _, _) in r.items() if e}
         dis = set()
-        va.check_and_fix_violations(en, dis, CAT, CORPUS, "variant analysis", assembly_override=asm)
-        va.restore_missing_recommended(en, dis, r, CAT, CORPUS, "variant analysis", assembly_override=asm)
+        va.check_and_fix_violations(en, dis, CAT, "variant analysis", assembly_override=asm)
+        va.restore_missing_recommended(en, dis, r, CAT, "variant analysis", assembly_override=asm)
         check(f"{asm}: restore_missing_recommended does not undo the assembly gate",
               ("mane" in en) == want, f"mane present={'mane' in en}, expected {want}")
 

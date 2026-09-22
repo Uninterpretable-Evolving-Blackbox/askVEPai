@@ -111,14 +111,6 @@
         "non-human": "recommended"
       }
     },
-    "ccds": {
-      "region_focus": {
-        "coding": "optional"
-      },
-      "variant_size_class": {
-        "structural-CNV": "not_applicable"
-      }
-    },
     "cell_type": {
       "region_focus": {
         "regulatory-noncoding": "optional"

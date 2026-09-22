@@ -419,7 +419,7 @@ def _web_form_target(option: dict, species_form: str, model_value=None):
     'Homo_sapiens'); `model_value` is an optional value the model emitted (rarely present).
     """
     oid = option["id"]
-    src = option.get("source_type", "native")
+    src = option_source(option)
     flag = option.get("cli_flag", "") or ""
 
     if oid in RESTRICT_RESULTS_FAMILY:                       # one dropdown, name='summary'
@@ -502,13 +502,11 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
         # rebuilds the RECOMMENDED set from the factor tuple. Until 2026-09-15 the second step was
         # missing here, so under the single-pass default -- an empty draft -- this serialised ZERO
         # recommendations while the CLI printed twenty-one.
-        violations = check_and_fix_violations(enabled, disabled, vep_options, training_examples,
-                                              query, retrieval_mode=retrieval_mode, assembly_override=assembly,
+        violations = check_and_fix_violations(enabled, disabled, vep_options, query, assembly_override=assembly,
                                               resolved=resolved_override)
         if resolved_override:
             restored = restore_missing_recommended(enabled, disabled, resolved_override, vep_options,
-                                                   training_examples, query, retrieval_mode=retrieval_mode,
-                                                   assembly_override=assembly, violations_out=violations)
+                                                   query, assembly_override=assembly, violations_out=violations)
 
     species_out = "human" if species == "unknown" else species
     species_form = _SPECIES_FORM_NAME.get(species_out, species_out.replace(" ", "_").title())
@@ -672,7 +670,7 @@ def compress_options(vep_options, resolved=None, desc_chars=_SENTINEL):
             # the regulatory gate. Set desc_chars=None to send the full text (~+3.5k prompt tokens;
             # prefill is not the bottleneck, generation is, so it costs little).
             f"- **{opt['id']}** (`{opt.get('cli_flag', '')}`): {_desc(opt, desc_chars)}. "
-            f"Species: {opt.get('species_restriction', 'all species')}. "
+            f"Species: {species_phrase(opt)}. "
             f"Priorities: {priorities}. "
             f"Conflicts: {conflicts}. Depends: {depends}."
         )
@@ -891,3 +889,271 @@ Use placeholder paths for plugin data files. Also note web interface equivalents
 - Ask clarifying questions if ambiguous.
 - Always include the [source: option_id, priority=X] citation for traceability.
 - Be specific about WHY each option is enabled/disabled."""
+
+
+# --- Moved out of vep_assistant.py on 2026-09-22: the draft call, its parse, the --explain Layer 1,
+# and the embedding retrieval (--semantic, removed from the CLI on 2026-09-20). ------------------------
+
+def draft(client, model, vep_options, training_examples, user_query, factor_tuple,
+          retrieval_mode="all", think=False):
+    """The retired second model call: build the draft prompt and stream the model's draft.
+    Returns (response_text, reasoning_text, seconds). Moved from vep_assistant.run_recommend on
+    2026-09-22; the CLI always passed retrieval_mode="all" and think=False."""
+    system_prompt = build_system_prompt(vep_options, training_examples, user_query,
+                                        retrieval_mode=retrieval_mode,
+                                        factor_tuple=factor_tuple)
+    print("Analysing your scenario...\n")
+
+    t_recommend = time.perf_counter()
+    try:
+        response_text, reasoning_text = _stream_native(model, system_prompt, user_query, think)
+    except Exception as e:
+        print(f"\nError communicating with Ollama: {e}")
+        print("Make sure Ollama is running: ollama serve")
+        print(f"And the model is pulled: ollama pull {model}")
+        sys.exit(1)
+    return response_text, reasoning_text, time.perf_counter() - t_recommend
+
+
+def parse_draft(response_text, reasoning_text, vep_options, user_query):
+    """Audit and parse the draft. Returns None when the model declined (the refusal is printed and saved),
+    else (diagnostics, recs, enabled, disabled, audit_report, override_report). Moved from
+    vep_assistant.run_recommend on 2026-09-22."""
+    option_aliases = build_option_aliases(vep_options)
+    # Audit what the model CITED before we act on it: ids that don't exist are dropped, near-misses
+    # are fuzzy-resolved, and both used to happen silently.
+    audit = audit_source_citations(response_text, option_aliases)
+    if is_out_of_scope_response(response_text, audit):
+        print(response_text.strip())
+        print()
+        save_result(user_query, response_text, mode="recommend", warnings="",
+                    reasoning=reasoning_text)
+        return None
+    diagnostics = []
+    audit_report = format_citation_audit(audit, len(vep_options))
+    if audit_report:
+        diagnostics.append(audit_report)
+    _recs = extract_recommendations_detailed(response_text, option_aliases)
+    enabled = {r["option_id"] for r in _recs if r["action"] == "enable"}
+    disabled = {r["option_id"] for r in _recs if r["action"] == "disable"}
+    override_report = format_marker_overrides(_recs, vep_options)
+    if override_report:
+        diagnostics.append(override_report)
+    return diagnostics, _recs, enabled, disabled, audit_report, override_report
+
+
+def print_example_retrieval(user_query, vep_options, training_examples, retrieval_mode="all"):
+    """Layer 1 of the --explain trace under --two-pass: which worked examples the draft prompt carried.
+    Moved verbatim from vep_assistant.print_decision_trace on 2026-09-22. No caller: run_recommend never
+    passed two_pass=True to the trace, so the CLI never printed this layer."""
+    two_pass = True
+    if two_pass:
+        print("\n--- Layer 1: Which worked examples the model saw ---")
+    if two_pass and retrieval_mode == "all":
+        # Nothing is selected, so there is no ranking to explain. This block used to print all 23
+        # examples ordered by a stopword-inclusive word count, which implied a relevance judgement
+        # that neither happened nor mattered.
+        print(f"All {len(training_examples)} worked examples are sent — none is selected or ranked, "
+              f"so there is no retrieval decision to explain here.\n")
+    elif two_pass and retrieval_mode == "semantic":
+        print("Ranked by BGE embedding cosine similarity (0-1).\n")
+    else:
+        # Be honest about what the number is. It used to print as `score=3`, which reads like a
+        # calibrated relevance metric; it is a count of whitespace-separated words the query and the
+        # example have in common, with no stopword removal, no stemming and no length normalisation —
+        # so "are" and "which" count for as much as "mouse", and a longer example matches more by
+        # having more words. Two examples tying at 3 is common and the tie is broken by list order.
+        print("Ranked by how many words the query and the example share — a raw count, so common\n"
+              "words count as much as informative ones. Experiment 1 measured selective retrieval as\n"
+              "no better than using every example, so this is WHAT was picked, not what decided the\n"
+              "answer.\n")
+
+    if retrieval_mode == "semantic":
+        from sentence_transformers.util import cos_sim
+
+        model = _get_semantic_model()
+        corpus_embs = _get_corpus_embeddings(training_examples)
+        query_emb = model.encode([user_query])
+        similarities = cos_sim(query_emb, corpus_embs)[0]
+
+        all_scored = [
+            (float(similarities[i]), training_examples[i])
+            for i in range(len(training_examples))
+        ]
+        all_scored.sort(key=lambda x: x[0], reverse=True)
+
+        for rank, (score, ex) in enumerate(all_scored, 1):
+            marker = " ← SELECTED" if rank <= 2 else ""
+            print(f"  #{rank} [{ex['id']}] cosine_similarity={score:.4f}{marker}")
+            print(f"      Use case: {ex['use_case_category']}")
+            print()
+
+        # Also show option relevance
+        print("--- Layer 1b: Option Semantic Relevance ---")
+        options_embs = _get_options_embeddings(vep_options)
+        opt_sims = cos_sim(query_emb, options_embs)[0]
+        opt_scored = [
+            (float(opt_sims[i]), vep_options[i])
+            for i in range(len(vep_options))
+        ]
+        opt_scored.sort(key=lambda x: x[0], reverse=True)
+        for rank, (score, opt) in enumerate(opt_scored, 1):
+            marker = " ← INCLUDED" if rank <= 10 else ""
+            print(f"  #{rank} {opt['id']:20s} cosine_similarity={score:.4f}{marker}")
+        print()
+    elif retrieval_mode != "all":
+        # Keyword mode. Skipped under "all": nothing was selected, so ranking 23 examples by a
+        # stopword-inclusive word count would describe a decision that did not happen.
+        query_words = set(user_query.lower().split())
+        all_scored = []
+        for ex in training_examples:
+            ex_text = f"{ex['user_query']} {ex['use_case_category']} {ex.get('justification', '')}".lower()
+            ex_words = set(ex_text.split())
+            overlap = query_words & ex_words
+            all_scored.append((len(overlap), overlap, ex))
+        all_scored.sort(key=lambda x: x[0], reverse=True)
+
+        for rank, (score, matched_words, ex) in enumerate(all_scored, 1):
+            marker = "  ← SELECTED" if rank <= 2 else ""
+            shared = ", ".join(sorted(matched_words)[:10]) if matched_words else "nothing"
+            print(f"  #{rank} [{ex['id']}]  {score} shared word{'' if score == 1 else 's'}: "
+                  f"{shared}{marker}")
+            print(f"      Use case: {ex['use_case_category']}")
+            print()
+
+# ---------------------------------------------------------------------------
+# Semantic retrieval (lazy-loaded, only when --semantic is used)
+# ---------------------------------------------------------------------------
+
+_semantic_model = None
+_corpus_embeddings = None
+_corpus_examples = None
+_options_embeddings = None
+_options_list = None
+
+
+def _get_semantic_model():
+    """Lazy-load the sentence-transformers model."""
+    global _semantic_model
+    if _semantic_model is None:
+        from sentence_transformers import SentenceTransformer
+        _semantic_model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+    return _semantic_model
+
+
+def _get_corpus_embeddings(training_examples):
+    """Compute and cache corpus embeddings for training examples."""
+    global _corpus_embeddings, _corpus_examples
+    if _corpus_embeddings is None or _corpus_examples is not training_examples:
+        model = _get_semantic_model()
+        _corpus_examples = training_examples
+        texts = [
+            f"{ex['user_query']} {ex['use_case_category']} {ex.get('justification', '')}"
+            for ex in training_examples
+        ]
+        _corpus_embeddings = model.encode(texts)
+    return _corpus_embeddings
+
+
+def _get_options_embeddings(vep_options):
+    """Compute and cache embeddings for VEP options."""
+    global _options_embeddings, _options_list
+    if _options_embeddings is None or _options_list is not vep_options:
+        model = _get_semantic_model()
+        _options_list = vep_options
+        texts = [opt["description"] for opt in vep_options]
+        _options_embeddings = model.encode(texts)
+    return _options_embeddings
+
+
+# --- Moved out of vep_assistant.py on 2026-09-22: used only by the draft path above. ----------------
+
+import re  # these patterns are built at import, before _bind supplies the engine's names
+
+# Every plugin's cli_flag starts `--plugin` and every custom dataset's `--custom`. These words
+# identify no option on their own, so they are never aliases.
+_FLAG_KEYWORDS = {"plugin", "custom"}
+
+
+OUT_OF_SCOPE_PREFIX = "OUT OF SCOPE:"
+
+
+_REFUSAL_RE = re.compile(
+    r"(only (?:able to |designed to |here to )?(?:help|assist|answer|provide|recommend)\b[^.]{0,60}\bVEP)"
+    r"|(\bI (?:can|am) only\b)"
+    r"|(\b(?:outside|beyond) (?:the |my )?scope\b)"
+    r"|(\bnot (?:a |an )?(?:VEP )?(?:variant|configuration|annotation)[- ]related\b)"
+    r"|(\bI'?m (?:a|an) VEP\b[^.]{0,60}\bassistant\b)",
+    re.IGNORECASE,
+)
+
+
+def is_out_of_scope_response(text, audit):
+    """True when the draft declined to configure VEP, so there is no configuration to check.
+
+    True on the OUT OF SCOPE marker, or on refusal phrasing with no citations and no ✓/✗ markers."""
+    if not text:
+        return False
+    if text.lstrip().upper().startswith(OUT_OF_SCOPE_PREFIX):
+        return True
+    if audit and audit.get("n_tagged"):
+        return False                                   # it cited the KB -> it attempted a config
+    if re.search(r"(?m)^\s*[✓✗]", text):
+        return False                                   # it used the recommendation markers
+    return bool(_REFUSAL_RE.search(text))
+
+
+# Signals on the same line as a ✓ that the draft means the option to be off (read by
+# extract_recommendations_detailed in legacy/two_pass.py). `priority=` is the model's own text.
+_NA_PRIORITY_RE = re.compile(r"priority\s*=\s*not[\s_]*applicable", re.IGNORECASE)
+
+
+_DISABLE_REASON_RE = re.compile(
+    r"\s*(disabled|not applicable|not needed|not relevant|not required|should not|excluded)\b",
+    re.IGNORECASE)
+
+
+# Controls whose HTML name takes a species suffix (`regulatory_<Species>`).
+_SPECIES_SCOPED_IDS = {"regulatory", "cell_type"}
+
+
+# Species word -> InputForm species suffix.
+_SPECIES_FORM_NAME = {
+    "human": "Homo_sapiens", "mouse": "Mus_musculus", "rat": "Rattus_norvegicus",
+    "zebrafish": "Danio_rerio", "pig": "Sus_scrofa", "dog": "Canis_lupus_familiaris",
+    "chicken": "Gallus_gallus", "cow": "Bos_taurus",
+}
+
+
+# Moved out of vep_assistant.py on 2026-09-22: only the draft passes `think`.
+def _stream_native(model, system_prompt, user_message, think):
+    """Stream from Ollama's native /api/chat, the only endpoint that honours `think`; return (answer, thinking).
+
+    The OpenAI-compatible /v1 endpoint drops `think`, even via `extra_body`.
+    """
+    import urllib.request
+    body = {
+        "model": model, "stream": True, "keep_alive": KEEP_ALIVE, "think": think,
+        "messages": [{"role": "system", "content": system_prompt},
+                     {"role": "user", "content": user_message}],
+        "options": {"num_predict": _STREAM_MAX_TOKENS},
+    }
+    req = urllib.request.Request(_native_chat_url(), data=json.dumps(body).encode(),
+                                 headers={"Content-Type": "application/json"})
+    answer, thinking = "", ""
+    with urllib.request.urlopen(req, timeout=900) as r:
+        for raw in r:                                  # newline-delimited JSON, one object per chunk
+            raw = raw.strip()
+            if not raw:
+                continue
+            msg = json.loads(raw).get("message", {})
+            if msg.get("thinking"):
+                thinking += msg["thinking"]
+            if msg.get("content"):
+                answer += msg["content"]
+                # The draft is not printed (see stream_response); only a live counter.
+                if sys.stdout.isatty():
+                    print(f"\r  drafting… {len(answer) // 4} tokens", end="", flush=True)
+    if sys.stdout.isatty():
+        print("\r" + " " * 40 + "\r", end="", flush=True)
+    return answer, thinking

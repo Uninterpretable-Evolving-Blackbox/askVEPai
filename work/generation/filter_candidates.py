@@ -59,7 +59,7 @@ def deterministic_gates(rows, va, catalogue, corpus):
         # 2. checker-clean on the REAL query
         en = {k for k, v in opts.items() if v.get("enabled")}
         dis = {k for k, v in opts.items() if not v.get("enabled")}
-        viol = va.check_and_fix_violations(set(en), set(dis), catalogue, corpus, q)
+        viol = va.check_and_fix_violations(set(en), set(dis), catalogue, q)
         changes = [v for v in viol if v.get("option_disabled") or v.get("option_enabled")]
         checks["checker_clean"] = not changes
 

@@ -36,7 +36,7 @@ for ex in examples:
     # Run the example's own recommendation through the checker. A gold example must be
     # internally clean: copies of the sets are passed since the checker mutates in place.
     viol = va.check_and_fix_violations(set(enabled), set(disabled), catalogue,
-                                       examples, ex["user_query"])
+                                       ex["user_query"])
     by = lambda t: [v for v in viol if v["type"] == t]
     # A species entry with no option actually changed is an INFORMATIONAL flag, not a strip:
     # for an unspecified species the checker (fail-closed, since Exp 7) emits "assuming human,

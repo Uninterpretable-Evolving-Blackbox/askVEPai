@@ -32,7 +32,7 @@ python3 vep_assistant.py "somatic tumour-normal, clinical interpretation on the 
 Run it with no scenario for an interactive prompt. Behind a proxy you need
 `NO_PROXY=localhost,127.0.0.1`, or every Ollama call returns 502.
 
-Python 3.9+. Only `openai` is required; `flask` is for the web UI in `../work/webapp/`.
+Python 3.9+. Only `openai` is required.
 
 ## Flags
 

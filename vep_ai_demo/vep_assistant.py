@@ -1,25 +1,11 @@
 #!/usr/bin/env python3
-"""VEP AI Assistant — recommends Ensembl VEP configuration based on your analysis scenario.
+"""VEP AI Assistant: recommends which options to tick on the Ensembl VEP web form for a scenario.
 
-Supports three modes:
-  python vep_assistant.py                        # interactive recommendation
-  python vep_assistant.py --explain "query"      # recommendation + decision trace
-  python vep_assistant.py explain-result "why..." # explain a VEP output annotation
-
-How much configuration you get back (default = standard):
-  --minimal   the smallest runnable set for your scenario
-  --full      also switch on every add-on the scenario justifies
-
-Reasoning. There are TWO model calls per run — a fast classifier that reads your scenario, then the
-recommender that writes the configuration. Both reason before answering unless told not to, and both
-default to NOT, because in each case it was measured to cost time and buy nothing:
-  --think          reasoning on for the RECOMMENDER   (18.1s -> 34.9s per query, Exp 14)
-  --factor-think   reasoning on for the CLASSIFIER    (0.97s -> 5.62s per query, Exp 15)
-
-When your question doesn't say something, the tool states what it assumed rather than deciding silently:
-  (default)   apply safe assumptions and say which ones
-  --quiet     apply them and keep quiet (scripts and batch runs)
-  --ask       also prompt you about gaps where no assumption is safe
+An LLM classifier reads the query into five factors plus organism; a deterministic resolver prices
+options from the priority table; a checker applies species, assembly, conflict and dependency gates.
+  python vep_assistant.py ["query"] [--explain] [--minimal|--full] [--cli] [--no-ask|--quiet]
+  python vep_assistant.py explain-result "why..."   # explain a VEP output annotation
+Run with --help for every flag.
 """
 
 import json
@@ -30,30 +16,17 @@ import time
 import datetime
 from pathlib import Path
 
-# The openai SDK is imported LAZILY, in main(), because it is needed in exactly one place — the client
-# built for the recommender call. Importing it here made the SDK a hard requirement of merely importing
-# this module, which six deterministic harnesses do purely to read the priority table. They need no
-# model, no network and no SDK, and a missing dependency killed the process at import rather than at use.
+# The openai SDK is imported lazily in main(): harnesses import this module without it.
 
 BASE_DIR = Path(__file__).parent
 
 
-# ---------------------------------------------------------------------------
-# Knowledge base loading
-# ---------------------------------------------------------------------------
+# --- Knowledge base loading ---
 
 def _kb_path(env_var, work_relative, demo_filename):
-    """Resolve a knowledge-base file to ONE canonical location.
+    """Path to a knowledge-base file: the env var if set, else the `work/` copy, else the demo-local copy.
 
-    Order: an explicit env var, then the repo's `work/` copy, then the demo-local copy.
-
-    The point is that editing an option is a single-file change. The `work/` copy is the one that is
-    curated, provenance-tracked and reviewed, so it must be the one the shipped tool reads whenever it is
-    there — otherwise an edit to it silently fails to reach the CLI, which was the case until now.
-
-    The demo-local fallback is not redundancy for its own sake: `vep_ai_demo/` is publishable on its own,
-    without `work/` beside it, and has to keep working in that form. It is a fallback, never a second
-    file to maintain."""
+    The demo-local fallback lets `vep_ai_demo/` run without `work/` beside it."""
     if env_var and os.environ.get(env_var):
         return Path(os.environ[env_var])
     canonical = BASE_DIR.parent / work_relative
@@ -61,18 +34,12 @@ def _kb_path(env_var, work_relative, demo_filename):
 
 
 def load_knowledge_base():
-    """Load VEP options and training examples from JSON files.
-
-    Honours VEP_OPTIONS_FILE / VEP_EXAMPLES_FILE env vars so the same code can
-    run on the demo KB (default) or the expanded catalogue + bootstrap set.
-    """
+    """Return (vep_options, training_examples); VEP_OPTIONS_FILE / VEP_EXAMPLES_FILE override the paths."""
     options_path = _kb_path("VEP_OPTIONS_FILE", "work/vep_options_expanded.json", "vep_options.json")
-    # The 23 stage-B examples live under legacy/ (moved 2026-09-22): the default path never reads
-    # them, only --two-pass does, so a missing file is an empty corpus rather than an error.
+    # Only --two-pass reads the examples, so a missing file gives an empty list.
     examples_path = Path(os.environ.get("VEP_EXAMPLES_FILE", BASE_DIR / "legacy" / "training_examples.json"))
 
-    # RAISE, do not exit. Seven harnesses and the web app import this module and call this function;
-    # a hard exit here killed their process instead of letting them report. main() catches and prints.
+    # Raise rather than exit: harnesses call this. main() catches and prints.
     if not options_path.exists():
         raise FileNotFoundError(f"VEP options file not found at {options_path}")
 
@@ -95,58 +62,31 @@ def load_consequences():
         return json.load(f)
 
 
-# ---------------------------------------------------------------------------
-# The FACTOR SCHEME (single source of truth — the generation pipeline imports this)
-# ---------------------------------------------------------------------------
-# A "use case" is a SET of factor values, not one category. The older single-label scheme
-# (rare_disease_germline / somatic_cancer / ...) mixes axes — a mouse somatic SV is somatic AND
-# structural AND non-human at once — so it mislabels the scenario and picks the wrong priorities.
-# See research/taxonomy_proposal.md §3.
-#
-# This block lives HERE, in the engine, deliberately. Both entry paths need it (the prose
-# recommender and the deterministic factor resolver), and the dependency arrow runs
-# work/generation -> vep_ai_demo, never the reverse (the demo must stay standalone/publishable).
-# Defining it once here is what stops the two paths from drifting apart.
-#
-# NOTHING here is mentor-validated: the scheme and the priority table are PROVISIONAL config
-# files. On sign-off, swap the JSON — the code does not change.
+# --- The factor scheme (the generation pipeline imports this) ---
+# A scenario is a set of factor values (research/taxonomy_proposal.md §3). It lives in the engine
+# because work/generation imports vep_ai_demo, never the reverse. The scheme and priority table are
+# provisional config files, not yet mentor-validated.
 
 def load_factors():
-    """The factor scheme (values, kinds, hard gates, exclusions, conditional rules)."""
+    """Return factors.json: values, kinds, hard gates, exclusions, conditional rules."""
     path = _kb_path("VEP_FACTORS_FILE", "work/generation/generation_config/factors.json", "factors.json")
     with open(path) as f:
         return json.load(f)
 
 
-# --- The importance table ------------------------------------------------------------------------
-#
-# AUTHORED, NOT DERIVED (2026-09-22). `priority_by_factor.json` is the single source: one block per option,
-# factor -> value -> priority. Until today it was derived at load from a DRIVES spec here plus per-option
-# blocks in the catalogue, then dumped; four places to read to learn why one option was priced. The
-# spec and the blocks are gone. Every comment they carried -- including the mentor quotes -- is in
-# work/generation/generation_config/priority_by_factor_NOTES.md, unaltered.
-#
-# What stays computed is the SPECIES GATE: an option's species_restriction is a fact about the tool, not
-# an opinion, so `load_priority_by_factor` stamps species.non-human = not_applicable from it at load.
-# The drift the old derivation guarded against (edit the catalogue, forget the dump) cannot recur: the
-# catalogue no longer holds priorities, so there is nothing to forget. `priority_table_covers` still
-# catches an option the table has never heard of.
+# --- The importance table ---
+# `priority_by_factor.json` is authored by hand: one block per option, factor -> value -> priority.
+# Rationale and mentor quotes are in work/generation/generation_config/priority_by_factor_NOTES.md.
+# Only the species gate is computed, at load, from each option's `species` list.
 
-# TWO TIERS since 2026-08-19. `critical` is gone from the scheme, not merely hidden. The
-# critical/recommended boundary was the one part of this table an expert reviewed, and twelve of her
-# twenty edits moved options across it. Merging the DISPLAY made those corrections invisible, so they
-# were never applied — while --minimal, restore_missing_* and the must-have metric went on reading the
-# uncorrected boundary. Removing the tier removes the unvalidated judgement instead of hiding it.
+# Two tiers; `critical` is not in the scheme.
 RANK = {"recommended": 2, "optional": 1, "not_applicable": 0}
 
 
 def validate_priority_table(table, factors_cfg=None):
-    """Problems in `priority_by_factor.json`, as a list of human-readable strings. [] when clean.
+    """Return problems in `priority_by_factor.json` as readable strings; [] when clean.
 
-    The table is hand-authored, so every kind of typo in it used to be able to fail silently: a misspelt
-    label was dropped, a misspelt factor or value was stored under a key nothing reads. The entry looked
-    accepted and did nothing. `verify_pipeline.py` asserts this returns []; the engine warns and carries
-    on, because a maintainer's typo should not take a user's session down with it."""
+    Catches unknown factors, values and labels. `verify_pipeline.py` asserts []; the engine only warns."""
     problems = []
     if factors_cfg is None:
         try:
@@ -181,13 +121,7 @@ _PRIORITY_TABLE_WARNED = False
 
 
 def load_priority_by_factor(vep_options=None):
-    """The importance table from `priority_by_factor.json`, with the species gate stamped on.
-
-    THE FILE IS THE SOURCE. It is required: there is no derivation to fall back to. It carries every
-    authored priority; what it does not carry is species, which is stamped here from each option's
-    `species_restriction` -- a fact about the tool, not an opinion, so it lives with the option. Plugins
-    are skipped: Ensembl's own per-plugin species lists decide for them in the checker (2026-09-20).
-    """
+    """Load `priority_by_factor.json` (required) and stamp species.non-human from each option's `species`."""
     global _PRIORITY_TABLE_WARNED
     path = _kb_path("VEP_PRIORITY_FACTOR_FILE",
                     "work/generation/generation_config/priority_by_factor.json",
@@ -209,75 +143,39 @@ def load_priority_by_factor(vep_options=None):
         if len(problems) > 8:
             print(f"    ... and {len(problems) - 8} more")
         print()
-    # SPECIES GATE, computed from each option's structured `species` field: human-only, or a two-species
-    # set that includes human, is not_applicable for non-human. Plugins are judged by Ensembl's lists
-    # in the checker, not here.
-    _sd = load_species_data() or {}
-    plugin = set(_sd.get("plugin_species") or {}) | set(_sd.get("plugin_species_all") or ())
+    # Species gate: human-only, or a two-species set that includes human, is not_applicable for
+    # non-human. Plugins are skipped; the checker uses their species lists (Ensembl plugin_config.txt).
     priorities = table.setdefault("priorities", {})
     for o in vep_options:
-        if o["id"] in plugin:
+        if option_source(o) == "plugin":
             continue
         if _gates_nonhuman(o.get("species", "all")):
             priorities.setdefault(o["id"], {}).setdefault("species", {})["non-human"] = "not_applicable"
     return table
 
 
-# --- The two-tier DISPLAY vocabulary --------------------------------------------------------------
-#
-# Agreed with the mentors 2026-08-07: the user sees TWO buckets, not three. `critical` and
-# `recommended` merge into RECOMMENDED; `optional` becomes ADD-ON.
-#
-# The names are Nakib's and the reason is worth keeping: "default" reads as *applies automatically*,
-# which is false for a bucket the user still has to switch on. "Recommended" says what it is — an
-# expert suggestion.
-#
-# The merge costs nothing, because it was always only a label: `intent_priorities` enables
-# `critical ∪ recommended` as one set, so both tiers were switched on together in every configuration
-# the tool has ever emitted. Measured over the 31 review rows, the emitted set is identical under
-# either shape (391 options on, no conflict tie-break changes).
-#
-# THE THIRD PRIORITY WAS DELETED ON 2026-08-19, twelve days after this display merge. Keeping it
-# internally is what let twelve of Likhitha's twenty edits go unapplied: merging the display made
-# critical<->recommended moves invisible while --minimal, the restore and must-have recall went on
-# reading the boundary she had redrawn. All three were redefined on the RECOMMENDED bucket, which is
-# the one she reviewed and the one the user sees. `critical` now names nothing in this scheme, and
-# `strongest()` ignores it rather than ranking it, so a stale table cannot bring it back.
-#
-# The LEGACY `priority_by_use_case` field is a different axis (seven use cases, not five factors) and
-# still carries 26 `critical` entries. It feeds get_confidence and the offline scorer, and deleting the
-# label there would silently demote every legacy critical to "low".
-#
-# One map, so the CLI, the web payload and the review export cannot drift apart.
+# --- Display vocabulary ---
+# The user sees two buckets, RECOMMENDED and ADD-ON (mentors, 2026-08-07). The names are Nakib's:
+# "default" would suggest the option applies automatically. The CLI, web payload and review export
+# all read this one map.
 DISPLAY_TIER = {"recommended": "recommended", "optional": "add-on"}
 
 
-# Form controls InputForm.pm renders for HUMAN ONLY, so they are ticked-by-default only on a human
-# run. `af` and `pubmed` sit inside the `_stt_Homo_sapiens` div at 574-612; `tsl`, `appris` and `mane`
-# carry the same field_class at 674 / 684 / 694. All five are under the same
-# `if (first { $_->{'value'} eq 'Homo_sapiens' } @$species)` guard.
-#
-# `clinvar` is here on a different axis. It has no control of its own -- it rides on `check_existing`,
-# whose field_class is `_stt_var`, i.e. any species carrying variation data, mouse included. ClinVar
-# is human-only DATA, which is why it belongs in this set; the earlier note claiming the fieldset was
-# human-wrapped was wrong about the form.
-#
-# Every other `web_default_on` control renders for all species. Verified against
-# `work/ensembl_source/VEP/InputForm.pm` (all 38 add_field blocks) on 2026-09-14.
+# Form defaults that are on only for a human run. `af`, `pubmed`, `tsl`, `appris` and `mane` are
+# rendered only under the Homo_sapiens guard in InputForm.pm (lines 574-612, 674/684/694). `clinvar`
+# rides on `check_existing`, which renders for any species with variation data, but ClinVar data is
+# human-only. Every other `web_default_on` control renders for all species (InputForm.pm, 2026-09-14).
 _HUMAN_ONLY_FORM_DEFAULTS = frozenset({"appris", "tsl", "mane", "af", "clinvar", "pubmed"})
 
 
 def _form_default_on(oid, vep_options, species):
-    """True when the web form ships this option ticked FOR THIS SPECIES (mentor instruction,
-    2026-09-13: what the form has on by default is assumed on and not recommended)."""
+    """True when the web form ships this option ticked for this species.
+
+    Form defaults are assumed on and not recommended (mentor instruction, 2026-09-13)."""
     opt = next((o for o in vep_options if o["id"] == oid), None)
     if not opt or not opt.get("web_default_on"):
         return False
-    # Callers pass EITHER the factor value ("human") or the Ensembl production name ("homo_sapiens",
-    # from resolve_species_name). Until 2026-09-15 only the first was recognised, so on every human
-    # query the human-only defaults -- APPRIS, TSL, MANE, ClinVar, PubMed, 1000 Genomes AF -- were
-    # judged NOT already on and printed as recommendations, undoing the mentors' instruction for
-    # exactly the options it covers.
+    # `species` is the factor value ("human") or an Ensembl production name ("homo_sapiens...").
     is_human = species in (None, "human", "unknown") or str(species).lower().startswith("homo_sapiens")
     if oid in _HUMAN_ONLY_FORM_DEFAULTS and not is_human:
         return False
@@ -285,27 +183,16 @@ def _form_default_on(oid, vep_options, species):
 
 
 def display_tier(priority):
-    """The bucket a user is shown for an internal priority label.
-
-    Anything with no bucket — `not_applicable`, or an option the table prices for no factor here —
-    comes back unchanged, so the caller decides whether to show it at all rather than having it
-    silently renamed into a tier it is not in."""
+    """Return the user-facing bucket for a priority label; labels with no bucket come back unchanged."""
     return DISPLAY_TIER.get(priority, priority)
 
 
-# Factors that can REMOVE an option outright when they mark it not_applicable.
-#
-# `region_focus` was added on documentary evidence, and it AMENDS taxonomy_proposal §3, which calls it
-# "purely soft". The docs disagree with the proposal: the catalogue rates the missense predictors (and
-# mane/protein/nmd) `regulatory_noncoding: not_applicable` — 9 of 10 predictors, CADD the sole exception —
-# and constraints_dossier.md:123 prescribes exactly this: "Model as a soft dependency (recommender gate,
-# not a CLI requirement): apply only to missense/coding variants." Without the gate, composition is
-# max-only, so `analysis_goal=clinical` would hand missense predictors to a purely regulatory query.
-# FLAG FOR THE MENTOR: this is a proposed amendment to §3, not something §3 already licenses.
+# Hard-gate factors (`hard_gate` in factors.json) remove an option outright when they mark it
+# not_applicable. `region_focus` is one so a purely regulatory query gets no missense predictors
+# (constraints_dossier.md:123). This amends taxonomy_proposal §3 and awaits mentor sign-off.
 
 def _factor_scheme():
-    """(values, multi, hard gates) read from factors.json. The file is the single source: it ships
-    inside the engine, so there is no literal fallback to drift from it (removed 2026-09-22)."""
+    """Return (values, multi-select factors, hard-gate factors) from factors.json, which is required."""
     try:
         spec = load_factors()["factors"]
     except Exception as e:
@@ -323,8 +210,7 @@ VALUE_DEFAULTS = {"sift": "b", "polyphen": "b", "check_existing": "yes"}
 
 
 def strongest(labels):
-    """Strongest soft priority among labels (recommended>optional), ignoring
-    not_applicable/None. Returns the label str or None if none apply."""
+    """Return the strongest label (recommended > optional), or None; other labels are ignored."""
     best, best_rank = None, 0
     for p in labels:
         r = RANK.get(p, 0)
@@ -344,10 +230,7 @@ def active_values(factor_tuple):
 
 
 def factor_slug(factor_tuple):
-    """Compact, deterministic label for a tuple (for ids / filenames)."""
-    # Derived from the tuple rather than naming the five factors and assuming which are lists: that
-    # assumption is a second copy of the scheme, and it crashed the moment a factor's cardinality
-    # changed in factors.json. Order follows FACTOR_VALUES so the slug stays stable and readable.
+    """Compact, deterministic label for a tuple (for ids / filenames), in FACTOR_VALUES order."""
     parts = []
     for f in FACTOR_VALUES:
         v = factor_tuple.get(f)
@@ -355,31 +238,20 @@ def factor_slug(factor_tuple):
     return "__".join(parts).replace("-", "").replace("_", "")
 
 
-# --- One VEP run per variant size, when the callset holds both ---------------------------------------
-#
-# The web form cannot express a configuration covering both sizes at once. CADD's control is a four-way
-# drop-down over annotation files (SNVs and InDels / SNVs / InDels / CADD-SV) and choosing one excludes
-# the rest, so a single run cannot score short and structural variants together. Likhitha raised it in
-# reply to the re-prompting proposal; the four labels are in the catalogue as `web_form_values`, read
-# off the live form and NOT present in our release/115 snapshot.
-#
-# The factor STAYS `select: multi`, and the evidence for that is untouched: defaults_evidence.py still
-# shows that assuming both loses options on 0 of 29 ablations where single-select loses on 15. What
-# moved is the OUTPUT. The split now happens where the form imposes it, at render time, one
-# configuration per size, instead of one union configuration nobody can enter.
+# --- One VEP run per variant size, when the callset holds both ---
+# CADD's form control picks one annotation file (SNVs and InDels / SNVs / InDels / CADD-SV), so one run
+# cannot cover short and structural variants (Likhitha). The labels are the catalogue's
+# `web_form_values`, read off the live form. The factor stays multi-select; the output is split into
+# one configuration per size at render time.
 SIZE_FACTOR = "variant_size_class"
 SIZE_PASS_LABELS = {"small": "short variants (SNVs and indels)",
                     "structural-CNV": "structural variants and CNVs"}
 
 
 def size_passes(factor_tuple):
-    """[(size_value, label, factor tuple)] - one entry per VEP run this scenario needs.
+    """Return [(size_value, label, factor tuple)], one entry per VEP run the scenario needs.
 
-    One pass when a single size is active, which is every row of the 31-row review set. Two when both
-    are, whether the user said so or the assume policy filled it in. Each returned tuple is a COPY with
-    the size pinned to one value, so the resolver, the hard gates and the checker run unchanged and none
-    of them needs to know that passes exist.
-    """
+    With both sizes active, each tuple is a copy with the size pinned to one value."""
     if not factor_tuple:
         return [(None, "", factor_tuple)]
     sizes = [v for v in active_values(factor_tuple).get(SIZE_FACTOR, []) if v]
@@ -397,16 +269,9 @@ def size_passes(factor_tuple):
 
 
 def size_dependent_choice(oid, size_value, vep_options, assembly=None):
-    """(form value for this pass, reason it is unavailable) for a size-dependent control.
+    """Return (form value for this pass, reason it is unavailable) for a control with `web_form_values`.
 
-    CADD is the only option carrying `web_form_values` today. The structure is general because Q6 of the
-    round-2 sheet says ten form controls are values or modes rather than switches, and this is the first
-    of them the output has had to name.
-
-    A reason is returned when the value this pass needs is ruled out by a STATED assembly - CADD-SV is
-    GRCh38-only. An unstated assembly returns none, matching the assembly gate elsewhere: act on what
-    the user said, stay open when they said nothing.
-    """
+    A reason is given only when a stated assembly rules the value out (CADD-SV is GRCh38-only)."""
     if not size_value:
         return None, None
     opt = next((o for o in vep_options if o["id"] == oid), None)
@@ -424,11 +289,7 @@ def size_dependent_choice(oid, size_value, vep_options, assembly=None):
 
 
 def drop_unavailable_size_values(enabled, vep_options, size_value, assembly):
-    """Remove options this pass cannot run, returning [(oid, why)]. Mutates `enabled`.
-
-    An option left switched on with no usable data file behind it is the empty-column failure this
-    project keeps finding elsewhere: it looks like an answer and returns nothing.
-    """
+    """Remove from `enabled` the options this pass has no usable data file for; return [(oid, why)]."""
     gone = [(oid, reason) for oid in sorted(enabled)
             for _lab, reason in [size_dependent_choice(oid, size_value, vep_options, assembly)]
             if reason]
@@ -437,9 +298,8 @@ def drop_unavailable_size_values(enabled, vep_options, size_value, assembly):
     return gone
 
 
-# Canonical non-human cue: the resolver runs the checker BEFORE the real query exists, so it
-# feeds infer_species a minimal species cue. Any non-human species gates the same human-only
-# block, so 'mouse' is a fair representative.
+# A minimal query for infer_species when the resolver runs the checker without a real query.
+# Every non-human species gates the same human-only block, so 'mouse' stands for all of them.
 def species_cue_query(species):
     return "human variant analysis" if species == "human" else "mouse variant analysis"
 
@@ -452,24 +312,10 @@ def factor_value_for(oid, species):
 
 
 def intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=("recommended",), trace=None):
-    """Pre-checker intent: {oid: (enabled_bool, priority_or_None, gated_bool)} from factor priorities.
+    """Return {oid: (enabled, priority or None, gated)} from factor priorities, before the checker.
 
-    `enable` is the set of priority labels that switch an option ON. Since the tier removal there is
-    one such label, `recommended`; the argument survives so a caller can still ask for a different
-    enable set without a code change.
-
-    `trace`, if a dict is passed, is FILLED IN with why each option came out the way it did:
-
-        trace[oid] = {"priority": str|None,
-                      "votes":   [(factor, value, label), ...],   every rule that spoke
-                      "winner":  (factor, value, label)|None,     the one the max selected
-                      "gated_by": [(factor, values), ...]}        hard gates that removed it
-
-    The return value is UNCHANGED — thirteen call sites unpack the 3-tuple, so the derivation goes
-    out through this parameter rather than by widening the tuple. Nothing in the resolve path passes
-    it; it exists because the winning rule was being computed here and thrown away one line later at
-    `strongest(labels)`, leaving every downstream surface able to show the conclusion and not the
-    reason. `labels` is still built exactly as before, so `strongest` sees a byte-identical input."""
+    `enable`: priority labels that switch an option on. `trace`: optional dict, filled per option with
+    {"priority", "votes": [(factor, value, label)], "winner": vote or None, "gated_by": [(factor, values)]}."""
     av = active_values(factor_tuple)
     priorities = pbf["priorities"]
     cond_rules = factors_cfg.get("conditional_rules", [])
@@ -479,12 +325,8 @@ def intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=("recomm
         oid = opt["id"]
         pf = priorities.get(oid, {})
         gated = False
-        # (1) hard gates — a factor gates an option only if EVERY one of its ACTIVE values marks the
-        # option not_applicable. For the single-select factors (species, variant_size_class) that is
-        # identical to the previous "any active value" rule, since there is exactly one active value.
-        # It matters for the multi-select `region_focus`: a coding+regulatory variant set HAS a coding
-        # component, so a missense predictor still applies and must not be gated away just because a
-        # regulatory component is also present. "any" would have dropped it; "all" keeps it.
+        # (1) Hard gates: a factor gates an option only if EVERY active value marks it not_applicable,
+        # so a coding+regulatory set keeps its missense predictors.
         for hf in HARD_GATE_FACTORS:
             vals = av.get(hf, [])
             if vals and all(pf.get(hf, {}).get(v) == "not_applicable" for v in vals):
@@ -497,19 +339,17 @@ def intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=("recomm
                                            if av.get(hf) and all(pf.get(hf, {}).get(v) == "not_applicable"
                                                                  for v in av[hf])]}
             continue
-        # (2) soft ranking over ALL active factor values
+        # (2) Soft ranking over all active factor values.
         labels, votes = [], []
         for f, vals in av.items():
             for v in vals:
                 lab = pf.get(f, {}).get(v)
-                labels.append(lab)                     # unchanged: strongest() sees the same list
+                labels.append(lab)
                 if lab:
                     votes.append((f, v, lab))
-        # (3) conditional rules — JOINT conditions the per-value table cannot express. The priority table
-        # is keyed one factor value at a time and composes by max, so every value votes alone; there is no
-        # slot for "non-human AND clinical together imply MaxEntScan". A rule fires only when EVERY 'when'
-        # pair is active, and contributes its label to the same max — so it can only RAISE an option, never
-        # lower one. It also cannot resurrect a hard-gated option: gating `continue`s above this.
+        # (3) Conditional rules: joint conditions the per-value table cannot express. A rule fires when
+        # every 'when' pair is active and joins the same max, so it can only raise an option. Hard-gated
+        # options never reach here.
         for rule in cond_rules:
             if all(wv in av.get(wf, []) for wf, wv in rule["when"].items()):
                 lab = rule["then"].get(oid)
@@ -526,20 +366,13 @@ def intent_priorities(factor_tuple, catalogue, pbf, factors_cfg, enable=("recomm
     return out
 
 
-# --- Query -> factors (the inference half; the resolver above is the config half) -------------------
-# A checker/reader model classifies the five factors from the query text ALONE. Deliberately
-# LLM-based, not keyword-based: keyword matching cannot handle the varied/implicit phrasing real
-# questions use, and it returns "unstated" rather than guessing so an absent factor is visible
-# instead of silently defaulted. Run it deterministically (temp 0, fixed seed, concurrency 1 —
-# temp=0 is NOT deterministic under concurrency on the Metal/MoE stack).
+# --- Query -> factors ---
+# An LLM classifies the factors from the query text alone and answers "unstated" rather than guess.
+# Run it at temperature 0, fixed seed, concurrency 1: temp 0 is not deterministic under concurrency
+# on the Metal/MoE stack.
 
 def _schema_lines():
-    """The JSON schema block of the classifier prompt, generated from the factor scheme.
-
-    Written out by hand previously, which meant the prompt could disagree with factors.json about both
-    the allowed values and whether a factor takes one or several — and the prompt is what the model
-    actually obeys. Generating it means flipping a factor to multi-select in the config changes what the
-    model is asked for, instead of leaving it to be spotted by hand."""
+    """Return the JSON schema lines of the classifier prompt, generated from factors.json."""
     out = []
     for f, vals in FACTOR_VALUES.items():
         if f in MULTI_FACTORS:
@@ -555,8 +388,7 @@ FACTOR_CLASSIFIER_PROMPT_V1 = (
     "does not indicate a characteristic, use \"unstated\" (or [] for a list).\n\n"
     "Reply with ONLY this JSON object, no prose:\n"
     "{\n"
-    # FIRST, because _schema_lines() emits no trailing comma on its last factor and a field appended
-    # after it would render the example as invalid JSON.
+    # First: _schema_lines() leaves no trailing comma on its last line.
     "  \"request_type\": \"configure\" | \"not-vep\" | \"vep-support\",\n"
     + _schema_lines() +
     "}\n\n"
@@ -580,17 +412,9 @@ FACTOR_CLASSIFIER_PROMPT_V1 = (
 )
 
 
-# V2 (2026-09-16). Two changes from V1, both from one diagnosed failure: with reasoning on, gemma4:26b
-# read "Are any of these likely to be disease-causing?" as a request for the ANSWER rather than for a
-# configuration, dithered between configure and out-of-scope for ~13,000 characters and hit the token
-# cap with no JSON. V1 never said who is asking or why, so that reading was open.
-#   1. A role opening: the model is step one of a VEP-settings tool, and a question about the user's
-#      own variants is a request for the settings that answer it.
-#   2. The question moves out of the system message into the user message (`classifier_messages`).
-# V1 is kept verbatim and reachable with VEP_CLASSIFIER_PROMPT=v1, so the change can be A/B'd.
-# First V2 draft (with a "what do they hit?" example and no line about unstated factors) fixed 5 grid
-# cases but broke 15 "absent" ones: goal filled as basic-consequence (10), origin as germline (5). The
-# last sentence of the opening is there for that.
+# V2, the default. The role opening makes a question about the user's own variants a configure
+# request; its last sentence stops that from filling analysis_goal or origin. The query goes in the
+# user message (`classifier_messages`). V1 is selected with VEP_CLASSIFIER_PROMPT=v1.
 FACTOR_CLASSIFIER_PROMPT_V2 = (
     "You are the first step of Ask VEPai, a tool that recommends settings for the Ensembl Variant Effect "
     "Predictor (VEP) web form. Most messages come from a researcher who wants to annotate their own "
@@ -604,8 +428,7 @@ FACTOR_CLASSIFIER_PROMPT_V2 = (
     "for a list). The message is in the user turn.\n\n"
     "Reply with ONLY this JSON object, no prose:\n"
     "{\n"
-    # FIRST, because _schema_lines() emits no trailing comma on its last factor and a field appended
-    # after it would render the example as invalid JSON.
+    # First: _schema_lines() leaves no trailing comma on its last line.
     "  \"request_type\": \"configure\" | \"not-vep\" | \"vep-support\",\n"
     + _schema_lines() +
     ",  \"organism\": the organism named in the message, as written (\"pig\", \"Sus scrofa\", \"zebra finch\"), "
@@ -637,15 +460,14 @@ def _classifier_prompt_version():
     return "v1" if (os.environ.get("VEP_CLASSIFIER_PROMPT") or "").strip().lower() == "v1" else "v2"
 
 
-# The name every caller already imports. It is the INSTRUCTIONS only under v2; under v1 it is the old
-# text that ends in "Question:\n" and expects the query appended to it.
+# The name callers import. Under v2 it is instructions only; under v1 the query is appended to it.
 FACTOR_CLASSIFIER_PROMPT = FACTOR_CLASSIFIER_PROMPT_V1 if _classifier_prompt_version() == "v1" else FACTOR_CLASSIFIER_PROMPT_V2
 
 
 def classifier_messages(user_query, hint=""):
-    """The classifier's chat messages. One builder, so the CLI, the web app and every harness send the
-    same thing. v2: instructions in system, the researcher's message (plus any species hint) in user.
-    v1: the historical layout, query appended to the system prompt."""
+    """Return the classifier's chat messages; the CLI and harnesses both use this.
+
+    v2: instructions in system, query plus species hint in user. v1: query appended to the system prompt."""
     q = user_query or ""
     if _classifier_prompt_version() == "v1":
         return [{"role": "system", "content": FACTOR_CLASSIFIER_PROMPT_V1 + q + hint},
@@ -655,9 +477,9 @@ def classifier_messages(user_query, hint=""):
 
 
 def parse_factor_classification(raw):
-    """Parse the checker model's JSON into {factor: value|'unstated' | [values]}. Tolerant of surrounding
-    prose / code fences. Returns None on a genuine parse failure so the caller can flag it as a CHECKER
-    problem (not 5 phantom 'unknown' factors)."""
+    """Parse the classifier's JSON into {factor: value | 'unstated' | [values]}, plus _request_type, _organism.
+
+    Tolerates surrounding prose and code fences. Returns None when no JSON object can be parsed."""
     out = {f: ([] if f in MULTI_FACTORS else "unstated") for f in FACTOR_VALUES}
     try:
         s, e = raw.find("{"), raw.rfind("}")
@@ -672,33 +494,22 @@ def parse_factor_classification(raw):
             out[f] = [x for x in v if x in FACTOR_VALUES[f]] if isinstance(v, list) else []
         else:
             out[f] = v if v in FACTOR_VALUES[f] else "unstated"
-    # SCOPE. Under --single-pass there is no draft, so `is_out_of_scope_response("")` returns False and
-    # the only hard stop in the pipeline is disabled exactly when nothing can judge the request. The
-    # tuple cannot decide this alone -- "hi" and "annotate my VCF" both state no factors -- so the
-    # judgement rides on the classifier call that already runs. Unrecognised or absent -> "configure",
-    # so a classifier that ignores the field leaves shipped behaviour unchanged.
+    # Scope: the factors alone cannot tell "hi" from "annotate my VCF", so the classifier judges it.
+    # Unrecognised or absent defaults to "configure".
     rt = obj.get("request_type")
     out["_request_type"] = rt if rt in ("configure", "not-vep", "vep-support") else "configure"
-    # ORGANISM (2026-09-20). The binary species factor cannot say WHICH non-human organism, and the
-    # data lists (SIFT, frequency files, per-plugin species) are per species. The model reads the name;
-    # `resolve_model_organism` checks it against Ensembl's own index, so an invented name cannot enter.
-    # Under the V1 prompt the field is absent and this is None, as before.
+    # Organism: the data lists (SIFT, frequency files, plugin species) are per species. The name is
+    # checked against Ensembl's index, so an invented one resolves to None. V1 has no organism field.
     out["_organism"] = resolve_model_organism(obj.get("organism"))
     return out
 
 
-# How long Ollama keeps the model resident after a call. -1 means FOREVER, which is right on a
-# dedicated eval box: reloading a 16 GB model between queries would dominate the timings this project
-# publishes. It is wrong on a laptop the user is also working on -- pinning a model larger than free
-# RAM froze a 16 GB machine on 2026-09-03. Env-overridable so the eval boxes keep the measured
-# behaviour and a shared machine can set VEP_KEEP_ALIVE=5m (or 0 to unload immediately).
+# How long Ollama keeps the model loaded after a call. The default -1 (forever) keeps reloads out of
+# eval timings; on a shared machine set VEP_KEEP_ALIVE=5m, or 0 to unload at once.
 def _keep_alive():
-    """Ollama wants a NUMBER (-1 = forever, 0 = unload) or a duration string ("5m"). An env var is
-    always a string, so VEP_KEEP_ALIVE=-1 -- the obvious way to write the default explicitly -- used
-    to be sent as "-1" and Ollama rejected every call with
-        HTTP 400  time: missing unit in duration "-1"
-    Numeric strings are coerced back to int so both spellings work. Confirmed against Ollama on
-    2026-09-06: -1 and "5m" accepted, "-1" rejected."""
+    """Return VEP_KEEP_ALIVE as an int if numeric, else the duration string; -1 when unset.
+
+    Ollama rejects a numeric string such as "-1" (HTTP 400), so numbers are sent as int."""
     v = os.environ.get("VEP_KEEP_ALIVE")
     if v is None:
         return -1
@@ -712,27 +523,18 @@ KEEP_ALIVE = _keep_alive()
 
 
 def _native_chat_url():
-    """Ollama's OWN /api/chat, derived from the same OLLAMA_BASE_URL the compat client uses.
-
-    Shared by the two callers that need the native endpoint (_classify_native, _stream_native) so the
-    base-URL handling cannot drift between them."""
+    """Return Ollama's native /api/chat URL, derived from OLLAMA_BASE_URL."""
     base = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
     return base.rstrip("/").removesuffix("/v1") + "/api/chat"
 
 
-# A ~60-token JSON object needs nothing like this much; the cap exists to bound a runaway, and it is set
-# high enough that the reasoning-ON diagnostic arm (VEP_FACTOR_THINK=1) still has room to finish its
-# chain of thought AND emit the answer. A cap consumed entirely by reasoning returns empty content —
-# the failure that used to surface as `factor_check_unparseable` in Stage 4 (see EXPERIMENTS.md Exp 14).
+# Bounds a runaway. High enough for the classifier to finish reasoning and still emit its ~60-token
+# JSON; a cap spent entirely on reasoning returns empty content.
 _CLASSIFY_MAX_TOKENS = 4096
 
 
 def _classify_native(model, user_query, think):
-    """The classifier call through the endpoint that honours `think`. Returns the raw text.
-
-    Non-streaming sibling of _stream_native: the classifier's output is a single small JSON object that
-    nothing displays incrementally, so streaming it would buy nothing. Decoding is held identical to the
-    compat path (temperature 0, seed 42) so `think` is the only variable between them."""
+    """Call the classifier on Ollama's native endpoint, which honours `think`; return the raw text."""
     import urllib.request
     body = {
         "model": model, "stream": False, "keep_alive": KEEP_ALIVE, "think": think,
@@ -747,18 +549,10 @@ def _classify_native(model, user_query, think):
 
 
 def _factor_think_setting():
-    """How the classifier should reason. DEFAULT ON since 2026-09-20 (David's decision).
+    """Return the classifier's reasoning mode from VEP_FACTOR_THINK.
 
-    Measured on the 150-case grid (600 queries, gemma4:26b, prompt v2): all four versions of a case
-    right on 148/150 with reasoning on against 138/150 off. It fixes the species cases the bare call
-    misreads ("kennel owners, not their Labradors"), and on the organism-naming set it never names an
-    animal and then answers "human" (0 of 242 contradictions, against 20 off). Cost: ~4 s a query
-    against ~0.9 s, and ~530 output tokens against ~86.
-    Against it: on the 31 plainly worded review scenarios it is slightly worse (28/31 by configuration
-    against 30/31), reading two basic-goal scenarios as clinical interpretation.
-      unset / 1  -> True    reasoning on, native endpoint  (default)
-      0          -> False   reasoning off                  (the fast arm; `--no-factor-think`)
-      compat     -> None    the original /v1 path, byte-identical to before this change
+    unset / 1 -> True (reasoning on, native endpoint; the default, David, 2026-09-20);
+    0 -> False (reasoning off, `--no-factor-think`); compat -> None (the /v1 path).
     """
     v = (os.environ.get("VEP_FACTOR_THINK") or "").strip().lower()
     if v == "compat":
@@ -772,60 +566,21 @@ def infer_factors(client, model, user_query, think=False, apply_defaults=True,
                   seed=42, temperature=0.0):
     """Classify a free-text query into a factor tuple, or None if the classifier fails.
 
-    SPECIES is the classifier's answer (since 2026-09-16; before that the keyword scan in
-    infer_species() overrode it). An "unstated" answer is returned as "unstated" with
-    apply_defaults=False, so the assume-human policy discloses it, and as "human" otherwise.
-
-    'unstated' is preserved for the other single-select factors rather than guessed: it contributes no
-    priority and triggers no hard gate, so an unstated factor simply exerts no influence. The one
-    default applied is analysis_goal -> basic-consequence when nothing richer is indicated, which is
-    the agreed baseline goal.
-
-    REASONING IS OFF BY DEFAULT, AND THIS IS WHERE THE STARTUP LAG WAS. `gemma4:26b` reasons unless
-    told not to, and this call went through the OpenAI-compatible /v1 endpoint, which silently DROPS
-    the `think` parameter — so the classifier spent its time thinking before answering a fixed-schema
-    ~60-token question. The reasoning-off change of 2026-07-31 only ever reached stream_response; this
-    call was never in its scope. Measured over the 31-row review set, single-threaded, gemma4:26b:
-
-        reasoning ON  (compat, as shipped)   8.2 s median   range 4.2-39.7 s (+ a 70 s cold first call)
-        reasoning OFF (native)               1.4 s median   range 1.2-1.6 s
-        reasoning ON  (native) — control     8.9 s median   => the ENDPOINT is inert; `think` is the effect
-
-    Accuracy is unchanged, not merely similar: under the pipeline's own genlib.compare_factors scoring
-    all three arms fail on the SAME three rows (1, 8, 30 = 90% whole-tuple), and those are the same rows
-    Stage 4's independent gemma4:12b round-trip flags as factor_unrecoverable. Nothing is traded.
-
-    Deterministic (temperature 0, fixed seed) — but note temp=0 is NOT reproducible under concurrency
-    on a Metal/MoE stack, so a reproducible run needs concurrency 1.
-
-    `think=None` restores the original compat path byte-identical (also via VEP_FACTOR_THINK=compat),
-    so the pre-change behaviour stays reachable for anyone who needs to reproduce an older run.
-
-    `apply_defaults=False` returns what the model actually said, WITHOUT rewriting an empty
-    `analysis_goal` to ['basic-consequence']. That rewrite is the narrowest possible reading of silence
-    and it was invisible: 21 of 31 review rows would lose options to it, up to 14. Callers that want to
-    tell "the user asked for a basic consequence call" apart from "the user said nothing" — which is what
-    clarification_plan() needs — must pass False. Default stays True so existing callers are unchanged.
-
-    Runs on VEP_FACTOR_MODEL if set, otherwise on the SAME model as the recommendation. Defaulting to
-    a second, smaller model would be faster — this is a ~60-token fixed-schema classification, so the
-    big model buys nothing — but it would silently require a second download: a user who pulled only
-    the quickstart model would get a failed classification, no factors, and no indication why. One
-    pulled model has to be enough. Set VEP_FACTOR_MODEL=gemma4:e4b (or 12b) to get the speed back.
-    NOTE that e4b is now the WRONG trade: it saves 0.4 s against reasoning-off 26b and loses 13 points
-    of variant_size_class accuracy — a HARD GATE, where a wrong value silently removes an option set."""
+    apply_defaults=False keeps unstated factors as "unstated" so clarification_plan can disclose or
+    ask about them; True fills species "human" and an empty analysis_goal ["basic-consequence"].
+    think=False reads VEP_FACTOR_THINK; think=None uses the OpenAI-compatible /v1 path, which drops
+    the `think` parameter. Runs on VEP_FACTOR_MODEL if set, else on `model`, so one pulled model is
+    enough. temperature 0 is reproducible only at concurrency 1."""
     model = os.environ.get("VEP_FACTOR_MODEL") or model
-    if think is False:                       # the unrequested default: the env / the shipped setting
+    if think is False:                       # resolve from VEP_FACTOR_THINK
         think = _factor_think_setting()
     try:
-        if think is None:                    # the original path, unchanged
+        if think is None:                    # the /v1 compat path
             resp = client.chat.completions.create(
                 model=model,
                 messages=classifier_messages(user_query,
                                              format_species_hint(user_query) if _species_hint_on() else ""),
-                # Parameterised so a harness can run the same classification under several seeds and
-                # report a spread instead of a single draw. The defaults are the old hardcoded values,
-                # so every existing caller is unchanged.
+                # Parameterised so a harness can report a spread across seeds.
                 temperature=temperature,
                 seed=seed,
             )
@@ -839,56 +594,26 @@ def infer_factors(client, model, user_query, think=False, apply_defaults=True,
     if rec is None:
         return None
 
-    # SPECIES: rule-overrides-model, or model-decides-on-evidence.
-    #
-    # The default is the historical behaviour -- `infer_species()` wins outright. That is a
-    # first-match-wins keyword scan with no judgement, and it is wrong in both directions on real
-    # text: "going down this rabbit hole" -> rabbit on a homo_sapiens VCF, "somatic ... zebra finch"
-    # -> human, `Salmo salar` -> unknown -> treated as human. The model answers this factor correctly
-    # in all three cases and its answer was being discarded here.
-    #
-    # With VEP_SPECIES_HINT=1 the scan instead REPORTS every match into the prompt, flagged with why
-    # each might be a false hit, and the model decides. The regex supplies recall over 356 species;
-    # the model supplies the judgement a regex cannot have. The model's answer is validated against
-    # the index, so it cannot invent a species, and an unrecognised answer falls back to the rule.
-    # UNSTATED SPECIES REACHES THE POLICY LAYER (2026-09-14). This used to map "no organism named"
-    # straight to "human" here, so the assume-human fallback fired on every such query with no
-    # `Assumed species = human` line -- the masking Exp 18 measured and fallback_e2e reproduced end
-    # to end (14/14 silent, rule and hint alike). Same contract as analysis_goal: with
-    # apply_defaults=False the tuple says "unstated" and UNDERSPECIFIED_POLICY assumes human OUT LOUD;
-    # with apply_defaults=True (older callers) the value is filled here exactly as before.
+    # SPECIES. The model's answer decides (David, 2026-09-16). Any other answer becomes "unstated",
+    # so UNDERSPECIFIED_POLICY assumes human and says so; apply_defaults=True fills "human" here.
+    # VEP_SPECIES_HINT=1 shows the keyword scan's matches to the model and uses the scan as fallback.
     def _species_from_rule(hint_mode):
         sp = infer_species(user_query)
         if sp not in ("human", "unknown"):
-            return "non-human"                  # a named organism: recall is the rule's job in both modes
-        # A "human" reading from the rule comes from _HUMAN_SIGNALS, 7 of whose 28 words are analysis
-        # words ("somatic", "tumour", "cancer", ...). In HINT mode the model has already been asked and
-        # said "unstated", so that reading is not evidence of a stated species -- it is the fallback,
-        # and the fallback belongs to UNDERSPECIFIED_POLICY where it is disclosed. In override mode the
-        # rule keeps its old authority. Measured 2026-09-14: without this, 11 of 14 species-removed rows
-        # still came out "human" with no disclosure.
+            return "non-human"                  # a named organism
+        # A "human" scan result is weak evidence: 7 of the 28 _HUMAN_SIGNALS words are analysis words
+        # ("somatic", "tumour", "cancer", ...). In hint mode it falls through to the disclosed
+        # human assumption.
         if sp == "human" and not hint_mode:
             return "human"
         return "human" if apply_defaults else "unstated"
-    # THE MODEL DECIDES SPECIES BY DEFAULT (David, 2026-09-16). Until now the hint-off branch handed
-    # species to `_species_from_rule(False)`, i.e. the keyword scan overrode the model outright -- the
-    # opposite of what the 2026-09-15 handover described. Measured on factor_grid.py's 30 species cases
-    # (gemma4:26b, shipped call): model trap 29/30, twin 27/30; keyword scan trap 17/30, twin 22/30.
-    # An "unstated" answer is NOT sent to the scan: it reaches UNDERSPECIFIED_POLICY, which assumes
-    # human and says so. VEP_SPECIES_HINT=1 keeps the older hint design (scan matches shown to the
-    # model, scan as fallback).
     said = (rec.get("species") or "").strip().lower()
     if _species_hint_on():
         rec["species"] = said if said in ("human", "non-human") else _species_from_rule(True)
     else:
         rec["species"] = said if said in ("human", "non-human") else ("human" if apply_defaults else "unstated")
-    # THE NAME DECIDES THE BINARY FACTOR (2026-09-20). Measured on organism_naming.py, 242 queries with
-    # reasoning off: the model named an animal and then answered `species: human` on 20 of them
-    # ("organism": "mus musculus", "species": "human" in one object). Deriving the factor from its own
-    # answer takes the binary from 221/242 to 241/242, matching the reasoning-on arm at a twentieth of
-    # the cost. Reasoning on contradicts itself 0/242, so there this is a no-op.
-    # Only ever upgrades to non-human: an organism named in passing is the risk, and on the 121 decoy
-    # cases ("my supervisor works on X, but the samples are Y") the model named the sample every time.
+    # A named non-human organism overrides the binary answer: without reasoning the model sometimes
+    # names an animal and still answers "human". This only ever upgrades to non-human.
     if rec.get("_organism") and rec["_organism"] != "homo_sapiens" and rec.get("species") != "non-human":
         rec["species"] = "non-human"
     if apply_defaults and not rec.get("analysis_goal"):
@@ -896,31 +621,12 @@ def infer_factors(client, model, user_query, think=False, apply_defaults=True,
     return rec
 
 
-# --- What to do when the question simply doesn't say -------------------------------------------------
-#
-# A factor the question never mentions contributes NOTHING, so every option it would have supplied
-# disappears silently. Measured over the 31 review rows, mean options lost when one factor is blanked:
-# origin 1.0, variant_size_class 1.0, region_focus 4.4, analysis_goal 5.4 (worst row 17). The generated
-# rows never show the problem directly, because Stage 3 wrote them to express their tuple — all 31 are
-# fully specified, which is what makes the controlled ablations in `ablate_queries.py` necessary.
-#
-# A default is only safe where one answer is rarely harmful, which is not everywhere:
-#   origin              guessing germline on a tumour sample can switch ON the common-variant filter,
-#                       which DISCARDS the user's variants. An option-count measure ranks by quantity and
-#                       is blind to this, so it must not decide on its own what is safe to assume.
-#   variant_size_class  `select: single` — there is no "both" to assume, and review row 1 is a real query
-#                       naming both. A default cannot repair a vocabulary limitation.
-#   analysis_goal       no safe middle: assume narrow (what the code did) and a clinical question loses
-#                       ClinVar and every predictor; assume broad and a quick lookup returns thirty
-#                       options. Today's narrow default was also invisible, which is the worse half.
-# See research/underspecification_proposal.md for the measurements and the cases in full.
+# --- Unstated factors: assume and say so, or ask ---
+# An unstated factor contributes no options, so each factor has a policy. Guess where one answer is
+# clearly safer; ask where none is. Evidence: research/underspecification_proposal.md.
 UNDERSPECIFIED_POLICY = {
-    # ASSUMED HUMAN, AND SAID SO (2026-09-14). The value is unchanged -- human has always been the
-    # fallback, because withholding the human-only options from the many human queries that never say
-    # "human" is the larger harm -- but until now it was applied inside infer_factors with no
-    # disclosure, so a mouse query that never named the mouse got a human configuration silently.
-    # The both-directions default sweep priced this as the weakest guess (row- AND column-lossy when
-    # wrong), which is exactly the case for saying it out loud like the other four.
+    # Human, disclosed. Withholding the human-only options from human queries that never say "human"
+    # is the larger harm.
     "species": {
         "assume": "human",
         "why": "you didn't name an organism, so human is assumed and the human-only options stay "
@@ -930,57 +636,25 @@ UNDERSPECIFIED_POLICY = {
         "assume": ["coding", "regulatory-noncoding"],
         "why": "you didn't say which regions matter, so both are covered",
     },
-    # FAIL-CLOSED, and measured: leaving this open is NOT the safe choice, which was the first guess.
-    # Sharper than that, and verified by `work/harness/suites/defaults_evidence.py` across all 31 review rows:
-    # silence is strictly worse than EITHER value. It carries germline's risk on `frequency` AND drops
-    # `check_existing`, which germline and somatic both enable. So the first decision is that something
-    # must be guessed at all; only the second is that it is somatic.
-    # The `somatic => frequency not_applicable` hard rule fires only when origin is EXPLICITLY somatic, so
-    # an unstated origin lets the common-variant pre-filter through on 6 of the 15 somatic review rows --
-    # identical harm to guessing germline. Guessing SOMATIC enables a suppressing option on 0 of the 16
-    # germline rows, so it is strictly the safe direction. germline and somatic differ in the table by
-    # this one rule (both merely recommend check_existing), so assuming somatic costs a germline user one
-    # pre-filter and costs a somatic user nothing. That cost is real and is NOT an add-on: `frequency`
-    # resolves at `recommended`, so it sits in the RECOMMENDED bucket the user sees switched on, and
-    # guessing somatic drops it on 7 of the 31 review rows. Paid deliberately, not for free. Same shape
-    # as infer_species being fail-closed:
-    # the dangerous value is only adopted when positively indicated.
-    #
-    # UPDATE 2026-09-14: `frequency` is now an ADD-ON under population-frequency (David; see
-    # MENTOR_MESSAGES.md 2026-09-14, pending Likhitha's answer on rare-variant work). So the paragraph
-    # above describes the cost as it stood: today guessing somatic moves NOTHING in RECOMMENDED, and
-    # `defaults_evidence.py` asserts that origin changes no enabled option on any tuple. Somatic stays
-    # the guess because the somatic hard rule still keeps the filter out of the add-ons, and silence is
-    # now free either way -- the only thing left to disclose is the reading itself.
+    # Somatic. The `somatic => frequency not_applicable` hard rule fires only on an explicit somatic,
+    # so leaving origin open behaves like germline and lets the common-variant filter through.
+    # `frequency` is an add-on (David, 2026-09-14), so this guess changes no enabled option on any
+    # tuple; work/harness/suites/defaults_evidence.py asserts it.
     "origin": {
         "assume": "somatic",
         "why": "you didn't say germline or somatic, so the safer reading is taken — it keeps the "
                "common-variant filter off, which would otherwise discard real tumour variants. "
                "Say 'germline' if these are inherited variants",
     },
-    # GUESSABLE ONLY BECAUSE THE FACTOR IS MULTI-SELECT. Neither single value is safe -- `small` and
-    # `structural-CNV` each gate away the other half of the catalogue -- so the safe answer is `both`,
-    # and expressing it needs a factor that can hold two values. Across the 29 ablations where this was
-    # the deleted fact, `both` loses options on 0 of 29 for 4.28 added; the error is purely additive,
-    # which is the trade this whole policy is built on. See factors.json `_select_note`.
+    # Both. Each single value gates away the other half of the catalogue, so assuming both only adds
+    # options. Relies on the factor being multi-select (factors.json `_select_note`).
     "variant_size_class": {
         "assume": ["small", "structural-CNV"],
         "why": "you didn't say small variants or structural/CNV, so both are covered — say which if "
                "your callset is only one of them",
     },
-    # ASKED, NOT GUESSED. The rule is: guess where one answer is clearly safer, ask where none is, and
-    # this factor meets neither condition. The rule asks about it on 12 of the 12 ablations where it was
-    # the deleted fact, and the fallback value loses options on 5 of those 12 -- subtractive error, the
-    # direction that costs a user a finding rather than a column. (11/11 until the ablation set was
-    # rebuilt at three seeds; defaults_evidence.py is the number of record.)
-    #
-    # The ablations overstate how often this interrupts anyone, because they delete the fact on purpose.
-    # On the 8 real configuration questions from the trackers it is genuinely absent and material on 1
-    # (reader disagreement, not absence, accounts for 3 more). n=8 is far too small for a frequency
-    # claim and none is made.
-    #
-    # Skipping is free: the fallback in `resolve_underspecified` supplies basic-consequence and
-    # announces itself, so nobody is blocked and nothing is substituted in silence.
+    # Asked. No value is safe: narrow drops ClinVar and the predictors from a clinical question, broad
+    # buries a quick lookup. If skipped, resolve_underspecified fills basic-consequence and says so.
     "analysis_goal": {
         "assume": None,
         "why": "you didn't say what you're after — a quick consequence call, clinical interpretation, "
@@ -989,31 +663,19 @@ UNDERSPECIFIED_POLICY = {
 }
 
 
-# --- What the user told us outright ------------------------------------------------------------------
-#
-# Three of the five factors are FACTS ABOUT THE SAMPLE - species, germline/somatic, small/structural -
-# and the person asking knows all three without thinking. Inferring them from prose is where every
-# measured failure came from: the classifier's only genuine error across the 31 review rows was the
-# variant size, the two rows it could not answer were germline-vs-somatic because the query never said,
-# and the one guess that can destroy data (germline on a tumour sample enables a filter that discards
-# somatic variants) is a fact too. Region and goal - the INTENT half - it classified correctly.
-#
-# So anything the user states outright wins outright. What they leave blank still goes through the
-# classifier and then the assume/say-so policy above; this only removes guessing where there is nothing
-# to guess about.
-#
-# ASSEMBLY is here despite not being a factor. MANE exists only for GRCh38 and VEP's own form shows the
-# checkbox to everyone (InputForm.pm:694-702 gates it on species alone), so a GRCh37 user can tick a box
-# with no data behind it. It cannot be inferred from a query that does not mention a build, and no
-# factor covers it - a field is the only thing that can fix it.
+# --- Facts the user states on the form ---
+# Species, origin and variant size are facts about the sample that the user knows. A stated value
+# overrides the classifier; a blank one goes through the classifier and UNDERSPECIFIED_POLICY.
+# Assembly is not a factor but belongs here: a query rarely names a build, and VEP's form shows the
+# GRCh38-only MANE checkbox to every human user (InputForm.pm:694-702).
 USER_CONTEXT_FIELDS = ("species", "origin", "variant_size_class", "assembly")
 
 
 def apply_user_context(rec, context):
     """Overlay what the user stated on the classifier's reading. Returns (tuple, assembly, overridden).
 
-    `context` maps any of USER_CONTEXT_FIELDS to a value; None/""/"infer" mean "work it out", which is
-    the default for every field, so an untouched form behaves exactly as before this existed.
+    `context` maps USER_CONTEXT_FIELDS to values; None, "", "infer" or "unstated" leave a field to
+    the classifier.
     """
     rec = dict(rec or {})
     context = context or {}
@@ -1031,9 +693,7 @@ def apply_user_context(rec, context):
             continue                                    # ignore a value the scheme does not define
         rec[f] = sorted(vals) if f in MULTI_FACTORS else vals[0]
         overridden.append(f)
-    # GRCh37/GRCh38 are human assemblies. Accepting one for a non-human query would let the
-    # assembly gate strip human-only options on a species that never had them anyway, and would
-    # report an override the user cannot have meant.
+    # GRCh37/GRCh38 are human assemblies, so a stated build is ignored on a non-human query.
     asm = context.get("assembly")
     asm = asm if (asm in ("GRCh37", "GRCh38") and rec.get("species") != "non-human") else None
     if asm:
@@ -1041,52 +701,24 @@ def apply_user_context(rec, context):
     return rec, asm, overridden
 
 
-def _enabled_for(factor_tuple, vep_options):
-    """The options a tuple switches on, or None if the priority config can't be loaded."""
-    resolved = resolve_for_query(factor_tuple, vep_options)
-    if not resolved:
-        return None
-    return {oid for oid, (en, _, _) in resolved.items() if en}
-
-
-# WHICH OPTIONS COUNT AS "ESSENTIAL" FOR THE PURPOSE OF INTERRUPTING SOMEONE.
-#
-# The bar is the bucket the user is actually shown: RECOMMENDED.
-#
-# It was deliberately NOT the internal `critical` tier, back when that tier existed and the mechanisms
-# around it (`restore_missing_recommended`, `--minimal`, must-have recall) were keyed on it. The tier
-# was deleted on 2026-08-19 and those three moved onto this same bucket, so the choice recorded here is
-# now the only reading available. The argument is kept because it is why the tier went. The critical/recommended
-# boundary is the one the mentor review found unstable: twelve of Likhitha's twenty edits were
-# critical<->recommended moves, which is why the display was merged in the first place. Deciding
-# whether to INTERRUPT A USER on a boundary the reviewer redrew twelve times out of twenty edits — and
-# that the user never sees — makes the interruption depend on a label nobody agrees on.
-#
-# The two readings were priced before choosing: on the current guesses they raise identical questions
-# (`work/harness/suites/ask_rate.py`, arms `shipped` and `shipped+wide-bar`), so the wider bar costs nothing
-# today. It diverges only if the guesses are removed, where it adds 6 `origin` questions. Named rather
-# than hardcoded so the comparison stays runnable.
+# Priorities that justify interrupting the user: the RECOMMENDED bucket the user sees.
+# A module constant so work/harness/suites/ask_rate.py can test a wider bar.
 ASK_BAR_PRIORITIES = ("recommended",)
 
 
-# The one option family whose leakage DESTROYS data instead of adding noise. These are values of the
-# form's single "Restrict results" drop-down: each collapses the result file (a leaked per_gene
-# measured 334 -> 19 transcript rows on the 10-variant panel — 94% of the user's annotation lines
-# gone, work/results/leak_rate_README.md). The priority table prices none of them for any of the
-# 108 factor tuples, yet the model proposes them from old examples (a tester hit `pick` on a
-# rare-disease query, 2026-09-07). Everything else the model adds is at worst an extra column, so
-# the gate is deliberately THIS NARROW: enforcing the whole table would change the enabled set the
-# published numbers describe, while this family is unpriced everywhere, so stripping it moves
-# nothing the table ever endorsed. The eval harnesses score the raw parse and never see this gate.
+# Values of the form's single "Restrict results" drop-down. Each collapses the output (a leaked
+# per_gene cut 334 transcript rows to 19; work/results/leak_rate_README.md). The priority table
+# prices none of them for any tuple, but the model can propose them. Other unpriced options only add
+# columns, so the gate covers this family alone. The eval harnesses score the raw parse and never
+# see this gate.
 RESTRICT_RESULTS_FAMILY = ("pick", "pick_allele", "per_gene", "most_severe", "summary")
 
 
 def enforce_restrict_results_gate(enabled, resolved):
-    """Remove restrict-results values the priority table did not price for THIS scenario.
+    """Remove restrict-results values the priority table does not price for this scenario.
 
-    Returns the removed ids. No-op when the factor resolution is unavailable (legacy path), and a
-    family member the table DOES price for the scenario passes — the gate enforces the table's
-    silence, it does not overrule its voice."""
+    Mutates `enabled` and returns the removed ids. No-op when `resolved` is empty; a value the table
+    prices for the scenario is kept."""
     if not resolved:
         return []
     removed = []
@@ -1100,26 +732,16 @@ def enforce_restrict_results_gate(enabled, resolved):
 
 
 def factor_must_haves_at_stake(factor, factor_tuple, vep_options):
-    """Options at the ASK_BAR whose presence depends on how this factor is answered.
+    """Return the ask-bar options whose presence depends on how this factor is answered.
 
-    THE ASK RULE. Interrupting someone is only justified when the answer changes something essential:
-    "answering this puts a different must-have in your configuration" is a sentence a user can act on,
-    and it needs no threshold. The previous rule fired when >=3 options differed, which is a number
-    fitted to our own 31 rows rather than derived from anything, and it could interrupt over three
-    interchangeable add-ons while staying silent when a single essential option flipped.
-
-    Note this is per QUERY, not per factor. `origin` changes nothing on a clinical question and decides
-    the common-variant filter on a frequency one, so no fixed per-factor rule is right for both."""
+    A question is raised only when this set is non-empty. Computed per query: the same factor can
+    decide an option in one scenario and nothing in another."""
     try:
         values = load_factors()["factors"][factor]["values"]
     except Exception:
         return set()
-    # A multi-select factor's candidate ANSWERS include "both", so the comparison has to include it.
-    # Without it the gate compares only the single values and can miss a difference that appears only
-    # in the union — the hard gate removes an option when EVERY active value rules it out, so a union
-    # tuple keeps options that either value alone would strip. `factor_impact` already scores the union
-    # for this reason; this is the same fix on the rule that decides whether to interrupt at all. Only
-    # reachable for a multi factor that is asked rather than assumed, which today is none of them.
+    # A multi-select factor can be answered with every value, so compare the union too: the hard gate
+    # removes an option only when every active value rules it out.
     candidates = [[v] if factor in MULTI_FACTORS else v for v in values]
     if factor in MULTI_FACTORS and len(values) > 1:
         candidates.append(list(values))
@@ -1139,31 +761,6 @@ def factor_must_haves_at_stake(factor, factor_tuple, vep_options):
     return at_stake
 
 
-def factor_impact(factor, factor_tuple, vep_options):
-    """How much the configuration would move if this factor were answered — the largest difference
-    between any two candidate answers. THE DECISION TO ASK IS DETERMINISTIC, not a model judgement:
-    a factor whose answer changes nothing is not worth a question, whatever the classifier felt about it.
-    Asking on model uncertainty instead would raise a question wherever the classifier felt unsure,
-    which is not the same thing as the answer mattering."""
-    try:
-        values = load_factors()["factors"][factor]["values"]
-    except Exception:
-        return 0
-    configs = []
-    for v in values:
-        t = dict(factor_tuple)
-        t[factor] = [v] if factor in MULTI_FACTORS else v
-        c = _enabled_for(t, vep_options)
-        if c is not None:
-            configs.append(c)
-    if factor in MULTI_FACTORS:
-        t = dict(factor_tuple); t[factor] = list(values)
-        c = _enabled_for(t, vep_options)
-        if c is not None:
-            configs.append(c)
-    return max((len(a ^ b) for i, a in enumerate(configs) for b in configs[i + 1:]), default=0)
-
-
 OUT_OF_SCOPE_NOTE = (
     "  This assistant recommends Ensembl VEP options for a variant-annotation run, and your question\n"
     "  did not describe one. Tell it what you are annotating — the species, whether the variants are\n"
@@ -1171,9 +768,7 @@ OUT_OF_SCOPE_NOTE = (
     "  suggest a configuration."
 )
 
-# The other half of the draft prompt's `## Scope` rule: a question that IS about VEP but is not a
-# request to configure a run. Separated from OUT_OF_SCOPE_NOTE because the useful reply differs —
-# this user is not confused about what the tool is for, they want something it does not do.
+# For a question about VEP that is not a configuration request (errors, output columns, installing).
 VEP_SUPPORT_NOTE = (
     "  This assistant only recommends which Ensembl VEP options to switch on for a given analysis.\n"
     "  It does not diagnose errors, explain output columns, or help with installing or running VEP.\n"
@@ -1183,13 +778,9 @@ VEP_SUPPORT_NOTE = (
 
 
 def states_nothing_about_variants(rec):
-    """True when the classifier read none of the four scenario factors out of the query text.
+    """True when the classifier read none of the four non-species factors from the query.
 
-    SPECIES IS EXCLUDED, and that is the whole subtlety. `infer_factors` overwrites the classifier's
-    species with `infer_species`, which returns 'unknown' for a query naming no organism and is then
-    mapped to 'human' so the human-only options are not stripped from the many human queries that never
-    say the word. So a populated species field is manufactured, not evidence that the text was about
-    variants at all. Judging scope on it would call every string a scenario."""
+    Species is skipped because it is often filled by the human default rather than read from text."""
     for f in FACTOR_VALUES:
         if f == "species":
             continue
@@ -1203,29 +794,19 @@ ASSEMBLY_ASSUMED_WHY = ("the VEP web form serves GRCh38 and directs GRCh37 users
 
 
 def clarification_plan(rec, vep_options, user_query=None, assembly=None):
-    """Given the RAW classification (apply_defaults=False), decide per open factor: assume, or ask.
+    """Decide per unanswered factor whether to assume it or ask. Takes the apply_defaults=False reading.
 
-    Returns (filled_tuple, assumptions, questions). `assumptions` are stated to the user rather than
-    hidden — the point of this whole mechanism is that the tool stops making invisible choices.
-
-    ASSEMBLY no longer appears in `questions`: since 2026-09-15 it is assumed (GRCh38) and disclosed
-    like any other filled-in value, so `analysis_goal` is the only question the system still raises.
-    The assembly decision lives here rather than in `resolve_underspecified`
-    so that the CLI, the web app and `try_reprompting.py` cannot disagree about what gets asked —
-    all three read this function, and only the CLI reads the other one."""
-    # The classifier returns None on a parse failure, and that is a normal outcome rather than an
-    # exceptional one — a crash here would take down a request that could still be served from the
-    # user's own stated context.
+    Returns (filled_tuple, assumptions, questions). An unknown human build is added to `assumptions`
+    as GRCh38. The CLI and try_reprompting.py both call this, so they agree."""
+    # rec is None when the classifier output did not parse.
     if not rec:
         return dict(rec or {}), [], []
-    # Checked BEFORE the assumptions run, because they populate the very fields being examined.
+    # Checked before the assumptions fill the fields it examines.
     off_topic = states_nothing_about_variants(rec)
     stated = dict(rec)                           # what the USER said, before anything was assumed
     rec = dict(rec)
     assumptions, questions = [], []
     for f in FACTOR_VALUES:
-        # species is no longer skipped here (2026-09-14): infer_factors now hands an unnamed organism
-        # through as "unstated", so the assume-human policy below runs and is disclosed like the rest.
         v = rec.get(f)
         answered = bool(v) if f in MULTI_FACTORS else (v not in (None, "unstated"))
         if answered:
@@ -1236,58 +817,37 @@ def clarification_plan(rec, vep_options, user_query=None, assembly=None):
             assumptions.append((f, rec[f], policy["why"]))
         else:
             questions.append((f, policy.get("why", ""), None))
-    # Scored against the tuple AFTER assumptions, so a question reflects what is still genuinely open.
-    # The test is whether a MUST-HAVE is at stake, not how many options move: a user can act on "this
-    # changes something essential in your configuration" and cannot act on "this changes four things".
+    # Keep a question only if a must-have is at stake on the tuple after assumptions.
     scored = []
     for f, why, _ in questions:
         at_stake = factor_must_haves_at_stake(f, rec, vep_options)
         if at_stake:
             scored.append((f, why, sorted(at_stake)))
-    # A query naming none of the four scenario factors is not a variant-annotation scenario: "hello", a
-    # bug report, a question about an output column. Asking it to choose between SNVs and CNVs claims we
-    # understood something we did not, and it lands BEFORE the recommender's own scope check, which only
-    # runs once the prompt is built. Assumptions still apply so a configuration can be produced, but the
-    # interruption is withheld and the caller says what the tool is for instead.
+    # A query naming none of the scenario factors is off topic: no questions, and the caller says
+    # what the tool is for. Assumptions still apply so a configuration can be produced.
     if off_topic:
         scored = []
     else:
-        # ASSEMBLY IS ASSUMED, NOT ASKED (David, 2026-09-15). `assembly_question` still decides
-        # RELEVANCE -- build already stated, non-human, nothing assembly-restricted at the bar -- and
-        # stays a function because ask_rate monkeypatches it to toggle that arm. Where it used to
-        # raise a question we now fill GRCh38 in and disclose it, for the reason recorded in
-        # resolve_underspecified: the form serves GRCh38 and sends GRCh37 users elsewhere, and the two
-        # wrong guesses are not equal -- GRCh38 costs one ADD-ON, GRCh37 costs four RECOMMENDATIONS.
+        # Assembly is assumed GRCh38 and disclosed (David, 2026-09-15): the form serves GRCh38, and a
+        # wrong GRCh38 guess costs one add-on against four recommendations for GRCh37.
+        # assembly_question decides relevance; ask_rate.py patches it.
         for _f, _why, _at_stake in assembly_question(stated, vep_options, user_query, assembly):
             assumptions.append(("assembly", "GRCh38", ASSEMBLY_ASSUMED_WHY))
     return rec, assumptions, scored
 
 
 def assembly_question(stated, vep_options, user_query=None, assembly=None):
-    """The assembly question, as a zero-or-one-item list in the same shape as the factor questions.
+    """Return [("assembly", why, at_stake)] if the build is unknown and matters, else [].
 
-    Suppressed when the text already names a build, when the user stated one, when the query is
-    non-human (species gates those options long before an assembly could matter), and when nothing
-    assembly-restricted is at the bar — which is the same relevance test every factor gets.
-
-    SCORED ON WHAT THE USER STATED, not on the tuple after our own assumptions are folded in, and the
-    difference is not small: assuming *both* variant sizes switches gnomAD-SV on for almost every
-    query, and gnomAD-SV is GRCh38-only, so scoring the filled tuple interrupts 40 of the 78 ablations
-    against 34 for the stated one. Six of those interruptions would exist only because WE guessed.
-    Regenerate both counts with ask_rate.py, whose `assembly at stake` line exists so this docstring
-    cannot silently go stale again (its previous figures were the retired 81-ablation set's).
-    That follows the asymmetry the whole policy rests on: an option we added is a column the user can
-    ignore, so it is not worth a question, while an option their own words called for is. MANE is
-    unaffected either way (16 either way) because a stated clinical goal is what puts it there."""
+    Empty when the text or the user names a build, the query is non-human, or nothing
+    assembly-restricted is at the ask bar. Scored on the stated tuple, so options added only by our
+    own assumptions (gnomAD-SV via assumed "both" sizes) cannot trigger it."""
     if (assembly or infer_assembly(user_query)) is not None:
         return []
     if stated.get("species") == "non-human":
         return []
-    # `analysis_goal` is the one exception to scoring on the stated tuple, because an empty goal does
-    # not resolve to a smaller configuration, it resolves to a broken one — about 6 options instead of
-    # about 13. Scoring the hole would find nothing assembly-restricted at the bar and stay silent
-    # about a build that does decide MANE, so the tool would go quiet precisely because it was missing
-    # two facts rather than one. Substituted with the same value the fallback will supply.
+    # An empty goal resolves to a broken configuration (about 6 options against about 13), so score
+    # with the basic-consequence fallback in its place.
     scenario = dict(stated)
     if not scenario.get("analysis_goal"):
         scenario["analysis_goal"] = ["basic-consequence"]
@@ -1300,11 +860,7 @@ def assembly_question(stated, vep_options, user_query=None, assembly=None):
              sorted(at_stake))]
 
 
-# PLAIN ENGLISH FOR THE CHOICES, not the scheme's own vocabulary. The question sentence below was
-# always readable; the numbered list under it printed the internal value ids -- `basic-consequence`,
-# `regulatory-noncoding` -- which name nothing a first-time user has seen. The ids stay the contract
-# everywhere else; this is the one place a human reads them. Anything unlabelled falls back to the id,
-# so a new factor value degrades to the old behaviour rather than disappearing.
+# Plain-English labels for the interactive question. An unlabelled value falls back to its id.
 _FACTOR_VALUE_LABELS = {
     ("origin", "germline"): "germline — inherited / constitutional",
     ("origin", "somatic"): "somatic — acquired, e.g. in a tumour",
@@ -1327,11 +883,9 @@ _FACTOR_PROMPTS = {
 
 
 def _ask_factor(factor):
-    """Put one question to the user. Returns the chosen value, or None to leave it open.
+    """Ask one factor question on the terminal. Returns the chosen value, or None to leave it open.
 
-    Leaving it open must always be possible and must always be the no-effort answer: a user who does not
-    know is exactly the user this is for, and forcing a guess out of them is worse than assuming nothing.
-    Any non-interactive context (piped stdin, no tty) answers None, so a script never blocks."""
+    Enter skips. Without a tty it returns None at once, so scripts never block."""
     try:
         values = load_factors()["factors"][factor]["values"]
     except Exception:
@@ -1343,8 +897,7 @@ def _ask_factor(factor):
     for i, v in enumerate(values, 1):
         print(f"    {i}) {_FACTOR_VALUE_LABELS.get((factor, v), v)}")
     if multi:
-        # "both" is only English when there are two. analysis_goal has three values, so the old
-        # hardcoded "4) both" asked the user to pick both of three.
+        # "both" fits only two values; analysis_goal has three.
         all_label = {2: "both", 3: "all three"}.get(len(values), f"all {len(values)}")
         print(f"    {len(values) + 1}) {all_label}")
         if len(values) > 2:                    # with two values, option 3 already IS "both"
@@ -1379,34 +932,14 @@ def _ask_factor(factor):
     return None
 
 
-# --- Assembly, which is not a factor but obeys the same rule -----------------------------------------
-#
-# ASSEMBLY DESCRIBES THE INPUT DATA, not the analysis, so it is deliberately outside the taxonomy. That
-# is a reason to keep it out of `factors.json`, not a reason to leave it unanswered: it is the one gap
-# where silence produces a WRONG configuration rather than a thin one. MANE, EVE, gnomAD-SV and MaveDB
-# exist only for GRCh38; geno2mp only for GRCh37. VEP's own form does not protect anyone here — it
-# shows the MANE checkbox to every human user and pre-ticks it (InputForm.pm:694-702 gates it on
-# species alone), so a GRCh37 user can switch on an option with no data behind it. Our checker removes
-# what the build cannot support, but only once it knows the build.
-#
-# It resolves through the SAME three outcomes as every factor: take it from the text, or ask. There is
-# no guess, and that is the whole decision — guessing GRCh38 would be wrong for exactly the GRCh37
-# clinical users the bug already affects, and it is the one place where the safer-direction argument
-# that settled `origin` does not apply, because both directions delete something real.
-#
-# Measured, and the measurement is why asking is cheap: `infer_assembly` reads it from the text on 4 of
-# the 8 real configuration questions from the trackers (one of them GRCh37), so the question is raised
-# on the other 4 rather than on everyone. The 31 generated review queries name an assembly 0 times,
-# which is a property of a generator that only writes about factors — the ablation set cannot measure
-# this and is not asked to.
+# --- Assembly: not a factor, resolved the same way ---
+# It describes the input data, so it stays out of factors.json. MANE, EVE, gnomAD-SV and MaveDB exist
+# only for GRCh38; geno2mp only for GRCh37. The checker removes what the build cannot support.
 _ASSEMBLY_VALUES = ("GRCh37", "GRCh38")
 
 
 def assembly_at_stake(factor_tuple, vep_options):
-    """Assembly-restricted options at the ask bar that this scenario would switch on.
-
-    Same shape as `factor_must_haves_at_stake`, and deliberately so: interrupting is justified by the
-    answer moving something essential, whether or not the thing being answered is a factor."""
+    """Return the assembly-restricted options at the ask bar that this scenario switches on."""
     resolved = resolve_for_query(factor_tuple, vep_options)
     if not resolved:
         return set()
@@ -1422,40 +955,21 @@ def assembly_at_stake(factor_tuple, vep_options):
 
 
 def resolve_underspecified(rec, vep_options, mode="state", user_query=None, assembly=None):
-    """Fill what the question left open, per `mode`, and return the tuple to build the config from.
+    """Fill the factors the query left open. Returns (filled_tuple, assembly).
 
-      "assume"  apply the safe defaults, say nothing   (scripts, batch, the eval harness)
-      "state"   apply them and SAY SO                  (default)
-      "ask"     additionally re-prompt where no default is safe and the answer moves the config
-
-    Returns (filled_tuple, assembly), where assembly is 'GRCh37'/'GRCh38' or None for "not established".
-    It rides along rather than joining the tuple because it describes the input data, not the analysis.
-
-    The default is "state" rather than "ask" because a tool that interrogates its users has moved the
-    work back onto them. Asking is opt-in. `analysis_goal` and ASSEMBLY are the two things asked about;
-    every other factor has a safe value and reaches no question. Over the 78 clean ablations that is 12
-    questions on 12 queries, all `analysis_goal` (`work/harness/suites/ask_rate.py`, the number of record).
-    It was 46 on 40 until 2026-09-15, when assembly stopped being asked and became a GRCh38
-    assumption: 34 of the 40 were the build. The ablations are the stress test, not the experience: on the 31
-    review rows AS WRITTEN it asks nothing on 15, never asks two questions, and never asks about
-    `analysis_goal` at all -- the only question that fires is the build, on human rows.
-
-    Do not cite "18 of 20 real forum questions" from anywhere: that set was hand-edited and is withdrawn
-    (research/underspecification_proposal.md §1).
+    mode: "assume" fills silently (scripts, eval harness); "state" fills and prints what was assumed
+    (default); "ask" also prompts on a tty for open questions where the answer moves a must-have.
+    assembly is 'GRCh37', 'GRCh38' or None; it sits beside the tuple because it describes the data.
     """
     filled, assumptions, questions = clarification_plan(rec, vep_options, user_query, assembly)
     off_topic = states_nothing_about_variants(rec)
 
-    # Say what the tool is for before assuming four things about a query that described no analysis.
-    # The recommender will also refuse further down, but only after the user has been interrogated,
-    # which is the wrong order.
+    # Say what the tool is for before assuming anything about a query that describes no analysis.
     if mode != "assume" and off_topic:
         print()
         print(OUT_OF_SCOPE_NOTE)
 
-    # Whatever the text named is settled before anything is asked. `clarification_plan` already used
-    # this to suppress the question; repeating it here is what puts the value in the RETURN, so the
-    # checker downstream gets the build the user wrote down rather than nothing.
+    # A build named in the text goes into the return value for the checker.
     assembly = assembly or infer_assembly(user_query)
 
     if mode == "ask":
@@ -1464,9 +978,7 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
             if answer is None:
                 continue
             filled[factor] = answer
-            # Say back what was understood. Answering a question and being moved straight on gives no
-            # way to catch a mistyped answer, and the tool has just claimed this choice matters enough
-            # to interrupt for — the least it can do is confirm what it heard.
+            # Echo the answer so a mistyped choice can be caught.
             print(f"    → using {', '.join(answer) if isinstance(answer, list) else answer}")
 
     def still_open(q):
@@ -1477,11 +989,8 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
 
     questions = [q for q in questions if still_open(q)]
 
-    # THE GOAL FALLBACK, SAID OUT LOUD. An empty `analysis_goal` does not fail, it COLLAPSES: the
-    # priorities resolve to about 6 options instead of about 13, so something has to fill it even when
-    # the user was asked and chose to skip. That is defensible; doing it silently is not, because
-    # invisible substitution is the exact failure this whole mechanism exists to remove. When the
-    # policy already assumed the goal, its own line covers it and this adds nothing.
+    # An empty analysis_goal collapses the configuration (about 6 options against about 13), so fill
+    # basic-consequence and disclose it, unless the policy already assumed a goal.
     if not filled.get("analysis_goal"):
         filled["analysis_goal"] = ["basic-consequence"]
         if not any(f == "analysis_goal" for f, _, _ in assumptions):
@@ -1491,10 +1000,7 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
                                 "are assessing pathogenicity or need population frequencies"))
         questions = [q for q in questions if q[0] != "analysis_goal"]
 
-    # ASSEMBLY. `clarification_plan` has already decided this and recorded it as an assumption; all
-    # that is left here is to put the value in the RETURN, because assembly rides alongside the tuple
-    # rather than in it. The decision and its measurement live there, in one place, so the CLI, the
-    # web app and try_reprompting cannot drift apart.
+    # clarification_plan recorded any assumed build; copy it into the return value.
     if assembly is None:
         assembly = next((v for f, v, _w in assumptions if f == "assembly"), None)
 
@@ -1502,25 +1008,22 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
         print()
         for factor, value, why in assumptions:
             shown = ", ".join(value) if isinstance(value, list) else value
-            # The VALUE, not the argument for it (David, 2026-09-15). The reasoning is still carried
-            # in `assumptions` for --explain and for the JSON; it just stopped being read aloud to
-            # someone who only wants to know what was filled in.
+            # Print the value only; the reason stays in `assumptions` for --explain and the JSON
+            # (David, 2026-09-15).
             print(f"  Assumed {factor} = {shown}")
         for factor, why, at_stake in questions:
-            # `at_stake` is the list of must-have ids the answer moves, not a count. Printed as a count
-            # once, which rendered as "would change ~['gnomad_sv'] options".
             names = ", ".join(at_stake) if at_stake else "part of the configuration"
             how = "run in a terminal to be prompted" if mode == "ask" else "--ask to be prompted"
             print(f"  Left open: {why} (decides {names}; {how}).")
 
-    # Which factors were filled in rather than read. `_`-prefixed, so active_values and the decision
-    # trace skip it, same convention as _request_type.
+    # Factors filled in rather than read. The `_` prefix makes active_values and the decision trace
+    # skip it, like _request_type.
     filled["_assumed"] = sorted(f for f, _v, _w in assumptions)
     return filled, assembly
 
 
 def describe_factors(factor_tuple):
-    """One-line-per-factor rendering of a tuple, for the prompt and the user-facing trace."""
+    """Render a factor tuple one factor per line, for the prompt and the user-facing trace."""
     if not factor_tuple:
         return ""
     out = []
@@ -1531,89 +1034,29 @@ def describe_factors(factor_tuple):
     return "\n".join(out)
 
 
-# ---------------------------------------------------------------------------
-# Fuzzy option extraction from free-text LLM output
-# ---------------------------------------------------------------------------
-
-# Flag keywords that name the MECHANISM, not the option: every plugin's cli_flag starts `--plugin`, every
-# custom dataset's `--custom`. They identify nothing on their own and must never become aliases.
-_FLAG_KEYWORDS = {"plugin", "custom"}
+# --- Option extraction from free-text draft output (used by legacy/two_pass.py) ---
 
 
-# ---------------------------------------------------------------------------
-# Scope gate — did the model decline to produce a configuration at all?
-# ---------------------------------------------------------------------------
-# When the user asks something that is not a VEP-configuration request, the model correctly declines.
-# Everything downstream, though, assumes a configuration WAS proposed: the citation audit reports "no
-# [source:] tags", the prose fallback keyword-scrapes option names out of the refusal text, and the
-# checker then "corrects" that phantom config and warns about an unspecified species. All three warnings
-# are true statements about a configuration that does not exist, and they bury the one thing the user
-# needs to read — that the question was out of scope.
-#
-# So: detect the decline and skip the whole config pipeline. Primary signal is an explicit marker the
-# prompt asks for (deterministic, no guessing). The secondary net catches models that decline without
-# it, and is deliberately CONSERVATIVE — it fires only when the model produced neither citations nor
-# ✓/✗ markers AND the prose reads as a scope refusal. Anything else keeps the existing format warning,
-# because silently dropping that warning would hide a real failure (a weak model that rambled).
-
-OUT_OF_SCOPE_PREFIX = "OUT OF SCOPE:"
-
-_REFUSAL_RE = re.compile(
-    r"(only (?:able to |designed to |here to )?(?:help|assist|answer|provide|recommend)\b[^.]{0,60}\bVEP)"
-    r"|(\bI (?:can|am) only\b)"
-    r"|(\b(?:outside|beyond) (?:the |my )?scope\b)"
-    r"|(\bnot (?:a |an )?(?:VEP )?(?:variant|configuration|annotation)[- ]related\b)"
-    r"|(\bI'?m (?:a|an) VEP\b[^.]{0,60}\bassistant\b)",
-    re.IGNORECASE,
-)
+# --- Scope gate for the draft (--two-pass): did the model decline to configure? ---
+# A declined draft has no configuration, so the audit, prose fallback and checker are skipped.
+# The fallback regex is conservative so a rambling draft still gets its format warning.
 
 
-def is_out_of_scope_response(text, audit):
-    """True when the model declined to configure VEP, so there is NO configuration to audit or check.
+# --- Constraint checker (runs after classification, before display) ---
 
-    Order: (1) the explicit marker the prompt asks for; (2) a conservative fallback — no citations AND
-    no ✓/✗ markers AND refusal phrasing. Returns False whenever the model made any attempt at the
-    output contract, so a genuine format failure still raises its warning."""
-    if not text:
-        return False
-    if text.lstrip().upper().startswith(OUT_OF_SCOPE_PREFIX):
-        return True
-    if audit and audit.get("n_tagged"):
-        return False                                   # it cited the KB -> it attempted a config
-    if re.search(r"(?m)^\s*[✓✗]", text):
-        return False                                   # it used the recommendation markers
-    return bool(_REFUSAL_RE.search(text))
-
-
-# The model's own contradiction signals, read off the SAME line/stanza as the ✓ (see the rule in
-# extract_recommendations_detailed). `priority=` here is model-generated prose, not a faithful echo of
-# what the prompt showed — on the observed line the prompt said "no priority for this scenario" and the
-# model wrote "NOT APPLICABLE" — so it is treated as the model's intent, which is exactly what is wanted.
-_NA_PRIORITY_RE = re.compile(r"priority\s*=\s*not[\s_]*applicable", re.IGNORECASE)
-_DISABLE_REASON_RE = re.compile(
-    r"\s*(disabled|not applicable|not needed|not relevant|not required|should not|excluded)\b",
-    re.IGNORECASE)
-
-
-# ---------------------------------------------------------------------------
-# Post-hoc constraint checker (runs AFTER LLM output, BEFORE display)
-# ---------------------------------------------------------------------------
-
-# Priority ranking for conflict resolution (higher number = higher priority)
-
-# Restrictiveness ranking: when priorities are equal, disable the MORE restrictive
-# option first (most_severe is most restrictive because it suppresses annotations)
+# Conflict tie-break when priorities are equal: the higher number loses, because it suppresses
+# more output.
 _RESTRICTIVENESS = {
     "most_severe": 3,
     "pick": 2,
     "per_gene": 1,
 }
 
-# Keyword → species mapping for species inference
+# Keyword -> species for infer_species. Matched on word boundaries, so plurals need their own entry.
 _SPECIES_KEYWORDS = {
     "mouse": "mouse",
-    "mice": "mouse",           # plural — word-boundary matching means "mice" != "mouse"
-    "murine": "mouse",         # common adjective ("murine model")
+    "mice": "mouse",
+    "murine": "mouse",
     "mus musculus": "mouse",
     "grcm": "mouse",
     "grcm38": "mouse",
@@ -1645,7 +1088,6 @@ _SPECIES_KEYWORDS = {
     "arabidopsis": "arabidopsis",
     "rice": "rice",
     "oryza": "rice",
-    # extra common organisms (reduces the fail-open surface — still enumeration-limited)
     "cow": "cow", "cows": "cow", "cattle": "cow", "bovine": "cow", "bos taurus": "cow",
     "sheep": "sheep", "ovine": "sheep", "ovis": "sheep",
     "horse": "horse", "horses": "horse", "equine": "horse", "equus": "horse",
@@ -1653,9 +1095,8 @@ _SPECIES_KEYWORDS = {
     "rabbit": "rabbit", "rabbits": "rabbit",
 }
 
-# Positive HUMAN signals — so 'human' is EARNED, not a silent default (fail-closed design). With no
-# non-human keyword AND no human signal, infer_species returns 'unknown' and the checker withholds
-# human-only options. Non-human organisms are matched FIRST, so 'mouse tumour' -> 'mouse', not 'human'.
+# Positive human signals for infer_species. Substring match, checked after the non-human keywords,
+# so 'mouse tumour' -> 'mouse'.
 _HUMAN_SIGNALS = [
     "human", "homo sapiens", "h. sapiens", "patient", "clinical", "clinician",
     "proband", "mendelian", "rare disease", "rare-disease", "diagnos",
@@ -1669,54 +1110,24 @@ _SPECIES_INDEX = None
 
 
 def _species_hint_on():
-    """Whether the species scan is shown to the classifier as rejectable hints.
+    """Whether the species-index hint block is appended to the classifier prompt.
 
-    OFF BY DEFAULT since 2026-09-15 (VEP_SPECIES_HINT=1 turns it back on). It was on for one day, on
-    the strength of 14/14 against the keyword OVERRIDE's 7/14 -- a comparison that was never run
-    against the plain model. Run against the plain model it loses:
-
-        species recall, 60 case-seeds   hinted 60  bare 57     +1  (one distractor case)
-        24 keyword traps                hinted 23  bare 24     -1
-        31 review rows, exact tuple     hinted 21  bare 22     -1
-        species accuracy on those rows  31/31 either way        0
-
-    It never improves the factor it exists for, and it damages a different one. The mechanism: the
-    index carries "human" flagged as an ordinary English word, so the block fires on 30 of the 31
-    rows and appends ~100 words of species disambiguation -- Sonic Hedgehog, Platypus, Turkey, "rabbit
-    hole" -- to queries with no species ambiguity at all. On one row that is enough to push
-    `clinical-interpretation` out of `analysis_goal`, losing CADD, ClinVar, Mastermind and Phenotypes
-    on a query that asked whether a variant is a cancer driver.
-
-    The scan itself is untouched and still available: `infer_species` remains the fallback when the
-    model answers `unstated`, and `species_candidates` still covers all 356 species for anything that
-    wants it."""
+    Off unless VEP_SPECIES_HINT=1. The block fires on almost every query, never raised species
+    accuracy over the bare model, and pushed analysis_goal wrong on one review row."""
     return os.environ.get("VEP_SPECIES_HINT") == "1"
 
 
-_SPECIES_DATA = None
-
-
-def load_species_data():
-    """Per-species DATA availability -- SIFT, PolyPhen, CCDS, variant synonyms, custom frequency files --
-    built by work/harness/build/build_species_data.py from Ensembl's own sources. None if absent (additive:
-    without it the gate below does nothing and non-human keeps the pre-2026-09-15 behaviour)."""
-    global _SPECIES_DATA
-    if _SPECIES_DATA is None:
-        p = BASE_DIR.parent / "work" / "generation" / "generation_config" / "species_data.json"
-        _SPECIES_DATA = json.load(open(p)) if p.exists() else {}
-    return _SPECIES_DATA or None
-
-
 def species_key(production_name):
-    """`ovis_aries_texel` -> `ovis_aries`: the data lists are per species, the index is per strain."""
+    """Strip a production name to genus_species (`ovis_aries_texel` -> `ovis_aries`).
+
+    Data lists are per species; the index is per strain."""
     return "_".join((production_name or "").split("_")[:2])
 
 
 def load_species_index():
-    """The 756-name / 356-species index, or None if it has not been generated.
+    """The species-name index {name: {species, trap, english_word, ...}}, cached; {} if missing.
 
-    Regenerate with `work/harness/build/build_species_index.py`. Absent, everything falls back to the
-    16-species `_SPECIES_KEYWORDS` scan, so this is additive.
+    Built by `work/harness/build/build_species_index.py`. Callers fall back to `_SPECIES_KEYWORDS`.
     """
     global _SPECIES_INDEX
     if _SPECIES_INDEX is None:
@@ -1729,14 +1140,9 @@ def load_species_index():
 
 
 def species_candidates(user_query: str):
-    """EVERY Ensembl species name the query mentions, longest first, with why each may be a false hit.
+    """Every index species name in the query, longest first, each with its index entry.
 
-    Deliberately not first-match-wins. `infer_species` returns one guess and it OVERRIDES the model,
-    so a single bad match is final: "going down this rabbit hole" resolves to rabbit and strips every
-    human-only option. Here the matches are evidence handed to the classifier, which can reject them.
-
-    Longest-first ordering keeps `guinea pig` ahead of `pig`, which first-match-by-dict-order got
-    backwards -- right family, wrong species, and the strain decides the assembly.
+    Longest first keeps `guinea pig` ahead of `pig`; a name inside a longer hit is skipped.
     """
     q = (user_query or "").lower()
     idx = load_species_index()
@@ -1750,7 +1156,7 @@ def species_candidates(user_query: str):
 
 
 def format_species_hint(user_query: str) -> str:
-    """The hint block appended to the classifier prompt. Empty when nothing matched."""
+    """The species hint block for the classifier prompt; empty when nothing matched."""
     hits = species_candidates(user_query)
     if not hits:
         return ""
@@ -1781,11 +1187,10 @@ _WORD_TO_PRODUCTION = {"mouse": "mus_musculus", "rat": "rattus_norvegicus", "pig
 
 
 def resolve_species_name(user_query: str):
-    """The Ensembl production name of the organism the query names, or None.
+    """Name-scan the query for an organism; return its Ensembl production name or None.
 
-    First the 356-species index (a non-trap, non-English-word hit; then any non-trap hit), then the
-    16-word keyword scan. Used only to look up DATA availability once the factor value is already
-    non-human -- it never decides the factor."""
+    Prefers a clean index hit, then any non-trap hit, then the keyword scan. Used only for data
+    lookups once the species factor is non-human."""
     hits = species_candidates(user_query) or []
     for h in hits:
         if not h.get("trap") and not h.get("english_word"):
@@ -1797,12 +1202,9 @@ def resolve_species_name(user_query: str):
 
 
 def resolve_model_organism(name):
-    """The model's `organism` answer as an Ensembl production name, or None.
+    """Validate the classifier's `organism` answer against the species index; production name or None.
 
-    Checked against the 356-species index (`species_index.json`) so the model cannot invent a species:
-    an unrecognised answer is dropped and the caller falls back to the binary factor. Matching is on the
-    index's own names, then on a production-name spelling ("Sus scrofa" -> sus_scrofa), then on the
-    16-word keyword map for the common English names the index stores differently.
+    An unrecognised name returns None, so the model cannot invent a species.
     """
     n = (name or "").strip().lower()
     if not n or n in ("unstated", "unknown", "none", "n/a"):
@@ -1811,8 +1213,7 @@ def resolve_model_organism(name):
     by_production = {v["species"] for v in idx.values()}
 
     def canonical(prod):
-        """`bos_taurus_wagyu` -> `bos_taurus` when Ensembl lists the plain species too. The strain
-        decides the assembly, not the data lists, and the plain name is what a user recognises."""
+        """`bos_taurus_wagyu` -> `bos_taurus` when the index also has the plain species."""
         base = species_key(prod)
         return base if base != prod and base in by_production else prod
 
@@ -1823,10 +1224,8 @@ def resolve_model_organism(name):
         return canonical(flat)
     if flat in _WORD_TO_PRODUCTION:
         return _WORD_TO_PRODUCTION[flat]
-    # PARTIAL NAME (2026-09-20). People drop the qualifier Ensembl carries: "sharksucker" for `live
-    # sharksucker`, "thornscrub tortoise" for `goodes thornscrub tortoise`. Accepted only when every
-    # index name containing it belongs to ONE species, so "pig" (pig, guinea pig) stays ambiguous and
-    # falls through to the binary factor rather than guessing.
+    # Partial name ("sharksucker" for `live sharksucker`): accepted only when every matching index
+    # name is one species, so "pig" (pig, guinea pig) stays ambiguous and returns None.
     if len(n) >= 4:
         hits = {canonical(v["species"]) for k, v in idx.items() if n in k or k in n}
         if len(hits) == 1:
@@ -1837,56 +1236,46 @@ def resolve_model_organism(name):
 
 
 def infer_species(user_query: str) -> str:
-    """Detect species from the user query → a non-human species name, 'human', or 'unknown'.
+    """Keyword-scan the query for species: a non-human species word, 'human', or 'unknown'.
 
-    FAIL-CLOSED design (this is a safety layer): 'human' is returned only when POSITIVELY indicated, not
-    as a silent default. Order: (1) an explicit non-human organism (_SPECIES_KEYWORDS) wins — so
-    'mouse tumour' -> 'mouse'; (2) else a positive human signal (_HUMAN_SIGNALS) -> 'human'; (3) else
-    'unknown' — the species check then FLAGS the unconfirmed species and keeps human-only options
-    (stripping on 'unknown' would wrongly break the many human queries that never say "human"; see
-    check_and_fix_violations). Word boundaries avoid false positives ('rat' in 'generated').
-
-    RESIDUAL LIMITATIONS (keyword matching, not language understanding — the proper fix is structured
-    output, where species/assembly are explicit model-filled fields): still NEGATION-BLIND ('not a mouse
-    study' -> 'mouse'); still SINGLE-GUESS / first-match-by-dict-order, can't represent 'both'; and an
-    UNLISTED non-human organism described with a human-context word (e.g. 'feline cancer') can still
-    resolve to 'human' via _HUMAN_SIGNALS — narrower than the old blanket default, but not eliminated.
+    A non-human keyword wins, then a human signal; otherwise 'unknown', which the checker flags
+    and treats as human. Negation-blind and first-match only ('not a mouse study' -> 'mouse').
     """
     q = user_query.lower()
-    for keyword, species in _SPECIES_KEYWORDS.items():      # (1) explicit non-human organism wins
+    for keyword, species in _SPECIES_KEYWORDS.items():      # word boundaries: no 'rat' in 'generated'
         if re.search(r"\b" + re.escape(keyword) + r"\b", q):
             return species
-    for sig in _HUMAN_SIGNALS:                              # (2) positive human signal
+    for sig in _HUMAN_SIGNALS:
         if sig in q:
             return "human"
-    return "unknown"                                        # (3) fail closed: caller withholds human-only
+    return "unknown"
 
 
 def _priority_rank(option_id: str, resolved) -> int:
-    """Rank of an option under THIS scenario's factor resolution, for conflict tie-breaks.
+    """RANK of an option's priority in this scenario's factor resolution, for conflict tie-breaks.
 
-    Replaced `_get_priority_rank` on 2026-09-13. That read the retired `priority_by_use_case` field
-    against a use case guessed from the top retrieved example; `resolved` is the factor table's own
-    answer for the tuple. An option the table does not price ranks 0, exactly as before, and with no
-    resolution (legacy path) every option ranks 0 so the restrictiveness tie-break decides."""
+    0 when the table does not price the option or `resolved` is None."""
     if not resolved:
         return 0
     _e, pri, _g = resolved.get(option_id, (False, None, None))
     return RANK.get(pri, 0) if pri else 0
 
 
-# Non-human species names that can appear in a multi-species restriction ('human + mouse only').
+def species_phrase(opt) -> str:
+    """Display text for an option's species reach, built from its `species` and `assemblies` fields."""
+    sp = opt.get("species", "all")
+    if sp == "all":
+        return "all species"
+    if sp == ["homo_sapiens"]:
+        asm = opt.get("assemblies")
+        return "human only" + (f" ({'+'.join(asm)})" if asm else "")
+    return ", ".join(sp) + " only"
 
 
 def _is_human_only(species) -> bool:
-    """True if an option's `species` field says human and nothing else.
+    """True if an option's `species` field ("all" or a list of production names) is human alone.
 
-    Reads the OPTION's structured `species` field (2026-09-22): `"all"`, or a list of Ensembl
-    production names. Until today this parsed the `species_restriction` prose with a regex and a
-    hand-kept list of animal words; the prose is kept for display, the gate reads the list.
-      ["homo_sapiens"]                    -> True
-      ["homo_sapiens", "mus_musculus"]    -> False  (multi-species: the checker must not strip it)
-      "all"                               -> False
+    Multi-species lists such as ["homo_sapiens", "mus_musculus"] return False.
     """
     return species == ["homo_sapiens"]
 
@@ -1894,18 +1283,14 @@ def _is_human_only(species) -> bool:
 def _gates_nonhuman(species) -> bool:
     """True if the resolver should mark an option not_applicable for a non-human scenario.
 
-    Wider than `_is_human_only` by exactly the narrow case: a two-species set that includes human
-    (`ccds` = human + mouse, `var_synonyms` = human + pig). The binary species factor cannot guarantee
-    the query's organism is the other member, so the table gates it; the checker's per-species data
-    lookup lets it back for the right organism. A set of only non-human species is not gated."""
+    Also gates a two-species set that includes human (`var_synonyms` = human + pig), because the
+    binary factor cannot name the organism. The checker's per-species lookup lets it back."""
     return species != "all" and "homo_sapiens" in species and len(species) <= 2
 
 
-# Every recognised spelling of a HUMAN build -> its canonical name. Keys are lower-cased and
-# separator-stripped, so GRCh38 / grch38 / GRCH38 / "GRCh 38" / GRCh-38 / hg38 all resolve to GRCh38.
-# NOTE deliberately NOT fuzzy/typo-tolerant: GRCh37 and GRCh38 differ by a single character, so an
-# edit-distance match could not tell a typo of one from a correct spelling of the other — and a wrong
-# build call drops the OTHER build's options (the opposite of a missed gate). Exact spellings only.
+# Human build spellings -> canonical name. Keys are lower-cased and separator-stripped.
+# Exact spellings only: GRCh37 and GRCh38 differ by one character, and a wrong build drops the
+# other build's options.
 _ASSEMBLY_ALIASES = {
     "grch37": "GRCh37", "hg19": "GRCh37",
     "grch38": "GRCh38", "hg38": "GRCh38",
@@ -1913,10 +1298,9 @@ _ASSEMBLY_ALIASES = {
 
 
 def infer_assembly(query):
-    """The human assembly the query names ('GRCh37'/'GRCh38'), or None if it doesn't say.
+    """The human assembly the query names ('GRCh37'/'GRCh38'), or None.
 
-    Fail-open by design, mirroring infer_species: most queries never name an assembly, so assuming one
-    would strip options from the majority to protect a minority. Case- and separator-insensitive.
+    None when unstated: most queries name no assembly, and assuming one would strip options.
     """
     m = _ASSEMBLY_RE.search(query or "")
     if not m:
@@ -1926,50 +1310,27 @@ def infer_assembly(query):
 
 
 def _assembly_restriction(assemblies):
-    """Human assemblies an option's data exists for, as a set, or None if it isn't assembly-restricted.
-    Reads the OPTION's structured `assemblies` field (2026-09-22); it used to regex the prose."""
+    """An option's `assemblies` field as a set, or None if it is not assembly-restricted."""
     return set(assemblies) if assemblies else None
 
 
 def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
-                             training_examples: list,
                              user_query: str,
-                             retrieval_mode: str = "keyword",
                              assembly_override: str = None,
                              species_override: str = None,
-                             resolved: dict = None) -> list[dict]:
-    """Check enabled options for constraint violations and auto-correct them.
+                             resolved: dict = None,
+                             organism: str = None) -> list[dict]:
+    """Apply scenario, species, assembly, conflict and dependency rules to `enabled`; return violations.
 
-    Loads conflict rules, species restrictions and dependencies from
-    vep_options.json. For conflicts, disables the option the FACTOR RESOLUTION prices lower
-    (`_priority_rank(oid, resolved)`); on a tie the more restrictive option loses, then
-    alphabetical order decides. For dependencies, auto-enables a required option, unless that
-    option is itself a species violation, in which case the dependent option is disabled instead.
-
-    NOT the use case. Until 2026-09-13 the ranking read the retired seven-use-case table; it now
-    reads the resolved factor tuple. `_detect_use_case` is still called below and its result is
-    still discarded -- see the note there.
-
-    Returns a list of violation dicts with keys:
-        type: 'conflict', 'species' or 'dependency'
-        option_disabled / option_enabled: the option that was changed
-        option_kept: (conflicts only) the option that was kept
-        reason: human-readable explanation
-
-    SIDE EFFECT: mutates the passed-in `enabled` / `disabled` sets in place (discard/add) — that IS how
-    the corrected set reaches the caller, but it's an undocumented mutation a future caller might not expect.
+    Mutates `enabled` and `disabled` in place; that is how the corrected set reaches the caller.
+    Each violation dict has `type`, `reason`, and `option_disabled`, `option_enabled` or
+    `option_kept` as applicable.
     """
     violations = []
-    # --- Scenario gates (the factor table's own not_applicable) ---
-    # The resolver never ENABLES a gated option, but nothing stopped the MODEL proposing one, so the
-    # same option in the same scenario was excluded when the table decided and shipped when the model
-    # asked. In the stored eval logs the model overrode a gate 33 times, arguing its case in the
-    # Reason line; 10 were `frequency` on a somatic query, the one hard rule whose violation deletes
-    # findings rather than adding a column. Species and assembly were already enforced this way.
-    # Scope is every gate the resolver sets — including region_focus removing the missense predictors
-    # from a regulatory query, which the round-1 review asked to have back (open in STATUS.md). The
-    # violation names the option so that decision stays visible. `verify_pipeline` asserts this never
-    # touches the resolver's own configuration, so it can only fire on something the model added.
+    # --- Scenario gates: an option the factor table marks not_applicable is removed. ---
+    # Catches gated options added by the model or a user. Includes region_focus removing missense
+    # predictors from a regulatory query (round-1 review asked for them back; open in STATUS.md).
+    # `verify_pipeline` asserts this never fires on the resolver's own configuration.
     if resolved:
         for oid in sorted(enabled):
             if resolved.get(oid, (False, None, False))[2]:
@@ -1981,53 +1342,36 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                 enabled.discard(oid)
                 disabled.add(oid)
 
-    # Order matters: species first (may remove options before they can conflict),
-    # then conflicts, then dependencies (auto-enable may re-introduce options).
-    # A stated species wins over the text, exactly as assembly does below. Without this, `--species
-    # human` on a query whose text says mouse changed the RESOLVER's tuple while this gate went on
-    # reading "mouse" out of the prose — human-only options the table recommends were then stripped
-    # inside restore's re-check, whose violation list is discarded, so they vanished with no warning.
+    # Order: species, assembly, conflicts, then dependencies (auto-enable may re-introduce options).
+    # A stated species overrides the text, as the assembly override does below.
     species = species_override or infer_species(user_query)
 
-    # Build lookup maps (single pass over the catalogue; mutated sets stay small)
     conflicts_map = {}
     species_map = {}
     species_spec = {}
     assembly_map = {}
     depends_map = {}
-    for opt in vep_options:                      # (description_map removed — it was built but never used)
+    plugin_ids = {o["id"] for o in vep_options if option_source(o) == "plugin"}
+    for opt in vep_options:
         conflicts_map[opt["id"]] = set(opt.get("conflicts_with", []))
-        species_map[opt["id"]] = opt.get("species_restriction", "all species")
-        species_spec[opt["id"]] = opt.get("species", "all")          # the gate reads this
-        assembly_map[opt["id"]] = opt.get("assemblies")              # and this; species_map is prose for messages
+        species_map[opt["id"]] = species_phrase(opt)                 # message text only
+        species_spec[opt["id"]] = opt.get("species", "all")          # the gates read these two
+        assembly_map[opt["id"]] = opt.get("assemblies")
         depends_map[opt["id"]] = list(opt.get("depends_on", []))
 
-    # --- Species violations ---
-    # Human-only annotation sources (CADD/PolyPhen/ClinVar/gnomAD...) are meaningless for a non-human
-    # query, so move them enabled -> disabled. This is the "harm=0" guarantee: the checker, not the LLM.
-    # POSTURE (evidence-tuned): strip human-only options only for a POSITIVELY-identified non-human
-    # species. For 'unknown' we FLAG rather than strip — a hard fail-closed (stripping on unknown) would
-    # wrongly withhold gnomAD/ClinVar/regulatory from the many human queries that never say "human"
-    # (GWAS / cohort / WGS / CNV ... — 8/20 gold queries classify 'unknown'), which is worse than the
-    # original silent fail-open. So: confirmed non-human -> repair; unspecified -> surface the assumption.
-    # (Full fix = structured output: an explicit species/assembly field the user fills.)
+    # --- Species ---
+    # Confirmed non-human: remove human-only options. 'unknown': keep them and warn, because many
+    # human queries never say "human".
     if species == "unknown":
         violations.append({
             "type": "species",
             "reason": ("species not specified in the query — ASSUMING HUMAN and keeping human-only options "
                        "(CADD/gnomAD/ClinVar...). If this is a non-human sample, disable them."),
         })
-    elif species != "human":          # positively-identified non-human -> withhold human-only options
-        # ENSEMBL'S OWN PLUGIN LISTS WIN (2026-09-20). `species_restriction` is our catalogue text and
-        # it disagrees with VEP_plugins release/116 on seven plugins: CADD is listed for pig, chicken
-        # and turkey, IntAct for six non-human species, mutfunc for yeast, UTRAnnotator for everything,
-        # while MaxEntScan, Paralogues and AncestralAllele are human only where we said otherwise.
-        # A plugin with a list is judged by the list below (`species_data` violations), not here.
-        _sdata = load_species_data() or {}
-        plugin_lists = _sdata.get("plugin_species") or {}
-        plugin_every = set(_sdata.get("plugin_species_all") or ())
+    elif species != "human":
+        # Plugins are skipped here and judged by Ensembl's plugin_config.txt species list below.
         for oid in list(enabled):
-            if oid in plugin_lists or oid in plugin_every:
+            if oid in plugin_ids:
                 continue
             if _is_human_only(species_spec.get(oid, "all")):
                 violations.append({
@@ -2038,61 +1382,50 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                 enabled.discard(oid)
                 disabled.add(oid)
 
-    # --- Species DATA violations (2026-09-15) ---
-    # "non-human" is one factor value, but Ensembl's data is not uniform across it: SIFT for eleven
-    # non-human species, PolyPhen for none, CCDS for mouse, variant synonyms for pig, custom frequency
-    # files for chicken/dog/goat/sheep (generation_config/species_data.json, from Ensembl's own pages
-    # and form source). An option that needs such data is withheld for a species that lacks it, and
-    # the reason names the species and the list. Same posture as assembly: a lookup beside the factor,
-    # not a new factor value. Applies only to a POSITIVELY non-human query; the assume-human path is
-    # untouched. An organism the index cannot resolve is treated as having no species-specific data.
+    # --- Species data (non-human only) ---
+    # An option with a species list (SIFT, variant synonyms, per-species frequency files, plugins) is
+    # removed when the organism is not on it. Lists come from each option's `species` field; source
+    # in its `provenance`. An organism the index cannot resolve counts as having no such data.
     if species not in ("human", "unknown"):
-        sdata = load_species_data()
-        req_map = {o["id"]: o.get("requires_species_data") for o in vep_options if o.get("requires_species_data")}
-        if sdata and req_map:
-            sp_name = resolve_species_name(user_query)
-            plugin_lists = sdata.get("plugin_species") or {}
-            for oid in list(enabled):
-                allowed = plugin_lists.get(oid)
-                if allowed and species_key(sp_name or "") not in allowed:
-                    _nm = next((o.get("name", oid) for o in vep_options if o["id"] == oid), oid)
-                    violations.append({
-                        "type": "species_data",
-                        "option_disabled": oid,
-                        "reason": (f"{_nm} [{oid}] is provided for {len(allowed)} species "
-                                   f"({', '.join(allowed)}); this analysis is "
-                                   f"{species_key(sp_name) if sp_name else species}, which is not among "
-                                   f"them (VEP_plugins release/116 plugin_config.txt)"),
-                    })
-                    enabled.discard(oid)
-                    disabled.add(oid)
+        # The classifier's validated organism if given, else the name scan.
+        sp_name = organism or resolve_species_name(user_query)
+        for oid in list(enabled):
+            spec = species_spec.get(oid, "all")
+            if spec == "all":
+                continue
+            if oid in plugin_ids:
+                allowed = spec
+                if species_key(sp_name or "") in allowed:
                     continue
-                need = req_map.get(oid)
-                if not need:
-                    continue
-                have = list(sdata.get("frequency_files", {})) if need == "frequency_files" else (sdata.get(need) or [])
-                have_keys = {species_key(x) for x in have}
-                if sp_name is None or species_key(sp_name) not in have_keys:
-                    shown = ", ".join(sorted(have_keys)) if have_keys else "no species"
-                    _nm = next((o.get("name", oid) for o in vep_options if o["id"] == oid), oid)
-                    violations.append({
-                        "type": "species_data",
-                        "option_disabled": oid,
-                        "reason": (f"{_nm} [{oid}] needs {need.replace('_', ' ')}, which Ensembl provides for "
-                                   f"{len(have_keys)} species ({shown}); this analysis is "
-                                   f"{species_key(sp_name) if sp_name else species}, which is not among them"),
-                    })
-                    enabled.discard(oid)
-                    disabled.add(oid)
+                _nm = next((o.get("name", oid) for o in vep_options if o["id"] == oid), oid)
+                violations.append({
+                    "type": "species_data",
+                    "option_disabled": oid,
+                    "reason": (f"{_nm} [{oid}] is provided for {len(allowed)} species "
+                               f"({', '.join(allowed)}); this analysis is "
+                               f"{species_key(sp_name) if sp_name else species}, which is not among "
+                               f"them (VEP_plugins release/116 plugin_config.txt)"),
+                })
+                enabled.discard(oid)
+                disabled.add(oid)
+                continue
+            # Native and custom options compare per species: `ovis_aries_texel` counts as `ovis_aries`.
+            have_keys = {species_key(x) for x in spec}
+            if sp_name is None or species_key(sp_name) not in have_keys:
+                _nm = next((o.get("name", oid) for o in vep_options if o["id"] == oid), oid)
+                violations.append({
+                    "type": "species_data",
+                    "option_disabled": oid,
+                    "reason": (f"{_nm} [{oid}] is available for {len(have_keys)} species "
+                               f"({', '.join(sorted(have_keys))}); this analysis is "
+                               f"{species_key(sp_name) if sp_name else species}, which is not among them"),
+                })
+                enabled.discard(oid)
+                disabled.add(oid)
 
-    # --- Assembly violations ---
-    # Some human sources exist for only ONE build: MANE and EVE are GRCh38-only, Geno2MP is GRCh37-only.
-    # The web form does NOT protect the user here — it shows those checkboxes for any human assembly
-    # (e.g. InputForm.pm:694-702 gates `mane` on species alone) — so a GRCh37 query can tick MANE and get
-    # an empty column. The restriction was documented only in when_not_to_use prose ("MANE is human GRCh38
-    # only"), which no code reads; it now lives in species_restriction where this can enforce it.
-    # Same fail-open posture as species: gate ONLY when the query actually names a build. Runs after the
-    # species pass, so non-human rows have already lost these options anyway.
+    # --- Assembly ---
+    # Some sources exist for one build only (MANE, EVE: GRCh38; Geno2MP: GRCh37), and the web form
+    # shows them for any human assembly (InputForm.pm:694-702). Gated only when a build is known.
     assembly = assembly_override or infer_assembly(user_query)
     if assembly:
         for oid in list(enabled):
@@ -2107,17 +1440,15 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                 enabled.discard(oid)
                 disabled.add(oid)
 
-    # --- Conflict violations ---
-    # Pairwise scan of enabled options; checked_pairs dedupes the (a,b)/(b,a) symmetry.
+    # --- Conflicts ---
     checked_pairs = set()
     for oid_a in list(enabled):
-        if oid_a not in enabled:          # FIX: may have been disabled by an earlier pair this pass
+        if oid_a not in enabled:          # lost an earlier pair
             continue
         for oid_b in list(enabled):
-            if oid_a not in enabled:          # FIX: oid_a may have lost an EARLIER pair in THIS inner
-                break                         # loop — stop, or we'd judge oid_b against a dead oid_a and
-                                              # wrongly disable a valid oid_b on a conflict that's moot
-            if oid_b not in enabled or oid_a == oid_b:   # FIX: skip already-disabled options / self
+            if oid_a not in enabled:          # oid_a just lost; its remaining conflicts are moot
+                break
+            if oid_b not in enabled or oid_a == oid_b:
                 continue
             pair = tuple(sorted([oid_a, oid_b]))
             if pair in checked_pairs:
@@ -2125,30 +1456,22 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
             checked_pairs.add(pair)
 
             if oid_b in conflicts_map.get(oid_a, set()) or oid_a in conflicts_map.get(oid_b, set()):
-                # Decide which to disable: lower priority loses
+                # Loser: lower resolved priority, then more restrictive, then alphabetical.
                 rank_a = _priority_rank(oid_a, resolved)
                 rank_b = _priority_rank(oid_b, resolved)
 
-                # Tie-break ladder: (1) the FACTOR RESOLUTION's priority — the option this
-                # scenario's tuple prices higher wins; (2) restrictiveness — drop the option
-                # that suppresses more output (most_severe > pick > per_gene); (3)
-                # alphabetical, purely so the result is deterministic.
-                # The use case has played no part here since 2026-09-13.
                 if rank_a != rank_b:
                     loser = oid_a if rank_a < rank_b else oid_b
                     winner = oid_b if loser == oid_a else oid_a
                 else:
-                    # Equal priority: disable the more restrictive option
                     rest_a = _RESTRICTIVENESS.get(oid_a, 0)
                     rest_b = _RESTRICTIVENESS.get(oid_b, 0)
                     if rest_a != rest_b:
                         loser = oid_a if rest_a > rest_b else oid_b
                         winner = oid_b if loser == oid_a else oid_a
                     else:
-                        # Fallback: disable the first alphabetically
                         loser, winner = sorted([oid_a, oid_b])
 
-                # Find the conflict reason from whichever side declared it
                 if loser in conflicts_map.get(winner, set()):
                     decl = winner
                 else:
@@ -2170,15 +1493,10 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                 enabled.discard(loser)
                 disabled.add(loser)
 
-    # --- Dependency violations ---
-    # If an enabled option requires another option, ensure the dependency is on.
-    # Auto-enable the dependency, unless enabling it would itself break a species
-    # restriction (e.g. a human-only dependency for a mouse query), in which case
-    # the dependent option cannot be satisfied and is disabled instead. The loop
-    # re-scans so transitive dependencies (A->B->C) are fully resolved.
-    # CAVEAT (ordering gap): this runs AFTER conflict resolution, and a newly auto-enabled dependency is
-    # NOT re-checked for conflicts -- so the checker can itself introduce an unresolved conflict that
-    # ships unflagged. A fix re-runs the conflict pass after dependencies (or interleaves the two).
+    # --- Dependencies ---
+    # Auto-enable a required option, unless it is human-only on a non-human query; then disable the
+    # dependent instead. Re-scans until stable, so A->B->C resolves.
+    # Known gap: an auto-enabled dependency is not re-checked for conflicts.
     changed = True
     while changed:
         changed = False
@@ -2207,7 +1525,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                     enabled.add(dep)
                     disabled.discard(dep)
                 changed = True
-                break          # restart the scan: the set just changed under us
+                break          # restart the scan: the set changed
             if changed:
                 break
 
@@ -2215,14 +1533,10 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
 
 
 def format_violation_warnings(violations: list[dict], reinstated=None) -> str:
-    """Format constraint violations into a clearly readable warning block.
+    """Format checker violations as a warning block; empty string if there are none.
 
-    `reinstated` is the option set as it stands AFTER every later repair. An option this block says
-    was disabled can be switched back on by the restore pass a few lines further down, and printing
-    the two reports in execution order showed "Disabled: hgvs" directly above "+ HGVS … switched
-    on". Naming it here keeps the two blocks one account instead of two contradicting ones.
-
-    Returns an empty string if there are no violations.
+    `reinstated` is the final enabled set after the restore pass. A disabled option found in it is
+    marked as reinstated, so this block agrees with the restore report printed below it.
     """
     if not violations:
         return ""
@@ -2241,24 +1555,17 @@ def format_violation_warnings(violations: list[dict], reinstated=None) -> str:
     return "\n".join(lines)
 
 
-# An option whose cli_flag lists SEVERAL flags ("--refseq | --merged | --gencode_basic") is a menu, not a
-# flag: the user must pick one. Detected by >1 "--" separated by | or /, so a single flag carrying a path
-# ("--plugin MaxEntScan,/path/to/x") or a value placeholder ("--sift [b|p|s]") is NOT mistaken for a menu.
+# A cli_flag listing several flags ("--refseq | --merged | --gencode_basic") is a pick-one menu.
+# Needs more than one "--" separated by | or /, so a path ("--plugin X,/path/to/x") or a value
+# placeholder ("--sift [b|p|s]") does not count as a menu.
 _FLAG_ALT_SPLIT = re.compile(r"\s*[|/]\s*")
 
 
 def cli_flags_for(enabled, vep_options):
-    """Runnable, de-duplicated CLI flags for an enabled set → (flags, choices).
+    """Runnable, de-duplicated CLI flags for an enabled set, as (flags, choices).
 
-    `choices` are (option_id, [alternatives]) for menu-style cli_flags, which must be offered rather than
-    pasted into a command. Both command builders share this, because they had drifted into two different
-    broken rules:
-      * format_corrected_config joined every raw cli_flag with no filtering at all, so the printed command
-        contained "--check_existing --check_existing" (both `clinvar` and `check_existing` carry that flag)
-        and the literal menu "--gencode_basic / --refseq / --merged".
-      * build_recommendation_json filtered on `"|" not in f`, which on the expanded catalogue silently
-        DROPPED --sift/--polyphen from the command, because their flag is "--sift [b|p|s]" — a value
-        placeholder, not a menu.
+    `choices` is a list of (option_id, [alternative flags]) for menu-style cli_flags, which the
+    caller offers as a choice instead of putting in the command. Shared by both command builders.
     """
     flag_by_id = {o["id"]: (o.get("cli_flag") or "") for o in vep_options}
     flags, choices, seen = [], [], set()
@@ -2266,38 +1573,29 @@ def cli_flags_for(enabled, vep_options):
         f = flag_by_id.get(oid, "").strip()
         if not f.startswith("--"):
             continue
-        # A flag with SUB-PARAMETERS, "--check_frequency (+ --freq_pop/--freq_freq/...)": the parenthetical
-        # lists parameters used ALONGSIDE the main flag, not alternatives to it. Emit only the leading
-        # flag (the sub-params need user-supplied values anyway); do NOT present them as a pick-one menu.
-        # Detected by the "(+" additional-params marker, checked before the menu rule below.
+        # "(+ ...)" lists sub-parameters used alongside the flag ("--check_frequency (+ --freq_pop/...)").
+        # They need user values and are not alternatives, so only the leading flag is kept.
         head = f.split("(+", 1)[0].strip() if "(+" in f else f
         alts = re.findall(r"--[A-Za-z0-9_]+", head)
-        # A MENU of several flags -> the user must pick one. Checked BEFORE the derived/no-flag skip
-        # below, because core_type's flag is "--refseq | --merged | --gencode_basic | --gencode_primary
-        # (no flag for core)": it contains "no flag" (describing its DEFAULT) while still being a real
-        # choice, so skipping on that substring first dropped the transcript database from the command
-        # entirely — silently, which is the same class of bug as the rest of this function.
+        # Menu check runs before the "no flag" skip: core_type's flag is a real menu that also says
+        # "(no flag for core)" about its default.
         if len(alts) > 1 and _FLAG_ALT_SPLIT.search(head):
             choices.append((oid, alts))
             continue
-        f = head   # drop any "(+ ...)" sub-parameter annotation from the emitted flag
-        # Not a standalone flag: derived options ride on another option's flag (clinvar -> check_existing).
+        f = head
+        # Derived options ride on another option's flag (clinvar -> check_existing).
         if "derived" in f or "no flag" in f:
             continue
-        # VALUE PLACEHOLDER, not a runnable value: sift/polyphen carry "--sift [b|p|s]", meaning "pick one
-        # of b|p|s". Pasting "[b|p|s]" verbatim makes the command un-runnable (a model's
-        # config can produce `--sift [b|p|s]`). Substitute the option's documented default from
-        # _SET_VALUE_DEFAULTS; if we have no default, drop the bracket group rather than emit garbage.
+        # "[b|p|s]" is a value placeholder. Replace it with the default from _SET_VALUE_DEFAULTS,
+        # or drop it when there is none.
         if re.search(r"\[[^\]]*\|[^\]]*\]", f):
             default = _SET_VALUE_DEFAULTS.get(oid)
             f = re.sub(r"\s*\[[^\]]*\]", f" {default}" if default else "", f).strip()
-        # DESCRIPTIVE PARENTHETICAL, not runnable syntax: gnomad_sv's flag is
-        # "--custom (gnomAD_SV VCF, type=exact, overlap_cutoff 80/90/100/exact)" — the parenthetical
-        # describes what data file to supply, it is not command syntax. Pasting it verbatim is unrunnable;
-        # emit just the flag (the user fills the file per the "fill in values/paths" note on the command).
+        # A remaining parenthetical describes the data file to supply (gnomad_sv's "--custom (...)").
+        # Emit the bare flag; the command's "fill in values/paths" note covers the rest.
         if "(" in f:
             f = f.split("(", 1)[0].strip()
-        if f not in seen:            # de-dup: two options can legitimately share one flag
+        if f not in seen:            # two options can share one flag
             seen.add(f)
             flags.append(f)
     return flags, choices
@@ -2306,21 +1604,15 @@ def cli_flags_for(enabled, vep_options):
 def priority_table_covers(vep_options, table):
     """Ids in this catalogue that the priority table prices for no factor at all.
 
-    The table is generated FROM a catalogue, so a catalogue it wasn't generated from can share most
-    ids and still be wrong. The 26-option demo KB against the 58-option table is exactly that: 21 ids
-    match, but `transcript_set`, `mane_select`, `gnomad_af`, `gene_phenotype` and `clinvar_sv` are
-    absent, and the first of those is the "always choose a transcript database" baseline that is
-    critical in every scenario. Resolving anyway produced a plausible-looking ESSENTIAL list with the
-    single most important option quietly missing — worse than showing no tiers at all. So this is an
-    exact-subset check, not a fuzzy one."""
+    The table is generated from one catalogue. Any missing id means the pair does not match, and a
+    mismatched pair can silently drop a baseline option, so the check is exact."""
     return {o["id"] for o in vep_options} - set(table.get("priorities", {}))
 
 
 def resolve_for_query(factor_tuple, vep_options, trace=None):
     """`intent_priorities()` for a factor tuple, or None if the tuple or the config is unusable.
 
-    One place for the try/except so the prompt builder and the output formatter can never disagree
-    about what this scenario's priorities are."""
+    Every caller goes through here, so all of them see the same priorities for a scenario."""
     global _PRIORITY_TABLE_WARNED
     if not factor_tuple:
         return None
@@ -2341,8 +1633,7 @@ def resolve_for_query(factor_tuple, vep_options, trace=None):
         return None                              # config missing/unreadable -> caller falls back
 
 
-# Plain English for a factor value in a "because …" line. The ids are the contract everywhere else;
-# this is the one place a user reads them.
+# Plain English for a factor value in a "because …" line.
 _WHY_VALUE = {
     ("species", "human"): "the samples are human",
     ("species", "non-human"): "the samples are not human",
@@ -2362,21 +1653,17 @@ _ENSEMBL_PAGE = None
 
 
 def ensembl_says(oid, vep_options):
-    """One line of what ENSEMBL says the option does, or None.
+    """One line of what the Ensembl docs say the option does, for --explain; None if nothing to say.
 
-    Sourced from the release-116 pages saved in `work/research/ensembl_docs_116/` (the options page
-    for native flags, the plugins page for plugins) -- not from our catalogue's own prose, which we
-    wrote. The output-field list is the page's own "Output fields" cell, so a user can see which
-    columns the option adds before ticking it. Absent when `work/` is not beside the demo, or when the
-    page has no record for the flag, in which case --explain simply omits the line."""
+    Reads the saved release-116 options and plugins pages in `work/research/ensembl_docs_116/`.
+    Prefers the page's "Output fields" cell. With no page record it falls back to our catalogue
+    description, labelled "our catalogue"."""
     global _ENSEMBL_PAGE
     if _ENSEMBL_PAGE is None:
         _ENSEMBL_PAGE = {}
         docs = BASE_DIR.parent / "work" / "research" / "ensembl_docs_116"
-        # The two pages are parsed into different shapes: the options page gives {flag, description,
-        # output_fields}, the plugins page {id, name, blurb}. Keying on only one of them silently left
-        # every plugin without a record, and the caller then printed OUR catalogue prose under an
-        # "Ensembl:" label -- the one thing the evidence rule forbids.
+        # Options page records are {flag, description, output_fields}; plugins page records are
+        # {id, name, blurb}. Index both shapes.
         for fn in ("vep_options_parsed.json", "vep_plugins_parsed.json"):
             try:
                 for rec in json.loads((docs / fn).read_text()):
@@ -2396,17 +1683,13 @@ def ensembl_says(oid, vep_options):
     page_text = _first_sentence((rec or {}).get("description") or (rec or {}).get("blurb") or "", 150)
     if page_text:
         return f"Ensembl: {page_text}"
-    # No page record: say whose words these are. Our catalogue prose is agent-written and must never
-    # be shown as Ensembl's.
+    # Our catalogue prose is agent-written and must never be labelled as Ensembl's.
     ours = _first_sentence(opt.get("description") or "", 150)
     return f"our catalogue: {ours}" if ours else None
 
 
 def why_recommended(oid, trace):
-    """One plain sentence for why this option is in the configuration, from the resolver's own trace.
-
-    `--explain` used to print the model's per-option prose, which the single-pass default does not
-    produce, so every option came out bare. The derivation is what actually put the option there."""
+    """One plain "because …" sentence for why this option is enabled, from the resolver's trace."""
     t = (trace or {}).get(oid) or {}
     win = t.get("winner")
     if not win:
@@ -2420,36 +1703,15 @@ def why_recommended(oid, trace):
 
 
 def tier_by_importance(enabled, resolved):
-    """Split the corrected option set by the priority the FACTOR table gives it for THIS scenario.
+    """Group the corrected set by this scenario's factor-table priority. Display only.
 
-    TWO BUCKETS. `recommended` is the switched-on bucket, `optional` becomes ADD-ONS.
-
-    The third tier is GONE, not hidden. It was merged into the display on 2026-08-07 and deleted from
-    the scheme on 2026-08-19, because merging alone left an unvalidated boundary running three
-    mechanisms underneath: `--minimal` filtered on `critical`, `restore_missing_recommended` restored
-    it, and the must-have metric scored against it. Twelve of the reviewer's twenty edits moved
-    options across that boundary and were never applied, precisely because they were invisible. So
-    the three mechanisms were keyed on the one judgement she had rejected. Each is now defined on the
-    RECOMMENDED bucket instead, and the must-have metric is withdrawn: with one enabled set there is
-    one recall to report, which `enable-F1` already covers.
-
-    Naming is Nakib's and the reason matters: "default" reads as *applies automatically*, which is
-    wrong for a bucket the user still has to switch on. "Recommended" is the expert suggestion it
-    actually is.
-
-    This is a different axis from :func:`tier_options`, which splits on native-flag vs plugin (i.e.
-    does it need downloaded data files) — an infrastructure question, not a clinical one. An option
-    can be a plugin AND recommended (AlphaMissense), or native AND an add-on (`--uniprot`).
-
-    Returns four lists:
-      recommended     — ENABLED and rated `recommended` here.
-      addons_on       — ENABLED and rated `optional`: add-ons this run switched on anyway.
-      unpriced        — enabled, but the table prices them for no factor here (output/compute controls).
-      addons_offered  — rated `optional` for this scenario and NOT enabled: the "offered, off by
-                        default" set. Hard-gated options are never offered.
-
-    DISPLAY ONLY: it regroups the corrected set, it never changes which options are enabled, so the
-    checker and every scored metric are untouched."""
+    Two tiers: `recommended` and `optional` (add-ons). The name "recommended" is Nakib's: the user
+    still has to switch these on. Returns a dict of four sorted lists:
+      recommended     enabled, rated `recommended`
+      addons_on       enabled, rated `optional`
+      unpriced        enabled, priced for no factor here (output/compute controls)
+      addons_offered  rated `optional`, not enabled, not hard-gated
+    """
     out = {"recommended": [], "addons_on": [], "unpriced": [], "addons_offered": []}
     for oid in sorted(enabled):
         _, priority, _ = resolved.get(oid, (False, None, False))
@@ -2465,102 +1727,61 @@ def tier_by_importance(enabled, resolved):
     return out
 
 
-CONFIG_LEVELS = ("minimal", "standard", "full")
+def option_source(opt):
+    """'plugin', 'custom' or 'native', read off the option's cli_flag (`--plugin X`, `--custom ...`)."""
+    flag = opt.get("cli_flag") or ""
+    return "plugin" if flag.startswith("--plugin") else "custom" if flag.startswith("--custom") else "native"
 
 
 def display_flag(flag):
-    """How an option's CLI flag should read in a listing.
+    """An option's CLI flag as shown in a listing.
 
-    A few catalogue entries are not flags of their own: ClinVar significance arrives with
-    `--check_existing` and its cli_flag records that. Printed literally next to check_existing's own
-    row it looks like the same flag is being set twice, which reads as a bug rather than as one flag
-    carrying two annotations. Say where it comes from instead. The generated command is unaffected —
-    cli_flags_for already emits each flag once."""
+    A derived option (ClinVar comes with `--check_existing`) shows "(comes with <flag>)" so the same
+    flag does not appear twice."""
     if "derived" in (flag or "").lower():
         base = flag.split("(")[0].strip()
         return f"(comes with {base})" if base else "(no flag of its own)"
     return flag or ""
 
 
-def apply_config_level(enabled, disabled, resolved, level, vep_options, training_examples,
-                       user_query, retrieval_mode="keyword", assembly_override=None,
-                       species_override=None):
-    """Narrow or widen the corrected set to the depth the user asked for. Mutates `enabled`.
+def apply_config_level(enabled, disabled, resolved, level, vep_options, user_query,
+                       assembly_override=None, species_override=None, organism=None):
+    """Narrow (--minimal) or widen (--full) the corrected set in place, then re-run the checker.
 
-      minimal  — drop the add-ons, keeping only the RECOMMENDED bucket. It used to mean "critical
-                 only", a tier that no longer exists. The model's draft can switch an `optional`
-                 option on and the standard level leaves it on, so this is a real narrowing.
-      standard — leave it as recommended (the default).
-      full     — additionally switch on every add-on the table rates `optional` and does not gate,
-                 for someone who wants everything the scenario can justify.
-
-    Re-running the checker afterwards is what makes either edit safe: narrowing can strip an option
-    that a surviving one depends on (ClinVar needs check_existing), and the dependency pass puts it
-    back; widening can introduce a conflict, and the conflict pass resolves it. So the result is a
-    runnable configuration at every level, not just a filtered list.
-
-    Returns the set of ids removed by narrowing (empty otherwise), for reporting."""
+    minimal keeps only `recommended` options; standard changes nothing; full adds every ungated
+    `recommended` or `optional` option. The re-check restores dependencies and resolves conflicts.
+    Returns the ids removed: by narrowing, or add-ons the re-check dropped under --full."""
     if level == "minimal":
-        # "no add-ons". It used to mean "critical only", a tier that no longer exists. The model's
-        # draft can switch an `optional` option on, and the standard level leaves those on; minimal
-        # strips them back to the RECOMMENDED bucket alone.
         keep = {oid for oid in enabled if resolved.get(oid, (False, None, False))[1] == "recommended"}
         removed = set(enabled) - keep
         enabled.clear()
         enabled.update(keep)
     elif level == "full":
         removed = set()
-        # EVERY tier the scenario justifies, not only the optional one. Adding just `optional` was
-        # actively misleading whenever the model under-proposed: the add-ons went on while the core
-        # stayed missing, so a run could ship REVEL/ClinPred/dbNSFP — which consume other predictors'
-        # scores — with none of SIFT/PolyPhen/CADD/AlphaMissense for them to derive from. That is the
-        # exact inversion of the tiering the table encodes, presented as "everything this scenario
-        # justifies".
+        # Add `recommended` too, so meta-predictors (REVEL, ClinPred) never ship without the
+        # predictors they derive from.
         enabled.update(oid for oid, (_, priority, gated) in resolved.items()
                        if priority in ("recommended", "optional") and not gated)
-        # An add-on the re-check then REMOVES (a conflict it loses -- most_severe against the form's
-        # own biotype) must be reported, or the level note says "every add-on included" while one is
-        # silently missing. Seen 2026-09-14 on a basic coding query under --full.
+        # Snapshot so add-ons the re-check removes (e.g. most_severe losing a conflict) are reported.
         before = set(enabled)
     else:
         return set()
-    check_and_fix_violations(enabled, disabled, vep_options, training_examples, user_query,
-                             retrieval_mode=retrieval_mode, assembly_override=assembly_override,
-                             species_override=species_override, resolved=resolved)
+    check_and_fix_violations(enabled, disabled, vep_options, user_query,
+                             assembly_override=assembly_override,
+                             species_override=species_override, resolved=resolved, organism=organism)
     if level == "full":
         return before - set(enabled)
     return removed - set(enabled)          # a dep the re-check restored was not really removed
 
 
-def restore_missing_recommended(enabled, disabled, resolved, vep_options, training_examples,
-                             user_query, retrieval_mode="keyword", assembly_override=None,
-                             species_override=None, violations_out=None):
-    # `resolved` is this function's own argument already, and it is what the re-check below gates on.
-    """Switch on any option the factor table RECOMMENDS here that the draft left out.
+def restore_missing_recommended(enabled, disabled, resolved, vep_options, user_query,
+                                assembly_override=None, species_override=None, violations_out=None,
+                                organism=None):
+    """Switch on every ungated `recommended` option not yet enabled, then re-run the checker.
 
-    Keyed on the RECOMMENDED bucket since 2026-08-19. It used to key on the internal `critical` tier,
-    which was the one part of the table an expert reviewed and rejected — see the RANK comment.
-
-    The checker has always been asymmetric. It REMOVES what cannot be right (species, assembly,
-    conflicts) and adds a dependency the configuration implies — but nothing ever checked that the
-    options the scenario actually REQUIRES are present. A short or truncated draft therefore shipped
-    under the heading "authoritative" with its must-haves quietly absent, and `--full` made it worse by
-    piling on add-ons while the core stayed missing. Observed on the README's own quickstart query: a
-    draft naming two options produced a configuration with every derivative predictor and none of the
-    distinct ones they derive from.
-
-    Treating the table as the authority when it says an option is NOT applicable, but not when it says
-    an option is ESSENTIAL, was never a defensible split; this applies the same rule in the other
-    direction. Restored options are reported like any other repair, never silently inserted, and the
-    checker runs again afterwards because a restored option can carry a dependency or conflict with
-    something the model did propose.
-
-    Returns the ids actually restored (an option the re-check then removed is not reported as restored).
-
-    `violations_out`: pass a list and the RE-CHECK's violations are appended to it. Under the single-pass
-    default the first checker pass sees an EMPTY set, so every gate removal in a run happens inside this
-    re-check -- and until 2026-09-15 its violation list was discarded, so a zebra finch lost SIFT to the
-    species-data gate with no line saying so.
+    Returns the ids that are still enabled after the re-check. `violations_out`, if given, receives
+    the re-check's violations. On the single-pass default the set starts empty, so this re-check is
+    where every gate removal happens.
     """
     if not resolved:
         return []
@@ -2571,23 +1792,18 @@ def restore_missing_recommended(enabled, disabled, resolved, vep_options, traini
     enabled.update(missing)
     for oid in missing:
         disabled.discard(oid)
-    # The re-check MUST see the same assembly the first pass did. Without it this function happily
-    # restored an option the assembly gate had just removed — a GRCh37 run got MANE back, which is the
-    # precise hazard the assembly field exists to prevent, reintroduced one step later.
-    v2 = check_and_fix_violations(enabled, disabled, vep_options, training_examples, user_query,
-                                  retrieval_mode=retrieval_mode, assembly_override=assembly_override,
-                                  species_override=species_override, resolved=resolved)
+    # Pass the same assembly as the first check, or a gated option (MANE on GRCh37) comes back.
+    v2 = check_and_fix_violations(enabled, disabled, vep_options, user_query,
+                                  assembly_override=assembly_override,
+                                  species_override=species_override, resolved=resolved,
+                                  organism=organism)
     if violations_out is not None:
         violations_out.extend(v2)
     return [oid for oid in missing if oid in enabled]
 
 
 def format_restored_recommended(restored, vep_options):
-    """Report recommended options the draft omitted. Empty string when the draft was complete.
-
-    Renamed from format_restored_critical on 2026-08-31. The mechanism it reports was moved onto the
-    RECOMMENDED bucket when the `critical` tier was deleted, and a name saying otherwise is how the
-    last set of stale readings survived a rename of the thing underneath them."""
+    """Report the options restore_missing_recommended added; empty string if none."""
     if not restored:
         return ""
     name_by_id = {o["id"]: o.get("name", o["id"]) for o in vep_options}
@@ -2598,26 +1814,22 @@ def format_restored_recommended(restored, vep_options):
     return "\n".join(lines)
 
 
-# Canonical CONFIG_SECTIONS ids -> the label on the COLLAPSIBLE TOGGLE the user clicks to open that
-# part of the form. Checked against the live form 2026-09-08: the six toggles are exactly these. The
-# form also carries h2 sub-headings inside each one (Transcript annotation, Pathogenicity
-# predictions, Splicing predictions, Conservation...), which is a level down and not what we name.
-# `filters` was "Filters" here, which is the h2 inside it; the toggle says "Filtering options".
+# CONFIG_SECTIONS id -> the label on the form's collapsible section toggle (live form, 2026-09-08).
+# These are the six toggles, one level above the h2 sub-headings inside them.
 _WEB_SECTION_LABELS = {
     "identifiers": "Identifiers", "variants_frequency_data": "Variants and frequency data",
     "additional_annotations": "Additional annotations", "predictions": "Predictions",
     "filters": "Filtering options", "advanced": "Advanced options"}
 
-# The two sections the form SPLITS into boxes. "Additional annotations" is seven boxes and
-# "Predictions" three, so naming only the section leaves the user opening every box to find one
-# checkbox. For these two the label also names the box, in the form's own words. The other four
-# sections have no boxes, so a second name would only repeat the first.
+# Sections the form splits into boxes (Additional annotations: 7, Predictions: 3). For these the
+# location also names the box.
 _SPLIT_SECTIONS = frozenset({"additional_annotations", "predictions"})
 
 
 def form_location(opt):
-    """Where an option sits on the web form, as the user will see it. Read off the live release-116
-    page on 2026-09-15 -- research/ensembl_docs_116/form_layout_live.json records how each was read.
+    """Where an option sits on the web form, in the form's own words.
+
+    Source: research/ensembl_docs_116/form_layout_live.json (live release-116 form).
 
         MANE          -> "Additional annotations › Transcript annotation"
         HGVS          -> "Identifiers section"
@@ -2635,47 +1847,26 @@ def form_location(opt):
     return f"{label} section"
 
 
-# TYPES, NOT TOOLS, where several tools answer the same question (round-2 item 11, Likhitha,
-# 2026-09-08): "we should recommend the suite/type of tool by category. (We particularly don't want
-# to endorse a commercial tool like Mastermind)." Options in these categories render as ONE line
-# naming the type and listing every member the species/assembly gates left standing — her template —
-# instead of a per-tool line each carrying its own reason. DISPLAY ONLY: the enabled set, the
-# generated command and every scored metric are untouched, because the other half of her item-11
-# question ("what should the accuracy figure become?") is still unanswered, so the tiers underneath
-# must not move yet.
-#
-# THE FORM'S BOXES, NOT OUR CATEGORIES (David, 2026-09-15). The lines used to carry labels we wrote --
-# "Pathogenicity predictors", "Splice-effect predictors", "Literature/citation evidence" -- beside the
-# form's own box name in brackets, so the user saw two names for one thing and only one of them was on
-# their screen. Grouping now keys on `web_form_subsection` and the line is labelled with that box.
-#
-# Only the two boxes that are a family of interchangeable tools group. "Literature/citation evidence"
-# is gone: its only member, Mastermind, sits in the form box "Phenotype data and citations" beside
-# Phenotypes, GO and Geno2MP, so labelling it with its box would print that box twice. It now prints as
-# an ordinary line. That changes nothing for item 11 -- a group of one already named the commercial
-# tool -- and whether Mastermind should be recommended at all is a pricing question, not a label.
+# Form boxes whose members are interchangeable tools. Enabled members render as one line per box
+# (recommend the type of tool, not one tool: Likhitha, round 2 item 11), labelled with the form's
+# box name (David, 2026-09-15). Display only: the enabled set and the command are unchanged.
 TYPE_GROUPED_BOXES = ("Pathogenicity predictions", "Splicing predictions")
 
 
-def format_corrected_config(enabled, disabled, vep_options, violations, resolved=None,
+def format_corrected_config(enabled, vep_options, violations, resolved=None,
                             reason_by_id=None, restored=(), size_value=None, assembly=None,
                             meta_notes=False, show_cli=True, species=None, show_optional=True):
-    """Render the authoritative post-checker configuration — the 'dispose' step, not just a warning.
+    """Render the final configuration the user applies: web-form lists, then the CLI command if asked.
 
-    check_and_fix_violations has already REPAIRED the option set in place (removed species/conflict
-    violations, auto-enabled dependencies); `enabled` here is that corrected set. We don't rewrite the
-    model's streamed draft prose above (editing free text / the generated command in place is fragile —
-    that's the structured-output job), so this block is the conflict-free, species-correct configuration
-    the user should actually apply, and it SUPERSEDES the draft wherever they differ.
+    `enabled` is the set already repaired by check_and_fix_violations. With `resolved`, options are
+    grouped by priority; without it, a flat list is printed.
     """
     flag_by_id = {o["id"]: o.get("cli_flag", "") for o in vep_options}
     name_by_id = {o["id"]: o.get("name", o["id"]) for o in vep_options}
     on = sorted(enabled)
     lines = ["", "=" * 60,
              "  YOUR VEP CONFIGURATION"]
-    # Count EVERY repair. This used to report len(violations) alone, so a run that resolved three
-    # conflicts and switched two omitted options back on announced "corrected 3 things" above a
-    # block listing five changes.
+    # Count removals and restores together.
     n_fixed = len(violations) + len(restored)
     if n_fixed:
         parts = []
@@ -2688,32 +1879,16 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
                      f"{'s' if n_fixed != 1 else ''}: {', '.join(parts)}){hint}")
     lines.append("=" * 60)
     if resolved:
-        # Essential-vs-optional view: group the SAME corrected set by this scenario's priorities.
         tiers = tier_by_importance(enabled, resolved)
-        # TWO buckets, matching the two tiers (2026-08-19). There used to be four: RECOMMENDED,
-        # "ADD-ONS (enabled)", "OTHER (enabled)" and "AVAILABLE ADD-ONS". The middle two were
-        # artefacts of the draft — options the MODEL switched on that the table rates `optional`, or
-        # prices for no factor here. An add-on the model happened to enable is still an add-on, and
-        # --minimal already strips exactly those, so the split contradicted the config levels.
-        # TWO sections, and the first one IS the command. There used to be four buckets:
-        # RECOMMENDED, "ADD-ONS (enabled)", "OTHER (enabled)" and "AVAILABLE ADD-ONS". The middle two
-        # were both switched ON, so the user read three lists to learn what to tick and the generated
-        # command silently spanned all three. Now everything the run switches on is one list,
-        # annotated with why it is there, and everything else applicable is the second.
+        # Two sections: everything switched on (one list, matching the command), then OPTIONAL.
         core = set(tiers["recommended"]) | set(tiers["unpriced"])
         extra = set(tiers["addons_on"])
         switch_on = sorted(core | extra)
-        # ALREADY ON WHEN THE FORM LOADS (mentor instruction, 2026-09-13). An option the form ships
-        # ticked is a confirmation, not a recommendation: it leaves the switch-on list and is named
-        # once at the end. `enabled` is untouched, so dependencies, the checker and the CLI command
-        # (which has no defaults) still carry it. Species-aware -- see _HUMAN_ONLY_FORM_DEFAULTS.
+        # Options the form ships ticked move to a closing "already on" line (mentor, 2026-09-13).
+        # `enabled` keeps them, so the CLI command still carries them. Species-aware.
         already_on = {oid for oid in switch_on if _form_default_on(oid, vep_options, species)}
         switch_on = [oid for oid in switch_on if oid not in already_on]
-        # WEB FORM FIRST, CLI SECOND (mentor feedback, 2026-09-07, public-repo test). The old lines
-        # mixed the two surfaces -- "Transcript database to use [core_type] --refseq | --merged | ..."
-        # read as internal labels plus flags a web user cannot type anywhere. Web users get the
-        # form's own control names and section headings here; every flag now lives only in the CLI
-        # block below. `sect_by_id` is the InputForm.pm section, so "where on the form" is answered.
+        # Web-form names and locations here; flags appear only in the CLI block (mentor, 2026-09-07).
         sect_by_id = {o["id"]: form_location(o) for o in vep_options}
         defval_by_id = {o["id"]: o.get("web_default_value") for o in vep_options}
         box_by_id = {o["id"]: o.get("web_form_subsection") for o in vep_options}
@@ -2722,9 +1897,7 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
                            for o in vep_options}
         dep_by_id = {o["id"]: o.get("deprecated") for o in vep_options}
         unpriced = set(tiers["unpriced"])
-        # A grouped member the table prices NOTHING for stays individual: its "model-suggested"
-        # warning below matters more than the tidier line, and folding it in would launder a
-        # model-only pick into the type's listing.
+        # An unpriced member stays on its own line so its "model-suggested" tag is shown.
         grouped_on = {oid for oid in switch_on
                       if box_by_id.get(oid) in TYPE_GROUPED_BOXES and oid not in unpriced}
         grouped_boxes = {box_by_id[oid] for oid in grouped_on}
@@ -2735,9 +1908,7 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
             for oid in switch_on:
                 if oid in grouped_on:
                     continue
-                # An option only the MODEL wants -- the table prices nothing for it here -- must not
-                # render identically to the table's own picks. The mentor-reported case was `pick`
-                # on a rare-disease query, shown as confidently as ClinVar.
+                # Tag options the table does not price here, so they do not look like table picks.
                 tag = ("   (add-on)" if oid in extra else
                        "   (model-suggested)"
                        if oid in unpriced else "")
@@ -2745,34 +1916,28 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
                 dep = (f"   (deprecated — {dep_by_id[oid].split(';')[0]})"
                        if dep_by_id.get(oid) else "")
                 lines.append(f"  {name_by_id.get(oid, oid)}{where}{tag}{dep}")
-                # A radiolist recommended AT ITS OWN DEFAULT is an instruction to leave it alone,
-                # and the output should say so instead of making the user hunt for what to change.
+                # A radiolist recommended at its default: tell the user to leave it.
                 if oid == "core_type" and (defval_by_id.get(oid) or "core") == "core":
                     lines.append("      keep the form's default: Ensembl/GENCODE transcripts")
                 if oid in ("pick", "pick_allele", "per_gene", "most_severe", "summary"):
                     lines.append(f"      set the 'Restrict results' drop-down to: {oid}")
-                # The model's per-option prose is its own commentary, of uneven quality, and it
-                # triples the length of the list a user is trying to work through on the form.
-                # --explain keeps it for whoever is auditing the draft.
+                # The model's per-option prose (--two-pass) shows only under --explain.
                 if meta_notes and (reason_by_id or {}).get(oid):
-                    lines.append(f"      {reason_by_id[oid]}")   # guarded above
-                # A form control whose VALUE depends on the variant size. Naming the file is the whole
-                # point of splitting the passes: "switch CADD on" is not actionable when the drop-down
-                # offers four files and only one of them scores what this pass is about.
+                    lines.append(f"      {reason_by_id[oid]}")
+                # A drop-down whose value depends on variant size (e.g. which CADD file).
                 _choice, _ = size_dependent_choice(oid, size_value, vep_options, assembly)
                 if _choice:
                     lines.append(f"      drop-down: {_choice}")
-            # One line per TYPE, after the singles. Members switched on are starred; the rest of
-            # the type rides on the same line as available, so no member reads as our pick.
+            # One line per grouped box, after the single options.
             for box in TYPE_GROUPED_BOXES:
-                label = box                                    # the form's own words
+                label = box
                 on_members = [oid for oid in switch_on if oid in grouped_on
                               and box_by_id.get(oid) == box]
                 if not on_members:
                     continue
                 off_members = [oid for oid in sorted(tiers["addons_offered"])
                                if box_by_id.get(oid) == box]
-                # The line is already named after the box, so the bracket gives only the section.
+                # The line names the box, so the bracket gives only the section.
                 sect = next((sec_label_by_id.get(oid) for oid in on_members
                              if sec_label_by_id.get(oid)), "")
                 for_clause = (f" for {species}" if species and species != "unknown" else "")
@@ -2780,8 +1945,7 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
                     for_clause += f" ({assembly})"
                 picked = ", ".join(name_by_id.get(o, o) for o in on_members)
                 lines.append(f"  {label}: {picked}" + (f"   ({sect})" if sect else ""))
-                # The rest of the family, and the "any subset works" caveat, are --explain material:
-                # true, and not what someone filling in the form needs on the screen.
+                # Under --explain, also list the unselected members; selected ones are starred.
                 if meta_notes:
                     listing = ", ".join([f"{name_by_id.get(o, o)}*" for o in on_members]
                                         + [name_by_id.get(o, o) for o in off_members])
@@ -2810,8 +1974,7 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
             lines.append(f"ALREADY ON when the form loads — leave ticked  [{len(already_on)}]")
             lines.append("  " + ", ".join(name_by_id.get(oid, oid) for oid in sorted(already_on)))
         if meta_notes:
-            # Provenance for --explain readers. Out of the default output on mentor feedback
-            # (2026-09-07): it describes OUR decision-making, not the user's next action.
+            # --explain only (mentor, 2026-09-07).
             lines.append("")
             lines.append("  The recommended/add-on split comes from the PROVISIONAL factor priority "
                          "table — VEP itself ranks nothing.")
@@ -2824,9 +1987,7 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
             lines.append("  (none)")
     flag_list, choices = cli_flags_for(on, vep_options)
     if not show_cli:
-        # WEB-FORM-ONLY BY DEFAULT (mentor feedback, 2026-09-07): the target of record is the web
-        # form, and a web user cannot type a flag anywhere. --cli appends the command for the users
-        # who do run VEP locally; the JSON output's generated_command is unaffected either way.
+        # Web form only by default (mentor, 2026-09-07); --cli adds the command.
         lines.append("=" * 60)
         return "\n".join(lines)
     lines.append("")
@@ -2839,38 +2000,22 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
     return "\n".join(lines)
 
 
-# --- Structured-output assembler (deterministic ✓/✗ → schema-valid JSON) ---------------------
-# Exp 8 showed the local model cannot reliably emit JSON, but it reliably emits the
-# `✓/✗ [source: id]` format. So OUR code assembles the schema-valid JSON from the parsed records +
-# the checker's corrected set + KB factual fields — valid by construction, the LLM never emits JSON.
-# Target contract: work/output_schema/vep_recommendation.schema.json (+ SCHEMA_DESIGN.md mapping table).
+# --- Web-form control values -----------------------------------------------------------------
 
-# The 'Restrict results' dropdown: these catalogue ids are mutually-exclusive VALUES of one control
-# whose HTML name is `summary` (InputForm.pm). web_form_field='summary', value=<the id>.
-
-# Native non-checkbox controls (dropdown / radiolist / string): action='set_value' with this default
-# value (the InputForm.pm web default) unless the model specified one. `core_type` handled separately.
+# Default values for native non-checkbox controls (InputForm.pm web defaults). Also fills
+# "[b|p|s]"-style placeholders in cli_flags_for. `core_type` is handled separately.
 _SET_VALUE_DEFAULTS = {
     "sift": "b", "polyphen": "b", "check_existing": "yes", "shift_3prime": "shift_3prime",
     "distance": "1000", "buffer_size": "5000", "frequency": "common",
 }
 
-# Species-scoped controls whose HTML name is suffixed with the resolved species at runtime.
-_SPECIES_SCOPED_IDS = {"regulatory", "cell_type"}
-
-# infer_species() word -> InputForm species form-name suffix (for `regulatory_<Species>` etc.).
-_SPECIES_FORM_NAME = {
-    "human": "Homo_sapiens", "mouse": "Mus_musculus", "rat": "Rattus_norvegicus",
-    "zebrafish": "Danio_rerio", "pig": "Sus_scrofa", "dog": "Canis_lupus_familiaris",
-    "chicken": "Gallus_gallus", "cow": "Bos_taurus",
-}
 
 _ASSEMBLY_RE = re.compile(r"\b(GRCh[\s_-]?3[78]|hg38|hg19|GRCm39|GRCm38|GRCz11|Rnor_6\.0|mRatBN7\.2)\b",
                           re.IGNORECASE)
 
 
 def _first_sentence(text: str, limit: int = 240) -> str:
-    """First sentence (or a bounded prefix) of a description — a non-empty reason fallback."""
+    """First sentence of `text`, ending in a period, cut to `limit` characters."""
     text = (text or "").strip()
     if not text:
         return ""
@@ -2878,59 +2023,11 @@ def _first_sentence(text: str, limit: int = 240) -> str:
     return (head if head.endswith(".") else head + ".")[:limit]
 
 
-# ---------------------------------------------------------------------------
-# Semantic retrieval (lazy-loaded, only when --semantic is used)
-# ---------------------------------------------------------------------------
-
-_semantic_model = None
-_corpus_embeddings = None
-_corpus_examples = None
-_options_embeddings = None
-_options_list = None
-
-
-def _get_semantic_model():
-    """Lazy-load the sentence-transformers model."""
-    global _semantic_model
-    if _semantic_model is None:
-        from sentence_transformers import SentenceTransformer
-        _semantic_model = SentenceTransformer("BAAI/bge-small-en-v1.5")
-    return _semantic_model
-
-
-def _get_corpus_embeddings(training_examples):
-    """Compute and cache corpus embeddings for training examples."""
-    global _corpus_embeddings, _corpus_examples
-    if _corpus_embeddings is None or _corpus_examples is not training_examples:
-        model = _get_semantic_model()
-        _corpus_examples = training_examples
-        texts = [
-            f"{ex['user_query']} {ex['use_case_category']} {ex.get('justification', '')}"
-            for ex in training_examples
-        ]
-        _corpus_embeddings = model.encode(texts)
-    return _corpus_embeddings
-
-
-def _get_options_embeddings(vep_options):
-    """Compute and cache embeddings for VEP options."""
-    global _options_embeddings, _options_list
-    if _options_embeddings is None or _options_list is not vep_options:
-        model = _get_semantic_model()
-        _options_list = vep_options
-        texts = [
-            f"{opt['description']} {opt.get('when_to_use', '')} {opt.get('when_not_to_use', '')}"
-            for opt in vep_options
-        ]
-        _options_embeddings = model.encode(texts)
-    return _options_embeddings
-
-
 def build_explain_result_prompt(consequences):
     """Build system prompt for the VEP output explainer mode."""
     consequence_text = []
     for term, info in consequences.items():
-        if term.startswith("_"):      # `_source` and friends are metadata, not consequence terms
+        if term.startswith("_"):      # metadata keys such as `_source`
             continue
         impact = f" (impact: {info['impact']})" if info.get("impact") else ""
         consequence_text.append(f"- **{term}**{impact}: {info['explanation']}")
@@ -2952,116 +2049,20 @@ Cite the consequence term definitions above. Be specific and educational.
 Keep answers concise but thorough. Use the [term: X] format to cite consequence terms."""
 
 
-# ---------------------------------------------------------------------------
-# Decision trace (Layer 1 + 2: retrieval transparency + provenance)
-# ---------------------------------------------------------------------------
+# --- Decision trace --------------------------------------------------------
 
-def print_decision_trace(user_query, vep_options, training_examples,
-                         retrieval_mode="keyword", factor_tuple=None, two_pass=False):
-    """Print the retrieval and reasoning trace for --explain mode.
-
-    `factor_tuple` is what Layer 2 explains. It is optional so the function still runs before the
-    classifier has spoken, but Layer 2 has nothing to say without it."""
+def print_decision_trace(user_query, vep_options, factor_tuple=None):
+    """Print, for --explain, why each option is recommended, offered, gated or unpriced."""
     print("=" * 60)
-    print(f"  DECISION TRACE (--explain mode, retrieval={retrieval_mode})")
+    print("  DECISION TRACE (--explain mode)")
     print("=" * 60)
-
-    # Layer 1 describes the corpus put into the DRAFT prompt. The single-pass default builds no
-    # such prompt, so the whole layer is --two-pass only (it used to announce "All 23 worked
-    # examples are sent" on a run that sent none).
     print(f"Query: \"{user_query}\"")
-    if two_pass:
-        if two_pass:
-            print("\n--- Layer 1: Which worked examples the model saw ---")
-        if two_pass and retrieval_mode == "all":
-            # Nothing is selected, so there is no ranking to explain. This block used to print all 23
-            # examples ordered by a stopword-inclusive word count, which implied a relevance judgement
-            # that neither happened nor mattered.
-            print(f"All {len(training_examples)} worked examples are sent — none is selected or ranked, "
-                  f"so there is no retrieval decision to explain here.\n")
-        elif two_pass and retrieval_mode == "semantic":
-            print("Ranked by BGE embedding cosine similarity (0-1).\n")
-        else:
-            # Be honest about what the number is. It used to print as `score=3`, which reads like a
-            # calibrated relevance metric; it is a count of whitespace-separated words the query and the
-            # example have in common, with no stopword removal, no stemming and no length normalisation —
-            # so "are" and "which" count for as much as "mouse", and a longer example matches more by
-            # having more words. Two examples tying at 3 is common and the tie is broken by list order.
-            print("Ranked by how many words the query and the example share — a raw count, so common\n"
-                  "words count as much as informative ones. Experiment 1 measured selective retrieval as\n"
-                  "no better than using every example, so this is WHAT was picked, not what decided the\n"
-                  "answer.\n")
-
-        if retrieval_mode == "semantic":
-            from sentence_transformers.util import cos_sim
-
-            model = _get_semantic_model()
-            corpus_embs = _get_corpus_embeddings(training_examples)
-            query_emb = model.encode([user_query])
-            similarities = cos_sim(query_emb, corpus_embs)[0]
-
-            all_scored = [
-                (float(similarities[i]), training_examples[i])
-                for i in range(len(training_examples))
-            ]
-            all_scored.sort(key=lambda x: x[0], reverse=True)
-
-            for rank, (score, ex) in enumerate(all_scored, 1):
-                marker = " ← SELECTED" if rank <= 2 else ""
-                print(f"  #{rank} [{ex['id']}] cosine_similarity={score:.4f}{marker}")
-                print(f"      Use case: {ex['use_case_category']}")
-                print()
-
-            # Also show option relevance
-            print("--- Layer 1b: Option Semantic Relevance ---")
-            options_embs = _get_options_embeddings(vep_options)
-            opt_sims = cos_sim(query_emb, options_embs)[0]
-            opt_scored = [
-                (float(opt_sims[i]), vep_options[i])
-                for i in range(len(vep_options))
-            ]
-            opt_scored.sort(key=lambda x: x[0], reverse=True)
-            for rank, (score, opt) in enumerate(opt_scored, 1):
-                marker = " ← INCLUDED" if rank <= 10 else ""
-                print(f"  #{rank} {opt['id']:20s} cosine_similarity={score:.4f}{marker}")
-            print()
-        elif retrieval_mode != "all":
-            # Keyword mode. Skipped under "all": nothing was selected, so ranking 23 examples by a
-            # stopword-inclusive word count would describe a decision that did not happen.
-            query_words = set(user_query.lower().split())
-            all_scored = []
-            for ex in training_examples:
-                ex_text = f"{ex['user_query']} {ex['use_case_category']} {ex.get('justification', '')}".lower()
-                ex_words = set(ex_text.split())
-                overlap = query_words & ex_words
-                all_scored.append((len(overlap), overlap, ex))
-            all_scored.sort(key=lambda x: x[0], reverse=True)
-
-            for rank, (score, matched_words, ex) in enumerate(all_scored, 1):
-                marker = "  ← SELECTED" if rank <= 2 else ""
-                shared = ", ".join(sorted(matched_words)[:10]) if matched_words else "nothing"
-                print(f"  #{rank} [{ex['id']}]  {score} shared word{'' if score == 1 else 's'}: "
-                      f"{shared}{marker}")
-                print(f"      Use case: {ex['use_case_category']}")
-                print()
-
-    # Layer 2: WHY each option came out the way it did, for THIS query's factor tuple.
-    #
-    # REWRITTEN 2026-08-19. The previous version priced every option against `priority_by_use_case`,
-    # the legacy seven-use-case table, picking the use case from the top-scoring retrieved EXAMPLE
-    # rather than from the query. On "mouse tumour, coding variants" it reported
-    # `rare_disease_germline`, then printed three tiers that no longer exist. It described neither the
-    # query nor the scheme the engine resolves with.
-    #
-    # This prints the derivation instead: which rule raised each option, what else voted, and which
-    # gate removed it. All of it was already computed inside intent_priorities and discarded at the
-    # `strongest(labels)` max; the `trace` parameter added alongside this keeps it.
     print("--- Layer 2: Why each option is where it is ---")
     if factor_tuple is None:
         print("  (needs the query's factor tuple; run without --explain-only, or pass one in)\n")
         print("=" * 60)
         return
-    # `_`-prefixed keys are metadata (e.g. _request_type), not factors — same convention active_values uses.
+    # `_`-prefixed keys are metadata (e.g. _request_type), not factors.
     _shown = ", ".join(f"{k}={v}" for k, v in sorted(factor_tuple.items())
                        if v and not k.startswith("_"))
     print(f"Factors read from the query: {_shown}\n")
@@ -3069,7 +2070,8 @@ def print_decision_trace(user_query, vep_options, training_examples,
     tr = {}
     intent_priorities(factor_tuple, vep_options, load_priority_by_factor(vep_options),
                       load_factors(), trace=tr)
-    prov = {o["id"]: (o.get("provenance") or "") for o in vep_options}
+    # `provenance` records each field's source; show the one for the description.
+    prov = {o["id"]: (o.get("provenance") or {}).get("description", "") for o in vep_options}
 
     on = sorted(o for o, t in tr.items() if t["priority"] == "recommended")
     add = sorted(o for o, t in tr.items() if t["priority"] == "optional")
@@ -3085,7 +2087,7 @@ def print_decision_trace(user_query, vep_options, training_examples,
             print(f"    {'':20s} also raised by "
                   + "; ".join(f"{f}={v} ({l})" for f, v, l in others))
         if prov.get(oid):
-            print(f"    {'':20s} in our catalogue: {prov[oid].split(';')[0][:88]}")
+            print(f"    {'':20s} description from: {prov[oid][:88]}")
 
     print(f"\nADD-ONS — offered, off by default  [{len(add)}]")
     for oid in add:
@@ -3108,21 +2110,14 @@ def print_decision_trace(user_query, vep_options, training_examples,
     print()
 
 
-# ---------------------------------------------------------------------------
-# Result saving
-# ---------------------------------------------------------------------------
+# --- Result saving ---
 
 def save_result(query, response, mode="recommend", warnings="", reasoning=""):
-    """Save the recommendation to the results directory as markdown.
+    """Write the query, response, checker warnings and model reasoning to a markdown file.
 
-    Args:
-        query: The user's original query.
-        response: The LLM response text.
-        mode: 'recommend' or 'explain'.
-        warnings: Optional constraint violation warnings to append.
+    mode is 'recommend' or 'explain'. The directory is VEP_RESULTS_DIR, else BASE_DIR/results.
     """
-    # FIX: honour VEP_RESULTS_DIR (like evaluate.py) so demo + benchmark write to the same place;
-    # microsecond timestamp so two runs in the same second don't silently overwrite each other.
+    # Microsecond timestamp so two runs in the same second do not overwrite each other.
     results_dir = Path(os.environ.get("VEP_RESULTS_DIR", BASE_DIR / "results"))
     results_dir.mkdir(parents=True, exist_ok=True)
 
@@ -3137,8 +2132,6 @@ def save_result(query, response, mode="recommend", warnings="", reasoning=""):
             f.write(f"## {'Recommendation' if mode == 'recommend' else 'Explanation'}\n{response}\n")
             if warnings:
                 f.write(f"\n## Constraint Check\n{warnings}\n")
-            # The model's own chain of thought. Kept because it is the actual decision process,
-            # and it was previously discarded at the stream rather than recorded anywhere.
             if reasoning:
                 f.write(f"\n## Model reasoning\n\n```\n{reasoning}\n```\n")
         print(f"\nResult saved to: {filename}")
@@ -3146,20 +2139,15 @@ def save_result(query, response, mode="recommend", warnings="", reasoning=""):
         print(f"\nWarning: Could not save result to {filename}: {e}")
 
 
-# ---------------------------------------------------------------------------
-# LLM streaming
-# ---------------------------------------------------------------------------
+# --- LLM streaming ---
 
-# The answer and the model's reasoning share one generation budget, so the cap has to cover BOTH. At
-# 4096 a long think could consume most of it and leave the answer truncated mid-sentence — observed on
-# the README's own query, where the draft stopped at "Reason: Provides standard" and only two options
-# survived. Measured need is ~1300-1700 reasoning + ~1100 answer tokens, and reasoning length varies
-# run to run, so the cap is set well clear of the worst case. It costs nothing when unused.
+# One budget covers reasoning plus answer (measured ~1300-1700 + ~1100 tokens), with headroom because
+# reasoning length varies run to run.
 _STREAM_MAX_TOKENS = 8192
 
 
 def _delta_reasoning(delta):
-    """The reasoning fragment in a stream delta, across the field names different servers use."""
+    """Return the reasoning fragment in a stream delta, across the field names different servers use."""
     for attr in ("reasoning", "reasoning_content"):
         val = getattr(delta, attr, None)
         if val:
@@ -3167,51 +2155,13 @@ def _delta_reasoning(delta):
     return None
 
 
-def _stream_native(model, system_prompt, user_message, think):
-    """Stream from Ollama's OWN /api/chat, the only endpoint that honours `think`.
-
-    The OpenAI-compatible /v1/chat/completions layer silently DROPS the parameter — passing it through
-    `extra_body` changes nothing, which is why disabling reasoning first appeared to be impossible.
-    Everything else is kept identical to the compat path so the only difference is the thinking phase.
-    """
-    import urllib.request
-    body = {
-        "model": model, "stream": True, "keep_alive": KEEP_ALIVE, "think": think,
-        "messages": [{"role": "system", "content": system_prompt},
-                     {"role": "user", "content": user_message}],
-        "options": {"num_predict": _STREAM_MAX_TOKENS},
-    }
-    req = urllib.request.Request(_native_chat_url(), data=json.dumps(body).encode(),
-                                 headers={"Content-Type": "application/json"})
-    answer, thinking = "", ""
-    with urllib.request.urlopen(req, timeout=900) as r:
-        for raw in r:                                  # newline-delimited JSON, one object per chunk
-            raw = raw.strip()
-            if not raw:
-                continue
-            msg = json.loads(raw).get("message", {})
-            if msg.get("thinking"):
-                thinking += msg["thinking"]
-            if msg.get("content"):
-                answer += msg["content"]
-                # THE DRAFT IS NOT PRINTED (2026-08-19) — see the note in stream_response. This is the
-                # path the deployed model actually takes: `think` defaults to False on gemma4:26b, so
-                # `think is not None` sends every real run through here rather than the compat path.
-                if sys.stdout.isatty():
-                    print(f"\r  drafting… {len(answer) // 4} tokens", end="", flush=True)
-    if sys.stdout.isatty():
-        print("\r" + " " * 40 + "\r", end="", flush=True)
-    return answer, thinking
-
-
-# --- The stage-B draft path lives in legacy/two_pass.py ----------------------------------------------
-#
-# Loaded only when something asks for it: --two-pass, or one of the harnesses / the web app that still
-# call the draft parser by name. A default run never imports it. See legacy/two_pass.py's docstring.
+# --- Draft path (legacy/two_pass.py) ---
+# Loaded only for --two-pass, or when a harness calls a draft helper by name.
 _TWO_PASS = None
 
 
 def _two_pass():
+    """Import legacy/two_pass.py on first use, bind it to this module's globals, and return it."""
     global _TWO_PASS
     if _TWO_PASS is None:
         import importlib
@@ -3223,75 +2173,25 @@ def _two_pass():
     return _TWO_PASS
 
 
-def build_option_aliases(*args, **kwargs):
-    """Stage-B draft path; the function lives in legacy/two_pass.py and is loaded on first use."""
-    return _two_pass().build_option_aliases(*args, **kwargs)
+# Names defined in legacy/two_pass.py that harnesses still reach as `va.<name>`.
+_LEGACY_NAMES = {
+    "build_option_aliases", "_match_option", "format_marker_overrides", "extract_recommendations_detailed",
+    "extract_recommendations", "build_recommendation_json", "tier_options", "build_system_prompt",
+    "_get_semantic_model", "_get_corpus_embeddings", "_get_options_embeddings",
+}
 
 
-def _match_option(*args, **kwargs):
-    """Stage-B draft path; the function lives in legacy/two_pass.py and is loaded on first use."""
-    return _two_pass()._match_option(*args, **kwargs)
+def __getattr__(name):
+    if name in _LEGACY_NAMES:
+        return getattr(_two_pass(), name)
+    raise AttributeError(f"module 'vep_assistant' has no attribute {name!r}")
 
 
-def format_marker_overrides(*args, **kwargs):
-    """Stage-B draft path; the function lives in legacy/two_pass.py and is loaded on first use."""
-    return _two_pass().format_marker_overrides(*args, **kwargs)
+def stream_response(client, model, system_prompt, user_message):
+    """Stream an LLM call; return (answer_text, reasoning_text).
 
-
-def extract_recommendations_detailed(*args, **kwargs):
-    """Stage-B draft path; the function lives in legacy/two_pass.py and is loaded on first use."""
-    return _two_pass().extract_recommendations_detailed(*args, **kwargs)
-
-
-def extract_recommendations(*args, **kwargs):
-    """Stage-B draft path; the function lives in legacy/two_pass.py and is loaded on first use."""
-    return _two_pass().extract_recommendations(*args, **kwargs)
-
-
-def build_recommendation_json(*args, **kwargs):
-    """Stage-B draft path; the function lives in legacy/two_pass.py and is loaded on first use."""
-    return _two_pass().build_recommendation_json(*args, **kwargs)
-
-
-def tier_options(*args, **kwargs):
-    """Stage-B draft path; the function lives in legacy/two_pass.py and is loaded on first use."""
-    return _two_pass().tier_options(*args, **kwargs)
-
-
-def build_system_prompt(*args, **kwargs):
-    """Stage-B draft path; the function lives in legacy/two_pass.py and is loaded on first use."""
-    return _two_pass().build_system_prompt(*args, **kwargs)
-
-
-
-def stream_response(client, model, system_prompt, user_message, think=None):
-    """Call the LLM with streaming; return (answer_text, reasoning_text).
-
-    `think=False` skips the reasoning phase entirely, via the native endpoint. Measured over the 31-row
-    set, single-threaded: 34.9s -> 18.1s per query with enable-F1 unchanged (78 -> 79%) and critical-recall
-    slightly BETTER (92 -> 95%). Nothing is traded, so this is the default for the deployed model; pass
-    --think to get the reasoning back. On the small model the gap is larger still and in the same
-    direction (e4b gains 13 points of F1 with thinking off), so reasoning amplifies capability rather
-    than substituting for it. See EXPERIMENTS.md Exp 14.
-
-    THE DEPLOYED MODEL THINKS BEFORE IT ANSWERS, AND THAT USED TO LOOK LIKE A HANG. `gemma4:26b` emits
-    its chain of thought into `delta.reasoning`, not `delta.content`. This function previously read only
-    `delta.content`, so for the 14-20 seconds the model spent reasoning it discarded every chunk and
-    printed nothing: measured 357 consecutive chunks with no content, then the answer starting at 14.3 s.
-    From the outside that is indistinguishable from a stalled process, and it is the single biggest
-    reason the tool felt unusable.
-
-    So reasoning is now consumed as it arrives, surfaced as a live token count, and returned to the
-    caller. Returning it matters beyond the progress display: it is the model's actual decision process,
-    which is precisely what `--explain` claims to show and previously could not, because it was thrown
-    away here.
-
-    CAVEAT (unchanged): sets no temperature, so Ollama's default applies and the demo path is
-    nondeterministic and at a different temperature than evaluate.py's — demo behaviour is not
-    benchmarked behaviour.
+    Sets no temperature, so Ollama's default applies and output is nondeterministic.
     """
-    if think is not None:
-        return _stream_native(model, system_prompt, user_message, think)
     response_text, reasoning_text = "", ""
     answering = False
     _tty = sys.stdout.isatty()
@@ -3313,10 +2213,8 @@ def stream_response(client, model, system_prompt, user_message, think=None):
         thought = _delta_reasoning(delta)
         if thought and not answering:
             reasoning_text += thought
-            # One rewritten line, so the thinking phase is visibly alive without burying the answer.
-            # ONLY on a terminal: `\r` overwrites in place there, but when stdout is a pipe or a file it
-            # is just another character, so every update survives and buries the actual answer under
-            # thousands of progress lines (34 KB of them, measured).
+            # Live counter on a terminal only: off a tty `\r` does not overwrite, so every update
+            # would pile up in the output.
             if _tty:
                 print(f"\r  thinking… {len(reasoning_text) // 4} tokens", end="", flush=True)
         if delta.content:
@@ -3325,29 +2223,21 @@ def stream_response(client, model, system_prompt, user_message, think=None):
                       else f"  (thought for ~{len(reasoning_text) // 4} tokens)")
             answering = True
             response_text += delta.content
-            # THE DRAFT IS NO LONGER PRINTED (2026-08-19). It is pre-checker, pre-gate and
-            # pre-restore, so it is wrong by construction — which is why the corrected block below it
-            # had to say "use THIS, not the draft above". Showing a configuration and then telling the
-            # user to ignore it is worse than not showing it. What the draft is still FOR is its
-            # per-option Reason: prose, which is carried across onto the corrected set.
-            # Streaming still drives a live counter, because the generate phase is ~40 s and silence
-            # that long reads as a hang — the same reason the thinking counter exists above.
+            # The draft is not printed: it is pre-checker, so it can disagree with the final
+            # configuration. A counter shows the call is alive.
             if _tty:
                 print(f"\r  drafting… {len(response_text) // 4} tokens", end="", flush=True)
     if _tty and answering:
         print("\r" + " " * 40 + "\r", end="", flush=True)
     if reasoning_text and not response_text:
-        # The whole budget went on thinking and no answer survived. Say so: silently returning "" sends
-        # an empty draft into the parser, which reads as "the model recommended nothing".
+        # Say so: an empty answer would otherwise read as "the model recommended nothing".
         print(f"\r  the model spent its entire generation budget (~{len(reasoning_text) // 4} tokens) "
               f"reasoning and produced no answer." + " " * 8)
     print()
     return response_text, reasoning_text
 
 
-# ---------------------------------------------------------------------------
-# Main entry points
-# ---------------------------------------------------------------------------
+# --- CLI entry points ---
 
 _CONTEXT_FLAGS = {"--species": "species", "--origin": "origin",
                   "--size": "variant_size_class", "--assembly": "assembly"}
@@ -3355,10 +2245,9 @@ _CONTEXT_CHOICES = {"assembly": ["GRCh37", "GRCh38"]}
 
 
 def _parse_context_flags(args):
-    """Pull `--species human --size structural-CNV ...` out of argv. Returns (context, error_or_None).
+    """Read --species/--origin/--size/--assembly from argv. Returns (context, error_or_None).
 
-    Values are validated against the factor scheme rather than accepted blindly: a typo that silently
-    did nothing would be worse than no flag at all, since the user would believe they had said it."""
+    Values are validated so a typo fails loudly instead of being silently ignored."""
     ctx = {}
     for i, a in enumerate(args):
         key = _CONTEXT_FLAGS.get(a.split("=", 1)[0])
@@ -3367,15 +2256,11 @@ def _parse_context_flags(args):
         val = a.split("=", 1)[1] if "=" in a else (args[i + 1] if i + 1 < len(args) else "")
         allowed = _CONTEXT_CHOICES.get(key) or FACTOR_VALUES.get(key, [])
         if key == "assembly":
-            # The prose reader accepts hg19/hg38 and any casing (_ASSEMBLY_ALIASES); the flag must
-            # not reject the same tokens it would have read out of the query text.
+            # Accept the same aliases (hg19/hg38, any casing) the prose reader accepts.
             val = _ASSEMBLY_ALIASES.get(re.sub(r"[\s_-]", "", val.lower()), val)
         elif key in MULTI_FACTORS:
-            # A multi-select factor must be STATEABLE at its honest value. `variant_size_class` is
-            # multi precisely because a WGS callset holds both classes — so the flag accepts `both`,
-            # and `small+structural-CNV` (or comma) for the general case. Rejecting the value the
-            # assume-policy itself guesses would force a user back through the classifier to say
-            # something the scheme already believes.
+            # A multi-select factor takes `both`, or values joined with + or comma
+            # (e.g. `small+structural-CNV` for a WGS callset).
             parts = allowed if val.lower() == "both" else re.split(r"[+,]", val)
             vals = [next((v for v in allowed if v.lower() == x.strip().lower()), x.strip())
                     for x in parts if x.strip()]
@@ -3396,46 +2281,23 @@ def _parse_context_flags(args):
 
 
 def run_recommend(client, model, vep_options, training_examples, user_query,
-                   explain=False, skip_check=False, retrieval_mode="keyword", level="standard",
-                   think=False, factor_think=False, clarify="ask", context=None, show_cli=False,
-                   single_pass=True):
-    """Run the recommendation mode (default).
+                  explain=False, level="standard", factor_think=False, clarify="ask", context=None,
+                  show_cli=False, single_pass=True):
+    """Classify the query, resolve and check the options, print the web-form configuration and save it.
 
-    Args:
-        skip_check: If True, skip the post-hoc constraint checker.
-        retrieval_mode: "keyword" or "semantic".
-        level: "minimal" (smallest runnable set), "standard" (default), or "full" (add every add-on).
+    level: "minimal" (only the options you must tick), "standard" (default), or "full" (every add-on).
+    `training_examples` and `single_pass=False` serve only the --two-pass draft call (legacy/two_pass.py).
     """
-    # NOTE the trace is printed AFTER classification, further down. Layer 2 explains the derivation
-    # for this query's factor tuple, which does not exist yet at this point in the function.
-
-    # Classify the query into factor values FIRST, so the option block can carry the priority that
-    # applies to this scenario rather than the flat table of legacy use-case labels. A classifier
-    # failure is non-fatal: factor_tuple stays None and the prompt falls back to the old block.
-    # Say what is happening first: on the default settings this call reuses the recommendation model,
-    # which takes a good ten seconds to answer, and it runs before anything else is printed. Silence
-    # that long at startup reads as a hang.
-    # The elapsed seconds are printed on the same line rather than kept for a summary: this call is the
-    # first thing that happens and used to sit silent for ~8 s, so the number IS the progress indicator.
-    # It also makes the reasoning-off change self-evidencing — run the same query with
-    # VEP_FACTOR_THINK=1 and the difference is on screen, no harness needed.
+    # Printed first because classification is the slowest silent step; the elapsed time is the
+    # progress indicator.
     print("Reading the scenario…", end="", flush=True)
     t_classify = time.perf_counter()
     factor_tuple = infer_factors(client, model, user_query, think=factor_think, apply_defaults=False)
     t_classify = time.perf_counter() - t_classify
     print(f" {t_classify:.1f}s")
 
-    # SCOPE, decided on the call that always runs.
-    #
-    # `is_out_of_scope_response` reads the DRAFT, and under --single-pass the draft is empty, so it
-    # returns False and the pipeline resolved a full two-pass configuration out of the assume-defaults
-    # for the query "hi" -- 21 options across two VEP runs, no model involved after this line. The
-    # tuple alone cannot tell scope: "hi" and "annotate my VCF" state no factors either way. So the
-    # judgement the draft prompt's `## Scope` section already asks for now rides on the classifier,
-    # and the stop happens before anything is assumed rather than after the user has been interrogated.
-    #
-    # Both paths gate here. The draft's own OUT OF SCOPE marker stays as the second line of defence
-    # for a query that names a scenario and still cannot be served.
+    # Scope is decided by the classifier, before any defaults are assumed or questions asked.
+    # A factor tuple alone cannot tell "hi" from "annotate my VCF".
     request_type = (factor_tuple or {}).get("_request_type", "configure")
     if request_type != "configure":
         print()
@@ -3443,303 +2305,174 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         print()
         return
 
-    # Anything the user stated on the form or the command line replaces what the classifier read, before
-    # the assume/say-so policy runs — there is nothing to assume about a value we were given.
+    # Values the user stated on the form or command line replace the classifier's reading.
     factor_tuple, assembly, overridden = apply_user_context(factor_tuple, context)
     if overridden:
         print(f"  Using what you told me for: {', '.join(overridden)}.")
 
     if factor_tuple:
-        # `assembly` goes IN as well as coming out: whatever the user stated on the form or the command
-        # line is already settled, and re-asking a question someone has answered is the failure mode
-        # this whole mechanism is built to avoid.
+        # `assembly` is passed in so a stated assembly is never asked for again.
         factor_tuple, assembly = resolve_underspecified(factor_tuple, vep_options, clarify,
                                                         user_query=user_query, assembly=assembly)
         print("Detected scenario:")
         print(describe_factors(factor_tuple))
         print()
 
-    # AFTER resolve_underspecified, deliberately. The classifier returns only what the query stated,
-    # so at the earlier point analysis_goal is often absent and Layer 2 would explain a tuple the run
-    # never used — it listed symbol, core_type and biotype as "no rule prices these" while the final
-    # configuration switched all three on, because the analysis_goal floor had not been applied yet.
+    # After resolve_underspecified, so the trace explains the filled-in tuple the run actually uses.
     if explain:
-        print_decision_trace(user_query, vep_options, training_examples,
-                             retrieval_mode=retrieval_mode, factor_tuple=factor_tuple)
+        print_decision_trace(user_query, vep_options, factor_tuple=factor_tuple)
 
-    # SINGLE PASS -- THE DEFAULT since 2026-09-13; --two-pass restores the draft call.
-    # The second model call is skipped and the draft is left empty.
-    #
-    # Not a degraded mode. `restore_missing_recommended` reconstructs the RECOMMENDED set from the
-    # factor tuple whatever the draft said -- verified 2026-09-09 on the 31-row set: an empty draft,
-    # a one-option draft, and a draft explicitly DISABLING sift/clinvar/mane all yield the same 20
-    # options. The draft has no authority in either direction, so the only thing the model decides
-    # that reaches the user is the factor tuple pass 1 already returned.
-    #
-    # Given up: the model's per-option prose (already --explain only), and the options it proposes
-    # that the priority table prices for nothing -- the `pick` class the output has to tag and cap.
-    #
-    # Conflict ranking is UNAFFECTED. `_detect_use_case` retrieves over the examples using the query
-    # and its `enabled` parameter is dead, so it never read the draft.
+    # The default makes no draft: the checker builds the configuration from the factor table.
+    # --two-pass also asks the model for a draft first (legacy/two_pass.py).
     if single_pass:
         response_text, reasoning_text, t_recommend = "", "", 0.0
     else:
-        system_prompt = _two_pass().build_system_prompt(vep_options, training_examples, user_query,
-                                            retrieval_mode=retrieval_mode,
-                                            factor_tuple=factor_tuple)
-        print("Analysing your scenario...\n")
+        response_text, reasoning_text, t_recommend = _two_pass().draft(
+            client, model, vep_options, training_examples, user_query, factor_tuple)
 
-        t_recommend = time.perf_counter()
-        try:
-            response_text, reasoning_text = stream_response(client, model, system_prompt, user_query,
-                                                            think=think)
-        except Exception as e:
-            print(f"\nError communicating with Ollama: {e}")
-            print("Make sure Ollama is running: ollama serve")
-            print(f"And the model is pulled: ollama pull {model}")
-            sys.exit(1)
-        t_recommend = time.perf_counter() - t_recommend
-
-    # Both phases, so it is never ambiguous which one a slow run was spent in. The two are separately
-    # controllable — VEP_FACTOR_THINK for the first, --think for the second — and before this change
-    # they were both reasoning, one of them invisibly.
     if explain:
         print(f"\n[{t_classify:.1f}s reading · {t_recommend:.1f}s analysing · "
               f"{t_classify + t_recommend:.1f}s total]")
 
-    # --- Post-hoc constraint check + REPAIR ---
-    # check_and_fix_violations repairs the option set IN PLACE (drops species/conflict violations,
-    # auto-enables dependencies); we then surface that corrected set as the AUTHORITATIVE configuration
-    # (format_corrected_config), not merely a warning — so the checker actually "disposes". NOTE: the
-    # model's streamed draft prose above is left raw (rewriting free prose / its generated command in
-    # place is fragile), so the corrected block SUPERSEDES the draft. Regenerating the whole deliverable
-    # from the corrected set is the structured-output migration's job.
-    warnings = ""
-    if skip_check:
-        # THE CHECKER IS THE BUILDER on the single-pass default, so skipping it used to print no
-        # configuration at all -- the flag silently produced an empty run. It now shows what the
-        # priority table alone says, with the gates and repairs plainly not applied.
-        for size_value, pass_label, pass_tuple in size_passes(factor_tuple):
-            resolved = resolve_for_query(pass_tuple, vep_options)
-            if not resolved:
-                print("\n  --no-check: the scenario's factors could not be resolved, so there is "
-                      "nothing to show.")
-                break
-            raw = {oid for oid, (en, _p, _g) in resolved.items() if en}
-            print(f"\n  --no-check: UNCHECKED configuration for {pass_label}. Species restrictions, "
-                  f"assembly gates, conflicts and dependencies were NOT applied.")
-            print(format_corrected_config(raw, set(), vep_options, [], resolved=resolved,
-                                          size_value=size_value, assembly=assembly,
-                                          show_cli=show_cli, meta_notes=explain,
-                                          species=(factor_tuple or {}).get("species")))
-    if not skip_check:
-      if single_pass:
-        # NO DRAFT TO PARSE. These are exactly what the parser returns on an empty response (checked
-        # 2026-09-22), so the join below is unchanged; stating them here keeps legacy/two_pass.py
-        # out of a default run entirely.
+    if single_pass:
         diagnostics, _recs, enabled, disabled = [], [], set(), set()
         audit_report, override_report = "", ""
-      else:
-        _tp = _two_pass()
-        option_aliases = _tp.build_option_aliases(vep_options)
-        # Audit what the model CITED before we act on it: ids that don't exist are dropped, near-misses
-        # are fuzzy-resolved, and both used to happen silently. A silent guess is how `[source: plugin_cadd]`
-        # became MaxEntScan in a live demo, so the guess is now stated out loud.
-        audit = _tp.audit_source_citations(response_text, option_aliases)
-
-        # The model declined the request: there is no configuration, so there is nothing to audit,
-        # repair or display. Running the rest would keyword-scrape a phantom config out of the refusal
-        # text and then warn about ITS species and format — three true-but-irrelevant alarms attached
-        # to something the model never proposed.
-        if is_out_of_scope_response(response_text, audit):
-            # PRINT IT. The draft stopped being streamed on 2026-08-19, and this branch returns
-            # before anything else prints, so a declined query showed "Analysing your scenario..."
-            # and then a file path — indistinguishable from a crash. The refusal is the only answer
-            # the run produced, so it is the one thing that has to reach the screen.
-            print(response_text.strip())
-            print()
-            save_result(user_query, response_text, mode="recommend", warnings="",
-                        reasoning=reasoning_text)
+    else:
+        parsed = _two_pass().parse_draft(response_text, reasoning_text, vep_options, user_query)
+        if parsed is None:                       # the model declined; parse_draft printed and saved it
             return
-
-        # DIAGNOSTICS ARE BUFFERED, NOT PRINTED HERE. They explain how the configuration was
-        # repaired, so they belong after it: a user who wanted the answer had to scroll past two
-        # warning blocks to reach it. Order among themselves is unchanged.
-        diagnostics = []
-        audit_report = _tp.format_citation_audit(audit, len(vep_options))
-        if audit_report:
-            diagnostics.append(audit_report)
-        # ONE parse of the draft, reused for the sets, the per-option prose and the override
-        # report, so the three cannot disagree about what the model actually said.
-        _recs = _tp.extract_recommendations_detailed(response_text, option_aliases)
-        enabled = {r["option_id"] for r in _recs if r["action"] == "enable"}
-        disabled = {r["option_id"] for r in _recs if r["action"] == "disable"}
-        override_report = _tp.format_marker_overrides(_recs, vep_options)
-        if override_report:
-            diagnostics.append(override_report)
-        # `assembly_override=assembly` is NOT optional. Without it the checker falls back to
-        # infer_assembly(user_query), which reads a build out of the PROSE only — so `--assembly
-        # GRCh37` was acknowledged on screen, used to suppress the assembly question, and then
-        # dropped before the gate that acts on it. A GRCh37 run shipped MANE, EVE and MaveDB, all
-        # GRCh38-only, with no warning: strictly worse than saying nothing, which at least prints
-        # "Left open". test_user_context.py passed throughout because it calls these helpers with
-        # the override directly; it tests the functions, not this wiring.
-        species_stated = (context or {}).get("species") or None
-        # The checker's own species reading is the 16-word keyword scan, which does not know a zebra
-        # finch from a human; the TUPLE does (the classifier, or the species hint). Hand it down through
-        # the override channel so the human-only pass and the species-DATA gate see what the resolver
-        # saw. --species still wins when given. (2026-09-15)
-        # The TUPLE's species, human included (2026-09-16). Passing None for a human tuple let the checker
-        # fall back to infer_species(), so "not a mouse study, the samples are human" was read as mouse
-        # there and human-only options were stripped from a human run.
-        _tuple_species = (factor_tuple or {}).get("species")
-        species_for_checker = species_stated or (_tuple_species if _tuple_species in ("human", "non-human") else None)
-        # For the ALREADY-ON list (human-only form defaults) and the species-data lookup, the production
-        # name is the useful thing -- but only once the tuple says non-human. The name lookup still reads
-        # the text (the factor is binary and cannot say WHICH organism); it never decides human vs not.
-        if species_for_checker == "human":
-            species_for_display = "human"
-        else:
-            # WHICH organism, for the data lookups. The classifier's own `organism` answer comes first
-            # (2026-09-20): it is read from the sentence, where `resolve_species_name` is a name scan that
-            # takes the first index hit -- "not a mouse study ... pig herd" resolves to mouse there.
-            # Used ONLY once the binary factor says non-human: on a human run the name is irrelevant, and
-            # a stray organism in the prose ("our lab mascot is a zebra finch, but these are human exomes")
-            # must not decide the data lists.
-            species_for_display = (species_stated
-                                   or (factor_tuple or {}).get("_organism")
-                                   or resolve_species_name(user_query)
-                                   or species_for_checker or "human")
-        # ONE VEP RUN PER VARIANT SIZE. The form cannot express both sizes at once (see size_passes),
-        # so a scenario carrying both prints two configurations rather than one union of them. Each pass
-        # starts from the SAME parsed draft and its OWN copies of the sets, because the checker repairs
-        # in place: sharing them would let pass 1's repairs decide where pass 2 starts.
-        passes = size_passes(factor_tuple)
+        diagnostics, _recs, enabled, disabled, audit_report, override_report = parsed
+    # Every checker call below takes `assembly_override=assembly`. Without it the checker reads the
+    # build from the prose only and ignores --assembly.
+    species_stated = (context or {}).get("species") or None
+    # The checker gets the tuple's species (human or non-human) rather than its own keyword scan;
+    # --species wins when given.
+    _tuple_species = (factor_tuple or {}).get("species")
+    species_for_checker = species_stated or (_tuple_species if _tuple_species in ("human", "non-human") else None)
+    # The organism name, used for the species-data lookups and the already-on list.
+    if species_for_checker == "human":
+        species_for_display = "human"
+    else:
+        # Only once the tuple says non-human. The classifier's `organism` comes before the name scan,
+        # which takes the first organism named ("not a mouse study ... pig herd" gives mouse).
+        species_for_display = (species_stated
+                               or (factor_tuple or {}).get("_organism")
+                               or resolve_species_name(user_query)
+                               or species_for_checker or "human")
+    # The checker's species-data gate needs a production name, never the binary value.
+    organism_for_checker = (species_for_display
+                            if species_for_display not in ("human", "non-human") else None)
+    # One VEP run per variant size: the form cannot express both sizes at once (see size_passes).
+    passes = size_passes(factor_tuple)
+    if len(passes) > 1:
+        how = ("both variant sizes assumed"
+               if "variant_size_class" in (factor_tuple or {}).get("_assumed", [])
+               else "this callset has both variant sizes")
+        print(f"\nTWO VEP RUNS — {how}. Run VEP once per size, with the settings below.")
+    reports = []
+    for _i, (size_value, pass_label, pass_tuple) in enumerate(passes, 1):
+        # Each pass gets its own copies: the checker repairs the sets in place.
+        p_enabled, p_disabled = set(enabled), set(disabled)
         if len(passes) > 1:
-            how = ("both variant sizes assumed"
-                   if "variant_size_class" in (factor_tuple or {}).get("_assumed", [])
-                   else "this callset has both variant sizes")
-            print(f"\nTWO VEP RUNS — {how}. Run VEP once per size, with the settings below.")
-        reports = []
-        for _i, (size_value, pass_label, pass_tuple) in enumerate(passes, 1):
-            # Copies per pass, for the reason above.
-            p_enabled, p_disabled = set(enabled), set(disabled)
-            if len(passes) > 1:
-                header = f"\n{'─' * 60}\nPASS {_i} of {len(passes)} — {pass_label}\n{'─' * 60}"
-                print(header)
-                reports.append(header)
-            # Resolved FIRST (it was computed after this call): the checker needs the scenario's gates to
-            # enforce them on the model's draft, and resolve_for_query is pure, so moving it up is free.
-            why_trace = {} if explain else None
-            resolved = resolve_for_query(pass_tuple, vep_options, trace=why_trace)
-            violations = check_and_fix_violations(
-                p_enabled, p_disabled, vep_options, training_examples, user_query,
-                retrieval_mode=retrieval_mode, assembly_override=assembly,
-                species_override=species_for_checker, resolved=resolved,
-            )
-            # Restore must-haves BEFORE the depth flags run, so --minimal narrows a complete core rather
-            # than a partial one, and --full widens from the same base.
-            restored = restore_missing_recommended(p_enabled, p_disabled, resolved, vep_options,
-                                                training_examples, user_query,
-                                                retrieval_mode=retrieval_mode,
-                                                assembly_override=assembly,
-                                                species_override=species_for_checker,
-                                                violations_out=violations)
-            # An option whose data file this pass cannot use is dropped here, AFTER the restore, so the
-            # restore cannot put it back. Reported rather than removed silently.
-            for oid, why in drop_unavailable_size_values(p_enabled, vep_options, size_value, assembly):
-                line = f"  Dropped {oid} on this pass: {why}."
-                print(line)
-                reports.append(line)
-            # PRINTED AFTER THE RESTORE, though the repair happened before it. In execution order the
-            # two blocks contradicted each other six lines apart; in this order the violation report can
-            # name the options that came back.
-            pass_warnings = format_violation_warnings(violations, reinstated=set(p_enabled))
-            if pass_warnings:
-                diagnostics.append(pass_warnings)
-            # Species-DATA removals are said BY DEFAULT, not only under --explain. STATUS.md's open
-            # question "should the assistant say what it cannot do?" -- a mouse frequency query used to
-            # return a configuration with no frequency data and no explanation. Now a cattle user asking
-            # for frequencies is told there is no file for cattle, and for which species there is one.
-            _sd = [v["reason"] for v in violations if v.get("type") == "species_data"]
-            if _sd:
-                print("\nNOT AVAILABLE FOR THIS SPECIES:")
-                for _r in _sd:
-                    print(f"  - {_r}")
-            restored_report = format_restored_recommended(restored, vep_options)
-            if restored_report:
-                diagnostics.append(restored_report)
-            if resolved and level != "standard":
-                removed = apply_config_level(p_enabled, p_disabled, resolved, level, vep_options,
-                                             training_examples, user_query,
-                                             retrieval_mode=retrieval_mode,
-                                             assembly_override=assembly,
-                                             species_override=species_for_checker)
-                if level == "minimal":
-                    # Nothing is dropped from RECOMMENDED on the single-pass default: the table is what
-                    # put those options there, so there is no looser set to trim. What --minimal does
-                    # now is hide the add-ons, which is the smallest set that still runs.
-                    note = "  (add-ons hidden; these are the options you must tick)"
-                elif removed:
-                    note = (f"  (every applicable add-on included, except {len(removed)} the checker "
-                            f"removed on a conflict: {', '.join(sorted(removed))})")
-                else:
-                    note = "  (every applicable add-on included)"
-                print(f"\nCONFIG LEVEL: {level}\n{note}")
-            elif level != "standard":
-                print(f"\nCONFIG LEVEL: {level} requested, but the scenario's factors could not be "
-                      f"resolved — showing the standard set.")
-            # Carry the model's per-option prose across from the draft, which is no longer printed.
-            # WHY EACH OPTION IS THERE (2026-09-20). Under --explain every recommended option carries
-            # the rule that placed it, derived by the resolver. The draft's prose is still preferred
-            # when --two-pass produced any, so nothing is lost on that path.
-            _reasons = {}
-            for _r in _recs:
-                if _r.get("reason"):
-                    _reasons.setdefault(_r["option_id"], _r["reason"])
-            for _oid in (why_trace or {}):
-                _w = why_recommended(_oid, why_trace)
-                _e = ensembl_says(_oid, vep_options) if explain else None
-                if _w or _e:
-                    _reasons.setdefault(_oid, "\n      ".join(x for x in (_w, _e) if x))
-            gated = enforce_restrict_results_gate(p_enabled, resolved)
-            if gated:
-                print(f"\n  (removed {', '.join(gated)}: a 'Restrict results' value the priority "
-                      f"table does not price for this scenario — it would collapse the output to a "
-                      f"fraction of its rows. Add it back only if that is what you want.)")
-            corrected = format_corrected_config(p_enabled, p_disabled, vep_options, violations,
-                                                resolved=resolved, reason_by_id=_reasons,
-                                                restored=restored,
-                                                size_value=size_value, assembly=assembly,
-                                                show_cli=show_cli, meta_notes=explain,
-                                                species=species_for_display,
-                                                show_optional=(level != "minimal"))
-            print(corrected)
-            # DIAGNOSTICS ARE --explain ONLY. A corrected configuration is just a configuration; the
-            # repair log is for whoever audits the decision, not for someone who wants the answer.
-            # The header line already says how many things were corrected, and the saved .md keeps
-            # the full log either way, so nothing is lost by leaving it off the screen.
-            if diagnostics and explain:
-                print("\nHOW THIS WAS CORRECTED\n" + "-" * 60)
-                for d in diagnostics:
-                    print(d)
-            diagnostics.clear()
-            # Same order as the screen: the configuration, then how it was repaired. The saved file
-            # and the terminal must not disagree about which came first.
-            reports.extend(x for x in (corrected, pass_warnings, restored_report) if x)
-        # Safety net: the flush above lives inside the per-pass loop, so anything left here means the
-        # loop never ran. A buffered warning that never prints is worse than one printed too early.
+            header = f"\n{'─' * 60}\nPASS {_i} of {len(passes)} — {pass_label}\n{'─' * 60}"
+            print(header)
+            reports.append(header)
+        # Resolved before the checker, which enforces the scenario's gates.
+        why_trace = {} if explain else None
+        resolved = resolve_for_query(pass_tuple, vep_options, trace=why_trace)
+        violations = check_and_fix_violations(
+            p_enabled, p_disabled, vep_options, user_query,
+            assembly_override=assembly,
+            species_override=species_for_checker, resolved=resolved,
+            organism=organism_for_checker,
+        )
+        # Restore must-haves before the level flags, so --minimal and --full start from a complete core.
+        restored = restore_missing_recommended(p_enabled, p_disabled, resolved, vep_options,
+                                            user_query,
+                                            assembly_override=assembly,
+                                            species_override=species_for_checker,
+                                            violations_out=violations,
+                                            organism=organism_for_checker)
+        # After the restore, so the restore cannot put a dropped option back.
+        for oid, why in drop_unavailable_size_values(p_enabled, vep_options, size_value, assembly):
+            line = f"  Dropped {oid} on this pass: {why}."
+            print(line)
+            reports.append(line)
+        # Formatted after the restore so the report can name the options that came back.
+        pass_warnings = format_violation_warnings(violations, reinstated=set(p_enabled))
+        if pass_warnings:
+            diagnostics.append(pass_warnings)
+        # Species-data removals are always shown, so the user learns what is unavailable for their species.
+        _sd = [v["reason"] for v in violations if v.get("type") == "species_data"]
+        if _sd:
+            print("\nNOT AVAILABLE FOR THIS SPECIES:")
+            for _r in _sd:
+                print(f"  - {_r}")
+        restored_report = format_restored_recommended(restored, vep_options)
+        if restored_report:
+            diagnostics.append(restored_report)
+        if resolved and level != "standard":
+            removed = apply_config_level(p_enabled, p_disabled, resolved, level, vep_options,
+                                         user_query,
+                                         assembly_override=assembly,
+                                         species_override=species_for_checker,
+                                         organism=organism_for_checker)
+            if level == "minimal":
+                # --minimal keeps RECOMMENDED intact and hides the add-ons.
+                note = "  (add-ons hidden; these are the options you must tick)"
+            elif removed:
+                note = (f"  (every applicable add-on included, except {len(removed)} the checker "
+                        f"removed on a conflict: {', '.join(sorted(removed))})")
+            else:
+                note = "  (every applicable add-on included)"
+            print(f"\nCONFIG LEVEL: {level}\n{note}")
+        elif level != "standard":
+            print(f"\nCONFIG LEVEL: {level} requested, but the scenario's factors could not be "
+                  f"resolved — showing the standard set.")
+        # Per-option reasons: the draft's prose when --two-pass produced one, else (under --explain)
+        # the resolver rule that placed the option.
+        _reasons = {}
+        for _r in _recs:
+            if _r.get("reason"):
+                _reasons.setdefault(_r["option_id"], _r["reason"])
+        for _oid in (why_trace or {}):
+            _w = why_recommended(_oid, why_trace)
+            _e = ensembl_says(_oid, vep_options) if explain else None
+            if _w or _e:
+                _reasons.setdefault(_oid, "\n      ".join(x for x in (_w, _e) if x))
+        gated = enforce_restrict_results_gate(p_enabled, resolved)
+        if gated:
+            print(f"\n  (removed {', '.join(gated)}: a 'Restrict results' value the priority "
+                  f"table does not price for this scenario — it would collapse the output to a "
+                  f"fraction of its rows. Add it back only if that is what you want.)")
+        corrected = format_corrected_config(p_enabled, vep_options, violations,
+                                            resolved=resolved, reason_by_id=_reasons,
+                                            restored=restored,
+                                            size_value=size_value, assembly=assembly,
+                                            show_cli=show_cli, meta_notes=explain,
+                                            species=species_for_display,
+                                            show_optional=(level != "minimal"))
+        print(corrected)
+        # The repair log is shown only under --explain; the saved .md always keeps it.
         if diagnostics and explain:
             print("\nHOW THIS WAS CORRECTED\n" + "-" * 60)
             for d in diagnostics:
                 print(d)
-        warnings = "\n".join(x for x in (reports + [audit_report, override_report]) if x)
+        diagnostics.clear()
+        # Same order as the screen: the configuration, then how it was repaired.
+        reports.extend(x for x in (corrected, pass_warnings, restored_report) if x)
+    # Flushes anything left if the per-pass loop never ran.
+    if diagnostics and explain:
+        print("\nHOW THIS WAS CORRECTED\n" + "-" * 60)
+        for d in diagnostics:
+            print(d)
+    warnings = "\n".join(x for x in (reports + [audit_report, override_report]) if x)
     save_result(user_query, response_text, mode="recommend", warnings=warnings,
                 reasoning=reasoning_text)
 
 
 def run_explain_result(client, model, user_query):
-    """Run the VEP output explainer mode."""
+    """Explain a VEP output annotation with the LLM, print the answer and save it."""
     consequences = load_consequences()
     if not consequences:
         print("Error: vep_consequences.json not found.")
@@ -3754,9 +2487,7 @@ def run_explain_result(client, model, user_query):
         print(f"\nError communicating with Ollama: {e}")
         sys.exit(1)
 
-    # The draft stopped being streamed on 2026-08-19; the recommend mode replaced it with the
-    # corrected-config block, but this mode has no equivalent, so it printed a token count and a
-    # file path with the entire answer only in the file.
+    # stream_response does not print the answer, so print it here.
     if response_text.strip():
         print(response_text.strip())
         print()
@@ -3765,20 +2496,12 @@ def run_explain_result(client, model, user_query):
 
 def main():
     base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
-    # gemma4:26b — the model this system is built and benchmarked on (Exp 10: 84% enable-F1).
-    #
-    # The default matters more than it looks. A 3B-class model cannot hold the `✓/✗ ... [source: id]`
-    # output contract the whole pipeline depends on: it frequently emits no [source:] tags at all, which
-    # drops the parser into its prose fallback (built for the no-KB experimental condition), and that
-    # fallback INVERTS the meaning — "✗ polyphen: ON" parses as ENABLE. Exp 1/10 measure 3B-class models
-    # at 31-39% enable-F1, the worst of everything tested. A small default would make a first impression
-    # out of the system's worst configuration.
+    # gemma4:26b is the model the system is built and benchmarked on.
     model = os.environ.get("VEP_MODEL", "gemma4:26b")
 
     args = sys.argv[1:]
 
-    # Imported here, not at the top of main: --help must work on a machine that has cloned the repo
-    # and installed nothing, and it used to die on this import before the help handling was reached.
+    # The openai import is deferred so --help works with nothing installed.
     def make_client(required=True):
         try:
             from openai import OpenAI
@@ -3786,9 +2509,7 @@ def main():
             if required:
                 print("Error: openai SDK not installed. Run: pip install openai")
                 sys.exit(1)
-            # The recommend path never touches the client: the CLI always passes think=True/False,
-            # and both route stream_response through the native endpoint. Only explain-result (which
-            # calls stream_response with think=None) still needs the SDK.
+            # Only explain-result needs the SDK; the recommend path uses the native endpoint.
             return None
         return OpenAI(base_url=base_url, api_key="ollama")
 
@@ -3801,22 +2522,16 @@ def main():
         run_explain_result(make_client(), model, query)
         return
 
-    # --- Mode: recommend (with optional --explain, --no-check) ---
+    # --- Mode: recommend ---
     known_flags = ("--explain", "--minimal", "--full",
                    "--factor-think", "--no-factor-think", "--quiet", "--assume", "--ask", "--no-ask", "--cli",
                    "--single-pass", "--two-pass") + tuple(_CONTEXT_FLAGS)
-    # REMOVED 2026-09-16. Both only ever acted on the draft call, which single-pass (the default since
-    # 2026-09-13) does not make: --think set reasoning on the recommender stream, --semantic chose which
-    # examples went into the draft prompt. On the default path neither changed a recommendation. Named
-    # here so an old command line gets a reason instead of "Unknown option".
+    # Removed flags exit with a reason instead of "Unknown option".
     removed_flags = {
-        "--think": "removed: it only set reasoning on the draft call, which the default single-pass "
-                   "run does not make (Exp 14 measured no gain from it)",
-        "--semantic": "removed: it only chose which examples went into the draft prompt, which the "
-                      "default single-pass run does not build",
-        "--no-check": "removed: it existed to show the model's raw draft before the checker repaired "
-                      "it, and the default single-pass run has no draft -- the checker IS what builds "
-                      "the configuration, so there is nothing to skip",
+        "--think": "removed: it set reasoning on the draft call, which the default run does not make",
+        "--semantic": "removed: it chose which examples went into the draft prompt, which the default "
+                      "run does not build",
+        "--no-check": "removed: the checker builds the configuration, so there is nothing to skip",
     }
     _gone = [a for a in args if a in removed_flags]
     if _gone:
@@ -3824,8 +2539,7 @@ def main():
             print(f"{a} {removed_flags[a]}.")
         sys.exit(2)
 
-    # --help is the first thing anyone types, and rejecting it with "Unknown option(s): --help" (exit 2)
-    # is a poor greeting for someone who just cloned the repo. Handled before the unknown-flag check.
+    # Handled before the unknown-flag check.
     if any(a in ("--help", "-h", "help") for a in args):
         print('Usage: python3 vep_assistant.py [flags] "your analysis scenario"')
         print("\nModes:")
@@ -3833,28 +2547,35 @@ def main():
         print('  explain-result "<question>"   explain a VEP output annotation')
         print("\nFlags:")
         for f, h in (("--explain", "say why each option is recommended, and how the checker resolved it"),
-                     ("--minimal", "only the options you must tick; hides the optional add-ons"),
+                     ("--minimal", "only the options you must tick; hide the optional add-ons"),
                      ("--full", "add every add-on"),
-                     ("--cli", "append the equivalent VEP command line (web-form output is the default)"),
-                     ("--two-pass", "also run the retired draft call, from legacy/two_pass.py (slower; the checker rebuilds the same set, 31/31 measured)"),
-                     ("--single-pass", "the default since 2026-09-13; accepted for compatibility"),
-                     ("--factor-think", "the default since 2026-09-20: the classifier reasons first "
-                                        "(~4 s a query; 148/150 on the trap grid against 138/150 without)"),
-                     ("--no-factor-think", "skip the reasoning (~0.9 s a query, weaker on misleading wording)"),
-                     ("--ask", "the default since 2026-09-14: prompt when a gap changes something in RECOMMENDED (needs a terminal)"),
-                     ("--no-ask", "never prompt; state the assumed values instead"),
-                     ("--quiet", "apply the safe defaults without the disclosure lines"),
-                     ("--species / --origin / --size / --assembly", "state a fact instead of inferring it")):
+                     ("--cli", "also print the equivalent VEP command line"),
+                     ("--ask", "default: ask when a missing answer would change what is recommended "
+                               "(needs a terminal; otherwise the value is assumed and stated)"),
+                     ("--no-ask", "never ask; state the assumed values instead"),
+                     ("--quiet", "never ask and do not print the assumed values"),
+                     ("--no-factor-think", "the classifier answers without reasoning first (faster, "
+                                           "weaker on misleading wording)"),
+                     ("--factor-think", "default: the classifier reasons before answering"),
+                     ("--species / --origin / --size / --assembly", "state a fact instead of inferring it"),
+                     ("--two-pass", "also make the retired draft call (legacy/two_pass.py); slower, "
+                                    "same configuration")):
             print(f"  {f:<44} {h}")
-        print("\nEnvironment: VEP_MODEL (default gemma4:26b), VEP_FACTOR_MODEL, VEP_OPTIONS_FILE,")
-        print("             VEP_FACTORS_FILE, VEP_PRIORITY_FACTOR_FILE, VEP_CLASSIFIER_PROMPT (v1 restores")
-        print("             the pre-2026-09-16 prompt), VEP_FACTOR_THINK=0 (reasoning off),")
-        print("             VEP_KEEP_ALIVE, VEP_RESULTS_DIR, NO_PROXY=localhost,127.0.0.1 behind a proxy.")
+        print("\nEnvironment:")
+        for v, h in (("OLLAMA_BASE_URL", "Ollama server (default http://localhost:11434/v1)"),
+                     ("VEP_MODEL", "model for every call (default gemma4:26b)"),
+                     ("VEP_FACTOR_MODEL", "a different model for the classifier only"),
+                     ("VEP_FACTOR_THINK", "0 turns the classifier's reasoning off"),
+                     ("VEP_KEEP_ALIVE", "how long Ollama keeps the model loaded (default: always)"),
+                     ("VEP_OPTIONS_FILE", "use another option catalogue"),
+                     ("VEP_FACTORS_FILE", "use another factor scheme"),
+                     ("VEP_PRIORITY_FACTOR_FILE", "use another priority table"),
+                     ("VEP_RESULTS_DIR", "where each run is saved (default vep_ai_demo/results)"),
+                     ("NO_PROXY=localhost,127.0.0.1", "needed behind a proxy")):
+            print(f"  {v:<44} {h}")
         sys.exit(0)
 
-    # A mistyped flag used to fall through into the query text: `--minmal "mouse variants"` asked the
-    # model about "--minmal mouse variants" and quietly ran at the default level. Reject anything
-    # unrecognised that looks like a flag instead, and list what is available.
+    # Reject unrecognised flags so a typo is not read as part of the query.
     unknown = [a for a in args
                if a.startswith("--") and a.split("=", 1)[0] not in known_flags]
     if unknown:
@@ -3863,24 +2584,14 @@ def main():
         print('Usage: python3 vep_assistant.py [flags] "your analysis scenario"')
         sys.exit(2)
 
-    # The classifier reasons by default (2026-09-20); the draft call under --two-pass does not, and each has its own switch because they are separate
-    # calls with separate costs. --think: recommender, 1.93x faster off with equal enable-F1 and better
-    # critical-recall (Exp 14). --factor-think: classifier, 5.8x faster off with the same factor tuple on
-    # 29/31 rows and no end-to-end change (89.5% vs 89.3% enable-F1, Exp 15). The flag beats the
-    # VEP_FACTOR_THINK env var, which exists for the harness and the web app.
-    think = False
-    # False here means "unset", which `infer_factors` resolves through _factor_think_setting(); the
-    # flags pin it either way.
+    # False means "unset": infer_factors resolves it through _factor_think_setting() (default on).
+    # --no-factor-think pins it off via VEP_FACTOR_THINK=0.
     factor_think = True if "--factor-think" in args else (None if "--no-factor-think" in args else False)
     if factor_think is None:
         os.environ["VEP_FACTOR_THINK"] = "0"
         factor_think = False
-    # What to do about anything the question did not say. Default states its assumptions;
-    # RENAMED --assume -> --quiet (2026-08-31). Assuming was never what the flag switched on — the
-    # defaults are applied on every run without --ask, so its only effect was suppressing the
-    # disclosure lines. A flag named for a behaviour that happens anyway teaches the wrong model of
-    # the tool, which is what Likhitha's second question about the proposal exposed. --assume still
-    # works so nothing breaks, but says what it actually did.
+    # --quiet only suppresses the disclosure lines; defaults are assumed either way.
+    # --assume is its old name (renamed after Likhitha's question on the proposal) and still works.
     if "--assume" in args:
         print("note: --assume is now --quiet — assuming happens by default; this flag only silences "
               "the disclosure lines.")
@@ -3888,38 +2599,20 @@ def main():
     if quiet and "--ask" in args:
         print("--quiet and --ask ask for opposite things; pick one.")
         sys.exit(2)
-    # ASK IS THE DEFAULT since 2026-09-14. `_ask_factor` returns None off a tty, so a piped run
-    # falls through to the assumed value with its disclosure line -- nothing hangs, nothing is silent.
+    # Ask is the default. Off a tty `_ask_factor` returns None, so the run falls back to the
+    # assumed value with its disclosure line.
     clarify = "assume" if quiet else ("state" if "--no-ask" in args else "ask")
-    # What the user states outright about their data. These are facts they know; asking a model to infer
-    # them from prose is where every measured classification failure came from.
+    # Facts the user states about their data override the classifier.
     context, _ctx_err = _parse_context_flags(args)
     if _ctx_err:
         print(_ctx_err)
         sys.exit(2)
     explain = "--explain" in args
-    skip_check = False
-    # ALL examples, not a keyword-selected two (2026-08-19). Three reasons, in order of weight:
-    #   1. It is what every published number was measured on. `run_attribution.py` pins
-    #      retrieval_mode="all", `eval_factor_set.py` reports "all-examples LOO", and Exp 1's best
-    #      config is `gemma4:26b + all-examples`. The CLI was shipping a DIFFERENT arm from the one
-    #      the figures describe.
-    #   2. Exp 1 measured no cost: "no corpus-size crossover — all-examples ≈ keyword at every N".
-    #   3. The selection it replaces was indefensible. `retrieve_examples_keyword` ranks on raw
-    #      whitespace-token overlap with no stopword removal, so "a" and "from" score as highly as
-    #      "mouse". On "somatic SNVs from a mouse tumour" three examples tied at 4, the tie went to
-    #      list order, and the two sent to the model were a human-germline rare-disease case and the
-    #      mouse one — the example matching on `somatic` ranked third and was never sent.
-    # 23 examples is well inside the context budget; the harnesses have always sent them all.
-    retrieval_mode = "all"
-    # How much configuration the user wants back. --minimal for the smallest runnable set,
-    # --full to switch on every add-on the scenario justifies; neither given = the standard set.
     if "--minimal" in args and "--full" in args:
         print("--minimal and --full ask for opposite things; pick one.")
         sys.exit(2)
     level = "minimal" if "--minimal" in args else "full" if "--full" in args else "standard"
-    # Drop the context flags AND the value that follows a spaced one, so `--species human "query"`
-    # does not leave "human" glued to the front of the query text.
+    # Drop flags, and the value after a spaced context flag, so only the query text remains.
     _skip, remaining = set(), []
     for i, a in enumerate(args):
         if i in _skip:
@@ -3945,7 +2638,7 @@ def main():
         print("=" * 60)
         print("  VEP AI Assistant (local LLM via Ollama)")
         print("  Describe your analysis scenario to get VEP recommendations")
-        print("  Tip: use --explain for full decision trace, --semantic for embedding retrieval")
+        print("  Tip: use --explain to see why each option is recommended")
         print("=" * 60)
         print()
         try:
@@ -3959,8 +2652,7 @@ def main():
 
     print()
     run_recommend(make_client(required=False), model, vep_options, training_examples, user_query,
-                  explain=explain, skip_check=skip_check,
-                  retrieval_mode=retrieval_mode, level=level, think=think,
+                  explain=explain, level=level,
                   factor_think=factor_think, clarify=clarify, context=context,
                   show_cli="--cli" in sys.argv,
                   single_pass="--two-pass" not in sys.argv)
@@ -3968,12 +2660,10 @@ def main():
 
 if __name__ == "__main__":
     try:
-        # main() RETURNS a status now rather than calling sys.exit itself, so that the library paths it
-        # shares with the harnesses can raise instead of killing the process. Propagate it, or a failed
-        # run exits 0 and any script wrapping the CLI reads that as success.
+        # main() returns a status; propagate it so a failed run does not exit 0.
         sys.exit(main() or 0)
     except KeyboardInterrupt:
-        # A run takes tens of seconds, so Ctrl-C part-way through is expected, not exceptional.
-        # Exit quietly with the conventional 130 instead of dumping a traceback.
+        # Ctrl-C exits quietly with the conventional 130.
         print("\nCancelled.", file=sys.stderr)
         sys.exit(130)
+

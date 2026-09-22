@@ -40,7 +40,7 @@ pip install -r requirements.txt
 python3 vep_ai_demo/vep_assistant.py "somatic tumour-normal, clinical interpretation on the coding hits"
 ```
 
-Only `openai` is required for the CLI; `flask` is for the web UI in `work/webapp/`. Behind a
+Only `openai` is required. Behind a
 proxy you need `NO_PROXY=localhost,127.0.0.1`, or every Ollama call returns 502.
 
 **The full flag and environment reference is in [`vep_ai_demo/README.md`](vep_ai_demo/README.md).**
@@ -180,7 +180,7 @@ vep_ai_demo/             # THE TOOL — everything needed to run it
   vep_consequences.json  #   41 VEP consequence terms (SO definitions)
   legacy/                #   NOT USED BY THE TOOL — the stage-B benchmark and its 23
                          #   Claude-written examples. See vep_ai_demo/legacy/README.md
-  requirements.txt       #   openai (CLI); flask for the web UI
+  requirements.txt       #   openai
 
 work/                    # THE EVIDENCE — how the tool was built and how it is checked
   harness/               #   test scripts, grouped by what each one is:
@@ -193,7 +193,6 @@ work/                    # THE EVIDENCE — how the tool was built and how it is
                          #     plus verify_pipeline.py (79 invariants)
   research/              #   design rationale: the taxonomy, the option dossiers
   results/               #   a curated subset of measurement output
-  webapp/                #   a small Flask UI over the same engine
 ```
 
 Design rationale, deterministic invariant harnesses (79 checks, no GPU), the full option
