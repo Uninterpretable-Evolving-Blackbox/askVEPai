@@ -28,25 +28,23 @@ There are also two secondary modes: **explain a VEP output annotation**, and a *
 trace** that opens the classifier's factor tuple, the per-factor derivation for each priced
 option, and everything the checker changed on the way to the output.
 
-## Requirements
+## Quick start
 
-- Python 3.9+
-- [Ollama](https://ollama.com/) running locally
-- A pulled model (default: `gemma4:26b` — see *Choice of model* below)
-
-## Setup
+Python 3.9+, [Ollama](https://ollama.com/) running locally, and one pulled model.
 
 ```bash
-brew install ollama              # macOS; see ollama.com for other platforms
 ollama serve
 ollama pull gemma4:26b
-
 pip install -r requirements.txt
+
+python3 vep_ai_demo/vep_assistant.py "somatic tumour-normal, clinical interpretation on the coding hits"
 ```
 
-Only `openai` is required for the CLI. `flask` is needed for the web UI in `work/webapp/`.
-`sentence-transformers` is needed by nothing the tool runs — only by
-`vep_ai_demo/legacy/evaluate.py --semantic`, so it is commented out in `requirements.txt`.
+Only `openai` is required for the CLI; `flask` is for the web UI in `work/webapp/`. Behind a
+proxy you need `NO_PROXY=localhost,127.0.0.1`, or every Ollama call returns 502.
+
+**The full flag and environment reference is in [`vep_ai_demo/README.md`](vep_ai_demo/README.md).**
+The sections below show what the tool does rather than listing every switch.
 
 ## Usage
 
@@ -130,11 +128,12 @@ Uses the 41 consequence terms in `vep_consequences.json` (SO definitions).
 
 ### Other flags
 
-| Flag | Meaning |
-|---|---|
-| `--cli` | append the equivalent VEP command line (web-form output is the default) |
-| `--factor-think` | turn on Gemma's reasoning-first mode for the classifier (slower; not tested whether output improves) |
-| `--no-check` | skip the constraint checker (not advised) |
+`--cli` appends the equivalent VEP command line, `--minimal` and `--full` change how many add-ons
+are shown, and `--no-factor-think` trades accuracy on misleading wording for speed (~0.9 s a query
+against ~4 s). Classifier reasoning is **on** by default since 2026-09-20.
+
+`--think`, `--semantic` and `--no-check` were removed on 2026-09-16; passing one prints why and
+exits 2. Full reference: [`vep_ai_demo/README.md`](vep_ai_demo/README.md).
 
 ## How it works
 
@@ -298,10 +297,10 @@ single-pass) it is now off by default.
 
 The two-pass path is still runnable for comparison work:
 
-| Flag | Meaning |
-|---|---|
-| `--two-pass` | run the draft-recommender call as well |
-| `--think` | turn on Gemma's reasoning-first mode for the recommender under `--two-pass` (slower; not tested whether output improves) |
+`--two-pass` runs the draft-recommender call as well. `--think`, which turned on the
+recommender's reasoning under that path, was removed on 2026-09-16 along with `--semantic` and
+`--no-check`: all three acted only on the draft call, which the single-pass default never makes.
+Passing one now prints why and exits 2.
 
 `enable-F1 = 88.0% ± 0.2` (2026-09-04, L4) stands as the last two-pass figure. The four-arm
 ablation in `work/results/final_2026-09-15/` compares single-pass against three two-pass
@@ -309,7 +308,7 @@ variants (each with a different in-context example corpus) and finds single-pass
 every two-pass arm on plain and class-weighted F1 — which is why example retrieval was
 dropped from the shipped pipeline.
 
-Two caveats that apply to this path and to `evaluate.py`, not to the shipped classifier:
+Two caveats that apply to this path and to `vep_ai_demo/legacy/evaluate.py`, not to the shipped classifier:
 
 - **Value field is ignored in scoring.** Getting `gnomad_af: "gnomAD exome"` right vs
   `gnomAD genome` counts as the same enable.
