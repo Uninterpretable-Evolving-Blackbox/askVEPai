@@ -85,6 +85,8 @@
             "dosage_sensitivity",
             "pubmed",
             "var_synonyms",
+            "intact",
+            "opentargets",
             "mutfunc",
             "paralogues"
           ]
@@ -253,6 +255,9 @@
       },
       "variant_size_class": {
         "structural-CNV": "not_applicable"
+      },
+      "species": {
+        "non-human": "not_applicable"
       }
     },
     "appris": {
@@ -296,9 +301,6 @@
     "cadd": {
       "analysis_goal": {
         "clinical-interpretation": "recommended"
-      },
-      "species": {
-        "non-human": "not_applicable"
       }
     },
     "canonical": {
@@ -493,8 +495,8 @@
       }
     },
     "intact": {
-      "species": {
-        "non-human": "not_applicable"
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
       }
     },
     "loeuf": {
@@ -544,6 +546,9 @@
       },
       "variant_size_class": {
         "structural-CNV": "not_applicable"
+      },
+      "species": {
+        "non-human": "not_applicable"
       }
     },
     "mirna": {
@@ -565,9 +570,6 @@
       },
       "variant_size_class": {
         "structural-CNV": "not_applicable"
-      },
-      "species": {
-        "non-human": "not_applicable"
       }
     },
     "nmd": {
@@ -582,6 +584,9 @@
       }
     },
     "opentargets": {
+      "analysis_goal": {
+        "clinical-interpretation": "optional"
+      },
       "species": {
         "non-human": "not_applicable"
       }
@@ -595,6 +600,9 @@
       },
       "variant_size_class": {
         "structural-CNV": "not_applicable"
+      },
+      "species": {
+        "non-human": "not_applicable"
       }
     },
     "per_gene": {
@@ -765,9 +773,6 @@
       },
       "variant_size_class": {
         "structural-CNV": "not_applicable"
-      },
-      "species": {
-        "non-human": "not_applicable"
       }
     },
     "var_synonyms": {

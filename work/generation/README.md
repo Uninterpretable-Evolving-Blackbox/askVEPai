@@ -38,6 +38,17 @@ not reliably help ("Larger Models' Paradox"), and compatibility with the student
 Stage 5 (ICE) is the empirical selector: run it with different `--student`/teacher pairings and compare
 rather than guessing. `teacher_sweep.py` and `persona_ablation.py` are the two ablation drivers.
 
+## Which files are the evaluation set
+
+`candidates/iced.json` — 31 rows — is the set every published figure is scored on. The stage 1-4 files
+beside it (`tuples`, `resolved`, `queried`, `filtered`) hold **42** rows: they are from a run with the
+option-coverage top-up switched on, and the 31 are a subset. Do not count rows from those files.
+
+`iced.json` carries `_refreshed` dates. Stages 1-3 ran in August; the configurations in it are
+re-resolved against the current table by `refresh_resolved.py` (no model), because a scenario's factor
+values stay true while the table moves under them. The last state before a refresh is kept beside it as
+`iced_pre_refresh_<date>.json`.
+
 ## Stages
 
 | Stage | Script | LLM? | Reuses |
@@ -81,8 +92,8 @@ python export_for_review.py --in candidates/iced.json --outdir candidates/review
 
 Output: `candidates/review/review_queue.csv` (+ `.json`, `review_view.txt`) and an append-only
 `provenance.jsonl`. The seed is for **reproducibility, not statistics** — this produces a deliverable (a
-review set), so one seeded run is the whole job. `resolve_config.py --enable critical` gives a tighter,
-higher-precision config than the default `critical+recommended`.
+review set), so one seeded run is the whole job. `--enable` takes one value, `recommended`: the
+`critical` tier was deleted on 2026-08-19 and the flag survives only so the saved commands still run.
 
 To get just the deterministic factor → config recommendation without running the whole pipeline, use
 [`recommend_by_factors.py`](recommend_by_factors.py) — see the factor-values quickstart in the top-level
@@ -92,7 +103,7 @@ README.
 
 - **The per-option priorities are authored, not validated.** Replace `factors.json` +
   `priority_by_factor.json` with a validated table and re-run; no code changes needed. VEP itself does not
-  rank its options, so the critical / recommended / optional split is editorial judgement (the predictor
+  rank its options, so the recommended / add-on split is editorial judgement (the predictor
   tiering follows ACMG PP3/BP4 as refined by ClinGen SVI, Pejaver et al. 2022 — a standard external to VEP).
 - **Combination plausibility is a distribution choice, not a safety one.** Stage 1 balances the factor
   *values* treating the factors as independent, so it can draw implausible corners. The hard gates make even

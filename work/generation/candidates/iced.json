@@ -33,7 +33,7 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -41,17 +41,17 @@
       "check_existing": {
         "value": "yes",
         "enabled": true,
-        "priority": "recommended"
+        "priority": "optional"
       },
       "clinvar": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "dosage_sensitivity": {
         "value": true,
@@ -61,19 +61,19 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "hgvs": {
+      "loeuf": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "mane": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "mirna": {
+      "mastermind": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -91,7 +91,7 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "symbol": {
         "value": true,
@@ -105,15 +105,19 @@
       }
     },
     "add_on_options": {
-      "failed": {
+      "cell_type": {
         "value": true,
         "priority": "optional"
       },
-      "loeuf": {
+      "go": {
         "value": true,
         "priority": "optional"
       },
-      "mastermind": {
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
         "value": true,
         "priority": "optional"
       },
@@ -121,7 +125,15 @@
         "value": true,
         "priority": "optional"
       },
+      "opentargets": {
+        "value": true,
+        "priority": "optional"
+      },
       "pubmed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -205,7 +217,11 @@
       "void_query_names_tool": [
         "MANE"
       ]
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
@@ -234,15 +250,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -259,6 +270,11 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "protein": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "symbol": {
         "value": true,
         "enabled": true,
@@ -266,15 +282,15 @@
       }
     },
     "add_on_options": {
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
-        "value": true,
-        "priority": "optional"
-      },
-      "protein": {
         "value": true,
         "priority": "optional"
       },
@@ -350,7 +366,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
@@ -374,22 +394,22 @@
       "af": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "af_1kg": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "af_gnomade": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "af_gnomadg": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "alphamissense": {
         "value": true,
@@ -411,7 +431,7 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -419,24 +439,19 @@
       "check_existing": {
         "value": "yes",
         "enabled": true,
-        "priority": "recommended"
+        "priority": "optional"
       },
       "clinvar": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
-      },
-      "domains": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "enformer": {
+      "domains": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -446,22 +461,22 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "frequency": {
+      "hgvs": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       },
-      "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
       "mane": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "mirna": {
+      "mastermind": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "mavedb": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -481,10 +496,15 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "protein": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "sift": {
         "value": "b",
@@ -513,7 +533,23 @@
       }
     },
     "add_on_options": {
+      "ancestral_allele": {
+        "value": true,
+        "priority": "optional"
+      },
+      "avi": {
+        "value": true,
+        "priority": "optional"
+      },
+      "blosum62": {
+        "value": true,
+        "priority": "optional"
+      },
       "ccds": {
+        "value": true,
+        "priority": "optional"
+      },
+      "cell_type": {
         "value": true,
         "priority": "optional"
       },
@@ -537,7 +573,11 @@
         "value": true,
         "priority": "optional"
       },
-      "failed": {
+      "enformer": {
+        "value": true,
+        "priority": "optional"
+      },
+      "frequency": {
         "value": true,
         "priority": "optional"
       },
@@ -545,15 +585,23 @@
         "value": true,
         "priority": "optional"
       },
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
       "loeuf": {
         "value": true,
         "priority": "optional"
       },
-      "mastermind": {
+      "maxentscan": {
         "value": true,
         "priority": "optional"
       },
-      "maxentscan": {
+      "mirna": {
         "value": true,
         "priority": "optional"
       },
@@ -565,11 +613,15 @@
         "value": true,
         "priority": "optional"
       },
+      "opentargets": {
+        "value": true,
+        "priority": "optional"
+      },
       "paralogues": {
         "value": true,
         "priority": "optional"
       },
-      "protein": {
+      "protvar": {
         "value": true,
         "priority": "optional"
       },
@@ -578,6 +630,10 @@
         "priority": "optional"
       },
       "revel": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       },
@@ -665,7 +721,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
@@ -694,39 +754,36 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
-        "enabled": true,
-        "priority": "critical"
-      },
-      "mirna": {
-        "value": true,
         "enabled": true,
         "priority": "recommended"
       },
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "symbol": {
+      "utrannotator": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "hgvs": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
         "value": true,
         "priority": "optional"
       }
@@ -799,7 +856,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
@@ -835,7 +896,7 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -843,17 +904,17 @@
       "check_existing": {
         "value": "yes",
         "enabled": true,
-        "priority": "recommended"
+        "priority": "optional"
       },
       "clinvar": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "dosage_sensitivity": {
         "value": true,
@@ -863,19 +924,19 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "hgvs": {
+      "loeuf": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "mane": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "mirna": {
+      "mastermind": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -893,7 +954,7 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "symbol": {
         "value": true,
@@ -907,15 +968,19 @@
       }
     },
     "add_on_options": {
-      "failed": {
+      "cell_type": {
         "value": true,
         "priority": "optional"
       },
-      "loeuf": {
+      "go": {
         "value": true,
         "priority": "optional"
       },
-      "mastermind": {
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
         "value": true,
         "priority": "optional"
       },
@@ -923,7 +988,15 @@
         "value": true,
         "priority": "optional"
       },
+      "opentargets": {
+        "value": true,
+        "priority": "optional"
+      },
       "pubmed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -999,7 +1072,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
@@ -1028,32 +1105,12 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
-      },
-      "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
-      "maxentscan": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "mirna": {
+      "hgvs": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -1066,16 +1123,32 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "symbol": {
+      "utrannotator": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
-      "failed": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
         "value": true,
         "priority": "optional"
       }
@@ -1149,7 +1222,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
@@ -1180,20 +1257,15 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
         "enabled": true,
         "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "dosage_sensitivity": {
         "value": true,
@@ -1203,14 +1275,9 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
-      },
-      "hgvs": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "mirna": {
+      "loeuf": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -1223,7 +1290,7 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "symbol": {
         "value": true,
@@ -1237,11 +1304,27 @@
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "clinvar": {
         "value": true,
         "priority": "optional"
       },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
       "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -1315,7 +1398,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
@@ -1344,15 +1431,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -1360,11 +1442,6 @@
         "priority": "recommended"
       },
       "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
-      "maxentscan": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -1375,6 +1452,11 @@
         "priority": "recommended"
       },
       "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "protein": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -1391,23 +1473,31 @@
       }
     },
     "add_on_options": {
+      "blosum62": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
-      "failed": {
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mutfunc": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
-        "value": true,
-        "priority": "optional"
-      },
-      "paralogues": {
-        "value": true,
-        "priority": "optional"
-      },
-      "protein": {
         "value": true,
         "priority": "optional"
       },
@@ -1486,7 +1576,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
@@ -1516,20 +1610,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -1541,12 +1625,12 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mirna": {
+      "numbers": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       },
-      "numbers": {
+      "protein": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -1554,24 +1638,37 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "utrannotator": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
-      "nmd": {
+      "mirna": {
         "value": true,
         "priority": "optional"
       },
-      "protein": {
+      "nmd": {
         "value": true,
         "priority": "optional"
       },
@@ -1647,7 +1744,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
@@ -1676,22 +1777,17 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "check_existing": {
-        "value": "yes",
+      "canonical": {
+        "value": true,
         "enabled": true,
         "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
-      },
-      "dosage_sensitivity": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "frequency": {
+      "dosage_sensitivity": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -1699,9 +1795,9 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "hgvs": {
+      "loeuf": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -1723,7 +1819,15 @@
       }
     },
     "add_on_options": {
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "clinvar": {
+        "value": true,
+        "priority": "optional"
+      },
+      "frequency": {
         "value": true,
         "priority": "optional"
       },
@@ -1800,7 +1904,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
@@ -1835,27 +1943,27 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "check_existing": {
         "value": "yes",
         "enabled": true,
-        "priority": "recommended"
+        "priority": "optional"
       },
       "clinvar": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
-      },
-      "dosage_sensitivity": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "frequency": {
+      "dosage_sensitivity": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -1863,17 +1971,22 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "hgvs": {
+      "loeuf": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "mane": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
+      },
+      "mastermind": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
       },
       "numbers": {
         "value": true,
@@ -1897,19 +2010,23 @@
       }
     },
     "add_on_options": {
-      "failed": {
+      "frequency": {
         "value": true,
         "priority": "optional"
       },
-      "loeuf": {
+      "go": {
         "value": true,
         "priority": "optional"
       },
-      "mastermind": {
+      "intact": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "opentargets": {
         "value": true,
         "priority": "optional"
       },
@@ -1988,7 +2105,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
@@ -2018,20 +2139,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -2039,16 +2150,6 @@
         "priority": "recommended"
       },
       "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
-      "maxentscan": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "mirna": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -2063,10 +2164,15 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "protein": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "sift": {
         "value": "b",
@@ -2077,26 +2183,47 @@
         "value": true,
         "enabled": true,
         "priority": "recommended"
+      },
+      "utrannotator": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
       }
     },
     "add_on_options": {
+      "blosum62": {
+        "value": true,
+        "priority": "optional"
+      },
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
-      "failed": {
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mutfunc": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
-        "value": true,
-        "priority": "optional"
-      },
-      "paralogues": {
-        "value": true,
-        "priority": "optional"
-      },
-      "protein": {
         "value": true,
         "priority": "optional"
       },
@@ -2174,7 +2301,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
@@ -2204,27 +2335,17 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
         "enabled": true,
         "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
-      },
-      "dosage_sensitivity": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "frequency": {
+      "dosage_sensitivity": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -2232,14 +2353,9 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
-      },
-      "hgvs": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "mirna": {
+      "loeuf": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -2252,7 +2368,7 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "symbol": {
         "value": true,
@@ -2266,11 +2382,31 @@
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "clinvar": {
         "value": true,
         "priority": "optional"
       },
+      "frequency": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
       "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -2344,7 +2480,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
@@ -2374,32 +2514,12 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
-      },
-      "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
-      "maxentscan": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "mirna": {
+      "hgvs": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -2412,16 +2532,32 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "symbol": {
+      "utrannotator": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
-      "failed": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
         "value": true,
         "priority": "optional"
       }
@@ -2495,7 +2631,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
@@ -2525,20 +2665,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -2550,12 +2680,12 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mirna": {
+      "numbers": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       },
-      "numbers": {
+      "protein": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -2563,24 +2693,37 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "symbol": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "utrannotator": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
-      "nmd": {
+      "mirna": {
         "value": true,
         "priority": "optional"
       },
-      "protein": {
+      "nmd": {
         "value": true,
         "priority": "optional"
       },
@@ -2657,7 +2800,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
@@ -2681,20 +2828,15 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
         "enabled": true,
         "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "dosage_sensitivity": {
         "value": true,
@@ -2704,9 +2846,9 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "mirna": {
+      "loeuf": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -2714,16 +2856,27 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
-      },
-      "symbol": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "clinvar": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -2797,7 +2950,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
@@ -2821,27 +2978,17 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
         "enabled": true,
         "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
-      },
-      "dosage_sensitivity": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "frequency": {
+      "dosage_sensitivity": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -2849,9 +2996,9 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "mirna": {
+      "loeuf": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -2859,16 +3006,31 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
-      },
-      "symbol": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "clinvar": {
+        "value": true,
+        "priority": "optional"
+      },
+      "frequency": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -2942,7 +3104,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
@@ -2973,20 +3139,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -2994,16 +3150,6 @@
         "priority": "recommended"
       },
       "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
-      "maxentscan": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "mirna": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3018,10 +3164,15 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "protein": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "sift": {
         "value": "b",
@@ -3032,26 +3183,47 @@
         "value": true,
         "enabled": true,
         "priority": "recommended"
+      },
+      "utrannotator": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
       }
     },
     "add_on_options": {
+      "blosum62": {
+        "value": true,
+        "priority": "optional"
+      },
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
-      "failed": {
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mutfunc": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
-        "value": true,
-        "priority": "optional"
-      },
-      "paralogues": {
-        "value": true,
-        "priority": "optional"
-      },
-      "protein": {
         "value": true,
         "priority": "optional"
       },
@@ -3129,7 +3301,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
@@ -3160,27 +3336,17 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
         "enabled": true,
         "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
-      },
-      "dosage_sensitivity": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "frequency": {
+      "dosage_sensitivity": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3188,14 +3354,9 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
-      },
-      "hgvs": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "mirna": {
+      "loeuf": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3208,7 +3369,7 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "symbol": {
         "value": true,
@@ -3222,11 +3383,31 @@
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "clinvar": {
         "value": true,
         "priority": "optional"
       },
+      "frequency": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
       "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -3300,7 +3481,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
@@ -3329,15 +3514,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -3345,11 +3525,6 @@
         "priority": "recommended"
       },
       "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
-      "maxentscan": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3360,6 +3535,11 @@
         "priority": "recommended"
       },
       "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "protein": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3376,23 +3556,31 @@
       }
     },
     "add_on_options": {
+      "blosum62": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
-      "failed": {
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mutfunc": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
-        "value": true,
-        "priority": "optional"
-      },
-      "paralogues": {
-        "value": true,
-        "priority": "optional"
-      },
-      "protein": {
         "value": true,
         "priority": "optional"
       },
@@ -3466,7 +3654,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": true,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
@@ -3496,15 +3688,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -3512,11 +3699,6 @@
         "priority": "recommended"
       },
       "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
-      "maxentscan": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3527,6 +3709,11 @@
         "priority": "recommended"
       },
       "phenotypes": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "protein": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3543,23 +3730,31 @@
       }
     },
     "add_on_options": {
+      "blosum62": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
-      "failed": {
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mutfunc": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
-        "value": true,
-        "priority": "optional"
-      },
-      "paralogues": {
-        "value": true,
-        "priority": "optional"
-      },
-      "protein": {
         "value": true,
         "priority": "optional"
       },
@@ -3636,7 +3831,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
@@ -3665,15 +3864,15 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "check_existing": {
-        "value": "yes",
+      "canonical": {
+        "value": true,
         "enabled": true,
         "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "dosage_sensitivity": {
         "value": true,
@@ -3683,9 +3882,9 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "hgvs": {
+      "loeuf": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3707,6 +3906,10 @@
       }
     },
     "add_on_options": {
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "nmd": {
         "value": true,
         "priority": "optional"
@@ -3780,7 +3983,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
@@ -3811,7 +4018,7 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3819,17 +4026,17 @@
       "check_existing": {
         "value": "yes",
         "enabled": true,
-        "priority": "recommended"
+        "priority": "optional"
       },
       "clinvar": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "dosage_sensitivity": {
         "value": true,
@@ -3839,14 +4046,14 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "hgvs": {
+      "loeuf": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "mirna": {
+      "mastermind": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3859,28 +4066,35 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
-      },
-      "symbol": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
-      "failed": {
+      "cell_type": {
         "value": true,
         "priority": "optional"
       },
-      "loeuf": {
+      "go": {
         "value": true,
         "priority": "optional"
       },
-      "mastermind": {
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "opentargets": {
         "value": true,
         "priority": "optional"
       },
       "pubmed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -3955,7 +4169,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
@@ -3984,39 +4202,36 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
-        "enabled": true,
-        "priority": "critical"
-      },
-      "mirna": {
-        "value": true,
         "enabled": true,
         "priority": "recommended"
       },
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "symbol": {
+      "utrannotator": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "hgvs": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
         "value": true,
         "priority": "optional"
       }
@@ -4089,7 +4304,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
@@ -4125,7 +4344,7 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -4133,24 +4352,19 @@
       "check_existing": {
         "value": "yes",
         "enabled": true,
-        "priority": "recommended"
+        "priority": "optional"
       },
       "clinvar": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
-      },
-      "dosage_sensitivity": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "frequency": {
+      "dosage_sensitivity": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -4158,19 +4372,19 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "hgvs": {
+      "loeuf": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "mane": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "mirna": {
+      "mastermind": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -4188,7 +4402,7 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "symbol": {
         "value": true,
@@ -4202,15 +4416,23 @@
       }
     },
     "add_on_options": {
-      "failed": {
+      "cell_type": {
         "value": true,
         "priority": "optional"
       },
-      "loeuf": {
+      "frequency": {
         "value": true,
         "priority": "optional"
       },
-      "mastermind": {
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
         "value": true,
         "priority": "optional"
       },
@@ -4218,7 +4440,15 @@
         "value": true,
         "priority": "optional"
       },
+      "opentargets": {
+        "value": true,
+        "priority": "optional"
+      },
       "pubmed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -4294,7 +4524,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
@@ -4323,32 +4557,12 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
-      },
-      "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
-      "maxentscan": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "mirna": {
+      "hgvs": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -4361,16 +4575,32 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "symbol": {
+      "utrannotator": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
-      "failed": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
         "value": true,
         "priority": "optional"
       }
@@ -4444,7 +4674,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
@@ -4474,7 +4708,7 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -4482,17 +4716,17 @@
       "check_existing": {
         "value": "yes",
         "enabled": true,
-        "priority": "recommended"
+        "priority": "optional"
       },
       "clinvar": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "dosage_sensitivity": {
         "value": true,
@@ -4502,14 +4736,14 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "hgvs": {
+      "loeuf": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "mirna": {
+      "mastermind": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -4522,28 +4756,35 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
-      },
-      "symbol": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       }
     },
     "add_on_options": {
-      "failed": {
+      "cell_type": {
         "value": true,
         "priority": "optional"
       },
-      "loeuf": {
+      "go": {
         "value": true,
         "priority": "optional"
       },
-      "mastermind": {
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "opentargets": {
         "value": true,
         "priority": "optional"
       },
       "pubmed": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -4617,7 +4858,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
@@ -4646,15 +4891,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -4671,6 +4911,11 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "protein": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "symbol": {
         "value": true,
         "enabled": true,
@@ -4678,15 +4923,15 @@
       }
     },
     "add_on_options": {
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
-        "value": true,
-        "priority": "optional"
-      },
-      "protein": {
         "value": true,
         "priority": "optional"
       },
@@ -4762,7 +5007,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
@@ -4798,20 +5047,25 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "check_existing": {
         "value": "yes",
         "enabled": true,
-        "priority": "recommended"
+        "priority": "optional"
       },
       "clinvar": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "dosage_sensitivity": {
         "value": true,
@@ -4821,17 +5075,22 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
-      "hgvs": {
+      "loeuf": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "mane": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
+      },
+      "mastermind": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
       },
       "numbers": {
         "value": true,
@@ -4855,19 +5114,19 @@
       }
     },
     "add_on_options": {
-      "failed": {
+      "go": {
         "value": true,
         "priority": "optional"
       },
-      "loeuf": {
-        "value": true,
-        "priority": "optional"
-      },
-      "mastermind": {
+      "intact": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "opentargets": {
         "value": true,
         "priority": "optional"
       },
@@ -4946,7 +5205,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
@@ -4976,20 +5239,10 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
-        "enabled": true,
-        "priority": "recommended"
-      },
       "core_type": {
         "value": "Ensembl",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "domains": {
         "value": true,
@@ -4997,16 +5250,6 @@
         "priority": "recommended"
       },
       "hgvs": {
-        "value": true,
-        "enabled": true,
-        "priority": "critical"
-      },
-      "maxentscan": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "mirna": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -5021,10 +5264,15 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "protein": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "sift": {
         "value": "b",
@@ -5035,26 +5283,47 @@
         "value": true,
         "enabled": true,
         "priority": "recommended"
+      },
+      "utrannotator": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
       }
     },
     "add_on_options": {
+      "blosum62": {
+        "value": true,
+        "priority": "optional"
+      },
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
       "coding_only": {
         "value": true,
         "priority": "optional"
       },
-      "failed": {
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mutfunc": {
         "value": true,
         "priority": "optional"
       },
       "nmd": {
-        "value": true,
-        "priority": "optional"
-      },
-      "paralogues": {
-        "value": true,
-        "priority": "optional"
-      },
-      "protein": {
         "value": true,
         "priority": "optional"
       },
@@ -5134,7 +5403,11 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   },
   {
     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
@@ -5164,20 +5437,15 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "cell_type": {
+      "canonical": {
         "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
-      "check_existing": {
-        "value": "yes",
         "enabled": true,
         "priority": "recommended"
       },
       "core_type": {
         "value": "Ensembl/GENCODE",
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "dosage_sensitivity": {
         "value": true,
@@ -5187,14 +5455,9 @@
       "gnomad_sv": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
-      },
-      "hgvs": {
-        "value": true,
-        "enabled": true,
         "priority": "recommended"
       },
-      "mirna": {
+      "loeuf": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -5207,7 +5470,7 @@
       "regulatory": {
         "value": true,
         "enabled": true,
-        "priority": "critical"
+        "priority": "recommended"
       },
       "symbol": {
         "value": true,
@@ -5221,7 +5484,23 @@
       }
     },
     "add_on_options": {
+      "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "check_existing": {
+        "value": "yes",
+        "priority": "optional"
+      },
+      "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
       "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "riboseqorfs": {
         "value": true,
         "priority": "optional"
       }
@@ -5295,6 +5574,10 @@
       "flag_low_usefulness": false,
       "flag_degenerate": false,
       "void_query_names_tool": null
-    }
+    },
+    "_refreshed": [
+      "2026-09-20",
+      "2026-09-20"
+    ]
   }
 ]

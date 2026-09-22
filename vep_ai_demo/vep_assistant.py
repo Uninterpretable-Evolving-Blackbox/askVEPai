@@ -590,20 +590,27 @@ FACTOR_VALUES = {
 # newly-multi factor as single, so a query naming two values had one of them dropped.
 # The literals stay as the fallback, so a missing or unreadable factors.json behaves exactly as before.
 def _factor_scheme():
-    """(values, multi) read from factors.json, falling back to the literals above."""
+    """(values, multi, hard gates) read from factors.json, falling back to the literals above.
+
+    `hard_gate` was a dead field until 2026-09-22: the file marked three factors true and the
+    tuple above named the same three, so editing the file changed nothing and said nothing. The
+    file's own `_status` promises the opposite ("edit the values here, not the code"), so the
+    tuple is now derived from it and the literal is only the fallback for a missing file."""
     try:
         spec = load_factors()["factors"]
         values = {f: list(s["values"]) for f, s in spec.items()}
         multi = tuple(f for f, s in spec.items() if s.get("select") == "multi")
-        if values and multi:
-            return values, multi
+        gates = tuple(f for f, s in spec.items() if s.get("hard_gate"))
+        if values and multi and gates:
+            return values, multi, gates
     except Exception:
         pass
-    return dict(_FACTOR_VALUES_FALLBACK), ("region_focus", "analysis_goal")
+    return dict(_FACTOR_VALUES_FALLBACK), ("region_focus", "analysis_goal"), _HARD_GATE_FALLBACK
 
 
 _FACTOR_VALUES_FALLBACK = dict(FACTOR_VALUES)
-FACTOR_VALUES, MULTI_FACTORS = _factor_scheme()
+_HARD_GATE_FALLBACK = HARD_GATE_FACTORS
+FACTOR_VALUES, MULTI_FACTORS, HARD_GATE_FACTORS = _factor_scheme()
 
 # Options whose value is not a bare boolean (everything else -> True when enabled).
 VALUE_DEFAULTS = {"sift": "b", "polyphen": "b", "check_existing": "yes"}

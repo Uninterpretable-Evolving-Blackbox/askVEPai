@@ -78,9 +78,24 @@ def main():
     check("every resolved config is checker-clean (0 further mutations)", allclean, f"{len(rows)} rows")
 
     print("\n== 3. Gate properties across the resolved rows ==")
+    # "Human only" is Ensembl's answer where it gives one: for plugins, the `species` field of
+    # VEP_plugins release/116 (species_data.json `plugin_species`) decides, and our catalogue prose is
+    # only consulted for everything else. Without this the check failed on UTRAnnotator, which our text
+    # calls human only and Ensembl's config does not restrict at all (2026-09-20).
+    _sd = va.load_species_data() or {}
+    _plugin_lists = _sd.get("plugin_species") or {}
+    _plugin_every = set(_sd.get("plugin_species_all") or ())
+
+    def _human_only(oid):
+        if oid in _plugin_every:
+            return False
+        if oid in _plugin_lists:
+            return _plugin_lists[oid] == ["homo_sapiens"]
+        return va._is_human_only(restr.get(oid, "all species"))
+
     sp = [(r["id"], o) for r in rows if r["factor_labels"]["species"] == "non-human"
-          for o in enabled(r) if va._is_human_only(restr.get(o, "all species"))]
-    check("non-human rows never enable a human-only option", not sp, str(sp[:3]))
+          for o in enabled(r) if _human_only(o)]
+    check("non-human rows never enable an option Ensembl restricts to human", not sp, str(sp[:3]))
     # The size gate is driven by the catalogue's own structural_variants column: every option the
     # catalogue marks not_applicable for SVs must be absent from every structural-CNV row's enabled set.
     # This is the strong version of the earlier "SNV predictors" check — it also covers enformer,
@@ -123,9 +138,13 @@ def main():
                                   "region_focus": ["coding"], "analysis_goal": [goal]},
                                  cat, pbf, factors)
         return i["maxentscan"][1]
-    check("conditional rule fires on non-human AND clinical",
-          _splice("non-human", "clinical-interpretation") == "recommended")
-    check("conditional rule stays silent on non-human alone (no splice tool for a frequency scan)",
+    # RETIRED 2026-09-20: the rule recommended MaxEntScan to non-human clinical queries, and Ensembl's
+    # own plugin config lists MaxEntScan for homo_sapiens only. What is asserted now is that no splice
+    # predictor reaches a non-human scenario at all, which is what the form actually offers.
+    check("no splice predictor is recommended for a non-human clinical query",
+          _splice("non-human", "clinical-interpretation") != "recommended",
+          f"got {_splice('non-human', 'clinical-interpretation')}")
+    check("no splice predictor for a non-human frequency scan either",
           _splice("non-human", "population-frequency") != "recommended",
           f"got {_splice('non-human', 'population-frequency')}")
     # Unsatisfiable detection is CATEGORY-based, so cross-factor supply doesn't fool it: a human somatic
