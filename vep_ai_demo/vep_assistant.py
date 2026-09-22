@@ -439,35 +439,10 @@ def build_priority_table(vep_options):
         "_status": ("PROVISIONAL — derived from the DRIVES spec in vep_assistant.py and this catalogue. "
                     "NOT mentor-validated. A validated table dropped in as priority_by_factor.json "
                     "overrides this derivation; no code changes are needed."),
-        "_authoring": {
-            "drives": DRIVES,
-            "baseline_critical": BASELINE_CRITICAL,
-            "baseline_recommended": BASELINE_RECOMMENDED,
-            "predictor_tiers": {
-                "_basis_missense": ("METHOD INDEPENDENCE (distinct vs derivative): a distinct predictor "
-                                    "forms its own call; a derivative one (REVEL/ClinPred/dbNSFP) consumes "
-                                    "other predictors' scores, so it double-counts them. Per ACMG PP3/BP4 / "
-                                    "ClinGen SVI (Pejaver et al. 2022)."),
-                "_basis_splice": ("ADOPTION/RECENCY, not independence: MaxEntScan and dbscSNV are "
-                                  "independent models, NOT derivative of SpliceAI. SpliceAI is the current "
-                                  "community default; the older tools are kept as add-ons."),
-                "_caveat": ("VEP itself ranks NONE of these — both splits are our editorial judgement on "
-                            "standards external to VEP. This is the 'essential vs optional' call the mentor "
-                            "was asked to adjudicate."),
-                "distinct": PREDICTOR_DISTINCT, "derivative": PREDICTOR_DERIVATIVE,
-                "splice_core": SPLICE_CORE, "splice_addon": SPLICE_ADDON,
-            },
-            "species_gate": ("not_applicable for non-human where _is_human_only(species_restriction), OR "
-                             "where the restriction is a narrow 'human + <one species> only' set that the "
-                             "binary species factor cannot guarantee matches the query's species "
-                             "(var_synonyms=human+pig, ccds=human+mouse)"),
-            "size_gate": SIZE_GATE_SOURCE,
-            "region_gate": {"value": "regulatory-noncoding", "not_applicable": REGION_GATE_NONCODING,
-                            "_amends": ("taxonomy_proposal §3 calls region_focus 'purely soft'; the "
-                                        "catalogue rates 9/10 missense predictors regulatory_noncoding="
-                                        "not_applicable and constraints_dossier.md:123 prescribes a "
-                                        "recommender gate. Proposed amendment — needs mentor sign-off.")},
-        },
+        # No derivation record here. It was a copy of DRIVES, of the gate constants, and of the
+        # ACMG predictor rationale that already lives in the comments beside DRIVES above; the
+        # region-focus amendment it flagged is recorded in taxonomy_proposal.md §3 and in
+        # factors.json. Nothing read it. Dropped 2026-09-22.
         "priorities": {oid: dict(fac) for oid, fac in priorities.items()},
     }
 
