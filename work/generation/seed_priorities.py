@@ -28,7 +28,6 @@ import genlib
 
 # Re-exported so anything that imported these from here still works; the definitions live in the engine.
 DRIVES = genlib.DRIVES
-BASELINE_CRITICAL = genlib.BASELINE_CRITICAL
 BASELINE_RECOMMENDED = genlib.BASELINE_RECOMMENDED
 PREDICTOR_DISTINCT = genlib.PREDICTOR_DISTINCT
 PREDICTOR_DERIVATIVE = genlib.PREDICTOR_DERIVATIVE

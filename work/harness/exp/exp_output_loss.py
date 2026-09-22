@@ -93,7 +93,7 @@ def resolve(goal):
 
 def classify(oid, trace):
     """CLASS from the engine's own decision trace — no new judgement is introduced here."""
-    if oid in set(va.BASELINE_CRITICAL) | set(va.BASELINE_RECOMMENDED):
+    if oid in set(va.BASELINE_RECOMMENDED):
         return "CONTEXT"
     winner = (trace.get(oid) or {}).get("winner")
     if winner and winner[0] == "analysis_goal":

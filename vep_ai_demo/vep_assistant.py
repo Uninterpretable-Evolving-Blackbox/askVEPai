@@ -283,8 +283,8 @@ DRIVES = {
 
 # Unconditional floor, under EVERY analysis_goal value. Deliberately small. NOTE anything here can never be
 # `optional` anywhere, because put() is strongest-wins — which is why hgvs/mane/canonical live in DRIVES.
-BASELINE_CRITICAL = ["core_type"]
-BASELINE_RECOMMENDED = ["symbol", "biotype"]
+# One list since the tier merge (2026-08-19); `core_type` was the sole "critical" baseline.
+BASELINE_RECOMMENDED = ["core_type", "symbol", "biotype"]
 
 SIZE_GATE_SOURCE = "catalogue priority_by_factor['variant_size_class']['structural-CNV'] == 'not_applicable'"
 
@@ -401,7 +401,7 @@ def build_priority_table(vep_options):
                 if label in RANK and o["id"] in priorities:
                     priorities[o["id"]][factor][value] = label
     for value in ("basic-consequence", "clinical-interpretation", "population-frequency"):   # (2) the floor
-        for oid in BASELINE_CRITICAL + BASELINE_RECOMMENDED:
+        for oid in BASELINE_RECOMMENDED:
             put(oid, "analysis_goal", value, "recommended")
     # (3) species gate: human-only options, plus NARROW "human + <one species> only" sets (var_synonyms =
     # human+pig, ccds = human+mouse). The species factor is binary and cannot say "pig but not mouse", so a
@@ -470,7 +470,6 @@ def load_priority_by_factor(vep_options=None):
     return build_priority_table(vep_options)
 
 
-PRIORITY_ORDER = {"recommended": 2, "optional": 1}
 
 # --- The two-tier DISPLAY vocabulary --------------------------------------------------------------
 #
@@ -551,42 +550,20 @@ def display_tier(priority):
 # not a CLI requirement): apply only to missense/coding variants." Without the gate, composition is
 # max-only, so `analysis_goal=clinical` would hand missense predictors to a purely regulatory query.
 # FLAG FOR THE MENTOR: this is a proposed amendment to §3, not something §3 already licenses.
-HARD_GATE_FACTORS = ("species", "variant_size_class", "region_focus")
 
-FACTOR_VALUES = {
-    "species": ["human", "non-human"],
-    "origin": ["germline", "somatic"],
-    "variant_size_class": ["small", "structural-CNV"],
-    "region_focus": ["coding", "regulatory-noncoding"],                                   # multi-select
-    "analysis_goal": ["basic-consequence", "clinical-interpretation", "population-frequency"],  # multi-select
-}
-# DERIVED from factors.json, not declared twice. The values above and this tuple used to be hardcoded
-# here while factors.json separately declared `select: single|multi` for each factor, with nothing keeping
-# the two in agreement — they matched only by coincidence. Changing the scheme therefore meant editing the
-# config AND the engine, and editing only the config silently did nothing: the engine went on treating a
-# newly-multi factor as single, so a query naming two values had one of them dropped.
-# The literals stay as the fallback, so a missing or unreadable factors.json behaves exactly as before.
 def _factor_scheme():
-    """(values, multi, hard gates) read from factors.json, falling back to the literals above.
-
-    `hard_gate` was a dead field until 2026-09-22: the file marked three factors true and the
-    tuple above named the same three, so editing the file changed nothing and said nothing. The
-    file's own `_status` promises the opposite ("edit the values here, not the code"), so the
-    tuple is now derived from it and the literal is only the fallback for a missing file."""
+    """(values, multi, hard gates) read from factors.json. The file is the single source: it ships
+    inside the engine, so there is no literal fallback to drift from it (removed 2026-09-22)."""
     try:
         spec = load_factors()["factors"]
-        values = {f: list(s["values"]) for f, s in spec.items()}
-        multi = tuple(f for f, s in spec.items() if s.get("select") == "multi")
-        gates = tuple(f for f, s in spec.items() if s.get("hard_gate"))
-        if values and multi and gates:
-            return values, multi, gates
-    except Exception:
-        pass
-    return dict(_FACTOR_VALUES_FALLBACK), ("region_focus", "analysis_goal"), _HARD_GATE_FALLBACK
+    except Exception as e:
+        raise RuntimeError("factors.json is required and could not be read: %s" % e) from e
+    values = {f: list(s["values"]) for f, s in spec.items()}
+    multi = tuple(f for f, s in spec.items() if s.get("select") == "multi")
+    gates = tuple(f for f, s in spec.items() if s.get("hard_gate"))
+    return values, multi, gates
 
 
-_FACTOR_VALUES_FALLBACK = dict(FACTOR_VALUES)
-_HARD_GATE_FALLBACK = HARD_GATE_FACTORS
 FACTOR_VALUES, MULTI_FACTORS, HARD_GATE_FACTORS = _factor_scheme()
 
 # Options whose value is not a bare boolean (everything else -> True when enabled).
@@ -598,7 +575,7 @@ def strongest(labels):
     not_applicable/None. Returns the label str or None if none apply."""
     best, best_rank = None, 0
     for p in labels:
-        r = PRIORITY_ORDER.get(p, 0)
+        r = RANK.get(p, 0)
         if r > best_rank:
             best, best_rank = p, r
     return best
@@ -2251,11 +2228,6 @@ def extract_recommendations(text, option_aliases):
 # ---------------------------------------------------------------------------
 
 # Priority ranking for conflict resolution (higher number = higher priority)
-_PRIORITY_RANK = {
-    "recommended": 3,
-    "optional": 2,
-    "not_applicable": 1,
-}
 
 # Restrictiveness ranking: when priorities are equal, disable the MORE restrictive
 # option first (most_severe is most restrictive because it suppresses annotations)
@@ -3575,7 +3547,6 @@ def format_corrected_config(enabled, disabled, vep_options, violations, resolved
 
 # The 'Restrict results' dropdown: these catalogue ids are mutually-exclusive VALUES of one control
 # whose HTML name is `summary` (InputForm.pm). web_form_field='summary', value=<the id>.
-_RESTRICT_RESULTS_IDS = {"pick", "pick_allele", "per_gene", "summary", "most_severe"}
 
 # Native non-checkbox controls (dropdown / radiolist / string): action='set_value' with this default
 # value (the InputForm.pm web default) unless the model specified one. `core_type` handled separately.
@@ -3609,7 +3580,7 @@ def _web_form_target(option: dict, species_form: str, model_value=None):
     src = option.get("source_type", "native")
     flag = option.get("cli_flag", "") or ""
 
-    if oid in _RESTRICT_RESULTS_IDS:                       # one dropdown, name='summary'
+    if oid in RESTRICT_RESULTS_FAMILY:                       # one dropdown, name='summary'
         return "summary", "set_value", oid
     if oid == "core_type":                                 # transcript-database radiolist
         return "core_type", "set_value", (model_value or "core")
@@ -3821,38 +3792,10 @@ def tier_options(enabled, vep_options):
     return {"core": core, "addons": addons}
 
 
-def format_tiered_config(enabled, vep_options):
-    """Render the enabled set grouped into Core (native) vs Add-ons (plugins/custom).
-
-    DISPLAY LAYER ONLY — does not change which options are enabled (so it has no effect on the
-    checker or the scored metrics); it only makes the recommended set separable for the user.
-    """
-    tiers = tier_options(enabled, vep_options)
-    name_by_id = {o["id"]: o.get("name", o["id"]) for o in vep_options}
-    flag_by_id = {o["id"]: o.get("cli_flag", "") for o in vep_options}
-    lines = []
-    lines.append(f"CORE — native VEP options (no extra data files, fast)  [{len(tiers['core'])}]")
-    for oid in tiers["core"]:
-        lines.append(f"  \u2713 {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip())
-    if not tiers["core"]:
-        lines.append("  (none)")
-    lines.append(f"ADD-ONS — plugins / custom data (need downloaded files + extra runtime)  [{len(tiers['addons'])}]")
-    for oid in tiers["addons"]:
-        lines.append(f"  + {name_by_id.get(oid, oid)} [{oid}] {flag_by_id.get(oid, '')}".rstrip())
-    if not tiers["addons"]:
-        lines.append("  (none)")
-    return "\n".join(lines)
-
-
-# ---------------------------------------------------------------------------
-# Prompt building — compression + retrieval
-# ---------------------------------------------------------------------------
-
 DESC_CHARS = 120   # how much of each option's description the model is shown; None = all of it
 
 
 _SENTINEL = object()
-
 
 def _desc(opt, desc_chars):
     """The description as the model sees it. `desc_chars=None` means the whole thing."""

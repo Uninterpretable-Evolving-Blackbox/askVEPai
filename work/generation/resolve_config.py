@@ -46,7 +46,7 @@ def flag_arbitrary_conflicts(checker_changes, intent):
     row: surface it for human review instead of silently committing it. (The principled fix is to resolve
     the output-mode conflict by `analysis_goal` — see README open items — but until then, flag.)"""
     def rank(oid):
-        return genlib.PRIORITY_ORDER.get((intent.get(oid) or (None, None, None))[1], 0)
+        return genlib.RANK.get((intent.get(oid) or (None, None, None))[1], 0)
 
     out = []
     for v in checker_changes:

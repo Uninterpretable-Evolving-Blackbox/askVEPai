@@ -91,7 +91,6 @@ def load_query_axes():
 # seed_priorities, the harness) keeps working unchanged.
 _VA = load_va()
 
-PRIORITY_ORDER = _VA.PRIORITY_ORDER
 HARD_GATE_FACTORS = _VA.HARD_GATE_FACTORS
 VALUE_DEFAULTS = _VA.VALUE_DEFAULTS
 strongest = _VA.strongest
@@ -107,7 +106,6 @@ load_priority_by_factor = _VA.load_priority_by_factor
 # classifier prompt were moved there. seed_priorities.py is now only a dump tool over this.
 build_priority_table = _VA.build_priority_table
 DRIVES = _VA.DRIVES
-BASELINE_CRITICAL = _VA.BASELINE_CRITICAL
 BASELINE_RECOMMENDED = _VA.BASELINE_RECOMMENDED
 PREDICTOR_DISTINCT = _VA.PREDICTOR_DISTINCT
 PREDICTOR_DERIVATIVE = _VA.PREDICTOR_DERIVATIVE
