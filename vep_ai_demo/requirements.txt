@@ -1,3 +1,9 @@
+# The CLI needs one package.
 openai>=1.0.0
-sentence-transformers>=2.2.0
-flask>=3.0.0   # web UI (work/webapp/app.py)
+
+# The web UI only (../work/webapp/app.py).
+flask>=3.0.0
+
+# NOT needed to run the tool. Only legacy/evaluate.py --semantic uses it, and that benchmark
+# scores a design retired on 2026-09-14. The import is lazy, so nothing breaks without it.
+# sentence-transformers>=2.2.0

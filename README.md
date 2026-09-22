@@ -30,7 +30,7 @@ option, and everything the checker changed on the way to the output.
 
 ## Requirements
 
-- Python 3.10+
+- Python 3.9+
 - [Ollama](https://ollama.com/) running locally
 - A pulled model (default: `gemma4:26b` — see *Choice of model* below)
 
@@ -44,15 +44,16 @@ ollama pull gemma4:26b
 pip install -r requirements.txt
 ```
 
-Only `openai` is required for the CLI. `flask` is needed for the web UI in `work/webapp/`,
-and `sentence-transformers` for the legacy `evaluate.py --semantic` arm.
+Only `openai` is required for the CLI. `flask` is needed for the web UI in `work/webapp/`.
+`sentence-transformers` is needed by nothing the tool runs — only by
+`vep_ai_demo/legacy/evaluate.py --semantic`, so it is commented out in `requirements.txt`.
 
 ## Usage
 
 ### Recommend a configuration
 
 ```bash
-python vep_assistant.py "somatic tumour-normal, want clinical interpretation on the coding hits"
+python vep_ai_demo/vep_assistant.py "somatic tumour-normal, want clinical interpretation on the coding hits"
 ```
 
 Runs interactively if you omit the scenario.
@@ -78,7 +79,7 @@ configurations, one per size**, because the web form cannot express both at once
 ### Decision trace
 
 ```bash
-python vep_assistant.py --explain "germline exome from a rare-disease patient"
+python vep_ai_demo/vep_assistant.py --explain "germline exome from a rare-disease patient"
 ```
 
 Prints, before the configuration:
@@ -103,7 +104,7 @@ through to the stated assumption in a pipe, so scripts never hang.
 ### State a fact instead of inferring it
 
 ```bash
-python vep_assistant.py --origin somatic --assembly GRCh37 "tumour-normal SNVs, coding, clinical interpretation"
+python vep_ai_demo/vep_assistant.py --origin somatic --assembly GRCh37 "tumour-normal SNVs, coding, clinical interpretation"
 ```
 
 Available flags and their allowed values:
@@ -122,7 +123,7 @@ rather than silently ignored.
 ### Explain a VEP output annotation
 
 ```bash
-python vep_assistant.py explain-result "why is my variant annotated splice_donor_variant?"
+python vep_ai_demo/vep_assistant.py explain-result "why is my variant annotated splice_donor_variant?"
 ```
 
 Uses the 41 consequence terms in `vep_consequences.json` (SO definitions).
@@ -169,22 +170,35 @@ with less than about 20 GB of free memory; set `VEP_MODEL` to use it.
 
 ## Project structure
 
+This repository has two halves: the tool, and the evidence for it.
+
 ```
-vep_assistant.py         # engine — default path: classifier → resolver → checker
-factors.json             # the factor scheme (values, hard gates, exclusions, joint rules)
-priority_by_factor.json  # override for the priority table (derived by default from DRIVES in
-                         #   vep_assistant.py + per-option blocks in the catalogue; the file
-                         #   wins when present, e.g. a mentor-signed table dropped in)
-vep_options.json         # the 68-option catalogue
-vep_consequences.json    # 41 VEP consequence terms (SO definitions)
-training_examples.json   # 23 legacy examples: --two-pass in-context corpus, and the checker's
-                         #   use-case tie-break when two options conflict
-requirements.txt         # openai + flask (web UI) + sentence-transformers (legacy --semantic)
-results/                 # recommendations and evaluation reports
+vep_ai_demo/             # THE TOOL — everything needed to run it
+  vep_assistant.py       #   the engine: classifier -> resolver -> checker -> output
+  vep_options.json       #   the 68-option catalogue
+  factors.json           #   the factor scheme (values, hard gates, exclusions)
+  priority_by_factor.json#   the priority table the resolver reads
+  vep_consequences.json  #   41 VEP consequence terms (SO definitions)
+  training_examples.json #   23 stage-B examples; only --two-pass reads them
+  legacy/                #   NOT USED BY THE TOOL — see vep_ai_demo/legacy/README.md
+  requirements.txt       #   openai (CLI); flask for the web UI
+
+work/                    # THE EVIDENCE — how the tool was built and how it is checked
+  harness/               #   test scripts, grouped by what each one is:
+                         #     suites/  run every session, pass/fail, no GPU
+                         #     build/   regenerate a data file from an Ensembl source
+                         #     exp/     experiments whose results are still quoted
+                         #     done/    finished; kept as the reproduction record
+                         #   harness/README.md maps every script to its project stage.
+  generation/            #   the pipeline that produced the 31 review scenarios,
+                         #     plus verify_pipeline.py (79 invariants)
+  research/              #   design rationale: the taxonomy, the option dossiers
+  results/               #   a curated subset of measurement output
+  webapp/                #   a small Flask UI over the same engine
 ```
 
 Design rationale, deterministic invariant harnesses (79 checks, no GPU), the full option
-dossier and the generation pipeline live one level up in `work/`; see `../work/README.md`.
+dossier and the generation pipeline live one level up in `work/`; see `work/README.md`.
 
 ## Knowledge base
 
@@ -192,14 +206,14 @@ dossier and the generation pipeline live one level up in `work/`; see `../work/R
 release-116 documentation pages, with `species_restriction`, dependencies, conflicts and the
 factor-keyed priorities the resolver reads.
 
-**What the shipped path uses.** The five factor values from the classifier plus the priority
-table. The 23 legacy examples in `training_examples.json` are also read on this path — the
-checker uses them for one thing only, breaking ties when two options conflict, by detecting a
-use case from the query against the old seven-category labels.
+**What the shipped path uses.** The five factor values from the classifier, and nothing else.
+They index the priority table; the checker then applies conflicts, gates and dependencies,
+ranking a conflict by the priority the FACTOR RESOLUTION gives each option. The 23 examples in
+`training_examples.json` play no part — only `--two-pass` reads them.
 
 **OUTDATED, measuring. Evaluation scenarios.** The pipeline is scored on the **31 candidate scenarios** in
-`../work/generation/candidates/iced.json`, generated and ICE-screened by the pipeline in
-`../work/generation/` and reviewed by the Ensembl mentors. Every current number under
+`work/generation/candidates/iced.json`, generated and ICE-screened by the pipeline in
+`work/generation/` and reviewed by the Ensembl mentors. Every current number under
 *Known limitations* comes from that set.
 
 The five factors are:
@@ -215,31 +229,37 @@ The five factors are:
 The old single-label use-case scheme (rare-disease-germline / somatic-cancer / …) was
 retired from the priority table in September 2026: a mouse somatic SV is somatic **and**
 structural **and** non-human at once, and forcing it into one bucket picks the wrong
-priorities. See `../work/research/taxonomy_proposal.md`. The scheme still lives in two
-places: as the labels on `training_examples.json`, and inside the checker's conflict
-tie-break.
+priorities. See `work/research/taxonomy_proposal.md`. It survives only as the labels on
+`training_examples.json` and in `vep_ai_demo/legacy/`; it decides nothing. The checker's
+conflict tie-break stopped reading it on 2026-09-13 and now ranks on the factor resolution.
 
 
 ## Evaluation
 
-The shipped path is exercised by the harnesses in `../work/harness/`:
+The shipped path is exercised by these. `work/harness/` is grouped by what each script is —
+`suites/` run every session, `build/` regenerate a data file, `exp/` are live experiments,
+`done/` are finished ones kept as the reproduction record. `work/harness/README.md` lists all
+of them with the project stage each belongs to.
 
-- `factor_accuracy.py` — the classifier's five-factor output on the 31 review scenarios.
-- `factor_grid.py` — the 600-query stress grid (species, origin, size, region, goal).
-- `verify_pipeline.py` — the 79 deterministic invariant checks (no GPU, seconds).
+- `work/harness/exp/factor_accuracy.py` — the classifier's five factors on the 31 review scenarios.
+- `work/harness/exp/factor_grid.py` — the 600-query stress grid (species, origin, size, region, goal).
+- `work/harness/exp/organism_naming.py` — does it name the organism, and agree with itself (121 × 2).
+- `work/generation/verify_pipeline.py` — the 79 deterministic invariant checks (no GPU, seconds).
+- `work/harness/suites/` — `defaults_evidence.py` (28), `test_user_context.py` (15), `ask_rate.py`.
 
-Recent numbers from `../work/results/final_2026-09-15/`: factor accuracy across 3 seeds
+Recent numbers from `work/results/final_2026-09-15/`: factor accuracy across 3 seeds
 (species 31/31 rule-based, exact tuple 21/31, e2e F1 0.970 ± 0.000), 78-row fallback
 end-to-end (76/78 disclosed), class-weighted F1 that prices errors by their documented effect
-on the VEP output. Note `work/results/` is git-ignored, so a fresh clone will not have those
-files; run the harnesses to regenerate. Those runs also had `VEP_SPECIES_HINT=1` on and have
-not been re-run since it was switched off by default.
+on the VEP output. A curated subset of `work/results/` is published here, so a clone has those
+files; the rest is regenerated by running the harnesses. Those runs had `VEP_SPECIES_HINT=1` on
+and predate the species hint being retired, prompt v2, the `organism` field and Ensembl's
+per-plugin species lists — treat them as superseded rather than current.
 
 
-`evaluate.py` in the demo is the **legacy** benchmark: it scores the two-pass draft
+`vep_ai_demo/legacy/evaluate.py` is the **stage-B** benchmark: it scores the two-pass draft
 recommender's text on 8 hardcoded test queries, weighted by the retired use-case snapshot
-kept in `../work/harness/legacy/`. It never exercises the shipped one-call path. Kept only
-for comparison work against older figures.
+kept in `work/harness/legacy/`. It never exercises the shipped one-call path, and its headline
+metric is undefined on it. Kept only as a record — see `vep_ai_demo/legacy/README.md`.
 
 **factor-value inference eval**
 Reasoning on results produced correct inference 148/150, and the non correct cases did not result in config change(one is clincial and basic whereas the correct config is basic, but basic is just a subset of that, second is clinical + pop frequency rather than the correct one being clinical only, one extra optional but nothing changes recommended)
@@ -259,7 +279,7 @@ the JSON is regenerated.
 
 **Enable-F1 on the shipped path is undefined.** The classical enable-F1 metric scored a
 model-written draft configuration that the current path no longer produces (see *Legacy*
-below). The class-weighted F1 in `../work/harness/class_weighted_f1.py` is the current
+below). The class-weighted F1 in `work/harness/class_weighted_f1.py` is the current
 figure — 0.900 as last measured, with `VEP_SPECIES_HINT=1` on and not yet re-run since it was
 switched off by default. The weights are ours, not a mentor's.
 
@@ -284,7 +304,7 @@ The two-pass path is still runnable for comparison work:
 | `--think` | turn on Gemma's reasoning-first mode for the recommender under `--two-pass` (slower; not tested whether output improves) |
 
 `enable-F1 = 88.0% ± 0.2` (2026-09-04, L4) stands as the last two-pass figure. The four-arm
-ablation in `../work/results/final_2026-09-15/` compares single-pass against three two-pass
+ablation in `work/results/final_2026-09-15/` compares single-pass against three two-pass
 variants (each with a different in-context example corpus) and finds single-pass ahead of
 every two-pass arm on plain and class-weighted F1 — which is why example retrieval was
 dropped from the shipped pipeline.
