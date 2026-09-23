@@ -1,0 +1,12 @@
+{
+ "_what": "Plugin checkboxes on the GRCh37 VEP web form, read from the live page (input names plugin_<Key>).",
+ "_url": "https://grch37.ensembl.org/Homo_sapiens/Tools/VEP",
+ "_release": "page title 'Variant Effect Predictor - Homo_sapiens - GRCh37 Archive browser 116'",
+ "_read_on": "2026-09-23",
+ "_method": "document.querySelectorAll('input,select') names matching ^plugin_[A-Za-z0-9]+$, after the form components loaded",
+ "plugins": ["DosageSensitivity", "LOEUF", "NMD", "UTRAnnotator", "IntAct", "Enformer", "Phenotypes", "GO",
+             "Geno2MP", "Mastermind", "dbNSFP", "AlphaMissense", "CADD", "MPC", "REVEL", "ClinPred", "dbscSNV",
+             "MaxEntScan", "SpliceAI", "Blosum62", "AncestralAllele"],
+ "absent_but_on_grch38_form": ["Paralogues", "mutfunc", "OpenTargets", "RiboseqORFs", "AVI", "ProtVar", "EVE", "MaveDB"],
+ "_grch38_source": "form_layout_live.json (jun2026.archive.ensembl.org, read 2026-09-15)"
+}

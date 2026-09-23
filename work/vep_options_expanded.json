@@ -1283,14 +1283,17 @@
       "name": "plugin_config.txt:1000 (label)",
       "description": "plugin_config.txt:1004 (helptip), verbatim",
       "default": "vep_plugins_web_config.txt:99; plugin_config.txt:1002 → InputForm.pm:1139 (research/form_defaults_check_2026-09-22.md)",
-      "species": "plugin_config.txt:1007 (release/116 `species` list)"
+      "species": "plugin_config.txt:1007 (release/116 `species` list)",
+      "assemblies": "grch37_form_plugins_2026-09-23.json: no `plugin_Paralogues` on the GRCh37 web form (grch37.ensembl.org, release 116, read 2026-09-23); present on the GRCh38 form (form_layout_live.json, read 2026-09-15)"
     },
     "web_default_on": false,
     "web_default_value": null,
     "species": [
       "homo_sapiens"
     ],
-    "assemblies": null
+    "assemblies": [
+      "GRCh38"
+    ]
   },
   {
     "id": "gnomad_sv",
@@ -1562,7 +1565,8 @@
       "name": "plugin_config.txt:1930 (label)",
       "description": "plugin_config.txt:1934 (helptip), verbatim",
       "default": "vep_plugins_web_config.txt:62; plugin_config.txt:1932 → InputForm.pm:1139 (research/form_defaults_check_2026-09-22.md)",
-      "species": "plugin_config.txt:1941 (release/116 `species` list)"
+      "species": "plugin_config.txt:1941 (release/116 `species` list)",
+      "assemblies": "grch37_form_plugins_2026-09-23.json: no `plugin_mutfunc` on the GRCh37 web form (grch37.ensembl.org, release 116, read 2026-09-23); present on the GRCh38 form (form_layout_live.json, read 2026-09-15)"
     },
     "web_default_on": false,
     "web_default_value": null,
@@ -1570,7 +1574,9 @@
       "homo_sapiens",
       "saccharomyces_cerevisiae"
     ],
-    "assemblies": null
+    "assemblies": [
+      "GRCh38"
+    ]
   },
   {
     "depends_on": [],
@@ -1718,14 +1724,17 @@
       "name": "plugin_config.txt:1430 (label)",
       "description": "plugin_config.txt:1431 (helptip), verbatim",
       "default": "vep_plugins_web_config.txt:82; plugin_config.txt:1432 → InputForm.pm:1175 (research/form_defaults_check_2026-09-22.md)",
-      "species": "plugin_config.txt:1437 (release/116 `species` list)"
+      "species": "plugin_config.txt:1437 (release/116 `species` list)",
+      "assemblies": "grch37_form_plugins_2026-09-23.json: no `plugin_OpenTargets` on the GRCh37 web form (grch37.ensembl.org, release 116, read 2026-09-23); present on the GRCh38 form (form_layout_live.json, read 2026-09-15)"
     },
     "web_default_on": false,
     "web_default_value": null,
     "species": [
       "homo_sapiens"
     ],
-    "assemblies": null
+    "assemblies": [
+      "GRCh38"
+    ]
   },
   {
     "depends_on": [],
@@ -1743,14 +1752,17 @@
       "name": "plugin_config.txt:1814 (label)",
       "description": "plugin_config.txt:1818 (helptip), verbatim",
       "default": "vep_plugins_web_config.txt:86; plugin_config.txt:1816 → InputForm.pm:1175 (research/form_defaults_check_2026-09-22.md)",
-      "species": "plugin_config.txt:1823 (release/116 `species` list)"
+      "species": "plugin_config.txt:1823 (release/116 `species` list)",
+      "assemblies": "grch37_form_plugins_2026-09-23.json: no `plugin_RiboseqORFs` on the GRCh37 web form (grch37.ensembl.org, release 116, read 2026-09-23); present on the GRCh38 form (form_layout_live.json, read 2026-09-15)"
     },
     "web_default_on": false,
     "web_default_value": null,
     "species": [
       "homo_sapiens"
     ],
-    "assemblies": null
+    "assemblies": [
+      "GRCh38"
+    ]
   },
   {
     "id": "avi",
@@ -1768,14 +1780,17 @@
       "name": "plugin_config.txt:638 (label)",
       "description": "plugin_config.txt:642 (helptip), verbatim",
       "default": "not in WC; plugin_config.txt:640 `\"enabled\" => 0`; vep_online_input.html:820 unchecked (research/form_defaults_check_2026-09-22.md)",
-      "species": "plugin_config.txt:645 (release/116 `species` list)"
+      "species": "plugin_config.txt:645 (release/116 `species` list)",
+      "assemblies": "grch37_form_plugins_2026-09-23.json: no `plugin_AVI` on the GRCh37 web form (grch37.ensembl.org, release 116, read 2026-09-23); present on the GRCh38 form (form_layout_live.json, read 2026-09-15)"
     },
     "web_default_on": false,
     "web_default_value": null,
     "species": [
       "homo_sapiens"
     ],
-    "assemblies": null
+    "assemblies": [
+      "GRCh38"
+    ]
   },
   {
     "id": "protvar",
@@ -1793,14 +1808,17 @@
       "name": "plugin_config.txt:1967 (label)",
       "description": "plugin_config.txt:1971 (helptip), verbatim",
       "default": "not in WC; plugin_config.txt:1969 `\"enabled\" => 0`; vep_online_input.html:632 `value=\"no\" checked` (research/form_defaults_check_2026-09-22.md)",
-      "species": "plugin_config.txt:1977 (release/116 `species` list)"
+      "species": "plugin_config.txt:1977 (release/116 `species` list)",
+      "assemblies": "grch37_form_plugins_2026-09-23.json: no `plugin_ProtVar` on the GRCh37 web form (grch37.ensembl.org, release 116, read 2026-09-23); present on the GRCh38 form (form_layout_live.json, read 2026-09-15)"
     },
     "web_default_on": false,
     "web_default_value": null,
     "species": [
       "homo_sapiens"
     ],
-    "assemblies": null
+    "assemblies": [
+      "GRCh38"
+    ]
   },
   {
     "id": "species_frequency",

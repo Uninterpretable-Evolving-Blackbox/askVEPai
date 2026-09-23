@@ -1,0 +1,5300 @@
+{
+ "_n_names": 756,
+ "_n_species": 356,
+ "_note": "Matches are HINTS for the classifier, never an answer. See the module docstring.",
+ "_source": "https://rest.ensembl.org/info/species?content-type=application/json",
+ "names": {
+  "abingdon island giant tortoise": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chelonoidis_abingdonii",
+   "trap": null
+  },
+  "acanthochromis polyacanthus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "acanthochromis_polyacanthus",
+   "trap": null
+  },
+  "accipiter nisus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "accipiter_nisus",
+   "trap": null
+  },
+  "african green monkey": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
+   "trap": null
+  },
+  "african ostrich": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "struthio_camelus_australis",
+   "trap": null
+  },
+  "african savanna elephant": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "loxodonta_africana",
+   "trap": null
+  },
+  "agassiz's desert tortoise": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gopherus_agassizii",
+   "trap": null
+  },
+  "ailuropoda melanoleuca": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ailuropoda_melanoleuca",
+   "trap": null
+  },
+  "alpaca": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "vicugna_pacos",
+   "trap": null
+  },
+  "alpine marmot": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "marmota_marmota_marmota",
+   "trap": null
+  },
+  "amazon molly": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_formosa",
+   "trap": null
+  },
+  "amazona collaria": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amazona_collaria",
+   "trap": null
+  },
+  "american beaver": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "castor_canadensis",
+   "trap": null
+  },
+  "american bison": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bison_bison_bison",
+   "trap": null
+  },
+  "american black bear": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ursus_americanus",
+   "trap": null
+  },
+  "american mink": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "neovison_vison",
+   "trap": null
+  },
+  "american pika": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ochotona_princeps",
+   "trap": null
+  },
+  "amphilophus citrinellus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amphilophus_citrinellus",
+   "trap": null
+  },
+  "amphiprion ocellaris": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amphiprion_ocellaris",
+   "trap": null
+  },
+  "amphiprion percula": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amphiprion_percula",
+   "trap": null
+  },
+  "anabas testudineus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anabas_testudineus",
+   "trap": null
+  },
+  "anas platyrhynchos": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anas_platyrhynchos",
+   "trap": null
+  },
+  "anas platyrhynchos platyrhynchos": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anas_platyrhynchos_platyrhynchos",
+   "trap": null
+  },
+  "anas zonorhyncha": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anas_zonorhyncha",
+   "trap": null
+  },
+  "angola colobus": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "colobus_angolensis_palliatus",
+   "trap": null
+  },
+  "anolis carolinensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anolis_carolinensis",
+   "trap": null
+  },
+  "anser brachyrhynchus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anser_brachyrhynchus",
+   "trap": null
+  },
+  "anser cygnoides": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anser_cygnoides",
+   "trap": null
+  },
+  "aotus nancymaae": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "aotus_nancymaae",
+   "trap": null
+  },
+  "apteryx haastii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "apteryx_haastii",
+   "trap": null
+  },
+  "apteryx owenii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "apteryx_owenii",
+   "trap": null
+  },
+  "apteryx rowi": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "apteryx_rowi",
+   "trap": null
+  },
+  "aquila chrysaetos chrysaetos": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "aquila_chrysaetos_chrysaetos",
+   "trap": null
+  },
+  "arabian camel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "camelus_dromedarius",
+   "trap": null
+  },
+  "arctic ground squirrel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "urocitellus_parryii",
+   "trap": null
+  },
+  "argentine black and white tegu": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salvator_merianae",
+   "trap": null
+  },
+  "armadillo": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "dasypus_novemcinctus",
+   "trap": null
+  },
+  "asian bonytongue": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "scleropages_formosus",
+   "trap": null
+  },
+  "asiatic black bear": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ursus_thibetanus_thibetanus",
+   "trap": null
+  },
+  "ass": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "equus_asinus_gca041296235v2",
+   "trap": null
+  },
+  "astatotilapia calliptera": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astatotilapia_calliptera",
+   "trap": null
+  },
+  "astyanax mexicanus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astyanax_mexicanus",
+   "trap": null
+  },
+  "astyanax mexicanus pachon": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astyanax_mexicanus_pachon",
+   "trap": null
+  },
+  "athene cunicularia": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "athene_cunicularia",
+   "trap": null
+  },
+  "atlantic cod": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gadus_morhua",
+   "trap": null
+  },
+  "atlantic herring": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "clupea_harengus",
+   "trap": null
+  },
+  "atlantic salmon": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_salar_gca021399835v1",
+   "trap": null
+  },
+  "atlantic salmon - european origin alta": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_salar_gca931346935v2",
+   "trap": null
+  },
+  "atlantic salmon - north american atlantic salmon": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_salar_gca021399835v1",
+   "trap": null
+  },
+  "atlantic salmon - north american origin brian": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_salar_gca923944775v1",
+   "trap": null
+  },
+  "australian saltwater crocodile": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "crocodylus_porosus",
+   "trap": null
+  },
+  "balaenoptera musculus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "balaenoptera_musculus",
+   "trap": null
+  },
+  "ballan wrasse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "labrus_bergylta",
+   "trap": null
+  },
+  "barramundi perch": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lates_calcarifer",
+   "trap": null
+  },
+  "beluga whale": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "delphinapterus_leucas",
+   "trap": null
+  },
+  "bengalese finch": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lonchura_striata_domestica",
+   "trap": null
+  },
+  "betta splendens": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "betta_splendens",
+   "trap": null
+  },
+  "bicolor damselfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "stegastes_partitus",
+   "trap": null
+  },
+  "bison bison bison": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bison_bison_bison",
+   "trap": null
+  },
+  "black snub-nosed monkey": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rhinopithecus_bieti",
+   "trap": null
+  },
+  "blind barbel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sinocyclocheilus_anshuiensis",
+   "trap": null
+  },
+  "blue tilapia": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oreochromis_aureus",
+   "trap": null
+  },
+  "blue tit": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyanistes_caeruleus",
+   "trap": null
+  },
+  "blue whale": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "balaenoptera_musculus",
+   "trap": null
+  },
+  "blue-crowned manakin": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lepidothrix_coronata",
+   "trap": null
+  },
+  "blue-ringed sea krait": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "laticauda_laticaudata",
+   "trap": null
+  },
+  "blunt-snouted clingfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gouania_willdenowi",
+   "trap": null
+  },
+  "bolivian squirrel monkey": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "saimiri_boliviensis_boliviensis",
+   "trap": null
+  },
+  "bonobo": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_paniscus",
+   "trap": null
+  },
+  "bos grunniens": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_grunniens",
+   "trap": null
+  },
+  "bos indicus hybrid": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_indicus_hybrid",
+   "trap": null
+  },
+  "bos mutus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_mutus",
+   "trap": null
+  },
+  "bos taurus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus",
+   "trap": null
+  },
+  "bos taurus gca963921495v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus_gca963921495v1",
+   "trap": null
+  },
+  "bos taurus hybrid": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus_hybrid",
+   "trap": null
+  },
+  "bos taurus tuli": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus_tuli",
+   "trap": null
+  },
+  "bos taurus wagyu": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus_wagyu",
+   "trap": null
+  },
+  "bottlenosed dolphin": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tursiops_truncatus",
+   "trap": null
+  },
+  "brazilian guinea pig": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_aperea",
+   "trap": null
+  },
+  "brown trout": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_trutta",
+   "trap": null
+  },
+  "bubo bubo": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bubo_bubo",
+   "trap": null
+  },
+  "budgerigar": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "melopsittacus_undulatus",
+   "trap": null
+  },
+  "burrowing owl": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "athene_cunicularia",
+   "trap": null
+  },
+  "burton's mouthbrooder": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "haplochromis_burtoni",
+   "trap": null
+  },
+  "bushbaby": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otolemur_garnettii",
+   "trap": null
+  },
+  "buteo japonicus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "buteo_japonicus",
+   "trap": null
+  },
+  "c.intestinalis": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_intestinalis",
+   "trap": null
+  },
+  "c.savignyi": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_savignyi",
+   "trap": null
+  },
+  "cairina moschata domestica": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cairina_moschata_domestica",
+   "trap": null
+  },
+  "calidris pugnax": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "calidris_pugnax",
+   "trap": null
+  },
+  "calidris pygmaea": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "calidris_pygmaea",
+   "trap": null
+  },
+  "california sea lion": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "zalophus_californianus",
+   "trap": null
+  },
+  "callithrix jacchus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "callithrix_jacchus",
+   "trap": null
+  },
+  "callorhinchus milii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "callorhinchus_milii",
+   "trap": null
+  },
+  "camarhynchus parvulus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "camarhynchus_parvulus",
+   "trap": null
+  },
+  "camelus dromedarius": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "camelus_dromedarius",
+   "trap": null
+  },
+  "canada lynx": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lynx_canadensis",
+   "trap": null
+  },
+  "canis lupus dingo": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "canis_lupus_dingo",
+   "trap": null
+  },
+  "canis lupus familiaris": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "canis_lupus_familiaris",
+   "trap": null
+  },
+  "canis lupus familiarisbasenji": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "canis_lupus_familiarisbasenji",
+   "trap": null
+  },
+  "canis lupus familiarisboxer": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "canis_lupus_familiarisboxer",
+   "trap": null
+  },
+  "canis lupus familiarisgreatdane": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "canis_lupus_familiarisgreatdane",
+   "trap": null
+  },
+  "canis lupus familiarisgsd": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "canis_lupus_familiarisgsd",
+   "trap": null
+  },
+  "cape rock hyrax": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "procavia_capensis",
+   "trap": null
+  },
+  "capra hircus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "capra_hircus",
+   "trap": null
+  },
+  "capra hircus blackbengal": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "capra_hircus_blackbengal",
+   "trap": null
+  },
+  "capra hircus gca015443085v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "capra_hircus_gca015443085v1",
+   "trap": null
+  },
+  "capra hircus gca026652205v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "capra_hircus_gca026652205v1",
+   "trap": null
+  },
+  "carassius auratus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carassius_auratus",
+   "trap": null
+  },
+  "carlito syrichta": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "castor canadensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "castor_canadensis",
+   "trap": null
+  },
+  "cat - abyssinian": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "felis_catus_abyssinian",
+   "trap": null
+  },
+  "catagonus wagneri": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "catagonus_wagneri",
+   "trap": null
+  },
+  "catharus ustulatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "catharus_ustulatus",
+   "trap": null
+  },
+  "cattle": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "bos_taurus_wagyu",
+   "trap": null
+  },
+  "cattle - norwegian red (nrf)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "cattle",
+   "species": "bos_taurus_gca963921495v1",
+   "trap": null
+  },
+  "cattle - tuli": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "cattle",
+   "species": "bos_taurus_tuli",
+   "trap": null
+  },
+  "cattle - wagyu": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "cattle",
+   "species": "bos_taurus_wagyu",
+   "trap": null
+  },
+  "cavia aperea": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_aperea",
+   "trap": null
+  },
+  "cavia porcellus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_porcellus",
+   "trap": null
+  },
+  "cebus imitator": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cebus_imitator",
+   "trap": null
+  },
+  "central bearded dragon": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pogona_vitticeps",
+   "trap": null
+  },
+  "cercocebus atys": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cercocebus_atys",
+   "trap": null
+  },
+  "cervus hanglu yarkandensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cervus_hanglu_yarkandensis",
+   "trap": null
+  },
+  "chacoan peccary": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "catagonus_wagneri",
+   "trap": null
+  },
+  "channel bull blenny": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cottoperca_gobio",
+   "trap": null
+  },
+  "channel catfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictalurus_punctatus",
+   "trap": null
+  },
+  "chelonoidis abingdonii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chelonoidis_abingdonii",
+   "trap": null
+  },
+  "chelydra serpentina": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chelydra_serpentina",
+   "trap": null
+  },
+  "chicken": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "gallus_gallus",
+   "trap": null
+  },
+  "chicken (paternal white leghorn layer)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "chicken",
+   "species": "gallus_gallus_gca016700215v2",
+   "trap": null
+  },
+  "chicken (red jungle fowl)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "chicken",
+   "species": "gallus_gallus_gca000002315v5",
+   "trap": null
+  },
+  "chilean tinamou": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nothoprocta_perdicaria",
+   "trap": null
+  },
+  "chimpanzee": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "pan_troglodytes",
+   "trap": null
+  },
+  "chinchilla lanigera": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chinchilla_lanigera",
+   "trap": null
+  },
+  "chinese hamster": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_crigri",
+   "trap": null
+  },
+  "chinese hamster chok1gs": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_chok1gshd",
+   "trap": null
+  },
+  "chinese hamster crigri": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_crigri",
+   "trap": null
+  },
+  "chinese hamster picr": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_picr",
+   "trap": null
+  },
+  "chinese medaka": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_sinensis",
+   "trap": null
+  },
+  "chinese softshell turtle": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pelodiscus_sinensis",
+   "trap": null
+  },
+  "chinook salmon": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oncorhynchus_tshawytscha",
+   "trap": null
+  },
+  "chlorocebus sabaeus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
+   "trap": null
+  },
+  "choloepus hoffmanni": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
+  "chrysemys picta bellii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chrysemys_picta_bellii",
+   "trap": null
+  },
+  "chrysolophus pictus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chrysolophus_pictus",
+   "trap": null
+  },
+  "ciona intestinalis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_intestinalis",
+   "trap": null
+  },
+  "ciona savignyi": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_savignyi",
+   "trap": null
+  },
+  "climbing perch": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anabas_testudineus",
+   "trap": null
+  },
+  "clown anemonefish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amphiprion_ocellaris",
+   "trap": null
+  },
+  "clupea harengus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "clupea_harengus",
+   "trap": null
+  },
+  "coelacanth": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "latimeria_chalumnae",
+   "trap": null
+  },
+  "coho salmon": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oncorhynchus_kisutch",
+   "trap": null
+  },
+  "collared flycatcher": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ficedula_albicollis",
+   "trap": null
+  },
+  "colobus angolensis palliatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "colobus_angolensis_palliatus",
+   "trap": null
+  },
+  "common canary": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "serinus_canaria",
+   "trap": null
+  },
+  "common carp": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinus_carpio_carpio",
+   "trap": null
+  },
+  "common carp german mirror": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinus_carpio_germanmirror",
+   "trap": null
+  },
+  "common carp hebao red": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinus_carpio_hebaored",
+   "trap": null
+  },
+  "common carp huanghe": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinus_carpio_huanghe",
+   "trap": null
+  },
+  "common kestrel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "falco_tinnunculus",
+   "trap": null
+  },
+  "common mallard": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anas_platyrhynchos_platyrhynchos",
+   "trap": null
+  },
+  "common snapping turtle": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chelydra_serpentina",
+   "trap": null
+  },
+  "common wall lizard": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "podarcis_muralis",
+   "trap": null
+  },
+  "common wombat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vombatus_ursinus",
+   "trap": null
+  },
+  "coquerel's sifaka": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "propithecus_coquereli",
+   "trap": null
+  },
+  "corvus moneduloides": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "corvus_moneduloides",
+   "trap": null
+  },
+  "cottoperca gobio": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cottoperca_gobio",
+   "trap": null
+  },
+  "coturnix japonica": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "coturnix_japonica",
+   "trap": null
+  },
+  "crab-eating macaque": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "macaca_fascicularis",
+   "trap": null
+  },
+  "cricetulus griseus chok1gshd": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_chok1gshd",
+   "trap": null
+  },
+  "cricetulus griseus crigri": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_crigri",
+   "trap": null
+  },
+  "cricetulus griseus picr": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_picr",
+   "trap": null
+  },
+  "crocodylus porosus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "crocodylus_porosus",
+   "trap": null
+  },
+  "cyanistes caeruleus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyanistes_caeruleus",
+   "trap": null
+  },
+  "cyclopterus lumpus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyclopterus_lumpus",
+   "trap": null
+  },
+  "cynoglossus semilaevis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cynoglossus_semilaevis",
+   "trap": null
+  },
+  "cyprinodon variegatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinodon_variegatus",
+   "trap": null
+  },
+  "cyprinus carpio carpio": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinus_carpio_carpio",
+   "trap": null
+  },
+  "cyprinus carpio germanmirror": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinus_carpio_germanmirror",
+   "trap": null
+  },
+  "cyprinus carpio hebaored": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinus_carpio_hebaored",
+   "trap": null
+  },
+  "cyprinus carpio huanghe": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinus_carpio_huanghe",
+   "trap": null
+  },
+  "damara mole rat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "fukomys_damarensis",
+   "trap": null
+  },
+  "danio rerio": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "danio_rerio",
+   "trap": null
+  },
+  "dark-eyed junco": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "junco_hyemalis",
+   "trap": null
+  },
+  "dasypus novemcinctus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dasypus_novemcinctus",
+   "trap": null
+  },
+  "daurian ground squirrel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "spermophilus_dauricus",
+   "trap": null
+  },
+  "degu": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "octodon_degus",
+   "trap": null
+  },
+  "delphinapterus leucas": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "delphinapterus_leucas",
+   "trap": null
+  },
+  "denticeps clupeoides": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "denticeps_clupeoides",
+   "trap": null
+  },
+  "denticle herring": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "denticeps_clupeoides",
+   "trap": null
+  },
+  "dicentrarchus labrax": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dicentrarchus_labrax",
+   "trap": null
+  },
+  "dingo": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "canis_lupus_dingo",
+   "trap": null
+  },
+  "dipodomys ordii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "dog": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "canis_lupus_familiaris",
+   "trap": "the DOG1 (ANO1) gene"
+  },
+  "dog - basenji": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "dog",
+   "species": "canis_lupus_familiarisbasenji",
+   "trap": null
+  },
+  "dog - boxer": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "dog",
+   "species": "canis_lupus_familiarisboxer",
+   "trap": null
+  },
+  "dog - german shepherd": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "dog",
+   "species": "canis_lupus_familiarisgsd",
+   "trap": null
+  },
+  "dog - great dane": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "dog",
+   "species": "canis_lupus_familiarisgreatdane",
+   "trap": null
+  },
+  "dolphin": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "tursiops_truncatus",
+   "trap": null
+  },
+  "domestic cat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "felis_catus",
+   "trap": null
+  },
+  "domestic cattle": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus_gca963921495v1",
+   "trap": null
+  },
+  "domestic ferret": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mustela_putorius_furo",
+   "trap": null
+  },
+  "domestic guinea pig": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_porcellus",
+   "trap": null
+  },
+  "domestic pig": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca020567905v1",
+   "trap": null
+  },
+  "domestic yak": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_grunniens",
+   "trap": null
+  },
+  "donkey": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "equus_asinus",
+   "trap": null
+  },
+  "donkey (equass-t2t_v2)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "donkey",
+   "species": "equus_asinus_gca041296235v2",
+   "trap": null
+  },
+  "drill": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "mandrillus_leucophaeus",
+   "trap": "'drill down'"
+  },
+  "dromaius novaehollandiae": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dromaius_novaehollandiae",
+   "trap": null
+  },
+  "duck": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "anas_platyrhynchos_platyrhynchos",
+   "trap": "'duck typing'"
+  },
+  "eastern brown snake": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pseudonaja_textilis",
+   "trap": null
+  },
+  "eastern buzzard": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "buteo_japonicus",
+   "trap": null
+  },
+  "eastern european house mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_pwkphj",
+   "trap": null
+  },
+  "eastern happy": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astatotilapia_calliptera",
+   "trap": null
+  },
+  "eastern spot-billed duck": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anas_zonorhyncha",
+   "trap": null
+  },
+  "echeneis naucrates": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echeneis_naucrates",
+   "trap": null
+  },
+  "echinops telfairi": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
+   "trap": null
+  },
+  "electric eel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "electrophorus_electricus",
+   "trap": null
+  },
+  "electrophorus electricus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "electrophorus_electricus",
+   "trap": null
+  },
+  "elephant": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "loxodonta_africana",
+   "trap": null
+  },
+  "elephant shark": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "elephant",
+   "species": "callorhinchus_milii",
+   "trap": null
+  },
+  "emu": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "dromaius_novaehollandiae",
+   "trap": null
+  },
+  "eptatretus burgeri": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "eptatretus_burgeri",
+   "trap": null
+  },
+  "equus asinus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "equus_asinus",
+   "trap": null
+  },
+  "equus asinus gca041296235v2": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "equus_asinus_gca041296235v2",
+   "trap": null
+  },
+  "equus caballus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "equus_caballus",
+   "trap": null
+  },
+  "erinaceus europaeus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erinaceus_europaeus",
+   "trap": null
+  },
+  "erpetoichthys calabaricus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erpetoichthys_calabaricus",
+   "trap": null
+  },
+  "erythrura gouldiae": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erythrura_gouldiae",
+   "trap": null
+  },
+  "esox lucius": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "esox_lucius",
+   "trap": null
+  },
+  "eurasian eagle-owl": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bubo_bubo",
+   "trap": null
+  },
+  "eurasian red squirrel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sciurus_vulgaris",
+   "trap": null
+  },
+  "eurasian sparrowhawk": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "accipiter_nisus",
+   "trap": null
+  },
+  "european seabass": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dicentrarchus_labrax",
+   "trap": null
+  },
+  "european shrew": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sorex_araneus",
+   "trap": null
+  },
+  "falco tinnunculus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "falco_tinnunculus",
+   "trap": null
+  },
+  "felis catus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "felis_catus",
+   "trap": null
+  },
+  "felis catus abyssinian": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "felis_catus_abyssinian",
+   "trap": null
+  },
+  "ferret": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "mustela_putorius_furo",
+   "trap": null
+  },
+  "ficedula albicollis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ficedula_albicollis",
+   "trap": null
+  },
+  "fugu": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "takifugu_rubripes",
+   "trap": null
+  },
+  "fukomys damarensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "fukomys_damarensis",
+   "trap": null
+  },
+  "fundulus heteroclitus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "fundulus_heteroclitus",
+   "trap": null
+  },
+  "gadus morhua": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gadus_morhua",
+   "trap": null
+  },
+  "gadus morhua (celtic sea) - gca_010882105.1": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gadus_morhua_gca010882105v1",
+   "trap": null
+  },
+  "gadus morhua gca010882105v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gadus_morhua_gca010882105v1",
+   "trap": null
+  },
+  "gallus gallus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gallus_gallus",
+   "trap": null
+  },
+  "gallus gallus gca000002315v5": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gallus_gallus_gca000002315v5",
+   "trap": null
+  },
+  "gallus gallus gca016700215v2": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gallus_gallus_gca016700215v2",
+   "trap": null
+  },
+  "gambusia affinis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gambusia_affinis",
+   "trap": null
+  },
+  "gasterosteus aculeatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus",
+   "trap": null
+  },
+  "gasterosteus aculeatus gca006229185v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus_gca006229185v1",
+   "trap": null
+  },
+  "gasterosteus aculeatus gca006232265v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus_gca006232265v1",
+   "trap": null
+  },
+  "gasterosteus aculeatus gca006232285v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus_gca006232285v1",
+   "trap": null
+  },
+  "gelada": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "theropithecus_gelada",
+   "trap": null
+  },
+  "geospiza fortis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "geospiza_fortis",
+   "trap": null
+  },
+  "giant panda": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ailuropoda_melanoleuca",
+   "trap": null
+  },
+  "gibbon": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "nomascus_leucogenys",
+   "trap": null
+  },
+  "gilthead seabream": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sparus_aurata",
+   "trap": null
+  },
+  "goat": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "capra_hircus_blackbengal",
+   "trap": null
+  },
+  "goat (black bengal)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "goat",
+   "species": "capra_hircus_blackbengal",
+   "trap": null
+  },
+  "goat - saanen dairy": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "goat",
+   "species": "capra_hircus_gca015443085v1",
+   "trap": null
+  },
+  "goat - xinong saanen dairy": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "goat",
+   "species": "capra_hircus_gca026652205v1",
+   "trap": null
+  },
+  "golden eagle": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "aquila_chrysaetos_chrysaetos",
+   "trap": null
+  },
+  "golden hamster": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mesocricetus_auratus",
+   "trap": null
+  },
+  "golden pheasant": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chrysolophus_pictus",
+   "trap": null
+  },
+  "golden snub-nosed monkey": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rhinopithecus_roxellana",
+   "trap": null
+  },
+  "golden-collared manakin": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "manacus_vitellinus",
+   "trap": null
+  },
+  "golden-line barbel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sinocyclocheilus_grahami",
+   "trap": null
+  },
+  "goldfish": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "carassius_auratus",
+   "trap": null
+  },
+  "goodes thornscrub tortoise": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gopherus_evgoodei",
+   "trap": null
+  },
+  "gopherus agassizii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gopherus_agassizii",
+   "trap": null
+  },
+  "gopherus evgoodei": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gopherus_evgoodei",
+   "trap": null
+  },
+  "gorilla": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "gorilla_gorilla",
+   "trap": null
+  },
+  "gorilla gorilla": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": "gorilla",
+   "species": "gorilla_gorilla",
+   "trap": null
+  },
+  "gouania willdenowi": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gouania_willdenowi",
+   "trap": null
+  },
+  "gouldian finch": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erythrura_gouldiae",
+   "trap": null
+  },
+  "gray mouse lemur": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microcebus_murinus",
+   "trap": null
+  },
+  "gray short-tailed opossum": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monodelphis_domestica",
+   "trap": null
+  },
+  "great spotted kiwi": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "apteryx_haastii",
+   "trap": null
+  },
+  "great tit": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "parus_major",
+   "trap": null
+  },
+  "greater amberjack": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "seriola_dumerili",
+   "trap": null
+  },
+  "greater bamboo lemur": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "prolemur_simus",
+   "trap": null
+  },
+  "greater horseshoe bat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rhinolophus_ferrumequinum",
+   "trap": null
+  },
+  "green anole": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anolis_carolinensis",
+   "trap": null
+  },
+  "guinea pig": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_porcellus",
+   "trap": "the idiom for a test subject"
+  },
+  "guppy": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "poecilia_reticulata",
+   "trap": null
+  },
+  "hagfish": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "eptatretus_burgeri",
+   "trap": null
+  },
+  "haplochromis burtoni": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "haplochromis_burtoni",
+   "trap": null
+  },
+  "hedgehog": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "erinaceus_europaeus",
+   "trap": "the Sonic/Indian/Desert Hedgehog (SHH) gene family and signalling pathway"
+  },
+  "helmeted guineafowl": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "numida_meleagris",
+   "trap": null
+  },
+  "heterocephalus glaber female": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "heterocephalus_glaber_female",
+   "trap": null
+  },
+  "heterocephalus glaber male": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "heterocephalus_glaber_male",
+   "trap": null
+  },
+  "hippocampus comes": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "hippocampus_comes",
+   "trap": null
+  },
+  "hoffmann's two-fingered sloth": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
+  "homo sapiens": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "homo_sapiens",
+   "trap": null
+  },
+  "horned golden-line barbel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sinocyclocheilus_rhinocerous",
+   "trap": null
+  },
+  "horse": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "equus_caballus",
+   "trap": null
+  },
+  "house mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_129s1svimj",
+   "trap": null
+  },
+  "huchen": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "hucho_hucho",
+   "trap": null
+  },
+  "hucho hucho": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "hucho_hucho",
+   "trap": null
+  },
+  "human": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "homo_sapiens",
+   "trap": null
+  },
+  "hybrid - bos indicus": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_indicus_hybrid",
+   "trap": null
+  },
+  "hybrid - bos taurus": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus_hybrid",
+   "trap": null
+  },
+  "hybrid cattle": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus_hybrid",
+   "trap": null
+  },
+  "hyrax": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "procavia_capensis",
+   "trap": null
+  },
+  "ictalurus punctatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictalurus_punctatus",
+   "trap": null
+  },
+  "ictidomys tridecemlineatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictidomys_tridecemlineatus",
+   "trap": null
+  },
+  "indian cobra": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "naja_naja",
+   "trap": null
+  },
+  "indian glassy fish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "parambassis_ranga",
+   "trap": null
+  },
+  "indian medaka": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_melastigma",
+   "trap": null
+  },
+  "indian peafowl": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pavo_cristatus",
+   "trap": null
+  },
+  "inshore hagfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "eptatretus_burgeri",
+   "trap": null
+  },
+  "jaculus jaculus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "jaculus_jaculus",
+   "trap": null
+  },
+  "japanese medaka hdrr": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes",
+   "trap": null
+  },
+  "japanese medaka hni": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes_hni",
+   "trap": null
+  },
+  "japanese medaka hsok": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes_hsok",
+   "trap": null
+  },
+  "japanese quail": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "coturnix_japonica",
+   "trap": null
+  },
+  "japanese wild mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_molossinusjf1msj",
+   "trap": null
+  },
+  "javanese ricefish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_javanicus",
+   "trap": null
+  },
+  "jewelled blenny": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salarias_fasciatus",
+   "trap": null
+  },
+  "junco hyemalis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "junco_hyemalis",
+   "trap": null
+  },
+  "kakapo": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "strigops_habroptila",
+   "trap": null
+  },
+  "kangaroo rat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "koala": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "phascolarctos_cinereus",
+   "trap": null
+  },
+  "komodo dragon": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "varanus_komodoensis",
+   "trap": null
+  },
+  "kryptolebias marmoratus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "kryptolebias_marmoratus",
+   "trap": null
+  },
+  "labrus bergylta": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "labrus_bergylta",
+   "trap": null
+  },
+  "lamprey": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "petromyzon_marinus",
+   "trap": null
+  },
+  "large flying fox": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pteropus_vampyrus",
+   "trap": null
+  },
+  "large yellow croaker": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "larimichthys_crocea",
+   "trap": null
+  },
+  "larimichthys crocea": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "larimichthys_crocea",
+   "trap": null
+  },
+  "lates calcarifer": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lates_calcarifer",
+   "trap": null
+  },
+  "laticauda laticaudata": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "laticauda_laticaudata",
+   "trap": null
+  },
+  "latimeria chalumnae": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "latimeria_chalumnae",
+   "trap": null
+  },
+  "leishan spiny toad": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "leptobrachium_leishanense",
+   "trap": null
+  },
+  "leopard": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "panthera_pardus",
+   "trap": null
+  },
+  "lepidothrix coronata": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lepidothrix_coronata",
+   "trap": null
+  },
+  "lepisosteus oculatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lepisosteus_oculatus",
+   "trap": null
+  },
+  "leptobrachium leishanense": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "leptobrachium_leishanense",
+   "trap": null
+  },
+  "lesser egyptian jerboa": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "jaculus_jaculus",
+   "trap": null
+  },
+  "lesser hedgehog tenrec": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
+   "trap": null
+  },
+  "lion": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "panthera_leo",
+   "trap": null
+  },
+  "little brown bat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myotis_lucifugus",
+   "trap": null
+  },
+  "little spotted kiwi": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "apteryx_owenii",
+   "trap": null
+  },
+  "live sharksucker": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echeneis_naucrates",
+   "trap": null
+  },
+  "lonchura striata domestica": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lonchura_striata_domestica",
+   "trap": null
+  },
+  "long-tailed chinchilla": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chinchilla_lanigera",
+   "trap": null
+  },
+  "loxodonta africana": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "loxodonta_africana",
+   "trap": null
+  },
+  "lumpfish": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "cyclopterus_lumpus",
+   "trap": null
+  },
+  "lynx canadensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lynx_canadensis",
+   "trap": null
+  },
+  "lyretail cichlid": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "neolamprologus_brichardi",
+   "trap": null
+  },
+  "ma's night monkey": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "aotus_nancymaae",
+   "trap": null
+  },
+  "macaca fascicularis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "macaca_fascicularis",
+   "trap": null
+  },
+  "macaca mulatta": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "macaca_mulatta",
+   "trap": null
+  },
+  "macaca nemestrina": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "macaca_nemestrina",
+   "trap": null
+  },
+  "macaque": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "macaca_mulatta",
+   "trap": null
+  },
+  "mainland tiger snake": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notechis_scutatus",
+   "trap": null
+  },
+  "makobe island cichlid": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pundamilia_nyererei",
+   "trap": null
+  },
+  "mallard": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "anas_platyrhynchos",
+   "trap": null
+  },
+  "malurus cyaneus samueli": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "malurus_cyaneus_samueli",
+   "trap": null
+  },
+  "manacus vitellinus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "manacus_vitellinus",
+   "trap": null
+  },
+  "mandrillus leucophaeus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mandrillus_leucophaeus",
+   "trap": null
+  },
+  "mangrove rivulus": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "kryptolebias_marmoratus",
+   "trap": null
+  },
+  "marmota marmota marmota": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "marmota_marmota_marmota",
+   "trap": null
+  },
+  "mastacembelus armatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mastacembelus_armatus",
+   "trap": null
+  },
+  "maylandia zebra": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "maylandia_zebra",
+   "trap": null
+  },
+  "medium ground-finch": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "geospiza_fortis",
+   "trap": null
+  },
+  "meerkat": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "suricata_suricatta",
+   "trap": null
+  },
+  "megabat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pteropus_vampyrus",
+   "trap": null
+  },
+  "meleagris gallopavo": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "meleagris_gallopavo",
+   "trap": null
+  },
+  "melopsittacus undulatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "melopsittacus_undulatus",
+   "trap": null
+  },
+  "meriones unguiculatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "meriones_unguiculatus",
+   "trap": null
+  },
+  "mesocricetus auratus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mesocricetus_auratus",
+   "trap": null
+  },
+  "mexican tetra": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astyanax_mexicanus",
+   "trap": null
+  },
+  "microbat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myotis_lucifugus",
+   "trap": null
+  },
+  "microcebus murinus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microcebus_murinus",
+   "trap": null
+  },
+  "microtus ochrogaster": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microtus_ochrogaster",
+   "trap": null
+  },
+  "midas cichlid": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amphilophus_citrinellus",
+   "trap": null
+  },
+  "mola mola": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mola_mola",
+   "trap": null
+  },
+  "mongolian gerbil": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "meriones_unguiculatus",
+   "trap": null
+  },
+  "monodelphis domestica": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monodelphis_domestica",
+   "trap": null
+  },
+  "monodon monoceros": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monodon_monoceros",
+   "trap": null
+  },
+  "monopterus albus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monopterus_albus",
+   "trap": null
+  },
+  "monterrey platyfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xiphophorus_couchianus",
+   "trap": null
+  },
+  "moschus moschiferus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "moschus_moschiferus",
+   "trap": null
+  },
+  "mouse": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "mus_musculus",
+   "trap": null
+  },
+  "mouse 129s1/svimj": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_129s1svimj",
+   "trap": null
+  },
+  "mouse a/j": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_aj",
+   "trap": null
+  },
+  "mouse akr/j": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_akrj",
+   "trap": null
+  },
+  "mouse balb/cj": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_balbcj",
+   "trap": null
+  },
+  "mouse c3h/hej": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_c3hhej",
+   "trap": null
+  },
+  "mouse c57bl/6nj": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_c57bl6nj",
+   "trap": null
+  },
+  "mouse cast/eij": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_casteij",
+   "trap": null
+  },
+  "mouse cba/j": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_cbaj",
+   "trap": null
+  },
+  "mouse dba/2j": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_dba2j",
+   "trap": null
+  },
+  "mouse fvb/nj": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_fvbnj",
+   "trap": null
+  },
+  "mouse jf1/msj": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_molossinusjf1msj",
+   "trap": null
+  },
+  "mouse lemur": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "microcebus_murinus",
+   "trap": null
+  },
+  "mouse lp/j": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_lpj",
+   "trap": null
+  },
+  "mouse nod/shiltj": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_nodshiltj",
+   "trap": null
+  },
+  "mouse nzo/hlltj": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_nzohlltj",
+   "trap": null
+  },
+  "mouse pwk/phj": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_pwkphj",
+   "trap": null
+  },
+  "mouse wsb/eij": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "mouse",
+   "species": "mus_musculus_wsbeij",
+   "trap": null
+  },
+  "mummichog": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "fundulus_heteroclitus",
+   "trap": null
+  },
+  "mus caroli": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_caroli",
+   "trap": null
+  },
+  "mus musculus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus",
+   "trap": null
+  },
+  "mus musculus 129s1svimj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_129s1svimj",
+   "trap": null
+  },
+  "mus musculus aj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_aj",
+   "trap": null
+  },
+  "mus musculus akrj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_akrj",
+   "trap": null
+  },
+  "mus musculus balbcj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_balbcj",
+   "trap": null
+  },
+  "mus musculus c3hhej": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_c3hhej",
+   "trap": null
+  },
+  "mus musculus c57bl6nj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_c57bl6nj",
+   "trap": null
+  },
+  "mus musculus casteij": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_casteij",
+   "trap": null
+  },
+  "mus musculus cbaj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_cbaj",
+   "trap": null
+  },
+  "mus musculus dba2j": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_dba2j",
+   "trap": null
+  },
+  "mus musculus fvbnj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_fvbnj",
+   "trap": null
+  },
+  "mus musculus lpj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_lpj",
+   "trap": null
+  },
+  "mus musculus molossinusjf1msj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_molossinusjf1msj",
+   "trap": null
+  },
+  "mus musculus nodshiltj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_nodshiltj",
+   "trap": null
+  },
+  "mus musculus nzohlltj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_nzohlltj",
+   "trap": null
+  },
+  "mus musculus pwkphj": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_pwkphj",
+   "trap": null
+  },
+  "mus musculus wsbeij": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_wsbeij",
+   "trap": null
+  },
+  "mus pahari": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_pahari",
+   "trap": null
+  },
+  "mus spicilegus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_spicilegus",
+   "trap": null
+  },
+  "mus spretus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_spretus",
+   "trap": null
+  },
+  "muscovy duck (domestic type)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cairina_moschata_domestica",
+   "trap": null
+  },
+  "mustela putorius furo": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mustela_putorius_furo",
+   "trap": null
+  },
+  "myotis lucifugus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myotis_lucifugus",
+   "trap": null
+  },
+  "myripristis murdjan": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myripristis_murdjan",
+   "trap": null
+  },
+  "naja naja": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "naja_naja",
+   "trap": null
+  },
+  "naked mole-rat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "heterocephalus_glaber_male",
+   "trap": null
+  },
+  "naked mole-rat female": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "heterocephalus_glaber_female",
+   "trap": null
+  },
+  "naked mole-rat male": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "heterocephalus_glaber_male",
+   "trap": null
+  },
+  "nannospalax galili": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nannospalax_galili",
+   "trap": null
+  },
+  "narwhal": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "monodon_monoceros",
+   "trap": null
+  },
+  "neogobius melanostomus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "neogobius_melanostomus",
+   "trap": null
+  },
+  "neolamprologus brichardi": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "neolamprologus_brichardi",
+   "trap": null
+  },
+  "neovison vison": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "neovison_vison",
+   "trap": null
+  },
+  "new caledonian crow": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "corvus_moneduloides",
+   "trap": null
+  },
+  "nile tilapia": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oreochromis_niloticus",
+   "trap": null
+  },
+  "nine-banded armadillo": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dasypus_novemcinctus",
+   "trap": null
+  },
+  "nomascus leucogenys": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nomascus_leucogenys",
+   "trap": null
+  },
+  "northern american deer mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "peromyscus_maniculatus_bairdii",
+   "trap": null
+  },
+  "northern pike": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "esox_lucius",
+   "trap": null
+  },
+  "northern spotted owl": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "strix_occidentalis_caurina",
+   "trap": null
+  },
+  "northern tree shrew": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tupaia_belangeri",
+   "trap": null
+  },
+  "northern white-cheeked gibbon": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nomascus_leucogenys",
+   "trap": null
+  },
+  "norway rat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus_shrutx",
+   "trap": null
+  },
+  "norway rat - bn/nhsdmcwi": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus",
+   "trap": null
+  },
+  "notamacropus eugenii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "notechis scutatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notechis_scutatus",
+   "trap": null
+  },
+  "nothobranchius furzeri": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nothobranchius_furzeri",
+   "trap": null
+  },
+  "nothoprocta perdicaria": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nothoprocta_perdicaria",
+   "trap": null
+  },
+  "numida meleagris": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "numida_meleagris",
+   "trap": null
+  },
+  "ocean sunfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mola_mola",
+   "trap": null
+  },
+  "ochotona princeps": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ochotona_princeps",
+   "trap": null
+  },
+  "octodon degus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "octodon_degus",
+   "trap": null
+  },
+  "okarito brown kiwi": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "apteryx_rowi",
+   "trap": null
+  },
+  "olive baboon": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "papio_anubis",
+   "trap": null
+  },
+  "oncorhynchus kisutch": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oncorhynchus_kisutch",
+   "trap": null
+  },
+  "oncorhynchus mykiss": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oncorhynchus_mykiss",
+   "trap": null
+  },
+  "oncorhynchus tshawytscha": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oncorhynchus_tshawytscha",
+   "trap": null
+  },
+  "opossum": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "monodelphis_domestica",
+   "trap": null
+  },
+  "orange clownfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amphiprion_percula",
+   "trap": null
+  },
+  "orbiculate cardinalfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sphaeramia_orbicularis",
+   "trap": null
+  },
+  "ord's kangaroo rat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "oreochromis aureus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oreochromis_aureus",
+   "trap": null
+  },
+  "oreochromis niloticus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oreochromis_niloticus",
+   "trap": null
+  },
+  "oriental scops-owl": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otus_sunia",
+   "trap": null
+  },
+  "ornithorhynchus anatinus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ornithorhynchus_anatinus",
+   "trap": null
+  },
+  "oryctolagus cuniculus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryctolagus_cuniculus",
+   "trap": null
+  },
+  "oryzias javanicus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_javanicus",
+   "trap": null
+  },
+  "oryzias latipes": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes",
+   "trap": null
+  },
+  "oryzias latipes hni": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes_hni",
+   "trap": null
+  },
+  "oryzias latipes hsok": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes_hsok",
+   "trap": null
+  },
+  "oryzias melastigma": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_melastigma",
+   "trap": null
+  },
+  "oryzias sinensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_sinensis",
+   "trap": null
+  },
+  "otolemur garnettii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otolemur_garnettii",
+   "trap": null
+  },
+  "otus sunia": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otus_sunia",
+   "trap": null
+  },
+  "ovis aries": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries",
+   "trap": null
+  },
+  "ovis aries (texel sheep) - gca_022416775.1": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca022416775v1",
+   "trap": null
+  },
+  "ovis aries gca011170295v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca011170295v1",
+   "trap": null
+  },
+  "ovis aries gca018804185v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca018804185v1",
+   "trap": null
+  },
+  "ovis aries gca022416685v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca022416685v1",
+   "trap": null
+  },
+  "ovis aries gca022416695v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca022416695v1",
+   "trap": null
+  },
+  "ovis aries gca022416755v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca022416755v1",
+   "trap": null
+  },
+  "ovis aries gca022416775v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca022416775v1",
+   "trap": null
+  },
+  "ovis aries gca022416915v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca022416915v1",
+   "trap": null
+  },
+  "ovis aries gca022432825v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca022432825v1",
+   "trap": null
+  },
+  "ovis aries gca022432835v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca022432835v1",
+   "trap": null
+  },
+  "ovis aries gca024222175v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_gca024222175v1",
+   "trap": null
+  },
+  "ovis aries texel": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries_texel",
+   "trap": null
+  },
+  "pachon cavefish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astyanax_mexicanus_pachon",
+   "trap": null
+  },
+  "painted turtle": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chrysemys_picta_bellii",
+   "trap": null
+  },
+  "pan paniscus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_paniscus",
+   "trap": null
+  },
+  "pan troglodytes": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_troglodytes",
+   "trap": null
+  },
+  "panamanian white-faced capuchin": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cebus_imitator",
+   "trap": null
+  },
+  "panthera leo": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "panthera_leo",
+   "trap": null
+  },
+  "panthera pardus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "panthera_pardus",
+   "trap": null
+  },
+  "panthera tigris altaica": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "panthera_tigris_altaica",
+   "trap": null
+  },
+  "papio anubis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "papio_anubis",
+   "trap": null
+  },
+  "parambassis ranga": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "parambassis_ranga",
+   "trap": null
+  },
+  "paramormyrops kingsleyae": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "paramormyrops_kingsleyae",
+   "trap": null
+  },
+  "parus major": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "parus_major",
+   "trap": null
+  },
+  "pavo cristatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pavo_cristatus",
+   "trap": null
+  },
+  "pelodiscus sinensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pelodiscus_sinensis",
+   "trap": null
+  },
+  "pelusios castaneus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pelusios_castaneus",
+   "trap": null
+  },
+  "periophthalmus magnuspinnatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "periophthalmus_magnuspinnatus",
+   "trap": null
+  },
+  "peromyscus maniculatus bairdii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "peromyscus_maniculatus_bairdii",
+   "trap": null
+  },
+  "petromyzon marinus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "petromyzon_marinus",
+   "trap": null
+  },
+  "phascolarctos cinereus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "phascolarctos_cinereus",
+   "trap": null
+  },
+  "phasianus colchicus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "phasianus_colchicus",
+   "trap": null
+  },
+  "philippine tarsier": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "phocoena sinus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "phocoena_sinus",
+   "trap": null
+  },
+  "physeter catodon": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "physeter_catodon",
+   "trap": null
+  },
+  "pig": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "sus_scrofa",
+   "trap": null
+  },
+  "pig - bama miniature": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca007644095v1",
+   "trap": null
+  },
+  "pig - bamei": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_bamei",
+   "trap": null
+  },
+  "pig - banna miniature": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca041937265v1",
+   "trap": null
+  },
+  "pig - berkshire": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_berkshire",
+   "trap": null
+  },
+  "pig - chenghua": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca037447515v1",
+   "trap": null
+  },
+  "pig - duroc": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca015776825v1",
+   "trap": null
+  },
+  "pig - euw1 (european wild boar)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca021656055v1",
+   "trap": null
+  },
+  "pig - ghungroo": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca046128825v1",
+   "trap": null
+  },
+  "pig - hampshire": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_hampshire",
+   "trap": null
+  },
+  "pig - hjb": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca044906185v1",
+   "trap": null
+  },
+  "pig - jinhua": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_jinhua",
+   "trap": null
+  },
+  "pig - juema": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca040869115v1",
+   "trap": null
+  },
+  "pig - korean minipig (gca_039654815.1)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca039654815v1",
+   "trap": null
+  },
+  "pig - landrace": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_landrace",
+   "trap": null
+  },
+  "pig - large white (gca_044906105.1)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca044906105v1",
+   "trap": null
+  },
+  "pig - largewhite": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_largewhite",
+   "trap": null
+  },
+  "pig - meishan": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_meishan",
+   "trap": null
+  },
+  "pig - meishan (gca_017957985.1)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca017957985v1",
+   "trap": null
+  },
+  "pig - nihs-2020": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca018555405v1",
+   "trap": null
+  },
+  "pig - ningxiang": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca020567905v1",
+   "trap": null
+  },
+  "pig - norwegian landrace": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca963921485v1",
+   "trap": null
+  },
+  "pig - ossabaw miniature": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca024718415v1",
+   "trap": null
+  },
+  "pig - pb115": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca019290145v1",
+   "trap": null
+  },
+  "pig - pietrain": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_pietrain",
+   "trap": null
+  },
+  "pig - rongchang": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_rongchang",
+   "trap": null
+  },
+  "pig - tibetan": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_tibetan",
+   "trap": null
+  },
+  "pig - wuzhishan": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_wuzhishan",
+   "trap": null
+  },
+  "pig - wuzhishan (gca_048338725.1)": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_gca048338725v1",
+   "trap": null
+  },
+  "pig usmarc": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "pig",
+   "species": "sus_scrofa_usmarc",
+   "trap": null
+  },
+  "pig-tailed macaque": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "macaca_nemestrina",
+   "trap": null
+  },
+  "pika": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "ochotona_princeps",
+   "trap": null
+  },
+  "pike-perch": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sander_lucioperca",
+   "trap": null
+  },
+  "piliocolobus tephrosceles": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "piliocolobus_tephrosceles",
+   "trap": null
+  },
+  "pinecone soldierfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myripristis_murdjan",
+   "trap": null
+  },
+  "pink-footed goose": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anser_brachyrhynchus",
+   "trap": null
+  },
+  "platyfish": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "xiphophorus_maculatus",
+   "trap": null
+  },
+  "platypus": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "ornithorhynchus_anatinus",
+   "trap": "the variant caller"
+  },
+  "podarcis muralis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "podarcis_muralis",
+   "trap": null
+  },
+  "poecilia formosa": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_formosa",
+   "trap": null
+  },
+  "poecilia latipinna": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_latipinna",
+   "trap": null
+  },
+  "poecilia mexicana": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_mexicana",
+   "trap": null
+  },
+  "poecilia reticulata": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_reticulata",
+   "trap": null
+  },
+  "pogona vitticeps": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pogona_vitticeps",
+   "trap": null
+  },
+  "polar bear": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ursus_maritimus",
+   "trap": null
+  },
+  "pongo abelii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pongo_abelii",
+   "trap": null
+  },
+  "prairie vole": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microtus_ochrogaster",
+   "trap": null
+  },
+  "procavia capensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "procavia_capensis",
+   "trap": null
+  },
+  "prolemur simus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "prolemur_simus",
+   "trap": null
+  },
+  "propithecus coquereli": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "propithecus_coquereli",
+   "trap": null
+  },
+  "pseudonaja textilis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pseudonaja_textilis",
+   "trap": null
+  },
+  "pteropus vampyrus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pteropus_vampyrus",
+   "trap": null
+  },
+  "pundamilia nyererei": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pundamilia_nyererei",
+   "trap": null
+  },
+  "pygocentrus nattereri": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pygocentrus_nattereri",
+   "trap": null
+  },
+  "rabbit": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "oryctolagus_cuniculus",
+   "trap": "the idiom 'rabbit hole'"
+  },
+  "rainbow trout": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oncorhynchus_mykiss",
+   "trap": null
+  },
+  "rat - shr/utx rgd_8142385": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus_shrutx",
+   "trap": null
+  },
+  "rat - shrsp/bbbutx": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus_shrspbbbutx",
+   "trap": null
+  },
+  "rat - wky/bbb rgd_1581635": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus_wkybbb",
+   "trap": null
+  },
+  "rattus norvegicus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus",
+   "trap": null
+  },
+  "rattus norvegicus shrspbbbutx": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus_shrspbbbutx",
+   "trap": null
+  },
+  "rattus norvegicus shrutx": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus_shrutx",
+   "trap": null
+  },
+  "rattus norvegicus wkybbb": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus_wkybbb",
+   "trap": null
+  },
+  "red fox": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vulpes_vulpes",
+   "trap": null
+  },
+  "red-bellied piranha": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pygocentrus_nattereri",
+   "trap": null
+  },
+  "reedfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erpetoichthys_calabaricus",
+   "trap": null
+  },
+  "rhinolophus ferrumequinum": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rhinolophus_ferrumequinum",
+   "trap": null
+  },
+  "rhinopithecus bieti": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rhinopithecus_bieti",
+   "trap": null
+  },
+  "rhinopithecus roxellana": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rhinopithecus_roxellana",
+   "trap": null
+  },
+  "ring-necked pheasant": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "phasianus_colchicus",
+   "trap": null
+  },
+  "round goby": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "neogobius_melanostomus",
+   "trap": null
+  },
+  "ruff": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "calidris_pugnax",
+   "trap": null
+  },
+  "rufous-capped babbler": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "stachyris_ruficeps",
+   "trap": null
+  },
+  "ryukyu mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_caroli",
+   "trap": null
+  },
+  "sailfin molly": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_latipinna",
+   "trap": null
+  },
+  "saimiri boliviensis boliviensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "saimiri_boliviensis_boliviensis",
+   "trap": null
+  },
+  "salarias fasciatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salarias_fasciatus",
+   "trap": null
+  },
+  "salmo salar": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_salar",
+   "trap": null
+  },
+  "salmo salar gca021399835v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_salar_gca021399835v1",
+   "trap": null
+  },
+  "salmo salar gca923944775v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_salar_gca923944775v1",
+   "trap": null
+  },
+  "salmo salar gca931346935v2": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_salar_gca931346935v2",
+   "trap": null
+  },
+  "salmo trutta": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_trutta",
+   "trap": null
+  },
+  "salvator merianae": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salvator_merianae",
+   "trap": null
+  },
+  "sander lucioperca": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sander_lucioperca",
+   "trap": null
+  },
+  "sarcophilus harrisii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sarcophilus_harrisii",
+   "trap": null
+  },
+  "sciurus vulgaris": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sciurus_vulgaris",
+   "trap": null
+  },
+  "scleropages formosus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "scleropages_formosus",
+   "trap": null
+  },
+  "scophthalmus maximus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "scophthalmus_maximus",
+   "trap": null
+  },
+  "sea lamprey": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "petromyzon_marinus",
+   "trap": null
+  },
+  "sea squirt ciona intestinalis": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_intestinalis",
+   "trap": null
+  },
+  "sea squirt ciona savignyi": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_savignyi",
+   "trap": null
+  },
+  "serinus canaria": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "serinus_canaria",
+   "trap": null
+  },
+  "seriola dumerili": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "seriola_dumerili",
+   "trap": null
+  },
+  "seriola lalandi dorsalis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "seriola_lalandi_dorsalis",
+   "trap": null
+  },
+  "sheep": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "ovis_aries_texel",
+   "trap": null
+  },
+  "sheep - chinese merino": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_gca022432825v1",
+   "trap": null
+  },
+  "sheep - east friesian": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_gca018804185v1",
+   "trap": null
+  },
+  "sheep - hu": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_gca011170295v1",
+   "trap": null
+  },
+  "sheep - kermani": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_gca022432835v1",
+   "trap": null
+  },
+  "sheep - polled dorset": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_gca022416915v1",
+   "trap": null
+  },
+  "sheep - qiaoke": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_gca022416685v1",
+   "trap": null
+  },
+  "sheep - romanov": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_gca024222175v1",
+   "trap": null
+  },
+  "sheep - texel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_texel",
+   "trap": null
+  },
+  "sheep - ujimqin": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_gca022416755v1",
+   "trap": null
+  },
+  "sheep - white dorper": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "sheep",
+   "species": "ovis_aries_gca022416695v1",
+   "trap": null
+  },
+  "sheepshead minnow": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinodon_variegatus",
+   "trap": null
+  },
+  "shortfin molly": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_mexicana",
+   "trap": null
+  },
+  "shrew": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "sorex_araneus",
+   "trap": null
+  },
+  "shrew mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "shrew",
+   "species": "mus_pahari",
+   "trap": null
+  },
+  "siamese fighting fish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "betta_splendens",
+   "trap": null
+  },
+  "siberian musk deer": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "moschus_moschiferus",
+   "trap": null
+  },
+  "silver-eye": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "zosterops_lateralis_melanops",
+   "trap": null
+  },
+  "sinocyclocheilus anshuiensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sinocyclocheilus_anshuiensis",
+   "trap": null
+  },
+  "sinocyclocheilus grahami": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sinocyclocheilus_grahami",
+   "trap": null
+  },
+  "sinocyclocheilus rhinocerous": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sinocyclocheilus_rhinocerous",
+   "trap": null
+  },
+  "sloth": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
+  "small madagascar hedgehog": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
+   "trap": null
+  },
+  "small tree finch": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "camarhynchus_parvulus",
+   "trap": null
+  },
+  "small-eared galago": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otolemur_garnettii",
+   "trap": null
+  },
+  "sooty mangabey": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cercocebus_atys",
+   "trap": null
+  },
+  "sorex araneus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sorex_araneus",
+   "trap": null
+  },
+  "southeastern asian house mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_casteij",
+   "trap": null
+  },
+  "southern platyfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xiphophorus_maculatus",
+   "trap": null
+  },
+  "sparus aurata": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sparus_aurata",
+   "trap": null
+  },
+  "sperm whale": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "physeter_catodon",
+   "trap": null
+  },
+  "spermophilus dauricus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "spermophilus_dauricus",
+   "trap": null
+  },
+  "sphaeramia orbicularis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sphaeramia_orbicularis",
+   "trap": null
+  },
+  "sphenodon punctatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sphenodon_punctatus",
+   "trap": null
+  },
+  "spiny chromis": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "acanthochromis_polyacanthus",
+   "trap": null
+  },
+  "spoon-billed sandpiper": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "calidris_pygmaea",
+   "trap": null
+  },
+  "spotted gar": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lepisosteus_oculatus",
+   "trap": null
+  },
+  "spotted green pufferfish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tetraodon_nigroviridis",
+   "trap": null
+  },
+  "squirrel": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "ictidomys_tridecemlineatus",
+   "trap": null
+  },
+  "stachyris ruficeps": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "stachyris_ruficeps",
+   "trap": null
+  },
+  "stegastes partitus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "stegastes_partitus",
+   "trap": null
+  },
+  "steppe mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_spicilegus",
+   "trap": null
+  },
+  "stickleback": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus",
+   "trap": null
+  },
+  "strigops habroptila": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "strigops_habroptila",
+   "trap": null
+  },
+  "strix occidentalis caurina": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "strix_occidentalis_caurina",
+   "trap": null
+  },
+  "struthio camelus australis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "struthio_camelus_australis",
+   "trap": null
+  },
+  "sumatran orangutan": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pongo_abelii",
+   "trap": null
+  },
+  "superb fairywren": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "malurus_cyaneus_samueli",
+   "trap": null
+  },
+  "suricata suricatta": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "suricata_suricatta",
+   "trap": null
+  },
+  "sus scrofa": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa",
+   "trap": null
+  },
+  "sus scrofa bamei": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_bamei",
+   "trap": null
+  },
+  "sus scrofa berkshire": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_berkshire",
+   "trap": null
+  },
+  "sus scrofa gca007644095v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca007644095v1",
+   "trap": null
+  },
+  "sus scrofa gca015776825v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca015776825v1",
+   "trap": null
+  },
+  "sus scrofa gca017957985v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca017957985v1",
+   "trap": null
+  },
+  "sus scrofa gca018555405v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca018555405v1",
+   "trap": null
+  },
+  "sus scrofa gca019290145v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca019290145v1",
+   "trap": null
+  },
+  "sus scrofa gca020567905v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca020567905v1",
+   "trap": null
+  },
+  "sus scrofa gca021656055v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca021656055v1",
+   "trap": null
+  },
+  "sus scrofa gca024718415v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca024718415v1",
+   "trap": null
+  },
+  "sus scrofa gca037447515v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca037447515v1",
+   "trap": null
+  },
+  "sus scrofa gca039654815v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca039654815v1",
+   "trap": null
+  },
+  "sus scrofa gca040869115v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca040869115v1",
+   "trap": null
+  },
+  "sus scrofa gca041937265v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca041937265v1",
+   "trap": null
+  },
+  "sus scrofa gca044906105v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca044906105v1",
+   "trap": null
+  },
+  "sus scrofa gca044906185v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca044906185v1",
+   "trap": null
+  },
+  "sus scrofa gca046128825v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca046128825v1",
+   "trap": null
+  },
+  "sus scrofa gca048338725v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca048338725v1",
+   "trap": null
+  },
+  "sus scrofa gca963921485v1": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_gca963921485v1",
+   "trap": null
+  },
+  "sus scrofa hampshire": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_hampshire",
+   "trap": null
+  },
+  "sus scrofa jinhua": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_jinhua",
+   "trap": null
+  },
+  "sus scrofa landrace": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_landrace",
+   "trap": null
+  },
+  "sus scrofa largewhite": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_largewhite",
+   "trap": null
+  },
+  "sus scrofa meishan": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_meishan",
+   "trap": null
+  },
+  "sus scrofa pietrain": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_pietrain",
+   "trap": null
+  },
+  "sus scrofa rongchang": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_rongchang",
+   "trap": null
+  },
+  "sus scrofa tibetan": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_tibetan",
+   "trap": null
+  },
+  "sus scrofa usmarc": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_usmarc",
+   "trap": null
+  },
+  "sus scrofa wuzhishan": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa_wuzhishan",
+   "trap": null
+  },
+  "swainson's thrush": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "catharus_ustulatus",
+   "trap": null
+  },
+  "swamp eel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monopterus_albus",
+   "trap": null
+  },
+  "swan goose": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anser_cygnoides",
+   "trap": null
+  },
+  "taeniopygia guttata": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "taeniopygia_guttata",
+   "trap": null
+  },
+  "takifugu rubripes": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "takifugu_rubripes",
+   "trap": null
+  },
+  "tammar wallaby": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "tarsier": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "tasmanian devil": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sarcophilus_harrisii",
+   "trap": null
+  },
+  "terrapene carolina triunguis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "terrapene_carolina_triunguis",
+   "trap": null
+  },
+  "tetraodon": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "tetraodon_nigroviridis",
+   "trap": null
+  },
+  "tetraodon nigroviridis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": "tetraodon",
+   "species": "tetraodon_nigroviridis",
+   "trap": null
+  },
+  "theropithecus gelada": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "theropithecus_gelada",
+   "trap": null
+  },
+  "thirteen-lined ground squirrel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictidomys_tridecemlineatus",
+   "trap": null
+  },
+  "three-spined stickleback": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus_gca006229185v1",
+   "trap": null
+  },
+  "three-spined sticklebacki - freshwater bot": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus_gca006229185v1",
+   "trap": null
+  },
+  "three-spined sticklebacki - marine bam": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus_gca006232265v1",
+   "trap": null
+  },
+  "three-spined sticklebacki - marine syl": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus_gca006232285v1",
+   "trap": null
+  },
+  "three-toed box turtle": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "terrapene_carolina_triunguis",
+   "trap": null
+  },
+  "tiger": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "panthera_tigris_altaica",
+   "trap": null
+  },
+  "tiger tail seahorse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": "tiger",
+   "species": "hippocampus_comes",
+   "trap": null
+  },
+  "tongue sole": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cynoglossus_semilaevis",
+   "trap": null
+  },
+  "tree shrew": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tupaia_belangeri",
+   "trap": null
+  },
+  "tropical clawed frog": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xenopus_tropicalis",
+   "trap": null
+  },
+  "tuatara": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "sphenodon_punctatus",
+   "trap": null
+  },
+  "tupaia belangeri": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tupaia_belangeri",
+   "trap": null
+  },
+  "turbot": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "scophthalmus_maximus",
+   "trap": null
+  },
+  "turkey": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "meleagris_gallopavo",
+   "trap": "the country"
+  },
+  "turquoise killifish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nothobranchius_furzeri",
+   "trap": null
+  },
+  "tursiops truncatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tursiops_truncatus",
+   "trap": null
+  },
+  "ugandan red colobus": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "piliocolobus_tephrosceles",
+   "trap": null
+  },
+  "upper galilee mountains blind mole rat": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nannospalax_galili",
+   "trap": null
+  },
+  "urocitellus parryii": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "urocitellus_parryii",
+   "trap": null
+  },
+  "ursus americanus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ursus_americanus",
+   "trap": null
+  },
+  "ursus maritimus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ursus_maritimus",
+   "trap": null
+  },
+  "ursus thibetanus thibetanus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ursus_thibetanus_thibetanus",
+   "trap": null
+  },
+  "vaquita": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "phocoena_sinus",
+   "trap": null
+  },
+  "varanus komodoensis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "varanus_komodoensis",
+   "trap": null
+  },
+  "vervet-agm": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
+   "trap": null
+  },
+  "vicugna pacos": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vicugna_pacos",
+   "trap": null
+  },
+  "vole": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "microtus_ochrogaster",
+   "trap": null
+  },
+  "vombatus ursinus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vombatus_ursinus",
+   "trap": null
+  },
+  "vulpes vulpes": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vulpes_vulpes",
+   "trap": null
+  },
+  "wallaby": {
+   "binomial": false,
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "west african mud turtle": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pelusios_castaneus",
+   "trap": null
+  },
+  "western european hedgehog": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erinaceus_europaeus",
+   "trap": null
+  },
+  "western european house mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus_wsbeij",
+   "trap": null
+  },
+  "western lowland gorilla": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gorilla_gorilla",
+   "trap": null
+  },
+  "western mosquitofish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gambusia_affinis",
+   "trap": null
+  },
+  "western painted turtle": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chrysemys_picta_bellii",
+   "trap": null
+  },
+  "western wild mouse": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_spretus",
+   "trap": null
+  },
+  "white-throated sparrow": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "zonotrichia_albicollis",
+   "trap": null
+  },
+  "white-tufted-ear marmoset": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "callithrix_jacchus",
+   "trap": null
+  },
+  "wild yak": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_mutus",
+   "trap": null
+  },
+  "xenopus tropicalis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xenopus_tropicalis",
+   "trap": null
+  },
+  "xiphophorus couchianus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xiphophorus_couchianus",
+   "trap": null
+  },
+  "xiphophorus maculatus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xiphophorus_maculatus",
+   "trap": null
+  },
+  "yarkand deer": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cervus_hanglu_yarkandensis",
+   "trap": null
+  },
+  "yellow-billed parrot": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amazona_collaria",
+   "trap": null
+  },
+  "yellowtail amberjack": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "seriola_lalandi_dorsalis",
+   "trap": null
+  },
+  "zalophus californianus": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "zalophus_californianus",
+   "trap": null
+  },
+  "zebra finch": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "taeniopygia_guttata",
+   "trap": null
+  },
+  "zebra mbuna": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "maylandia_zebra",
+   "trap": null
+  },
+  "zebrafish": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "danio_rerio",
+   "trap": null
+  },
+  "zig-zag eel": {
+   "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mastacembelus_armatus",
+   "trap": null
+  },
+  "zonotrichia albicollis": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "zonotrichia_albicollis",
+   "trap": null
+  },
+  "zosterops lateralis melanops": {
+   "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "zosterops_lateralis_melanops",
+   "trap": null
+  }
+ }
+}

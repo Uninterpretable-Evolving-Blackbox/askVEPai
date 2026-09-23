@@ -22,17 +22,14 @@ ROOT = WORK.parent
 DEMO = ROOT / "vep_ai_demo"
 CONFIG_DIR = GEN_DIR / "generation_config"
 
-# Point the reused load_knowledge_base()/checker at the expanded catalogue + simulated corpus.
-os.environ.setdefault("VEP_OPTIONS_FILE", str(WORK / "vep_options_expanded.json"))
+# The engine's own data files are the source; only the simulated corpus lives in work/.
+os.environ.setdefault("VEP_OPTIONS_FILE", str(DEMO / "vep_options.json"))
 os.environ.setdefault(
     "VEP_EXAMPLES_FILE",
     str(WORK / "preliminary_examples" / "simulated_gold_examples.json"),
 )
-# Same pattern for the factor scheme: the demo ships its own copy so it stays standalone-publishable,
-# and the pipeline overrides to the canonical config under generation_config/ — which is the file the
-# mentor swaps on sign-off (no code change). Mirrors VEP_OPTIONS_FILE exactly.
-os.environ.setdefault("VEP_FACTORS_FILE", str(CONFIG_DIR / "factors.json"))
-os.environ.setdefault("VEP_PRIORITY_FACTOR_FILE", str(CONFIG_DIR / "priority_by_factor.json"))
+os.environ.setdefault("VEP_FACTORS_FILE", str(DEMO / "factors.json"))
+os.environ.setdefault("VEP_PRIORITY_FACTOR_FILE", str(DEMO / "priority_by_factor.json"))
 
 _VA_CACHE = None
 

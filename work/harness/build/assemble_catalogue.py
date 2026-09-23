@@ -3,7 +3,7 @@
 
 Reads the catalogue-build workflow result (builtOptions + verifyVerdicts), enforces
 schema compatibility with the demo's vep_options.json, surfaces adversarial-verifier
-flags, and writes vep_options_expanded.json + a validation summary.
+flags, and writes the engine's vep_options.json + a validation summary.
 
 Usage: python assemble_catalogue.py <workflow_output.json>
 """
@@ -13,8 +13,8 @@ from pathlib import Path
 from collections import Counter
 
 HERE = Path(__file__).resolve().parent                    # GSoC_WORK/work/harness/build/
-DEMO = HERE.parents[2] / "vep_ai_demo" / "vep_options.json"   # the demo's copy of the 68-option catalogue
-OUT = HERE.parents[1] / "vep_options_expanded.json"                  # the expanded catalogue (this dir)
+DEMO = HERE.parents[2] / "vep_ai_demo" / "vep_options.json"   # the engine's catalogue
+OUT = DEMO                                                 # the engine's catalogue, the source copy
 
 # Canonical demo schema fields (the contract the existing code reads)
 DEMO_FIELDS = [

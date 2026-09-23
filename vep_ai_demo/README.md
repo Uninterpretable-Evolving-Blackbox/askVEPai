@@ -59,7 +59,7 @@ Python 3.9+. Only `openai` is required.
 | `OLLAMA_BASE_URL` | `http://localhost:11434/v1` | the Ollama endpoint |
 | `VEP_FACTOR_THINK` | on | `0` turns classifier reasoning off |
 | `VEP_CLASSIFIER_PROMPT` | `v2` | `v1` restores the pre-2026-09-16 prompt |
-| `VEP_OPTIONS_FILE` `VEP_FACTORS_FILE` `VEP_PRIORITY_FACTOR_FILE` | auto | override a data file — see *Two copies* below |
+| `VEP_OPTIONS_FILE` `VEP_FACTORS_FILE` `VEP_PRIORITY_FACTOR_FILE` | this directory | use another data file |
 | `VEP_EXAMPLES_FILE` | `legacy/training_examples.json` | the `--two-pass` corpus; absent means empty. The default path never reads it |
 | `VEP_KEEP_ALIVE` | `-1` | how long Ollama keeps the model loaded |
 | `VEP_RESULTS_DIR` | `results/` | where saved recommendations go |
@@ -68,23 +68,19 @@ Python 3.9+. Only `openai` is required.
 
 ```
 vep_assistant.py         the engine
-vep_options.json         the 68-option catalogue
+vep_options.json         the 67-option catalogue, each fact sourced in its `provenance`
 factors.json             the factor scheme: values, hard gates, exclusions
 priority_by_factor.json  the priority table the resolver reads
+species_index.json       Ensembl's species names, to check the organism the model names
 vep_consequences.json    41 consequence terms, for `explain-result`
+ensembl_docs/            Ensembl's options and plugins pages, parsed, for `--explain`
 legacy/                  NOT USED BY THE TOOL — the stage-B benchmark and its 23
                          Claude-written examples. See legacy/README.md.
 ```
 
-### Two copies of each data file
-
-Each data file is looked up in this order: an environment variable, then the `work/` copy one level
-up, then the copy in this directory.
-
-So with `work/` beside it the engine reads `../work/vep_options_expanded.json`; cloned on its own it
-reads `vep_options.json` here. The `work/` copy is the curated, provenance-tracked one, so it must
-win when present — otherwise editing it would silently fail to reach the tool. **The two are kept
-byte-identical by hand and nothing enforces it**; if you edit one, edit both.
+The engine reads only this directory, so it runs on its own. An environment variable overrides any
+data file. These files are the source: `../work/generation/seed_priorities.py` mirrors them into
+`work/` for older scripts that read the `work/` paths.
 
 ## Where everything else lives
 

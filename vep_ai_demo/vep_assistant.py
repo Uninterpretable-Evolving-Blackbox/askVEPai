@@ -23,19 +23,16 @@ BASE_DIR = Path(__file__).parent
 
 # --- Knowledge base loading ---
 
-def _kb_path(env_var, work_relative, demo_filename):
-    """Path to a knowledge-base file: the env var if set, else the `work/` copy, else the demo-local copy.
-
-    The demo-local fallback lets `vep_ai_demo/` run without `work/` beside it."""
+def _kb_path(env_var, filename):
+    """Path to a data file: the env var if set, else the engine's own copy. The engine is self-contained."""
     if env_var and os.environ.get(env_var):
         return Path(os.environ[env_var])
-    canonical = BASE_DIR.parent / work_relative
-    return canonical if canonical.exists() else BASE_DIR / demo_filename
+    return BASE_DIR / filename
 
 
 def load_knowledge_base():
     """Return (vep_options, training_examples); VEP_OPTIONS_FILE / VEP_EXAMPLES_FILE override the paths."""
-    options_path = _kb_path("VEP_OPTIONS_FILE", "work/vep_options_expanded.json", "vep_options.json")
+    options_path = _kb_path("VEP_OPTIONS_FILE", "vep_options.json")
     # Only --two-pass reads the examples, so a missing file gives an empty list.
     examples_path = Path(os.environ.get("VEP_EXAMPLES_FILE", BASE_DIR / "legacy" / "training_examples.json"))
 
@@ -69,7 +66,7 @@ def load_consequences():
 
 def load_factors():
     """Return factors.json: values, kinds, hard gates, exclusions, conditional rules."""
-    path = _kb_path("VEP_FACTORS_FILE", "work/generation/generation_config/factors.json", "factors.json")
+    path = _kb_path("VEP_FACTORS_FILE", "factors.json")
     with open(path) as f:
         return json.load(f)
 
@@ -123,15 +120,13 @@ _PRIORITY_TABLE_WARNED = False
 def load_priority_by_factor(vep_options=None):
     """Load `priority_by_factor.json` (required) and stamp species.non-human from each option's `species`."""
     global _PRIORITY_TABLE_WARNED
-    path = _kb_path("VEP_PRIORITY_FACTOR_FILE",
-                    "work/generation/generation_config/priority_by_factor.json",
-                    "priority_by_factor.json")
+    path = _kb_path("VEP_PRIORITY_FACTOR_FILE", "priority_by_factor.json")
     if not path.exists():
         raise FileNotFoundError(f"priority table not found at {path} (it is authored, not derived)")
     with open(path) as f:
         table = json.load(f)
     if vep_options is None:
-        opts_path = _kb_path("VEP_OPTIONS_FILE", "work/vep_options_expanded.json", "vep_options.json")
+        opts_path = _kb_path("VEP_OPTIONS_FILE", "vep_options.json")
         with open(opts_path) as f:
             vep_options = json.load(f)
     problems = validate_priority_table(table)
@@ -1131,7 +1126,7 @@ def load_species_index():
     """
     global _SPECIES_INDEX
     if _SPECIES_INDEX is None:
-        p = BASE_DIR.parent / "work" / "generation" / "generation_config" / "species_index.json"
+        p = BASE_DIR / "species_index.json"
         try:
             _SPECIES_INDEX = json.loads(p.read_text())["names"]
         except Exception:                                                # noqa: BLE001
@@ -1295,6 +1290,59 @@ _ASSEMBLY_ALIASES = {
     "grch37": "GRCh37", "hg19": "GRCh37",
     "grch38": "GRCh38", "hg38": "GRCh38",
 }
+
+
+# Requests the form cannot express: restricting to named genes or to a consequence class. Ensembl's
+# results page does this after the run (research/ensembl_docs_116/vep_online_results.html, "Filtering
+# results"); the input form's pre-filters are frequency, coding-only and Restrict results only
+# (vep_online_input.html, "Filtering options"). Wording rules, not the classifier, so the factor
+# prompt is untouched. Gene names are HGNC approved symbols (hgnc_symbols.json), human only.
+_GENE_PHRASE_RE = re.compile(
+    r"\bgenes?\s+(?:associated|linked|related|implicated|involved)\s+(?:with|in)\b"
+    r"|\bgenes?\s+(?:panel|list|set)s?\b|\b(?:list|set|panel)\s+of\s+genes\b", re.I)
+_LOF_RE = re.compile(r"\bloss[\s-]of[\s-]function\b|\bLoF\b|\bprotein[\s-]truncating\b")
+# Any whole word that is exactly an HGNC symbol counts, wherever it sits in the sentence. Words are
+# split on spaces and punctuation but not on `_`, `.`, `-` or `=`, so a path or accession
+# (Homo_sapiens-GCA_009914755.4, BRCA1.vcf) is one word and never matches. Case-sensitive, so
+# "set" or "Kit" never match SET or KIT.
+_WORD_SPLIT_RE = re.compile(r"[\s,;:()?!'\"/\[\]{}<>|*`]+")
+# With no symbol file, a name needs a digit (BRCA1, TP53); these digit-bearing words are not genes.
+_NOT_GENES = re.compile(r"^(?:BLOSUM\d+|NA\d+|HG\d+|GRC[HMZ]\d+|CHM13|ENS[A-Z]*\d+|CNV\d*|SNV\d*|SV\d*"
+                        r"|UK10K|T2T)$")
+_HGNC_SYMBOLS = None
+
+
+def load_gene_symbols():
+    """HGNC approved human gene symbols as a set, cached; empty if the file is missing.
+
+    Built by `work/harness/build/build_hgnc_symbols.py` from HGNC's non_alt_loci_set.txt."""
+    global _HGNC_SYMBOLS
+    if _HGNC_SYMBOLS is None:
+        try:
+            _HGNC_SYMBOLS = set(json.loads((BASE_DIR / "hgnc_symbols.json").read_text())["symbols"])
+        except Exception:                                                # noqa: BLE001
+            _HGNC_SYMBOLS = set()
+    return _HGNC_SYMBOLS
+
+
+def mentions_result_filter(query):
+    """What the query asks to filter on that the form cannot: a list like ["genes: BRCA1, BRCA2"]."""
+    q = query or ""
+    found = []
+    hgnc = load_gene_symbols()
+    names = dict.fromkeys(w.rstrip(".") for w in _WORD_SPLIT_RE.split(q) if w)
+    if hgnc:
+        symbols = [s for s in names if s in hgnc]
+    else:
+        symbols = [s for s in names if re.fullmatch(r"[A-Z][A-Z0-9]{1,7}[0-9][A-Z0-9]*", s)
+                   and not _NOT_GENES.match(s)]
+    if symbols:
+        found.append("genes: " + ", ".join(symbols))
+    elif _GENE_PHRASE_RE.search(q):
+        found.append("a set of genes")
+    if _LOF_RE.search(q):
+        found.append("loss-of-function consequences")
+    return found
 
 
 def infer_assembly(query):
@@ -1655,13 +1703,13 @@ _ENSEMBL_PAGE = None
 def ensembl_says(oid, vep_options):
     """One line of what the Ensembl docs say the option does, for --explain; None if nothing to say.
 
-    Reads the saved release-116 options and plugins pages in `work/research/ensembl_docs_116/`.
+    Reads the parsed release-116 options and plugins pages in `ensembl_docs/`.
     Prefers the page's "Output fields" cell. With no page record it falls back to our catalogue
     description, labelled "our catalogue"."""
     global _ENSEMBL_PAGE
     if _ENSEMBL_PAGE is None:
         _ENSEMBL_PAGE = {}
-        docs = BASE_DIR.parent / "work" / "research" / "ensembl_docs_116"
+        docs = BASE_DIR / "ensembl_docs"
         # Options page records are {flag, description, output_fields}; plugins page records are
         # {id, name, blurb}. Index both shapes.
         for fn in ("vep_options_parsed.json", "vep_plugins_parsed.json"):
@@ -1725,6 +1773,25 @@ def tier_by_importance(enabled, resolved):
         if priority == "optional" and not gated and oid not in enabled:
             out["addons_offered"].append(oid)
     return out
+
+
+def offer_available(oid, vep_options, species, assembly=None):
+    """True if the checker would keep `oid` for this organism and build, so it may be offered.
+
+    `species` is what run_recommend displays: "human", a production name, or "non-human" when no
+    organism resolved (the checker then counts the organism as having no species-listed data).
+    None skips the species test. Mirrors the species-data and assembly gates in
+    check_and_fix_violations."""
+    opt = next((o for o in vep_options if o["id"] == oid), None)
+    if opt is None:
+        return True
+    spec = opt.get("species", "all")
+    if species is not None and spec != "all":
+        who = "homo_sapiens" if species == "human" else species
+        if who == "non-human" or species_key(who) not in {species_key(x) for x in spec}:
+            return False
+    allowed = _assembly_restriction(opt.get("assemblies"))
+    return not (assembly and allowed and assembly not in allowed)
 
 
 def option_source(opt):
@@ -1880,6 +1947,11 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
     lines.append("=" * 60)
     if resolved:
         tiers = tier_by_importance(enabled, resolved)
+        # The checker judges only what is switched on, so an add-on is offered here only if the
+        # checker would let it stay: on the option's species list and, when the build is known, its
+        # assemblies. Before this, IntAct and mutfunc were offered to every non-human organism.
+        tiers["addons_offered"] = [oid for oid in tiers["addons_offered"]
+                                   if offer_available(oid, vep_options, species, assembly)]
         # Two sections: everything switched on (one list, matching the command), then OPTIONAL.
         core = set(tiers["recommended"]) | set(tiers["unpriced"])
         extra = set(tiers["addons_on"])
@@ -2466,6 +2538,34 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         print("\nHOW THIS WAS CORRECTED\n" + "-" * 60)
         for d in diagnostics:
             print(d)
+    # Out of scope, said once: the form has no gene or consequence-class filter, so the user sets it
+    # on the results page (research/ensembl_docs_116/vep_online_results.html, "Filtering results").
+    _filters = mentions_result_filter(user_query)
+    if _filters:
+        how = []
+        for f in _filters:
+            if f.startswith("genes: "):
+                genes = f[len("genes: "):].split(", ")
+                how.append(f"  Only {', '.join(genes)}: add "
+                           + ", ".join(f"'Symbol is {g}'" for g in genes) + ".")
+            elif f == "a set of genes":
+                how.append("  Only your genes: add one 'Symbol is <gene>' filter per gene. This tool "
+                           "does not choose the genes for a disease.")
+            else:
+                how.append("  Only loss-of-function: add 'Consequence is <term>' for Ensembl's HIGH-impact "
+                           "terms,\n    e.g. stop_gained, frameshift_variant, splice_donor_variant, "
+                           "splice_acceptor_variant, start_lost, stop_lost.")
+        # 'Match any/all' covers every filter at once, but Location filters ignore it (results docs),
+        # so genes as regions plus consequences under 'Match any' gives genes AND consequences.
+        match = ("  Set 'Match any'." if len(_filters) == 1 else
+                 "  To combine both: enter each gene as a Location filter (chromosome:start-end), which "
+                 "'Match any'\n  does not affect, and set 'Match any' for the Consequence filters.")
+        note = ("\nIF YOU WANT ONLY SOME GENES OR CONSEQUENCES, filter them yourself after the run: the "
+                "options above\nannotate every variant, and the form cannot restrict by gene or consequence. "
+                "When the job\nfinishes, open the results page:\n"
+                + "\n".join(how) + "\n" + match)
+        print(note)
+        reports.append(note)
     warnings = "\n".join(x for x in (reports + [audit_report, override_report]) if x)
     save_result(user_query, response_text, mode="recommend", warnings=warnings,
                 reasoning=reasoning_text)

@@ -24,7 +24,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "vep_ai_demo"))
-os.environ.setdefault("VEP_OPTIONS_FILE", str(ROOT / "work" / "vep_options_expanded.json"))
 import vep_assistant as va                                              # noqa: E402
 
 DOCS = ROOT / "work" / "research" / "ensembl_docs_116"
