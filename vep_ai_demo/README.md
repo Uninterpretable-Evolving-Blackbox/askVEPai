@@ -79,8 +79,8 @@ legacy/                  NOT USED BY THE TOOL — the stage-B benchmark and its 
 ```
 
 The engine reads only this directory, so it runs on its own. An environment variable overrides any
-data file. These files are the source: `../work/generation/seed_priorities.py` mirrors them into
-`work/` for older scripts that read the `work/` paths.
+data file. These files are the only copy; the builders in `../data/build/` write them from Ensembl's
+sources.
 
 ## Where everything else lives
 

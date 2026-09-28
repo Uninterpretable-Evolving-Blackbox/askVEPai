@@ -1,0 +1,43 @@
+{
+  "model": "gemma4:e4b",
+  "think": "off",
+  "runs": 1,
+  "seeds": [
+    44
+  ],
+  "rows": 31,
+  "show_tiers": false,
+  "factors": "inferred",
+  "gold": "live",
+  "gold_drift_rows": 31,
+  "classifier_failures": [],
+  "classifier_failure_row_runs": 0,
+  "concurrency": 1,
+  "temperature": 0.0,
+  "full_desc": false,
+  "enable_f1": [
+    0.8056680123468644,
+    0.0
+  ],
+  "enable_recall": [
+    0.7949958494313333,
+    0.0
+  ],
+  "seconds": [
+    42.63831488845185,
+    0.0
+  ],
+  "n_pred": [
+    10,
+    0.0
+  ],
+  "per_run": [
+    {
+      "enable_f1": 0.8056680123468644,
+      "enable_recall": 0.7949958494313333,
+      "n_rows": 31,
+      "seconds": 42.63831488845185,
+      "n_pred": 10
+    }
+  ]
+}

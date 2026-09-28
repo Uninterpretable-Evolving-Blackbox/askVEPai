@@ -1,0 +1,3324 @@
+{
+  "model": "gemma4:26b",
+  "reader": "think",
+  "prompt": "v2",
+  "per_kind": {
+    "binomial": {
+      "name_plain": 30,
+      "name_decoy": 30,
+      "binary_plain": 30,
+      "binary_decoy": 30,
+      "disagree": 0,
+      "n": 30
+    },
+    "common": {
+      "name_plain": 30,
+      "name_decoy": 30,
+      "binary_plain": 30,
+      "binary_decoy": 30,
+      "disagree": 0,
+      "n": 30
+    },
+    "english_word": {
+      "name_plain": 30,
+      "name_decoy": 30,
+      "binary_plain": 30,
+      "binary_decoy": 30,
+      "disagree": 0,
+      "n": 30
+    },
+    "strain": {
+      "name_plain": 26,
+      "name_decoy": 26,
+      "binary_plain": 26,
+      "binary_decoy": 26,
+      "disagree": 0,
+      "n": 26
+    },
+    "trap": {
+      "name_plain": 4,
+      "name_decoy": 5,
+      "binary_plain": 4,
+      "binary_decoy": 5,
+      "disagree": 0,
+      "n": 5
+    }
+  },
+  "total": {
+    "name_plain": 120,
+    "name_decoy": 121,
+    "binary_plain": 120,
+    "binary_decoy": 121,
+    "disagree": 0,
+    "n": 121
+  },
+  "rows": [
+    {
+      "id": "bino-1",
+      "kind": "binomial",
+      "name": "danio rerio",
+      "expected_species": "danio_rerio",
+      "plain_query": "The samples are from danio rerio. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on oreochromis niloticus, but the samples are danio rerio. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "oreochromis niloticus",
+      "result": {
+        "plain": {
+          "said": "danio rerio",
+          "resolved": "danio_rerio",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "danio rerio",
+          "resolved": "danio_rerio",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-2",
+      "kind": "binomial",
+      "name": "mus musculus",
+      "expected_species": "mus_musculus",
+      "plain_query": "These are mus musculus samples. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in anser cygnoides; ours are from mus musculus. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "anser cygnoides",
+      "result": {
+        "plain": {
+          "said": "mus musculus",
+          "resolved": "mus_musculus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "mus musculus",
+          "resolved": "mus_musculus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-3",
+      "kind": "binomial",
+      "name": "acanthochromis polyacanthus",
+      "expected_species": "acanthochromis_polyacanthus",
+      "plain_query": "The data are from acanthochromis polyacanthus. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for procavia capensis, and the samples are acanthochromis polyacanthus. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "procavia capensis",
+      "result": {
+        "plain": {
+          "said": "acanthochromis polyacanthus",
+          "resolved": "acanthochromis_polyacanthus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "acanthochromis polyacanthus",
+          "resolved": "acanthochromis_polyacanthus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-4",
+      "kind": "binomial",
+      "name": "cottoperca gobio",
+      "expected_species": "cottoperca_gobio",
+      "plain_query": "The samples are from cottoperca gobio. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a ornithorhynchus anatinus study: the samples are cottoperca gobio. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "ornithorhynchus anatinus",
+      "result": {
+        "plain": {
+          "said": "cottoperca gobio",
+          "resolved": "cottoperca_gobio",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "cottoperca gobio",
+          "resolved": "cottoperca_gobio",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-5",
+      "kind": "binomial",
+      "name": "balaenoptera musculus",
+      "expected_species": "balaenoptera_musculus",
+      "plain_query": "These are balaenoptera musculus samples. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on crocodylus porosus, but the samples are balaenoptera musculus. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "crocodylus porosus",
+      "result": {
+        "plain": {
+          "said": "balaenoptera musculus",
+          "resolved": "balaenoptera_musculus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "balaenoptera musculus",
+          "resolved": "balaenoptera_musculus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-6",
+      "kind": "binomial",
+      "name": "callithrix jacchus",
+      "expected_species": "callithrix_jacchus",
+      "plain_query": "The data are from callithrix jacchus. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in ciona savignyi; ours are from callithrix jacchus. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "ciona savignyi",
+      "result": {
+        "plain": {
+          "said": "callithrix jacchus",
+          "resolved": "callithrix_jacchus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "callithrix jacchus",
+          "resolved": "callithrix_jacchus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-7",
+      "kind": "binomial",
+      "name": "oncorhynchus mykiss",
+      "expected_species": "oncorhynchus_mykiss",
+      "plain_query": "The samples are from oncorhynchus mykiss. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for accipiter nisus, and the samples are oncorhynchus mykiss. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "accipiter nisus",
+      "result": {
+        "plain": {
+          "said": "oncorhynchus mykiss",
+          "resolved": "oncorhynchus_mykiss",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "oncorhynchus mykiss",
+          "resolved": "oncorhynchus_mykiss",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-8",
+      "kind": "binomial",
+      "name": "dipodomys ordii",
+      "expected_species": "dipodomys_ordii",
+      "plain_query": "These are dipodomys ordii samples. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a erythrura gouldiae study: the samples are dipodomys ordii. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "erythrura gouldiae",
+      "result": {
+        "plain": {
+          "said": "dipodomys ordii",
+          "resolved": "dipodomys_ordii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "dipodomys ordii",
+          "resolved": "dipodomys_ordii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-9",
+      "kind": "binomial",
+      "name": "oryzias melastigma",
+      "expected_species": "oryzias_melastigma",
+      "plain_query": "The data are from oryzias melastigma. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on stachyris ruficeps, but the samples are oryzias melastigma. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "stachyris ruficeps",
+      "result": {
+        "plain": {
+          "said": "oryzias melastigma",
+          "resolved": "oryzias_melastigma",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "oryzias melastigma",
+          "resolved": "oryzias_melastigma",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-10",
+      "kind": "binomial",
+      "name": "junco hyemalis",
+      "expected_species": "junco_hyemalis",
+      "plain_query": "The samples are from junco hyemalis. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in melopsittacus undulatus; ours are from junco hyemalis. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "melopsittacus undulatus",
+      "result": {
+        "plain": {
+          "said": "junco hyemalis",
+          "resolved": "junco_hyemalis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "junco hyemalis",
+          "resolved": "junco_hyemalis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-11",
+      "kind": "binomial",
+      "name": "stachyris ruficeps",
+      "expected_species": "stachyris_ruficeps",
+      "plain_query": "These are stachyris ruficeps samples. We have inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for amphiprion percula, and the samples are stachyris ruficeps. We have inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "amphiprion percula",
+      "result": {
+        "plain": {
+          "said": "stachyris ruficeps",
+          "resolved": "stachyris_ruficeps",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "stachyris ruficeps",
+          "resolved": "stachyris_ruficeps",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-12",
+      "kind": "binomial",
+      "name": "scophthalmus maximus",
+      "expected_species": "scophthalmus_maximus",
+      "plain_query": "The data are from scophthalmus maximus. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a laticauda laticaudata study: the samples are scophthalmus maximus. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "laticauda laticaudata",
+      "result": {
+        "plain": {
+          "said": "scophthalmus maximus",
+          "resolved": "scophthalmus_maximus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "scophthalmus maximus",
+          "resolved": "scophthalmus_maximus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-13",
+      "kind": "binomial",
+      "name": "carassius auratus",
+      "expected_species": "carassius_auratus",
+      "plain_query": "The samples are from carassius auratus. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on anas platyrhynchos, but the samples are carassius auratus. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "anas platyrhynchos",
+      "result": {
+        "plain": {
+          "said": "carassius auratus",
+          "resolved": "carassius_auratus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "carassius auratus",
+          "resolved": "carassius_auratus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-14",
+      "kind": "binomial",
+      "name": "geospiza fortis",
+      "expected_species": "geospiza_fortis",
+      "plain_query": "These are geospiza fortis samples. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in cavia aperea; ours are from geospiza fortis. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "cavia aperea",
+      "result": {
+        "plain": {
+          "said": "geospiza fortis",
+          "resolved": "geospiza_fortis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "geospiza fortis",
+          "resolved": "geospiza_fortis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-15",
+      "kind": "binomial",
+      "name": "ciona savignyi",
+      "expected_species": "ciona_savignyi",
+      "plain_query": "The data are from ciona savignyi. We called inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for mandrillus leucophaeus, and the samples are ciona savignyi. We called inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "mandrillus leucophaeus",
+      "result": {
+        "plain": {
+          "said": "ciona savignyi",
+          "resolved": "ciona_savignyi",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "ciona savignyi",
+          "resolved": "ciona_savignyi",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-16",
+      "kind": "binomial",
+      "name": "pseudonaja textilis",
+      "expected_species": "pseudonaja_textilis",
+      "plain_query": "The samples are from pseudonaja textilis. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a bos grunniens study: the samples are pseudonaja textilis. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "bos grunniens",
+      "result": {
+        "plain": {
+          "said": "pseudonaja textilis",
+          "resolved": "pseudonaja_textilis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "pseudonaja textilis",
+          "resolved": "pseudonaja_textilis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-17",
+      "kind": "binomial",
+      "name": "sphaeramia orbicularis",
+      "expected_species": "sphaeramia_orbicularis",
+      "plain_query": "These are sphaeramia orbicularis samples. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on meriones unguiculatus, but the samples are sphaeramia orbicularis. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "meriones unguiculatus",
+      "result": {
+        "plain": {
+          "said": "sphaeramia orbicularis",
+          "resolved": "sphaeramia_orbicularis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "sphaeramia orbicularis",
+          "resolved": "sphaeramia_orbicularis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-18",
+      "kind": "binomial",
+      "name": "apteryx haastii",
+      "expected_species": "apteryx_haastii",
+      "plain_query": "The data are from apteryx haastii. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in serinus canaria; ours are from apteryx haastii. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "serinus canaria",
+      "result": {
+        "plain": {
+          "said": "apteryx haastii",
+          "resolved": "apteryx_haastii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "apteryx haastii",
+          "resolved": "apteryx_haastii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-19",
+      "kind": "binomial",
+      "name": "chelydra serpentina",
+      "expected_species": "chelydra_serpentina",
+      "plain_query": "The samples are from chelydra serpentina. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for athene cunicularia, and the samples are chelydra serpentina. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "athene cunicularia",
+      "result": {
+        "plain": {
+          "said": "chelydra serpentina",
+          "resolved": "chelydra_serpentina",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "chelydra serpentina",
+          "resolved": "chelydra_serpentina",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-20",
+      "kind": "binomial",
+      "name": "gallus gallus",
+      "expected_species": "gallus_gallus",
+      "plain_query": "These are gallus gallus samples. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a spermophilus dauricus study: the samples are gallus gallus. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "spermophilus dauricus",
+      "result": {
+        "plain": {
+          "said": "gallus gallus",
+          "resolved": "gallus_gallus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "gallus gallus",
+          "resolved": "gallus_gallus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-21",
+      "kind": "binomial",
+      "name": "monopterus albus",
+      "expected_species": "monopterus_albus",
+      "plain_query": "The data are from monopterus albus. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on cyclopterus lumpus, but the samples are monopterus albus. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "cyclopterus lumpus",
+      "result": {
+        "plain": {
+          "said": "monopterus albus",
+          "resolved": "monopterus_albus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "monopterus albus",
+          "resolved": "monopterus_albus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-22",
+      "kind": "binomial",
+      "name": "salarias fasciatus",
+      "expected_species": "salarias_fasciatus",
+      "plain_query": "The samples are from salarias fasciatus. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in mus spicilegus; ours are from salarias fasciatus. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "mus spicilegus",
+      "result": {
+        "plain": {
+          "said": "salarias fasciatus",
+          "resolved": "salarias_fasciatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "salarias fasciatus",
+          "resolved": "salarias_fasciatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-23",
+      "kind": "binomial",
+      "name": "oryzias sinensis",
+      "expected_species": "oryzias_sinensis",
+      "plain_query": "These are oryzias sinensis samples. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for castor canadensis, and the samples are oryzias sinensis. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "castor canadensis",
+      "result": {
+        "plain": {
+          "said": "oryzias sinensis",
+          "resolved": "oryzias_sinensis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "oryzias sinensis",
+          "resolved": "oryzias_sinensis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-24",
+      "kind": "binomial",
+      "name": "chinchilla lanigera",
+      "expected_species": "chinchilla_lanigera",
+      "plain_query": "The data are from chinchilla lanigera. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a sinocyclocheilus rhinocerous study: the samples are chinchilla lanigera. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "sinocyclocheilus rhinocerous",
+      "result": {
+        "plain": {
+          "said": "chinchilla lanigera",
+          "resolved": "chinchilla_lanigera",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "chinchilla lanigera",
+          "resolved": "chinchilla_lanigera",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-25",
+      "kind": "binomial",
+      "name": "dromaius novaehollandiae",
+      "expected_species": "dromaius_novaehollandiae",
+      "plain_query": "The samples are from dromaius novaehollandiae. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on rattus norvegicus, but the samples are dromaius novaehollandiae. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "rattus norvegicus",
+      "result": {
+        "plain": {
+          "said": "dromaius novaehollandiae",
+          "resolved": "dromaius_novaehollandiae",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "dromaius novaehollandiae",
+          "resolved": "dromaius_novaehollandiae",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-26",
+      "kind": "binomial",
+      "name": "tupaia belangeri",
+      "expected_species": "tupaia_belangeri",
+      "plain_query": "These are tupaia belangeri samples. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in mesocricetus auratus; ours are from tupaia belangeri. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "mesocricetus auratus",
+      "result": {
+        "plain": {
+          "said": "tupaia belangeri",
+          "resolved": "tupaia_belangeri",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "tupaia belangeri",
+          "resolved": "tupaia_belangeri",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-27",
+      "kind": "binomial",
+      "name": "rattus norvegicus",
+      "expected_species": "rattus_norvegicus",
+      "plain_query": "The data are from rattus norvegicus. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for eptatretus burgeri, and the samples are rattus norvegicus. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "eptatretus burgeri",
+      "result": {
+        "plain": {
+          "said": "rattus norvegicus",
+          "resolved": "rattus_norvegicus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "rattus norvegicus",
+          "resolved": "rattus_norvegicus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-28",
+      "kind": "binomial",
+      "name": "nannospalax galili",
+      "expected_species": "nannospalax_galili",
+      "plain_query": "The samples are from nannospalax galili. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a pygocentrus nattereri study: the samples are nannospalax galili. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "pygocentrus nattereri",
+      "result": {
+        "plain": {
+          "said": "nannospalax galili",
+          "resolved": "nannospalax_galili",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "nannospalax galili",
+          "resolved": "nannospalax_galili",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-29",
+      "kind": "binomial",
+      "name": "carlito syrichta",
+      "expected_species": "carlito_syrichta",
+      "plain_query": "These are carlito syrichta samples. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on nothobranchius furzeri, but the samples are carlito syrichta. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "nothobranchius furzeri",
+      "result": {
+        "plain": {
+          "said": "carlito syrichta",
+          "resolved": "carlito_syrichta",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "carlito syrichta",
+          "resolved": "carlito_syrichta",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "bino-30",
+      "kind": "binomial",
+      "name": "neolamprologus brichardi",
+      "expected_species": "neolamprologus_brichardi",
+      "plain_query": "The data are from neolamprologus brichardi. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in scleropages formosus; ours are from neolamprologus brichardi. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "scleropages formosus",
+      "result": {
+        "plain": {
+          "said": "neolamprologus brichardi",
+          "resolved": "neolamprologus_brichardi",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "neolamprologus brichardi",
+          "resolved": "neolamprologus_brichardi",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-1",
+      "kind": "common",
+      "name": "monterrey platyfish",
+      "expected_species": "xiphophorus_couchianus",
+      "plain_query": "The samples are from monterrey platyfish. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on white-tufted-ear marmoset, but the samples are monterrey platyfish. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "white-tufted-ear marmoset",
+      "result": {
+        "plain": {
+          "said": "monterrey platyfish",
+          "resolved": "xiphophorus_couchianus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "monterrey platyfish",
+          "resolved": "xiphophorus_couchianus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-2",
+      "kind": "common",
+      "name": "california sea lion",
+      "expected_species": "zalophus_californianus",
+      "plain_query": "These are california sea lion samples. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in spiny chromis; ours are from california sea lion. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "spiny chromis",
+      "result": {
+        "plain": {
+          "said": "california sea lion",
+          "resolved": "zalophus_californianus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "california sea lion",
+          "resolved": "zalophus_californianus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-3",
+      "kind": "common",
+      "name": "small-eared galago",
+      "expected_species": "otolemur_garnettii",
+      "plain_query": "The data are from small-eared galago. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for small tree finch, and the samples are small-eared galago. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "small tree finch",
+      "result": {
+        "plain": {
+          "said": "small-eared galago",
+          "resolved": "otolemur_garnettii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "small-eared galago",
+          "resolved": "otolemur_garnettii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-4",
+      "kind": "common",
+      "name": "western european hedgehog",
+      "expected_species": "erinaceus_europaeus",
+      "plain_query": "The samples are from western european hedgehog. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a shortfin molly study: the samples are western european hedgehog. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "shortfin molly",
+      "result": {
+        "plain": {
+          "said": "western european hedgehog",
+          "resolved": "erinaceus_europaeus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "western european hedgehog",
+          "resolved": "erinaceus_europaeus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-5",
+      "kind": "common",
+      "name": "mexican tetra",
+      "expected_species": "astyanax_mexicanus",
+      "plain_query": "These are mexican tetra samples. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on rufous-capped babbler, but the samples are mexican tetra. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "rufous-capped babbler",
+      "result": {
+        "plain": {
+          "said": "mexican tetra",
+          "resolved": "astyanax_mexicanus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "mexican tetra",
+          "resolved": "astyanax_mexicanus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-6",
+      "kind": "common",
+      "name": "pig-tailed macaque",
+      "expected_species": "macaca_nemestrina",
+      "plain_query": "The data are from pig-tailed macaque. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in damara mole rat; ours are from pig-tailed macaque. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "damara mole rat",
+      "result": {
+        "plain": {
+          "said": "pig-tailed macaque",
+          "resolved": "macaca_nemestrina",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "pig-tailed macaque",
+          "resolved": "macaca_nemestrina",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-7",
+      "kind": "common",
+      "name": "ryukyu mouse",
+      "expected_species": "mus_caroli",
+      "plain_query": "The samples are from ryukyu mouse. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for medium ground-finch, and the samples are ryukyu mouse. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "medium ground-finch",
+      "result": {
+        "plain": {
+          "said": "ryukyu mouse",
+          "resolved": "mus_caroli",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "ryukyu mouse",
+          "resolved": "mus_caroli",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-8",
+      "kind": "common",
+      "name": "golden-collared manakin",
+      "expected_species": "manacus_vitellinus",
+      "plain_query": "These are golden-collared manakin samples. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a mongolian gerbil study: the samples are golden-collared manakin. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "mongolian gerbil",
+      "result": {
+        "plain": {
+          "said": "golden-collared manakin",
+          "resolved": "manacus_vitellinus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "golden-collared manakin",
+          "resolved": "manacus_vitellinus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-9",
+      "kind": "common",
+      "name": "sea lamprey",
+      "expected_species": "petromyzon_marinus",
+      "plain_query": "The data are from sea lamprey. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on indian glassy fish, but the samples are sea lamprey. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "indian glassy fish",
+      "result": {
+        "plain": {
+          "said": "sea lamprey",
+          "resolved": "petromyzon_marinus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "sea lamprey",
+          "resolved": "petromyzon_marinus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-10",
+      "kind": "common",
+      "name": "arctic ground squirrel",
+      "expected_species": "urocitellus_parryii",
+      "plain_query": "The samples are from arctic ground squirrel. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in ryukyu mouse; ours are from arctic ground squirrel. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "ryukyu mouse",
+      "result": {
+        "plain": {
+          "said": "arctic ground squirrel",
+          "resolved": "urocitellus_parryii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "arctic ground squirrel",
+          "resolved": "urocitellus_parryii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-11",
+      "kind": "common",
+      "name": "blunt-snouted clingfish",
+      "expected_species": "gouania_willdenowi",
+      "plain_query": "These are blunt-snouted clingfish samples. We have inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for green anole, and the samples are blunt-snouted clingfish. We have inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "green anole",
+      "result": {
+        "plain": {
+          "said": "blunt-snouted clingfish",
+          "resolved": "gouania_willdenowi",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "blunt-snouted clingfish",
+          "resolved": "gouania_willdenowi",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-12",
+      "kind": "common",
+      "name": "climbing perch",
+      "expected_species": "anabas_testudineus",
+      "plain_query": "The data are from climbing perch. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a collared flycatcher study: the samples are climbing perch. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "collared flycatcher",
+      "result": {
+        "plain": {
+          "said": "climbing perch",
+          "resolved": "anabas_testudineus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "climbing perch",
+          "resolved": "anabas_testudineus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-13",
+      "kind": "common",
+      "name": "pink-footed goose",
+      "expected_species": "anser_brachyrhynchus",
+      "plain_query": "The samples are from pink-footed goose. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on northern tree shrew, but the samples are pink-footed goose. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "northern tree shrew",
+      "result": {
+        "plain": {
+          "said": "pink-footed goose",
+          "resolved": "anser_brachyrhynchus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "pink-footed goose",
+          "resolved": "anser_brachyrhynchus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-14",
+      "kind": "common",
+      "name": "great tit",
+      "expected_species": "parus_major",
+      "plain_query": "These are great tit samples. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in mainland tiger snake; ours are from great tit. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "mainland tiger snake",
+      "result": {
+        "plain": {
+          "said": "great tit",
+          "resolved": "parus_major",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "great tit",
+          "resolved": "parus_major",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-15",
+      "kind": "common",
+      "name": "komodo dragon",
+      "expected_species": "varanus_komodoensis",
+      "plain_query": "The data are from komodo dragon. We called inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for golden-collared manakin, and the samples are komodo dragon. We called inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "golden-collared manakin",
+      "result": {
+        "plain": {
+          "said": "komodo dragon",
+          "resolved": "varanus_komodoensis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "komodo dragon",
+          "resolved": "varanus_komodoensis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-16",
+      "kind": "common",
+      "name": "chacoan peccary",
+      "expected_species": "catagonus_wagneri",
+      "plain_query": "The samples are from chacoan peccary. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a african savanna elephant study: the samples are chacoan peccary. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "african savanna elephant",
+      "result": {
+        "plain": {
+          "said": "chacoan peccary",
+          "resolved": "catagonus_wagneri",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "chacoan peccary",
+          "resolved": "catagonus_wagneri",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-17",
+      "kind": "common",
+      "name": "collared flycatcher",
+      "expected_species": "ficedula_albicollis",
+      "plain_query": "These are collared flycatcher samples. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on spoon-billed sandpiper, but the samples are collared flycatcher. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "spoon-billed sandpiper",
+      "result": {
+        "plain": {
+          "said": "collared flycatcher",
+          "resolved": "ficedula_albicollis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "collared flycatcher",
+          "resolved": "ficedula_albicollis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-18",
+      "kind": "common",
+      "name": "black snub-nosed monkey",
+      "expected_species": "rhinopithecus_bieti",
+      "plain_query": "The data are from black snub-nosed monkey. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in zebrafish; ours are from black snub-nosed monkey. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "zebrafish",
+      "result": {
+        "plain": {
+          "said": "black snub-nosed monkey",
+          "resolved": "rhinopithecus_bieti",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "black snub-nosed monkey",
+          "resolved": "rhinopithecus_bieti",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-19",
+      "kind": "common",
+      "name": "western lowland gorilla",
+      "expected_species": "gorilla_gorilla",
+      "plain_query": "The samples are from western lowland gorilla. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for round goby, and the samples are western lowland gorilla. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "round goby",
+      "result": {
+        "plain": {
+          "said": "western lowland gorilla",
+          "resolved": "gorilla_gorilla",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "western lowland gorilla",
+          "resolved": "gorilla_gorilla",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-20",
+      "kind": "common",
+      "name": "daurian ground squirrel",
+      "expected_species": "spermophilus_dauricus",
+      "plain_query": "These are daurian ground squirrel samples. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a chacoan peccary study: the samples are daurian ground squirrel. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "chacoan peccary",
+      "result": {
+        "plain": {
+          "said": "daurian ground squirrel",
+          "resolved": "spermophilus_dauricus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "daurian ground squirrel",
+          "resolved": "spermophilus_dauricus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-21",
+      "kind": "common",
+      "name": "goodes thornscrub tortoise",
+      "expected_species": "gopherus_evgoodei",
+      "plain_query": "The data are from goodes thornscrub tortoise. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on sea squirt ciona savignyi, but the samples are goodes thornscrub tortoise. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "sea squirt ciona savignyi",
+      "result": {
+        "plain": {
+          "said": "goodes thornscrub tortoise",
+          "resolved": "gopherus_evgoodei",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "thornscrub tortoise",
+          "resolved": "gopherus_evgoodei",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-22",
+      "kind": "common",
+      "name": "live sharksucker",
+      "expected_species": "echeneis_naucrates",
+      "plain_query": "The samples are from live sharksucker. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in northern pike; ours are from live sharksucker. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "northern pike",
+      "result": {
+        "plain": {
+          "said": "sharksucker",
+          "resolved": "echeneis_naucrates",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "sharksucker",
+          "resolved": "echeneis_naucrates",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-23",
+      "kind": "common",
+      "name": "golden-line barbel",
+      "expected_species": "sinocyclocheilus_grahami",
+      "plain_query": "These are golden-line barbel samples. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for brown trout, and the samples are golden-line barbel. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "brown trout",
+      "result": {
+        "plain": {
+          "said": "golden-line barbel",
+          "resolved": "sinocyclocheilus_grahami",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "golden-line barbel",
+          "resolved": "sinocyclocheilus_grahami",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-24",
+      "kind": "common",
+      "name": "western wild mouse",
+      "expected_species": "mus_spretus",
+      "plain_query": "The data are from western wild mouse. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a atlantic herring study: the samples are western wild mouse. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "atlantic herring",
+      "result": {
+        "plain": {
+          "said": "western wild mouse",
+          "resolved": "mus_spretus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "western wild mouse",
+          "resolved": "mus_spretus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-25",
+      "kind": "common",
+      "name": "american pika",
+      "expected_species": "ochotona_princeps",
+      "plain_query": "The samples are from american pika. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on zebra mbuna, but the samples are american pika. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "zebra mbuna",
+      "result": {
+        "plain": {
+          "said": "american pika",
+          "resolved": "ochotona_princeps",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "american pika",
+          "resolved": "ochotona_princeps",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-26",
+      "kind": "common",
+      "name": "siberian musk deer",
+      "expected_species": "moschus_moschiferus",
+      "plain_query": "These are siberian musk deer samples. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in javanese ricefish; ours are from siberian musk deer. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "javanese ricefish",
+      "result": {
+        "plain": {
+          "said": "siberian musk deer",
+          "resolved": "moschus_moschiferus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "siberian musk deer",
+          "resolved": "moschus_moschiferus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-27",
+      "kind": "common",
+      "name": "tropical clawed frog",
+      "expected_species": "xenopus_tropicalis",
+      "plain_query": "The data are from tropical clawed frog. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for siamese fighting fish, and the samples are tropical clawed frog. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "siamese fighting fish",
+      "result": {
+        "plain": {
+          "said": "tropical clawed frog",
+          "resolved": "xenopus_tropicalis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "tropical clawed frog",
+          "resolved": "xenopus_tropicalis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-28",
+      "kind": "common",
+      "name": "small madagascar hedgehog",
+      "expected_species": "echinops_telfairi",
+      "plain_query": "The samples are from small madagascar hedgehog. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a large flying fox study: the samples are small madagascar hedgehog. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "large flying fox",
+      "result": {
+        "plain": {
+          "said": "small madagascar hedgehog",
+          "resolved": "echinops_telfairi",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "small madagascar hedgehog",
+          "resolved": "echinops_telfairi",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-29",
+      "kind": "common",
+      "name": "spoon-billed sandpiper",
+      "expected_species": "calidris_pygmaea",
+      "plain_query": "These are spoon-billed sandpiper samples. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on medium ground-finch, but the samples are spoon-billed sandpiper. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "medium ground-finch",
+      "result": {
+        "plain": {
+          "said": "spoon-billed sandpiper",
+          "resolved": "calidris_pygmaea",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "spoon-billed sandpiper",
+          "resolved": "calidris_pygmaea",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "comm-30",
+      "kind": "common",
+      "name": "zebra mbuna",
+      "expected_species": "maylandia_zebra",
+      "plain_query": "The data are from zebra mbuna. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in clown anemonefish; ours are from zebra mbuna. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "clown anemonefish",
+      "result": {
+        "plain": {
+          "said": "zebra mbuna",
+          "resolved": "maylandia_zebra",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "zebra mbuna",
+          "resolved": "maylandia_zebra",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-1",
+      "kind": "english_word",
+      "name": "opossum",
+      "expected_species": "monodelphis_domestica",
+      "plain_query": "The samples are from an opossum. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on mallard, but the samples are from an opossum. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "mallard",
+      "result": {
+        "plain": {
+          "said": "opossum",
+          "resolved": "monodelphis_domestica",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "opossum",
+          "resolved": "monodelphis_domestica",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-2",
+      "kind": "english_word",
+      "name": "coelacanth",
+      "expected_species": "latimeria_chalumnae",
+      "plain_query": "These samples come from a coelacanth. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in alpaca; ours are from a coelacanth. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "alpaca",
+      "result": {
+        "plain": {
+          "said": "coelacanth",
+          "resolved": "latimeria_chalumnae",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "coelacanth",
+          "resolved": "latimeria_chalumnae",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-3",
+      "kind": "english_word",
+      "name": "budgerigar",
+      "expected_species": "melopsittacus_undulatus",
+      "plain_query": "The data are from a budgerigar. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for platyfish, and the samples are from a budgerigar. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "platyfish",
+      "result": {
+        "plain": {
+          "said": "budgerigar",
+          "resolved": "melopsittacus_undulatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "budgerigar",
+          "resolved": "melopsittacus_undulatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-4",
+      "kind": "english_word",
+      "name": "goat",
+      "expected_species": "capra_hircus",
+      "plain_query": "The samples are from a goat. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a pig study: the samples are from a goat. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "pig",
+      "result": {
+        "plain": {
+          "said": "goat",
+          "resolved": "capra_hircus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "goat",
+          "resolved": "capra_hircus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-5",
+      "kind": "english_word",
+      "name": "degu",
+      "expected_species": "octodon_degus",
+      "plain_query": "These samples come from a degu. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on tuatara, but the samples are from a degu. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "tuatara",
+      "result": {
+        "plain": {
+          "said": "degu",
+          "resolved": "octodon_degus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "degu",
+          "resolved": "octodon_degus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-6",
+      "kind": "english_word",
+      "name": "wallaby",
+      "expected_species": "notamacropus_eugenii",
+      "plain_query": "The data are from a wallaby. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in shrew; ours are from a wallaby. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "shrew",
+      "result": {
+        "plain": {
+          "said": "wallaby",
+          "resolved": "notamacropus_eugenii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "wallaby",
+          "resolved": "notamacropus_eugenii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-7",
+      "kind": "english_word",
+      "name": "kakapo",
+      "expected_species": "strigops_habroptila",
+      "plain_query": "The samples are from a kakapo. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for chicken, and the samples are from a kakapo. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "chicken",
+      "result": {
+        "plain": {
+          "said": "kakapo",
+          "resolved": "strigops_habroptila",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "kakapo",
+          "resolved": "strigops_habroptila",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-8",
+      "kind": "english_word",
+      "name": "leopard",
+      "expected_species": "panthera_pardus",
+      "plain_query": "These samples come from a leopard. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a koala study: the samples are from a leopard. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "koala",
+      "result": {
+        "plain": {
+          "said": "leopard",
+          "resolved": "panthera_pardus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "leopard",
+          "resolved": "panthera_pardus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-9",
+      "kind": "english_word",
+      "name": "stickleback",
+      "expected_species": "gasterosteus_aculeatus",
+      "plain_query": "The data are from a stickleback. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on wallaby, but the samples are from a stickleback. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "wallaby",
+      "result": {
+        "plain": {
+          "said": "stickleback",
+          "resolved": "gasterosteus_aculeatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "stickleback",
+          "resolved": "gasterosteus_aculeatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-10",
+      "kind": "english_word",
+      "name": "armadillo",
+      "expected_species": "dasypus_novemcinctus",
+      "plain_query": "The samples are from an armadillo. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in gorilla; ours are from an armadillo. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "gorilla",
+      "result": {
+        "plain": {
+          "said": "armadillo",
+          "resolved": "dasypus_novemcinctus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "armadillo",
+          "resolved": "dasypus_novemcinctus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-11",
+      "kind": "english_word",
+      "name": "ruff",
+      "expected_species": "calidris_pugnax",
+      "plain_query": "These samples come from a ruff. We have inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for degu, and the samples are from a ruff. We have inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "degu",
+      "result": {
+        "plain": {
+          "said": "ruff",
+          "resolved": "calidris_pugnax",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "ruff",
+          "resolved": "calidris_pugnax",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-12",
+      "kind": "english_word",
+      "name": "gibbon",
+      "expected_species": "nomascus_leucogenys",
+      "plain_query": "The data are from a gibbon. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a degu study: the samples are from a gibbon. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "degu",
+      "result": {
+        "plain": {
+          "said": "gibbon",
+          "resolved": "nomascus_leucogenys",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "gibbon",
+          "resolved": "nomascus_leucogenys",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-13",
+      "kind": "english_word",
+      "name": "tetraodon",
+      "expected_species": "tetraodon_nigroviridis",
+      "plain_query": "The samples are from a tetraodon. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on lion, but the samples are from a tetraodon. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "lion",
+      "result": {
+        "plain": {
+          "said": "tetraodon",
+          "resolved": "tetraodon_nigroviridis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "tetraodon",
+          "resolved": "tetraodon_nigroviridis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-14",
+      "kind": "english_word",
+      "name": "tiger",
+      "expected_species": "panthera_tigris",
+      "plain_query": "These samples come from a tiger. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in hagfish; ours are from a tiger. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "hagfish",
+      "result": {
+        "plain": {
+          "said": "tiger",
+          "resolved": "panthera_tigris_altaica",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "tiger",
+          "resolved": "panthera_tigris_altaica",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-15",
+      "kind": "english_word",
+      "name": "guppy",
+      "expected_species": "poecilia_reticulata",
+      "plain_query": "The data are from a guppy. We called inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for dingo, and the samples are from a guppy. We called inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "dingo",
+      "result": {
+        "plain": {
+          "said": "guppy",
+          "resolved": "poecilia_reticulata",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "guppy",
+          "resolved": "poecilia_reticulata",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-16",
+      "kind": "english_word",
+      "name": "ass",
+      "expected_species": "equus_asinus",
+      "plain_query": "The samples are from an ass. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a elephant study: the samples are from an ass. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "elephant",
+      "result": {
+        "plain": {
+          "said": "ass",
+          "resolved": "equus_asinus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "ass",
+          "resolved": "equus_asinus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-17",
+      "kind": "english_word",
+      "name": "platyfish",
+      "expected_species": "xiphophorus_maculatus",
+      "plain_query": "These samples come from a platyfish. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on goat, but the samples are from a platyfish. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "goat",
+      "result": {
+        "plain": {
+          "said": "platyfish",
+          "resolved": "xiphophorus_maculatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "platyfish",
+          "resolved": "xiphophorus_maculatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-18",
+      "kind": "english_word",
+      "name": "narwhal",
+      "expected_species": "monodon_monoceros",
+      "plain_query": "The data are from a narwhal. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in gorilla; ours are from a narwhal. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "gorilla",
+      "result": {
+        "plain": {
+          "said": "narwhal",
+          "resolved": "monodon_monoceros",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "narwhal",
+          "resolved": "monodon_monoceros",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-19",
+      "kind": "english_word",
+      "name": "squirrel",
+      "expected_species": "ictidomys_tridecemlineatus",
+      "plain_query": "The samples are from a squirrel. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for dingo, and the samples are from a squirrel. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "dingo",
+      "result": {
+        "plain": {
+          "said": "squirrel",
+          "resolved": "ictidomys_tridecemlineatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "squirrel",
+          "resolved": "ictidomys_tridecemlineatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-20",
+      "kind": "english_word",
+      "name": "vole",
+      "expected_species": "microtus_ochrogaster",
+      "plain_query": "These samples come from a vole. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a shrew study: the samples are from a vole. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "shrew",
+      "result": {
+        "plain": {
+          "said": "vole",
+          "resolved": "microtus_ochrogaster",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "vole",
+          "resolved": "microtus_ochrogaster",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-21",
+      "kind": "english_word",
+      "name": "chimpanzee",
+      "expected_species": "pan_troglodytes",
+      "plain_query": "The data are from a chimpanzee. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on wallaby, but the samples are from a chimpanzee. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "wallaby",
+      "result": {
+        "plain": {
+          "said": "chimpanzee",
+          "resolved": "pan_troglodytes",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "chimpanzee",
+          "resolved": "pan_troglodytes",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-22",
+      "kind": "english_word",
+      "name": "tuatara",
+      "expected_species": "sphenodon_punctatus",
+      "plain_query": "The samples are from a tuatara. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in armadillo; ours are from a tuatara. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "armadillo",
+      "result": {
+        "plain": {
+          "said": "tuatara",
+          "resolved": "sphenodon_punctatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "tuatara",
+          "resolved": "sphenodon_punctatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-23",
+      "kind": "english_word",
+      "name": "dingo",
+      "expected_species": "canis_lupus",
+      "plain_query": "These samples come from a dingo. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for guppy, and the samples are from a dingo. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "guppy",
+      "result": {
+        "plain": {
+          "said": "dingo",
+          "resolved": "canis_lupus_dingo",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "dingo",
+          "resolved": "canis_lupus_dingo",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-24",
+      "kind": "english_word",
+      "name": "sloth",
+      "expected_species": "choloepus_hoffmanni",
+      "plain_query": "The data are from a sloth. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a elephant study: the samples are from a sloth. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "elephant",
+      "result": {
+        "plain": {
+          "said": "sloth",
+          "resolved": "choloepus_hoffmanni",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "sloth",
+          "resolved": "choloepus_hoffmanni",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-25",
+      "kind": "english_word",
+      "name": "pig",
+      "expected_species": "sus_scrofa",
+      "plain_query": "The samples are from a pig. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on fugu, but the samples are from a pig. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "fugu",
+      "result": {
+        "plain": {
+          "said": "pig",
+          "resolved": "sus_scrofa",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "pig",
+          "resolved": "sus_scrofa",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-26",
+      "kind": "english_word",
+      "name": "dolphin",
+      "expected_species": "tursiops_truncatus",
+      "plain_query": "These samples come from a dolphin. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in degu; ours are from a dolphin. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "degu",
+      "result": {
+        "plain": {
+          "said": "dolphin",
+          "resolved": "tursiops_truncatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "dolphin",
+          "resolved": "tursiops_truncatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-27",
+      "kind": "english_word",
+      "name": "elephant",
+      "expected_species": "loxodonta_africana",
+      "plain_query": "The data are from an elephant. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for ass, and the samples are from an elephant. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "ass",
+      "result": {
+        "plain": {
+          "said": "elephant",
+          "resolved": "loxodonta_africana",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "elephant",
+          "resolved": "loxodonta_africana",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-28",
+      "kind": "english_word",
+      "name": "sheep",
+      "expected_species": "ovis_aries",
+      "plain_query": "The samples are from a sheep. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a hyrax study: the samples are from a sheep. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "hyrax",
+      "result": {
+        "plain": {
+          "said": "sheep",
+          "resolved": "ovis_aries",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "sheep",
+          "resolved": "ovis_aries",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-29",
+      "kind": "english_word",
+      "name": "meerkat",
+      "expected_species": "suricata_suricatta",
+      "plain_query": "These samples come from a meerkat. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on leopard, but the samples are from a meerkat. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "leopard",
+      "result": {
+        "plain": {
+          "said": "meerkat",
+          "resolved": "suricata_suricatta",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "meerkat",
+          "resolved": "suricata_suricatta",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "engl-30",
+      "kind": "english_word",
+      "name": "fugu",
+      "expected_species": "takifugu_rubripes",
+      "plain_query": "The data are from a fugu. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in dolphin; ours are from a fugu. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "dolphin",
+      "result": {
+        "plain": {
+          "said": "fugu",
+          "resolved": "takifugu_rubripes",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "fugu",
+          "resolved": "takifugu_rubripes",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-1",
+      "kind": "strain",
+      "name": "seriola lalandi dorsalis",
+      "expected_species": "seriola_lalandi",
+      "plain_query": "The samples are from seriola lalandi dorsalis. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on mouse pwk/phj, but the samples are seriola lalandi dorsalis. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "mouse pwk/phj",
+      "result": {
+        "plain": {
+          "said": "seriola lalandi dorsalis",
+          "resolved": "seriola_lalandi_dorsalis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "seriola lalandi dorsalis",
+          "resolved": "seriola_lalandi_dorsalis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-2",
+      "kind": "strain",
+      "name": "asiatic black bear",
+      "expected_species": "ursus_thibetanus",
+      "plain_query": "These are asiatic black bear samples. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in yellowtail amberjack; ours are from asiatic black bear. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "yellowtail amberjack",
+      "result": {
+        "plain": {
+          "said": "asiatic black bear",
+          "resolved": "ursus_thibetanus_thibetanus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "asiatic black bear",
+          "resolved": "ursus_thibetanus_thibetanus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-3",
+      "kind": "strain",
+      "name": "chinese hamster chok1gs",
+      "expected_species": "cricetulus_griseus",
+      "plain_query": "The data are from chinese hamster chok1gs. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for cyprinus carpio hebaored, and the samples are chinese hamster chok1gs. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "cyprinus carpio hebaored",
+      "result": {
+        "plain": {
+          "said": "chinese hamster chok1gs",
+          "resolved": "cricetulus_griseus_chok1gshd",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "chinese hamster chok1gs",
+          "resolved": "cricetulus_griseus_chok1gshd",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-4",
+      "kind": "strain",
+      "name": "oryzias latipes hni",
+      "expected_species": "oryzias_latipes",
+      "plain_query": "The samples are from oryzias latipes hni. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a mouse fvb/nj study: the samples are oryzias latipes hni. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "mouse fvb/nj",
+      "result": {
+        "plain": {
+          "said": "oryzias latipes hni",
+          "resolved": "oryzias_latipes",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "oryzias latipes hni",
+          "resolved": "oryzias_latipes",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-5",
+      "kind": "strain",
+      "name": "cyprinus carpio huanghe",
+      "expected_species": "cyprinus_carpio",
+      "plain_query": "These are cyprinus carpio huanghe samples. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on canis lupus familiarisboxer, but the samples are cyprinus carpio huanghe. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "canis lupus familiarisboxer",
+      "result": {
+        "plain": {
+          "said": "cyprinus carpio huanghe",
+          "resolved": "cyprinus_carpio_huanghe",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "cyprinus carpio huanghe",
+          "resolved": "cyprinus_carpio_huanghe",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-6",
+      "kind": "strain",
+      "name": "northern spotted owl",
+      "expected_species": "strix_occidentalis",
+      "plain_query": "The data are from northern spotted owl. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in canis lupus familiarisboxer; ours are from northern spotted owl. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "canis lupus familiarisboxer",
+      "result": {
+        "plain": {
+          "said": "northern spotted owl",
+          "resolved": "strix_occidentalis_caurina",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "northern spotted owl",
+          "resolved": "strix_occidentalis_caurina",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-7",
+      "kind": "strain",
+      "name": "american bison",
+      "expected_species": "bison_bison",
+      "plain_query": "The samples are from american bison. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for mouse a/j, and the samples are american bison. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "mouse a/j",
+      "result": {
+        "plain": {
+          "said": "american bison",
+          "resolved": "bison_bison_bison",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "american bison",
+          "resolved": "bison_bison_bison",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-8",
+      "kind": "strain",
+      "name": "alpine marmot",
+      "expected_species": "marmota_marmota",
+      "plain_query": "These are alpine marmot samples. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a mouse c57bl/6nj study: the samples are alpine marmot. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "mouse c57bl/6nj",
+      "result": {
+        "plain": {
+          "said": "alpine marmot",
+          "resolved": "marmota_marmota_marmota",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "alpine marmot",
+          "resolved": "marmota_marmota_marmota",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-9",
+      "kind": "strain",
+      "name": "domestic cattle",
+      "expected_species": "bos_taurus",
+      "plain_query": "The data are from domestic cattle. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on colobus angolensis palliatus, but the samples are domestic cattle. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "colobus angolensis palliatus",
+      "result": {
+        "plain": {
+          "said": "domestic cattle",
+          "resolved": "bos_taurus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "domestic cattle",
+          "resolved": "bos_taurus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-10",
+      "kind": "strain",
+      "name": "silver-eye",
+      "expected_species": "zosterops_lateralis",
+      "plain_query": "The samples are from a silver-eye. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in chinese hamster crigri; ours are from a silver-eye. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "chinese hamster crigri",
+      "result": {
+        "plain": {
+          "said": "silver-eye",
+          "resolved": "zosterops_lateralis_melanops",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "silver-eye",
+          "resolved": "zosterops_lateralis_melanops",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-11",
+      "kind": "strain",
+      "name": "naked mole-rat male",
+      "expected_species": "heterocephalus_glaber",
+      "plain_query": "These are naked mole-rat male samples. We have inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for canis lupus familiarisbasenji, and the samples are naked mole-rat male. We have inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "canis lupus familiarisbasenji",
+      "result": {
+        "plain": {
+          "said": "naked mole-rat",
+          "resolved": "heterocephalus_glaber_male",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "naked mole-rat",
+          "resolved": "heterocephalus_glaber_male",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-12",
+      "kind": "strain",
+      "name": "felis catus abyssinian",
+      "expected_species": "felis_catus",
+      "plain_query": "The data are from felis catus abyssinian. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a yellowtail amberjack study: the samples are felis catus abyssinian. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "yellowtail amberjack",
+      "result": {
+        "plain": {
+          "said": "felis catus abyssinian",
+          "resolved": "felis_catus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "felis catus abyssinian",
+          "resolved": "felis_catus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-13",
+      "kind": "strain",
+      "name": "bengalese finch",
+      "expected_species": "lonchura_striata",
+      "plain_query": "The samples are from bengalese finch. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on saimiri boliviensis boliviensis, but the samples are bengalese finch. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "saimiri boliviensis boliviensis",
+      "result": {
+        "plain": {
+          "said": "bengalese finch",
+          "resolved": "lonchura_striata_domestica",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "bengalese finch",
+          "resolved": "lonchura_striata_domestica",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-14",
+      "kind": "strain",
+      "name": "superb fairywren",
+      "expected_species": "malurus_cyaneus",
+      "plain_query": "These are superb fairywren samples. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in lonchura striata domestica; ours are from superb fairywren. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "lonchura striata domestica",
+      "result": {
+        "plain": {
+          "said": "superb fairywren",
+          "resolved": "malurus_cyaneus_samueli",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "superb fairywren",
+          "resolved": "malurus_cyaneus_samueli",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-15",
+      "kind": "strain",
+      "name": "northern american deer mouse",
+      "expected_species": "peromyscus_maniculatus",
+      "plain_query": "The data are from northern american deer mouse. We called inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for sus scrofa tibetan, and the samples are northern american deer mouse. We called inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "sus scrofa tibetan",
+      "result": {
+        "plain": {
+          "said": "northern american deer mouse",
+          "resolved": "peromyscus_maniculatus_bairdii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "northern american deer mouse",
+          "resolved": "peromyscus_maniculatus_bairdii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-16",
+      "kind": "strain",
+      "name": "african ostrich",
+      "expected_species": "struthio_camelus",
+      "plain_query": "The samples are from african ostrich. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a sus scrofa largewhite study: the samples are african ostrich. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "sus scrofa largewhite",
+      "result": {
+        "plain": {
+          "said": "african ostrich",
+          "resolved": "struthio_camelus_australis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "african ostrich",
+          "resolved": "struthio_camelus_australis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-17",
+      "kind": "strain",
+      "name": "atlantic salmon",
+      "expected_species": "salmo_salar",
+      "plain_query": "These are atlantic salmon samples. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on mouse c57bl/6nj, but the samples are atlantic salmon. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "mouse c57bl/6nj",
+      "result": {
+        "plain": {
+          "said": "atlantic salmon",
+          "resolved": "salmo_salar",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "atlantic salmon",
+          "resolved": "salmo_salar",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-18",
+      "kind": "strain",
+      "name": "painted turtle",
+      "expected_species": "chrysemys_picta",
+      "plain_query": "The data are from painted turtle. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in marmota marmota marmota; ours are from painted turtle. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "marmota marmota marmota",
+      "result": {
+        "plain": {
+          "said": "painted turtle",
+          "resolved": "chrysemys_picta_bellii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "painted turtle",
+          "resolved": "chrysemys_picta_bellii",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-19",
+      "kind": "strain",
+      "name": "terrapene carolina triunguis",
+      "expected_species": "terrapene_carolina",
+      "plain_query": "The samples are from terrapene carolina triunguis. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for heterocephalus glaber female, and the samples are terrapene carolina triunguis. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "heterocephalus glaber female",
+      "result": {
+        "plain": {
+          "said": "terrapene carolina triunguis",
+          "resolved": "terrapene_carolina_triunguis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "terrapene carolina triunguis",
+          "resolved": "terrapene_carolina_triunguis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-20",
+      "kind": "strain",
+      "name": "colobus angolensis palliatus",
+      "expected_species": "colobus_angolensis",
+      "plain_query": "These are colobus angolensis palliatus samples. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a naked mole-rat study: the samples are colobus angolensis palliatus. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "naked mole-rat",
+      "result": {
+        "plain": {
+          "said": "colobus angolensis palliatus",
+          "resolved": "colobus_angolensis_palliatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "colobus angolensis palliatus",
+          "resolved": "colobus_angolensis_palliatus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-21",
+      "kind": "strain",
+      "name": "yarkand deer",
+      "expected_species": "cervus_hanglu",
+      "plain_query": "The data are from yarkand deer. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on western european house mouse, but the samples are yarkand deer. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "western european house mouse",
+      "result": {
+        "plain": {
+          "said": "yarkand deer",
+          "resolved": "cervus_hanglu_yarkandensis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "yarkand deer",
+          "resolved": "cervus_hanglu_yarkandensis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-22",
+      "kind": "strain",
+      "name": "domestic ferret",
+      "expected_species": "mustela_putorius",
+      "plain_query": "The samples are from domestic ferret. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in naked mole-rat; ours are from domestic ferret. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "naked mole-rat",
+      "result": {
+        "plain": {
+          "said": "domestic ferret",
+          "resolved": "mustela_putorius_furo",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "domestic ferret",
+          "resolved": "mustela_putorius_furo",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-23",
+      "kind": "strain",
+      "name": "cairina moschata domestica",
+      "expected_species": "cairina_moschata",
+      "plain_query": "These are cairina moschata domestica samples. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for mus musculus c3hhej, and the samples are cairina moschata domestica. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "mus musculus c3hhej",
+      "result": {
+        "plain": {
+          "said": "cairina moschata domestica",
+          "resolved": "cairina_moschata_domestica",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "cairina moschata domestica",
+          "resolved": "cairina_moschata_domestica",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-24",
+      "kind": "strain",
+      "name": "golden eagle",
+      "expected_species": "aquila_chrysaetos",
+      "plain_query": "The data are from golden eagle. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a atlantic salmon study: the samples are golden eagle. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "atlantic salmon",
+      "result": {
+        "plain": {
+          "said": "golden eagle",
+          "resolved": "aquila_chrysaetos_chrysaetos",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "golden eagle",
+          "resolved": "aquila_chrysaetos_chrysaetos",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-25",
+      "kind": "strain",
+      "name": "bolivian squirrel monkey",
+      "expected_species": "saimiri_boliviensis",
+      "plain_query": "The samples are from bolivian squirrel monkey. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on terrapene carolina triunguis, but the samples are bolivian squirrel monkey. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "terrapene carolina triunguis",
+      "result": {
+        "plain": {
+          "said": "bolivian squirrel monkey",
+          "resolved": "saimiri_boliviensis_boliviensis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "bolivian squirrel monkey",
+          "resolved": "saimiri_boliviensis_boliviensis",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "stra-26",
+      "kind": "strain",
+      "name": "anas platyrhynchos platyrhynchos",
+      "expected_species": "anas_platyrhynchos",
+      "plain_query": "These are anas platyrhynchos platyrhynchos samples. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in mus musculus wsbeij; ours are from anas platyrhynchos platyrhynchos. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "mus musculus wsbeij",
+      "result": {
+        "plain": {
+          "said": "anas platyrhynchos platyrhynchos",
+          "resolved": "anas_platyrhynchos",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "anas platyrhynchos platyrhynchos",
+          "resolved": "anas_platyrhynchos",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "trap-1",
+      "kind": "trap",
+      "name": "platypus",
+      "expected_species": "ornithorhynchus_anatinus",
+      "plain_query": "The samples are from a platypus. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on turkey, but the samples are from a platypus. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "turkey",
+      "result": {
+        "plain": {
+          "said": "platypus",
+          "resolved": "ornithorhynchus_anatinus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "platypus",
+          "resolved": "ornithorhynchus_anatinus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "trap-2",
+      "kind": "trap",
+      "name": "drill",
+      "expected_species": "mandrillus_leucophaeus",
+      "plain_query": "These samples come from a drill. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy_query": "The variants were first reported in dog; ours are from a drill. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+      "decoy": "dog",
+      "result": {
+        "plain": {
+          "said": "unstated",
+          "resolved": null,
+          "species": "unstated",
+          "name_ok": false,
+          "binary_ok": false,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "drill",
+          "resolved": "mandrillus_leucophaeus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "trap-3",
+      "kind": "trap",
+      "name": "guinea pig",
+      "expected_species": "cavia_porcellus",
+      "plain_query": "The data are from guinea pig. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy_query": "We followed a protocol written for dog, and the samples are guinea pig. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+      "decoy": "dog",
+      "result": {
+        "plain": {
+          "said": "guinea pig",
+          "resolved": "cavia_porcellus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "guinea pig",
+          "resolved": "cavia_porcellus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "trap-4",
+      "kind": "trap",
+      "name": "rabbit",
+      "expected_species": "oryctolagus_cuniculus",
+      "plain_query": "The samples are from a rabbit. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy_query": "Not a drill study: the samples are from a rabbit. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+      "decoy": "drill",
+      "result": {
+        "plain": {
+          "said": "rabbit",
+          "resolved": "oryctolagus_cuniculus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "rabbit",
+          "resolved": "oryctolagus_cuniculus",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    },
+    {
+      "id": "trap-5",
+      "kind": "trap",
+      "name": "turkey",
+      "expected_species": "meleagris_gallopavo",
+      "plain_query": "These samples come from a turkey. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy_query": "My supervisor works on drill, but the samples are from a turkey. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+      "decoy": "drill",
+      "result": {
+        "plain": {
+          "said": "turkey",
+          "resolved": "meleagris_gallopavo",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        },
+        "decoy": {
+          "said": "turkey",
+          "resolved": "meleagris_gallopavo",
+          "species": "non-human",
+          "name_ok": true,
+          "binary_ok": true,
+          "disagree": false
+        }
+      }
+    }
+  ]
+}

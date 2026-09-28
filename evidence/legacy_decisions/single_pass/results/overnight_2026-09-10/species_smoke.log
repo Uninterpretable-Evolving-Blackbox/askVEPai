@@ -1,0 +1,26 @@
+species index: 756 names
+  row  1 entangled truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'human', 'hinted': 'human'}
+  row  2 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+
+=== species: rule vs model vs hinted -- gemma4:26b, seed 42, 2 rows, 48s ===
+
+ORIGINAL text (species stated) -- correct / 2
+        rule     model    hinted
+           2         2         2
+
+ABLATED text, PURE rows (cue gone) -- n=1
+  says unstated (knows it does not know)             0         1         1
+  says human on a non-human row (masked)             1         0         0
+  says non-human on a non-human row                  0         0         0
+  says human on a human row                          0         0         0
+
+ABLATED text, ENTANGLED rows -- n=1, answer distribution
+  rule     {'human': 1}
+  model    {'human': 1}
+  hinted   {'human': 1}
+
+  rule = infer_species (shipped, overrides the model); model = the classifier's own species field;
+  hinted = classifier shown the 356-species scan's matches as rejectable hints.
+
+  wrote work/results/overnight_2026-09-10/species_smoke.json
+ALLDONE

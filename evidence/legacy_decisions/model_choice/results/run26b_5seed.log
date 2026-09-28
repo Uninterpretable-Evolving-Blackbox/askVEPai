@@ -1,0 +1,52 @@
+Model=gemma4:26b  examples=20  options=58  queries=20  conditions=['bare', 'keyword', 'all', 'semantic']  runs=5  concurrency=4
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 20119.23it/s]
+Prompts built. Firing LLM calls...
+  10/400 calls  193s  (0.05 calls/s)
+  20/400 calls  388s  (0.05 calls/s)
+  30/400 calls  594s  (0.05 calls/s)
+  40/400 calls  756s  (0.05 calls/s)
+  50/400 calls  931s  (0.05 calls/s)
+  60/400 calls  1081s  (0.06 calls/s)
+  70/400 calls  1241s  (0.06 calls/s)
+  80/400 calls  1372s  (0.06 calls/s)
+  90/400 calls  1509s  (0.06 calls/s)
+  100/400 calls  1632s  (0.06 calls/s)
+  110/400 calls  1825s  (0.06 calls/s)
+  120/400 calls  1958s  (0.06 calls/s)
+  130/400 calls  2080s  (0.06 calls/s)
+  140/400 calls  2236s  (0.06 calls/s)
+  150/400 calls  2381s  (0.06 calls/s)
+  160/400 calls  2556s  (0.06 calls/s)
+  170/400 calls  2717s  (0.06 calls/s)
+  180/400 calls  2875s  (0.06 calls/s)
+  190/400 calls  3015s  (0.06 calls/s)
+  200/400 calls  3193s  (0.06 calls/s)
+  210/400 calls  3326s  (0.06 calls/s)
+  220/400 calls  3486s  (0.06 calls/s)
+  230/400 calls  3618s  (0.06 calls/s)
+  240/400 calls  3768s  (0.06 calls/s)
+  250/400 calls  3888s  (0.06 calls/s)
+  260/400 calls  4028s  (0.06 calls/s)
+  270/400 calls  4200s  (0.06 calls/s)
+  280/400 calls  4401s  (0.06 calls/s)
+  290/400 calls  4552s  (0.06 calls/s)
+  300/400 calls  4704s  (0.06 calls/s)
+  310/400 calls  4839s  (0.06 calls/s)
+  320/400 calls  5035s  (0.06 calls/s)
+  330/400 calls  5178s  (0.06 calls/s)
+  340/400 calls  5326s  (0.06 calls/s)
+  350/400 calls  5500s  (0.06 calls/s)
+  360/400 calls  5649s  (0.06 calls/s)
+  370/400 calls  5826s  (0.06 calls/s)
+  380/400 calls  5961s  (0.06 calls/s)
+  390/400 calls  6092s  (0.06 calls/s)
+  400/400 calls  6217s  (0.06 calls/s)
+Raw outputs -> /Users/davidgao/Desktop/GSoC_WORK/work/results/raw/gemma4_26b.jsonl (400 calls)
+
+=== gemma4:26b (6217s) ===
+  bare      Enable F1=30%  prio-wtd F1=38%  cite=0%
+  keyword   Enable F1=74%  prio-wtd F1=76%  cite=87%
+  all       Enable F1=84%  prio-wtd F1=87%  cite=88%
+  semantic  Enable F1=39%  prio-wtd F1=42%  cite=84%
+Report -> /Users/davidgao/Desktop/GSoC_WORK/work/results/evaluation_results_gemma4_26b.md

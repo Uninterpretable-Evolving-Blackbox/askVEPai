@@ -1,0 +1,26 @@
+
+Find variants in genes associated with colorectal cancer.
+  outside the factors: gene set by disease   stable across seeds: True
+  seed 42: species=unstated  origin=somatic  variant_size_class=[]  region_focus=[]  analysis_goal=['clinical-interpretation']
+  seed 43: species=unstated  origin=somatic  variant_size_class=[]  region_focus=[]  analysis_goal=['clinical-interpretation']
+  seed 44: species=unstated  origin=somatic  variant_size_class=[]  region_focus=[]  analysis_goal=['clinical-interpretation']
+
+Which variants in my sample affect genes associated with breast cancer?
+  outside the factors: gene set by disease   stable across seeds: False
+  seed 42: species=unstated  origin=unstated  variant_size_class=[]  region_focus=[]  analysis_goal=['clinical-interpretation']
+  seed 43: species=unstated  origin=somatic  variant_size_class=[]  region_focus=[]  analysis_goal=['clinical-interpretation']
+  seed 44: species=unstated  origin=somatic  variant_size_class=[]  region_focus=[]  analysis_goal=['clinical-interpretation']
+
+Show me variants affecting BRCA1, BRCA2
+  outside the factors: named gene list   stable across seeds: True
+  seed 42: species=unstated  origin=unstated  variant_size_class=[]  region_focus=[]  analysis_goal=['basic-consequence']
+  seed 43: species=unstated  origin=unstated  variant_size_class=[]  region_focus=[]  analysis_goal=['basic-consequence']
+  seed 44: species=unstated  origin=unstated  variant_size_class=[]  region_focus=[]  analysis_goal=['basic-consequence']
+
+Which variants produce loss-of-function consequences in my hereditary cancer gene panel?
+  outside the factors: gene panel, loss-of-function filter   stable across seeds: True
+  seed 42: species=unstated  origin=germline  variant_size_class=[]  region_focus=[]  analysis_goal=['clinical-interpretation']
+  seed 43: species=unstated  origin=germline  variant_size_class=[]  region_focus=[]  analysis_goal=['clinical-interpretation']
+  seed 44: species=unstated  origin=germline  variant_size_class=[]  region_focus=[]  analysis_goal=['clinical-interpretation']
+
+wrote work/results/overnight_2026-09-23/mentor_queries_26b.json

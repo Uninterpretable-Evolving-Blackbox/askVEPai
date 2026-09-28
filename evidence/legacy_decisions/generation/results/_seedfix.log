@@ -1,0 +1,1119 @@
+START Sun Jul 12 11:23:05 CST 2026
+=== TEACHER SWEEP: 4 teachers x 5 seeds x N=30 ===
+  [seed 42][gemma4:e4b] gen 1/30
+  [seed 42][gemma4:e4b] gen 2/30
+  [seed 42][gemma4:e4b] gen 3/30
+  [seed 42][gemma4:e4b] gen 4/30
+  [seed 42][gemma4:e4b] gen 5/30
+  [seed 42][gemma4:e4b] gen 6/30
+  [seed 42][gemma4:e4b] gen 7/30
+  [seed 42][gemma4:e4b] gen 8/30
+  [seed 42][gemma4:e4b] gen 9/30
+  [seed 42][gemma4:e4b] gen 10/30
+  [seed 42][gemma4:e4b] gen 11/30
+  [seed 42][gemma4:e4b] gen 12/30
+  [seed 42][gemma4:e4b] gen 13/30
+  [seed 42][gemma4:e4b] gen 14/30
+  [seed 42][gemma4:e4b] gen 15/30
+  [seed 42][gemma4:e4b] gen 16/30
+  [seed 42][gemma4:e4b] gen 17/30
+  [seed 42][gemma4:e4b] gen 18/30
+  [seed 42][gemma4:e4b] gen 19/30
+  [seed 42][gemma4:e4b] gen 20/30
+  [seed 42][gemma4:e4b] gen 21/30
+  [seed 42][gemma4:e4b] gen 22/30
+  [seed 42][gemma4:e4b] gen 23/30
+  [seed 42][gemma4:e4b] gen 24/30
+  [seed 42][gemma4:e4b] gen 25/30
+  [seed 42][gemma4:e4b] gen 26/30
+  [seed 42][gemma4:e4b] gen 27/30
+  [seed 42][gemma4:e4b] gen 28/30
+  [seed 42][gemma4:e4b] gen 29/30
+  [seed 42][gemma4:e4b] gen 30/30
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.4.4 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/teacher_sweep.py", line 122, in <module>
+    main()
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/teacher_sweep.py", line 76, in main
+    div = diversity([r["user_query"] for r in qrows], va)
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 35, in diversity
+    from sentence_transformers.util import cos_sim
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/__init__.py", line 10, in <module>
+    from sentence_transformers.backend import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/backend/__init__.py", line 5, in <module>
+    from .quantize import export_dynamic_quantized_onnx_model, export_static_quantized_openvino_model
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/backend/quantize.py", line 7, in <module>
+    from sentence_transformers.util import disable_datasets_caching, is_datasets_available
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/__init__.py", line 15, in <module>
+    from .retrieval import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/retrieval.py", line 14, in <module>
+    from .similarity import cos_sim
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/similarity.py", line 5, in <module>
+    from sklearn.metrics import pairwise_distances
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/__init__.py", line 70, in <module>
+    from sklearn.base import clone  # noqa: E402
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py", line 19, in <module>
+    from sklearn.utils._metadata_requests import _MetadataRequester, _routing_enabled
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/__init__.py", line 9, in <module>
+    from sklearn.utils._chunking import gen_batches, gen_even_slices
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_chunking.py", line 11, in <module>
+    from sklearn.utils._param_validation import Interval, validate_params
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_param_validation.py", line 17, in <module>
+    from sklearn.utils.validation import _is_arraylike_not_scalar
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/validation.py", line 24, in <module>
+    from sklearn.utils._array_api import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_array_api.py", line 20, in <module>
+    from sklearn.utils.fixes import parse_version
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/fixes.py", line 19, in <module>
+    import pandas as pd
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/arrow/__init__.py", line 5, in <module>
+    from pandas.core.arrays.arrow.array import ArrowExtensionArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/arrow/array.py", line 50, in <module>
+    from pandas.core import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/ops/__init__.py", line 8, in <module>
+    from pandas.core.ops.array_ops import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/ops/array_ops.py", line 56, in <module>
+    from pandas.core.computation import expressions
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/computation/expressions.py", line 21, in <module>
+    from pandas.core.computation.check import NUMEXPR_INSTALLED
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/computation/check.py", line 5, in <module>
+    ne = import_optional_dependency("numexpr", errors="warn")
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/compat/_optional.py", line 135, in import_optional_dependency
+    module = importlib.import_module(name)
+  File "/opt/anaconda3/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/opt/anaconda3/lib/python3.12/site-packages/numexpr/__init__.py", line 24, in <module>
+    from numexpr.interpreter import MAX_THREADS, use_vml, __BLOCK_SIZE1__
+AttributeError: _ARRAY_API not found
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.4.4 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/teacher_sweep.py", line 122, in <module>
+    main()
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/teacher_sweep.py", line 76, in main
+    div = diversity([r["user_query"] for r in qrows], va)
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 35, in diversity
+    from sentence_transformers.util import cos_sim
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/__init__.py", line 10, in <module>
+    from sentence_transformers.backend import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/backend/__init__.py", line 5, in <module>
+    from .quantize import export_dynamic_quantized_onnx_model, export_static_quantized_openvino_model
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/backend/quantize.py", line 7, in <module>
+    from sentence_transformers.util import disable_datasets_caching, is_datasets_available
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/__init__.py", line 15, in <module>
+    from .retrieval import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/retrieval.py", line 14, in <module>
+    from .similarity import cos_sim
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/similarity.py", line 5, in <module>
+    from sklearn.metrics import pairwise_distances
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/__init__.py", line 70, in <module>
+    from sklearn.base import clone  # noqa: E402
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py", line 19, in <module>
+    from sklearn.utils._metadata_requests import _MetadataRequester, _routing_enabled
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/__init__.py", line 9, in <module>
+    from sklearn.utils._chunking import gen_batches, gen_even_slices
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_chunking.py", line 11, in <module>
+    from sklearn.utils._param_validation import Interval, validate_params
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_param_validation.py", line 17, in <module>
+    from sklearn.utils.validation import _is_arraylike_not_scalar
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/validation.py", line 24, in <module>
+    from sklearn.utils._array_api import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_array_api.py", line 20, in <module>
+    from sklearn.utils.fixes import parse_version
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/fixes.py", line 19, in <module>
+    import pandas as pd
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/arrow/__init__.py", line 5, in <module>
+    from pandas.core.arrays.arrow.array import ArrowExtensionArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/arrow/array.py", line 64, in <module>
+    from pandas.core.arrays.masked import BaseMaskedArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/masked.py", line 60, in <module>
+    from pandas.core import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/nanops.py", line 52, in <module>
+    bn = import_optional_dependency("bottleneck", errors="warn")
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/compat/_optional.py", line 135, in import_optional_dependency
+    module = importlib.import_module(name)
+  File "/opt/anaconda3/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/opt/anaconda3/lib/python3.12/site-packages/bottleneck/__init__.py", line 7, in <module>
+    from .move import (move_argmax, move_argmin, move_max, move_mean, move_median,
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.12/site-packages/numpy/core/_multiarray_umath.py", line 46, in __getattr__
+    raise ImportError(msg)
+ImportError: 
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.4.4 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 21356.25it/s]
+[1mBertModel LOAD REPORT[0m from: BAAI/bge-small-en-v1.5
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+    -> [seed 42][gemma4:e4b] ICE=84% (rows=13)
+  [seed 42][gemma4:12b] gen 1/30
+  [seed 42][gemma4:12b] gen 2/30
+  [seed 42][gemma4:12b] gen 3/30
+  [seed 42][gemma4:12b] gen 4/30
+  [seed 42][gemma4:12b] gen 5/30
+  [seed 42][gemma4:12b] gen 6/30
+  [seed 42][gemma4:12b] gen 7/30
+  [seed 42][gemma4:12b] gen 8/30
+  [seed 42][gemma4:12b] gen 9/30
+  [seed 42][gemma4:12b] gen 10/30
+  [seed 42][gemma4:12b] gen 11/30
+  [seed 42][gemma4:12b] gen 12/30
+  [seed 42][gemma4:12b] gen 13/30
+  [seed 42][gemma4:12b] gen 14/30
+  [seed 42][gemma4:12b] gen 15/30
+  [seed 42][gemma4:12b] gen 16/30
+  [seed 42][gemma4:12b] gen 17/30
+  [seed 42][gemma4:12b] gen 18/30
+  [seed 42][gemma4:12b] gen 19/30
+  [seed 42][gemma4:12b] gen 20/30
+  [seed 42][gemma4:12b] gen 21/30
+  [seed 42][gemma4:12b] gen 22/30
+  [seed 42][gemma4:12b] gen 23/30
+  [seed 42][gemma4:12b] gen 24/30
+  [seed 42][gemma4:12b] gen 25/30
+  [seed 42][gemma4:12b] gen 26/30
+  [seed 42][gemma4:12b] gen 27/30
+  [seed 42][gemma4:12b] gen 28/30
+  [seed 42][gemma4:12b] gen 29/30
+  [seed 42][gemma4:12b] gen 30/30
+    -> [seed 42][gemma4:12b] ICE=80% (rows=13)
+  [seed 42][gemma4:26b] gen 1/30
+  [seed 42][gemma4:26b] gen 2/30
+  [seed 42][gemma4:26b] gen 3/30
+  [seed 42][gemma4:26b] gen 4/30
+  [seed 42][gemma4:26b] gen 5/30
+  [seed 42][gemma4:26b] gen 6/30
+  [seed 42][gemma4:26b] gen 7/30
+  [seed 42][gemma4:26b] gen 8/30
+  [seed 42][gemma4:26b] gen 9/30
+  [seed 42][gemma4:26b] gen 10/30
+  [seed 42][gemma4:26b] gen 11/30
+  [seed 42][gemma4:26b] gen 12/30
+  [seed 42][gemma4:26b] gen 13/30
+  [seed 42][gemma4:26b] gen 14/30
+  [seed 42][gemma4:26b] gen 15/30
+  [seed 42][gemma4:26b] gen 16/30
+  [seed 42][gemma4:26b] gen 17/30
+  [seed 42][gemma4:26b] gen 18/30
+  [seed 42][gemma4:26b] gen 19/30
+  [seed 42][gemma4:26b] gen 20/30
+  [seed 42][gemma4:26b] gen 21/30
+  [seed 42][gemma4:26b] gen 22/30
+  [seed 42][gemma4:26b] gen 23/30
+  [seed 42][gemma4:26b] gen 24/30
+  [seed 42][gemma4:26b] gen 25/30
+  [seed 42][gemma4:26b] gen 26/30
+  [seed 42][gemma4:26b] gen 27/30
+  [seed 42][gemma4:26b] gen 28/30
+  [seed 42][gemma4:26b] gen 29/30
+  [seed 42][gemma4:26b] gen 30/30
+    -> [seed 42][gemma4:26b] ICE=85% (rows=12)
+  [seed 42][gemma4:31b] gen 1/30
+  [seed 42][gemma4:31b] gen 2/30
+  [seed 42][gemma4:31b] gen 3/30
+  [seed 42][gemma4:31b] gen 4/30
+  [seed 42][gemma4:31b] gen 5/30
+  [seed 42][gemma4:31b] gen 6/30
+  [seed 42][gemma4:31b] gen 7/30
+  [seed 42][gemma4:31b] gen 8/30
+  [seed 42][gemma4:31b] gen 9/30
+  [seed 42][gemma4:31b] gen 10/30
+  [seed 42][gemma4:31b] gen 11/30
+  [seed 42][gemma4:31b] gen 12/30
+  [seed 42][gemma4:31b] gen 13/30
+  [seed 42][gemma4:31b] gen 14/30
+  [seed 42][gemma4:31b] gen 15/30
+  [seed 42][gemma4:31b] gen 16/30
+  [seed 42][gemma4:31b] gen 17/30
+  [seed 42][gemma4:31b] gen 18/30
+  [seed 42][gemma4:31b] gen 19/30
+  [seed 42][gemma4:31b] gen 20/30
+  [seed 42][gemma4:31b] gen 21/30
+  [seed 42][gemma4:31b] gen 22/30
+  [seed 42][gemma4:31b] gen 23/30
+  [seed 42][gemma4:31b] gen 24/30
+  [seed 42][gemma4:31b] gen 25/30
+  [seed 42][gemma4:31b] gen 26/30
+  [seed 42][gemma4:31b] gen 27/30
+  [seed 42][gemma4:31b] gen 28/30
+  [seed 42][gemma4:31b] gen 29/30
+  [seed 42][gemma4:31b] gen 30/30
+    -> [seed 42][gemma4:31b] ICE=88% (rows=13)
+  [seed 43][gemma4:e4b] gen 1/30
+  [seed 43][gemma4:e4b] gen 2/30
+  [seed 43][gemma4:e4b] gen 3/30
+  [seed 43][gemma4:e4b] gen 4/30
+  [seed 43][gemma4:e4b] gen 5/30
+  [seed 43][gemma4:e4b] gen 6/30
+  [seed 43][gemma4:e4b] gen 7/30
+  [seed 43][gemma4:e4b] gen 8/30
+  [seed 43][gemma4:e4b] gen 9/30
+  [seed 43][gemma4:e4b] gen 10/30
+  [seed 43][gemma4:e4b] gen 11/30
+  [seed 43][gemma4:e4b] gen 12/30
+  [seed 43][gemma4:e4b] gen 13/30
+  [seed 43][gemma4:e4b] gen 14/30
+  [seed 43][gemma4:e4b] gen 15/30
+  [seed 43][gemma4:e4b] gen 16/30
+  [seed 43][gemma4:e4b] gen 17/30
+  [seed 43][gemma4:e4b] gen 18/30
+  [seed 43][gemma4:e4b] gen 19/30
+  [seed 43][gemma4:e4b] gen 20/30
+  [seed 43][gemma4:e4b] gen 21/30
+  [seed 43][gemma4:e4b] gen 22/30
+  [seed 43][gemma4:e4b] gen 23/30
+  [seed 43][gemma4:e4b] gen 24/30
+  [seed 43][gemma4:e4b] gen 25/30
+  [seed 43][gemma4:e4b] gen 26/30
+  [seed 43][gemma4:e4b] gen 27/30
+  [seed 43][gemma4:e4b] gen 28/30
+  [seed 43][gemma4:e4b] gen 29/30
+  [seed 43][gemma4:e4b] gen 30/30
+    -> [seed 43][gemma4:e4b] ICE=86% (rows=14)
+  [seed 43][gemma4:12b] gen 1/30
+  [seed 43][gemma4:12b] gen 2/30
+  [seed 43][gemma4:12b] gen 3/30
+  [seed 43][gemma4:12b] gen 4/30
+  [seed 43][gemma4:12b] gen 5/30
+  [seed 43][gemma4:12b] gen 6/30
+  [seed 43][gemma4:12b] gen 7/30
+  [seed 43][gemma4:12b] gen 8/30
+  [seed 43][gemma4:12b] gen 9/30
+  [seed 43][gemma4:12b] gen 10/30
+  [seed 43][gemma4:12b] gen 11/30
+  [seed 43][gemma4:12b] gen 12/30
+  [seed 43][gemma4:12b] gen 13/30
+  [seed 43][gemma4:12b] gen 14/30
+  [seed 43][gemma4:12b] gen 15/30
+  [seed 43][gemma4:12b] gen 16/30
+  [seed 43][gemma4:12b] gen 17/30
+  [seed 43][gemma4:12b] gen 18/30
+  [seed 43][gemma4:12b] gen 19/30
+  [seed 43][gemma4:12b] gen 20/30
+  [seed 43][gemma4:12b] gen 21/30
+  [seed 43][gemma4:12b] gen 22/30
+  [seed 43][gemma4:12b] gen 23/30
+  [seed 43][gemma4:12b] gen 24/30
+  [seed 43][gemma4:12b] gen 25/30
+  [seed 43][gemma4:12b] gen 26/30
+  [seed 43][gemma4:12b] gen 27/30
+  [seed 43][gemma4:12b] gen 28/30
+  [seed 43][gemma4:12b] gen 29/30
+  [seed 43][gemma4:12b] gen 30/30
+    -> [seed 43][gemma4:12b] ICE=86% (rows=14)
+  [seed 43][gemma4:26b] gen 1/30
+  [seed 43][gemma4:26b] gen 2/30
+  [seed 43][gemma4:26b] gen 3/30
+  [seed 43][gemma4:26b] gen 4/30
+  [seed 43][gemma4:26b] gen 5/30
+  [seed 43][gemma4:26b] gen 6/30
+  [seed 43][gemma4:26b] gen 7/30
+  [seed 43][gemma4:26b] gen 8/30
+  [seed 43][gemma4:26b] gen 9/30
+  [seed 43][gemma4:26b] gen 10/30
+  [seed 43][gemma4:26b] gen 11/30
+  [seed 43][gemma4:26b] gen 12/30
+  [seed 43][gemma4:26b] gen 13/30
+  [seed 43][gemma4:26b] gen 14/30
+  [seed 43][gemma4:26b] gen 15/30
+  [seed 43][gemma4:26b] gen 16/30
+  [seed 43][gemma4:26b] gen 17/30
+  [seed 43][gemma4:26b] gen 18/30
+  [seed 43][gemma4:26b] gen 19/30
+  [seed 43][gemma4:26b] gen 20/30
+  [seed 43][gemma4:26b] gen 21/30
+  [seed 43][gemma4:26b] gen 22/30
+  [seed 43][gemma4:26b] gen 23/30
+  [seed 43][gemma4:26b] gen 24/30
+  [seed 43][gemma4:26b] gen 25/30
+  [seed 43][gemma4:26b] gen 26/30
+  [seed 43][gemma4:26b] gen 27/30
+  [seed 43][gemma4:26b] gen 28/30
+  [seed 43][gemma4:26b] gen 29/30
+  [seed 43][gemma4:26b] gen 30/30
+    -> [seed 43][gemma4:26b] ICE=76% (rows=14)
+  [seed 43][gemma4:31b] gen 1/30
+  [seed 43][gemma4:31b] gen 2/30
+  [seed 43][gemma4:31b] gen 3/30
+  [seed 43][gemma4:31b] gen 4/30
+  [seed 43][gemma4:31b] gen 5/30
+  [seed 43][gemma4:31b] gen 6/30
+  [seed 43][gemma4:31b] gen 7/30
+  [seed 43][gemma4:31b] gen 8/30
+  [seed 43][gemma4:31b] gen 9/30
+  [seed 43][gemma4:31b] gen 10/30
+  [seed 43][gemma4:31b] gen 11/30
+  [seed 43][gemma4:31b] gen 12/30
+  [seed 43][gemma4:31b] gen 13/30
+  [seed 43][gemma4:31b] gen 14/30
+  [seed 43][gemma4:31b] gen 15/30
+  [seed 43][gemma4:31b] gen 16/30
+  [seed 43][gemma4:31b] gen 17/30
+  [seed 43][gemma4:31b] gen 18/30
+  [seed 43][gemma4:31b] gen 19/30
+  [seed 43][gemma4:31b] gen 20/30
+  [seed 43][gemma4:31b] gen 21/30
+  [seed 43][gemma4:31b] gen 22/30
+  [seed 43][gemma4:31b] gen 23/30
+  [seed 43][gemma4:31b] gen 24/30
+  [seed 43][gemma4:31b] gen 25/30
+  [seed 43][gemma4:31b] gen 26/30
+  [seed 43][gemma4:31b] gen 27/30
+  [seed 43][gemma4:31b] gen 28/30
+  [seed 43][gemma4:31b] gen 29/30
+  [seed 43][gemma4:31b] gen 30/30
+    -> [seed 43][gemma4:31b] ICE=86% (rows=14)
+  [seed 44][gemma4:e4b] gen 1/30
+  [seed 44][gemma4:e4b] gen 2/30
+  [seed 44][gemma4:e4b] gen 3/30
+  [seed 44][gemma4:e4b] gen 4/30
+  [seed 44][gemma4:e4b] gen 5/30
+  [seed 44][gemma4:e4b] gen 6/30
+  [seed 44][gemma4:e4b] gen 7/30
+  [seed 44][gemma4:e4b] gen 8/30
+  [seed 44][gemma4:e4b] gen 9/30
+  [seed 44][gemma4:e4b] gen 10/30
+  [seed 44][gemma4:e4b] gen 11/30
+  [seed 44][gemma4:e4b] gen 12/30
+  [seed 44][gemma4:e4b] gen 13/30
+  [seed 44][gemma4:e4b] gen 14/30
+  [seed 44][gemma4:e4b] gen 15/30
+  [seed 44][gemma4:e4b] gen 16/30
+  [seed 44][gemma4:e4b] gen 17/30
+  [seed 44][gemma4:e4b] gen 18/30
+  [seed 44][gemma4:e4b] gen 19/30
+  [seed 44][gemma4:e4b] gen 20/30
+  [seed 44][gemma4:e4b] gen 21/30
+  [seed 44][gemma4:e4b] gen 22/30
+  [seed 44][gemma4:e4b] gen 23/30
+  [seed 44][gemma4:e4b] gen 24/30
+  [seed 44][gemma4:e4b] gen 25/30
+  [seed 44][gemma4:e4b] gen 26/30
+  [seed 44][gemma4:e4b] gen 27/30
+  [seed 44][gemma4:e4b] gen 28/30
+  [seed 44][gemma4:e4b] gen 29/30
+  [seed 44][gemma4:e4b] gen 30/30
+    -> [seed 44][gemma4:e4b] ICE=84% (rows=14)
+  [seed 44][gemma4:12b] gen 1/30
+  [seed 44][gemma4:12b] gen 2/30
+  [seed 44][gemma4:12b] gen 3/30
+  [seed 44][gemma4:12b] gen 4/30
+  [seed 44][gemma4:12b] gen 5/30
+  [seed 44][gemma4:12b] gen 6/30
+  [seed 44][gemma4:12b] gen 7/30
+  [seed 44][gemma4:12b] gen 8/30
+  [seed 44][gemma4:12b] gen 9/30
+  [seed 44][gemma4:12b] gen 10/30
+  [seed 44][gemma4:12b] gen 11/30
+  [seed 44][gemma4:12b] gen 12/30
+  [seed 44][gemma4:12b] gen 13/30
+  [seed 44][gemma4:12b] gen 14/30
+  [seed 44][gemma4:12b] gen 15/30
+  [seed 44][gemma4:12b] gen 16/30
+  [seed 44][gemma4:12b] gen 17/30
+  [seed 44][gemma4:12b] gen 18/30
+  [seed 44][gemma4:12b] gen 19/30
+  [seed 44][gemma4:12b] gen 20/30
+  [seed 44][gemma4:12b] gen 21/30
+  [seed 44][gemma4:12b] gen 22/30
+  [seed 44][gemma4:12b] gen 23/30
+  [seed 44][gemma4:12b] gen 24/30
+  [seed 44][gemma4:12b] gen 25/30
+  [seed 44][gemma4:12b] gen 26/30
+  [seed 44][gemma4:12b] gen 27/30
+  [seed 44][gemma4:12b] gen 28/30
+  [seed 44][gemma4:12b] gen 29/30
+  [seed 44][gemma4:12b] gen 30/30
+    -> [seed 44][gemma4:12b] ICE=84% (rows=14)
+  [seed 44][gemma4:26b] gen 1/30
+  [seed 44][gemma4:26b] gen 2/30
+  [seed 44][gemma4:26b] gen 3/30
+  [seed 44][gemma4:26b] gen 4/30
+  [seed 44][gemma4:26b] gen 5/30
+  [seed 44][gemma4:26b] gen 6/30
+  [seed 44][gemma4:26b] gen 7/30
+  [seed 44][gemma4:26b] gen 8/30
+  [seed 44][gemma4:26b] gen 9/30
+  [seed 44][gemma4:26b] gen 10/30
+  [seed 44][gemma4:26b] gen 11/30
+  [seed 44][gemma4:26b] gen 12/30
+  [seed 44][gemma4:26b] gen 13/30
+  [seed 44][gemma4:26b] gen 14/30
+  [seed 44][gemma4:26b] gen 15/30
+  [seed 44][gemma4:26b] gen 16/30
+  [seed 44][gemma4:26b] gen 17/30
+  [seed 44][gemma4:26b] gen 18/30
+  [seed 44][gemma4:26b] gen 19/30
+  [seed 44][gemma4:26b] gen 20/30
+  [seed 44][gemma4:26b] gen 21/30
+  [seed 44][gemma4:26b] gen 22/30
+  [seed 44][gemma4:26b] gen 23/30
+  [seed 44][gemma4:26b] gen 24/30
+  [seed 44][gemma4:26b] gen 25/30
+  [seed 44][gemma4:26b] gen 26/30
+  [seed 44][gemma4:26b] gen 27/30
+  [seed 44][gemma4:26b] gen 28/30
+  [seed 44][gemma4:26b] gen 29/30
+  [seed 44][gemma4:26b] gen 30/30
+    -> [seed 44][gemma4:26b] ICE=87% (rows=14)
+  [seed 44][gemma4:31b] gen 1/30
+  [seed 44][gemma4:31b] gen 2/30
+  [seed 44][gemma4:31b] gen 3/30
+  [seed 44][gemma4:31b] gen 4/30
+  [seed 44][gemma4:31b] gen 5/30
+  [seed 44][gemma4:31b] gen 6/30
+  [seed 44][gemma4:31b] gen 7/30
+  [seed 44][gemma4:31b] gen 8/30
+  [seed 44][gemma4:31b] gen 9/30
+  [seed 44][gemma4:31b] gen 10/30
+  [seed 44][gemma4:31b] gen 11/30
+  [seed 44][gemma4:31b] gen 12/30
+  [seed 44][gemma4:31b] gen 13/30
+  [seed 44][gemma4:31b] gen 14/30
+  [seed 44][gemma4:31b] gen 15/30
+  [seed 44][gemma4:31b] gen 16/30
+  [seed 44][gemma4:31b] gen 17/30
+  [seed 44][gemma4:31b] gen 18/30
+  [seed 44][gemma4:31b] gen 19/30
+  [seed 44][gemma4:31b] gen 20/30
+  [seed 44][gemma4:31b] gen 21/30
+  [seed 44][gemma4:31b] gen 22/30
+  [seed 44][gemma4:31b] gen 23/30
+  [seed 44][gemma4:31b] gen 24/30
+  [seed 44][gemma4:31b] gen 25/30
+  [seed 44][gemma4:31b] gen 26/30
+  [seed 44][gemma4:31b] gen 27/30
+  [seed 44][gemma4:31b] gen 28/30
+  [seed 44][gemma4:31b] gen 29/30
+  [seed 44][gemma4:31b] gen 30/30
+    -> [seed 44][gemma4:31b] ICE=94% (rows=14)
+  [seed 45][gemma4:e4b] gen 1/30
+  [seed 45][gemma4:e4b] gen 2/30
+  [seed 45][gemma4:e4b] gen 3/30
+  [seed 45][gemma4:e4b] gen 4/30
+  [seed 45][gemma4:e4b] gen 5/30
+  [seed 45][gemma4:e4b] gen 6/30
+  [seed 45][gemma4:e4b] gen 7/30
+  [seed 45][gemma4:e4b] gen 8/30
+  [seed 45][gemma4:e4b] gen 9/30
+  [seed 45][gemma4:e4b] gen 10/30
+  [seed 45][gemma4:e4b] gen 11/30
+  [seed 45][gemma4:e4b] gen 12/30
+  [seed 45][gemma4:e4b] gen 13/30
+  [seed 45][gemma4:e4b] gen 14/30
+  [seed 45][gemma4:e4b] gen 15/30
+  [seed 45][gemma4:e4b] gen 16/30
+  [seed 45][gemma4:e4b] gen 17/30
+  [seed 45][gemma4:e4b] gen 18/30
+  [seed 45][gemma4:e4b] gen 19/30
+  [seed 45][gemma4:e4b] gen 20/30
+  [seed 45][gemma4:e4b] gen 21/30
+  [seed 45][gemma4:e4b] gen 22/30
+  [seed 45][gemma4:e4b] gen 23/30
+  [seed 45][gemma4:e4b] gen 24/30
+  [seed 45][gemma4:e4b] gen 25/30
+  [seed 45][gemma4:e4b] gen 26/30
+  [seed 45][gemma4:e4b] gen 27/30
+  [seed 45][gemma4:e4b] gen 28/30
+  [seed 45][gemma4:e4b] gen 29/30
+  [seed 45][gemma4:e4b] gen 30/30
+    -> [seed 45][gemma4:e4b] ICE=73% (rows=11)
+  [seed 45][gemma4:12b] gen 1/30
+  [seed 45][gemma4:12b] gen 2/30
+  [seed 45][gemma4:12b] gen 3/30
+  [seed 45][gemma4:12b] gen 4/30
+  [seed 45][gemma4:12b] gen 5/30
+  [seed 45][gemma4:12b] gen 6/30
+  [seed 45][gemma4:12b] gen 7/30
+  [seed 45][gemma4:12b] gen 8/30
+  [seed 45][gemma4:12b] gen 9/30
+  [seed 45][gemma4:12b] gen 10/30
+  [seed 45][gemma4:12b] gen 11/30
+  [seed 45][gemma4:12b] gen 12/30
+  [seed 45][gemma4:12b] gen 13/30
+  [seed 45][gemma4:12b] gen 14/30
+  [seed 45][gemma4:12b] gen 15/30
+  [seed 45][gemma4:12b] gen 16/30
+  [seed 45][gemma4:12b] gen 17/30
+  [seed 45][gemma4:12b] gen 18/30
+  [seed 45][gemma4:12b] gen 19/30
+  [seed 45][gemma4:12b] gen 20/30
+  [seed 45][gemma4:12b] gen 21/30
+  [seed 45][gemma4:12b] gen 22/30
+  [seed 45][gemma4:12b] gen 23/30
+  [seed 45][gemma4:12b] gen 24/30
+  [seed 45][gemma4:12b] gen 25/30
+  [seed 45][gemma4:12b] gen 26/30
+  [seed 45][gemma4:12b] gen 27/30
+  [seed 45][gemma4:12b] gen 28/30
+  [seed 45][gemma4:12b] gen 29/30
+  [seed 45][gemma4:12b] gen 30/30
+    -> [seed 45][gemma4:12b] ICE=93% (rows=11)
+  [seed 45][gemma4:26b] gen 1/30
+  [seed 45][gemma4:26b] gen 2/30
+  [seed 45][gemma4:26b] gen 3/30
+  [seed 45][gemma4:26b] gen 4/30
+  [seed 45][gemma4:26b] gen 5/30
+  [seed 45][gemma4:26b] gen 6/30
+  [seed 45][gemma4:26b] gen 7/30
+  [seed 45][gemma4:26b] gen 8/30
+  [seed 45][gemma4:26b] gen 9/30
+  [seed 45][gemma4:26b] gen 10/30
+  [seed 45][gemma4:26b] gen 11/30
+  [seed 45][gemma4:26b] gen 12/30
+  [seed 45][gemma4:26b] gen 13/30
+  [seed 45][gemma4:26b] gen 14/30
+  [seed 45][gemma4:26b] gen 15/30
+  [seed 45][gemma4:26b] gen 16/30
+  [seed 45][gemma4:26b] gen 17/30
+  [seed 45][gemma4:26b] gen 18/30
+  [seed 45][gemma4:26b] gen 19/30
+  [seed 45][gemma4:26b] gen 20/30
+  [seed 45][gemma4:26b] gen 21/30
+  [seed 45][gemma4:26b] gen 22/30
+  [seed 45][gemma4:26b] gen 23/30
+  [seed 45][gemma4:26b] gen 24/30
+  [seed 45][gemma4:26b] gen 25/30
+  [seed 45][gemma4:26b] gen 26/30
+  [seed 45][gemma4:26b] gen 27/30
+  [seed 45][gemma4:26b] gen 28/30
+  [seed 45][gemma4:26b] gen 29/30
+  [seed 45][gemma4:26b] gen 30/30
+    -> [seed 45][gemma4:26b] ICE=93% (rows=11)
+  [seed 45][gemma4:31b] gen 1/30
+  [seed 45][gemma4:31b] gen 2/30
+  [seed 45][gemma4:31b] gen 3/30
+  [seed 45][gemma4:31b] gen 4/30
+  [seed 45][gemma4:31b] gen 5/30
+  [seed 45][gemma4:31b] gen 6/30
+  [seed 45][gemma4:31b] gen 7/30
+  [seed 45][gemma4:31b] gen 8/30
+  [seed 45][gemma4:31b] gen 9/30
+  [seed 45][gemma4:31b] gen 10/30
+  [seed 45][gemma4:31b] gen 11/30
+  [seed 45][gemma4:31b] gen 12/30
+  [seed 45][gemma4:31b] gen 13/30
+  [seed 45][gemma4:31b] gen 14/30
+  [seed 45][gemma4:31b] gen 15/30
+  [seed 45][gemma4:31b] gen 16/30
+  [seed 45][gemma4:31b] gen 17/30
+  [seed 45][gemma4:31b] gen 18/30
+  [seed 45][gemma4:31b] gen 19/30
+  [seed 45][gemma4:31b] gen 20/30
+  [seed 45][gemma4:31b] gen 21/30
+  [seed 45][gemma4:31b] gen 22/30
+  [seed 45][gemma4:31b] gen 23/30
+  [seed 45][gemma4:31b] gen 24/30
+  [seed 45][gemma4:31b] gen 25/30
+  [seed 45][gemma4:31b] gen 26/30
+  [seed 45][gemma4:31b] gen 27/30
+  [seed 45][gemma4:31b] gen 28/30
+  [seed 45][gemma4:31b] gen 29/30
+  [seed 45][gemma4:31b] gen 30/30
+    -> [seed 45][gemma4:31b] ICE=86% (rows=11)
+  [seed 46][gemma4:e4b] gen 1/30
+  [seed 46][gemma4:e4b] gen 2/30
+  [seed 46][gemma4:e4b] gen 3/30
+  [seed 46][gemma4:e4b] gen 4/30
+  [seed 46][gemma4:e4b] gen 5/30
+  [seed 46][gemma4:e4b] gen 6/30
+  [seed 46][gemma4:e4b] gen 7/30
+  [seed 46][gemma4:e4b] gen 8/30
+  [seed 46][gemma4:e4b] gen 9/30
+  [seed 46][gemma4:e4b] gen 10/30
+  [seed 46][gemma4:e4b] gen 11/30
+  [seed 46][gemma4:e4b] gen 12/30
+  [seed 46][gemma4:e4b] gen 13/30
+  [seed 46][gemma4:e4b] gen 14/30
+  [seed 46][gemma4:e4b] gen 15/30
+  [seed 46][gemma4:e4b] gen 16/30
+  [seed 46][gemma4:e4b] gen 17/30
+  [seed 46][gemma4:e4b] gen 18/30
+  [seed 46][gemma4:e4b] gen 19/30
+  [seed 46][gemma4:e4b] gen 20/30
+  [seed 46][gemma4:e4b] gen 21/30
+  [seed 46][gemma4:e4b] gen 22/30
+  [seed 46][gemma4:e4b] gen 23/30
+  [seed 46][gemma4:e4b] gen 24/30
+  [seed 46][gemma4:e4b] gen 25/30
+  [seed 46][gemma4:e4b] gen 26/30
+  [seed 46][gemma4:e4b] gen 27/30
+  [seed 46][gemma4:e4b] gen 28/30
+  [seed 46][gemma4:e4b] gen 29/30
+  [seed 46][gemma4:e4b] gen 30/30
+    -> [seed 46][gemma4:e4b] ICE=73% (rows=12)
+  [seed 46][gemma4:12b] gen 1/30
+  [seed 46][gemma4:12b] gen 2/30
+  [seed 46][gemma4:12b] gen 3/30
+  [seed 46][gemma4:12b] gen 4/30
+  [seed 46][gemma4:12b] gen 5/30
+  [seed 46][gemma4:12b] gen 6/30
+  [seed 46][gemma4:12b] gen 7/30
+  [seed 46][gemma4:12b] gen 8/30
+  [seed 46][gemma4:12b] gen 9/30
+  [seed 46][gemma4:12b] gen 10/30
+  [seed 46][gemma4:12b] gen 11/30
+  [seed 46][gemma4:12b] gen 12/30
+  [seed 46][gemma4:12b] gen 13/30
+  [seed 46][gemma4:12b] gen 14/30
+  [seed 46][gemma4:12b] gen 15/30
+  [seed 46][gemma4:12b] gen 16/30
+  [seed 46][gemma4:12b] gen 17/30
+  [seed 46][gemma4:12b] gen 18/30
+  [seed 46][gemma4:12b] gen 19/30
+  [seed 46][gemma4:12b] gen 20/30
+  [seed 46][gemma4:12b] gen 21/30
+  [seed 46][gemma4:12b] gen 22/30
+  [seed 46][gemma4:12b] gen 23/30
+  [seed 46][gemma4:12b] gen 24/30
+  [seed 46][gemma4:12b] gen 25/30
+  [seed 46][gemma4:12b] gen 26/30
+  [seed 46][gemma4:12b] gen 27/30
+  [seed 46][gemma4:12b] gen 28/30
+  [seed 46][gemma4:12b] gen 29/30
+  [seed 46][gemma4:12b] gen 30/30
+    -> [seed 46][gemma4:12b] ICE=86% (rows=12)
+  [seed 46][gemma4:26b] gen 1/30
+  [seed 46][gemma4:26b] gen 2/30
+  [seed 46][gemma4:26b] gen 3/30
+  [seed 46][gemma4:26b] gen 4/30
+  [seed 46][gemma4:26b] gen 5/30
+  [seed 46][gemma4:26b] gen 6/30
+  [seed 46][gemma4:26b] gen 7/30
+  [seed 46][gemma4:26b] gen 8/30
+  [seed 46][gemma4:26b] gen 9/30
+  [seed 46][gemma4:26b] gen 10/30
+  [seed 46][gemma4:26b] gen 11/30
+  [seed 46][gemma4:26b] gen 12/30
+  [seed 46][gemma4:26b] gen 13/30
+  [seed 46][gemma4:26b] gen 14/30
+  [seed 46][gemma4:26b] gen 15/30
+  [seed 46][gemma4:26b] gen 16/30
+  [seed 46][gemma4:26b] gen 17/30
+  [seed 46][gemma4:26b] gen 18/30
+  [seed 46][gemma4:26b] gen 19/30
+  [seed 46][gemma4:26b] gen 20/30
+  [seed 46][gemma4:26b] gen 21/30
+  [seed 46][gemma4:26b] gen 22/30
+  [seed 46][gemma4:26b] gen 23/30
+  [seed 46][gemma4:26b] gen 24/30
+  [seed 46][gemma4:26b] gen 25/30
+  [seed 46][gemma4:26b] gen 26/30
+  [seed 46][gemma4:26b] gen 27/30
+  [seed 46][gemma4:26b] gen 28/30
+  [seed 46][gemma4:26b] gen 29/30
+  [seed 46][gemma4:26b] gen 30/30
+    -> [seed 46][gemma4:26b] ICE=86% (rows=12)
+  [seed 46][gemma4:31b] gen 1/30
+  [seed 46][gemma4:31b] gen 2/30
+  [seed 46][gemma4:31b] gen 3/30
+  [seed 46][gemma4:31b] gen 4/30
+  [seed 46][gemma4:31b] gen 5/30
+  [seed 46][gemma4:31b] gen 6/30
+  [seed 46][gemma4:31b] gen 7/30
+  [seed 46][gemma4:31b] gen 8/30
+  [seed 46][gemma4:31b] gen 9/30
+  [seed 46][gemma4:31b] gen 10/30
+  [seed 46][gemma4:31b] gen 11/30
+  [seed 46][gemma4:31b] gen 12/30
+  [seed 46][gemma4:31b] gen 13/30
+  [seed 46][gemma4:31b] gen 14/30
+  [seed 46][gemma4:31b] gen 15/30
+  [seed 46][gemma4:31b] gen 16/30
+  [seed 46][gemma4:31b] gen 17/30
+  [seed 46][gemma4:31b] gen 18/30
+  [seed 46][gemma4:31b] gen 19/30
+  [seed 46][gemma4:31b] gen 20/30
+  [seed 46][gemma4:31b] gen 21/30
+  [seed 46][gemma4:31b] gen 22/30
+  [seed 46][gemma4:31b] gen 23/30
+  [seed 46][gemma4:31b] gen 24/30
+  [seed 46][gemma4:31b] gen 25/30
+  [seed 46][gemma4:31b] gen 26/30
+  [seed 46][gemma4:31b] gen 27/30
+  [seed 46][gemma4:31b] gen 28/30
+  [seed 46][gemma4:31b] gen 29/30
+  [seed 46][gemma4:31b] gen 30/30
+    -> [seed 46][gemma4:31b] ICE=86% (rows=12)
+
+teacher           ICE mean±SD  pooled_n  degen  distinct2     cos
+------------------------------------------------------------------
+gemma4:e4b           80% ± 6%        64      0      0.754   0.810
+gemma4:12b           86% ± 5%        64      0      0.579   0.824
+gemma4:26b           85% ± 6%        63      2      0.640   0.803
+gemma4:31b           88% ± 3%        64      1      0.607   0.811
+
+Best by ICE: gemma4:31b (88%). Guardrail — check its pairwise_cos isn't the worst (highest); and read alongside SD + degenerate count before switching off self-gen.
+wrote /Users/davidgao/Desktop/GSoC_WORK/work/generation/candidates/teacher_sweep_5seed_n30.json
+=== TEACHER DONE Sun Jul 12 20:37:39 CST 2026 ===
+=== PERSONA: 5 seeds x N=30 ===
+  [seed 42] gen 1/30
+  [seed 42] gen 2/30
+  [seed 42] gen 3/30
+  [seed 42] gen 4/30
+  [seed 42] gen 5/30
+  [seed 42] gen 6/30
+  [seed 42] gen 7/30
+  [seed 42] gen 8/30
+  [seed 42] gen 9/30
+  [seed 42] gen 10/30
+  [seed 42] gen 11/30
+  [seed 42] gen 12/30
+  [seed 42] gen 13/30
+  [seed 42] gen 14/30
+  [seed 42] gen 15/30
+  [seed 42] gen 16/30
+  [seed 42] gen 17/30
+  [seed 42] gen 18/30
+  [seed 42] gen 19/30
+  [seed 42] gen 20/30
+  [seed 42] gen 21/30
+  [seed 42] gen 22/30
+  [seed 42] gen 23/30
+  [seed 42] gen 24/30
+  [seed 42] gen 25/30
+  [seed 42] gen 26/30
+  [seed 42] gen 27/30
+  [seed 42] gen 28/30
+  [seed 42] gen 29/30
+  [seed 42] gen 30/30
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.4.4 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 156, in <module>
+    main()
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 117, in main
+    per_seed = {s: run_seed(s, args, client, va, ev, cat, corpus, factors, pbf, axes, aliases, seed_queries)
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 74, in run_seed
+    div = diversity(qs, va)
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 35, in diversity
+    from sentence_transformers.util import cos_sim
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/__init__.py", line 10, in <module>
+    from sentence_transformers.backend import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/backend/__init__.py", line 5, in <module>
+    from .quantize import export_dynamic_quantized_onnx_model, export_static_quantized_openvino_model
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/backend/quantize.py", line 7, in <module>
+    from sentence_transformers.util import disable_datasets_caching, is_datasets_available
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/__init__.py", line 15, in <module>
+    from .retrieval import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/retrieval.py", line 14, in <module>
+    from .similarity import cos_sim
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/similarity.py", line 5, in <module>
+    from sklearn.metrics import pairwise_distances
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/__init__.py", line 70, in <module>
+    from sklearn.base import clone  # noqa: E402
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py", line 19, in <module>
+    from sklearn.utils._metadata_requests import _MetadataRequester, _routing_enabled
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/__init__.py", line 9, in <module>
+    from sklearn.utils._chunking import gen_batches, gen_even_slices
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_chunking.py", line 11, in <module>
+    from sklearn.utils._param_validation import Interval, validate_params
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_param_validation.py", line 17, in <module>
+    from sklearn.utils.validation import _is_arraylike_not_scalar
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/validation.py", line 24, in <module>
+    from sklearn.utils._array_api import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_array_api.py", line 20, in <module>
+    from sklearn.utils.fixes import parse_version
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/fixes.py", line 19, in <module>
+    import pandas as pd
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/arrow/__init__.py", line 5, in <module>
+    from pandas.core.arrays.arrow.array import ArrowExtensionArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/arrow/array.py", line 50, in <module>
+    from pandas.core import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/ops/__init__.py", line 8, in <module>
+    from pandas.core.ops.array_ops import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/ops/array_ops.py", line 56, in <module>
+    from pandas.core.computation import expressions
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/computation/expressions.py", line 21, in <module>
+    from pandas.core.computation.check import NUMEXPR_INSTALLED
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/computation/check.py", line 5, in <module>
+    ne = import_optional_dependency("numexpr", errors="warn")
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/compat/_optional.py", line 135, in import_optional_dependency
+    module = importlib.import_module(name)
+  File "/opt/anaconda3/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/opt/anaconda3/lib/python3.12/site-packages/numexpr/__init__.py", line 24, in <module>
+    from numexpr.interpreter import MAX_THREADS, use_vml, __BLOCK_SIZE1__
+AttributeError: _ARRAY_API not found
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.4.4 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 156, in <module>
+    main()
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 117, in main
+    per_seed = {s: run_seed(s, args, client, va, ev, cat, corpus, factors, pbf, axes, aliases, seed_queries)
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 74, in run_seed
+    div = diversity(qs, va)
+  File "/Users/davidgao/Desktop/GSoC_WORK/work/generation/persona_ablation.py", line 35, in diversity
+    from sentence_transformers.util import cos_sim
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/__init__.py", line 10, in <module>
+    from sentence_transformers.backend import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/backend/__init__.py", line 5, in <module>
+    from .quantize import export_dynamic_quantized_onnx_model, export_static_quantized_openvino_model
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/backend/quantize.py", line 7, in <module>
+    from sentence_transformers.util import disable_datasets_caching, is_datasets_available
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/__init__.py", line 15, in <module>
+    from .retrieval import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/retrieval.py", line 14, in <module>
+    from .similarity import cos_sim
+  File "/opt/anaconda3/lib/python3.12/site-packages/sentence_transformers/util/similarity.py", line 5, in <module>
+    from sklearn.metrics import pairwise_distances
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/__init__.py", line 70, in <module>
+    from sklearn.base import clone  # noqa: E402
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py", line 19, in <module>
+    from sklearn.utils._metadata_requests import _MetadataRequester, _routing_enabled
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/__init__.py", line 9, in <module>
+    from sklearn.utils._chunking import gen_batches, gen_even_slices
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_chunking.py", line 11, in <module>
+    from sklearn.utils._param_validation import Interval, validate_params
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_param_validation.py", line 17, in <module>
+    from sklearn.utils.validation import _is_arraylike_not_scalar
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/validation.py", line 24, in <module>
+    from sklearn.utils._array_api import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/_array_api.py", line 20, in <module>
+    from sklearn.utils.fixes import parse_version
+  File "/opt/anaconda3/lib/python3.12/site-packages/sklearn/utils/fixes.py", line 19, in <module>
+    import pandas as pd
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/arrow/__init__.py", line 5, in <module>
+    from pandas.core.arrays.arrow.array import ArrowExtensionArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/arrow/array.py", line 64, in <module>
+    from pandas.core.arrays.masked import BaseMaskedArray
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/arrays/masked.py", line 60, in <module>
+    from pandas.core import (
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/core/nanops.py", line 52, in <module>
+    bn = import_optional_dependency("bottleneck", errors="warn")
+  File "/opt/anaconda3/lib/python3.12/site-packages/pandas/compat/_optional.py", line 135, in import_optional_dependency
+    module = importlib.import_module(name)
+  File "/opt/anaconda3/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/opt/anaconda3/lib/python3.12/site-packages/bottleneck/__init__.py", line 7, in <module>
+    from .move import (move_argmax, move_argmin, move_max, move_mean, move_median,
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.12/site-packages/numpy/core/_multiarray_umath.py", line 46, in __getattr__
+    raise ImportError(msg)
+ImportError: 
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.4.4 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 12024.99it/s]
+[1mBertModel LOAD REPORT[0m from: BAAI/bge-small-en-v1.5
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+  [seed 42][persona  ] distinct2=0.644 pairwise_cos=0.809 ICE=73% (n=13)
+  [seed 42][nopersona] distinct2=0.645 pairwise_cos=0.801 ICE=89% (n=13)
+  [seed 43] gen 1/30
+  [seed 43] gen 2/30
+  [seed 43] gen 3/30
+  [seed 43] gen 4/30
+  [seed 43] gen 5/30
+  [seed 43] gen 6/30
+  [seed 43] gen 7/30
+  [seed 43] gen 8/30
+  [seed 43] gen 9/30
+  [seed 43] gen 10/30
+  [seed 43] gen 11/30
+  [seed 43] gen 12/30
+  [seed 43] gen 13/30
+  [seed 43] gen 14/30
+  [seed 43] gen 15/30
+  [seed 43] gen 16/30
+  [seed 43] gen 17/30
+  [seed 43] gen 18/30
+  [seed 43] gen 19/30
+  [seed 43] gen 20/30
+  [seed 43] gen 21/30
+  [seed 43] gen 22/30
+  [seed 43] gen 23/30
+  [seed 43] gen 24/30
+  [seed 43] gen 25/30
+  [seed 43] gen 26/30
+  [seed 43] gen 27/30
+  [seed 43] gen 28/30
+  [seed 43] gen 29/30
+  [seed 43] gen 30/30
+  [seed 43][persona  ] distinct2=0.658 pairwise_cos=0.799 ICE=78% (n=14)
+  [seed 43][nopersona] distinct2=0.654 pairwise_cos=0.804 ICE=83% (n=14)
+  [seed 44] gen 1/30
+  [seed 44] gen 2/30
+  [seed 44] gen 3/30
+  [seed 44] gen 4/30
+  [seed 44] gen 5/30
+  [seed 44] gen 6/30
+  [seed 44] gen 7/30
+  [seed 44] gen 8/30
+  [seed 44] gen 9/30
+  [seed 44] gen 10/30
+  [seed 44] gen 11/30
+  [seed 44] gen 12/30
+  [seed 44] gen 13/30
+  [seed 44] gen 14/30
+  [seed 44] gen 15/30
+  [seed 44] gen 16/30
+  [seed 44] gen 17/30
+  [seed 44] gen 18/30
+  [seed 44] gen 19/30
+  [seed 44] gen 20/30
+  [seed 44] gen 21/30
+  [seed 44] gen 22/30
+  [seed 44] gen 23/30
+  [seed 44] gen 24/30
+  [seed 44] gen 25/30
+  [seed 44] gen 26/30
+  [seed 44] gen 27/30
+  [seed 44] gen 28/30
+  [seed 44] gen 29/30
+  [seed 44] gen 30/30
+  [seed 44][persona  ] distinct2=0.633 pairwise_cos=0.803 ICE=87% (n=14)
+  [seed 44][nopersona] distinct2=0.667 pairwise_cos=0.793 ICE=80% (n=14)
+  [seed 45] gen 1/30
+  [seed 45] gen 2/30
+  [seed 45] gen 3/30
+  [seed 45] gen 4/30
+  [seed 45] gen 5/30
+  [seed 45] gen 6/30
+  [seed 45] gen 7/30
+  [seed 45] gen 8/30
+  [seed 45] gen 9/30
+  [seed 45] gen 10/30
+  [seed 45] gen 11/30
+  [seed 45] gen 12/30
+  [seed 45] gen 13/30
+  [seed 45] gen 14/30
+  [seed 45] gen 15/30
+  [seed 45] gen 16/30
+  [seed 45] gen 17/30
+  [seed 45] gen 18/30
+  [seed 45] gen 19/30
+  [seed 45] gen 20/30
+  [seed 45] gen 21/30
+  [seed 45] gen 22/30
+  [seed 45] gen 23/30
+  [seed 45] gen 24/30
+  [seed 45] gen 25/30
+  [seed 45] gen 26/30
+  [seed 45] gen 27/30
+  [seed 45] gen 28/30
+  [seed 45] gen 29/30
+  [seed 45] gen 30/30
+  [seed 45][persona  ] distinct2=0.630 pairwise_cos=0.803 ICE=73% (n=11)
+  [seed 45][nopersona] distinct2=0.659 pairwise_cos=0.811 ICE=84% (n=11)
+  [seed 46] gen 1/30
+  [seed 46] gen 2/30
+  [seed 46] gen 3/30
+  [seed 46] gen 4/30
+  [seed 46] gen 5/30
+  [seed 46] gen 6/30
+  [seed 46] gen 7/30
+  [seed 46] gen 8/30
+  [seed 46] gen 9/30
+  [seed 46] gen 10/30
+  [seed 46] gen 11/30
+  [seed 46] gen 12/30
+  [seed 46] gen 13/30
+  [seed 46] gen 14/30
+  [seed 46] gen 15/30
+  [seed 46] gen 16/30
+  [seed 46] gen 17/30
+  [seed 46] gen 18/30
+  [seed 46] gen 19/30
+  [seed 46] gen 20/30
+  [seed 46] gen 21/30
+  [seed 46] gen 22/30
+  [seed 46] gen 23/30
+  [seed 46] gen 24/30
+  [seed 46] gen 25/30
+  [seed 46] gen 26/30
+  [seed 46] gen 27/30
+  [seed 46] gen 28/30
+  [seed 46] gen 29/30
+  [seed 46] gen 30/30
+  [seed 46][persona  ] distinct2=0.636 pairwise_cos=0.801 ICE=65% (n=12)
+  [seed 46][nopersona] distinct2=0.628 pairwise_cos=0.811 ICE=78% (n=12)
+
+condition     distinct2 (mean±SD)     pairwise_cos    ICE (mean±SD)
+--------------------------------------------------------------------
+persona    0.640 ± 0.011      0.803 ± 0.004           75% ± 8%  (pooled_n=64)
+nopersona  0.651 ± 0.015      0.804 ± 0.008           83% ± 4%  (pooled_n=64)
+
+Δ (persona − nopersona): distinct2=-0.011  pairwise_cos=-0.001  (negative pairwise_cos Δ = persona adds diversity). Read against the per-condition SD.
+wrote work/generation/candidates/persona_ablation.json
+=== ALL DONE Mon Jul 13 03:42:56 CST 2026 ===

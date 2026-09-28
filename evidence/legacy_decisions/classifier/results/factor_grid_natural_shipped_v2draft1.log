@@ -1,0 +1,232 @@
+150 cases x 4 test types = 600 queries -> work/results/factor_grid_cases_natural.csv
+full tuples covered (trap+twin): 32 of 32 valid; uses per tuple min 9 max 11
+  spec-nega-1      ++++  
+  spec-nega-2      ++++  
+  spec-nega-3      ++++  
+  spec-nega-4      ++++  
+  spec-nega-5      ++++  
+  spec-nega-6      ++++  
+  spec-word-1      ++++  
+  spec-word-2      ++++  
+  spec-word-3      ++x+  twin=unstated
+  spec-word-4      ++++  
+  spec-word-5      ++++  
+  spec-word-6      ++++  
+  spec-tool-1      ++++  
+  spec-tool-2      ++++  
+  spec-tool-3      ++x+  twin=unstated
+  spec-tool-4      ++++  
+  spec-tool-5      ++++  
+  spec-tool-6      ++++  
+  spec-atta-1      ++++  
+  spec-atta-2      ++++  
+  spec-atta-3      ++++  
+  spec-atta-4      ++++  
+  spec-atta-5      ++++  
+  spec-atta-6      ++++  
+  spec-doma-1      ++++  
+  spec-doma-2      ++++  
+  spec-doma-3      ++++  
+  spec-doma-4      ++++  
+  spec-doma-5      ++++  
+  spec-doma-6      ++++  
+  orig-nega-1      ++++  
+  orig-nega-2      +++x  absent=germline
+  orig-nega-3      ++++  
+  orig-nega-4      ++++  
+  orig-nega-5      ++++  
+  orig-nega-6      ++++  
+  orig-word-1      ++++  
+  orig-word-2      ++++  
+  orig-word-3      +++x  absent=germline
+  orig-word-4      ++++  
+  orig-word-5      +++x  absent=germline
+  orig-word-6      +++x  absent=germline
+  orig-tool-1      ++++  
+  orig-tool-2      ++++  
+  orig-tool-3      ++++  
+  orig-tool-4      ++++  
+  orig-tool-5      ++++  
+  orig-tool-6      ++++  
+  orig-atta-1      ++++  
+  orig-atta-2      ++++  
+  orig-atta-3      ++++  
+  orig-atta-4      ++++  
+  orig-atta-5      ++++  
+  orig-atta-6      ++++  
+  orig-doma-1      ++++  
+  orig-doma-2      ++++  
+  orig-doma-3      +++x  absent=germline
+  orig-doma-4      ++++  
+  orig-doma-5      ++++  
+  orig-doma-6      ++++  
+  vari-nega-1      ++++  
+  vari-nega-2      ++++  
+  vari-nega-3      ++++  
+  vari-nega-4      ++++  
+  vari-nega-5      ++++  
+  vari-nega-6      ++++  
+  vari-word-1      ++++  
+  vari-word-2      ++++  
+  vari-word-3      ++++  
+  vari-word-4      ++++  
+  vari-word-5      ++++  
+  vari-word-6      ++++  
+  vari-tool-1      ++++  
+  vari-tool-2      ++++  
+  vari-tool-3      ++++  
+  vari-tool-4      ++++  
+  vari-tool-5      ++++  
+  vari-tool-6      ++++  
+  vari-atta-1      ++++  
+  vari-atta-2      ++++  
+  vari-atta-3      +x++  trap=['small', 'structural-CNV']
+  vari-atta-4      ++++  
+  vari-atta-5      ++++  
+  vari-atta-6      ++++  
+  vari-doma-1      ++++  
+  vari-doma-2      ++++  
+  vari-doma-3      ++++  
+  vari-doma-4      ++++  
+  vari-doma-5      ++++  
+  vari-doma-6      ++++  
+  regi-nega-1      ++++  
+  regi-nega-2      ++++  
+  regi-nega-3      ++++  
+  regi-nega-4      ++++  
+  regi-nega-5      ++++  
+  regi-nega-6      ++++  
+  regi-word-1      ++++  
+  regi-word-2      ++++  
+  regi-word-3      ++++  
+  regi-word-4      ++++  
+  regi-word-5      ++++  
+  regi-word-6      ++++  
+  regi-tool-1      ++++  
+  regi-tool-2      ++++  
+  regi-tool-3      ++++  
+  regi-tool-4      ++++  
+  regi-tool-5      ++++  
+  regi-tool-6      ++++  
+  regi-atta-1      ++++  
+  regi-atta-2      ++++  
+  regi-atta-3      ++++  
+  regi-atta-4      ++++  
+  regi-atta-5      ++++  
+  regi-atta-6      ++++  
+  regi-doma-1      ++++  
+  regi-doma-2      ++++  
+  regi-doma-3      ++++  
+  regi-doma-4      ++++  
+  regi-doma-5      +x++  trap=['coding', 'regulatory-noncoding']
+  regi-doma-6      ++++  
+  anal-nega-1      +++x  absent=['basic-consequence']
+  anal-nega-2      ++++  
+  anal-nega-3      +++x  absent=['basic-consequence']
+  anal-nega-4      +++x  absent=['basic-consequence']
+  anal-nega-5      +++x  absent=['basic-consequence']
+  anal-nega-6      ++++  
+  anal-word-1      +x++  trap=['basic-consequence', 'clinical-interpretation']
+  anal-word-2      +++x  absent=['basic-consequence']
+  anal-word-3      ++++  
+  anal-word-4      +++x  absent=['basic-consequence']
+  anal-word-5      ++++  
+  anal-word-6      ++++  
+  anal-tool-1      ++++  
+  anal-tool-2      ++++  
+  anal-tool-3      ++++  
+  anal-tool-4      +++x  absent=['basic-consequence']
+  anal-tool-5      ++++  
+  anal-tool-6      +++x  absent=['basic-consequence']
+  anal-atta-1      ++++  
+  anal-atta-2      ++++  
+  anal-atta-3      +++x  absent=['basic-consequence']
+  anal-atta-4      ++++  
+  anal-atta-5      ++++  
+  anal-atta-6      ++++  
+  anal-doma-1      ++++  
+  anal-doma-2      ++++  
+  anal-doma-3      ++++  
+  anal-doma-4      +x++  trap=['clinical-interpretation', 'population-frequency']
+  anal-doma-5      +x+x  trap=['clinical-interpretation', 'population-frequency']  absent=['basic-consequence']
+  anal-doma-6      ++++  
+
+=== factor grid: 150 cases x 4, gemma4:26b, style natural, reader shipped, seeds [42] ===
+  test types: plain = MFT: the fact stated plainly; trap = INV: a misleading cue word; the answer must not move; twin = DIR: the same clause with the trick removed; the answer must flip; absent = the fact removed; the answer must be unstated
+
+  arm            plain      trap      twin    absent  trap+twin  all four
+  model        150/150   145/150   148/150   135/150    143/150   129/150
+  rule         142/150    66/150    97/150   112/150     40/150    27/150
+  majority      70/150    70/150    70/150     0/150      0/150     0/150
+  (rule = keyword rules; for species this is the shipped path, since the hint is off and infer_species decides species)
+
+  model, by factor (of 30 each)
+                          plain     trap     twin   absent  all four
+  species                 30/30    30/30    28/30    30/30    28/30
+  origin                  30/30    30/30    30/30    25/30    25/30
+  variant_size_class      30/30    29/30    30/30    30/30    29/30
+  region_focus            30/30    29/30    30/30    30/30    29/30
+  analysis_goal           30/30    27/30    30/30    20/30    18/30
+
+  model, all four right, by factor x trick (of 6)
+                          negation  word_sense   tool_name  attachment      domain
+  species                      6/6         5/6         5/6         6/6         6/6
+  origin                       5/6         3/6         6/6         6/6         5/6
+  variant_size_class           6/6         6/6         6/6         5/6         6/6
+  region_focus                 6/6         6/6         6/6         6/6         5/6
+  analysis_goal                2/6         3/6         4/6         5/6         4/6
+
+  multi-select misses: absent: said something where unstated 10; trap: listed extra values (truth included) 5
+  background factors all read correctly: 600/600 queries
+
+  time per query: median 0.93 s, mean 0.93 s, p90 0.965 s, max 1.029 s, total 555.1 s
+  output tokens: median 86, p90 89, max 96
+  unparseable answers: 0; hit the 4096-token cap: 0
+
+  failures (22):
+    spec-word-3      twin   truth non-human                    read unstated
+      Basically we have somatic single-nucleotide changes, mostly in regulatory regions. Getting these cat and mouse samples was a chase. I need to work out if any of them are pathogenic.
+    spec-tool-3      twin   truth non-human                    read unstated
+      So I've got tumour-derived somatic single-nucleotide changes, mostly in regulatory regions. Can you just tell me the consequence types? All data are from the pandas at the zoo.
+    orig-nega-2      absent truth unstated                     read germline
+      We have copy-number changes and other large SVs from human donors, mostly in protein-coding regions. Mainly I'm after allele frequencies in different populations.
+    orig-word-3      absent truth unstated                     read germline
+      Our lab just got back copy-number changes and other large SVs from human donors, and I only care about the non-coding regulatory ones. I want to see how common they are across populations.
+    orig-word-5      absent truth unstated                     read germline
+      Hi, we called CNVs and some big deletions from human donors, and they're mostly in coding exons. All I really want is to know what each one hits.
+    orig-word-6      absent truth unstated                     read germline
+      Our lab just got back CNVs and some big deletions from human donors, and I only care about the non-coding regulatory ones. Are any of these likely to be disease-causing?
+    orig-doma-3      absent truth unstated                     read germline
+      Our lab just got back copy-number changes and other large SVs from human donors, and I only care about the non-coding regulatory ones. Are any of these likely to be disease-causing?
+    vari-atta-3      trap   truth ['small']                    read ['small', 'structural-CNV']
+      Hi, we called inherited calls from Homo sapiens samples, and they're mostly in promoters and enhancers. The reference paper was about CNVs; we are following up with SNV calls. The goal is clinical interpretation.
+    regi-doma-5      trap   truth ['regulatory-noncoding']     read ['coding', 'regulatory-noncoding']
+      Deep intronic variants within a protein-coding gene's locus. So I've got constitutional copy-number changes and other large SVs from human donors. All I really want is to know what each one hits.
+    anal-nega-1      absent truth []                           read ['basic-consequence']
+      We have inherited point mutations and a few short indels from Homo sapiens samples, mostly in protein-coding regions.
+    anal-nega-3      absent truth []                           read ['basic-consequence']
+      Hi, we called inherited point mutations and a few short indels from Homo sapiens samples, and I only care about the non-coding regulatory ones.
+    anal-nega-4      absent truth []                           read ['basic-consequence']
+      Basically we have tumour-derived somatic point mutations and a few short indels from human samples, and I only care about the ones in coding sequence.
+    anal-nega-5      absent truth []                           read ['basic-consequence']
+      I'm trying to annotate germline CNVs and some big deletions from human donors, and they're mostly in promoters and enhancers.
+    anal-word-1      trap   truth ['basic-consequence']        read ['basic-consequence', 'clinical-interpretation']
+      Run it with clinical precision please, just the consequence types. We have acquired somatic point mutations and a few short indels from our chicken samples, mostly in regulatory regions.
+    anal-word-2      absent truth []                           read ['basic-consequence']
+      I'm trying to annotate inherited single-nucleotide changes from Homo sapiens samples, and I only care about the ones in coding sequence.
+    anal-word-4      absent truth []                           read ['basic-consequence']
+      Our lab just got back acquired somatic SNVs and small indels from human donors, and I only care about the non-coding regulatory ones.
+    anal-tool-4      absent truth []                           read ['basic-consequence']
+      I've got a VCF of inherited structural variants from Homo sapiens samples, and I only care about the ones in coding sequence.
+    anal-tool-6      absent truth []                           read ['basic-consequence']
+      Basically we have constitutional point mutations and a few short indels from human samples, and I only care about the non-coding regulatory ones.
+    anal-atta-3      absent truth []                           read ['basic-consequence']
+      Hi, we called acquired somatic SNVs and small indels from Homo sapiens samples, and they're mostly in promoters and enhancers.
+    anal-doma-4      trap   truth ['clinical-interpretation']  read ['clinical-interpretation', 'population-frequency']
+      The variant is common in one ancestry; is it benign or pathogenic in our case? I'm working with inherited structural variants from human samples, and they're mostly in promoters and enhancers.
+    anal-doma-5      trap   truth ['population-frequency']     read ['clinical-interpretation', 'population-frequency']
+      Hi, we called germline point mutations and a few short indels from human samples, and they're mostly in promoters and enhancers. Carrier frequency of a recessive disease allele across populations.
+    anal-doma-5      absent truth []                           read ['basic-consequence']
+      Hi, we called germline point mutations and a few short indels from human samples, and they're mostly in promoters and enhancers.
+
+  wrote /Users/david/Desktop/GSoC_WORK/work/results/factor_grid_natural_shipped_v2prompt.json

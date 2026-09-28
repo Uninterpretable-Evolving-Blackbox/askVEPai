@@ -1,23 +1,51 @@
 # macOS
 .DS_Store
+.Rhistory
 
 # Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 .ipynb_checkpoints/
+
+# Local tooling / models (large, machine-specific)
+tools_local/
+*.tar.gz
+*.zip
+
+# Generated docs / reference binaries (source is the .md)
+*.docx
+*.pdf
+
+# Every run ever made on the development machine (results/, results_fixedparser/, results_noex/ as they
+# were under the old work/). Not published. The runs today's numbers rest on are tracked in evidence/current_evidence/results,
+# and those behind each design decision in evidence/legacy_decisions/<decision>/results.
+evidence/local_runs/
+pipeline/candidates/
+pipeline/provenance.jsonl
+data/iced_pre_refresh_*.json
+
+# Session handovers and message drafts stay on the development machine; they are not published.
+docs/handovers/
+docs/mentor_drafts/
+
+# Third-party reading (PDFs). Ensembl's own source files under reference/ensembl_source/ ARE tracked:
+# the species-data builders read them, so a fresh clone needs them.
+reference/interp_reading/
+reference/systems_reading/
+# HGNC's full gene list (17 MB); build_hgnc_symbols.py reduces it to vep_ai_demo/hgnc_symbols.json.
+# Fetch it from the URL in reference/ensembl_source/README_sources.md.
+reference/ensembl_source/hgnc_non_alt_loci_set_*.txt
+
+# Internal agent tooling — the rules live in ~/.gitignore_global (core.excludesFile) so the
+# tooling a project was written with is not part of the project's record.
+
+# Local virtualenv
 .venv/
 venv/
 
-# Local tooling / models / large artifacts (machine-specific)
-tools_local/
-*.tar.gz
-
-# Bulky raw run logs (regenerable; keep the .md / aggregated .json reports)
-**/results/raw/
-**/results/_archive/
-*_raw.jsonl
-*.log
-
-# Documents (regenerated from markdown)
-*.docx
+# Excel lock files
+~$*
+.claude/
+.cursor/
+docs/meeting_prep/

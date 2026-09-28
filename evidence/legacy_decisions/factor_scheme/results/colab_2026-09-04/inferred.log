@@ -1,0 +1,111 @@
+  !! 31/31 rows: the set file's frozen config differs from what the priority table resolves today.
+     Scoring against --gold live. 'stored' would count every applied mentor correction as a model error.
+  seed 42: running 31 rows at concurrency 1…
+    [ 1/31]  20.4s  F1  65%  gen_humangermlinestructuralCNVcoding+regulat
+    [ 2/31]  13.5s  F1 100%  gen_nonhumansomaticsmallcodingbasicconsequen
+    [ 3/31]  19.6s  F1  86%  gen_humangermlinesmallcoding+regulatorynonco
+    [ 4/31]  12.9s  F1  80%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [ 5/31]  16.8s  F1  90%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 6/31]  15.0s  F1  93%  gen_nonhumangermlinesmallregulatorynoncoding
+    [ 7/31]  16.2s  F1  95%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 8/31]  15.4s  F1  92%  gen_nonhumangermlinesmallcodingclinicalinter
+    [ 9/31]  14.6s  F1 100%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [10/31]  15.4s  F1  89%  gen_humangermlinestructuralCNVcodingpopulati
+    [11/31]  17.1s  F1  86%  gen_humangermlinestructuralCNVcodingclinical
+    [12/31]  15.6s  F1  92%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [13/31]  16.3s  F1  91%  gen_humangermlinestructuralCNVcoding+regulat
+    [14/31]  14.3s  F1  88%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [15/31]  13.3s  F1 100%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [16/31]  15.1s  F1  83%  gen_humansomaticstructuralCNVregulatorynonco
+    [17/31]  14.0s  F1  67%  gen_humangermlinestructuralCNVregulatorynonc
+    [18/31]  15.8s  F1  96%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [19/31]  17.0s  F1  77%  gen_humangermlinestructuralCNVcoding+regulat
+    [20/31]  16.3s  F1  92%  gen_nonhumansomaticsmallcodingclinicalinterp
+    [21/31]  15.9s  F1  88%  gen_nonhumangermlinesmallcodingbasicconseque
+    [22/31]  14.7s  F1  94%  gen_humansomaticstructuralCNVcodingbasiccons
+    [23/31]  17.6s  F1  71%  gen_humansomaticstructuralCNVregulatorynonco
+    [24/31]  13.8s  F1 100%  gen_nonhumangermlinesmallregulatorynoncoding
+    [25/31]  16.5s  F1  90%  gen_humangermlinestructuralCNVcoding+regulat
+    [26/31]  14.2s  F1  88%  gen_nonhumansomaticsmallregulatorynoncodingc
+    [27/31]  16.6s  F1  71%  gen_humansomaticstructuralCNVregulatorynonco
+    [28/31]  13.3s  F1 100%  gen_nonhumangermlinesmallcodingbasicconseque
+    [29/31]  16.6s  F1  89%  gen_humansomaticstructuralCNVcodingbasiccons
+    [30/31]  16.4s  F1  96%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [31/31]  15.9s  F1  89%  gen_humangermlinestructuralCNVcoding+regulat
+  seed 42: enable-F1 88%  enable-recall 90%  15.7s/query
+  seed 43: running 31 rows at concurrency 1…
+    [ 1/31]  24.6s  F1  60%  gen_humangermlinestructuralCNVcoding+regulat
+    [ 2/31]  13.6s  F1 100%  gen_nonhumansomaticsmallcodingbasicconsequen
+    [ 3/31]  20.8s  F1  88%  gen_humangermlinesmallcoding+regulatorynonco
+    [ 4/31]  12.6s  F1  73%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [ 5/31]  17.3s  F1  90%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 6/31]  14.3s  F1  93%  gen_nonhumangermlinesmallregulatorynoncoding
+    [ 7/31]  16.2s  F1  95%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 8/31]  15.1s  F1  92%  gen_nonhumangermlinesmallcodingclinicalinter
+    [ 9/31]  14.6s  F1 100%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [10/31]  15.4s  F1  89%  gen_humangermlinestructuralCNVcodingpopulati
+    [11/31]  17.4s  F1  86%  gen_humangermlinestructuralCNVcodingclinical
+    [12/31]  15.7s  F1  92%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [13/31]  16.5s  F1  91%  gen_humangermlinestructuralCNVcoding+regulat
+    [14/31]  14.3s  F1  88%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [15/31]  13.5s  F1 100%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [16/31]  15.1s  F1  83%  gen_humansomaticstructuralCNVregulatorynonco
+    [17/31]  14.1s  F1  67%  gen_humangermlinestructuralCNVregulatorynonc
+    [18/31]  15.8s  F1  96%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [19/31]  17.0s  F1  77%  gen_humangermlinestructuralCNVcoding+regulat
+    [20/31]  16.4s  F1  92%  gen_nonhumansomaticsmallcodingclinicalinterp
+    [21/31]  16.1s  F1  88%  gen_nonhumangermlinesmallcodingbasicconseque
+    [22/31]  15.2s  F1  94%  gen_humansomaticstructuralCNVcodingbasiccons
+    [23/31]  17.6s  F1  71%  gen_humansomaticstructuralCNVregulatorynonco
+    [24/31]  13.7s  F1 100%  gen_nonhumangermlinesmallregulatorynoncoding
+    [25/31]  16.6s  F1  90%  gen_humangermlinestructuralCNVcoding+regulat
+    [26/31]  14.3s  F1  88%  gen_nonhumansomaticsmallregulatorynoncodingc
+    [27/31]  16.3s  F1  71%  gen_humansomaticstructuralCNVregulatorynonco
+    [28/31]  13.3s  F1 100%  gen_nonhumangermlinesmallcodingbasicconseque
+    [29/31]  16.7s  F1  89%  gen_humansomaticstructuralCNVcodingbasiccons
+    [30/31]  16.3s  F1  96%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [31/31]  15.9s  F1  89%  gen_humangermlinestructuralCNVcoding+regulat
+  seed 43: enable-F1 88%  enable-recall 90%  15.9s/query
+  seed 44: running 31 rows at concurrency 1…
+    [ 1/31]  24.7s  F1  60%  gen_humangermlinestructuralCNVcoding+regulat
+    [ 2/31]  13.6s  F1 100%  gen_nonhumansomaticsmallcodingbasicconsequen
+    [ 3/31]  20.9s  F1  88%  gen_humangermlinesmallcoding+regulatorynonco
+    [ 4/31]  12.5s  F1  73%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [ 5/31]  17.3s  F1  90%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 6/31]  14.3s  F1  93%  gen_nonhumangermlinesmallregulatorynoncoding
+    [ 7/31]  16.2s  F1  95%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 8/31]  15.3s  F1  92%  gen_nonhumangermlinesmallcodingclinicalinter
+    [ 9/31]  14.6s  F1 100%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [10/31]  15.6s  F1  89%  gen_humangermlinestructuralCNVcodingpopulati
+    [11/31]  17.6s  F1  86%  gen_humangermlinestructuralCNVcodingclinical
+    [12/31]  16.0s  F1  92%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [13/31]  16.4s  F1  91%  gen_humangermlinestructuralCNVcoding+regulat
+    [14/31]  14.2s  F1  88%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [15/31]  13.3s  F1 100%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [16/31]  15.0s  F1  83%  gen_humansomaticstructuralCNVregulatorynonco
+    [17/31]  14.1s  F1  67%  gen_humangermlinestructuralCNVregulatorynonc
+    [18/31]  15.7s  F1  96%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [19/31]  16.7s  F1  77%  gen_humangermlinestructuralCNVcoding+regulat
+    [20/31]  16.3s  F1  92%  gen_nonhumansomaticsmallcodingclinicalinterp
+    [21/31]  16.0s  F1  88%  gen_nonhumangermlinesmallcodingbasicconseque
+    [22/31]  14.7s  F1  94%  gen_humansomaticstructuralCNVcodingbasiccons
+    [23/31]  18.3s  F1  71%  gen_humansomaticstructuralCNVregulatorynonco
+    [24/31]  13.9s  F1 100%  gen_nonhumangermlinesmallregulatorynoncoding
+    [25/31]  16.6s  F1  90%  gen_humangermlinestructuralCNVcoding+regulat
+    [26/31]  14.5s  F1  88%  gen_nonhumansomaticsmallregulatorynoncodingc
+    [27/31]  16.5s  F1  71%  gen_humansomaticstructuralCNVregulatorynonco
+    [28/31]  13.3s  F1 100%  gen_nonhumangermlinesmallcodingbasicconseque
+    [29/31]  16.7s  F1  89%  gen_humansomaticstructuralCNVcodingbasiccons
+    [30/31]  16.6s  F1  96%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [31/31]  16.3s  F1  89%  gen_humangermlinestructuralCNVcoding+regulat
+  seed 44: enable-F1 88%  enable-recall 90%  15.9s/query
+
+31 rows, 3 runs (seeds [42, 43, 44]), model gemma4:26b, all-examples LOO, factors=inferred, gold=live, tiers=hidden
+  enable-F1              88% ± 0%
+  enable-recall          90% ± 0%
+  seconds/query          15.8s ± 0.1
+                         (single-threaded, so this IS what one user waits)
+  options proposed       10.9
+  -> work/results/colab_2026-09-04/enable_f1_live_inferred.json
+  (must-have recall is withdrawn as of 2026-08-19: it scored against the `critical` tier,
+   which no longer exists. There is one enabled set now, so there is one recall.)

@@ -1,0 +1,340 @@
+## ENSEMBL VARIANT EFFECT PREDICTOR v116.2
+## Output produced at 2026-09-10 14:04:46
+## Using cache in /Users/david/Desktop/GSoC_WORK/tools_local/vep_local/cache/homo_sapiens/116_GRCh38
+## Using API version 116, DB version ?
+## 1000genomes version phase3
+## COSMIC version 102
+## ClinVar version 202509
+## HGMD-PUBLIC version 20204
+## assembly version GRCh38.p14
+## dbSNP version 156
+## gencode version GENCODE 50
+## genebuild version GENCODE50
+## gnomADe version v4.1
+## gnomADg version v4.1
+## polyphen version 2.2.3
+## regbuild version 1.0
+## sift version 6.2.1
+## Column descriptions:
+## Uploaded_variation : Identifier of uploaded variant
+## Location : Location of variant in standard coordinate format (chr:start or chr:start-end)
+## Allele : The variant allele used to calculate the consequence
+## Gene : Stable ID of affected gene
+## Feature : Stable ID of feature
+## Feature_type : Type of feature - Transcript, RegulatoryFeature or MotifFeature
+## Consequence : Consequence type
+## cDNA_position : Relative position of base pair in cDNA sequence
+## CDS_position : Relative position of base pair in coding sequence
+## Protein_position : Relative position of amino acid in protein
+## Amino_acids : Reference and variant amino acids
+## Codons : Reference and variant codon sequence
+## Existing_variation : Identifier(s) of co-located known variants
+## IMPACT : Subjective impact classification of consequence type
+## DISTANCE : Shortest distance from variant to transcript
+## STRAND : Strand of the feature (1/-1)
+## FLAGS : Transcript quality flags
+## PolyPhen : PolyPhen prediction and/or score
+## VEP command-line: vep --assembly GRCh38 --cache --database 0 --dir_cache [PATH]/cache --force_overwrite --format vcf --input_file [PATH]/cohort12.vcf --no_stats --offline --output_file [PATH]/r_polyphen_on.tsv --polyphen b --tab
+#Uploaded_variation	Location	Allele	Gene	Feature	Feature_type	Consequence	cDNA_position	CDS_position	Protein_position	Amino_acids	Codons	Existing_variation	IMPACT	DISTANCE	STRAND	FLAGS	PolyPhen
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000258743	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	174	1	-	-
+rs1800795	7:22727026	G	ENSG00000179428	ENST00000325042	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000401630	Transcript	5_prime_UTR_variant	420	-	-	-	-	-	MODIFIER	-	1	-	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000401651	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	121	1	-	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000404625	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000406575	Transcript	5_prime_UTR_variant	420	-	-	-	-	-	MODIFIER	-	1	-	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000407492	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	188	1	-	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000426291	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	121	1	cds_end_NF	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000464710	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	151	1	-	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000485300	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	174	1	-	-
+rs1800795	7:22727026	G	ENSG00000105889	ENST00000650428	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000964192	Transcript	5_prime_UTR_variant	420	-	-	-	-	-	MODIFIER	-	1	-	-
+rs1800795	7:22727026	G	ENSG00000105889	ENST00001034563	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00001141033	Transcript	5_prime_UTR_variant	420	-	-	-	-	-	MODIFIER	-	1	-	-
+rs12979860	19:39248147	G	ENSG00000197110	ENST00000413851	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	3141	-1	-	-
+rs12979860	19:39248147	G	ENSG00000272395	ENST00000606380	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs12979860	19:39248147	G	ENSG00000197110	ENST00000613087	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	2897	-1	-	-
+rs12979860	19:39248147	G	ENSG00000272395	ENST00000634680	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs12979860	19:39248147	G	ENSG00000272395	ENST00000634967	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs12979860	19:39248147	G	ENSG00000296032	ENST00000735578	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4622	1	-	-
+rs12979860	19:39248147	G	ENSG00000296032	ENST00000735579	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4709	1	-	-
+rs12979860	19:39248147	G	ENSG00000197110	ENST00001136704	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	3141	-1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000003084	Transcript	missense_variant,splice_region_variant	236	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	probably_damaging(0.979)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000426809	Transcript	missense_variant,splice_region_variant	166	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	cds_end_NF	probably_damaging(0.989)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000446805	Transcript	splice_region_variant,5_prime_UTR_variant	503	-	-	-	-	-	LOW	-	1	cds_end_NF	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000546407	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4727	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000647639	Transcript	splice_region_variant,non_coding_transcript_exon_variant	250	-	-	-	-	-	LOW	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000647720	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	benign(0.059)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000647978	Transcript	splice_region_variant,3_prime_UTR_variant,NMD_transcript_variant	324	-	-	-	-	-	LOW	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000648260	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	benign(0.042)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000649406	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	benign(0.007)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000649781	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	benign(0.399)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000649850	Transcript	splice_region_variant,3_prime_UTR_variant,NMD_transcript_variant	324	-	-	-	-	-	LOW	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000673785	Transcript	splice_region_variant,5_prime_UTR_variant	628	-	-	-	-	-	LOW	-	1	cds_end_NF	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000685018	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	probably_damaging(0.911)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000687278	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	probably_damaging(0.911)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000693465	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	1596	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699585	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	benign(0.059)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699596	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	benign(0.028)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699597	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	benign(0.042)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699598	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	possibly_damaging(0.882)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699599	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	probably_damaging(0.911)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699600	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	probably_damaging(0.911)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699601	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	possibly_damaging(0.591)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699602	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	benign(0.059)
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699604	Transcript	splice_acceptor_variant,NMD_transcript_variant	-	-	-	-	-	-	HIGH	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699605	Transcript	splice_region_variant,5_prime_UTR_variant	345	-	-	-	-	-	LOW	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889206	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889207	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889208	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889209	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889210	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000950799	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00001140285	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-	probably_damaging(0.979)
+rs74315329	1:171636338	A	ENSG00000034971	ENST00000037502	Transcript	stop_gained	1179	1102	368	Q/*	Cag/Tag	-	HIGH	-	-1	-	-
+rs74315329	1:171636338	A	ENSG00000283683	ENST00000637303	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs74315329	1:171636338	A	ENSG00000034971	ENST00000638471	Transcript	3_prime_UTR_variant,NMD_transcript_variant	650	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs74315329	1:171636338	A	ENSG00000034971	ENST00000877923	Transcript	stop_gained	1299	1168	390	Q/*	Cag/Tag	-	HIGH	-	-1	-	-
+rs74315329	1:171636338	A	ENSG00000034971	ENST00000971579	Transcript	stop_gained	1338	1207	403	Q/*	Cag/Tag	-	HIGH	-	-1	-	-
+rs74315329	1:171636338	A	ENSG00000034971	ENST00001024741	Transcript	3_prime_UTR_variant	1240	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs74315329	1:171636338	A	ENSG00000034971	ENST00001122566	Transcript	3_prime_UTR_variant,NMD_transcript_variant	1252	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs74315329	1:171636338	A	ENSG00000034971	ENST00001143642	Transcript	stop_gained	1233	1102	368	Q/*	Cag/Tag	-	HIGH	-	-1	-	-
+rs763110	1:172658358	T	ENSG00000117560	ENST00000340030	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	632	1	-	-
+rs763110	1:172658358	T	ENSG00000117560	ENST00000367721	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	745	1	-	-
+rs763110	1:172658358	T	ENSG00000117560	ENST00000875216	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	632	1	-	-
+rs763110	1:172658358	T	ENSG00000117560	ENST00001145550	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	632	1	-	-
+rs2910164	5:160485411	G	ENSG00000283733	ENST00000385201	Transcript	mature_miRNA_variant	60	-	-	-	-	-	MODIFIER	-	1	-	-
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000517927	Transcript	non_coding_transcript_exon_variant	423	-	-	-	-	-	MODIFIER	-	1	-	-
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000642173	Transcript	non_coding_transcript_exon_variant	189	-	-	-	-	-	MODIFIER	-	1	-	-
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000770454	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000770455	Transcript	non_coding_transcript_exon_variant	302	-	-	-	-	-	MODIFIER	-	1	-	-
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000770456	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000770458	Transcript	non_coding_transcript_exon_variant	299	-	-	-	-	-	MODIFIER	-	1	-	-
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000352993	Transcript	missense_variant	1816	1697	566	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.416)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000357654	Transcript	missense_variant	5236	5123	1708	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000461221	Transcript	3_prime_UTR_variant,NMD_transcript_variant	5224	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000461574	Transcript	missense_variant	5239	5120	1707	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.378)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000468300	Transcript	missense_variant	2005	1811	604	A/V	gCg/gTg	-	MODERATE	-	-1	-	possibly_damaging(0.551)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000470026	Transcript	missense_variant	5304	5123	1708	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000471181	Transcript	missense_variant	5418	5186	1729	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.019)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000472490	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	3371	-1	-	-
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000473961	Transcript	missense_variant	5110	4997	1666	A/V	gCg/gTg	-	MODERATE	-	-1	-	possibly_damaging(0.891)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000476777	Transcript	missense_variant	5226	5117	1706	A/V	gCg/gTg	-	MODERATE	-	-1	-	possibly_damaging(0.867)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000477152	Transcript	missense_variant	5158	5045	1682	A/V	gCg/gTg	-	MODERATE	-	-1	-	-
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000478531	Transcript	missense_variant	1913	1811	604	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.999)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000484087	Transcript	missense_variant	1777	1685	562	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.999)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000489037	Transcript	missense_variant	5204	5045	1682	A/V	gCg/gTg	-	MODERATE	-	-1	-	-
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000491747	Transcript	missense_variant	1910	1811	604	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.999)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000493795	Transcript	missense_variant	5214	4982	1661	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000493919	Transcript	missense_variant	1905	1673	558	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.995)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000494123	Transcript	missense_variant	5316	5123	1708	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000497488	Transcript	missense_variant	4483	4235	1412	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000586385	Transcript	missense_variant	211	53	18	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.998)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000591534	Transcript	missense_variant	698	596	199	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000591849	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000618469	Transcript	missense_variant	5770	5123	1708	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000634433	Transcript	missense_variant	5139	5000	1667	A/V	gCg/gTg	-	MODERATE	-	-1	-	possibly_damaging(0.551)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000644379	Transcript	missense_variant	5302	5189	1730	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.99)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000644555	Transcript	missense_variant	2078	1673	558	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.995)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000652672	Transcript	missense_variant	5468	4982	1661	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000713676	Transcript	missense_variant	5196	5123	1708	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000899954	Transcript	missense_variant	1911	1685	562	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.999)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000921914	Transcript	missense_variant	2036	1811	604	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.999)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000921915	Transcript	missense_variant	2461	1811	604	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.999)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000921916	Transcript	missense_variant	1907	1811	604	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.999)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000945268	Transcript	missense_variant	5273	5120	1707	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.378)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000945269	Transcript	missense_variant	2047	1811	604	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.999)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001010568	Transcript	missense_variant	5416	5117	1706	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.378)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001010569	Transcript	missense_variant	2050	1814	605	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.995)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076718	Transcript	missense_variant	5355	5120	1707	A/V	gCg/gTg	-	MODERATE	-	-1	-	possibly_damaging(0.659)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076719	Transcript	missense_variant	5131	5000	1667	A/V	gCg/gTg	-	MODERATE	-	-1	-	possibly_damaging(0.551)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076720	Transcript	missense_variant	1940	1814	605	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.995)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076721	Transcript	missense_variant	1813	1688	563	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.999)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076722	Transcript	missense_variant	1815	1691	564	A/V	gCg/gTg	-	MODERATE	-	-1	-	probably_damaging(0.995)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076723	Transcript	3_prime_UTR_variant,NMD_transcript_variant	1768	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076724	Transcript	missense_variant	5232	5120	1707	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.223)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076725	Transcript	missense_variant	5756	5120	1707	A/V	gCg/gTg	-	MODERATE	-	-1	-	possibly_damaging(0.659)
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001136804	Transcript	missense_variant	5236	5123	1708	A/V	gCg/gTg	-	MODERATE	-	-1	-	benign(0.356)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000376486	Transcript	missense_variant	851	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	cds_end_NF	probably_damaging(0.943)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000376583	Transcript	missense_variant	788	788	263	A/V	gCc/gTc	-	MODERATE	-	-1	-	probably_damaging(0.987)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000376585	Transcript	missense_variant	1840	788	263	A/V	gCc/gTc	-	MODERATE	-	-1	-	probably_damaging(0.987)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000376590	Transcript	missense_variant	755	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	probably_damaging(0.943)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000376592	Transcript	missense_variant	2115	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	probably_damaging(0.943)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000418034	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4884	-1	cds_end_NF	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000423400	Transcript	missense_variant	841	785	262	A/V	gCc/gTc	-	MODERATE	-	-1	-	benign(0.084)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000431243	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4997	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000641407	Transcript	missense_variant	932	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	benign(0.084)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000641437	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	3536	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000641446	Transcript	missense_variant,NMD_transcript_variant	793	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	benign(0.084)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000641721	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000641747	Transcript	3_prime_UTR_variant,NMD_transcript_variant	1007	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000641759	Transcript	non_coding_transcript_exon_variant	800	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000641805	Transcript	non_coding_transcript_exon_variant	948	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000641820	Transcript	5_prime_UTR_variant	225	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000641909	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	3471	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000911084	Transcript	missense_variant	752	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000911085	Transcript	missense_variant	1697	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	probably_damaging(0.943)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000911086	Transcript	missense_variant	841	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000911087	Transcript	missense_variant	811	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000970341	Transcript	missense_variant	1105	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000970342	Transcript	missense_variant	815	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000970343	Transcript	missense_variant	796	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000977129	Transcript	missense_variant	838	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	benign(0.084)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00001029232	Transcript	missense_variant	800	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	benign(0.084)
+rs1801133	1:11796321	A	ENSG00000177000	ENST00001113752	Transcript	missense_variant	858	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00001113753	Transcript	missense_variant	816	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000252486	Transcript	missense_variant	457	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000252487	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000405636	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000425718	Transcript	missense_variant	653	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	cds_end_NF	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000426677	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4995	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000434152	Transcript	missense_variant	523	466	156	C/R	Tgc/Cgc	-	MODERATE	-	1	cds_end_NF	benign(0)
+rs429358	19:44908684	C	ENSG00000130203	ENST00000446996	Transcript	missense_variant	477	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	cds_end_NF	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000485628	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	1358	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000592434	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4998	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864817	Transcript	missense_variant	559	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864820	Transcript	missense_variant	490	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864822	Transcript	missense_variant	904	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864824	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864826	Transcript	missense_variant	440	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864828	Transcript	missense_variant	564	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864829	Transcript	missense_variant	763	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864830	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864831	Transcript	missense_variant	836	442	148	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864832	Transcript	missense_variant	833	439	147	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864833	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864834	Transcript	missense_variant	767	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864835	Transcript	missense_variant	899	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864836	Transcript	missense_variant	612	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864837	Transcript	missense_variant	571	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864838	Transcript	missense_variant	474	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864839	Transcript	missense_variant	627	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864840	Transcript	missense_variant	444	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864841	Transcript	missense_variant	653	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864842	Transcript	missense_variant	622	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864843	Transcript	missense_variant	544	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864844	Transcript	missense_variant	668	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864845	Transcript	missense_variant	451	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864846	Transcript	missense_variant	503	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864847	Transcript	missense_variant	512	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864848	Transcript	missense_variant	560	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000864849	Transcript	missense_variant	575	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130208	ENST00000876409	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	4449	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000927372	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000927373	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000927374	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000927375	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000947713	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000947714	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000947715	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00001005462	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4998	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00001005584	Transcript	3_prime_UTR_variant	774	-	-	-	-	-	MODIFIER	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00001085948	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4995	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00001085949	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4997	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00001101301	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00001101302	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00001121352	Transcript	3_prime_UTR_variant	589	-	-	-	-	-	MODIFIER	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00001121353	Transcript	missense_variant	834	440	147	V/A	gTg/gCg	-	MODERATE	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00001126687	Transcript	3_prime_UTR_variant	786	-	-	-	-	-	MODIFIER	-	1	-	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00001135435	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4989	1	-	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00001139730	Transcript	missense_variant	782	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000252486	Transcript	missense_variant	595	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000425718	Transcript	missense_variant	791	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	cds_end_NF	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000434152	Transcript	missense_variant	661	604	202	R/C	Cgc/Tgc	-	MODERATE	-	1	cds_end_NF	probably_damaging(1)
+rs7412	19:44908822	T	ENSG00000130203	ENST00000446996	Transcript	missense_variant	615	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	cds_end_NF	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000485628	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	1496	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864817	Transcript	missense_variant	697	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864820	Transcript	missense_variant	628	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864822	Transcript	missense_variant	1042	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864824	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864826	Transcript	missense_variant	578	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864828	Transcript	missense_variant	702	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864829	Transcript	missense_variant	901	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864830	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864831	Transcript	missense_variant	974	580	194	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864832	Transcript	missense_variant	971	577	193	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864833	Transcript	splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	-	LOW	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864834	Transcript	missense_variant	905	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864835	Transcript	missense_variant	1037	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864836	Transcript	missense_variant	750	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864837	Transcript	missense_variant	709	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864838	Transcript	missense_variant	612	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864839	Transcript	missense_variant	765	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864840	Transcript	missense_variant	582	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864841	Transcript	missense_variant	791	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864842	Transcript	missense_variant	760	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864843	Transcript	missense_variant	682	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864844	Transcript	missense_variant	806	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864845	Transcript	missense_variant	589	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864846	Transcript	missense_variant	641	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864847	Transcript	missense_variant	650	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864848	Transcript	missense_variant	698	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000864849	Transcript	missense_variant	713	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130208	ENST00000876409	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	4311	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00001005584	Transcript	3_prime_UTR_variant	912	-	-	-	-	-	MODIFIER	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00001101301	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00001101302	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00001121352	Transcript	3_prime_UTR_variant	727	-	-	-	-	-	MODIFIER	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00001121353	Transcript	3_prime_UTR_variant	972	-	-	-	-	-	MODIFIER	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00001126687	Transcript	3_prime_UTR_variant	924	-	-	-	-	-	MODIFIER	-	1	-	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00001139730	Transcript	missense_variant	920	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00000335295	Transcript	missense_variant	70	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00000380315	Transcript	missense_variant	250	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	cds_end_NF	-
+rs334	11:5227002	A	ENSG00000221031	ENST00000408104	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	2363	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00000475226	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	179	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00000485743	Transcript	missense_variant	196	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	benign(0)
+rs334	11:5227002	A	ENSG00000244734	ENST00000633227	Transcript	missense_variant,NMD_transcript_variant	70	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	possibly_damaging(0.617)
+rs334	11:5227002	A	ENSG00000285498	ENST00000644706	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	1541	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00000647020	Transcript	missense_variant	196	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000298932	ENST00000759072	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	MODIFIER	-	1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00000883533	Transcript	missense_variant	144	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098717	Transcript	missense_variant	94	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098718	Transcript	missense_variant	131	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098719	Transcript	missense_variant	196	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098720	Transcript	missense_variant,NMD_transcript_variant	74	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098721	Transcript	missense_variant	72	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098722	Transcript	missense_variant	72	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098723	Transcript	missense_variant,NMD_transcript_variant	72	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098724	Transcript	missense_variant,NMD_transcript_variant	71	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098725	Transcript	missense_variant	196	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098726	Transcript	missense_variant	196	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098727	Transcript	missense_variant	196	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs334	11:5227002	A	ENSG00000244734	ENST00001098728	Transcript	missense_variant	196	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000269305	Transcript	missense_variant	357	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000359597	Transcript	missense_variant	215	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.02)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000413465	Transcript	missense_variant	215	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.114)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000420246	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000445888	Transcript	missense_variant	402	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000455263	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.01)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000503591	Transcript	missense_variant	508	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000504290	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	661	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000504937	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	661	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000505014	Transcript	non_coding_transcript_exon_variant	471	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000508793	Transcript	missense_variant	497	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000509690	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000510385	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	661	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000514944	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000574684	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	1035	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000576024	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000604348	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.007)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000610292	Transcript	missense_variant	465	98	33	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000610538	Transcript	missense_variant	348	98	33	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.01)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000610623	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	661	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000618944	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	661	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000619186	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	661	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000619485	Transcript	missense_variant	351	98	33	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000620739	Transcript	missense_variant	405	98	33	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000622645	Transcript	missense_variant	348	98	33	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000635293	Transcript	missense_variant,NMD_transcript_variant	358	98	33	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.007)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714356	Transcript	missense_variant	478	98	33	P/L	cCc/cTc	-	MODERATE	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714357	Transcript	missense_variant	285	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714358	Transcript	3_prime_UTR_variant,NMD_transcript_variant	335	-	-	-	-	-	MODIFIER	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714359	Transcript	missense_variant	332	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714408	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714409	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000905353	Transcript	missense_variant	310	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000923566	Transcript	missense_variant	359	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000923567	Transcript	missense_variant	494	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000923568	Transcript	missense_variant	399	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000923569	Transcript	missense_variant	398	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000949117	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00001075976	Transcript	missense_variant,NMD_transcript_variant	297	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-	benign(0.003)

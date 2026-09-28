@@ -1,0 +1,32 @@
+rows31: 31 in 342s
+ablated: 118 in 1530s
+
+=== rules vs model vs hinted -- gemma4:26b, seed 42 ===
+
+31 rows (every factor stated) -- correct / 31
+  factor                      rule     model    hinted
+  origin                        28        30        30
+  variant_size_class            19        29        29
+  region_focus                  22        31        31
+  analysis_goal                 16        24        23
+  all four right                 9        22        21
+
+ablated rewrites -- the REMOVED factor, pure rows only: says 'unstated' / n
+  removed factor              rule     model    hinted      n
+  origin                        11        15        11     20
+  variant_size_class            20        23        19     23
+  region_focus                  10        22        18     23
+  analysis_goal                  9         9         9     12
+
+ablated rewrites -- the UNTOUCHED factors, all 118 rows: correct / n
+  factor                      rule     model    hinted      n
+  origin                        81        84        85     90
+  variant_size_class            55        82        82     87
+  region_focus                  59        79        80     87
+  analysis_goal                 47        66        65     90
+
+  rule = keyword scan; model = shipped classifier prompt; hinted = model shown the scan's
+  matches as rejectable hints. Truth for a removed factor is 'unstated'.
+
+  wrote work/results/overnight_2026-09-10/rules_vs_model_26b.json
+ALLDONE

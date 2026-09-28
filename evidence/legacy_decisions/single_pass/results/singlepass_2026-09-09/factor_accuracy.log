@@ -1,0 +1,23 @@
+  seed 42: 31/31 in 146s
+  seed 43: 31/31 in 145s
+  seed 44: 31/31 in 156s
+
+=== gemma4:26b, 31 rows, seeds [42, 43, 44] ===
+
+A. FACTOR ACCURACY
+   species               31.0/31   (keyword rule, not the model)
+   origin                30.0/31
+   variant_size_class    29.0/31
+   region_focus          31.0/31
+   analysis_goal         24.0/31
+   EXACT TUPLE           22.0/31
+
+B. SPECIES — the model already answers this and the code discards it
+   keyword rule (shipped)   31.0/31
+   the model's own answer   31.0/31
+
+C. END-TO-END F1   0.975 ± 0.000
+
+E. LATENCY   classify 4.81s/row
+
+   wrote /Users/david/Desktop/GSoC_WORK/work/results/singlepass_eval.json

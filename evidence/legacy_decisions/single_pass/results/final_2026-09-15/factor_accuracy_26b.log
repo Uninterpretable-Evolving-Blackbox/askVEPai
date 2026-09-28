@@ -1,0 +1,21 @@
+seed 42: 31/31 classified
+seed 43: 31/31 classified
+seed 44: 31/31 classified
+
+gemma4:26b, 31-row set, seeds [42, 43, 44]
+
+  factor                            correct
+  species                    31.0/31          <- keyword rule, not the model
+  origin                     28.0/31       
+  variant_size_class         30.0/31       
+  region_focus               31.0/31       
+  analysis_goal              24.0/31       
+  EXACT TUPLE                21.0/31
+
+  end-to-end F1 (true-tuple gold vs post-checker config from the inferred tuple):
+     0.970 ± 0.000
+
+  A factor can be wrong and cost nothing: `origin` moves exactly one option
+  (`frequency`) and only on human population-frequency scenarios.
+
+  wrote work/results/final_2026-09-15/factor_accuracy_26b.json

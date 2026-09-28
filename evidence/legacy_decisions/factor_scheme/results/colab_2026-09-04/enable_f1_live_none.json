@@ -1,0 +1,57 @@
+{
+  "model": "gemma4:26b",
+  "think": "off",
+  "runs": 3,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "rows": 31,
+  "show_tiers": false,
+  "factors": "none",
+  "gold": "live",
+  "gold_drift_rows": 31,
+  "concurrency": 1,
+  "temperature": 0.0,
+  "full_desc": false,
+  "enable_f1": [
+    0.6986953678586079,
+    0.0
+  ],
+  "enable_recall": [
+    0.7507174277335568,
+    0.0
+  ],
+  "seconds": [
+    16.715021817204203,
+    0.04066860130187539
+  ],
+  "n_pred": [
+    11.806451612903226,
+    0.0
+  ],
+  "per_run": [
+    {
+      "enable_f1": 0.6986953678586079,
+      "enable_recall": 0.7507174277335568,
+      "n_rows": 31,
+      "seconds": 16.753594724515946,
+      "n_pred": 11.806451612903226
+    },
+    {
+      "enable_f1": 0.6986953678586079,
+      "enable_recall": 0.7507174277335568,
+      "n_rows": 31,
+      "seconds": 16.672539819838587,
+      "n_pred": 11.806451612903226
+    },
+    {
+      "enable_f1": 0.6986953678586079,
+      "enable_recall": 0.7507174277335568,
+      "n_rows": 31,
+      "seconds": 16.718930907258077,
+      "n_pred": 11.806451612903226
+    }
+  ]
+}

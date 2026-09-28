@@ -12,21 +12,20 @@ Built as a GSoC project with EMBL-EBI. Runs against a local model via
 Given a scenario like *"I have somatic variants from a tumour-normal pair, mostly SNVs, and I
 want clinical interpretation on the coding hits"*, it:
 
-1. Reads the scenario into a **factor tuple** — five factors (species, origin, variant size,
-   region focus, analysis goal) whose values are the ones the priority table is keyed on.
+1. Reads the scenario into a **factor tuple**: five factors (species, origin, variant size,
+   region focus, analysis goal), plus the organism when the scenario names one.
 2. Resolves the tuple to a set of VEP options through a priority table
-   (`priority_by_factor.json`) built from documented Ensembl behaviour.
-3. Runs a **post-hoc constraint checker**: species restrictions, option conflicts, missing
-   dependencies auto-enabled, species-data files that don't exist for this species, the
-   Restrict-results family gated so nothing silently deletes rows from the output.
-4. States every assumption it made about a fact the query left unsaid — or, off `--no-ask`,
-   prompts for it.
-5. Emits the configuration in the language the web form uses (or a VEP command line, with
-   `--cli`).
+   (`priority_by_factor.json`).
+3. Runs a **constraint checker**: species and assembly restrictions, per-species data, option
+   conflicts, missing dependencies, and the Restrict-results gate.
+4. States every assumption it made about a fact the query left unsaid, or asks when the answer
+   would change what is recommended.
+5. Prints the configuration in the web form's own language (or a VEP command line, with `--cli`).
+6. If the scenario asks for only some genes or a class of consequences, which the input form
+   cannot restrict, it says how to filter the results page after the run.
 
-There are also two secondary modes: **explain a VEP output annotation**, and a **decision
-trace** that opens the classifier's factor tuple, the per-factor derivation for each priced
-option, and everything the checker changed on the way to the output.
+Two secondary modes: **explain a VEP output annotation**, and a **decision trace** (`--explain`)
+that shows why each option is where it is.
 
 ## Quick start
 
@@ -40,277 +39,259 @@ pip install -r requirements.txt
 python3 vep_ai_demo/vep_assistant.py "somatic tumour-normal, clinical interpretation on the coding hits"
 ```
 
-Only `openai` is required. Behind a
-proxy you need `NO_PROXY=localhost,127.0.0.1`, or every Ollama call returns 502.
+Only `openai` is required. Behind a proxy you need `NO_PROXY=localhost,127.0.0.1`, or every
+Ollama call returns 502.
 
-**The full flag and environment reference is in [`vep_ai_demo/README.md`](vep_ai_demo/README.md).**
-The sections below show what the tool does rather than listing every switch.
+**The full flag and environment reference is in [`vep_ai_demo/README.md`](vep_ai_demo/README.md)**,
+and `python3 vep_ai_demo/vep_assistant.py --help` prints it.
 
 ## Usage
 
 ### Recommend a configuration
 
 ```bash
-python vep_ai_demo/vep_assistant.py "somatic tumour-normal, want clinical interpretation on the coding hits"
+python3 vep_ai_demo/vep_assistant.py "somatic tumour-normal, want clinical interpretation on the coding hits"
 ```
 
 Runs interactively if you omit the scenario.
 
-**What comes back.** A short *Detected scenario* block (the five factor values, with `?` where
-the query left one open and the assumed value), any *NOT AVAILABLE FOR THIS SPECIES* line,
-then the configuration in the web form's own language, split into **RECOMMENDED** and
-**OPTIONAL**, plus **ALREADY ON** (the options the form ships ticked, named once so you know
-they are in effect). Species-aware: the *ALREADY ON* list on a mouse run does not claim SIFT
-is enabled by default when it is human-only.
+**What comes back.** Any assumptions (`Assumed region_focus = …`), a *Detected scenario* block
+with the five factor values, the organism for a non-human run and the assembly for a human one (each
+with where it came from), any *NOT AVAILABLE FOR THIS SPECIES* lines, then the configuration
+in the web form's language: **RECOMMENDED**, **OPTIONAL** add-ons, and **ALREADY ON** (options
+the form ships ticked, named once so you know they are in effect). ALREADY ON is species-aware:
+the form's human-only defaults (APPRIS, TSL, MANE, ClinVar, PubMed, 1000 Genomes AF) are not
+listed on a non-human run.
 
-Two variant sizes in one callset (a WGS run with both small variants and SVs) emit **two
-configurations, one per size**, because the web form cannot express both at once.
+A callset with both small variants and SVs gets **two configurations, one per size**, because
+the web form cannot express both at once.
+
+A scenario that asks for named genes (checked against HGNC's approved symbols) or for
+loss-of-function consequences ends with a note on the results page's filters, because the
+input form annotates every variant.
 
 ### Depth
 
 | Flag | Meaning |
 |---|---|
-| *(none)* | standard: RECOMMENDED plus the OPTIONAL add-ons the scenario justifies |
-| `--minimal` | the smallest runnable set (dependencies kept) |
+| *(none)* | RECOMMENDED plus the OPTIONAL add-ons the scenario justifies |
+| `--minimal` | only the options you must tick; add-ons hidden |
 | `--full` | switch on every add-on the scenario justifies |
 
 ### Decision trace
 
 ```bash
-python vep_ai_demo/vep_assistant.py --explain "germline exome from a rare-disease patient"
+python3 vep_ai_demo/vep_assistant.py --explain "germline exome from a rare-disease patient"
 ```
 
-Prints, before the configuration:
-- the factor tuple the classifier read from the scenario;
-- Layer 2 — the per-factor derivation for every priced option: which factor value raised it,
-  who else voted, and which gate (if any) would have removed it;
-- what the checker did to the resolved set: species-restriction and species-data drops,
-  conflict-edge resolutions, Restrict-results values vetoed, dependencies auto-enabled, and
-  every RECOMMENDED option the resolver placed (this is the whole configuration).
+Before the configuration it prints the factor tuple and, for every option, which factor value
+raised it, what else voted, and which gate removed it. In the configuration each option carries
+a "because …" line and Ensembl's own description of it. After the configuration, *HOW THIS WAS
+CORRECTED* lists what the checker changed.
 
-### What to do when the question does not say
-
-Every run either states an assumption or asks. The default is *ask*, off `stdin`-tty; it falls
-through to the stated assumption in a pipe, so scripts never hang.
+### When the question does not say
 
 | Flag | Meaning |
 |---|---|
-| *(none)* | ask if the answer changes the RECOMMENDED set; state it otherwise |
-| `--no-ask` | never prompt; state every assumption |
-| `--quiet` | apply the assumptions with no disclosure line (scripts / batch runs) |
+| *(none)* | ask when the answer would change the RECOMMENDED set; otherwise assume it and say so. Needs a terminal; in a pipe it assumes and says so |
+| `--no-ask` | never ask; state every assumption |
+| `--quiet` | never ask and print no assumption lines |
 
 ### State a fact instead of inferring it
 
 ```bash
-python vep_ai_demo/vep_assistant.py --origin somatic --assembly GRCh37 "tumour-normal SNVs, coding, clinical interpretation"
+python3 vep_ai_demo/vep_assistant.py --origin somatic --assembly GRCh37 "tumour-normal SNVs, coding, clinical interpretation"
 ```
-
-Available flags and their allowed values:
 
 | Flag | Values |
 |---|---|
-| `--species` | `human` \| `non-human` (the binary factor; the actual organism goes in the query text) |
+| `--species` | `human` \| `non-human` (the organism itself goes in the query text) |
 | `--origin` | `germline` \| `somatic` |
 | `--size` | `small` \| `structural-CNV` \| `both` \| `small+structural-CNV` |
-| `--assembly` | `GRCh37` \| `GRCh38` (aliases `hg19` / `hg38` also accepted; human only) |
+| `--assembly` | `GRCh37` \| `GRCh38` (`hg19` / `hg38` accepted; human only) |
 
-Anything you state here beats the classifier and skips the corresponding question. `GRCh38`
-is assumed for human when no assembly is stated. A typo is rejected with the list above
-rather than silently ignored.
+A stated fact beats the classifier and skips the question. GRCh38 is assumed for human when no
+assembly is stated, or when the text names both builds ("lifted over from hg19 to GRCh38"); the
+output says so. A value outside this list is rejected with the list.
 
 ### Explain a VEP output annotation
 
 ```bash
-python vep_ai_demo/vep_assistant.py explain-result "why is my variant annotated splice_donor_variant?"
+python3 vep_ai_demo/vep_assistant.py explain-result "why is my variant annotated splice_donor_variant?"
 ```
 
-Uses the 41 consequence terms in `vep_consequences.json` (SO definitions).
+Uses the 41 consequence terms in `vep_consequences.json`.
 
 ### Other flags
 
-`--cli` appends the equivalent VEP command line, `--minimal` and `--full` change how many add-ons
-are shown, and `--no-factor-think` trades accuracy on misleading wording for speed (~0.9 s a query
-against ~4 s). Classifier reasoning is **on** by default since 2026-09-20.
-
-`--think`, `--semantic` and `--no-check` were removed on 2026-09-16; passing one prints why and
-exits 2. Full reference: [`vep_ai_demo/README.md`](vep_ai_demo/README.md).
+`--cli` appends the equivalent VEP command line. `--no-factor-think` makes the classifier answer
+without reasoning first: about 0.9 s a query instead of about 4 s, and weaker on misleading
+wording. `--two-pass` runs the retired draft call (see *Legacy* below).
 
 ## How it works
 
-**One model call.** 
-1. A factor classifier reads the scenario into the five factor values at
-~1.2 s on the 26b local model on M5 Max.  
-2. Everything after that is deterministic and uses negligible time: the priority table
-resolves the tuple to a set of options, and the checker enforces species restrictions,
-species-data files, dependencies, conflicts and the Restrict-results gate. The checker is
-the primary constructor here — it is not repairing model output, because there is none.
+**One model call.** The classifier reads the scenario into the five factor values and the
+organism: about 4 s with reasoning on (the default) on `gemma4:26b`, M5 Max. The organism name
+is checked against Ensembl's 356-species list (`species_index.json`), matching whole words, so the
+model cannot invent one and "guinea-pig" is not read as pig. Genomes of one Ensembl taxon count as
+one species (a dog breed is dog; a dingo is not). If the model call fails, the tool says so and
+exits 1; it never prints a configuration it did not read. Everything after that is deterministic: the priority table resolves the tuple, and the
+checker builds the configuration. There is no model-written draft to repair.
 
-The constraint checker enforces:
+The checker enforces:
 
-- **Species restrictions** — human-only options are removed for non-human species by the
-  priority table.
-- **Species data** — SIFT and frequency files are checked per species and named when missing.
-  CCDS and variant synonyms are removed for all non-human species, even where Ensembl has
-  them.
-- **Restrict results** — four of the five options are never offered; `most_severe` remains an
-  add-on for basic questions.
-- **Dependencies** — a missing prerequisite is auto-enabled and recorded.
-- **Conflicts** — declared conflict edges drop one side and say which.
+- **Species.** Human-only options are not applicable to a non-human run. Plugins follow
+  Ensembl's own per-plugin species lists (VEP_plugins release/116 `plugin_config.txt`), checked
+  against the organism named. SIFT data exists for 12 species, per-species frequency files for
+  chicken, dog, goat and sheep; each is checked against the organism and named when missing.
+  The CADD annotation file offered depends on the organism: three of CADD's four files are human
+  only. Variant synonyms is removed for every non-human run, including pig, where Ensembl has it.
+- **Assembly.** Options whose data exists for one build only are dropped when the other build
+  is stated: MANE, TSL, APPRIS, EVE, MaveDB, gnomAD SV and six further plugins are GRCh38 only,
+  Geno2MP GRCh37 only.
+- **Restrict results.** `pick`, `pick_allele`, `per_gene` and `summary` are never offered;
+  `most_severe` is an add-on for basic-consequence questions.
+- **Dependencies.** A missing prerequisite is switched on and recorded.
+- **Conflicts.** Conflict edges come from the "Incompatible with" column of Ensembl's options
+  page and from the one Restrict-results drop-down; one side is dropped and the output says which.
+- **Add-ons.** An add-on is offered only if the organism and the stated build can use it.
 
 ## Choice of model
 
-The model's only job is to read the question into five factor values, returned as a small
-JSON object with reasoning off. `gemma4:26b` is the default: on the 31 review scenarios it
-scores 0.898 end-to-end F1 against 4b's 0.874. The
-smaller model is not practically faster since 26b is very fast anyway, and its errors fall mostly on variant size, which decides
-whether whole groups of options are switched off. `e4b` is a workable fallback on a machine
-with less than about 20 GB of free memory; set `VEP_MODEL` to use it.
-
+The model's only job is to read the question into the factor values and the organism, returned
+as a small JSON object. `gemma4:26b` is the default and the model every figure below was
+measured with. `gemma4:e4b` fits on a machine with less than about 20 GB of free memory; set
+`VEP_MODEL` to use it.
 
 ## Project structure
 
-This repository has two halves: the tool, and the evidence for it.
-
 ```
-vep_ai_demo/             # THE TOOL — everything needed to run it
-  vep_assistant.py       #   the engine: classifier -> resolver -> checker -> output
-  vep_options.json       #   the 68-option catalogue
-  factors.json           #   the factor scheme (values, hard gates, exclusions)
-  priority_by_factor.json#   the priority table the resolver reads
-  vep_consequences.json  #   41 VEP consequence terms (SO definitions)
-  legacy/                #   NOT USED BY THE TOOL — the stage-B benchmark and its 23
-                         #   Claude-written examples. See vep_ai_demo/legacy/README.md
-  requirements.txt       #   openai
+vep_ai_demo/             THE TOOL: reads only this folder, so it runs on its own
+  vep_assistant.py         the engine: classifier -> resolver -> checker -> output
+  vep_options.json         the 67-option catalogue; each fact's source in its `provenance`
+  factors.json             the factor scheme (values, hard gates, exclusions)
+  priority_by_factor.json  the priority table the resolver reads
+  species_index.json       Ensembl's species names, and which genomes are one species (by taxon)
+  hgnc_symbols.json        HGNC approved gene symbols, for the results-filter note
+  vep_consequences.json    41 VEP consequence terms, for explain-result
+  ensembl_docs/            Ensembl's options and plugins pages, parsed, for --explain
+  legacy/                  NOT USED BY THE DEFAULT PATH: the retired two-pass code and its
+                           23 Claude-written examples. See vep_ai_demo/legacy/README.md
 
-work/                    # THE EVIDENCE — how the tool was built and how it is checked
-  harness/               #   test scripts, grouped by what each one is:
-                         #     suites/  run every session, pass/fail, no GPU
-                         #     build/   regenerate a data file from an Ensembl source
-                         #     exp/     experiments whose results are still quoted
-                         #     done/    finished; kept as the reproduction record
-                         #   harness/README.md maps every script to its project stage.
-  generation/            #   the pipeline that produced the 31 review scenarios,
-                         #     plus verify_pipeline.py (79 invariants)
-  research/              #   design rationale: the taxonomy, the option dossiers
-  results/               #   a curated subset of measurement output
+evidence/                THE EVIDENCE
+  current_evidence/        today's measurements of the tool: start with its README
+  legacy_decisions/        why the tool is built this way; each decision and what backed it
+  legacy_superseded/       what was replaced, and the former names of files
+tests/                   pass/fail checks, no model, seconds; in CI
+data/                    the 31 review scenarios, the 78 missing-fact rewrites, the priority table's
+                         notes, and build/, which writes the engine's data files from their sources
+pipeline/                the generation pipeline that produced the 31 review scenarios
+reference/               Ensembl's own pages and source files the catalogue is built from
+docs/                    the experiment ledger (EXPERIMENTS.md) and design proposals (research/)
 ```
 
-Design rationale, deterministic invariant harnesses (79 checks, no GPU), the full option
-dossier and the generation pipeline live one level up in `work/`; see `work/README.md`.
+`vep_ai_demo/` holds the only copy of every data file the engine reads. Some documents cite the
+project's mentor correspondence and review sheets; those are kept in the private working repository.
 
 ## Knowledge base
 
-**68 VEP options**, from the release/115 `public-plugins` source reconciled against the
-release-116 documentation pages, with `species_restriction`, dependencies, conflicts and the
-factor-keyed priorities the resolver reads.
+**67 VEP options**, as the release-116 web form offers them. Names and descriptions are
+Ensembl's own words for 65 of them (the other two, `clinvar` and `species_frequency`, are our
+groupings of controls the form offers indirectly). Every option's `provenance` records the file
+and line each fact came from: the form code (`InputForm.pm`, `Object_VEP.pm`), the plugin
+config, and the options, plugins and form pages. The on/off defaults were checked against the
+form code for every option.
 
-**What the shipped path uses.** The five factor values from the classifier, and nothing else.
-They index the priority table; the checker then applies conflicts, gates and dependencies,
-ranking a conflict by the priority the FACTOR RESOLUTION gives each option. The 23 examples in
-`vep_ai_demo/legacy/training_examples.json` play no part — only `--two-pass` reads them.
+**What the default path uses.** The five factor values and the organism from the classifier,
+and nothing else. They index the priority table; the checker then applies gates, conflicts and
+dependencies, ranking a conflict by the priority the factor resolution gives each option. The 23
+examples in `vep_ai_demo/legacy/training_examples.json` play no part; only `--two-pass` reads them.
 
-**OUTDATED, measuring. Evaluation scenarios.** The pipeline is scored on the **31 candidate scenarios** in
-`work/generation/candidates/iced.json`, generated and ICE-screened by the pipeline in
-`work/generation/` and reviewed by the Ensembl mentors. Every current number under
-*Known limitations* comes from that set.
+**Evaluation scenarios.** The **31 review scenarios** in `data/iced.json` were generated and
+screened by the pipeline in `pipeline/` and reviewed by the Ensembl mentors.
 
-The five factors are:
+The five factors:
 
 | Factor | Values | Kind |
 |---|---|---|
-| `species` | human · non-human | data fact, hard gate |
-| `origin` | germline · somatic | data fact (one rule: `somatic` switches off the frequency pre-filter) |
-| `variant_size_class` | small · structural-CNV (multi-select) | data fact, hard gate |
-| `region_focus` | coding · regulatory-noncoding (multi-select) | intent, hard gate |
-| `analysis_goal` | basic-consequence · clinical-interpretation · population-frequency (multi-select) | intent |
+| `species` | human · non-human | hard gate |
+| `origin` | germline · somatic | hard gate (`somatic` switches off the frequency pre-filter) |
+| `variant_size_class` | small · structural-CNV (multi-select) | hard gate |
+| `region_focus` | coding · regulatory-noncoding (multi-select) | hard gate |
+| `analysis_goal` | basic-consequence · clinical-interpretation · population-frequency (multi-select) | priorities only |
 
-The old single-label use-case scheme (rare-disease-germline / somatic-cancer / …) was
-retired from the priority table in September 2026: a mouse somatic SV is somatic **and**
-structural **and** non-human at once, and forcing it into one bucket picks the wrong
-priorities. See `work/research/taxonomy_proposal.md`. It survives only as the labels on
-`training_examples.json` and in `vep_ai_demo/legacy/`; it decides nothing. The checker's
-conflict tie-break stopped reading it on 2026-09-13 and now ranks on the factor resolution.
-
+The earlier single-label use-case scheme (rare-disease-germline / somatic-cancer / …) was
+retired in September 2026: a mouse somatic SV is somatic **and** structural **and** non-human
+at once, and one bucket picks the wrong priorities. See `docs/research/taxonomy_proposal.md`.
+It survives only as labels in `vep_ai_demo/legacy/` and decides nothing.
 
 ## Evaluation
 
-The shipped path is exercised by these. `work/harness/` is grouped by what each script is —
-`suites/` run every session, `build/` regenerate a data file, `exp/` are live experiments,
-`done/` are finished ones kept as the reproduction record. `work/harness/README.md` lists all
-of them with the project stage each belongs to.
+**[`evidence/current_evidence/README.md`](evidence/current_evidence/README.md)** has every figure,
+the question behind it, how it is scored, where it fails, and the file it comes from. In short
+(`gemma4:26b`, temperature 0, reasoning on unless marked):
 
-- `work/harness/exp/factor_accuracy.py` — the classifier's five factors on the 31 review scenarios.
-- `work/harness/exp/factor_grid.py` — the 600-query stress grid (species, origin, size, region, goal).
-- `work/harness/exp/organism_naming.py` — does it name the organism, and agree with itself (121 × 2).
-- `work/generation/verify_pipeline.py` — the 79 deterministic invariant checks (no GPU, seconds).
-- `work/harness/suites/` — `defaults_evidence.py` (28), `test_user_context.py` (15), `ask_rate.py`.
+| experiment | reasoning on | reasoning off |
+|---|---|---|
+| 150 tricky cases: all four versions of a case read right | 143/150 (three repeats: 141, 142, 142) | 135/150 |
+| …of which the misreads leave the RECOMMENDED options unchanged | 148/150 | |
+| 31 review scenarios: same RECOMMENDED options as from the true factors | 29/31 | 30/31 |
+| 754 organism names in Ensembl's index, named right (plain / with a decoy) | 746 / 749 | 746 / 744 |
+| 78 scenarios with one fact removed: assumed and disclosed | 73/78 (repeats: 72 each) | 72/78 |
 
-Recent numbers from `work/results/final_2026-09-15/`: factor accuracy across 3 seeds
-(species 31/31 rule-based, exact tuple 21/31, e2e F1 0.970 ± 0.000), 78-row fallback
-end-to-end (76/78 disclosed), class-weighted F1 that prices errors by their documented effect
-on the VEP output. A curated subset of `work/results/` is published here, so a clone has those
-files; the rest is regenerated by running the harnesses. Those runs had `VEP_SPECIES_HINT=1` on
-and predate the species hint being retired, prompt v2, the `organism` field and Ensembl's
-per-plugin species lists — treat them as superseded rather than current.
+At temperature 0 the seed does not change the answer; the repeats measure run-to-run variation from
+parallel requests. The 31-scenario figures score against the tool's own priority table, so they
+measure how much a misread moves the output, not whether the table is right.
 
+`tests/` runs without a model, in seconds, and in CI:
 
-`vep_ai_demo/legacy/evaluate.py` is the **stage-B** benchmark: it scores the two-pass draft
-recommender's text on 8 hardcoded test queries, weighted by the retired use-case snapshot
-kept in `work/harness/legacy/`. It never exercises the shipped one-call path, and its headline
-metric is undefined on it. Kept only as a record — see `vep_ai_demo/legacy/README.md`.
+```bash
+python3 tests/verify_pipeline.py      # 79 invariants
+python3 tests/test_user_context.py    # 15: a stated fact beats the classifier
+python3 tests/defaults_evidence.py    # 28: every assumed value still matches its evidence
+python3 tests/result_filter_note.py   # 37: the gene and loss-of-function note
+python3 tests/engine_regressions.py   # 52: the engine defects found in the final audit stay fixed
+python3 tests/species_by_organism.py  # no option shown to an organism it is not listed for (355 organisms)
+python3 tests/ask_rate.py             # how often the tool asks: 12 of 78
+```
 
-**factor-value inference eval**
-Reasoning on results produced correct inference 148/150, and the non correct cases did not result in config change(one is clincial and basic whereas the correct config is basic, but basic is just a subset of that, second is clinical + pop frequency rather than the correct one being clinical only, one extra optional but nothing changes recommended)
-Reasoning off 138/150 correct, fail to grasp species sometimes.
-work/results/factor_grid_natural_shipped_v2prompt.json (new prompt, reasoning off)
-work/results/factor_grid_natural_think_v2prompt.json (new prompt, reasoning on)
+`vep_ai_demo/legacy/evaluate.py` is the retired two-pass benchmark. It never exercises the
+default path and is kept only as a record; see `vep_ai_demo/legacy/README.md`.
 
 ## Known limitations
 
-**Priorities are provisional.** The five-factor priority table is not mentor-signed yet;
-every reported number is directional until it is. The priorities are authored in `DRIVES`
-inside `vep_assistant.py` plus the per-option blocks in the catalogue, and derived at load
-time. `priority_by_factor.json` on disk is a signed-off override that wins when present — the
-route for a reviewed table is to drop it in; edit the JSON alone and the next
-`seed_priorities.py` run overwrites it, and a demotion made in `DRIVES` does nothing until
-the JSON is regenerated.
+**Priorities are provisional.** The priority table is not mentor-signed yet, so every figure is
+directional until it is. `priority_by_factor.json` is the single authored source; nothing
+derives it.
 
-**Enable-F1 on the shipped path is undefined.** The classical enable-F1 metric scored a
-model-written draft configuration that the current path no longer produces (see *Legacy*
-below). The class-weighted F1 in `work/harness/class_weighted_f1.py` is the current
-figure — 0.900 as last measured, with `VEP_SPECIES_HINT=1` on and not yet re-run since it was
-switched off by default. The weights are ours, not a mentor's.
+**An unstated goal is sometimes filled in.** With reasoning on, the classifier occasionally
+answers `basic-consequence` for a query that states no goal ("Show me variants affecting BRCA1,
+BRCA2"), so the tool assumes the goal without asking. The configuration is the same as the
+fallback it would otherwise use.
+
+**Three species decisions disagree with the rendered release-116 form** and wait on the mentors:
+the per-species frequency option is recommended for chicken and sheep, but the form shows no such
+control for them; CADD is offered to the broiler chicken genome, but Ensembl lists it only for Red
+Jungle fowl; Variant synonyms is never offered to pig, but the form has it.
+
+**Gene lists and consequence classes cannot be set on the input form.** The tool does not
+restrict the configuration by gene or by consequence; it prints how to filter the results
+page instead.
+
+**Enable-F1 is undefined on the default path.** It scored a model-written draft that the
+default path no longer produces.
 
 ---
 
 ## Legacy: the two-pass path (`--two-pass`)
 
-Before September 2026 the default path was **two calls**: the factor classifier, then a
-second model call — the **recommender** — that drafted the configuration prose. The checker
-then rebuilt the RECOMMENDED set from the factor tuple whatever the draft said, so on the 31
-measured scenarios single-pass and two-pass produce the same set at the option level. What
-the draft still contributed was the per-option prose that `--explain` printed, and a handful
-of extra options it proposed that the priority table prices for nothing (a class the checker
-had to tag and cap). At ~18 s per query on the 26b local model (against ~1.2 s for
-single-pass) it is now off by default.
+Before September 2026 the default path made **two calls**: the classifier, then a second model
+call that drafted the configuration. The checker rebuilt the RECOMMENDED set from the factor
+tuple whatever the draft said, so on the 31 scenarios single-pass and two-pass produce the same
+set. The draft call took about 18 s a query, and the default path now skips it. The code lives
+in `vep_ai_demo/legacy/two_pass.py` and runs with `--two-pass`.
 
-The two-pass path is still runnable for comparison work:
-
-`--two-pass` runs the draft-recommender call as well. `--think`, which turned on the
-recommender's reasoning under that path, was removed on 2026-09-16 along with `--semantic` and
-`--no-check`: all three acted only on the draft call, which the single-pass default never makes.
-Passing one now prints why and exits 2.
-
-`enable-F1 = 88.0% ± 0.2` (2026-09-04, L4) stands as the last two-pass figure. The four-arm
-ablation in `work/results/final_2026-09-15/` compares single-pass against three two-pass
-variants (each with a different in-context example corpus) and finds single-pass ahead of
-every two-pass arm on plain and class-weighted F1 — which is why example retrieval was
-dropped from the shipped pipeline.
-
-Two caveats that apply to this path and to `vep_ai_demo/legacy/evaluate.py`, not to the shipped classifier:
-
-- **Value field is ignored in scoring.** Getting `gnomad_af: "gnomAD exome"` right vs
-  `gnomAD genome` counts as the same enable.
-- **Response parsing is line-level.** A line mixing "enable X" and "disable Y" ranks the
-  first matching context. In practice the draft uses one line per option, so this rarely
-  fires. Citations are counted only in `[source: ...]` form.
+On the 2026-09-23 four-arm ablation, single-pass scores plain F1 0.940 against 0.932, 0.918 and
+0.916 for three two-pass variants (each with a different in-context example corpus). On
+class-weighted F1 it scores 0.962; the best two-pass variant scores 0.965 and the other two 0.912
+and 0.906. Single-pass is kept because it makes one call instead of two for that result.

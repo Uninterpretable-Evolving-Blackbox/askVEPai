@@ -1,0 +1,89 @@
+{
+ "run": "Colab L4 / CUDA, Ensembl 116, gemma4:26b, 2026-09-04",
+ "protocol": "--gold live --think off --temperature 0 --concurrency 1, seeds 42/43/44",
+ "arms": {
+  "inferred": {
+   "enable_f1": [
+    0.8799746841720603,
+    0.0017733772992021932
+   ],
+   "enable_f1_sd": null,
+   "enable_recall": [
+    0.8966595033799335,
+    0.0006897852678490431
+   ],
+   "enable_recall_sd": null,
+   "seconds_per_query": null,
+   "options_proposed": null,
+   "rows": 31,
+   "runs": 3,
+   "seeds": [
+    42,
+    43,
+    44
+   ],
+   "gold": "live",
+   "factors": "inferred",
+   "gold_drift_rows": 31
+  },
+  "none": {
+   "enable_f1": [
+    0.6986953678586079,
+    0.0
+   ],
+   "enable_f1_sd": null,
+   "enable_recall": [
+    0.7507174277335568,
+    0.0
+   ],
+   "enable_recall_sd": null,
+   "seconds_per_query": null,
+   "options_proposed": null,
+   "rows": 31,
+   "runs": 3,
+   "seeds": [
+    42,
+    43,
+    44
+   ],
+   "gold": "live",
+   "factors": "none",
+   "gold_drift_rows": 31
+  },
+  "oracle": {
+   "enable_f1": [
+    0.8904128953606568,
+    0.0
+   ],
+   "enable_f1_sd": null,
+   "enable_recall": [
+    0.8932943102297941,
+    0.0
+   ],
+   "enable_recall_sd": null,
+   "seconds_per_query": null,
+   "options_proposed": null,
+   "rows": 31,
+   "runs": 3,
+   "seeds": [
+    42,
+    43,
+    44
+   ],
+   "gold": "live",
+   "factors": "oracle",
+   "gold_drift_rows": 31
+  }
+ },
+ "completed": [
+  "enable-F1 inferred",
+  "enable-F1 none",
+  "enable-F1 oracle"
+ ],
+ "not_run": [
+  "attribution combined think=low",
+  "attribution examples think=low",
+  "attribution 6b on real_testset_8"
+ ],
+ "blocked_by": "cloudflared tunnel returned HTTP 530 at ~17:52; needs a fresh URL"
+}

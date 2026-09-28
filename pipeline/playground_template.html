@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask VEPai — Factor Explorer</title>
+<style>
+  :root {
+    --bg:#f6f7f9; --surface:#ffffff; --surface-2:#eceff3; --border:#dce1e8;
+    --text:#19212e; --dim:#586475; --faint:#8b95a5;
+    --accent:#0d7d89; --accent-ink:#0a5c66; --accent-soft:#e0eff0;
+    --critical:#c1364d; --critical-soft:#fae9ec;
+    --recommend:#0d7d89; --recommend-soft:#e0eff0;
+    --optional:#6a7789; --optional-soft:#eef1f5;
+    --warn:#a96a12; --warn-soft:#f8efdb;
+    --add:#1f8a5b; --remove:#c1364d;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    --ui:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --r:9px; --shadow:0 1px 2px rgba(20,30,45,.05),0 6px 20px rgba(20,30,45,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0f141b; --surface:#161d27; --surface-2:#1d2531; --border:#29323f;
+      --text:#e7ecf3; --dim:#9aa7b8; --faint:#6c7889;
+      --accent:#33b0bd; --accent-ink:#8fd8df; --accent-soft:#123037;
+      --critical:#e56b81; --critical-soft:#2e1820;
+      --recommend:#33b0bd; --recommend-soft:#123037;
+      --optional:#8592a4; --optional-soft:#1b232e;
+      --warn:#d69a43; --warn-soft:#2b2312;
+      --add:#4bbd85; --remove:#e56b81;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f141b; --surface:#161d27; --surface-2:#1d2531; --border:#29323f;
+    --text:#e7ecf3; --dim:#9aa7b8; --faint:#6c7889;
+    --accent:#33b0bd; --accent-ink:#8fd8df; --accent-soft:#123037;
+    --critical:#e56b81; --critical-soft:#2e1820;
+    --recommend:#33b0bd; --recommend-soft:#123037;
+    --optional:#8592a4; --optional-soft:#1b232e;
+    --warn:#d69a43; --warn-soft:#2b2312;
+    --add:#4bbd85; --remove:#e56b81;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+  }
+  :root[data-theme="light"]{
+    --bg:#f6f7f9; --surface:#ffffff; --surface-2:#eceff3; --border:#dce1e8;
+    --text:#19212e; --dim:#586475; --faint:#8b95a5;
+    --accent:#0d7d89; --accent-ink:#0a5c66; --accent-soft:#e0eff0;
+    --critical:#c1364d; --critical-soft:#fae9ec;
+    --recommend:#0d7d89; --recommend-soft:#e0eff0;
+    --optional:#6a7789; --optional-soft:#eef1f5;
+    --warn:#a96a12; --warn-soft:#f8efdb;
+    --add:#1f8a5b; --remove:#c1364d;
+    --shadow:0 1px 2px rgba(20,30,45,.05),0 6px 20px rgba(20,30,45,.05);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--ui);
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;padding:0 0 4rem}
+  a{color:var(--accent)}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 clamp(14px,3vw,28px)}
+
+  header.top{padding:26px 0 18px;border-bottom:1px solid var(--border);margin-bottom:22px}
+  .brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  h1{font-size:clamp(20px,2.6vw,26px);margin:0;font-weight:650;letter-spacing:-.01em}
+  .brand .sub{color:var(--dim);font-size:14px}
+  .tagline{color:var(--dim);margin:8px 0 0;max-width:70ch;font-size:14px}
+  .badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+  .pill{font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;font-weight:600;
+    padding:3px 9px;border-radius:100px;border:1px solid var(--border);color:var(--dim);background:var(--surface)}
+  .pill.prov{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 35%,var(--border));background:var(--warn-soft)}
+  .theme-btn{margin-left:auto;font-family:var(--ui);font-size:12.5px;color:var(--dim);background:var(--surface);
+    border:1px solid var(--border);border-radius:100px;padding:5px 12px;cursor:pointer}
+  .theme-btn:hover{color:var(--text);border-color:var(--faint)}
+
+  .grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:26px;align-items:start}
+  @media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+  #readout{min-width:0}
+
+  /* ---- controls ---- */
+  .panel{position:sticky;top:14px}
+  @media (max-width:820px){.panel{position:static}}
+  .fgroup{margin-bottom:18px}
+  .flabel{display:flex;align-items:center;gap:7px;margin:0 0 7px;
+    font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:650;color:var(--dim)}
+  .flabel .gate{font-size:9.5px;letter-spacing:.04em;padding:1px 6px;border-radius:4px;
+    background:var(--critical-soft);color:var(--critical);font-weight:700;border:1px solid color-mix(in srgb,var(--critical) 25%,transparent)}
+  .flabel .kind{margin-left:auto;font-weight:500;text-transform:none;letter-spacing:0;color:var(--faint);font-size:11px}
+  .seg{display:flex;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:3px;gap:3px}
+  .seg button{flex:1;font-family:var(--ui);font-size:13px;font-weight:550;color:var(--dim);
+    background:transparent;border:0;border-radius:6px;padding:7px 6px;cursor:pointer;transition:background .12s,color .12s}
+  .seg button:hover{color:var(--text)}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#fff;box-shadow:var(--shadow)}
+  :root[data-theme="dark"] .seg button[aria-pressed="true"]{color:#08181b}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#08181b}}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{font-family:var(--ui);font-size:12.5px;font-weight:550;color:var(--dim);background:var(--surface);
+    border:1px solid var(--border);border-radius:100px;padding:6px 12px;cursor:pointer;transition:all .12s}
+  .chip:hover{border-color:var(--faint);color:var(--text)}
+  .chip[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-ink);
+    border-color:color-mix(in srgb,var(--accent) 45%,transparent);font-weight:600}
+  .presets{margin-top:22px;border-top:1px solid var(--border);padding-top:16px}
+  .presets .flabel{margin-bottom:9px}
+  .preset{display:block;width:100%;text-align:left;font-family:var(--ui);font-size:12.5px;color:var(--text);
+    background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 11px;margin-bottom:7px;cursor:pointer}
+  .preset:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .preset small{display:block;color:var(--faint);font-size:11px;margin-top:1px}
+  button:focus-visible,.chip:focus-visible,.preset:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  /* ---- readout ---- */
+  .scenario{font-size:15px;color:var(--dim);margin:0 0 14px;line-height:1.55}
+  .scenario b{color:var(--text);font-weight:600}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+  .stat{flex:1;min-width:92px;background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--r);padding:11px 13px;box-shadow:var(--shadow)}
+  .stat .n{font-size:24px;font-weight:680;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);margin-top:1px}
+  .stat.c .n{color:var(--recommend)} .stat.a .n{color:var(--optional)} .stat.g .n{color:var(--faint)}
+
+  .banner{display:flex;gap:11px;background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 35%,var(--border));
+    border-radius:var(--r);padding:12px 14px;margin-bottom:18px}
+  .banner .ico{color:var(--warn);font-weight:800;font-size:16px;flex:none}
+  .banner .bt{font-weight:650;color:var(--warn);font-size:13.5px}
+  .banner .bd{color:var(--dim);font-size:13px;margin-top:2px}
+
+  .sect{margin-bottom:20px}
+  .sect-h{display:flex;align-items:center;gap:9px;margin:0 0 10px}
+  .sect-h .t{font-size:12px;text-transform:uppercase;letter-spacing:.055em;font-weight:700}
+  .sect-h .dot{width:8px;height:8px;border-radius:2px;flex:none}
+  .sect-h .cnt{color:var(--faint);font-size:12px;font-variant-numeric:tabular-nums}
+  .sect-h .hint{margin-left:auto;color:var(--faint);font-size:12px;font-weight:400;text-transform:none;letter-spacing:0}
+  .dot.crit{background:var(--critical)} .dot.rec{background:var(--recommend)} .dot.opt{background:var(--optional)}
+
+  .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+  .opt{position:relative;background:var(--surface);border:1px solid var(--border);border-left-width:3px;
+    border-radius:8px;padding:9px 11px;box-shadow:var(--shadow);cursor:default;transition:border-color .15s}
+  .opt.crit{border-left-color:var(--critical)} .opt.rec{border-left-color:var(--recommend)} .opt.opt{border-left-color:var(--optional)}
+  .opt .id{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--text);word-break:break-word}
+  .opt .nm{font-size:11.5px;color:var(--dim);margin-top:1px;line-height:1.35}
+  .opt .fl{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:5px;word-break:break-all}
+  .opt.flash-add{animation:fadeAdd 1.4s ease-out}
+  @keyframes fadeAdd{0%{background:var(--add);border-color:var(--add)}12%{background:color-mix(in srgb,var(--add) 22%,var(--surface))}100%{background:var(--surface)}}
+  @media (prefers-reduced-motion:reduce){.opt.flash-add{animation:none}}
+
+  .removed{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+  .removed .rm{font-family:var(--mono);font-size:11px;color:var(--remove);text-decoration:line-through;
+    text-decoration-color:color-mix(in srgb,var(--remove) 55%,transparent);opacity:.8}
+
+  details.gated{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:0;overflow:hidden}
+  details.gated>summary{cursor:pointer;padding:11px 14px;font-size:12.5px;color:var(--dim);list-style:none;
+    display:flex;align-items:center;gap:8px}
+  details.gated>summary::-webkit-details-marker{display:none}
+  details.gated>summary .chev{transition:transform .15s;color:var(--faint)}
+  details.gated[open]>summary .chev{transform:rotate(90deg)}
+  details.gated .body{padding:0 14px 13px;display:flex;flex-wrap:wrap;gap:6px}
+  .gtag{font-family:var(--mono);font-size:11px;color:var(--faint);background:var(--surface-2);
+    border:1px solid var(--border);border-radius:5px;padding:2px 7px;text-decoration:line-through;text-decoration-color:var(--border)}
+
+  .cmd{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow)}
+  .cmd-h{display:flex;align-items:center;gap:9px;padding:10px 13px;border-bottom:1px solid var(--border)}
+  .cmd-h .t{font-size:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:var(--dim)}
+  .cmd-copy{margin-left:auto;font-family:var(--ui);font-size:12px;color:var(--accent);background:transparent;
+    border:1px solid color-mix(in srgb,var(--accent) 40%,var(--border));border-radius:6px;padding:4px 11px;cursor:pointer}
+  .cmd-copy:hover{background:var(--accent-soft)}
+  .cmd pre{margin:0;padding:13px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--text)}
+  .cmd .fl{color:var(--accent-ink)}
+
+  .tip{position:fixed;z-index:50;max-width:320px;background:var(--text);color:var(--bg);
+    font-size:12.5px;line-height:1.5;padding:10px 12px;border-radius:8px;box-shadow:0 10px 34px rgba(0,0,0,.28);
+    pointer-events:none;opacity:0;transition:opacity .1s;transform:translateY(2px)}
+  .tip.on{opacity:1}
+  .tip .th{font-family:var(--mono);font-weight:700;font-size:12px;margin-bottom:4px}
+  .tip .prov{margin-top:6px;padding-top:6px;border-top:1px solid color-mix(in srgb,var(--bg) 25%,transparent)}
+  .tip .prov b{color:var(--bg)}
+  footer{color:var(--faint);font-size:12px;margin-top:30px;border-top:1px solid var(--border);padding-top:14px;line-height:1.6}
+  .empty{color:var(--faint);font-size:13px;font-style:italic;padding:4px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Ask VEPai · Factor Explorer</h1>
+      <span class="sub">variant scenario → recommended Ensembl VEP configuration</span>
+    </div>
+    <p class="tagline">Describe an analysis as five factors. The configuration is resolved <b>deterministically</b> —
+      no model, instant, identical every time — from the per-option priority table. Every one of the
+      <span id="ncombo"></span> combinations is precomputed, so this is a lookup, not a computation.</p>
+    <div class="badges">
+      <span class="pill" id="kbpill"></span>
+      <span class="pill prov">Provisional priorities · not yet mentor-validated</span>
+      <button class="theme-btn" id="themeBtn" type="button">◐ Theme</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <aside class="panel" id="controls"></aside>
+
+    <main id="readout">
+      <p class="scenario" id="scenario"></p>
+      <div class="stats" id="stats"></div>
+      <div id="banner"></div>
+      <div class="sect" id="sect-rec"></div>
+      <div class="sect" id="sect-opt"></div>
+      <div class="sect" id="sect-gated"></div>
+      <div class="sect"><div class="cmd" id="cmd"></div></div>
+    </main>
+  </div>
+
+  <footer>
+    Factual fields (flags, form sections, species/size restrictions) are source-grounded from the Ensembl
+    <code>public-plugins</code> web configuration (release/115). The <b>priorities</b> are not — VEP does not
+    rank its own options — so the recommended / add-on split is authored judgement pending mentor
+    sign-off. The predictor tiering follows ACMG PP3/BP4 (ClinGen SVI, Pejaver et al. 2022).
+  </footer>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script id="vep-data" type="application/json">__DATA__</script>
+<script>
+const DB = JSON.parse(document.getElementById('vep-data').textContent);
+const OPT = DB.options, CFG = DB.configs, MF = DB.meta.factors;
+document.getElementById('ncombo').textContent = DB.meta.n_combinations;
+document.getElementById('kbpill').textContent = DB.meta.kb_options + ' option catalogue';
+
+const LABELS = {
+  species:'Species', origin:'Origin', variant_size_class:'Variant size',
+  region_focus:'Region focus', analysis_goal:'Analysis goal'
+};
+const VLABEL = {
+  'human':'human','non-human':'non-human','germline':'germline','somatic':'somatic',
+  'small':'small (SNV/indel)','structural-CNV':'structural / CNV',
+  'coding':'coding','regulatory-noncoding':'regulatory / non-coding',
+  'basic-consequence':'basic consequence','clinical-interpretation':'clinical interpretation',
+  'population-frequency':'population frequency'
+};
+const ORDER = ['species','origin','variant_size_class','region_focus','analysis_goal'];
+
+// state
+const state = {
+  species:'human', origin:'germline', variant_size_class:'small',
+  region_focus:['coding'], analysis_goal:['clinical-interpretation']
+};
+let prevIds = new Set();
+
+function keyOf(s){
+  return [s.species,s.origin,s.variant_size_class,
+    [...s.region_focus].sort().join(','),[...s.analysis_goal].sort().join(',')].join('|');
+}
+
+// ---- build controls ----
+function buildControls(){
+  const host = document.getElementById('controls');
+  host.innerHTML = '';
+  for(const f of ORDER){
+    const m = MF[f];
+    const g = document.createElement('div'); g.className='fgroup';
+    const lab = document.createElement('div'); lab.className='flabel';
+    lab.innerHTML = `<span>${LABELS[f]}</span>` +
+      (m.gate?`<span class="gate" title="A hard gate: this factor can remove options entirely">gate</span>`:``) +
+      `<span class="kind">${m.select==='multi'?'choose one or more':'choose one'}</span>`;
+    g.appendChild(lab);
+    if(m.select==='single'){
+      const seg = document.createElement('div'); seg.className='seg';
+      for(const v of m.values){
+        const b=document.createElement('button'); b.type='button'; b.textContent=VLABEL[v]||v;
+        b.setAttribute('aria-pressed', state[f]===v);
+        b.onclick=()=>{ state[f]=v; render(); syncControls(); };
+        seg.appendChild(b);
+      }
+      g.appendChild(seg);
+    } else {
+      const wrap = document.createElement('div'); wrap.className='chips';
+      for(const v of m.values){
+        const b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=VLABEL[v]||v;
+        b.setAttribute('aria-pressed', state[f].includes(v));
+        b.onclick=()=>{ toggleMulti(f,v); render(); syncControls(); };
+        wrap.appendChild(b);
+      }
+      g.appendChild(wrap);
+    }
+    host.appendChild(g);
+  }
+  // presets
+  const pv = document.createElement('div'); pv.className='presets';
+  pv.innerHTML = `<div class="flabel"><span>Preset scenarios</span></div>`;
+  for(const p of PRESETS){
+    const b=document.createElement('button'); b.type='button'; b.className='preset';
+    b.innerHTML = `${p.name}<small>${p.note}</small>`;
+    b.onclick=()=>{ Object.assign(state, structuredClone(p.state)); prevIds=new Set(); render(); syncControls(); };
+    pv.appendChild(b);
+  }
+  host.appendChild(pv);
+}
+function toggleMulti(f,v){
+  const arr = state[f];
+  const i = arr.indexOf(v);
+  if(i>=0){ if(arr.length>1) arr.splice(i,1); }   // keep at least one
+  else arr.push(v);
+}
+function syncControls(){
+  document.querySelectorAll('#controls .fgroup').forEach((g,idx)=>{
+    const f = ORDER[idx];
+    g.querySelectorAll('.seg button').forEach(b=>{
+      b.setAttribute('aria-pressed', (VLABEL[state[f]]||state[f])===b.textContent);
+    });
+    g.querySelectorAll('.chip').forEach(b=>{
+      const v = Object.keys(VLABEL).find(k=>VLABEL[k]===b.textContent) || b.textContent;
+      b.setAttribute('aria-pressed', state[f].includes(v));
+    });
+  });
+}
+
+const PRESETS = [
+  {name:'Rare-disease exome', note:'human · germline · small · coding · clinical',
+   state:{species:'human',origin:'germline',variant_size_class:'small',region_focus:['coding'],analysis_goal:['clinical-interpretation']}},
+  {name:'Population cohort scan', note:'human · germline · small · coding · frequency',
+   state:{species:'human',origin:'germline',variant_size_class:'small',region_focus:['coding'],analysis_goal:['population-frequency']}},
+  {name:'Somatic structural variants', note:'human · somatic · SV · coding · clinical',
+   state:{species:'human',origin:'somatic',variant_size_class:'structural-CNV',region_focus:['coding'],analysis_goal:['clinical-interpretation']}},
+  {name:'Mouse regulatory study', note:'non-human · germline · small · regulatory · basic',
+   state:{species:'non-human',origin:'germline',variant_size_class:'small',region_focus:['regulatory-noncoding'],analysis_goal:['basic-consequence']}},
+  {name:'Unsatisfiable: mouse frequencies', note:'non-human · population-frequency — no source exists',
+   state:{species:'non-human',origin:'germline',variant_size_class:'small',region_focus:['coding'],analysis_goal:['population-frequency']}}
+];
+
+// ---- render readout ----
+function scenarioText(s){
+  const rf = s.region_focus.map(v=>VLABEL[v]).join(' + ');
+  const ag = s.analysis_goal.map(v=>VLABEL[v]).join(' + ');
+  return `<b>${VLABEL[s.species]}</b>, <b>${VLABEL[s.origin]}</b>, <b>${VLABEL[s.variant_size_class]}</b> variants — ` +
+         `focus on <b>${rf}</b>, for <b>${ag}</b>.`;
+}
+
+function optCard(o, tier, isNew){
+  const m = OPT[o.id] || {name:o.id, flag:'', desc:''};
+  const el = document.createElement('div');
+  el.className = `opt ${tier}` + (isNew?' flash-add':'');
+  el.innerHTML = `<div class="id">${o.id}</div><div class="nm">${m.name}</div>` +
+    (m.flag?`<div class="fl">${m.flag}</div>`:``);
+  el.onmouseenter = e=>showTip(e,o,m);
+  el.onmousemove = moveTip;
+  el.onmouseleave = hideTip;
+  return el;
+}
+
+function sectionRender(id, title, tier, items, hint){
+  const host = document.getElementById(id);
+  host.innerHTML='';
+  const h = document.createElement('div'); h.className='sect-h';
+  h.innerHTML = `<span class="dot ${tier}"></span><span class="t" style="color:var(--${tier==='crit'?'critical':tier==='rec'?'recommend':'optional'})">${title}</span>`+
+    `<span class="cnt">${items.length}</span>`+(hint?`<span class="hint">${hint}</span>`:``);
+  host.appendChild(h);
+  if(!items.length){ const e=document.createElement('div'); e.className='empty'; e.textContent='— none for this scenario —'; host.appendChild(e); return; }
+  const grid=document.createElement('div'); grid.className='opts';
+  for(const o of items) grid.appendChild(optCard(o, tier, !prevIds.has(o.id)));
+  host.appendChild(grid);
+}
+
+function render(){
+  const c = CFG[keyOf(state)];
+  document.getElementById('scenario').innerHTML = scenarioText(state);
+
+  // TWO buckets (mentors, 2026-08-07). `core` still carries the internal `critical` / `recommended`
+  // label — the engine needs it for restore_missing_critical, --minimal and critical-recall — but the
+  // page shows one RECOMMENDED section, because both were always switched on together.
+  const rec  = c.core;
+  const opt  = c.add_ons;
+
+  // stats
+  document.getElementById('stats').innerHTML =
+    stat('c', rec.length, 'recommended · switch on') +
+    stat('a', opt.length, 'add-ons · off by default') +
+    stat('g', c.gated.length, 'gated out');
+
+  // unsatisfiable banner
+  const b=document.getElementById('banner'); b.innerHTML='';
+  if(c.unsatisfiable && c.unsatisfiable.length){
+    for(const u of c.unsatisfiable){
+      const el=document.createElement('div'); el.className='banner';
+      el.innerHTML=`<span class="ico">⚠</span><div><div class="bt">VEP can't satisfy “${LABELS[u.factor]||u.factor} = ${VLABEL[u.value]||u.value}” here</div>`+
+        `<div class="bd">${u.reason}</div></div>`;
+      b.appendChild(el);
+    }
+  }
+
+  sectionRender('sect-rec','Recommended','rec',rec,'switched on for this scenario');
+  sectionRender('sect-opt','Add-ons','opt',opt,'defensible extras, off by default');
+
+  // gated
+  const g=document.getElementById('sect-gated');
+  const removed = [...prevIds].filter(id=>!curIds(c).has(id));
+  g.innerHTML='';
+  const det=document.createElement('details'); det.className='gated';
+  det.innerHTML=`<summary><span class="chev">▸</span>`+
+    `<b style="color:var(--text);font-weight:600">${c.gated.length}</b>&nbsp;options gated out — not applicable to this scenario`+
+    `<span style="margin-left:auto;color:var(--faint)">why?</span></summary>`;
+  const body=document.createElement('div'); body.className='body';
+  if(!c.gated.length) body.innerHTML='<span class="empty">nothing gated — every catalogue option is applicable here</span>';
+  for(const id of c.gated){ const t=document.createElement('span'); t.className='gtag'; t.textContent=id; body.appendChild(t); }
+  det.appendChild(body); g.appendChild(det);
+
+  // command
+  renderCmd(c.command);
+
+  prevIds = curIds(c);
+}
+function curIds(c){ return new Set([...c.core.map(o=>o.id), ...c.add_ons.map(o=>o.id)]); }
+function stat(k,n,l){ return `<div class="stat ${k}"><div class="n">${n}</div><div class="l">${l}</div></div>`; }
+
+function renderCmd(flags){
+  const host=document.getElementById('cmd');
+  const full = 'vep --input_file <in.vcf> --output_file <out.txt> --cache '+flags.join(' ');
+  host.innerHTML = `<div class="cmd-h"><span class="t">Equivalent VEP command</span>`+
+    `<button class="cmd-copy" id="copyBtn" type="button">Copy</button></div>`+
+    `<pre id="cmdpre">${escapeHtml(full)}</pre>`;
+  document.getElementById('copyBtn').onclick=()=>{
+    navigator.clipboard.writeText(full).then(()=>{
+      const b=document.getElementById('copyBtn'); b.textContent='Copied ✓'; setTimeout(()=>b.textContent='Copy',1400);
+    });
+  };
+}
+
+// ---- tooltip ----
+const tip=document.getElementById('tip');
+function showTip(e,o,m){
+  let html=`<div class="th">${o.id}</div>${escapeHtml(m.desc||m.name||'')}`;
+  if(o.drivers && o.drivers.length){
+    html+=`<div class="prov">`+o.drivers.map(d=>
+      `<div><b>${d.priority}</b> · ${LABELS[d.factor]||d.factor} = ${VLABEL[d.value]||d.value}</div>`).join('')+`</div>`;
+  } else {
+    html+=`<div class="prov">pulled in as a dependency of another option</div>`;
+  }
+  tip.innerHTML=html; tip.classList.add('on'); moveTip(e);
+}
+function moveTip(e){
+  const pad=14, w=tip.offsetWidth, h=tip.offsetHeight;
+  let x=e.clientX+pad, y=e.clientY+pad;
+  if(x+w>innerWidth-8) x=e.clientX-w-pad;
+  if(y+h>innerHeight-8) y=e.clientY-h-pad;
+  tip.style.left=x+'px'; tip.style.top=y+'px';
+}
+function hideTip(){ tip.classList.remove('on'); }
+
+function escapeHtml(s){ return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+// ---- theme toggle ----
+document.getElementById('themeBtn').onclick=()=>{
+  const cur=document.documentElement.getAttribute('data-theme');
+  const sysDark=matchMedia('(prefers-color-scheme:dark)').matches;
+  const next = cur ? (cur==='dark'?'light':'dark') : (sysDark?'light':'dark');
+  document.documentElement.setAttribute('data-theme',next);
+};
+
+buildControls();
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+121 organisms x 2 versions = 242 queries -> work/results/organism_naming_cases.csv
+  per kind: binomial 30, common 30, english_word 30, strain 26, trap 5
+  bino-1     binomial      danio rerio                    NBNB
+  bino-2     binomial      mus musculus                   NBNB
+  bino-3     binomial      acanthochromis polyacanthus    NBNB
+  bino-4     binomial      cottoperca gobio               NBNB
+  bino-5     binomial      balaenoptera musculus          NBNB
+  bino-6     binomial      callithrix jacchus             NBNB
+  bino-7     binomial      oncorhynchus mykiss            NBNB
+  bino-8     binomial      dipodomys ordii                NBNB
+  bino-9     binomial      oryzias melastigma             NBNB
+  bino-10    binomial      junco hyemalis                 NBNB
+  bino-11    binomial      stachyris ruficeps             NBNB
+  bino-12    binomial      scophthalmus maximus           NBNB
+  bino-13    binomial      carassius auratus              NBNB
+  bino-14    binomial      geospiza fortis                NBNB
+  bino-15    binomial      ciona savignyi                 NBNB
+  bino-16    binomial      pseudonaja textilis            NBNB
+  bino-17    binomial      sphaeramia orbicularis         NBNB
+  bino-18    binomial      apteryx haastii                NBNB
+  bino-19    binomial      chelydra serpentina            NBNB
+  bino-20    binomial      gallus gallus                  NBNB
+  bino-21    binomial      monopterus albus               NBNB
+  bino-22    binomial      salarias fasciatus             NBNB
+  bino-23    binomial      oryzias sinensis               NBNB
+  bino-24    binomial      chinchilla lanigera            NBNB
+  bino-25    binomial      dromaius novaehollandiae       NBNB
+  bino-26    binomial      tupaia belangeri               NBNB
+  bino-27    binomial      rattus norvegicus              NBNB
+  bino-28    binomial      nannospalax galili             NBNB
+  bino-29    binomial      carlito syrichta               NBNB
+  bino-30    binomial      neolamprologus brichardi       NBNB
+  comm-1     common        monterrey platyfish            NBNB
+  comm-2     common        california sea lion            NBNB
+  comm-3     common        small-eared galago             NBNB
+  comm-4     common        western european hedgehog      NBNB
+  comm-5     common        mexican tetra                  NBNB
+  comm-6     common        pig-tailed macaque             NBNB
+  comm-7     common        ryukyu mouse                   NBNB
+  comm-8     common        golden-collared manakin        NBNB
+  comm-9     common        sea lamprey                    NBNB
+  comm-10    common        arctic ground squirrel         NBNB
+  comm-11    common        blunt-snouted clingfish        NBNB
+  comm-12    common        climbing perch                 NBNB
+  comm-13    common        pink-footed goose              NBNB
+  comm-14    common        great tit                      NBNB
+  comm-15    common        komodo dragon                  NBNB
+  comm-16    common        chacoan peccary                NBNB
+  comm-17    common        collared flycatcher            NBNB
+  comm-18    common        black snub-nosed monkey        NBNB
+  comm-19    common        western lowland gorilla        NBNB
+  comm-20    common        daurian ground squirrel        NBNB
+  comm-21    common        goodes thornscrub tortoise     NBNB
+  comm-22    common        live sharksucker               NBNB
+  comm-23    common        golden-line barbel             NBNB
+  comm-24    common        western wild mouse             NBNB
+  comm-25    common        american pika                  NBNB
+  comm-26    common        siberian musk deer             NBNB
+  comm-27    common        tropical clawed frog           NBNB
+  comm-28    common        small madagascar hedgehog      NBNB
+  comm-29    common        spoon-billed sandpiper         NBNB
+  comm-30    common        zebra mbuna                    NBNB
+  engl-1     english_word  opossum                        NBNB
+  engl-2     english_word  coelacanth                     NBNB
+  engl-3     english_word  budgerigar                     NBNB
+  engl-4     english_word  goat                           NBNB
+  engl-5     english_word  degu                           NBNB
+  engl-6     english_word  wallaby                        NBNB
+  engl-7     english_word  kakapo                         NBNB
+  engl-8     english_word  leopard                        NBNB
+  engl-9     english_word  stickleback                    NBNB
+  engl-10    english_word  armadillo                      NBNB
+  engl-11    english_word  ruff                           NBNB
+  engl-12    english_word  gibbon                         NBNB
+  engl-13    english_word  tetraodon                      NBNB
+  engl-14    english_word  tiger                          NBNB
+  engl-15    english_word  guppy                          NBNB
+  engl-16    english_word  ass                            NBNB
+  engl-17    english_word  platyfish                      NBNB
+  engl-18    english_word  narwhal                        NBNB
+  engl-19    english_word  squirrel                       NBNB
+  engl-20    english_word  vole                           NBNB
+  engl-21    english_word  chimpanzee                     NBNB
+  engl-22    english_word  tuatara                        NBNB
+  engl-23    english_word  dingo                          NBNB
+  engl-24    english_word  sloth                          NBNB
+  engl-25    english_word  pig                            NBNB
+  engl-26    english_word  dolphin                        NBNB
+  engl-27    english_word  elephant                       NBNB
+  engl-28    english_word  sheep                          NBNB
+  engl-29    english_word  meerkat                        NBNB
+  engl-30    english_word  fugu                           NBNB
+  stra-1     strain        seriola lalandi dorsalis       NBNB
+  stra-2     strain        asiatic black bear             NBNB
+  stra-3     strain        chinese hamster chok1gs        NBNB
+  stra-4     strain        oryzias latipes hni            NBNB
+  stra-5     strain        cyprinus carpio huanghe        NBNB
+  stra-6     strain        northern spotted owl           NBNB
+  stra-7     strain        american bison                 NBNB
+  stra-8     strain        alpine marmot                  NBNB
+  stra-9     strain        domestic cattle                NBNB
+  stra-10    strain        silver-eye                     NBNB
+  stra-11    strain        naked mole-rat male            NBNB
+  stra-12    strain        felis catus abyssinian         NBNB
+  stra-13    strain        bengalese finch                NBNB
+  stra-14    strain        superb fairywren               NBNB
+  stra-15    strain        northern american deer mouse   NBNB
+  stra-16    strain        african ostrich                NBNB
+  stra-17    strain        atlantic salmon                NBNB
+  stra-18    strain        painted turtle                 NBNB
+  stra-19    strain        terrapene carolina triunguis   NBNB
+  stra-20    strain        colobus angolensis palliatus   NBNB
+  stra-21    strain        yarkand deer                   NBNB
+  stra-22    strain        domestic ferret                NBNB
+  stra-23    strain        cairina moschata domestica     NBNB
+  stra-24    strain        golden eagle                   NBNB
+  stra-25    strain        bolivian squirrel monkey       NBNB
+  stra-26    strain        anas platyrhynchos platyrhyn   NBNB
+  trap-1     trap          platypus                       NBNB
+  trap-2     trap          drill                          nbNB   said plain='unstated' decoy='drill'
+  trap-3     trap          guinea pig                     NBNB
+  trap-4     trap          rabbit                         NBNB
+  trap-5     trap          turkey                         NBNB
+
+=== organism naming: 121 organisms x 2, gemma4:26b, reader think ===
+  kind             n   name plain  name decoy  binary plain  binary decoy  name+binary disagree
+  binomial        30        30/30       30/30         30/30         30/30               0/60
+  common          30        30/30       30/30         30/30         30/30               0/60
+  english_word    30        30/30       30/30         30/30         30/30               0/60
+  strain          26        26/26       26/26         26/26         26/26               0/52
+  trap             5         4/5        5/5          4/5          5/5               0/10
+  TOTAL          121       120/121      121/121        120/121        121/121               0/242
+
+  per-call time under 8 parallel requests: median 21.065 s
+  cases where the name was wrong but the binary answer right: 0
+  wrote /Users/david/Desktop/GSoC_WORK/work/results/organism_naming_think.json

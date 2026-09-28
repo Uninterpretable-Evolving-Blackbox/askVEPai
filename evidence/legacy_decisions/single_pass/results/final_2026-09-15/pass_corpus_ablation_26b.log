@@ -1,0 +1,43 @@
+  1 gold= 8 single=0.2727  two_none=0.48  two_23=0.4167  two_31loo=0.4167
+  2 gold= 5 single=1.0  two_none=1.0  two_23=0.8333  two_31loo=1.0
+  3 gold=16 single=0.7333  two_none=0.7097  two_23=0.6875  two_31loo=0.7333
+  4 gold= 1 single=1.0  two_none=1.0  two_23=1.0  two_31loo=0.6667
+  5 gold= 8 single=0.75  two_none=0.75  two_23=0.75  two_31loo=0.75
+  6 gold= 4 single=0.75  two_none=0.6667  two_23=0.75  two_31loo=0.75
+  7 gold= 5 single=1.0  two_none=1.0  two_23=1.0  two_31loo=1.0
+  8 gold= 7 single=0.8571  two_none=0.8  two_23=0.8  two_31loo=0.7059
+  9 gold= 5 single=1.0  two_none=1.0  two_23=1.0  two_31loo=1.0
+ 10 gold= 5 single=1.0  two_none=1.0  two_23=1.0  two_31loo=0.9091
+ 11 gold= 8 single=0.75  two_none=0.7059  two_23=0.75  two_31loo=0.75
+ 12 gold= 7 single=0.8571  two_none=0.8  two_23=0.8  two_31loo=0.8571
+ 13 gold= 5 single=1.0  two_none=0.9091  two_23=1.0  two_31loo=0.9091
+ 14 gold= 4 single=0.75  two_none=0.75  two_23=0.75  two_31loo=0.75
+ 15 gold= 5 single=1.0  two_none=1.0  two_23=1.0  two_31loo=1.0
+ 16 gold= 4 single=1.0  two_none=1.0  two_23=1.0  two_31loo=1.0
+ 17 gold= 4 single=1.0  two_none=1.0  two_23=1.0  two_31loo=0.8889
+ 18 gold= 7 single=0.8571  two_none=0.8  two_23=0.8  two_31loo=0.8571
+ 19 gold= 5 single=0.7692  two_none=0.6667  two_23=0.7692  two_31loo=0.7143
+ 20 gold= 7 single=0.8571  two_none=0.7059  two_23=0.75  two_31loo=0.75
+ 21 gold= 7 single=0.8571  two_none=0.75  two_23=0.75  two_31loo=0.8571
+ 22 gold= 5 single=1.0  two_none=1.0  two_23=1.0  two_31loo=1.0
+ 23 gold= 7 single=0.7273  two_none=0.7273  two_23=0.7273  two_31loo=0.7273
+ 24 gold= 1 single=1.0  two_none=1.0  two_23=1.0  two_31loo=1.0
+ 25 gold= 8 single=0.75  two_none=0.6316  two_23=0.7059  two_31loo=0.7059
+ 26 gold= 4 single=0.75  two_none=0.75  two_23=0.75  two_31loo=0.75
+ 27 gold= 7 single=0.7143  two_none=0.7143  two_23=0.7143  two_31loo=0.6667
+ 28 gold= 5 single=1.0  two_none=0.8333  two_23=1.0  two_31loo=1.0
+ 29 gold= 8 single=0.75  two_none=0.7059  two_23=0.75  two_31loo=0.75
+ 30 gold= 7 single=0.8571  two_none=0.8571  two_23=0.8  two_31loo=0.8571
+ 31 gold= 5 single=1.0  two_none=1.0  two_23=1.0  two_31loo=1.0
+
+=== 31 rows, gemma4:26b, gold = each row's TRUE-tuple config ===
+
+  arm              F1  options   extra  missing    secs
+  single        0.858      6.1    1.16     1.03     1.5
+  two_none      0.829      6.8    1.81     0.94    15.9
+  two_23        0.840      6.5    1.58     0.97    17.2
+  two_31loo     0.830      6.5    1.55     0.97    18.3
+
+  extra   = options shown that the row's true tuple does NOT call for
+  missing = options the true tuple calls for that were not shown
+ALLDONE

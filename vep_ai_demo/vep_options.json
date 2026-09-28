@@ -929,7 +929,7 @@
       "name": "plugin_config.txt:658 (label)",
       "description": "plugin_config.txt:662 (helptip), verbatim",
       "default": "vep_plugins_web_config.txt:26; plugin_config.txt:660 → InputForm.pm:1139 (research/form_defaults_check_2026-09-22.md)",
-      "web_form_values": "plugin_config.txt:673 (CADD file_type drop-down: captions and the snv_indels default), verbatim",
+      "web_form_values": "plugin_config.txt:673 (CADD file_type drop-down: captions and the snv_indels default), verbatim; per-value `species` from the `\"class\" => \"_stt_Homo_sapiens\"` on snv_indels, indels and sv (plugin_config.txt:678-681); `snv` has no class, so it is the only file the form offers other species",
       "species": "plugin_config.txt:665 (release/116 `species` list)"
     },
     "web_default_on": false,
@@ -940,7 +940,10 @@
         "covers": [
           "small"
         ],
-        "web_default": true
+        "web_default": true,
+        "species": [
+          "homo_sapiens"
+        ]
       },
       {
         "label": "CADD SNVs annotation file",
@@ -952,6 +955,9 @@
         "label": "CADD InDels annotation file",
         "covers": [
           "small"
+        ],
+        "species": [
+          "homo_sapiens"
         ]
       },
       {
@@ -959,7 +965,10 @@
         "covers": [
           "structural-CNV"
         ],
-        "assembly_restriction": "GRCh38"
+        "assembly_restriction": "GRCh38",
+        "species": [
+          "homo_sapiens"
+        ]
       }
     ],
     "species": [

@@ -1,0 +1,10 @@
+START Tue Sep 15 00:25:43 BST 2026
+== four-arm pass x corpus ablation, 26b, final table ==
+ablation done Tue Sep 15 00:53:02 BST 2026 exit=0
+== factor accuracy, 3 seeds ==
+factor_accuracy done Tue Sep 15 03:09:42 BST 2026 exit=0
+== fallback e2e, 78 pure ablations ==
+fallback done Tue Sep 15 05:21:21 BST 2026 exit=0
+== 31-row single vs two ==
+svt done Tue Sep 15 11:29:07 BST 2026 exit=0
+ALL DONE Tue Sep 15 11:29:07 BST 2026

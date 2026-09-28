@@ -1,0 +1,6 @@
+reasoning 0; species through infer_factors: {'plain': 30, 'trap': 27, 'twin': 29, 'absent': 30}, all four 26/30
+  spec-doma-2    trap   truth human     read unstated organism=None raw=['unstated']
+  spec-doma-5    trap   truth non-human read human organism=None raw=['human']
+  spec-doma-6    trap   truth non-human read unstated organism=None raw=['unstated']
+  spec-tool-3    twin   truth non-human read unstated organism=None raw=['unstated']
+wrote /Users/david/Desktop/GSoC_WORK_reorg/evidence/current_evidence/results/factors_150_species_through_tool_reasoning_off.json

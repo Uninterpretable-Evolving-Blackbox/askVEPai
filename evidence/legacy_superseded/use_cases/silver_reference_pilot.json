@@ -1,0 +1,189 @@
+[
+  {
+    "id": "silver_human_germline_coding_clinical",
+    "user_query": "I have germline exome data from a patient with a suspected inherited Mendelian disorder. I'm focused on coding SNVs and small indels and want to assess which ones are likely pathogenic for a clinical diagnostic report.",
+    "use_case_category": null,
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": ["coding"],
+      "analysis_goal": ["clinical-interpretation"]
+    },
+    "confidence": "SILVER (Opus-authored) — pending mentor validation, not gold",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl/GENCODE", "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "mane": {"value": true, "enabled": true},
+      "canonical": {"value": true, "enabled": true},
+      "hgvs": {"value": true, "enabled": true},
+      "protein": {"value": true, "enabled": true},
+      "numbers": {"value": true, "enabled": true},
+      "biotype": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "clinvar": {"value": true, "enabled": true},
+      "af_gnomade": {"value": true, "enabled": true},
+      "af_gnomadg": {"value": true, "enabled": true},
+      "sift": {"value": "b", "enabled": true},
+      "polyphen": {"value": "b", "enabled": true},
+      "cadd": {"value": true, "enabled": true},
+      "alphamissense": {"value": true, "enabled": true},
+      "spliceai": {"value": true, "enabled": true},
+      "phenotypes": {"value": true, "enabled": true},
+      "most_severe": {"value": false, "enabled": false, "note": "need full per-transcript detail for clinical review, not a single top consequence"},
+      "summary": {"value": false, "enabled": false, "note": "need detailed annotations, not a summary line"}
+    },
+    "justification": "Clinical rare-disease interpretation of coding variants: gene/HGVS/protein identifiers plus MANE + canonical for consistent reporting; exon/intron numbers and biotype for context; ClinVar clinical significance (via check_existing) as the primary evidence; gnomAD exome+genome allele frequency to support ACMG frequency criteria (annotate, do not pre-filter — a pathogenic variant can be rare-but-present); missense pathogenicity from SIFT + PolyPhen (native) reinforced by CADD and AlphaMissense; SpliceAI for splice-region coding variants. Full per-transcript detail (most_severe/summary off).",
+    "_review": {
+      "author": "opus — silver standard, NOT validated gold",
+      "criticality": {
+        "symbol": "critical", "hgvs": "critical", "mane": "critical", "check_existing": "critical", "clinvar": "critical",
+        "core_type": "recommended", "canonical": "recommended", "protein": "recommended", "numbers": "recommended", "biotype": "recommended",
+        "af_gnomade": "recommended", "af_gnomadg": "recommended", "sift": "recommended", "polyphen": "recommended",
+        "cadd": "recommended", "alphamissense": "recommended", "spliceai": "recommended", "phenotypes": "recommended"
+      },
+      "uncertain": [
+        "predictor redundancy: enabled CADD + AlphaMissense; REVEL / EVE / ClinPred / dbNSFP are overlapping missense meta-predictors — mentor should pick the canonical set rather than enable all",
+        "splice: SpliceAI enabled; dbscSNV / MaxEntScan are alternatives — one or two, not all",
+        "add-ons not enabled but plausible: LOEUF (constraint, useful for de novo), Mastermind (literature), Geno2MP (phenotype co-occurrence) — flagged optional"
+      ],
+      "diverges_from_pipeline": "check whether the provisional priority table also enables AlphaMissense + SpliceAI + Phenotypes at recommended, or under-recommends them"
+    }
+  },
+  {
+    "id": "silver_nonhuman_somatic_sv_basic",
+    "user_query": "We're studying a mouse model of cancer and have called large structural variants — big deletions and duplications — from tumour whole-genome sequencing. I just need a quick read on which genes and regulatory regions these large events disrupt.",
+    "use_case_category": null,
+    "factor_labels": {
+      "species": "non-human",
+      "origin": "somatic",
+      "variant_size_class": "structural-CNV",
+      "region_focus": ["coding", "regulatory-noncoding"],
+      "analysis_goal": ["basic-consequence"]
+    },
+    "confidence": "SILVER (Opus-authored) — pending mentor validation, not gold",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl", "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "canonical": {"value": true, "enabled": true},
+      "biotype": {"value": true, "enabled": true},
+      "numbers": {"value": true, "enabled": true},
+      "ccds": {"value": true, "enabled": true},
+      "regulatory": {"value": true, "enabled": true},
+      "nmd": {"value": true, "enabled": true},
+      "phenotypes": {"value": true, "enabled": true},
+      "most_severe": {"value": false, "enabled": false, "note": "want per-gene / per-feature overlap for the SV, not a single collapsed consequence"},
+      "summary": {"value": false, "enabled": false, "note": "want which genes/features are hit, not a summary line"}
+    },
+    "justification": "Mouse (non-human) somatic structural variants, quick consequence read: identify which genes (symbol, canonical, biotype, exon/intron numbers, CCDS — available for mouse) and which regulatory features (regulatory build — mouse has one) the large deletions/duplications overlap, with NMD to flag likely loss-of-function and Phenotypes (MGI) for gene context. This is the safety-net stress case: EVERY human-only annotation is correctly absent (no SIFT/PolyPhen/CADD/REVEL/AlphaMissense, no ClinVar, no gnomAD, no UTRAnnotator/Enformer), and EVERY SNV-specific predictor is absent because the variants are structural (no missense/splice scores, no SNV frequencies, and gnomAD-SV is human-GRCh38-only so unavailable for mouse).",
+    "_review": {
+      "author": "opus — silver standard, NOT validated gold",
+      "criticality": {
+        "symbol": "critical", "regulatory": "critical",
+        "core_type": "recommended", "canonical": "recommended", "biotype": "recommended", "numbers": "recommended",
+        "ccds": "recommended", "nmd": "recommended", "phenotypes": "recommended"
+      },
+      "uncertain": [
+        "check_existing (mouse dbSNP variation) could be optionally enabled for known-variant overlap — left off to keep the basic-consequence config minimal",
+        "SV overlap-detail output (OverlapBP/OverlapPC per the taxonomy §3) is not in the 58-option KB yet — flag as a catalogue gap for structural variants",
+        "somatic origin has little effect here because the somatic-specific evidence (COSMIC / ClinVar) is human-only and unavailable for mouse"
+      ],
+      "diverges_from_pipeline": "confirm the pipeline resolver produces an equally SPARSE config here (0 human-only, 0 SNV predictors) — this is the row most likely to expose a gate bug"
+    }
+  },
+  {
+    "id": "silver_human_germline_regulatory_clinical",
+    "user_query": "I have a set of rare inherited non-coding single-nucleotide variants in a human patient — they fall in promoter and enhancer regions near known disease genes, and I want to work out whether any are clinically relevant.",
+    "use_case_category": null,
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": ["regulatory-noncoding"],
+      "analysis_goal": ["clinical-interpretation"]
+    },
+    "confidence": "SILVER (Opus-authored) — pending mentor validation, not gold",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl/GENCODE", "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "canonical": {"value": true, "enabled": true},
+      "biotype": {"value": true, "enabled": true},
+      "hgvs": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "clinvar": {"value": true, "enabled": true},
+      "af_gnomade": {"value": true, "enabled": true},
+      "af_gnomadg": {"value": true, "enabled": true},
+      "cadd": {"value": true, "enabled": true},
+      "spliceai": {"value": true, "enabled": true},
+      "regulatory": {"value": true, "enabled": true},
+      "cell_type": {"value": true, "enabled": true},
+      "utrannotator": {"value": true, "enabled": true},
+      "enformer": {"value": true, "enabled": true},
+      "phenotypes": {"value": true, "enabled": true},
+      "sift": {"value": false, "enabled": false, "note": "protein-based missense predictor — not applicable to non-coding regulatory variants"},
+      "polyphen": {"value": false, "enabled": false, "note": "protein-based missense predictor — not applicable to non-coding regulatory variants"},
+      "most_severe": {"value": false, "enabled": false, "note": "need full detail across overlapping regulatory features"},
+      "summary": {"value": false, "enabled": false, "note": "need detailed annotations, not a summary"}
+    },
+    "justification": "Human germline non-coding variants in regulatory regions, clinical interpretation: the regulatory build (+ cell_type) to identify overlapping promoters/enhancers/TF motifs, UTRAnnotator for 5'UTR effects and Enformer for predicted regulatory impact; CADD as a genome-wide deleteriousness score that (unlike SIFT/PolyPhen) also scores non-coding positions, and SpliceAI for variants near splice regions; ClinVar + gnomAD for known-variant clinical significance and population frequency; gene identifiers for the nearby disease genes. Missense predictors (SIFT/PolyPhen) are explicitly OFF — they require a protein consequence and do not apply to regulatory variants.",
+    "_review": {
+      "author": "opus — silver standard, NOT validated gold",
+      "criticality": {
+        "regulatory": "critical", "check_existing": "critical", "clinvar": "critical",
+        "core_type": "recommended", "symbol": "recommended", "canonical": "recommended", "biotype": "recommended", "hgvs": "recommended",
+        "af_gnomade": "recommended", "af_gnomadg": "recommended", "cadd": "recommended", "spliceai": "recommended",
+        "cell_type": "recommended", "utrannotator": "recommended", "enformer": "recommended", "phenotypes": "recommended"
+      },
+      "uncertain": [
+        "Enformer is new and compute-heavy — mentor may prefer it optional rather than recommended",
+        "UTRAnnotator only covers 5'UTR variants — a subset of 'regulatory'; keep or scope down",
+        "explicitly disabling SIFT/PolyPhen as 'not applicable' is a design choice (closed-world signal) — confirm this is how she wants non-applicable options represented"
+      ],
+      "diverges_from_pipeline": "the pipeline may not currently enable UTRAnnotator/Enformer/cell_type at recommended for a pure regulatory row — good priority-table test"
+    }
+  },
+  {
+    "id": "silver_human_germline_coding_population",
+    "user_query": "I'm annotating coding SNVs from a large healthy human population cohort. My main interest is how common each variant is across reference populations, so I can flag and filter out the common ones.",
+    "use_case_category": null,
+    "factor_labels": {
+      "species": "human",
+      "origin": "germline",
+      "variant_size_class": "small",
+      "region_focus": ["coding"],
+      "analysis_goal": ["population-frequency"]
+    },
+    "confidence": "SILVER (Opus-authored) — pending mentor validation, not gold",
+    "recommended_options": {
+      "core_type": {"value": "Ensembl/GENCODE", "enabled": true},
+      "symbol": {"value": true, "enabled": true},
+      "canonical": {"value": true, "enabled": true},
+      "mane": {"value": true, "enabled": true},
+      "biotype": {"value": true, "enabled": true},
+      "check_existing": {"value": "yes", "enabled": true},
+      "af_gnomade": {"value": true, "enabled": true},
+      "af_gnomadg": {"value": true, "enabled": true},
+      "af": {"value": true, "enabled": true},
+      "af_1kg": {"value": true, "enabled": true},
+      "frequency": {"value": "common", "enabled": true},
+      "most_severe": {"value": false, "enabled": false, "note": "keep per-transcript detail"},
+      "summary": {"value": false, "enabled": false, "note": "need per-variant frequency annotations, not a summary"},
+      "cadd": {"value": false, "enabled": false, "note": "pathogenicity prediction is not the goal for a population-frequency scan"}
+    },
+    "justification": "Human germline coding variants, population-frequency focus: the full frequency panel — gnomAD exome + genome, 1000 Genomes global (af) and continental (af_1kg) — via check_existing, plus the frequency pre-filter set to 'common' to flag/remove common variants as requested; gene identifiers (symbol, canonical, MANE, biotype) for context. Pathogenicity predictors are deliberately OFF (CADD shown as an explicit disable) because the analysis goal is frequency, not clinical interpretation — this is the row that should look very different from the clinical ones.",
+    "_review": {
+      "author": "opus — silver standard, NOT validated gold",
+      "criticality": {
+        "af_gnomade": "critical", "af_gnomadg": "critical", "check_existing": "critical", "frequency": "critical",
+        "af": "recommended", "af_1kg": "recommended",
+        "core_type": "recommended", "symbol": "recommended", "canonical": "recommended", "mane": "recommended", "biotype": "recommended"
+      },
+      "uncertain": [
+        "frequency pre-filter direction: 'common' flags common variants; confirm the user wants to FILTER them out vs just annotate AF (some population workflows keep everything and filter downstream)",
+        "whether to include ClinVar at optional even in a population scan (some cohorts still want clinical flags)",
+        "germline here matters: if this were somatic, the frequency pre-filter would be not_applicable (must not drop common variants) — good contrast row for the origin rule"
+      ],
+      "diverges_from_pipeline": "confirm the pipeline's population-frequency row also turns the pathogenicity cluster OFF rather than carrying it over from a coding default"
+    }
+  }
+]

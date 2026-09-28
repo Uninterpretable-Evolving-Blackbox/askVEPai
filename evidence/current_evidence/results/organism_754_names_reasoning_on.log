@@ -1,0 +1,785 @@
+754 organisms x 2 versions = 1508 queries -> evidence/current_evidence/results/organism_all_names_list.csv
+  per kind: binomial 239, common 208, english_word 55, strain 134, trap 8, tagged 110
+  comm-1     common        abingdon island giant tortoi   NBNB
+  bino-1     binomial      acanthochromis polyacanthus    NBNB
+  bino-2     binomial      accipiter nisus                NBNB
+  comm-2     common        african green monkey           NBNB
+  stra-1     strain        african ostrich                NBNB
+  comm-3     common        african savanna elephant       NBNB
+  comm-4     common        agassiz's desert tortoise      NBNB
+  bino-3     binomial      ailuropoda melanoleuca         NBNB
+  engl-1     english_word  alpaca                         NBNB
+  stra-2     strain        alpine marmot                  NBNB
+  comm-5     common        amazon molly                   NBNB
+  bino-4     binomial      amazona collaria               NBNB
+  comm-6     common        american beaver                NBNB
+  stra-3     strain        american bison                 NBNB
+  comm-7     common        american black bear            NBNB
+  comm-8     common        american mink                  NBNB
+  comm-9     common        american pika                  NBNB
+  bino-5     binomial      amphilophus citrinellus        NBNB
+  bino-6     binomial      amphiprion ocellaris           NBNB
+  bino-7     binomial      amphiprion percula             NBNB
+  bino-8     binomial      anabas testudineus             NBNB
+  bino-9     binomial      anas platyrhynchos             NBNB
+  stra-4     strain        anas platyrhynchos platyrhyn   NBNB
+  bino-10    binomial      anas zonorhyncha               NBNB
+  stra-5     strain        angola colobus                 NBNB
+  bino-11    binomial      anolis carolinensis            NBNB
+  bino-12    binomial      anser brachyrhynchus           NBNB
+  bino-13    binomial      anser cygnoides                NBNB
+  bino-14    binomial      aotus nancymaae                NBNB
+  bino-15    binomial      apteryx haastii                NBNB
+  bino-16    binomial      apteryx owenii                 NBNB
+  bino-17    binomial      apteryx rowi                   NBNB
+  stra-6     strain        aquila chrysaetos chrysaetos   NBNB
+  comm-10    common        arabian camel                  NBNB
+  comm-11    common        arctic ground squirrel         NBNB
+  comm-12    common        argentine black and white te   NBNB
+  engl-2     english_word  armadillo                      NBNB
+  comm-13    common        asian bonytongue               NBNB
+  stra-7     strain        asiatic black bear             NBNB
+  engl-3     english_word  ass                            NBNB
+  bino-18    binomial      astatotilapia calliptera       NBNB
+  bino-19    binomial      astyanax mexicanus             NBNB
+  stra-8     strain        astyanax mexicanus pachon      NBNB
+  bino-20    binomial      athene cunicularia             NBNB
+  comm-14    common        atlantic cod                   NBNB
+  comm-15    common        atlantic herring               NBNB
+  stra-9     strain        atlantic salmon                NBNB
+  tagg-1     tagged        atlantic salmon - european o   NBNB
+  tagg-2     tagged        atlantic salmon - north amer   NBNB
+  tagg-3     tagged        atlantic salmon - north amer   NBNB
+  comm-16    common        australian saltwater crocodi   NBNB
+  bino-21    binomial      balaenoptera musculus          NBNB
+  comm-17    common        ballan wrasse                  NBNB
+  comm-18    common        barramundi perch               NBNB
+  comm-19    common        beluga whale                   NBNB
+  stra-10    strain        bengalese finch                NBNB
+  bino-22    binomial      betta splendens                NBNB
+  comm-20    common        bicolor damselfish             NBNB
+  stra-11    strain        bison bison bison              NBNB
+  comm-21    common        black snub-nosed monkey        NBNB
+  comm-22    common        blind barbel                   NBNB
+  comm-23    common        blue tilapia                   NBNB
+  comm-24    common        blue tit                       NBNB
+  comm-25    common        blue whale                     NBNB
+  comm-26    common        blue-crowned manakin           NBNB
+  comm-27    common        blue-ringed sea krait          NBNB
+  comm-28    common        blunt-snouted clingfish        NBNB
+  stra-12    strain        bolivian squirrel monkey       NBNB
+  comm-29    common        bonobo                         NBNB
+  bino-23    binomial      bos grunniens                  NBNB
+  tagg-4     tagged        bos indicus hybrid             NBNB
+  bino-24    binomial      bos mutus                      NBNB
+  bino-25    binomial      bos taurus                     NBNB
+  tagg-5     tagged        bos taurus gca963921495v1      NBNB
+  tagg-6     tagged        bos taurus hybrid              NBNB
+  stra-13    strain        bos taurus tuli                NBNB
+  stra-14    strain        bos taurus wagyu               NBNB
+  comm-30    common        bottlenosed dolphin            NBNB
+  comm-31    common        brazilian guinea pig           NBNB
+  comm-32    common        brown trout                    NBNB
+  bino-26    binomial      bubo bubo                      NBNB
+  engl-4     english_word  budgerigar                     NBNB
+  comm-33    common        burrowing owl                  NBNB
+  comm-34    common        burton's mouthbrooder          NBNB
+  comm-35    common        bushbaby                       NBNB
+  bino-27    binomial      buteo japonicus                NBNB
+  comm-36    common        c.intestinalis                 NBNB
+  comm-37    common        c.savignyi                     NBNB
+  stra-15    strain        cairina moschata domestica     NBNB
+  bino-28    binomial      calidris pugnax                NBNB
+  bino-29    binomial      calidris pygmaea               NBNB
+  comm-38    common        california sea lion            NBNB
+  bino-30    binomial      callithrix jacchus             NBNB
+  bino-31    binomial      callorhinchus milii            NBNB
+  bino-32    binomial      camarhynchus parvulus          NBNB
+  bino-33    binomial      camelus dromedarius            NBNB
+  comm-39    common        canada lynx                    NBNB
+  stra-16    strain        canis lupus dingo              NBNB
+  stra-17    strain        canis lupus familiaris         NBNB
+  stra-18    strain        canis lupus familiarisbasenj   NBNB
+  stra-19    strain        canis lupus familiarisboxer    NBNB
+  stra-20    strain        canis lupus familiarisgreatd   NBNB
+  stra-21    strain        canis lupus familiarisgsd      NBNB
+  comm-40    common        cape rock hyrax                NBNB
+  bino-34    binomial      capra hircus                   NBNB
+  stra-22    strain        capra hircus blackbengal       NBNB
+  tagg-7     tagged        capra hircus gca015443085v1    NBNB
+  tagg-8     tagged        capra hircus gca026652205v1    NBNB
+  bino-35    binomial      carassius auratus              NBNB
+  bino-36    binomial      carlito syrichta               NBNB
+  bino-37    binomial      castor canadensis              NBNB
+  tagg-9     tagged        cat - abyssinian               NBNB
+  bino-38    binomial      catagonus wagneri              NBNB
+  bino-39    binomial      catharus ustulatus             NBNB
+  engl-5     english_word  cattle                         NBNB
+  tagg-10    tagged        cattle - norwegian red (nrf)   NBNB
+  tagg-11    tagged        cattle - tuli                  NBNB
+  tagg-12    tagged        cattle - wagyu                 NBNB
+  bino-40    binomial      cavia aperea                   NBNB
+  bino-41    binomial      cavia porcellus                NBNB
+  bino-42    binomial      cebus imitator                 NBNB
+  comm-41    common        central bearded dragon         NBNB
+  bino-43    binomial      cercocebus atys                NBNB
+  stra-23    strain        cervus hanglu yarkandensis     NBNB
+  comm-42    common        chacoan peccary                NBNB
+  comm-43    common        channel bull blenny            NBNB
+  comm-44    common        channel catfish                NBNB
+  bino-44    binomial      chelonoidis abingdonii         NBNB
+  bino-45    binomial      chelydra serpentina            NBNB
+  engl-6     english_word  chicken                        NBNB
+  tagg-13    tagged        chicken (paternal white legh   NBNB
+  tagg-14    tagged        chicken (red jungle fowl)      NBNB
+  comm-45    common        chilean tinamou                NBNB
+  engl-7     english_word  chimpanzee                     NBNB
+  bino-46    binomial      chinchilla lanigera            NBNB
+  stra-24    strain        chinese hamster                NBNB
+  stra-25    strain        chinese hamster chok1gs        NBNB
+  stra-26    strain        chinese hamster crigri         NBNB
+  stra-27    strain        chinese hamster picr           NBNB
+  comm-46    common        chinese medaka                 NBNB
+  comm-47    common        chinese softshell turtle       NBNB
+  comm-48    common        chinook salmon                 NBNB
+  bino-47    binomial      chlorocebus sabaeus            NBNB
+  bino-48    binomial      choloepus hoffmanni            NBNB
+  stra-28    strain        chrysemys picta bellii         NBNB
+  bino-49    binomial      chrysolophus pictus            NBNB
+  bino-50    binomial      ciona intestinalis             NBNB
+  bino-51    binomial      ciona savignyi                 NBNB
+  comm-49    common        climbing perch                 NBNB
+  comm-50    common        clown anemonefish              NBNB
+  bino-52    binomial      clupea harengus                NBNB
+  engl-8     english_word  coelacanth                     NBNB
+  comm-51    common        coho salmon                    NBNB
+  comm-52    common        collared flycatcher            NBNB
+  stra-29    strain        colobus angolensis palliatus   NBNB
+  comm-53    common        common canary                  NBNB
+  stra-30    strain        common carp                    NBNB
+  stra-31    strain        common carp german mirror      NBNB
+  stra-32    strain        common carp hebao red          NBNB
+  stra-33    strain        common carp huanghe            NBNB
+  comm-54    common        common kestrel                 NBNB
+  stra-34    strain        common mallard                 NBNB
+  comm-55    common        common snapping turtle         NBNB
+  comm-56    common        common wall lizard             NBNB
+  comm-57    common        common wombat                  NBNB
+  comm-58    common        coquerel's sifaka              NBNB
+  bino-53    binomial      corvus moneduloides            NBNB
+  bino-54    binomial      cottoperca gobio               NBNB
+  bino-55    binomial      coturnix japonica              NBNB
+  comm-59    common        crab-eating macaque            NBNB
+  stra-35    strain        cricetulus griseus chok1gshd   nBNB   said plain='cricetulus griseus' decoy='cricetulus griseus chok1gshd'
+  stra-36    strain        cricetulus griseus crigri      NBNB
+  stra-37    strain        cricetulus griseus picr        NBnB   said plain='cricetulus griseus picr' decoy='cricetulus griseus'
+  bino-56    binomial      crocodylus porosus             NBNB
+  bino-57    binomial      cyanistes caeruleus            NBNB
+  bino-58    binomial      cyclopterus lumpus             NBNB
+  bino-59    binomial      cynoglossus semilaevis         NBNB
+  bino-60    binomial      cyprinodon variegatus          NBNB
+  stra-38    strain        cyprinus carpio carpio         NBNB
+  stra-39    strain        cyprinus carpio germanmirror   NBNB
+  stra-40    strain        cyprinus carpio hebaored       nBnB   said plain='cyprinus carpio' decoy='cyprinus carpio'
+  stra-41    strain        cyprinus carpio huanghe        NBNB
+  comm-60    common        damara mole rat                NBNB
+  bino-61    binomial      danio rerio                    NBNB
+  comm-61    common        dark-eyed junco                NBNB
+  bino-62    binomial      dasypus novemcinctus           NBNB
+  comm-62    common        daurian ground squirrel        NBNB
+  engl-9     english_word  degu                           NBNB
+  bino-63    binomial      delphinapterus leucas          NBNB
+  bino-64    binomial      denticeps clupeoides           NBNB
+  comm-63    common        denticle herring               NBNB
+  bino-65    binomial      dicentrarchus labrax           NBNB
+  engl-10    english_word  dingo                          NBNB
+  bino-66    binomial      dipodomys ordii                NBNB
+  trap-1     trap          dog                            NBNB
+  tagg-15    tagged        dog - basenji                  NBNB
+  tagg-16    tagged        dog - boxer                    NBNB
+  tagg-17    tagged        dog - german shepherd          NBNB
+  tagg-18    tagged        dog - great dane               NBNB
+  engl-11    english_word  dolphin                        NBNB
+  comm-64    common        domestic cat                   NBNB
+  stra-42    strain        domestic cattle                NBNB
+  stra-43    strain        domestic ferret                NBNB
+  comm-65    common        domestic guinea pig            NBNB
+  stra-44    strain        domestic pig                   NBNB
+  comm-66    common        domestic yak                   NBNB
+  engl-12    english_word  donkey                         NBNB
+  tagg-19    tagged        donkey (equass-t2t_v2)         NBNB
+  trap-2     trap          drill                          nbNB   said plain='unstated' decoy='drill'
+  bino-67    binomial      dromaius novaehollandiae       NBNB
+  trap-3     trap          duck                           NBNB
+  comm-67    common        eastern brown snake            NBNB
+  comm-68    common        eastern buzzard                NBNB
+  stra-45    strain        eastern european house mouse   NBNB
+  comm-69    common        eastern happy                  NBnb   said plain='eastern happy' decoy='unstated'
+  comm-70    common        eastern spot-billed duck       NBNB
+  bino-68    binomial      echeneis naucrates             NBNB
+  bino-69    binomial      echinops telfairi              NBNB
+  comm-71    common        electric eel                   NBNB
+  bino-70    binomial      electrophorus electricus       NBNB
+  engl-13    english_word  elephant                       NBNB
+  comm-72    common        elephant shark                 NBNB
+  engl-14    english_word  emu                            NBNB
+  bino-71    binomial      eptatretus burgeri             NBNB
+  bino-72    binomial      equus asinus                   NBNB
+  tagg-20    tagged        equus asinus gca041296235v2    NBNB
+  bino-73    binomial      equus caballus                 NBNB
+  bino-74    binomial      erinaceus europaeus            NBNB
+  bino-75    binomial      erpetoichthys calabaricus      NBNB
+  bino-76    binomial      erythrura gouldiae             NBNB
+  bino-77    binomial      esox lucius                    NBNB
+  comm-73    common        eurasian eagle-owl             NBNB
+  comm-74    common        eurasian red squirrel          NBNB
+  comm-75    common        eurasian sparrowhawk           NBNB
+  comm-76    common        european seabass               NBNB
+  comm-77    common        european shrew                 NBNB
+  bino-78    binomial      falco tinnunculus              NBNB
+  bino-79    binomial      felis catus                    NBNB
+  stra-46    strain        felis catus abyssinian         NBNB
+  engl-15    english_word  ferret                         NBNB
+  bino-80    binomial      ficedula albicollis            NBNB
+  engl-16    english_word  fugu                           NBNB
+  bino-81    binomial      fukomys damarensis             NBNB
+  bino-82    binomial      fundulus heteroclitus          NBNB
+  bino-83    binomial      gadus morhua                   NBNB
+  tagg-21    tagged        gadus morhua (celtic sea) -    NBNB
+  tagg-22    tagged        gadus morhua gca010882105v1    NBNB
+  bino-84    binomial      gallus gallus                  NBNB
+  tagg-23    tagged        gallus gallus gca000002315v5   NBNB
+  tagg-24    tagged        gallus gallus gca016700215v2   NBNB
+  bino-85    binomial      gambusia affinis               NBNB
+  bino-86    binomial      gasterosteus aculeatus         NBNB
+  tagg-25    tagged        gasterosteus aculeatus gca00   NBNB
+  tagg-26    tagged        gasterosteus aculeatus gca00   NBNB
+  tagg-27    tagged        gasterosteus aculeatus gca00   NBNB
+  engl-17    english_word  gelada                         NBNB
+  bino-87    binomial      geospiza fortis                NBNB
+  comm-78    common        giant panda                    NBNB
+  engl-18    english_word  gibbon                         NBNB
+  comm-79    common        gilthead seabream              NBNB
+  engl-19    english_word  goat                           NBNB
+  tagg-28    tagged        goat (black bengal)            NBNB
+  tagg-29    tagged        goat - saanen dairy            NBNB
+  tagg-30    tagged        goat - xinong saanen dairy     NBNB
+  stra-47    strain        golden eagle                   NBNB
+  comm-80    common        golden hamster                 NBNB
+  comm-81    common        golden pheasant                NBNB
+  comm-82    common        golden snub-nosed monkey       NBNB
+  comm-83    common        golden-collared manakin        NBNB
+  comm-84    common        golden-line barbel             NBNB
+  engl-20    english_word  goldfish                       NBNB
+  comm-85    common        goodes thornscrub tortoise     NBNB
+  bino-88    binomial      gopherus agassizii             NBNB
+  bino-89    binomial      gopherus evgoodei              NBNB
+  engl-21    english_word  gorilla                        NBNB
+  bino-90    binomial      gorilla gorilla                NBNB
+  bino-91    binomial      gouania willdenowi             NBNB
+  comm-86    common        gouldian finch                 NBNB
+  comm-87    common        gray mouse lemur               NBNB
+  comm-88    common        gray short-tailed opossum      NBNB
+  comm-89    common        great spotted kiwi             NBNB
+  comm-90    common        great tit                      NBNB
+  comm-91    common        greater amberjack              NBNB
+  comm-92    common        greater bamboo lemur           NBNB
+  comm-93    common        greater horseshoe bat          NBNB
+  comm-94    common        green anole                    NBNB
+  trap-4     trap          guinea pig                     NBNB
+  engl-22    english_word  guppy                          NBNB
+  engl-23    english_word  hagfish                        NBNB
+  bino-92    binomial      haplochromis burtoni           NBNB
+  trap-5     trap          hedgehog                       NBNB
+  comm-95    common        helmeted guineafowl            NBNB
+  stra-48    strain        heterocephalus glaber female   nBnB   said plain='heterocephalus glaber' decoy='heterocephalus glaber'
+  stra-49    strain        heterocephalus glaber male     nBnB   said plain='heterocephalus glaber' decoy='heterocephalus glaber'
+  bino-93    binomial      hippocampus comes              nbnB   said plain='unstated' decoy='hyrax'
+  comm-96    common        hoffmann's two-fingered slot   NBNB
+  comm-97    common        horned golden-line barbel      NBNB
+  engl-24    english_word  horse                          NBNB
+  stra-50    strain        house mouse                    NBNB
+  engl-25    english_word  huchen                         NBNB
+  bino-94    binomial      hucho hucho                    NBNB
+  tagg-31    tagged        hybrid - bos indicus           NBNB
+  tagg-32    tagged        hybrid - bos taurus            NBNB
+  tagg-33    tagged        hybrid cattle                  NBNB
+  engl-26    english_word  hyrax                          NBNB
+  bino-95    binomial      ictalurus punctatus            NBNB
+  bino-96    binomial      ictidomys tridecemlineatus     NBNB
+  comm-98    common        indian cobra                   NBNB
+  comm-99    common        indian glassy fish             NBNB
+  comm-100   common        indian medaka                  NBNB
+  comm-101   common        indian peafowl                 NBNB
+  comm-102   common        inshore hagfish                NBNB
+  bino-97    binomial      jaculus jaculus                NBNB
+  comm-103   common        japanese medaka hdrr           NBNB
+  stra-51    strain        japanese medaka hni            NBNB
+  stra-52    strain        japanese medaka hsok           NBNB
+  comm-104   common        japanese quail                 NBNB
+  stra-53    strain        japanese wild mouse            NBNB
+  comm-105   common        javanese ricefish              NBNB
+  comm-106   common        jewelled blenny                NBNB
+  bino-98    binomial      junco hyemalis                 NBNB
+  engl-27    english_word  kakapo                         NBNB
+  comm-107   common        kangaroo rat                   NBNB
+  engl-28    english_word  koala                          NBNB
+  comm-108   common        komodo dragon                  NBNB
+  bino-99    binomial      kryptolebias marmoratus        NBNB
+  bino-100   binomial      labrus bergylta                NBNB
+  engl-29    english_word  lamprey                        NBNB
+  comm-109   common        large flying fox               NBNB
+  comm-110   common        large yellow croaker           NBNB
+  bino-101   binomial      larimichthys crocea            NBNB
+  bino-102   binomial      lates calcarifer               NBNB
+  bino-103   binomial      laticauda laticaudata          NBNB
+  bino-104   binomial      latimeria chalumnae            NBNB
+  comm-111   common        leishan spiny toad             NBNB
+  engl-30    english_word  leopard                        NBNB
+  bino-105   binomial      lepidothrix coronata           NBNB
+  bino-106   binomial      lepisosteus oculatus           NBNB
+  bino-107   binomial      leptobrachium leishanense      NBNB
+  comm-112   common        lesser egyptian jerboa         NBNB
+  comm-113   common        lesser hedgehog tenrec         NBNB
+  engl-31    english_word  lion                           NBNB
+  comm-114   common        little brown bat               NBNB
+  comm-115   common        little spotted kiwi            NBNB
+  comm-116   common        live sharksucker               NBNB
+  stra-54    strain        lonchura striata domestica     NBNB
+  comm-117   common        long-tailed chinchilla         NBNB
+  bino-108   binomial      loxodonta africana             NBNB
+  engl-32    english_word  lumpfish                       NBNB
+  bino-109   binomial      lynx canadensis                NBNB
+  comm-118   common        lyretail cichlid               NBNB
+  comm-119   common        ma's night monkey              NBNB
+  bino-110   binomial      macaca fascicularis            NBNB
+  bino-111   binomial      macaca mulatta                 NBNB
+  bino-112   binomial      macaca nemestrina              NBNB
+  engl-33    english_word  macaque                        NBNB
+  comm-120   common        mainland tiger snake           NBNB
+  comm-121   common        makobe island cichlid          NBNB
+  engl-34    english_word  mallard                        NBNB
+  stra-55    strain        malurus cyaneus samueli        NBNB
+  bino-113   binomial      manacus vitellinus             NBNB
+  bino-114   binomial      mandrillus leucophaeus         NBNB
+  comm-122   common        mangrove rivulus               NBNB
+  stra-56    strain        marmota marmota marmota        NBNB
+  bino-115   binomial      mastacembelus armatus          NBNB
+  bino-116   binomial      maylandia zebra                NBNB
+  comm-123   common        medium ground-finch            NBNB
+  engl-35    english_word  meerkat                        NBNB
+  comm-124   common        megabat                        NBNB
+  bino-117   binomial      meleagris gallopavo            NBNB
+  bino-118   binomial      melopsittacus undulatus        NBNB
+  bino-119   binomial      meriones unguiculatus          NBNB
+  bino-120   binomial      mesocricetus auratus           NBNB
+  comm-125   common        mexican tetra                  NBNB
+  comm-126   common        microbat                       NBNB
+  bino-121   binomial      microcebus murinus             NBNB
+  bino-122   binomial      microtus ochrogaster           NBNB
+  comm-127   common        midas cichlid                  NBNB
+  bino-123   binomial      mola mola                      NBNB
+  comm-128   common        mongolian gerbil               NBNB
+  bino-124   binomial      monodelphis domestica          NBNB
+  bino-125   binomial      monodon monoceros              NBNB
+  bino-126   binomial      monopterus albus               NBNB
+  comm-129   common        monterrey platyfish            NBNB
+  bino-127   binomial      moschus moschiferus            NBNB
+  engl-36    english_word  mouse                          NBNB
+  stra-57    strain        mouse 129s1/svimj              NBNB
+  stra-58    strain        mouse a/j                      NBNB
+  stra-59    strain        mouse akr/j                    NBNB
+  stra-60    strain        mouse balb/cj                  NBNB
+  stra-61    strain        mouse c3h/hej                  NBNB
+  stra-62    strain        mouse c57bl/6nj                NBNB
+  stra-63    strain        mouse cast/eij                 NBNB
+  stra-64    strain        mouse cba/j                    NBNB
+  stra-65    strain        mouse dba/2j                   NBNB
+  stra-66    strain        mouse fvb/nj                   NBNB
+  stra-67    strain        mouse jf1/msj                  NBNB
+  comm-130   common        mouse lemur                    NBNB
+  stra-68    strain        mouse lp/j                     NBNB
+  stra-69    strain        mouse nod/shiltj               NBNB
+  stra-70    strain        mouse nzo/hlltj                NBNB
+  stra-71    strain        mouse pwk/phj                  NBNB
+  stra-72    strain        mouse wsb/eij                  NBNB
+  engl-37    english_word  mummichog                      NBNB
+  bino-128   binomial      mus caroli                     NBNB
+  bino-129   binomial      mus musculus                   NBNB
+  stra-73    strain        mus musculus 129s1svimj        NBNB
+  stra-74    strain        mus musculus aj                NBNB
+  stra-75    strain        mus musculus akrj              NBNB
+  stra-76    strain        mus musculus balbcj            NBNB
+  stra-77    strain        mus musculus c3hhej            NBNB
+  stra-78    strain        mus musculus c57bl6nj          NBNB
+  stra-79    strain        mus musculus casteij           NBNB
+  stra-80    strain        mus musculus cbaj              NBNB
+  stra-81    strain        mus musculus dba2j             NBNB
+  stra-82    strain        mus musculus fvbnj             NBNB
+  stra-83    strain        mus musculus lpj               NBNB
+  stra-84    strain        mus musculus molossinusjf1ms   NBNB
+  stra-85    strain        mus musculus nodshiltj         NBNB
+  stra-86    strain        mus musculus nzohlltj          NBNB
+  stra-87    strain        mus musculus pwkphj            NBNB
+  stra-88    strain        mus musculus wsbeij            NBNB
+  bino-130   binomial      mus pahari                     NBNB
+  bino-131   binomial      mus spicilegus                 NBNB
+  bino-132   binomial      mus spretus                    NBNB
+  tagg-34    tagged        muscovy duck (domestic type)   nBnB   said plain='muscovy duck' decoy='muscovy duck'
+  stra-89    strain        mustela putorius furo          NBNB
+  bino-133   binomial      myotis lucifugus               NBNB
+  bino-134   binomial      myripristis murdjan            NBNB
+  bino-135   binomial      naja naja                      NBNB
+  stra-90    strain        naked mole-rat                 NBNB
+  stra-91    strain        naked mole-rat female          NBNB
+  stra-92    strain        naked mole-rat male            NBNB
+  bino-136   binomial      nannospalax galili             NBNB
+  engl-38    english_word  narwhal                        NBNB
+  bino-137   binomial      neogobius melanostomus         NBNB
+  bino-138   binomial      neolamprologus brichardi       NBNB
+  bino-139   binomial      neovison vison                 NBNB
+  comm-131   common        new caledonian crow            NBNB
+  comm-132   common        nile tilapia                   NBNB
+  comm-133   common        nine-banded armadillo          NBNB
+  bino-140   binomial      nomascus leucogenys            NBNB
+  stra-93    strain        northern american deer mouse   NBNB
+  comm-134   common        northern pike                  NBNB
+  stra-94    strain        northern spotted owl           NBNB
+  comm-135   common        northern tree shrew            NBNB
+  comm-136   common        northern white-cheeked gibbo   NBNB
+  stra-95    strain        norway rat                     NBNB
+  tagg-35    tagged        norway rat - bn/nhsdmcwi       NBNB
+  bino-141   binomial      notamacropus eugenii           NBNB
+  bino-142   binomial      notechis scutatus              NBNB
+  bino-143   binomial      nothobranchius furzeri         NBNB
+  bino-144   binomial      nothoprocta perdicaria         NBNB
+  bino-145   binomial      numida meleagris               NBNB
+  comm-137   common        ocean sunfish                  NBNB
+  bino-146   binomial      ochotona princeps              NBNB
+  bino-147   binomial      octodon degus                  NBNB
+  comm-138   common        okarito brown kiwi             NBNB
+  comm-139   common        olive baboon                   NBNB
+  bino-148   binomial      oncorhynchus kisutch           NBNB
+  bino-149   binomial      oncorhynchus mykiss            NBNB
+  bino-150   binomial      oncorhynchus tshawytscha       NBNB
+  engl-39    english_word  opossum                        NBNB
+  comm-140   common        orange clownfish               NBNB
+  comm-141   common        orbiculate cardinalfish        NBNB
+  comm-142   common        ord's kangaroo rat             NBNB
+  bino-151   binomial      oreochromis aureus             NBNB
+  bino-152   binomial      oreochromis niloticus          NBNB
+  comm-143   common        oriental scops-owl             NBNB
+  bino-153   binomial      ornithorhynchus anatinus       NBNB
+  bino-154   binomial      oryctolagus cuniculus          NBNB
+  bino-155   binomial      oryzias javanicus              NBNB
+  bino-156   binomial      oryzias latipes                NBNB
+  stra-96    strain        oryzias latipes hni            NBNB
+  stra-97    strain        oryzias latipes hsok           NBNB
+  bino-157   binomial      oryzias melastigma             NBNB
+  bino-158   binomial      oryzias sinensis               NBNB
+  bino-159   binomial      otolemur garnettii             NBNB
+  bino-160   binomial      otus sunia                     NBNB
+  bino-161   binomial      ovis aries                     NBNB
+  tagg-36    tagged        ovis aries (texel sheep) - g   NBNB
+  tagg-37    tagged        ovis aries gca011170295v1      NBNB
+  tagg-38    tagged        ovis aries gca018804185v1      NBNB
+  tagg-39    tagged        ovis aries gca022416685v1      NBNB
+  tagg-40    tagged        ovis aries gca022416695v1      NBNB
+  tagg-41    tagged        ovis aries gca022416755v1      NBNB
+  tagg-42    tagged        ovis aries gca022416775v1      NBNB
+  tagg-43    tagged        ovis aries gca022416915v1      NBNB
+  tagg-44    tagged        ovis aries gca022432825v1      NBNB
+  tagg-45    tagged        ovis aries gca022432835v1      NBNB
+  tagg-46    tagged        ovis aries gca024222175v1      NBNB
+  stra-98    strain        ovis aries texel               NBNB
+  stra-99    strain        pachon cavefish                NBNB
+  stra-100   strain        painted turtle                 NBNB
+  bino-162   binomial      pan paniscus                   NBNB
+  bino-163   binomial      pan troglodytes                NBNB
+  comm-144   common        panamanian white-faced capuc   NBNB
+  bino-164   binomial      panthera leo                   NBNB
+  bino-165   binomial      panthera pardus                NBNB
+  stra-101   strain        panthera tigris altaica        NBNB
+  bino-166   binomial      papio anubis                   NBNB
+  bino-167   binomial      parambassis ranga              NBNB
+  bino-168   binomial      paramormyrops kingsleyae       NBNB
+  bino-169   binomial      parus major                    NBNB
+  bino-170   binomial      pavo cristatus                 NBNB
+  bino-171   binomial      pelodiscus sinensis            NBNB
+  bino-172   binomial      pelusios castaneus             NBNB
+  bino-173   binomial      periophthalmus magnuspinnatu   NBNB
+  stra-102   strain        peromyscus maniculatus baird   NBNB
+  bino-174   binomial      petromyzon marinus             NBNB
+  bino-175   binomial      phascolarctos cinereus         NBNB
+  bino-176   binomial      phasianus colchicus            NBNB
+  comm-145   common        philippine tarsier             NBNB
+  bino-177   binomial      phocoena sinus                 NBNB
+  bino-178   binomial      physeter catodon               NBNB
+  engl-40    english_word  pig                            NBNB
+  tagg-47    tagged        pig - bama miniature           NBNB
+  tagg-48    tagged        pig - bamei                    NBNB
+  tagg-49    tagged        pig - banna miniature          NBNB
+  tagg-50    tagged        pig - berkshire                NBNB
+  tagg-51    tagged        pig - chenghua                 NBNB
+  tagg-52    tagged        pig - duroc                    NBNB
+  tagg-53    tagged        pig - euw1 (european wild bo   NBNB
+  tagg-54    tagged        pig - ghungroo                 NBNB
+  tagg-55    tagged        pig - hampshire                NBNB
+  tagg-56    tagged        pig - hjb                      NBNB
+  tagg-57    tagged        pig - jinhua                   NBNB
+  tagg-58    tagged        pig - juema                    NBNB
+  tagg-59    tagged        pig - korean minipig (gca_03   NBNB
+  tagg-60    tagged        pig - landrace                 NBNB
+  tagg-61    tagged        pig - large white (gca_04490   NBNB
+  tagg-62    tagged        pig - largewhite               NBNB
+  tagg-63    tagged        pig - meishan                  NBNB
+  tagg-64    tagged        pig - meishan (gca_017957985   NBNB
+  tagg-65    tagged        pig - nihs-2020                NBNB
+  tagg-66    tagged        pig - ningxiang                NBNB
+  tagg-67    tagged        pig - norwegian landrace       NBNB
+  tagg-68    tagged        pig - ossabaw miniature        NBNB
+  tagg-69    tagged        pig - pb115                    NBNB
+  tagg-70    tagged        pig - pietrain                 NBNB
+  tagg-71    tagged        pig - rongchang                NBNB
+  tagg-72    tagged        pig - tibetan                  NBNB
+  tagg-73    tagged        pig - wuzhishan                NBNB
+  tagg-74    tagged        pig - wuzhishan (gca_0483387   NBNB
+  stra-103   strain        pig usmarc                     NBNB
+  comm-146   common        pig-tailed macaque             NBNB
+  engl-41    english_word  pika                           NBNB
+  comm-147   common        pike-perch                     NBNB
+  bino-179   binomial      piliocolobus tephrosceles      NBNB
+  comm-148   common        pinecone soldierfish           NBNB
+  comm-149   common        pink-footed goose              NBNB
+  engl-42    english_word  platyfish                      NBNB
+  trap-6     trap          platypus                       NBNB
+  bino-180   binomial      podarcis muralis               NBNB
+  bino-181   binomial      poecilia formosa               NBNB
+  bino-182   binomial      poecilia latipinna             NBNB
+  bino-183   binomial      poecilia mexicana              NBNB
+  bino-184   binomial      poecilia reticulata            NBNB
+  bino-185   binomial      pogona vitticeps               NBNB
+  comm-150   common        polar bear                     NBNB
+  bino-186   binomial      pongo abelii                   NBNB
+  comm-151   common        prairie vole                   NBNB
+  bino-187   binomial      procavia capensis              NBNB
+  bino-188   binomial      prolemur simus                 NBNB
+  bino-189   binomial      propithecus coquereli          NBNB
+  bino-190   binomial      pseudonaja textilis            NBNB
+  bino-191   binomial      pteropus vampyrus              NBNB
+  bino-192   binomial      pundamilia nyererei            NBNB
+  bino-193   binomial      pygocentrus nattereri          NBNB
+  trap-7     trap          rabbit                         NBNB
+  comm-152   common        rainbow trout                  NBNB
+  tagg-75    tagged        rat - shr/utx rgd_8142385      NBNB
+  tagg-76    tagged        rat - shrsp/bbbutx             NBNB
+  tagg-77    tagged        rat - wky/bbb rgd_1581635      NBNB
+  bino-194   binomial      rattus norvegicus              NBNB
+  stra-104   strain        rattus norvegicus shrspbbbut   NBNB
+  stra-105   strain        rattus norvegicus shrutx       NBNB
+  stra-106   strain        rattus norvegicus wkybbb       NBNB
+  comm-153   common        red fox                        NBNB
+  comm-154   common        red-bellied piranha            NBNB
+  comm-155   common        reedfish                       NBNB
+  bino-195   binomial      rhinolophus ferrumequinum      NBNB
+  bino-196   binomial      rhinopithecus bieti            NBNB
+  bino-197   binomial      rhinopithecus roxellana        NBNB
+  comm-156   common        ring-necked pheasant           NBNB
+  comm-157   common        round goby                     NBNB
+  engl-43    english_word  ruff                           NBNB
+  comm-158   common        rufous-capped babbler          NBNB
+  comm-159   common        ryukyu mouse                   NBNB
+  comm-160   common        sailfin molly                  NBNB
+  stra-107   strain        saimiri boliviensis bolivien   NBNB
+  bino-198   binomial      salarias fasciatus             NBNB
+  bino-199   binomial      salmo salar                    NBNB
+  tagg-78    tagged        salmo salar gca021399835v1     NBNB
+  tagg-79    tagged        salmo salar gca923944775v1     NBNB
+  tagg-80    tagged        salmo salar gca931346935v2     NBNB
+  bino-200   binomial      salmo trutta                   NBNB
+  bino-201   binomial      salvator merianae              NBNB
+  bino-202   binomial      sander lucioperca              NBNB
+  bino-203   binomial      sarcophilus harrisii           NBNB
+  bino-204   binomial      sciurus vulgaris               NBNB
+  bino-205   binomial      scleropages formosus           NBNB
+  bino-206   binomial      scophthalmus maximus           NBNB
+  comm-161   common        sea lamprey                    NBNB
+  comm-162   common        sea squirt ciona intestinali   NBNB
+  comm-163   common        sea squirt ciona savignyi      NBNB
+  bino-207   binomial      serinus canaria                NBNB
+  bino-208   binomial      seriola dumerili               NBNB
+  stra-108   strain        seriola lalandi dorsalis       NBNB
+  engl-44    english_word  sheep                          NBNB
+  tagg-81    tagged        sheep - chinese merino         NBNB
+  tagg-82    tagged        sheep - east friesian          NBNB
+  tagg-83    tagged        sheep - hu                     NBNB
+  tagg-84    tagged        sheep - kermani                NBNB
+  tagg-85    tagged        sheep - polled dorset          NBNB
+  tagg-86    tagged        sheep - qiaoke                 NBNB
+  tagg-87    tagged        sheep - romanov                NBNB
+  tagg-88    tagged        sheep - texel                  NBNB
+  tagg-89    tagged        sheep - ujimqin                NBNB
+  tagg-90    tagged        sheep - white dorper           NBNB
+  comm-164   common        sheepshead minnow              NBNB
+  comm-165   common        shortfin molly                 NBNB
+  engl-45    english_word  shrew                          NBNB
+  comm-166   common        shrew mouse                    NBNB
+  comm-167   common        siamese fighting fish          NBNB
+  comm-168   common        siberian musk deer             NBNB
+  stra-109   strain        silver-eye                     NBNB
+  bino-209   binomial      sinocyclocheilus anshuiensis   NBNB
+  bino-210   binomial      sinocyclocheilus grahami       NBNB
+  bino-211   binomial      sinocyclocheilus rhinocerous   NBNB
+  engl-46    english_word  sloth                          NBNB
+  comm-169   common        small madagascar hedgehog      NBNB
+  comm-170   common        small tree finch               NBNB
+  comm-171   common        small-eared galago             NBNB
+  comm-172   common        sooty mangabey                 NBNB
+  bino-212   binomial      sorex araneus                  NBNB
+  stra-110   strain        southeastern asian house mou   NBNB
+  comm-173   common        southern platyfish             NBNB
+  bino-213   binomial      sparus aurata                  NBNB
+  comm-174   common        sperm whale                    NBNB
+  bino-214   binomial      spermophilus dauricus          NBNB
+  bino-215   binomial      sphaeramia orbicularis         NBNB
+  bino-216   binomial      sphenodon punctatus            NBNB
+  comm-175   common        spiny chromis                  NBNB
+  comm-176   common        spoon-billed sandpiper         NBNB
+  comm-177   common        spotted gar                    NBNB
+  comm-178   common        spotted green pufferfish       NBNB
+  engl-47    english_word  squirrel                       NBNB
+  bino-217   binomial      stachyris ruficeps             NBNB
+  bino-218   binomial      stegastes partitus             NBNB
+  comm-179   common        steppe mouse                   NBNB
+  engl-48    english_word  stickleback                    NBNB
+  bino-219   binomial      strigops habroptila            NBNB
+  stra-111   strain        strix occidentalis caurina     NBNB
+  stra-112   strain        struthio camelus australis     NBNB
+  comm-180   common        sumatran orangutan             NBNB
+  stra-113   strain        superb fairywren               NBNB
+  bino-220   binomial      suricata suricatta             NBNB
+  bino-221   binomial      sus scrofa                     NBNB
+  stra-114   strain        sus scrofa bamei               NBNB
+  stra-115   strain        sus scrofa berkshire           NBNB
+  tagg-91    tagged        sus scrofa gca007644095v1      NBNB
+  tagg-92    tagged        sus scrofa gca015776825v1      NBNB
+  tagg-93    tagged        sus scrofa gca017957985v1      NBNB
+  tagg-94    tagged        sus scrofa gca018555405v1      NBNB
+  tagg-95    tagged        sus scrofa gca019290145v1      NBNB
+  tagg-96    tagged        sus scrofa gca020567905v1      NBNB
+  tagg-97    tagged        sus scrofa gca021656055v1      NBNB
+  tagg-98    tagged        sus scrofa gca024718415v1      NBNB
+  tagg-99    tagged        sus scrofa gca037447515v1      NBNB
+  tagg-100   tagged        sus scrofa gca039654815v1      NBNB
+  tagg-101   tagged        sus scrofa gca040869115v1      NBNB
+  tagg-102   tagged        sus scrofa gca041937265v1      NBNB
+  tagg-103   tagged        sus scrofa gca044906105v1      NBNB
+  tagg-104   tagged        sus scrofa gca044906185v1      NBNB
+  tagg-105   tagged        sus scrofa gca046128825v1      NBNB
+  tagg-106   tagged        sus scrofa gca048338725v1      NBNB
+  tagg-107   tagged        sus scrofa gca963921485v1      NBNB
+  stra-116   strain        sus scrofa hampshire           NBNB
+  stra-117   strain        sus scrofa jinhua              NBNB
+  stra-118   strain        sus scrofa landrace            NBNB
+  stra-119   strain        sus scrofa largewhite          NBNB
+  stra-120   strain        sus scrofa meishan             NBNB
+  stra-121   strain        sus scrofa pietrain            NBNB
+  stra-122   strain        sus scrofa rongchang           NBNB
+  stra-123   strain        sus scrofa tibetan             NBNB
+  stra-124   strain        sus scrofa usmarc              NBNB
+  stra-125   strain        sus scrofa wuzhishan           NBNB
+  comm-181   common        swainson's thrush              NBNB
+  comm-182   common        swamp eel                      NBNB
+  comm-183   common        swan goose                     NBNB
+  bino-222   binomial      taeniopygia guttata            NBNB
+  bino-223   binomial      takifugu rubripes              NBNB
+  comm-184   common        tammar wallaby                 NBNB
+  engl-49    english_word  tarsier                        NBNB
+  comm-185   common        tasmanian devil                NBNB
+  stra-126   strain        terrapene carolina triunguis   NBNB
+  engl-50    english_word  tetraodon                      NBNB
+  bino-224   binomial      tetraodon nigroviridis         NBNB
+  bino-225   binomial      theropithecus gelada           NBNB
+  comm-186   common        thirteen-lined ground squirr   NBNB
+  stra-127   strain        three-spined stickleback       NBNB
+  tagg-108   tagged        three-spined sticklebacki -    NBNB
+  tagg-109   tagged        three-spined sticklebacki -    NBNB
+  tagg-110   tagged        three-spined sticklebacki -    NBNB
+  stra-128   strain        three-toed box turtle          NBNB
+  engl-51    english_word  tiger                          NBNB
+  comm-187   common        tiger tail seahorse            NBNB
+  comm-188   common        tongue sole                    NBNB
+  comm-189   common        tree shrew                     NBNB
+  comm-190   common        tropical clawed frog           NBNB
+  engl-52    english_word  tuatara                        NBNB
+  bino-226   binomial      tupaia belangeri               NBNB
+  engl-53    english_word  turbot                         NBNB
+  trap-8     trap          turkey                         NBNB
+  comm-191   common        turquoise killifish            NBNB
+  bino-227   binomial      tursiops truncatus             NBNB
+  comm-192   common        ugandan red colobus            NBNB
+  comm-193   common        upper galilee mountains blin   NBNB
+  bino-228   binomial      urocitellus parryii            NBNB
+  bino-229   binomial      ursus americanus               NBNB
+  bino-230   binomial      ursus maritimus                NBNB
+  stra-129   strain        ursus thibetanus thibetanus    NBNB
+  comm-194   common        vaquita                        NBNB
+  bino-231   binomial      varanus komodoensis            NBNB
+  comm-195   common        vervet-agm                     NBNB
+  bino-232   binomial      vicugna pacos                  NBNB
+  engl-54    english_word  vole                           NBNB
+  bino-233   binomial      vombatus ursinus               NBNB
+  bino-234   binomial      vulpes vulpes                  NBNB
+  engl-55    english_word  wallaby                        NBNB
+  comm-196   common        west african mud turtle        NBNB
+  comm-197   common        western european hedgehog      NBNB
+  stra-130   strain        western european house mouse   NBNB
+  comm-198   common        western lowland gorilla        NBNB
+  comm-199   common        western mosquitofish           NBNB
+  stra-131   strain        western painted turtle         NBNB
+  comm-200   common        western wild mouse             NBNB
+  comm-201   common        white-throated sparrow         NBNB
+  comm-202   common        white-tufted-ear marmoset      NBNB
+  comm-203   common        wild yak                       NBNB
+  bino-235   binomial      xenopus tropicalis             NBNB
+  bino-236   binomial      xiphophorus couchianus         NBNB
+  bino-237   binomial      xiphophorus maculatus          NBNB
+  stra-132   strain        yarkand deer                   NBNB
+  comm-204   common        yellow-billed parrot           NBNB
+  stra-133   strain        yellowtail amberjack           NBNB
+  bino-238   binomial      zalophus californianus         NBNB
+  comm-205   common        zebra finch                    NBNB
+  comm-206   common        zebra mbuna                    NBNB
+  comm-207   common        zebrafish                      NBNB
+  comm-208   common        zig-zag eel                    NBNB
+  bino-239   binomial      zonotrichia albicollis         NBNB
+  stra-134   strain        zosterops lateralis melanops   NBNB
+
+=== organism naming: 754 organisms x 2, gemma4:26b, reader reasoning_on ===
+  kind             n   name plain  name decoy  binary plain  binary decoy  name+binary disagree
+  binomial       239       238/239      238/239        238/239        239/239               0/478
+  common         208       208/208      207/208        208/208        207/208               0/416
+  english_word    55        55/55       55/55         55/55         55/55               0/110
+  strain         134       130/134      130/134        134/134        134/134               0/268
+  trap             8         7/8        8/8          7/8          8/8               0/16
+  tagged         110       109/110      109/110        110/110        110/110               0/220
+  TOTAL          754       747/754      747/754        752/754        753/754               0/1508
+
+  calls that failed twice (scored wrong): 0
+
+  per-call time under 8 parallel requests: median 19.057 s
+  cases where the name was wrong but the binary answer right: 11
+  wrote evidence/current_evidence/results/organism_all_names_reasoning_on.json
+
+--- re-scored 2026-09-28 against the species index with derived names (no model call) ---
+
+=== re-scored organism_754_names_reasoning_on.json against today's species index ===
+  kind             n   name plain  name decoy  binary plain  binary decoy  name+binary disagree
+  binomial       239       238/239      238/239        238/239        239/239               0/478
+  common         208       208/208      207/208        208/208        207/208               0/416
+  english_word    55        55/55       55/55         55/55         55/55               0/110
+  strain         134       134/134      134/134        134/134        134/134               0/268
+  trap             8         7/8        8/8          7/8          8/8               0/16
+  tagged         110       110/110      110/110        110/110        110/110               0/220
+  TOTAL          754       752/754      752/754        752/754        753/754               0/1508
+  10 lookups changed; wrote evidence/current_evidence/results/organism_754_names_reasoning_on.json

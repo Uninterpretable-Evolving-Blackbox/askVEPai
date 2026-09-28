@@ -1,0 +1,206 @@
+150 cases x 4 test types = 600 queries -> work/results/factor_grid_cases_terse.csv
+full tuples covered (trap+twin): 32 of 32 valid; uses per tuple min 8 max 11
+  spec-nega-1      ++++  
+  spec-nega-2      ++++  
+  spec-nega-3      ++++  
+  spec-nega-4      ++++  
+  spec-nega-5      ++++  
+  spec-nega-6      ++++  
+  spec-word-1      ++++  
+  spec-word-2      ++++  
+  spec-word-3      ++x+  twin=unstated
+  spec-word-4      ++++  
+  spec-word-5      ++++  
+  spec-word-6      ++++  
+  spec-tool-1      ++++  
+  spec-tool-2      ++++  
+  spec-tool-3      ++x+  twin=unstated
+  spec-tool-4      ++++  
+  spec-tool-5      ++++  
+  spec-tool-6      ++++  
+  spec-atta-1      ++++  
+  spec-atta-2      ++++  
+  spec-atta-3      ++++  
+  spec-atta-4      ++++  
+  spec-atta-5      ++++  
+  spec-atta-6      ++++  
+  spec-doma-1      ++++  
+  spec-doma-2      ++++  
+  spec-doma-3      ++++  
+  spec-doma-4      ++++  
+  spec-doma-5      ++x+  twin=non-human
+  spec-doma-6      ++++  
+  orig-nega-1      ++++  
+  orig-nega-2      ++++  
+  orig-nega-3      ++++  
+  orig-nega-4      ++++  
+  orig-nega-5      ++++  
+  orig-nega-6      ++++  
+  orig-word-1      ++++  
+  orig-word-2      ++++  
+  orig-word-3      ++++  
+  orig-word-4      ++++  
+  orig-word-5      ++++  
+  orig-word-6      ++++  
+  orig-tool-1      ++++  
+  orig-tool-2      ++++  
+  orig-tool-3      ++++  
+  orig-tool-4      ++++  
+  orig-tool-5      ++++  
+  orig-tool-6      ++++  
+  orig-atta-1      ++++  
+  orig-atta-2      ++++  
+  orig-atta-3      ++++  
+  orig-atta-4      ++++  
+  orig-atta-5      ++++  
+  orig-atta-6      ++++  
+  orig-doma-1      ++++  
+  orig-doma-2      ++++  
+  orig-doma-3      ++++  
+  orig-doma-4      ++++  
+  orig-doma-5      ++++  
+  orig-doma-6      +x++  trap=somatic
+  vari-nega-1      ++++  
+  vari-nega-2      ++++  
+  vari-nega-3      ++++  
+  vari-nega-4      ++++  
+  vari-nega-5      ++++  
+  vari-nega-6      ++++  
+  vari-word-1      +x++  trap=['small', 'structural-CNV']
+  vari-word-2      ++++  
+  vari-word-3      ++++  
+  vari-word-4      ++++  
+  vari-word-5      ++++  
+  vari-word-6      ++++  
+  vari-tool-1      ++++  
+  vari-tool-2      ++++  
+  vari-tool-3      ++++  
+  vari-tool-4      ++++  
+  vari-tool-5      ++++  
+  vari-tool-6      ++++  
+  vari-atta-1      ++++  
+  vari-atta-2      ++++  
+  vari-atta-3      ++++  
+  vari-atta-4      ++++  
+  vari-atta-5      ++++  
+  vari-atta-6      ++++  
+  vari-doma-1      ++++  
+  vari-doma-2      ++++  
+  vari-doma-3      ++++  
+  vari-doma-4      ++++  
+  vari-doma-5      ++++  
+  vari-doma-6      ++++  
+  regi-nega-1      ++++  
+  regi-nega-2      ++++  
+  regi-nega-3      ++++  
+  regi-nega-4      ++++  
+  regi-nega-5      ++++  
+  regi-nega-6      ++++  
+  regi-word-1      ++++  
+  regi-word-2      ++++  
+  regi-word-3      ++++  
+  regi-word-4      ++++  
+  regi-word-5      ++++  
+  regi-word-6      ++++  
+  regi-tool-1      ++++  
+  regi-tool-2      ++++  
+  regi-tool-3      ++++  
+  regi-tool-4      ++++  
+  regi-tool-5      ++++  
+  regi-tool-6      ++++  
+  regi-atta-1      ++++  
+  regi-atta-2      ++++  
+  regi-atta-3      ++++  
+  regi-atta-4      ++++  
+  regi-atta-5      ++++  
+  regi-atta-6      ++++  
+  regi-doma-1      ++++  
+  regi-doma-2      ++++  
+  regi-doma-3      ++++  
+  regi-doma-4      ++++  
+  regi-doma-5      +x++  trap=['coding', 'regulatory-noncoding']
+  regi-doma-6      ++++  
+  anal-nega-1      ++++  
+  anal-nega-2      ++++  
+  anal-nega-3      ++++  
+  anal-nega-4      ++++  
+  anal-nega-5      ++++  
+  anal-nega-6      ++++  
+  anal-word-1      +x++  trap=['clinical-interpretation', 'basic-consequence']
+  anal-word-2      ++++  
+  anal-word-3      ++++  
+  anal-word-4      ++++  
+  anal-word-5      ++++  
+  anal-word-6      ++++  
+  anal-tool-1      ++++  
+  anal-tool-2      ++++  
+  anal-tool-3      ++++  
+  anal-tool-4      ++++  
+  anal-tool-5      ++++  
+  anal-tool-6      ++++  
+  anal-atta-1      ++++  
+  anal-atta-2      ++++  
+  anal-atta-3      ++++  
+  anal-atta-4      +x++  trap=['population-frequency', 'clinical-interpretation']
+  anal-atta-5      ++++  
+  anal-atta-6      ++++  
+  anal-doma-1      ++++  
+  anal-doma-2      +x++  trap=['basic-consequence', 'population-frequency']
+  anal-doma-3      ++++  
+  anal-doma-4      +x++  trap=['clinical-interpretation', 'population-frequency']
+  anal-doma-5      +x++  trap=['clinical-interpretation', 'population-frequency']
+  anal-doma-6      ++++  
+
+=== factor grid: 150 cases x 4, gemma4:26b, style terse, reader shipped, seeds [42] ===
+  test types: plain = MFT: the fact stated plainly; trap = INV: a misleading cue word; the answer must not move; twin = DIR: the same clause with the trick removed; the answer must flip; absent = the fact removed; the answer must be unstated
+
+  arm            plain      trap      twin    absent  trap+twin  all four
+  model        150/150   142/150   147/150   150/150    139/150   139/150
+  rule         139/150    69/150    96/150   115/150     42/150    29/150
+  majority      70/150    70/150    70/150     0/150      0/150     0/150
+  (rule = keyword rules; for species this is the shipped path, since the hint is off and infer_species decides species)
+
+  model, by factor (of 30 each)
+                          plain     trap     twin   absent  all four
+  species                 30/30    30/30    27/30    30/30    27/30
+  origin                  30/30    29/30    30/30    30/30    29/30
+  variant_size_class      30/30    29/30    30/30    30/30    29/30
+  region_focus            30/30    29/30    30/30    30/30    29/30
+  analysis_goal           30/30    25/30    30/30    30/30    25/30
+
+  model, all four right, by factor x trick (of 6)
+                          negation  word_sense   tool_name  attachment      domain
+  species                      6/6         5/6         5/6         6/6         5/6
+  origin                       6/6         6/6         6/6         6/6         5/6
+  variant_size_class           6/6         5/6         6/6         6/6         6/6
+  region_focus                 6/6         6/6         6/6         6/6         5/6
+  analysis_goal                6/6         5/6         6/6         5/6         3/6
+
+  multi-select misses: trap: listed extra values (truth included) 7
+  background factors all read correctly: 598/600 queries
+
+  failures (11):
+    spec-word-3      twin   truth non-human                    read unstated
+      Just the consequence types, point mutations and short indels, regulatory regions, somatic calls. Getting these cat and mouse samples was a chase.
+    spec-tool-3      twin   truth non-human                    read unstated
+      Point mutations and short indels, just the consequence types, inherited variants, promoters and enhancers. All data are from the pandas at the zoo.
+    spec-doma-5      twin   truth human                        read non-human
+      Genomes from the kennel owners themselves, not their Labradors. Point mutations and short indels, constitutional calls, in coding sequence, is any of it pathogenic.
+    orig-doma-6      trap   truth germline                     read somatic
+      Variants shared by identical twins, one of whom later developed a tumour. Human, what each one hits, nothing more, copy-number and structural calls, non-coding regulatory elements.
+    vari-word-1      trap   truth ['small']                    read ['small', 'structural-CNV']
+      Is any of it pathogenic, somatic mutations, non-coding regulatory elements, human samples. SNVs with a possible structural effect on the protein.
+    regi-doma-5      trap   truth ['regulatory-noncoding']     read ['coding', 'regulatory-noncoding']
+      Deep intronic variants within a protein-coding gene's locus. Copy-number and structural calls, just the consequence types, somatic calls, human samples.
+    anal-word-1      trap   truth ['basic-consequence']        read ['clinical-interpretation', 'basic-consequence']
+      Coding regions, point mutations and short indels, from zebrafish, somatic calls. Run it with clinical precision please, just the consequence types.
+    anal-atta-4      trap   truth ['clinical-interpretation']  read ['population-frequency', 'clinical-interpretation']
+      Homo sapiens data, non-coding regulatory elements, germline, structural variants. Last year's paper reported the allele frequencies; this year we assess pathogenicity.
+    anal-doma-2      trap   truth ['basic-consequence']        read ['basic-consequence', 'population-frequency']
+      Copy-number and structural calls, somatic mutations, Homo sapiens data, non-coding regulatory elements. Variants from a population cohort, but all I need is the consequence class for each.
+    anal-doma-4      trap   truth ['clinical-interpretation']  read ['clinical-interpretation', 'population-frequency']
+      Protein-coding exons, CNVs and large deletions, inherited variants, human samples. The variant is common in one ancestry; is it benign or pathogenic in our case?
+    anal-doma-5      trap   truth ['population-frequency']     read ['clinical-interpretation', 'population-frequency']
+      Constitutional calls, point mutations and short indels, Homo sapiens data, coding regions. Carrier frequency of a recessive disease allele across populations.
+
+  wrote /Users/david/Desktop/GSoC_WORK/work/results/factor_grid_terse_shipped.json

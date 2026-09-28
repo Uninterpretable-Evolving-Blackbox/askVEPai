@@ -263,30 +263,44 @@ def size_passes(factor_tuple):
     return out
 
 
-def size_dependent_choice(oid, size_value, vep_options, assembly=None):
+def size_dependent_choice(oid, size_value, vep_options, assembly=None, organism=None):
     """Return (form value for this pass, reason it is unavailable) for a control with `web_form_values`.
 
-    A reason is given only when a stated assembly rules the value out (CADD-SV is GRCh38-only)."""
+    A reason is given when a stated assembly rules the value out (CADD-SV is GRCh38-only) or when no
+    value covering this size is offered for the organism. `organism` is what run_recommend displays:
+    "human", a production name, or None to skip the species test. A value's `species` list is
+    Ensembl's per-value class (CADD: plugin_config.txt:678-681); a value without one is for every
+    species that has the option."""
     if not size_value:
         return None, None
     opt = next((o for o in vep_options if o["id"] == oid), None)
     values = (opt or {}).get("web_form_values") or []
     if not values:
         return None, None
+    who = "homo_sapiens" if organism == "human" else organism
+    skipped_for_species = False
     for v in values:
         if size_value in (v.get("covers") or []):
+            if who and v.get("species") and species_key(who) not in {species_key(x) for x in v["species"]}:
+                skipped_for_species = True
+                continue
             need = v.get("assembly_restriction")
             if need and assembly and assembly != need:
                 return v["label"], (f"its only {size_value} annotation file is {need}-only "
                                     f"and you stated {assembly}")
             return v["label"], None
+    if skipped_for_species:
+        return None, (f"the form offers its {size_value} annotation file for "
+                      f"{', '.join(sorted({x for v in values for x in v.get('species') or []}))} only, "
+                      f"and this analysis is {who}")
     return None, f"the form offers no annotation file covering {size_value}"
 
 
-def drop_unavailable_size_values(enabled, vep_options, size_value, assembly):
+def drop_unavailable_size_values(enabled, vep_options, size_value, assembly, organism=None):
     """Remove from `enabled` the options this pass has no usable data file for; return [(oid, why)]."""
     gone = [(oid, reason) for oid in sorted(enabled)
-            for _lab, reason in [size_dependent_choice(oid, size_value, vep_options, assembly)]
+            for _lab, reason in [size_dependent_choice(oid, size_value, vep_options, assembly,
+                                                       organism)]
             if reason]
     for oid, _ in gone:
         enabled.discard(oid)
@@ -528,14 +542,16 @@ def _native_chat_url():
 _CLASSIFY_MAX_TOKENS = 4096
 
 
-def _classify_native(model, user_query, think):
-    """Call the classifier on Ollama's native endpoint, which honours `think`; return the raw text."""
+def _classify_native(model, user_query, think, seed=42, temperature=0.0):
+    """Call the classifier on Ollama's native endpoint, which honours `think`; return the raw text.
+
+    At temperature 0 the seed changes nothing (measured 2026-09-27); it matters only above 0."""
     import urllib.request
     body = {
         "model": model, "stream": False, "keep_alive": KEEP_ALIVE, "think": think,
         "messages": classifier_messages(user_query,
                                         format_species_hint(user_query) if _species_hint_on() else ""),
-        "options": {"temperature": 0.0, "seed": 42, "num_predict": _CLASSIFY_MAX_TOKENS},
+        "options": {"temperature": temperature, "seed": seed, "num_predict": _CLASSIFY_MAX_TOKENS},
     }
     req = urllib.request.Request(_native_chat_url(), data=json.dumps(body).encode(),
                                  headers={"Content-Type": "application/json"})
@@ -557,6 +573,10 @@ def _factor_think_setting():
     return True
 
 
+# Why the last infer_factors call returned None; run_recommend prints it.
+LAST_CLASSIFIER_ERROR = None
+
+
 def infer_factors(client, model, user_query, think=False, apply_defaults=True,
                   seed=42, temperature=0.0):
     """Classify a free-text query into a factor tuple, or None if the classifier fails.
@@ -566,6 +586,8 @@ def infer_factors(client, model, user_query, think=False, apply_defaults=True,
     think=False reads VEP_FACTOR_THINK; think=None uses the OpenAI-compatible /v1 path, which drops
     the `think` parameter. Runs on VEP_FACTOR_MODEL if set, else on `model`, so one pulled model is
     enough. temperature 0 is reproducible only at concurrency 1."""
+    global LAST_CLASSIFIER_ERROR
+    LAST_CLASSIFIER_ERROR = None
     model = os.environ.get("VEP_FACTOR_MODEL") or model
     if think is False:                       # resolve from VEP_FACTOR_THINK
         think = _factor_think_setting()
@@ -581,12 +603,15 @@ def infer_factors(client, model, user_query, think=False, apply_defaults=True,
             )
             raw = resp.choices[0].message.content or ""
         else:
-            raw = _classify_native(model, user_query, think)
-    except Exception:
+            raw = _classify_native(model, user_query, think, seed=seed, temperature=temperature)
+    except Exception as e:                                               # noqa: BLE001
+        # None stays the return value for harnesses; the reason is kept for the CLI to print.
+        LAST_CLASSIFIER_ERROR = f"{type(e).__name__}: {e}"
         return None
 
     rec = parse_factor_classification(raw)
     if rec is None:
+        LAST_CLASSIFIER_ERROR = "the model's answer could not be read as the factor JSON"
         return None
 
     # SPECIES. The model's answer decides (David, 2026-09-16). Any other answer becomes "unstated",
@@ -1004,7 +1029,11 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
         for factor, value, why in assumptions:
             shown = ", ".join(value) if isinstance(value, list) else value
             # Print the value only; the reason stays in `assumptions` for --explain and the JSON
-            # (David, 2026-09-15).
+            # (David, 2026-09-15). A text naming both builds says so, since the user did name one.
+            if factor == "assembly" and len(assemblies_named(user_query)) > 1:
+                print(f"  Assumed {factor} = {shown} (your text names both GRCh37 and GRCh38; "
+                      f"use --assembly GRCh37 if the data is on GRCh37)")
+                continue
             print(f"  Assumed {factor} = {shown}")
         for factor, why, at_stake in questions:
             names = ", ".join(at_stake) if at_stake else "part of the configuration"
@@ -1112,11 +1141,27 @@ def _species_hint_on():
     return os.environ.get("VEP_SPECIES_HINT") == "1"
 
 
-def species_key(production_name):
-    """Strip a production name to genus_species (`ovis_aries_texel` -> `ovis_aries`).
+_SPECIES_OF = None
 
-    Data lists are per species; the index is per strain."""
-    return "_".join((production_name or "").split("_")[:2])
+
+def species_key(production_name):
+    """The species a genome belongs to (`ovis_aries_texel` -> `ovis_aries`), for comparing with data lists.
+
+    Data lists are per species; the index is per strain. `species_of` in species_index.json groups
+    genomes by Ensembl's taxon_id, so a dingo (taxon 286419) stays apart from dog (9615) and a
+    strain-only species gets one key (`cricetulus_griseus_crigri` -> `cricetulus_griseus`). A plugin
+    list's assembly-style name (`gallus_gallus_GCA_000002315.5`) is matched to the index's form of it
+    (`gallus_gallus_gca000002315v5`). A name the index lacks, or a missing index, falls back to the
+    first two words."""
+    global _SPECIES_OF
+    if _SPECIES_OF is None:
+        try:
+            _SPECIES_OF = json.loads((BASE_DIR / "species_index.json").read_text()).get("species_of") or {}
+        except Exception:                                                # noqa: BLE001
+            _SPECIES_OF = {}
+    p = (production_name or "").lower()
+    p = re.sub(r"_gca_?(\d+)\.(\d+)$", r"_gca\1v\2", p)
+    return _SPECIES_OF.get(p) or "_".join(p.split("_")[:2])
 
 
 def load_species_index():
@@ -1134,18 +1179,28 @@ def load_species_index():
     return _SPECIES_INDEX
 
 
+def _name_words(text):
+    """Lower-case a name or query and treat hyphens, underscores and punctuation as spaces.
+
+    So 'guinea-pig', 'guinea pig' and the index's 'naked mole-rat' / 'naked mole rat' compare equal."""
+    return " ".join(re.sub(r"[^a-z0-9]+", " ", (text or "").lower()).split())
+
+
 def species_candidates(user_query: str):
     """Every index species name in the query, longest first, each with its index entry.
 
-    Longest first keeps `guinea pig` ahead of `pig`; a name inside a longer hit is skipped.
+    Longest first keeps `guinea pig` ahead of `pig`; a name inside a longer hit is skipped. Names and
+    query are compared as words (_name_words), so 'guinea-pig' finds `guinea pig`, not `pig`.
     """
-    q = (user_query or "").lower()
+    q = _name_words(user_query)
     idx = load_species_index()
-    hits = []
+    hits, found = [], []
     for name in sorted(idx, key=len, reverse=True):
-        if re.search(r"\b" + re.escape(name) + r"\b", q):
-            if any(name in h["name"] and name != h["name"] for h in hits):
+        nn = _name_words(name)
+        if nn and re.search(r"\b" + re.escape(nn) + r"\b", q):
+            if any(re.search(r"\b" + re.escape(nn) + r"\b", f) and nn != f for f in found):
                 continue                                   # already covered by a longer match
+            found.append(nn)
             hits.append({"name": name, **idx[name]})
     return hits
 
@@ -1193,7 +1248,14 @@ def resolve_species_name(user_query: str):
     for h in hits:
         if not h.get("trap"):
             return h["species"]
-    return _WORD_TO_PRODUCTION.get(infer_species(user_query))
+    word = infer_species(user_query)
+    prod = _WORD_TO_PRODUCTION.get(word)
+    # A keyword inside a longer species name the scan found ('pig' in 'guinea-pig', a name also
+    # used as an idiom and so skipped above) is not that species: leave the organism unresolved.
+    if prod and any(re.search(r"\b" + re.escape(word) + r"\b", _name_words(h["name"]))
+                    and species_key(h["species"]) != species_key(prod) for h in hits):
+        return None
+    return prod
 
 
 def resolve_model_organism(name):
@@ -1201,30 +1263,55 @@ def resolve_model_organism(name):
 
     An unrecognised name returns None, so the model cannot invent a species.
     """
-    n = (name or "").strip().lower()
-    if not n or n in ("unstated", "unknown", "none", "n/a"):
+    if not isinstance(name, str):             # a list or number from the model is not a name
+        return None
+    n = _name_words(name)
+    if not n or n in ("unstated", "unknown", "none", "n a"):
         return None
     idx = load_species_index() or {}
     by_production = {v["species"] for v in idx.values()}
+    by_words = {}
+    for k, v in idx.items():
+        by_words.setdefault(_name_words(k), v)
 
     def canonical(prod):
         """`bos_taurus_wagyu` -> `bos_taurus` when the index also has the plain species."""
         base = species_key(prod)
         return base if base != prod and base in by_production else prod
 
-    if n in idx:
-        return canonical(idx[n]["species"])
-    flat = re.sub(r"[\s-]+", "_", n)
+    if n in by_words:
+        return canonical(by_words[n]["species"])
+    flat = n.replace(" ", "_")
     if flat in by_production:
         return canonical(flat)
     if flat in _WORD_TO_PRODUCTION:
         return _WORD_TO_PRODUCTION[flat]
-    # Partial name ("sharksucker" for `live sharksucker`): accepted only when every matching index
-    # name is one species, so "pig" (pig, guinea pig) stays ambiguous and returns None.
+    # A species Ensembl lists only as strains ("cricetulus griseus", "cyprinus carpio") names the
+    # species key the strains share.
+    species_key("")                           # loads species_of
+    species_keys = set(_SPECIES_OF.values()) if _SPECIES_OF else set()
+    if flat in species_keys:
+        return flat
+    # Partial name, matched on WHOLE words; a substring match read "sea bass" as `ass` (donkey) and
+    # "guinea-pig" as `pig`. Two tiers:
+    #   1. every word of the model's name is in an index name ("sharksucker" -> `live sharksucker`,
+    #      "cricetulus griseus" -> its strains);
+    #   2. an index name is inside the model's name AND is its last word, the head noun ("domestic
+    #      pig" -> `pig`; "turkey vulture" is a vulture, so `turkey` is refused).
+    # Accepted only when the matches are one species (species_key), else None: the caller then
+    # falls back to the name scan, and an unresolved organism withholds per-species data, never adds it.
     if len(n) >= 4:
-        hits = {canonical(v["species"]) for k, v in idx.items() if n in k or k in n}
-        if len(hits) == 1:
-            return hits.pop()
+        words = set(n.split())
+        head = n.split()[-1]
+        tier1 = {species_key(v["species"]) for k, v in by_words.items() if words <= set(k.split())}
+        tier2 = {species_key(v["species"]) for k, v in by_words.items()
+                 if set(k.split()) <= words and head in k.split()}
+        for hits in (tier1, tier2):
+            if len(hits) == 1:
+                key = hits.pop()
+                return key if key in by_production or key in species_keys else canonical(key)
+            if hits:
+                return None
     if n in ("human", "humans", "homo sapiens", "patient", "people"):
         return "homo_sapiens"
     return None
@@ -1345,16 +1432,26 @@ def mentions_result_filter(query):
     return found
 
 
+def assemblies_named(query):
+    """Every human assembly the query names, as a set of 'GRCh37'/'GRCh38'."""
+    out = set()
+    for m in _ASSEMBLY_RE.finditer(query or ""):
+        token = re.sub(r"[\s_-]", "", m.group(1).lower())   # 'GRCh 38' / 'GRCh-38' -> 'grch38'
+        if _ASSEMBLY_ALIASES.get(token):                    # non-human builds (GRCm39...) -> skipped
+            out.add(_ASSEMBLY_ALIASES[token])
+    return out
+
+
 def infer_assembly(query):
     """The human assembly the query names ('GRCh37'/'GRCh38'), or None.
 
-    None when unstated: most queries name no assembly, and assuming one would strip options.
+    None when unstated: most queries name no assembly, and assuming one would strip options. Also None
+    when the text names BOTH builds ("lifted over from hg19 to GRCh38", "not GRCh37"): which one the
+    data is on depends on wording the regex cannot read, so the build is assumed and disclosed like
+    an unstated one. Taking the first match read that example as GRCh37.
     """
-    m = _ASSEMBLY_RE.search(query or "")
-    if not m:
-        return None
-    token = re.sub(r"[\s_-]", "", m.group(1).lower())   # 'GRCh 38' / 'GRCh-38' -> 'grch38'
-    return _ASSEMBLY_ALIASES.get(token)                 # non-human builds (GRCm39...) -> None
+    named = assemblies_named(query)
+    return named.pop() if len(named) == 1 else None
 
 
 def _assembly_restriction(assemblies):
@@ -1812,12 +1909,13 @@ def display_flag(flag):
 
 
 def apply_config_level(enabled, disabled, resolved, level, vep_options, user_query,
-                       assembly_override=None, species_override=None, organism=None):
+                       assembly_override=None, species_override=None, organism=None, why_out=None):
     """Narrow (--minimal) or widen (--full) the corrected set in place, then re-run the checker.
 
     minimal keeps only `recommended` options; standard changes nothing; full adds every ungated
     `recommended` or `optional` option. The re-check restores dependencies and resolves conflicts.
-    Returns the ids removed: by narrowing, or add-ons the re-check dropped under --full."""
+    Returns the ids removed: by narrowing, or add-ons the re-check dropped under --full. `why_out`, if
+    given, receives {id: violation type} for what the re-check removed (conflict, assembly, ...)."""
     if level == "minimal":
         keep = {oid for oid in enabled if resolved.get(oid, (False, None, False))[1] == "recommended"}
         removed = set(enabled) - keep
@@ -1833,9 +1931,14 @@ def apply_config_level(enabled, disabled, resolved, level, vep_options, user_que
         before = set(enabled)
     else:
         return set()
-    check_and_fix_violations(enabled, disabled, vep_options, user_query,
-                             assembly_override=assembly_override,
-                             species_override=species_override, resolved=resolved, organism=organism)
+    recheck = check_and_fix_violations(enabled, disabled, vep_options, user_query,
+                                       assembly_override=assembly_override,
+                                       species_override=species_override, resolved=resolved,
+                                       organism=organism)
+    if why_out is not None:
+        for v in recheck:
+            if v.get("option_disabled"):
+                why_out.setdefault(v["option_disabled"], v.get("type", "conflict"))
     if level == "full":
         return before - set(enabled)
     return removed - set(enabled)          # a dep the re-check restored was not really removed
@@ -1997,7 +2100,8 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
                 if meta_notes and (reason_by_id or {}).get(oid):
                     lines.append(f"      {reason_by_id[oid]}")
                 # A drop-down whose value depends on variant size (e.g. which CADD file).
-                _choice, _ = size_dependent_choice(oid, size_value, vep_options, assembly)
+                _choice, _ = size_dependent_choice(oid, size_value, vep_options, assembly,
+                                                       organism=species)
                 if _choice:
                     lines.append(f"      drop-down: {_choice}")
             # One line per grouped box, after the single options.
@@ -2025,7 +2129,8 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
                     lines.append("      * recommended here — any subset works; leaving the choice "
                                  "alone keeps all of them")
                 for oid in on_members:
-                    _choice, _ = size_dependent_choice(oid, size_value, vep_options, assembly)
+                    _choice, _ = size_dependent_choice(oid, size_value, vep_options, assembly,
+                                                       organism=species)
                     if _choice:
                         lines.append(f"      {name_by_id.get(oid, oid)} drop-down: {_choice}")
         else:
@@ -2368,6 +2473,14 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     t_classify = time.perf_counter() - t_classify
     print(f" {t_classify:.1f}s")
 
+    # A failed call used to fall through to an empty or all-defaults configuration that looked like
+    # a real answer and exited 0. Nothing is resolved or saved without a reading of the scenario.
+    if factor_tuple is None:
+        print(f"\nCould not read the scenario: {LAST_CLASSIFIER_ERROR or 'the classifier call failed'}.")
+        print(f"No configuration was built. Check that Ollama is running and that {model} is pulled "
+              f"(ollama pull {model}).")
+        return 1
+
     # Scope is decided by the classifier, before any defaults are assumed or questions asked.
     # A factor tuple alone cannot tell "hi" from "annotate my VCF".
     request_type = (factor_tuple or {}).get("_request_type", "configure")
@@ -2388,6 +2501,17 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                                                         user_query=user_query, assembly=assembly)
         print("Detected scenario:")
         print(describe_factors(factor_tuple))
+        # The build decides several options, so the one used is always shown with where it came from.
+        if factor_tuple.get("species") == "human" and assembly:
+            src = ("you said" if (context or {}).get("assembly") else
+                   "assumed" if "assembly" in factor_tuple.get("_assumed", []) else "from your text")
+            print(f"- assembly: {assembly} ({src})")
+        # The organism decides per-species data (CADD, SIFT, frequency files), so it is shown: a
+        # wrong lookup ("guinea-pig" read as pig) was invisible before.
+        if factor_tuple.get("species") == "non-human":
+            _org = factor_tuple.get("_organism") or resolve_species_name(user_query)
+            print(f"- organism: {_org}" if _org else
+                  "- organism: not recognised, so options Ensembl offers only for listed species are left out")
         print()
 
     # After resolve_underspecified, so the trace explains the filled-in tuple the run actually uses.
@@ -2466,7 +2590,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                                             violations_out=violations,
                                             organism=organism_for_checker)
         # After the restore, so the restore cannot put a dropped option back.
-        for oid, why in drop_unavailable_size_values(p_enabled, vep_options, size_value, assembly):
+        for oid, why in drop_unavailable_size_values(p_enabled, vep_options, size_value, assembly,
+                                                     organism=species_for_display):
             line = f"  Dropped {oid} on this pass: {why}."
             print(line)
             reports.append(line)
@@ -2484,17 +2609,33 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         if restored_report:
             diagnostics.append(restored_report)
         if resolved and level != "standard":
+            removed_why = {}
             removed = apply_config_level(p_enabled, p_disabled, resolved, level, vep_options,
                                          user_query,
                                          assembly_override=assembly,
                                          species_override=species_for_checker,
-                                         organism=organism_for_checker)
+                                         organism=organism_for_checker, why_out=removed_why)
+            # --full adds options back, so the pass's data-file check runs again: an option already
+            # dropped for this pass (CADD on a GRCh37 SV pass) must not return.
+            for oid, _why in drop_unavailable_size_values(p_enabled, vep_options, size_value, assembly,
+                                                          organism=species_for_display):
+                removed.add(oid)
+                removed_why[oid] = "size_file"
             if level == "minimal":
                 # --minimal keeps RECOMMENDED intact and hides the add-ons.
                 note = "  (add-ons hidden; these are the options you must tick)"
             elif removed:
-                note = (f"  (every applicable add-on included, except {len(removed)} the checker "
-                        f"removed on a conflict: {', '.join(sorted(removed))})")
+                # Grouped by why the re-check removed them; they are not all conflicts.
+                labels = {"conflict": "conflicts with another option",
+                          "assembly": "not on this assembly",
+                          "species": "not for this species", "species_data": "not for this species",
+                          "scenario": "not for this scenario", "size_file": "no data file for this pass"}
+                groups = {}
+                for oid in sorted(removed):
+                    groups.setdefault(labels.get(removed_why.get(oid), "removed by the checker"),
+                                      []).append(oid)
+                note = (f"  (every applicable add-on included, except {len(removed)}: "
+                        + "; ".join(f"{k}: {', '.join(v)}" for k, v in groups.items()) + ")")
             else:
                 note = "  (every applicable add-on included)"
             print(f"\nCONFIG LEVEL: {level}\n{note}")
@@ -2751,7 +2892,7 @@ def main():
             sys.exit(0)
 
     print()
-    run_recommend(make_client(required=False), model, vep_options, training_examples, user_query,
+    return run_recommend(make_client(required=False), model, vep_options, training_examples, user_query,
                   explain=explain, level=level,
                   factor_think=factor_think, clarify=clarify, context=context,
                   show_cli="--cli" in sys.argv,

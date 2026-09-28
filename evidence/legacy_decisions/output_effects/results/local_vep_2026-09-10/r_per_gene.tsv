@@ -1,0 +1,61 @@
+## ENSEMBL VARIANT EFFECT PREDICTOR v116.2
+## Output produced at 2026-09-10 14:04:45
+## Using cache in /Users/david/Desktop/GSoC_WORK/tools_local/vep_local/cache/homo_sapiens/116_GRCh38
+## Using API version 116, DB version ?
+## 1000genomes version phase3
+## COSMIC version 102
+## ClinVar version 202509
+## HGMD-PUBLIC version 20204
+## assembly version GRCh38.p14
+## dbSNP version 156
+## gencode version GENCODE 50
+## genebuild version GENCODE50
+## gnomADe version v4.1
+## gnomADg version v4.1
+## polyphen version 2.2.3
+## regbuild version 1.0
+## sift version 6.2.1
+## Column descriptions:
+## Uploaded_variation : Identifier of uploaded variant
+## Location : Location of variant in standard coordinate format (chr:start or chr:start-end)
+## Allele : The variant allele used to calculate the consequence
+## Gene : Stable ID of affected gene
+## Feature : Stable ID of feature
+## Feature_type : Type of feature - Transcript, RegulatoryFeature or MotifFeature
+## Consequence : Consequence type
+## cDNA_position : Relative position of base pair in cDNA sequence
+## CDS_position : Relative position of base pair in coding sequence
+## Protein_position : Relative position of amino acid in protein
+## Amino_acids : Reference and variant amino acids
+## Codons : Reference and variant codon sequence
+## Existing_variation : Identifier(s) of co-located known variants
+## IMPACT : Subjective impact classification of consequence type
+## DISTANCE : Shortest distance from variant to transcript
+## STRAND : Strand of the feature (1/-1)
+## FLAGS : Transcript quality flags
+## VEP command-line: vep --assembly GRCh38 --cache --database 0 --dir_cache [PATH]/cache --force_overwrite --format vcf --input_file [PATH]/cohort12.vcf --no_stats --offline --output_file [PATH]/r_per_gene.tsv --per_gene --tab
+#Uploaded_variation	Location	Allele	Gene	Feature	Feature_type	Consequence	cDNA_position	CDS_position	Protein_position	Amino_acids	Codons	Existing_variation	IMPACT	DISTANCE	STRAND	FLAGS
+rs1800795	7:22727026	G	ENSG00000179428	ENST00000325042	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	MODIFIER	-	-1	-
+rs1800795	7:22727026	G	ENSG00000136244	ENST00000258743	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	174	1	-
+rs1800795	7:22727026	G	ENSG00000105889	ENST00001034563	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	-1	-
+rs12979860	19:39248147	G	ENSG00000296032	ENST00000735578	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4622	1	-
+rs12979860	19:39248147	G	ENSG00000197110	ENST00000413851	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	3141	-1	-
+rs12979860	19:39248147	G	ENSG00000272395	ENST00000634967	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	-1	-
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000003084	Transcript	missense_variant,splice_region_variant	236	166	56	E/K	Gaa/Aaa	-	MODERATE	-	1	-
+rs74315329	1:171636338	A	ENSG00000034971	ENST00000037502	Transcript	stop_gained	1179	1102	368	Q/*	Cag/Tag	-	HIGH	-	-1	-
+rs74315329	1:171636338	A	ENSG00000283683	ENST00000637303	Transcript	intron_variant	-	-	-	-	-	-	MODIFIER	-	1	-
+rs763110	1:172658358	T	ENSG00000117560	ENST00000367721	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	745	1	-
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000770454	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	MODIFIER	-	1	-
+rs2910164	5:160485411	G	ENSG00000283733	ENST00000385201	Transcript	mature_miRNA_variant	60	-	-	-	-	-	MODIFIER	-	1	-
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000357654	Transcript	missense_variant	5236	5123	1708	A/V	gCg/gTg	-	MODERATE	-	-1	-
+rs1801133	1:11796321	A	ENSG00000177000	ENST00000376590	Transcript	missense_variant	755	665	222	A/V	gCc/gTc	-	MODERATE	-	-1	-
+rs429358	19:44908684	C	ENSG00000130204	ENST00000426677	Transcript	downstream_gene_variant	-	-	-	-	-	-	MODIFIER	4995	1	-
+rs429358	19:44908684	C	ENSG00000130208	ENST00000876409	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	4449	1	-
+rs429358	19:44908684	C	ENSG00000130203	ENST00000252486	Transcript	missense_variant	457	388	130	C/R	Tgc/Cgc	-	MODERATE	-	1	-
+rs7412	19:44908822	T	ENSG00000130208	ENST00000876409	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	4311	1	-
+rs7412	19:44908822	T	ENSG00000130203	ENST00000252486	Transcript	missense_variant	595	526	176	R/C	Cgc/Tgc	-	MODERATE	-	1	-
+rs334	11:5227002	A	ENSG00000244734	ENST00000335295	Transcript	missense_variant	70	20	7	E/V	gAg/gTg	-	MODERATE	-	-1	-
+rs334	11:5227002	A	ENSG00000221031	ENST00000408104	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	2363	-1	-
+rs334	11:5227002	A	ENSG00000298932	ENST00000759072	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	MODIFIER	-	1	-
+rs334	11:5227002	A	ENSG00000285498	ENST00000644706	Transcript	upstream_gene_variant	-	-	-	-	-	-	MODIFIER	1541	-1	-
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000269305	Transcript	missense_variant	357	215	72	P/L	cCc/cTc	-	MODERATE	-	-1	-

@@ -1,0 +1,24 @@
+===== gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence
+QUERY: I am analyzing somatic SNVs and indels from a zebrafish tumor model and need to quickly identify any variants that potentially impact regulatory or non-coding elements.
+  [A classify_raw-style] finish=stop len=200
+  RAW: '{\n  "species": "non-human",\n  "origin": "somatic",\n  "variant_size_class": [\n    "small"\n  ],\n  "region_focus": [\n    "regulatory-noncoding"\n  ],\n  "analysis_goal": [\n    "clinical-interpretation"\n  ]'
+  parsed: None
+  [B think=False] finish=stop len=200
+  RAW: '{\n  "species": "non-human",\n  "origin": "somatic",\n  "variant_size_class": [\n    "small"\n  ],\n  "region_focus": [\n    "regulatory-noncoding"\n  ],\n  "analysis_goal": [\n    "clinical-interpretation"\n  ]'
+  parsed: None
+===== gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence
+QUERY: I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotati
+  [A classify_raw-style] finish=stop len=208
+  RAW: '{\n  "species": "non-human",\n  "origin": "somatic",\n  "variant_size_class": [\n    "small"\n  ],\n  "region_focus": [\n    "coding",\n    "regulatory-noncoding"\n  ],\n  "analysis_goal": [\n    "basic-consequence"\n  ]'
+  parsed: None
+  [B think=False] finish=stop len=208
+  RAW: '{\n  "species": "non-human",\n  "origin": "somatic",\n  "variant_size_class": [\n    "small"\n  ],\n  "region_focus": [\n    "coding",\n    "regulatory-noncoding"\n  ],\n  "analysis_goal": [\n    "basic-consequence"\n  ]'
+  parsed: None
+===== gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation
+QUERY: I am currently working through some sequencing results from a mouse model of cancer and I need to figure out how to properly annotate the list of changes we've identified in the tumor tissue. We are looking at single letter changes as well as small additions or removals of DNA, and it is really impo
+  [A classify_raw-style] finish=stop len=214
+  RAW: '{\n  "species": "non-human",\n  "origin": "somatic",\n  "variant_size_class": [\n    "small"\n  ],\n  "region_focus": [\n    "coding",\n    "regulatory-noncoding"\n  ],\n  "analysis_goal": [\n    "clinical-interpretation"\n  ]'
+  parsed: None
+  [B think=False] finish=stop len=214
+  RAW: '{\n  "species": "non-human",\n  "origin": "somatic",\n  "variant_size_class": [\n    "small"\n  ],\n  "region_focus": [\n    "coding",\n    "regulatory-noncoding"\n  ],\n  "analysis_goal": [\n    "clinical-interpretation"\n  ]'
+  parsed: None

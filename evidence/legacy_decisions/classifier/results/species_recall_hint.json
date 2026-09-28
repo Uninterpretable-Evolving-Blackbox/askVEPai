@@ -1,0 +1,320 @@
+{
+  "model": "gemma4:26b",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "correct": {
+    "bare": {
+      "true": 51,
+      "false": 9
+    },
+    "hinted": {
+      "true": 51,
+      "false": 9
+    }
+  },
+  "rows": [
+    {
+      "query": "Variant calls from Nothobranchius furzeri, coding regions, what do the changes do?",
+      "truth": "non-human",
+      "why": "turquoise killifish; binomial unlikely to be common knowledge",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Ficedula albicollis SNVs and short indels in exons, need consequence calls.",
+      "truth": "non-human",
+      "why": "collared flycatcher",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "I have a small variant callset for Dasypus novemcinctus, exonic changes only.",
+      "truth": "non-human",
+      "why": "nine-banded armadillo",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Astyanax mexicanus exome variants, protein-coding consequence annotation please.",
+      "truth": "non-human",
+      "why": "Mexican cavefish",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Monodelphis domestica short variants, coding regions, functional annotation.",
+      "truth": "non-human",
+      "why": "grey short-tailed opossum",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Annotating coding SNVs from Tetraodon nigroviridis sequence data.",
+      "truth": "non-human",
+      "why": "green spotted pufferfish",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Ciona intestinalis variant calls, exonic, what consequences do they have?",
+      "truth": "non-human",
+      "why": "sea squirt; not a vertebrate",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Anolis carolinensis SNVs in protein-coding exons, consequence annotation.",
+      "truth": "non-human",
+      "why": "green anole lizard",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Oryzias latipes coding variants, need functional consequence calls.",
+      "truth": "non-human",
+      "why": "medaka",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Salmo salar exonic short variants, annotate what they hit.",
+      "truth": "non-human",
+      "why": "Atlantic salmon; also a bioinformatics tool name (Salmon)",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Xenopus tropicalis coding SNVs, consequence annotation for a small callset.",
+      "truth": "non-human",
+      "why": "western clawed frog; genus-level name",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Zebra finch coding variants from a small panel, what do they hit?",
+      "truth": "non-human",
+      "why": "common name, two words, neither of which is an organism alone",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Rambouillet sheep exonic variants, consequence calls for a coding panel.",
+      "truth": "non-human",
+      "why": "a breed name in front of the species",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Collared flycatcher short variants in exons, annotate the consequences.",
+      "truth": "non-human",
+      "why": "common name of Ficedula albicollis",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ]
+    },
+    {
+      "query": "Exome short variants from a patient cohort, coding regions, consequence calls.",
+      "truth": "human",
+      "why": "plain human, no species word at all",
+      "bare": [
+        "unstated",
+        "unstated",
+        "unstated"
+      ],
+      "hinted": [
+        "unstated",
+        "unstated",
+        "unstated"
+      ]
+    },
+    {
+      "query": "Homo sapiens coding SNVs, GRCh38, annotate the consequences.",
+      "truth": "human",
+      "why": "stated outright",
+      "bare": [
+        "human",
+        "human",
+        "human"
+      ],
+      "hinted": [
+        "human",
+        "human",
+        "human"
+      ]
+    },
+    {
+      "query": "Paediatric exome panel, exonic variants, what do these changes hit?",
+      "truth": "human",
+      "why": "clinical context implies human",
+      "bare": [
+        "human",
+        "human",
+        "human"
+      ],
+      "hinted": [
+        "human",
+        "human",
+        "human"
+      ]
+    },
+    {
+      "query": "Coding variants from a UK Biobank participant subset, consequence annotation.",
+      "truth": "human",
+      "why": "a human cohort named without the word human",
+      "bare": [
+        "human",
+        "human",
+        "human"
+      ],
+      "hinted": [
+        "human",
+        "human",
+        "human"
+      ]
+    },
+    {
+      "query": "We ran the Salmon quantification tool first; now annotate the exome coding SNVs.",
+      "truth": "human",
+      "why": "Salmon is the tool here, and `salmon` is in the index",
+      "bare": [
+        "unstated",
+        "unstated",
+        "unstated"
+      ],
+      "hinted": [
+        "unstated",
+        "unstated",
+        "unstated"
+      ]
+    },
+    {
+      "query": "Our lab mascot is a zebra finch. The data are exome coding variants from donors.",
+      "truth": "human",
+      "why": "species named, explicitly not the sample",
+      "bare": [
+        "non-human",
+        "non-human",
+        "non-human"
+      ],
+      "hinted": [
+        "unstated",
+        "unstated",
+        "unstated"
+      ]
+    }
+  ]
+}

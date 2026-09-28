@@ -1,0 +1,678 @@
+{
+  "model": "gemma4:26b",
+  "rows": [
+    {
+      "n": 1,
+      "query": "Human germline exome, SNVs and indels in coding regions, GRCh38. I need pathogenicity assessment for a rare disease diagnosis.",
+      "note": "all stated",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "assumed": [],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 2,
+      "query": "Somatic structural variants and CNVs from a human tumour biopsy, protein-coding impact, looking for drivers.",
+      "note": "all stated",
+      "got": [
+        "human",
+        "somatic",
+        [
+          "structural-CNV"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "want": [
+        "human",
+        "somatic",
+        [
+          "structural-CNV"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "assumed": [
+        "assembly"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 3,
+      "query": "Mouse germline SNVs and short indels in enhancers and promoters, I just want the regulatory consequences.",
+      "note": "all stated",
+      "got": [
+        "non-human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "regulatory-noncoding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "want": [
+        "non-human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "regulatory-noncoding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "assumed": [],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 4,
+      "query": "hey so i got some vcf back from our mouse experiment, its the tumour tissue not the normal, theres like snps and a few small indels, i just wanna know what genes theyre in and whether they break the protein",
+      "note": "buried; the sample IS the mouse",
+      "got": [
+        "non-human",
+        "somatic",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "want": [
+        "non-human",
+        "somatic",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "assumed": [],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 5,
+      "query": "my supervisor wants to know how common these are in the general population before we take it further. theyre from a patient exome, single base changes in exons",
+      "note": "buried; 'how common' is the goal",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "population-frequency"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "population-frequency"
+        ]
+      ],
+      "assumed": [
+        "species"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 6,
+      "query": "we have blood samples from a family, the changes are big deletions and duplications spanning several exons, inherited through the mother. what do they actually do",
+      "note": "buried; multi-exon = SV",
+      "got": [
+        "human",
+        "germline",
+        [
+          "structural-CNV"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "structural-CNV"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "assumed": [
+        "assembly",
+        "species"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 7,
+      "query": "human tumour sample, we've got both the small mutations and some large copy number changes in the same callset, need to work out whats driving it",
+      "note": "both sizes; region unstated -> both",
+      "got": [
+        "human",
+        "somatic",
+        [
+          "small",
+          "structural-CNV"
+        ],
+        [
+          "coding",
+          "regulatory-noncoding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "want": [
+        "human",
+        "somatic",
+        [
+          "small",
+          "structural-CNV"
+        ],
+        [
+          "coding",
+          "regulatory-noncoding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "assumed": [
+        "analysis_goal",
+        "assembly",
+        "region_focus"
+      ],
+      "reprompts": [
+        "analysis_goal"
+      ],
+      "ok": false,
+      "wrong_factors": [
+        "analysis_goal"
+      ]
+    },
+    {
+      "n": 8,
+      "query": "so we sequenced a bunch of zebra finches for a behaviour study and got a load of snvs, wanna see which ones land in protein coding stuff",
+      "note": "origin unstated -> somatic",
+      "got": [
+        "non-human",
+        "somatic",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "want": [
+        "non-human",
+        "somatic",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "assumed": [
+        "origin"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 9,
+      "query": "ok so we went down a bit of a rabbit hole with this one but its just human wgs, germline, and were mostly interested in promoters and enhancers",
+      "note": "TRAP: rabbit hole",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small",
+          "structural-CNV"
+        ],
+        [
+          "regulatory-noncoding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "small",
+          "structural-CNV"
+        ],
+        [
+          "regulatory-noncoding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "assumed": [
+        "analysis_goal",
+        "variant_size_class"
+      ],
+      "reprompts": [
+        "analysis_goal"
+      ],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 10,
+      "query": "i got used as a guinea pig for the new pipeline lol. anyway its human blood, inherited variants, coding snvs, want clinvar and predictions",
+      "note": "TRAP: guinea pig",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "assumed": [
+        "assembly"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 11,
+      "query": "not a mouse study btw, its human. coding snvs, germline, i want to check clinvar and the pathogenicity scores",
+      "note": "TRAP: mouse negated",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "assumed": [
+        "assembly"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 12,
+      "query": "we ran salmon first for the expression side, but now i need the exome coding snvs annotated, human, from patients",
+      "note": "TRAP: Salmon the tool; origin+goal unstated",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "want": [
+        "human",
+        "somatic",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "assumed": [
+        "analysis_goal"
+      ],
+      "reprompts": [
+        "analysis_goal"
+      ],
+      "ok": false,
+      "wrong_factors": [
+        "origin"
+      ]
+    },
+    {
+      "n": 13,
+      "query": "no cnvs or svs were called on this one, its snvs and indels only, human germline exome, coding, clinical interpretation please",
+      "note": "TRAP: CNVs negated",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "assumed": [
+        "assembly"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 14,
+      "query": "healthy controls recruited through a cancer registry, human exome, coding snvs, just the basic consequences",
+      "note": "TRAP: cancer = the registry",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "assumed": [],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 15,
+      "query": "theres a 1bp duplication and a handful of single base deletions, human rare disease exome, coding, want pathogenicity",
+      "note": "TRAP: 1bp dup is SMALL",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "small"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "assumed": [
+        "assembly"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 16,
+      "query": "ive got a vcf, what should i turn on",
+      "note": "everything assumed",
+      "got": [
+        "human",
+        "somatic",
+        [
+          "small",
+          "structural-CNV"
+        ],
+        [
+          "coding",
+          "regulatory-noncoding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "want": [
+        "human",
+        "somatic",
+        [
+          "small",
+          "structural-CNV"
+        ],
+        [
+          "coding",
+          "regulatory-noncoding"
+        ],
+        [
+          "basic-consequence"
+        ]
+      ],
+      "assumed": [
+        "analysis_goal",
+        "origin",
+        "region_focus",
+        "species",
+        "variant_size_class"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 17,
+      "query": "human germline data, coding regions, i want to know if anything is pathogenic",
+      "note": "size unstated -> both",
+      "got": [
+        "human",
+        "germline",
+        [
+          "small",
+          "structural-CNV"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "want": [
+        "human",
+        "germline",
+        [
+          "small",
+          "structural-CNV"
+        ],
+        [
+          "coding"
+        ],
+        [
+          "clinical-interpretation"
+        ]
+      ],
+      "assumed": [
+        "assembly",
+        "variant_size_class"
+      ],
+      "reprompts": [],
+      "ok": true,
+      "wrong_factors": []
+    },
+    {
+      "n": 18,
+      "query": "why is my vep output showing NA for everything in the SIFT column",
+      "scope": "vep-support",
+      "expected_scope": "vep-support",
+      "ok": true
+    },
+    {
+      "n": 19,
+      "query": "hiya",
+      "scope": "not-vep",
+      "expected_scope": "not-vep",
+      "ok": true
+    },
+    {
+      "n": 20,
+      "query": "how do i install the offline cache for vep on a mac, it keeps failing on the perl bit",
+      "scope": "vep-support",
+      "expected_scope": "vep-support",
+      "ok": true
+    }
+  ]
+}

@@ -1,0 +1,1556 @@
+{
+ "model": "gemma4:26b",
+ "seed": 42,
+ "shots": [
+  0,
+  3,
+  8,
+  30
+ ],
+ "arms": {
+  "0": {
+   "n_ok": 31,
+   "n_fail": 0,
+   "species": 31,
+   "origin": 30,
+   "variant_size_class": 30,
+   "region_focus": 31,
+   "analysis_goal": 23,
+   "exact": 22,
+   "e2e": 0.9841431377653658,
+   "secs": 144.7,
+   "rows": [
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.6808510638297872
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": false,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.8275862068965517
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    }
+   ]
+  },
+  "3": {
+   "n_ok": 31,
+   "n_fail": 0,
+   "species": 31,
+   "origin": 29,
+   "variant_size_class": 28,
+   "region_focus": 30,
+   "analysis_goal": 23,
+   "exact": 18,
+   "e2e": 0.9551407482791053,
+   "secs": 223.9,
+   "rows": [
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.6808510638297872
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": false,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": false,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.8
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.8275862068965517
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.7083333333333333
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.5925925925925926
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": false,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    }
+   ]
+  },
+  "8": {
+   "n_ok": 31,
+   "n_fail": 0,
+   "species": 31,
+   "origin": 30,
+   "variant_size_class": 27,
+   "region_focus": 30,
+   "analysis_goal": 23,
+   "exact": 18,
+   "e2e": 0.97769152486214,
+   "secs": 285.6,
+   "rows": [
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.6808510638297872
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": false,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": false,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.8
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.8275862068965517
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    }
+   ]
+  },
+  "30": {
+   "n_ok": 31,
+   "n_fail": 0,
+   "species": 31,
+   "origin": 30,
+   "variant_size_class": 20,
+   "region_focus": 30,
+   "analysis_goal": 22,
+   "exact": 12,
+   "e2e": 0.9104952638795013,
+   "secs": 612.1,
+   "rows": [
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.6808510638297872
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinesmallcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.6046511627906976
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": false,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.8571428571428571
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.6153846153846153
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.6190476190476191
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.6206896551724139
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVregulatorynoncodingpopulationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": false,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.8
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 0.8275862068965517
+    },
+    {
+     "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence+clinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallregulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVregulatorynoncodingclinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": false
+     },
+     "exact": false,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": false,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": false,
+     "e2e": 0.6
+    },
+    {
+     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    },
+    {
+     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
+     "hit": {
+      "species": true,
+      "origin": true,
+      "variant_size_class": true,
+      "region_focus": true,
+      "analysis_goal": true
+     },
+     "exact": true,
+     "e2e": 1.0
+    }
+   ]
+  }
+ }
+}

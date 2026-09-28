@@ -1,0 +1,90 @@
+    1/78 row  1 variant_size_class   FALLBACK                 detected=small, structural-CNV
+    2/78 row  2 origin               FALLBACK                 detected=somatic
+    3/78 row  2 analysis_goal        FALLBACK                 detected=basic-consequence
+    4/78 row  3 origin               FALLBACK                 detected=somatic
+    5/78 row  3 variant_size_class   FALLBACK                 detected=small, structural-CNV
+    6/78 row  3 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+    7/78 row  4 origin               FALLBACK                 detected=somatic
+    8/78 row  4 variant_size_class   FALLBACK                 detected=small, structural-CNV
+    9/78 row  4 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   10/78 row  5 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   11/78 row  5 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   12/78 row  6 origin               FALLBACK                 detected=somatic
+   13/78 row  6 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   14/78 row  6 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   15/78 row  6 analysis_goal        FALLBACK                 detected=basic-consequence
+   16/78 row  7 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   17/78 row  7 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   18/78 row  7 analysis_goal        FALLBACK                 detected=basic-consequence
+   19/78 row  8 origin               FALLBACK                 detected=somatic
+   20/78 row  8 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   21/78 row  8 analysis_goal        FALLBACK                 detected=basic-consequence
+   22/78 row  9 origin               FALLBACK                 detected=somatic
+   23/78 row  9 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   24/78 row 10 origin               FALLBACK                 detected=somatic
+   25/78 row 10 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   26/78 row 10 analysis_goal        FALLBACK                 detected=basic-consequence
+   27/78 row 11 origin               FALLBACK                 detected=somatic
+   28/78 row 11 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   29/78 row 11 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   30/78 row 12 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   31/78 row 12 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   32/78 row 13 origin               FALLBACK                 detected=somatic
+   33/78 row 13 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   34/78 row 13 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   35/78 row 14 origin               FALLBACK                 detected=somatic
+   36/78 row 14 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   37/78 row 14 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   38/78 row 15 origin               FALLBACK                 detected=somatic
+   39/78 row 15 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   40/78 row 15 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   41/78 row 15 analysis_goal        FALLBACK                 detected=basic-consequence
+   42/78 row 16 origin               FALLBACK                 detected=somatic
+   43/78 row 16 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   44/78 row 16 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   45/78 row 16 analysis_goal        FALLBACK                 detected=basic-consequence
+   46/78 row 17 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   47/78 row 17 analysis_goal        FILLED                   detected=population-frequency
+   48/78 row 18 origin               FALLBACK                 detected=somatic
+   49/78 row 18 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   50/78 row 18 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   51/78 row 21 origin               FALLBACK                 detected=somatic
+   52/78 row 22 origin               FALLBACK                 detected=somatic
+   53/78 row 22 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   54/78 row 23 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   55/78 row 23 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   56/78 row 23 analysis_goal        FALLBACK                 detected=basic-consequence
+   57/78 row 24 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   58/78 row 24 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   59/78 row 24 analysis_goal        FALLBACK                 detected=basic-consequence
+   60/78 row 25 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   61/78 row 25 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   62/78 row 26 origin               FALLBACK                 detected=somatic
+   63/78 row 26 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   64/78 row 26 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   65/78 row 27 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   66/78 row 28 origin               FALLBACK                 detected=somatic
+   67/78 row 28 region_focus         FILLED                   detected=coding
+   68/78 row 28 analysis_goal        FALLBACK                 detected=basic-consequence
+   69/78 row 29 origin               FALLBACK                 detected=somatic
+   70/78 row 29 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   71/78 row 29 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   72/78 row 30 origin               FALLBACK                 detected=somatic
+   73/78 row 30 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   74/78 row 30 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   75/78 row 31 origin               FALLBACK                 detected=somatic
+   76/78 row 31 variant_size_class   FALLBACK                 detected=small, structural-CNV
+   77/78 row 31 region_focus         FALLBACK                 detected=coding, regulatory-noncoding
+   78/78 row 31 analysis_goal        FALLBACK                 detected=basic-consequence
+
+=== 78 pure ablations, shipped CLI (single-pass), gemma4:26b ===
+  removed factor        FALLBACK   FILLED  other   policy default
+  origin                      20        0      0   somatic
+  variant_size_class          23        0      0   small, structural-CNV
+  region_focus                22        1      0   coding, regulatory-noncoding
+  analysis_goal               11        1      0   basic-consequence
+  species                      0        0      0   human
+
+  FALLBACK = classifier said unstated, the decided default was applied AND disclosed.
+  FILLED   = classifier supplied a value for a cue the text no longer has: policy bypassed.
+  wrote work/results/final_2026-09-15/fallback_e2e_26b.json

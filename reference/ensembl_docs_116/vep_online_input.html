@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+
+<head>
+  <title>Input form</title>
+
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/bf7fa94804cc780f606b9a4a584a3a49.ie7.css"/><![endif]--><!--[if gt IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/bf7fa94804cc780f606b9a4a584a3a49.css"/><![endif]--><!--[if !IE]><!--><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/bf7fa94804cc780f606b9a4a584a3a49.css"/><!--<![endif]--><!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/83e4f3a09860a9877e49a5cf0e14f6e7.image.ie7.css"/><![endif]--><!--[if gt IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/83e4f3a09860a9877e49a5cf0e14f6e7.image.css"/><![endif]--><!--[if !IE]><!--><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/83e4f3a09860a9877e49a5cf0e14f6e7.image.css"/><!--<![endif]-->
+  <link href="//static.ensembl.org/i/ensembl-favicon.png" rel="icon" type="image/png" />
+  <link href="/apple-touch-icon.png" type="image/png" rel="apple-touch-icon" />
+  <link type="application/opensearchdescription+xml" title="Ensembl (All)" rel="search" href="//jun2026.archive.ensembl.org/opensearch/all.xml" />
+
+  <meta name="google-site-verification" content="tG3WW0bg9gNaIHH002gJl-fV2k0bzf-ZxC8pBqXTaNo" />
+<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+<script>var prefetch = ['/minified/35a717a4475e04c3ffa9b8a224fc081e.png','/minified/a6ae9bf9efe8fbf6981985ab77faa2f3.png','/minified/a8d43fbd196113816742d5331b7c6a50.png','/minified/52e8582f289ca8afbfbbaaeb38eae23e.png','/minified/ce64c940745dc5b1441f9be516921487.png','/minified/c4422ca5e9d311c28cb02222687e088e.png','/minified/7ddf5a861dc3142f79b0ea0b0a865a1d.jpg'];</script>
+</head>
+<body id="ensembl-webpage" data-pace="2" class="static">
+
+  <div id="min_width_container">
+    <div id="min_width_holder">
+    
+    <!-- Announcement Banner -->    
+        
+    <!-- /Announcement Banner -->
+
+      <div id="masthead" class="js_panel">
+        <input type="hidden" class="panel_type" value="Masthead" />
+        <div class="logo_holder"><a href="/"><div class="logo-header print_hide" title="Ensembl Home">&nbsp;</div></a><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png screen_hide_inline" style="background-size: 1233.33333333333px 879.75px;background-position: -7.4px -325.125px;width: 185px;height: 45px" alt="Ensembl Home" title="Ensembl Home"/></div>
+        <div class="mh print_hide">
+          <div class="account_holder"><div class="_account_holder"><div class="account-loading">Loading&hellip;</div><form action="/Ajax/accounts_dropdown"></form></div></div>
+          <div class="tools_holder"><ul class="tools"><li><a class="constant" href="/Multi/Tools/Blast">BLAST/BLAT</a></li><li><a class="constant" href="/info/docs/tools/vep/">VEP</a></li><li><a class="constant" href="/info/docs/tools/index.html">Tools</a></li><li><a class="constant" href="/biomart/martview">BioMart</a></li><li><a class="constant" rel="nofollow" href="/info/data/">Downloads</a></li><li><a class="constant" rel="nofollow" href="/info/">Help &amp; Docs</a></li><li class="last"><a class="constant" target="_blank" href="https://www.ensembl.info">Blog</a></li></ul><div class="more"><a href="#">More <span class="arrow">&#9660;</span></a></div></div>
+          <div class="search_holder print_hide">
+    <div id="searchPanel" class="js_panel">
+      <input type="hidden" class="panel_type" value="SearchBox" />
+      <form action="/Multi/Psychic">
+        <div class="search print_hide">
+          <div class="sites button">
+            <img class="search_image no-sprite badge-16" src="//static.ensembl.org/i/search/ensembl.gif" alt="" />
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 16px;background-position: -798px -47px;background-size: 1000px 782px;width: 7px" />
+            <input type="hidden" name="site" value="ensembl_all" />
+          </div>
+          <div>
+            <label class="hidden" for="se_q">Search terms</label>
+            <input class="query inactive" id="se_q" type="text" name="q" value="Search all species&hellip;" data-role="none" onkeydown="if (event.keyCode == 13) { $(this).closest('form').submit(); return false; }" />
+          </div>
+          <div class="button"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 16px;cursor: pointer;background-size: 1000px 782px;background-position: -292px -47px;height: 16px" alt="Search&nbsp;&raquo;" onClick="$(this).closest('form').submit()"/></div>
+        </div>
+        <div class="site_menu hidden">
+          <div class="ensembl_all"><img class="no-sprite" src="//static.ensembl.org/i/search/ensembl.gif" class="badge-16" alt="Search all species"/>Search all species<input type="hidden" value="Search all species&hellip;" /></div>
+<div class="ensembl_genomes"><img class="no-sprite" src="//static.ensembl.org/i/search/ensembl_genomes.gif" class="badge-16" alt="Search Ensembl genomes"/>Search Ensembl genomes<input type="hidden" value="Search Ensembl genomes&hellip;" /></div>
+<div class="vega"><img class="no-sprite" src="//static.ensembl.org/i/search/vega.gif" class="badge-16" alt="Search Vega"/>Search Vega<input type="hidden" value="Search Vega&hellip;" /></div>
+<div class="ebi"><img class="no-sprite" src="//static.ensembl.org/i/search/ebi.gif" class="badge-16" alt="Search EMBL-EBI"/>Search EMBL-EBI<input type="hidden" value="Search EMBL-EBI&hellip;" /></div>
+<div class="sanger"><img class="no-sprite" src="//static.ensembl.org/i/search/sanger.gif" class="badge-16" alt="Search Sanger"/>Search Sanger<input type="hidden" value="Search Sanger&hellip;" /></div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+        </div>
+  
+        
+        <div class="tabs_holder print_hide"><ul class="tabs"><li class=" short_tab" style="display:none"><a href="/info/website/" title="Using this website">Using</a></li><li class=" short_tab" style="display:none"><a href="/info/genome/" title="Annotation and prediction">Annotation</a></li><li class=" short_tab" style="display:none"><a href="/info/data/" title="Data access">Data</a></li><li class=" active short_tab" style="display:none"><a href="/info/docs/" title="API &amp; software">API</a></li><li class=" short_tab" style="display:none"><a href="/info/about/" title="About us">About</a></li><li class=" long_tab" style="display:block"><a href="/info/website/">Using this website</a></li><li class=" long_tab" style="display:block"><a href="/info/genome/">Annotation and prediction</a></li><li class=" long_tab" style="display:block"><a href="/info/data/">Data access</a></li><li class=" active long_tab" style="display:block"><a href="/info/docs/">API &amp; software</a></li><li class=" long_tab" style="display:block"><a href="/info/about/">About us</a></li></ul></div>
+        
+      </div>
+
+      <div id="main_holder">
+      
+      <div id="page_nav_wrapper">
+        <div id="page_nav" class="nav print_hide js_panel floating">
+          
+    <input type="hidden" class="panel_type" value="LocalContext" />
+    <div class="header">In this section</div>
+    <ul class="local_context">
+      <li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle input.html" alt=""><a href="input.html"><b>Input form</b></a></li><li class="last"><img src="//static.ensembl.org/i/leaf.gif" class="toggle results.html" alt=""><a href="results.html"><b>Results</b></a></li>
+    </ul>
+    
+      <div class="subheader">On this page</div>
+      <ul class="local_context" style="border-width:0">
+        <li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 14px;width: 14px;background-position: -452px -3px;background-size: 1000px 782px" /><a href="#input">Data input</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 14px;background-size: 1000px 782px;background-position: -452px -3px;width: 14px" /><a href="#ident">Identifiers</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 14px;background-size: 1000px 782px;background-position: -452px -3px;height: 14px" /><a href="#freq">Variants and frequency data</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-position: -452px -3px;background-size: 1000px 782px;width: 14px;height: 14px" /><a href="#annotation">Additional annotations</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 14px;background-size: 1000px 782px;background-position: -452px -3px;height: 14px" /><a href="#prediction">Predictions</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 14px;width: 14px;background-size: 1000px 782px;background-position: -452px -3px" /><a href="#filter">Filtering options</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 14px;background-size: 1000px 782px;background-position: -452px -3px;height: 14px" /><a href="#advanced">Advanced options</a></li><li class="last"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 14px;width: 14px;background-position: -452px -3px;background-size: 1000px 782px" /><a href="#jobs">Jobs</a></li>
+      </ul>
+    
+    
+      <div class="js_panel" style="margin:16px 0 0 8px">
+        <input type="hidden" class="panel_type" value="SearchBox" />
+        <form method="get" action="/Multi/Psychic" class="search-form clear"><fieldset><input value="ensembl" name="site" type="hidden" /><input type="hidden" name="facet_feature_type" value="Documentation" /><div class="ff-multi form-field"><div class="ff-inline ff-right"><input name="q" type="text" class="query input _string optional inactive ftext" value="Search documentation&#8230;" size="20" id="q" /><input type="submit" id="HJCdzje3_1" class="fbutton" value="Go" /></div></div></fieldset></form>
+      </div>
+    
+  
+          
+          
+          <p class="invisible">.</p>
+        </div>
+      </div>
+    
+
+      <div id="main">
+          <ul class="breadcrumbs print_hide"><li><a class="home" href="//jun2026.archive.ensembl.org">Home</a></li><li><a href="/info/">Help &amp; Documentation</a></li><li><a href="/info/docs/" title="API & Software">API & Software</a></li><li><a href="/info/docs/tools/" title="Ensembl Tools">Ensembl Tools</a></li><li><a href="/info/docs/tools/vep/" title="Ensembl Variant Effect Predictor (VEP)">Ensembl Variant Effect Predictor (VEP)</a></li><li><a href="/info/docs/tools/vep/online/" title="Ensembl VEP web interface">Ensembl VEP web interface</a></li><li class="last">Input form</li></ul>
+          
+          <div id="content"><div id="static">
+
+<style>
+._afterimage._ht.job-species {
+    width: 16px;
+    height: 16px;
+}
+</style>
+
+  
+  <div style="float:right"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-position: -185px -392px;background-size: 1000px 782px;width: 111px;height: 50px" /></div>
+
+  <h1 id="top"><span style="color:#006;padding-right:15px">Ensembl Variant Effect Predictor</span><span style="color:#666"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 16px;background-position: -226px -25px;background-size: 1000px 782px;width: 16px" /> Input form</span></h1>
+  <hr/>
+
+<p> When you reach the Ensembl VEP web interface, you will be presented with a form to
+enter your data and alter various options.</p>
+
+<p> Note that the listed options change depending on the selected species. </p>
+
+<h2 id="input">Data input</h2>
+
+<div class="column-wrapper">
+    <div class="column-two">
+      <div class="column-left">
+          <ol>
+              <li> First select the correct species for your data. Ensembl hosts
+              many vertebrate genomes; genomes for plants, protists and fungi
+              can be found at <a href="http://www.ensemblgenomes.org/">Ensembl
+              Genomes</a>. </li>
+              
+              <li> You can optionally choose a name for the data you upload -
+              this can make it easier for you to identify jobs and files that
+              you have uploaded to the Ensembl VEP at a later point. </li>
+              
+              <li> <p>You have three options for uploading your data:
+                  
+                  <ul>
+                      <li><b>File upload</b> - click the "Choose file" button
+                      and locate the file on your system. Please ensure your files
+			                are sorted by location if you are using VCF or other input 
+			                formats using location. This greatly improves speed of analysis</li>
+                      <li><b>Paste file</b> - simply copy and paste the contents
+                      of your file into the large text box</li>
+                      <li><b>File URL</b> - point the Ensembl VEP to a file hosted on a
+                      publically accessible address. This can be either a
+                      <b>http://</b> or <b>ftp://</b> address.</li>
+                  </ul>
+                  
+                  Once you have uploaded some data, you can select it as the
+                  input for future jobs by choosing the data from the drop down
+                  menu.</p>
+                  
+                  <p> The format of your data is automatically detected; see the
+                  examples or the <a href="../vep_formats.html#input">input
+                  format</a> documentation. </p>
+              </li>
+              
+              <li> For pasted data you can get an instant preview of the results of your
+              first variant by clicking the button that appears when you paste
+              your data. This quickly shows you the consequence type, the IDs of
+              any overlapping variants, genes, transcripts and regulatory
+              features, as well as SIFT and PolyPhen predictions. To see the full
+              results set submit your job as normal. </li>
+              
+              <li>
+                  <p> For some species you can select which transcript database
+                  to use. The default is to use Ensembl transcripts, which offer
+                  the most rich annotation through Ensembl VEP. </p>
+                  <p> GENCODE Basic is a subset of the GENCODE gene set, and is
+                  intended to provide a simplified, high-quality subset of the
+                  GENCODE transcript annotations that will be useful to the
+                  majority of users. GENCODE Basic includes all genes in the
+                  GENCODE gene set, with a representative subset of the
+                  transcripts (splice variants). </p>
+                  <p> GENCODE Primary is a new transcript subset which covers
+                  all human exons in a minimal set of transcripts. 
+                  This aims to enable annotation of all potential variant 
+                  consequences without duplication across multiple transcripts.
+                  </p>
+                  <p>You can also select to use RefSeq transcripts from the <a
+                  href="/info/docs/api/core/index.html#est">otherfeatures
+                  database</a>; note though that these transcripts are simply
+                  aligned to the reference genome and the database is missing
+                  much of the annotation found when using the main Ensembl
+                  database (e.g. protein domains, CCDS identifiers).</p>
+              </li>
+          </ol>
+      </div>
+    </div>
+      
+    <div class="column-two">
+      <div class="column-right" style="padding-left:2em">
+        <form style="scale: 0.6; transform-origin: top left; pointer-events: none; width: fit-content" class="plain-box vep-form _tool_form bgcolour check _check">
+          <fieldset>
+            <div class="form-field _adjustable_height" style="min-height: 0px;"><label class="ff-label">Species:</label><div class="taxon_selector_form js_panel _sdd ff-right">
+              <div class="list-wrapper">
+                <ul class="list"><li><img src="/i/species/Homo_sapiens.png" class="nosprite"><span class="ss-selected">Homo_sapiens</span><span class="ss-selection-delete">x</span></li></ul>
+                <div class="_vep_assembly italic">Assembly: <span>GRCh38.p13</span></div>
+                <div class="links"><a href="#">Change species</a><div class="italic assembly_msg">If you are looking for Ensembl VEP for Human GRCh37, please go to <a href="#" rel="external">GRCh37 website</a>.</div></div>
+              </div>
+              <div class="checkboxes"><input type="checkbox">Homo_sapiens<br></div>
+            </div></div>
+
+            <div class="form-field"><label class="ff-label">Name for this job (optional):</label><div class="ff-right"><input type="text" class="_string optional ftext"></div></div>
+
+            <div class="form-field ff-multi"><label class="ff-label">Input data:</label>
+              <div class="ff-right"><div><b>Either paste data:</b></div></div><div class="ff-right"><textarea cols="40" class="_text vep-input ftextarea optional focused" rows="10" style="background-position: 0px 29px;">rs699&#13;&#10;rs171&#13;&#10;rs665</textarea><input value="Run instant Ensembl VEP for current line ›" type="button" class="quick-vep-button fbutton hidden" style="display: inline-block; margin-top: 30px;"></div>
+
+              <div class="ff-right"><div><span class="small"><b>Examples:&nbsp;</b><a href="#" class="_example_input" rel="ensembl">Ensembl default</a>, <a href="#" class="_example_input" rel="vcf">VCF</a>, <a href="#" class="_example_input" rel="id">Variant identifiers</a>, <a href="#" class="_example_input" rel="hgvs">HGVS notations</a>, <a href="#" class="_example_input" rel="spdi">SPDI</a></span></div></div>
+
+              <div class="ff-right vep_left_input"><span class="_ht ht"><b>Or upload file:</b></span></div><div class="ff-right"><input class="ffile" type="file"></div>
+
+              <div class="ff-right vep_left_label vep_left_input"><div><b>Or provide file URL:</b></div></div><div class="ff-right"><input type="text" size="30" class="ftext optional url _url"></div>
+            </div>
+            <div class="form-field _stt_rfq" style="display: block;"><label class="ff-label"><span class="_ht ht">Transcript database to use</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="radio" class="_stt" checked="checked"><label class="ff-checklist-label">Ensembl<span style="display: inline;">/GENCODE</span> transcripts</label></p><p class="ff-checklist" style="display: block;"><input type="radio" class="_stt"><label class="ff-checklist-label">Ensembl/GENCODE basic transcripts</label></p><p class="ff-checklist" style="display: block;"><input type="radio" class="_stt"><label class="ff-checklist-label">Ensembl/GENCODE primary transcripts</label><p class="ff-checklist"><input class="_stt" type="radio"><label class="ff-checklist-label">RefSeq transcripts</label></p><p class="ff-checklist"><input class="_stt" type="radio"><label class="ff-checklist-label">Ensembl<span style="display: inline;">/GENCODE</span> and RefSeq transcripts</label></p></div></div></fieldset></form>
+      </div>
+    </div>
+</div>
+
+
+<hr/>
+<h2 id="ident">Identifiers</h2>
+
+<div class="column-wrapper">
+    <div class="column-two">
+        <div class="column-left">
+            Ensembl VEP can provide additional identifiers for genes, transcripts,
+            proteins and variants.
+            
+            <ul>
+                <li><b>Gene symbol</b>
+                  <p>Add the gene symbol for the gene to
+                  the output. This will typically be, for example, the <a
+                  href="http://www.genenames.org/" rel="external">HGNC</a>
+                  identifier for genes in human. Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_symbol">--symbol</a>
+                  in the Ensembl VEP script.</p>
+                </li>
+
+                 <li><b>Transcript version</b>
+                   <p>Add the transcript version to the transcript identifier. Equivalent to <a 
+                   href="/info/docs/tools/vep/script/vep_options.html#opt_transcript_version">--transcript_version</a>.</p> 
+ 
+                <li><b>CCDS</b>
+                  <p>Add the <a href="/info/genome/genebuild/ccds.html">Consensus CDS</a>
+                  transcript identifier where available. Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_ccds">--ccds</a>.</p>
+                </li>
+                
+                <li><b>Protein</b>
+                  <p>Add the Ensembl protein identifer (ENSP). Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_protein">--protein</a>.</p>
+                </li>
+                
+                <li><b>UniProt</b>
+                  <p>Add identifiers for translated protein
+                  products from three <a href="http://www.ebi.ac.uk/uniprot"
+                  rel="external">UniProt</a>-related databases (SWISSPROT, TREMBL
+                  and UniParc). Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_uniprot">--uniprot</a>.</p>
+                </li>
+                
+                <li><b>HGVS</b>
+                  <p>Generate <a href="http://varnomen.hgvs.org/" rel="external">HGVS</a>
+                  identifiers for your input variants relative to the transcript
+                  coding sequence (HGVSc) and the protein sequence (HGVSp).
+                  Equivalent to <a href="/info/docs/tools/vep/script/vep_options.html#opt_hgvs">--hgvs</a>.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+      
+    <div class="column-two">
+      <div class="column-right" style="padding-left:2em">
+        <form style="scale: 0.8; transform-origin: top left; pointer-events: none; width: 150%" class="_tool_form _check check vep-form bgcolour">
+          <fieldset class="extra-options-fieldset" style="margin: 0; padding: 8px"><div class="extra_configs_wrapper" style="margin: 0"><div class="extra_configs_button">
+            <a href="#Identifiers" class="toggle _slide_toggle set_cookie open" rel="__togg_Identifiers">Identifiers</a>
+            <span class="extra_configs_info">Additional identifiers for genes, transcripts and variants</span></div>
+
+            <div class="toggleable hidden extra_configs __togg_Identifiers" style="display: block;"><fieldset><h2>Identifiers</h2>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">Gene symbol</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" checked="checked"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="_ht ht">Transcript version</span>:</label><div class="ff-right"><p class="ff-checklist"><input checked="checked" type="checkbox"></p></div></div>
+              <div class="form-field" style="display: block;"><label class="ff-label"><span class="_ht ht">CCDS</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">Protein</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">UniProt</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="_ht ht">HGVS</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+            </fieldset></div>
+          </div></fieldset>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<hr/>
+<h2 id="freq">Variants and frequency data</h2>
+
+<div class="column-wrapper">
+    <div class="column-two">
+        <div class="column-left">
+            Ensembl VEP can also search the Ensembl database for
+            known variants that are co-located with variants from your input
+            data.
+            
+            <ul>
+                <li>
+                    <p><b>Find co-located known variants</b> - report known
+                    variants from the Ensembl Variation database that overlap
+                    with your input. A list of variant sources imported can be
+                    viewed <a
+                    href="/info/genome/variation/species/species_data_types.html#sources">here</a>.
+                    Note that this feature is only available for species with an
+                    Ensembl Variation database. Equivalent to <a
+                    href="/info/docs/tools/vep/script/vep_options.html#opt_check_existing">--check_existing</a>.
+                    </p>
+                    <p> Ensembl VEP will by default compares the alleles of
+                    your input variant to that of the existing variant;
+                    Ensembl VEP will only report the existing
+                    variant ID if none of the alleles in your input variant are
+                    novel. </p>
+                    <p> For example, if your input variant has alleles A/G,
+                    and the existing variant has alleles A/T, then the existing
+                    variant will not be reported. If instead your input variant
+                    has alleles A/T, then the existing variant will be reported.
+                    </p>
+                    <p> To disable this allele matching, select the option
+                    "Yes but don't compare alleles" for the option
+                    "Find co-located known variants".</p>
+                    <p> For known variants Ensembl VEP can also provide PubMed IDs
+                    of publications citing the variant (equivalent to <a
+                    href="/info/docs/tools/vep/script/vep_options.html#opt_uniprot">--pubmed</a>).</p>
+                </li>
+                <li><b>Variant synonyms</b>
+                    <p>Report known synonyms for co-located variants.</p>
+                </li>
+                <li><b>Frequency data for co-located variants</b>
+                    <p>Ensembl VEP can also report allele frequency (AF)
+                    data for existing variants from several major genotyping
+                    projects, the <a href="http://www.1000genomes.org/"
+                    rel="external">1000 Genomes Project</a>,
+                    and <a href="http://gnomad.broadinstitute.org/" rel="external">gnomAD</a>;
+                    this only applies when you have selected human as your species.
+                        <ul>
+                            <li><b>1000 Genomes global</b> - the combined phase
+                            3 population (i.e. all individuals from all
+                            populations). Equivalent to <a
+                            href="/info/docs/tools/vep/script/vep_options.html#opt_af">--af</a>
+                            </li>
+                            <li><b>1000 Genomes continental</b> - the four
+                            continent-level populations - AFR (African), AMR
+                            (American), ASN (Asian) and EUR (European). Equivalent to <a
+                            href="/info/docs/tools/vep/script/vep_options.html#opt_af_1kg">--af_1kg</a>
+                            </li>
+                            <li><b>gnomAD exomes</b> - combined, AFR, AMR, ASJ, EAS, FIN, NFE, OTH, SAS populations. Equivalent to <a
+                            href="/info/docs/tools/vep/script/vep_options.html#opt_af_gnomade">--af_gnomade</a>
+                            </li>
+                            <li><b>gnomAD genomes</b> - combined, AFR, AMR, AMI, ASJ, EAS, FIN, MID, NFE, OTH, SAS populations. Equivalent to <a
+                              href="/info/docs/tools/vep/script/vep_options.html#opt_af_gnomadg">--af_gnomadg</a>
+                            </li>
+                        </ul>
+                    </p>
+                </li>
+                <li><b>PubMed IDs for citations of co-located variants</b>
+                    <p>Report the PubMed IDs of any publications that cite the co-located variant(s).</p>
+                </li>
+                <li><b>Include flagged variants</b>
+                    <p>Variants flagged as failed by the Ensembl Variation quality control.</p>
+                </li>
+
+                <li><b>Paralogue variants</b>
+                  <p>
+                    Retrieves variants that overlap genomic coordinates corresponding to aligned amino acid positions in paralogous proteins. This functionality is provided by the
+                    <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/Paralogues.pm">Paralogues</a> plugin.<br />
+                  </p>
+                </li>
+
+                <li><b>Open Targets Platform</b>
+                  <p>
+                    Report trait associations from Open Targets Platform through GWAS- or QTL-gene associations, including locus-to-gene (L2G) scores for GWAS loci
+                    <a href="https://platform.opentargets.org" rel="external">Open Targets Platform</a>. This functionality is provided by the
+                    <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/OpenTargets.pm">OpenTargets</a> plugin.<br />
+                  </p>
+                </li>
+
+            </ul>
+      </div>
+    </div>
+
+    <div class="column-two">
+      <div class="column-right" style="padding-left:2em">
+        <form style="scale: 0.8; transform-origin: top left; pointer-events: none; width: 150%" class="_tool_form _check check vep-form bgcolour"><fieldset class="extra-options-fieldset" style="margin: 0; padding: 8px">
+          <div class="_stt_var extra_configs_wrapper" style="margin:0; display: block;"><div class="extra_configs_button"><a class="set_cookie toggle _slide_toggle open" rel="__togg_Variants_and_frequency_data" href="#Variants_and_frequency_data">Variants and frequency data</a><span class="extra_configs_info">Co-located variants and frequency data</span></div><div class="__togg_Variants_and_frequency_data toggleable hidden extra_configs" style="display: block;">
+
+          <fieldset>
+            <h2>Variants and frequency data</h2>
+            <div class="form-field _stt_var" style="display: block;"><label class="ff-label"><span class="ht _ht">Find co-located known variants</span>:</label><div class="ff-right"><select class="_stt fselect"><option selected="selected">Yes</option></select></div></div>
+            <div class="_stt_yes form-field" style="display: block;"><label class="ff-label"><span class="ht _ht">Variant synonyms</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div><div>
+            <div class="_stt_allele _stt_yes form-field"><label class="ff-label">Frequency data for co-located variants:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" checked="checked"><label class="ff-checklist-label _ht ht">1000 Genomes global minor allele frequency</label></p><p class="ff-checklist"><input type="checkbox"><label class="ff-checklist-label ht _ht">1000 Genomes continental allele frequencies</label></p><p class="ff-checklist"><input type="checkbox"><label class="_ht ht ff-checklist-label">gnomAD (exomes) allele frequencies</label></p><p class="ff-checklist"><input type="checkbox"><label class="_ht ht ff-checklist-label">gnomAD (genomes) allele frequencies</label></p></div></div>
+            <div class="form-field _stt_yes _stt_allele"><label class="ff-label"><span class="ht _ht">PubMed IDs for citations of co-located variants</span>:</label><div class="ff-right"><p class="ff-checklist"><input  type="checkbox" checked="checked"></p></div></div></div>
+            <div class="form-field"><label class="ff-label"><span class="ht _ht">Include flagged variants</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+            <div class="form-field"><label class="ff-label"><span class="_ht ht">Paralogue variants</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="radio" checked="checked" value="no"><label class="ff-checklist-label">Disabled</label></p><p class="ff-checklist"><input class="_stt plugin_enable" value="plugin_Paralogues" type="radio" name="plugin_Paralogues"><label class="ff-checklist-label">Enabled</label></p></div></div>
+            <div class="form-field"><label class="ff-label"><span class="_ht ht">Open Targets Platform</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+          </fieldset></div></div>
+        </fieldset></form>
+      </div>
+    </div>
+</div>
+
+<hr/>
+<h2 id="annotation">Additional annotations</h2>
+
+<div class="column-wrapper">
+    <div class="column-two">
+        <div class="column-left">
+            <ul>
+
+                <li><b>DosageSensitivity</b>
+                  <p>Retrieves haploinsufficiency and triplosensitivity probability scores
+                  for affected genes from a dosage sensitivity catalogue published in paper -
+                  <a href="https://www.sciencedirect.com/science/article/pii/S0092867422007887">https://www.sciencedirect.com/science/article/pii/S0092867422007887</a>.</p>
+                </li>
+
+                <li><b>LOEUF</b>
+                  <p>LOEUF stands for the 'loss-of-function observed/expected upper bound fraction'. 
+                  This plugin adds constraint scores derived from gnomAD to Ensembl VEP.
+                  Equivalent to the Ensembl VEP plugin <a rel="external"
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/LOEUF.pm">LOEUF</a>.</p>
+                </li>
+
+                <hr />
+
+                <li><b>Transcript biotype</b>
+                  <p>Add the <a  href="/Help/Faq?id=468">transcript biotype</a> to the output.
+                  Equivalent to <a href="/info/docs/tools/vep/script/vep_options.html#opt_biotype">--biotype</a> in
+                  the Ensembl VEP script.</p>
+                </li>
+
+                <li><b>Exon and intron numbers</b>
+                  <p>Report the exon or intron number that a variant falls in as NUMBER / TOTAL, i.e. exon 2/5
+                  means the variant falls in the 2nd of 5 exons in the transcript. Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_numbers">--numbers</a>.</p>
+                </li>
+                
+                <li> <b>Transcript support level</b>
+                  <p>Report the <a href="/glossary/ENSGLOSSARY_0000005">transcript support level</a> of the overlapped
+                  transcript. Equivalent to
+                  <a href="/info/docs/tools/vep/script/vep_options.html#opt_tsl">--tsl</a>.</p></li>
+                
+                <li> <b>APPRIS</b>
+                  <p>Report the <a href="/glossary/ENSGLOSSARY_0000012">APPRIS</a> score of the overlapped
+                  transcript. Equivalent to
+                  <a href="/info/docs/tools/vep/script/vep_options.html#opt_appris">--appris</a>.</p>
+                </li>
+                
+                <li><b>Identify canonical transcripts</b>
+                  <p>Add a flag to the output indicating if the reported transcript is the <a
+                  href="/glossary/ENSGLOSSARY_0000023">canonical transcript</a> for the
+                  gene. Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_canonical">--canonical</a>.</p>
+                </li>
+                
+                <li><b>Upstream/Downstream distance (bp)</b>
+                  <p>Change the distance to assign the upstream and downstream consequences.
+                  Equivalent to  <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_distance">--distance</a>.</p>
+                </li>
+
+                <li><b>miRNA structure</b>
+                  <p>Determines where in the secondary structure of a miRNA a variant falls (only for Ensembl/GENCODE transcripts).
+                  Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_mirna">--mirna</a>.</p>
+		            </li>
+
+                <li><b>NMD</b>
+                  <p>Predicts if a stop_gained variant allows the transcript to escape nonsense-mediated 
+                  mRNA decay based on certain rules. This functionality is provided by the 
+                  <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/NMD.pm">NMD</a> plugin.</p>
+                </li>
+
+                <li><b>UTRAnnotator</b>
+                  <p>Annotates the effect of 5' UTR variant especially for
+                  variant creating/disrupting upstream ORFs. This functionality
+                  is provided by the 
+                  <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/UTRAnnotator.pm">UTRAnnotator</a> plugin.</p>
+                </li>
+
+                <li><b>RiboseqORFs</b>
+                  <p>Annotates the consequences of variants overlapping Ribo-seq ORFs.
+                  This functionality is provided by the
+                  <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/RiboseqORFs.pm">RiboseqORFs</a> plugin.</p>
+                </li>
+
+                <hr />
+                
+                <li><b>Protein matches</b>
+                  <p>Shows the variant location on PDBe and AlphaFold protein structures in interactive 3d displays, where available.
+                  Report <a href="/glossary/ENSGLOSSARY_0000070">protein domains</a> from <a href="https://www.ebi.ac.uk/pdbe/" rel="external">PDBe</a>, <a
+                  href="https://www.ebi.ac.uk/interpro" rel="external">Pfam</a>, <a
+                  href="http://prosite.expasy.org/" rel="external">Prosite</a> and
+                  <a href="http://www.ebi.ac.uk/interpro/"
+                  rel="external">InterPro</a> that overlap input variants.
+                  Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_domains">--domains</a>.</p>
+                </li>
+
+                <li><b>mutfunc</b>
+                  <p>
+                    <a rel="external" href="http://www.mutfunc.com">mutfunc</a>
+                    predicts destabilization effect of protein structure,
+                    interaction, regulatory region, etc. caused by a variant.
+                    This functionality is provided by the
+                    <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/mutfunc.pm">mutfunc</a> plugin.</p>
+                  </p>
+                </li>
+
+                <li><b>ProtVar</b>
+                  <p>
+                    <a rel="external" href="https://www.ebi.ac.uk/ProtVar/">ProtVar</a>
+		    ProtVar provides contextualised information for missense variation, 
+		    including destabilisation of protein structures, overlapping protein pockets, 
+		    and protein-protein interaction interfaces.
+                    This functionality is provided by the
+                    <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/ProtVar.pm">ProtVar</a> plugin.</p>
+                  </p>
+                </li>
+
+                <hr />
+
+                <li><b>IntAct</b>
+                  <p>Reports relevant data for variants that falls within molecular interaction site as reprted by
+                  <a href="https://www.ebi.ac.uk/intact/home">IntAct</a> database. This functionality is provided by the
+                  <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/IntAct.pm">IntAct</a> plugin.</p>
+                </li>
+
+                <li><b>MaveDB</b>
+                  <p><a rel="external" href="https://mavedb.org">MaveDB</a>
+                  holds experimentally determined measures of variant effect.
+                  This functionality is provided by the
+                  <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/MaveDB.pm">MaveDB</a> plugin.</p>
+                </li>
+
+                <hr />
+                
+                <li><b>Get regulatory region consequences</b>
+                  <p>In addition to predicting consequences with overlapping transcripts, Ensembl VEP
+                  can find overlaps with known regulatory regions as determined in
+                  the <a href="/info/genome/funcgen/index.html">Ensembl Regulatory build</a>.<br />
+                  Using this option, Ensembl VEP will also report if a
+                  variant falls in a transcription factor binding motif, and give
+                  a score that reflects whether the altered motif sequence is more
+                  or less similar to the consensus.<br />
+                  Get regulatory consequences is equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_regulatory">--regulatory</a>.</p>
+                </li>
+
+                <hr />
+
+                <li><b>Enformer</b>
+                  <p>Predictions of variant impact on gene expression.
+                  This functionality is provided by the  <a rel="external" 
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/Enformer.pm">Enformer</a> plugin.</p>
+                </li>
+
+                <hr />
+
+                <li><b>Phenotypes</b>
+                  <p>
+                    Report the phenotypic data overlapping the genomic features. This functionality is provided by the 
+                    <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/Phenotypes.pm">Phenotypes</a> plugin.<br />
+                    For more information on the imported phenotypic data for genes, variation and QTLs see 
+                    <a href="/info/genome/variation/phenotype/sources_phenotype_documentation.html">our phenotype documentation</a>.<br />
+                    <b>Note:</b> This web functionality is not reporting cancer phenotypic data this release. However the cancer phenotypic data is available in the command line version.
+                  </p>
+                </li>
+
+                <li><b>Gene Ontology</b>
+                  <p>
+                    Add terms to describe any overlapping gene's function, the cellular component in which the function is performed and the biological processes to which this contributes.
+                  </p>
+                </li>
+
+                <li><b>Geno2MP</b>
+                  <p>
+                    <a rel="external" href="https://geno2mp.gs.washington.edu">Geno2MP</a>
+                    is a web-accessible database of rare variant genotypes
+                    linked to individual-level phenotypic profiles defined by
+                    human phenotype ontology (HPO) terms.
+                    This functionality is provided by the
+                    <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/Geno2MP.pm">Geno2MP</a> plugin.</p>
+                  </p>
+                </li>
+
+                <li><b>Mastermind</b>
+                  <p>
+                    Uses the <a href="https://www.genomenon.com/mastermind" rel="external">Mastermind Genomic Search Engine</a> to report variants that have clinical evidence cited in the medical literature. This functionality is provided by the
+                    <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/Mastermind.pm">Mastermind</a> plugin.<br />
+                    <b>Note:</b> This web functionality is only reporting the URL to the Mastermind Genomic Search Engine webpage.
+                  </p>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+      
+    <div class="column-two">
+      <div class="column-right" style="padding-left:2em">
+        <form style="scale: 0.8; transform-origin: top left; pointer-events: none; width: 150%" class="_tool_form _check check vep-form bgcolour"><fieldset class="extra-options-fieldset" style="margin: 0; padding: 8px">
+          <div class="extra_configs_wrapper" style="margin: 0"><div class="extra_configs_button"><a class="toggle _slide_toggle set_cookie open" rel="__togg_Additional_annotations" href="#Additional_annotations">Additional annotations</a><span class="extra_configs_info">Addtional transcript, protein and regulatory annotations</span></div><div class="hidden toggleable extra_configs __togg_Additional_annotations" style="display: block;">
+            <fieldset>
+              <h2>Gene tolerance to change</h2>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">DosageSensitivity</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">LOEUF</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+            </fieldset>
+
+            <fieldset>
+              <h2>Transcript annotation</h2>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">Transcript biotype</span>:</label><div class="ff-right"><p class="ff-checklist"><input checked="checked" type="checkbox"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">Exon and intron numbers</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+              <div class="form-field" style="display: block;"><label class="ff-label">Transcript support level:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" checked="checked"></p></div></div>
+              <div class="form-field" style="display: block;"><label class="ff-label"><span class="_ht ht">APPRIS</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" checked="checked"></p></div></div>
+              <div class="form-field" style="display: block;"><label class="ff-label"><span class="_ht ht">MANE</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" checked="checked"></p></div></div>
+              <div class="_stt_merged form-field _stt_core _stt_gencode_basic _stt_gencode_primary " style="display: block;"><label class="ff-label">Identify canonical transcripts:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">Upstream/Downstream distance (bp)</span>:</label><div class="ff-right"><input value="5000" class="optional _string ftext" type="text"></div></div>
+              <div class="form-field"><label class="ff-label"><span class="_ht ht">miRNA structure</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" ></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">NMD</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" class="_stt plugin_enable"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">UTRAnnotator</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" class="plugin_enable _stt"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">RiboseqORFs</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" class="plugin_enable _stt"></p></div></div>
+            </fieldset>
+
+            <fieldset>
+              <h2>Protein annotation</h2>
+              <div class="_stt_merged form-field _stt_core _stt_gencode_basic _stt_gencode_primary" style="display: block;"><label class="ff-label"><span class="ht _ht">Protein matches</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+              <div class="_stt_Mus_musculus form-field _stt_Homo_sapiens" style="display: block;"><label class="ff-label"><span class="_ht ht">mutfunc</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="radio" checked="checked" class="_stt plugin_enable"><label class="ff-checklist-label">Disabled</label></p><p class="ff-checklist"><input type="radio" class="plugin_enable _stt"><label class="ff-checklist-label">Enabled</label></p></div></div>
+              <div class="_stt_Homo_sapiens form-field"><label class="ff-label"><span class="ht _ht">ProtVar</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="_stt plugin_enable" value="no" checked="checked" id="0RUwHghL" name="plugin_ProtVar" type="radio"><label for="0RUwHghL" class="ff-checklist-label">Disabled</label></p><p class="ff-checklist"><input type="radio" name="plugin_ProtVar" id="wldWswC0" class="_stt plugin_enable" value="plugin_ProtVar"><label class="ff-checklist-label" for="wldWswC0">Enabled</label></p></div></div>
+            </fieldset>
+
+            <fieldset>
+              <h2>Functional effect</h2>
+              <div class="_stt_Mus_musculus form-field _stt_Homo_sapiens" style="display: block;"><label class="ff-label"><span class="_ht ht">IntAct</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="radio" checked="checked" class="_stt plugin_enable"><label class="ff-checklist-label">Disabled</label></p><p class="ff-checklist"><input type="radio" class="plugin_enable _stt"><label class="ff-checklist-label">Enabled</label></p></div></div>
+              <div class="_stt_merged form-field _stt_core _stt_gencode_basic _stt_gencode_primary" style="display: block;"><label class="ff-label"><span class="ht _ht">MaveDB</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+            </fieldset>
+
+            <fieldset>
+              <h2>Regulatory data</h2>
+              <div class="form-field _stt_var" style="display: block;"><label class="ff-label"><span class="ht _ht">Get regulatory region consequences</span>:</label><div class="ff-right"><select class="_stt fselect"><option selected="selected">Yes</option></select></div></div>
+            </fieldset>
+
+            <fieldset class="_stt_Homo_sapiens">
+              <h2>Regulatory impact</h2>
+              <div class="_stt_Homo_sapiens form-field"><label class="ff-label"><span class="ht _ht">Enformer</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+            </fieldset>
+                                    
+            <fieldset style="display: block;">
+              <h2>Phenotype data and citations</h2>
+              <div class="form-field"><label class="ff-label"><span class="_ht ht">Phenotypes</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="_ht ht">Gene Ontology</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="_stt plugin_enable" type="checkbox"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">Mastermind</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" class="plugin_enable _stt"></p></div></div></fieldset>
+            </div>
+          </div>
+        </fieldset></form>
+      </div>
+    </div>
+</div>
+
+
+<hr/>
+<h2 id="prediction">Predictions</h2>
+
+<div class="column-wrapper">
+    <div class="column-two">
+        <div class="column-left">
+            <ul>
+                <li><b>SIFT predictions</b>
+                  <p><a rel="external" href="http://sift.bii.a-star.edu.sg/">SIFT</a> predicts whether an amino
+                  acid substitution affects protein function based on sequence
+                  homology and the physical properties of amino acids. Only
+                  available in popular species. For both SIFT and PolyPhen Ensembl VEP
+                  can report either a score between 0 and 1, a prediction in
+                  words, or both. Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_sift">--sift</a>.</p>
+                </li>
+                
+                <li><b>PolyPhen predictions</b>
+                  <p><a rel="external" href="http://genetics.bwh.harvard.edu/pph2/">PolyPhen</a> is a
+                  tool which predicts possible impact of an amino acid
+                  substitution on the structure and function of a human protein
+                  using straightforward physical and comparative considerations.
+                  Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_polyphen">--polyphen</a>.</p>
+                </li>
+
+                <li><b>dbNSFP</b>
+                  <p>Retrieves data for missense variants from <a rel="external" href="https://www.dbnsfp.org/">dbNSFP</a>.
+                  Equivalent to the Ensembl VEP plugin <a rel="external" 
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/dbNSFP.pm">dbNSFP</a>.</p>
+                </li>
+
+                <li><b>AlphaMissense</b>
+                  <p>
+                    <a rel="external" href="https://www.science.org/doi/10.1126/science.adg7492">AlphaMissense</a> is a deep learning
+                    model developed by Google DeepMind that predicts the pathogenicity of single nucleotide missense variants.
+                    Equivalent to the Ensembl VEP plugin <a rel="external"
+                    href="https://github.com/Ensembl/VEP_plugins/blob/release/116/AlphaMissense.pm">AlphaMissense</a>.
+                  </p>
+                </li>
+
+                <li><b>CADD</b>
+                  <p>
+                    <a rel="external" href="https://cadd.gs.washington.edu">Combined Annotation Dependent Depletion (CADD)</a> is a tool for
+                    scoring the deleteriousness of single nucleotide variants
+                    and insertion/deletion variants in the human genome. CADD
+                    integrates multiple annotations into one metric by
+                    contrasting variants that survived natural selection with
+                    simulated mutations. CADD is only available here for
+                    non-commercial use. See
+                    <a rel="external" href="https://cadd.gs.washington.edu">CADD website</a> for more information.
+                    Equivalent to the Ensembl VEP plugin <a rel="external" 
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/CADD.pm">CADD</a>.
+                  </p>
+                </li>
+
+                <li><b>REVEL</b>
+                  <p>
+                    <a rel="external" href="https://sites.google.com/site/revelgenomics">Rare Exome Variant Ensemble Learner (REVEL)</a> is an ensemble method for predicting the pathogenicity of missense variants based on a combination of scores from multiple individual tools. REVEL is only available here for
+                    non-commercial use.
+                    Equivalent to the Ensembl VEP plugin <a rel="external" 
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/REVEL.pm">REVEL</a>.
+                  </p>
+                </li>
+
+                <li><b>ClinPred</b>
+                  <p>
+                    <a rel="external" href="https://sites.google.com/site/clinpred">ClinPred</a> is a prediction tool to identify disease-relevant nonsynonymous single nucleotide variants. The predictor incorporates existing pathogenicity scores and benefits from normal population allele frequencies. ClinPred is only available here for
+                    non-commercial use.
+                    Equivalent to the Ensembl VEP plugin <a rel="external" 
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/ClinPred.pm">ClinPred</a>.
+                  </p>
+                </li>
+
+                <li><b>EVE</b>
+                  <p>Adds information from <a rel="external"
+                  href="https://evemodel.org/">EVE</a> (evolutionary model of variant effect).
+                  Equivalent to the Ensembl VEP plugin <a rel="external"
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/EVE.pm">EVE</a>.</p>
+                </li>
+
+		<li><b>AVI</b>
+                  <p>Provides <a rel="external" href="https://deepmind.google.com/science/alphagenome/">AlphaGenome</a> 
+		  Variant Impact scores developed by <a rel="external" href="https://deepmind.google/">Google DeepMind</a>. 
+		  Equivalent to the Ensembl VEP plugin <a rel="external"
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/AVI.pm">AVI</a>.</p>
+                </li>
+
+                <hr />
+                
+                <li><b>dbscSNV</b>
+                  <p>Retrieves data for splicing variants from <a rel="external" href="https://sites.google.com/site/jpopgen/dbNSFP">dbscSNV</a>.
+                  Equivalent to the Ensembl VEP plugin <a rel="external" 
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/dbscSNV.pm">dbscSNV</a>.</p>
+                </li>
+                
+                <li><b>MaxEntScan</b>
+                  <p>Get splice site predictions from <a rel="external" href="http://genes.mit.edu/burgelab/maxent/Xmaxentscan_scoreseq.html">MaxEntScan</a>.
+                  Equivalent to the Ensembl VEP plugin <a rel="external" 
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/MaxEntScan.pm">MaxEntScan</a>.</p>
+                </li>
+
+                <li><b>SpliceAI</b>
+                  <p>
+                    Pre-calculated annotations from <a href="https://github.com/Illumina/SpliceAI" rel="external">SpliceAI</a> a deep neural network,
+                    developed by Illumina, Inc that predicts splice junctions from an arbitrary pre-mRNA transcript sequence. Used for non-commercial purposes.
+                    This functionality is provided by the
+                    <a href="https://github.com/Ensembl/VEP_plugins/blob/release/116/SpliceAI.pm">SpliceAI</a> plugin.<br />
+                    The pre-calculated annotations for all possible single nucleotide substitutions can be retrieved from:
+                    <ul>
+                        <li>Ensembl/GENCODE v24 canonical transcripts
+                          <p>Masked scores</p>
+                        </li>
+                        <li>Ensembl/GENCODE v37 MANE transcripts
+                          <p>Raw scores</p>
+                        </li>
+                    </ul>
+                  <b>Note:</b> The pre-calculated annotations for 1 base insertions, and 1-4 base deletions are only available for Ensembl/GENCODE v24 canonical transcripts.
+                  </p>
+                </li>
+
+                <hr />
+                
+                <li><b>BLOSUM62</b>
+                  <p>Looks up the BLOSUM 62 substitution matrix score for the reference and alternative 
+                  amino acids predicted for a missense mutation.
+                  Equivalent to the Ensembl VEP plugin <a rel="external" 
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/Blosum62.pm">Blosum62</a>.</p>
+                </li>
+
+                
+                <li><b>Ancestral allele</b>
+                  <p>Retrieves ancestral allele sequences from a FASTA file. Ensembl produces <a rel="external" href="https://ftp.ensembl.org/pub/current_fasta/ancestral_alleles/">FASTA file dumps</a> of the ancestral sequences of key species.
+                  Equivalent to the Ensembl VEP plugin <a rel="external" 
+                  href="https://github.com/Ensembl/VEP_plugins/blob/release/116/AncestralAllele.pm">AncestralAllele</a>.</p>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+      
+    <div class="column-two">
+      <div class="column-right" style="padding-left:2em">
+        <form style="scale: 0.8; transform-origin: top left; pointer-events: none; width: 150%" class="_tool_form _check check vep-form bgcolour"><fieldset class="extra-options-fieldset" style="margin: 0; padding: 8px">
+          <div class="extra_configs_wrapper" style="margin: 0"><div class="extra_configs_button"><a href="#Predictions" rel="__togg_Predictions" class="set_cookie toggle _slide_toggle open">Predictions</a><span class="extra_configs_info">Variant predictions, e.g. SIFT, PolyPhen</span></div><div class="extra_configs toggleable __togg_Predictions hidden" style="display: block;">
+            <fieldset class="_stt_pphn _stt_sift" style="display: block;">
+              <h2>Pathogenicity predictions</h2><input type="hidden">
+              <div class="_stt_sift form-field" style="display: block;"><label class="ff-label"><span class="_ht ht">SIFT</span>:</label><div class="ff-right"><select class="fselect"><option selected="selected">Prediction and score</option></select></div></div>
+              <div class="_stt_pphn form-field"><label class="ff-label"><span class="ht _ht">PolyPhen</span>:</label><div class="ff-right"><select class="fselect"><option selected="selected">Prediction and score</option></select></div></div>
+              <div class="_stt_Homo_sapiens form-field"><label class="ff-label"><span class="_ht ht">dbNSFP</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="_stt plugin_enable" type="radio" checked="checked"><label class="ff-checklist-label">Disabled</label></p><p class="ff-checklist"><input type="radio" class="plugin_enable _stt"><label class="ff-checklist-label">Enabled</label></p></div></div><div class="_stt_plugin_dbNSFP ff-multi form-field" style="display: none;"><label class="ff-label"><span class="_ht ht">Fields to include</span>:</label><div class="ff-right"><select class="fselect" multiple="multiple" style="height:150px;"><option>aapos</option></select></div><div class="ff-notes">Field descriptions in <a rel="external" href="#">dbNSFP README</a></div></div><div class="form-field _stt_plugin_dbNSFP" style="display: none;"><label class="ff-label"><span class="_ht ht">Transcript match</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+              <div class="form-field _stt_Homo_sapiens"><label class="ff-label"><span class="_ht ht">AlphaMissense</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+              <div class="form-field _stt_Homo_sapiens"><label class="ff-label"><span class="_ht ht">CADD</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+              <div class="form-field _stt_Homo_sapiens"><label class="ff-label"><span class="_ht ht">REVEL</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+              <div class="form-field _stt_Homo_sapiens"><label class="ff-label"><span class="_ht ht">ClinPred</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+              <div class="_stt_Homo_sapiens form-field"><label class="ff-label"><span class="ht _ht">EVE</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+              <div class="form-field _stt_Homo_sapiens"><label for="23kB4iQA_12" class="ff-label"><span class="_ht ht">AVI</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" name="plugin_AVI" value="plugin_AVI" type="checkbox" id="23kB4iQA_12"></p></div></div>
+            </fieldset>
+            <fieldset class="_stt_Homo_sapiens">
+              <h2>Splicing predictions</h2>
+              <div class="_stt_Homo_sapiens form-field"><label class="ff-label"><span class="ht _ht">dbscSNV</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+              <div class="form-field _stt_Homo_sapiens"><label class="ff-label"><span class="ht _ht">MaxEntScan</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="_stt plugin_enable" type="checkbox"></p></div></div>
+              <div class="form-field"><label class="ff-label"><span class="_ht ht">SpliceAI</span>:</label><div class="ff-right"><p class="ff-checklist"><input checked="checked" class="_stt plugin_enable" type="radio"><label class="ff-checklist-label">Disabled</label></p><p class="ff-checklist"><input type="radio" class="plugin_enable _stt"><label class="ff-checklist-label">Enabled</label></p></div></div><div class="form-field _stt_plugin_SpliceAI" style="display: none;"><label class="ff-label">Select analysis mode:</label><div class="ff-right"><select class="fselect"><option selected="selected">Masked scores (Ensembl/GENCODE v24 canonical transcripts)</option><option>Raw scores (Ensembl/GENCODE v37 MANE transcripts, SNV only)</option></select></div></div>
+            </fieldset>
+            <fieldset>
+              <h2>Conservation</h2>
+              <div class="form-field"><label class="ff-label"><span class="_ht ht">BLOSUM62</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox" class="plugin_enable _stt"></p></div></div>
+              <div class="form-field _stt_Homo_sapiens"><label class="ff-label"><span class="ht _ht">Ancestral allele</span>:</label><div class="ff-right"><p class="ff-checklist"><input class="plugin_enable _stt" type="checkbox"></p></div></div>
+            </fieldset>
+          </div></div>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<hr/>
+<h2 id="filter">Filtering options</h2>
+
+<div class="column-wrapper">
+    <div class="column-two">
+        <div class="column-left">
+            Ensembl VEP allows you to pre-filter your results e.g. by MAF or
+            consequence type. Note that it is also possible to perform
+            equivalent operations on the results page for Ensembl VEP, so if you
+            aren't sure, don't use any of these options! 
+            <ul>
+                <li><b>By frequency</b>
+                  <p>Filter variants by minor allele frequency (MAF). Two options are provided:
+                    <ul>
+                        <li><b>Exclude common variants</b>
+                          <p>Filter out variants that are co-located with an existing variant that has a
+                          frequency greater than 0.01 (1%) in the 1000 Genomes
+                          global population. Equivalent to <a
+                          href="/info/docs/tools/vep/script/vep_options.html#opt_filter_common">--filter_common</a>
+                          in the Ensembl VEP script.</p>
+                        </li>
+                        <li><b>Advanced filtering</b>
+                          <p>Enabling this option allows you to specify a population and frequency to
+                          compare to, as well whether matching variants should be
+                          included or excluded from the results.</p>
+                        </li>
+                    </ul>
+                   </p>
+                </li>
+                
+                <li><b>Return results for variants in coding regions only</b>
+                  <p>Exclude variants that don't fall in a coding region of a
+                  transcript. Equivalent to <a
+                  href="/info/docs/tools/vep/script/vep_options.html#opt_coding_only">--coding_only</a>.</p>
+                </li>
+                
+                <li><b>Restrict results</b>
+                  <p>For many variants Ensembl VEP will report multiple consequence types - typically this is because
+                  the variant overlaps more than one transcript. For each of these
+                  options Ensembl VEP uses consequence ranks that are subjectively
+                  determined by Ensembl. <a
+                  href="/info/genome/variation/prediction/predicted_data.html#consequence_type_table">This
+                  table</a> gives all of the consquence types predicted by
+                  Ensembl, ordered by rank. Note that enabling one of these
+                  options not only loses potentially relevant data, but in some
+                  cases may be scientifically misleading. Options:
+                    <ul>
+                        <li><b>Show one selected consequence</b>
+                        <p>Pick one consequence type across all those predicted for the
+                          variant; the output will include transcript- or
+                          feature-specific information. Consequences are chosen by
+                          the canonical, biotype status and length of the
+                          transcript, along with the ranking of the consequence
+                          type according to <a
+                          href="/info/genome/variation/prediction/predicted_data.html#consequence_type_table">this
+                          table</a>. This is the best method to use if you are
+                          interested only in one consequence per variant.
+                          Equivalent to <a
+                          href="/info/docs/tools/vep/script/vep_options.html#opt_per_gene">--pick</a>.</p>
+                        </li>
+                        <li><b>Show one selected consequence per gene</b>
+                          <p>Pick one consequence type for each gene using the same
+                          criteria as above. Note that if a variant overlaps more
+                          than one gene, output for each gene will be reported.
+                          Equivalent to <a
+                          href="/info/docs/tools/vep/script/vep_options.html#opt_per_gene">--per_gene</a>.</p>
+                        </li>
+                        <li><b>Show only list of consequences per variant</b>
+                          <p>Give a comma-separated list of all observed consequence
+                          types for each variant. No transcript-specific or
+                          gene-specific output will be given. Equivalent to <a
+                          href="/info/docs/tools/vep/script/vep_options.html#opt_summary">--summary</a>.</p>
+                        </li>
+                        <li><b>Show most severe per variant</b>
+                          <p>Only the most severe of all observed consequence types is reported for
+                          each variant. No transcript-specific or gene-specific
+                          output will be given. Equivalent to <a
+                          href="/info/docs/tools/vep/script/vep_options.html#opt_most_severe">--most_severe</a>.</p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+      
+    <div class="column-two">
+      <div class="column-right" style="padding-left:2em">
+        <form style="scale: 0.8; transform-origin: top left; pointer-events: none; width: 150%" class="_tool_form _check check vep-form bgcolour"><fieldset class="extra-options-fieldset" style="margin: 0; padding: 8px">
+          <div class="extra_configs_wrapper" style="margin: 0"><div class="extra_configs_button"><a class="set_cookie _slide_toggle toggle open" rel="__togg_Filtering_options" href="#Filtering_options">Filtering options</a><span class="extra_configs_info">Pre-filter results by frequency or consequence type</span></div><div class="extra_configs toggleable hidden __togg_Filtering_options" style="display: block;">
+            <fieldset>
+              <h2>Filters</h2>
+              <div class="form-field ff-multi _stt_Homo_sapiens"><label class="ff-label"><span class="_ht ht">Filter by frequency</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="radio" class="_stt"><label class="ff-checklist-label">No filtering</label></p><p class="ff-checklist"><input type="radio" class="_stt"><label class="ff-checklist-label">Exclude common variants</label></p><p class="ff-checklist"><input class="_stt" type="radio" checked="checked"><label class="ff-checklist-label">Advanced filtering</label></p></div><div class="ff-inline ff-right _stt_advanced"><select class="fselect"><option selected="selected">Exclude</option><option>Include only</option></select><select class="fselect"><option selected="selected">variants with MAF greater than</option><option>variants with MAF less than</option></select><input value="0.01" class="ftext optional _string" type="text"><select class="fselect"><option selected="selected">in 1000 genomes (1KG) combined population</option></select></div></div>
+              <div class="form-field"><label class="ff-label"><span class="_ht ht">Return results for variants in coding regions only</span>:</label><div class="ff-right"><p class="ff-checklist"><input type="checkbox"></p></div></div>
+              <div class="form-field ff-multi"><label class="ff-label"><span class="ht _ht">Restrict results</span>:</label><div class="ff-right"><select class="fselect"><option selected="selected">Show all results</option></select></div><div class="ff-notes"><b>NB:</b> Restricting results may exclude biologically important data!</div></div>
+            </fieldset>
+          </div></div>
+        </fieldset></form>
+      </div>
+    </div>
+</div>
+
+
+<hr/>
+<h2 id="advanced">Advanced options</h2>
+
+<div class="column-wrapper">
+    <div class="column-two">
+        <div class="column-left">
+          <p>The Ensembl VEP web interface allows you to use/setup advanced options:</p>
+          <ul>
+            <li><b>Buffer size</b>
+              <p>By default Ensembl VEP process the variants by blocks of 5000 (i.e. what we call "buffer size").<br />
+In some cases, reducing the size of the blocks (buffer size) could prevent memory issues for large Ensembl VEP queries (e.g. use of regulatory data, many plugins or custom annotations).<br />
+This is why the maximum buffer size is automatically set to 500 on the Ensembl VEP Web interface when the "Regulatory data" option is selected.</p></li>
+
+<li><b>Right align variants prior to consequence calculation</b>
+  <p>By default Ensembl VEP performs consequence calculation at the given input coordinates.<br />
+Optionally, Ensembl VEP can shift insertions and deletions found within repeated regions as far as possible in the 3' direction, normalising output.
+</ul>
+        </div>
+    </div>
+
+    <div class="column-two" style="min-height: 250px;">
+      <div class="column-right" style="padding-left:2em">
+        <form style="scale: 0.8; transform-origin: top left; pointer-events: none; width: 150%" class="_tool_form _check check vep-form bgcolour"><fieldset class="extra-options-fieldset" style="margin: 0; padding: 8px">
+          <div class="extra_configs_wrapper" style="margin: 0"><div class="extra_configs_button"><a href="#Advanced_options" rel="__togg_Advanced_options" class="toggle _slide_toggle set_cookie open">Advanced options</a><span class="extra_configs_info">Additional enhancements</span></div><div class="__togg_Advanced_options toggleable hidden extra_configs" style="display: block;">
+            <fieldset>
+              <h2>Advanced options</h2>
+              <div class="ff-multi form-field"><label class="ff-label"><span class="_ht ht">Buffer size</span>:</label><div class="ff-right"><select class="fselect"><option selected="selected">5000</option></select></div><div class="ff-notes"><div class="_stt_Homo_sapiens _stt_Mus_musculus" style="display: block;"><b>NB:</b> When the <b>Regulatory data</b> option is selected then due to the large amount of regulatory data available, the <b>maximum buffer size</b> is automatically reduced from the default value of <b>5000</b> to <b>500</b>. This reduces the memory requirement but might increase the run time. If you find that your jobs are still failing due to memory limitations then you can select a value <b>lower than 500</b>.</div></div></div>
+              <div class="form-field"><label class="ff-label"><span class="ht _ht">Right align variants prior to consequence calculation</span>:</label><div class="ff-right"><select class="fselect"><option selected="selected">Right align relative to transcript</option></select></div></div>
+            </fieldset>
+          </div></div>
+        </fieldset></form>
+      </div>
+    </div>
+</div>
+
+
+<hr/>
+<h2 id="jobs">Jobs</h2>
+
+<div class="column-wrapper">
+    <div class="column-two">
+      <div class="column-left">
+          <p>Once you have clicked <b>Run</b>, your input will be checked
+          and submitted to the Ensembl VEP as a job. All jobs associated with your
+          session or account are shown in the <b>Recent Tickets</b> table.
+          You may submit multiple jobs simultaneously.</p> <p>The
+          <b>Jobs</b> column of the table shows the current status of the
+          job.</p>
+
+          <ul>
+            <li><span class="_ht job-status-submitted job-status"><a>Queued</a></span>
+            - your job is waiting to be submitted to the system</li>
+            <li><span class="_ht job-status-running job-status"><a>Running</a></span>
+            - your job is currently running</li>
+            <li><span class="_ht job-status-done job-status"><a>Done</a></span>
+            - your job is finished - click the [View results]
+            link to be taken to the results page</li>
+            <li><span class="_ht job-status-failed job-status"><a>Failed</a></span>
+            - there is a problem with your job - click the magnifying glass icon
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 16px;background-size: 1000px 782px;background-position: -292px -47px;height: 16px" /> to see more details</li>
+          </ul>
+
+          The following actions are available for each job:
+          <ul>
+            <li><b><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 16px;background-size: 1000px 782px;background-position: -270px -47px;height: 16px" /> Save icon:</b> save the job (you
+            need to login with an Ensembl account).</li>
+            <li><b><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 16px;background-position: -226px -25px;background-size: 1000px 782px;width: 16px" /> Edit icon:</b> resubmit a job
+            (for example, to slightly tweak the data or parameters before
+            re-running).</li>
+            <li><b><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 16px;background-position: -292px -47px;background-size: 1000px 782px;width: 16px" /> Magnifying glass icon:</b> see
+            summary of the options that you selected for your Ensembl VEP job, as well
+            as data versions associated with this run.</li>
+            <li><b><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 16px;background-position: -336px -47px;background-size: 1000px 782px;height: 16px" /> Share icon:</b> display URL to
+            share with other users. You can also disable URL sharing here.</li>
+            <li><b><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 16px;background-size: 1000px 782px;background-position: -424px -47px;width: 16px" /> Trash can icon:</b> delete a
+            job.</li>
+          </ul>
+      </div>
+    </div>
+      
+    <div class="column-two">
+      <div class="column-right" style="padding-left:2em">
+        <div class="dataTables_wrapper" style="scale: 0.6; transform-origin: top left; pointer-events: none; width: 150%"><div class="dataTables_top"><div class="dataTables_length"><label>Show <select data-role="none" size="1"><option selected="selected">All</option></select> entries</label></div><div class="col_toggle"><div class="toggle">Show/hide columns</div></div><div class="dataTables_filter"><label><input data-role="none" type="text"><div class="overlay">Filter</div></label></div><div class="invisible"></div></div><table class="autocenter ss data_table" style="width: 100%" cellpadding="0" cellspacing="0">
+            <tr class="ss_header" style="white-space: nowrap; width: 100%;">
+              <th class="sort_string sorting" title="Analysis" rowspan="1" colspan="1" style="white-space: normal; width: 10px;">Analysis</th>
+              <th class="sort_none sorting_disabled" title="Jobs" rowspan="1" colspan="1" style="white-space: normal">Jobs</th>
+              <th class="sort_numeric_hidden sorting" title="Submitted at (GMT)" rowspan="1" colspan="1" style="white-space: normal; width: 10px;">Submitted at (GMT)</th>
+              <th class="sort_none sorting_disabled" rowspan="1" colspan="1" style="white-space: normal; width: 10px;"></th>
+            </tr>
+          <tbody>
+            <tr class="_ticket_8Cca81zmCDOPs02S bg1"><td>Ensembl Variant Effect Predictor</td><td><img class="ticket_img" src="//static.ensembl.org/i/species/Bos_taurus.png" style="width:16px; height:16px;" alt="" class="_ht job-species"><span class="right-margin">Ensembl VEP analysis of pasted data in Bos_taurus</span><span class="_ht job-status-done job-status"><a>Done</a></span><a class="small left-margin">[View results]</a><span class="job-sprites" style="position: absolute"><a class="_ticket_view job-sprite _change_location"><span class="view_icon sprite _ht"></span></a><a class="_ticket_edit job-sprite _change_location"><span class="_ht edit_icon sprite"></span></a><a class="job-sprite _json_link"><span class="sprite delete_icon _ht"></span></a></span></p></td><td><span class="hidden">20230511170040</span>11/05/2023, 17:00</td><td><div class="ticket-sprites"><span class="_ht save_icon sprite sprite_disabled"></span><a class="_change_location _ticket_edit"><span class="sprite edit_icon _ht"></span></a><div class="ticket-share-icon share_icon _ticket_share hidden sprite"><form class="top-margin"><p><label><input type="checkbox" checked="checked">&nbsp;Share ticket via URL</label></p><p class="_ticket_share_url"><input class="ticket-share-input" type="text"></p></form></div><a class="_json_link"><span class="delete_icon sprite _ht"></span></a></div></td></tr>
+            <tr class="_ticket_NzFhqZNWDwWVXfZJ bg2"><td>Ensembl Variant Effect Predictor</td><td><img class="_ht job-species" style="height:16px; width:16px;" src="//static.ensembl.org/i/species/Ovis_aries.png" alt=""><span class="right-margin">Ensembl VEP analysis of pasted data in Ovis_aries</span><span class="_ht job-status job-status-done"><a>Done</a></span><a class="left-margin small">[View results]</a></p></td><td><span class="hidden">20230511165532</span>11/05/2023, 16:55</td><td><div class="ticket-sprites"><span class="_ht save_icon sprite sprite_disabled"></span><a href="/Multi/Tools/VEP/Edit?db=core;tl=NzFhqZNWDwWVXfZJ" class="_change_location _ticket_edit"><span class="_ht edit_icon sprite"></span></a><div class="share_icon ticket-share-icon sprite hidden _ticket_share"><form class="top-margin"><p><label><input type="checkbox" checked="checked">&nbsp;Share ticket via URL</label></p><p class="_ticket_share_url"><input class="ticket-share-input" type="text"></p></form></div><a class="_json_link" href="/Multi/Json/Tools/VEP/delete?db=core;tl=NzFhqZNWDwWVXfZJ"><span class="delete_icon sprite _ht"></span><span class="_confirm hidden">This will delete the following job permanently: Ensembl VEP analysis of pasted data in Homo_sapiens</span></a></div></td></tr>
+            <tr class="_ticket_1uyqKkUHWWUzEbyk bg1"><td>Ensembl Variant Effect Predictor</td><td><img class="_ht job-species" style="width:16px; height:16px;" src="//static.ensembl.org/i/species/Homo_sapiens.png" alt=""><span class="right-margin">Ensembl VEP analysis of pasted data in Homo_sapiens</span><span class="job-status job-status-failed _ht"><a>Failed</a></span></p></td><td><span class="hidden">20230420095705</span>11/05/2023, 16:54</td><td><div class="ticket-sprites"><span class="save_icon _ht sprite sprite_disabled"></span><a class="_ticket_edit _change_location"><span class="edit_icon _ht sprite"></span></a><div class="ticket-share-icon share_icon _ticket_share hidden sprite"><form class="top-margin"><p><label><input type="checkbox" checked="checked">&nbsp;Share ticket via URL</label></p><p class="_ticket_share_url"><input class="ticket-share-input" type="text"></p></form></div><a class="_json_link"><span class="_ht sprite delete_icon"></span></a></div></td></tr></tr>
+            <tr class="_ticket_1uyqKkUHWWUzEbyk bg2"><td>Ensembl Variant Effect Predictor</td><td><img class="_ht job-species" style="width:16px; height:16px;" src="//static.ensembl.org/i/species/Homo_sapiens.png" alt=""><span class="right-margin">Ensembl VEP analysis of pasted data in Homo_sapiens</span><span class="job-status job-status-running _ht"><a>Running</a></span></p></td><td><span class="hidden">20230420095705</span>11/05/2023, 16:51</td><td><div class="ticket-sprites"><span class="save_icon _ht sprite sprite_disabled"></span><a class="_ticket_edit _change_location"><span class="edit_icon _ht sprite"></span></a><div class="ticket-share-icon share_icon _ticket_share hidden sprite"><form class="top-margin"><p><label><input type="checkbox" checked="checked">&nbsp;Share ticket via URL</label></p><p class="_ticket_share_url"><input class="ticket-share-input" type="text"></p></form></div><a class="_json_link"><span class="_ht sprite delete_icon"></span></a></div></td></tr></tr>
+            <tr class="_ticket_1uyqKkUHWWUzEbyk bg1"><td>Ensembl Variant Effect Predictor</td><td><img class="_ht job-species" style="width:16px; height:16px;" src="//static.ensembl.org/i/species/Homo_sapiens.png" alt=""><span class="right-margin">Ensembl VEP analysis of pasted data in Homo_sapiens</span><span class="job-status job-status-submitted _ht"><a>Queued</a></span></p></td><td><span class="hidden">20230420095705</span>11/05/2023, 16:49</td><td><div class="ticket-sprites"><span class="save_icon _ht sprite sprite_disabled"></span><a class="_ticket_edit _change_location"><span class="edit_icon _ht sprite"></span></a><div class="ticket-share-icon share_icon _ticket_share hidden sprite"><form class="top-margin"><p><label><input type="checkbox" checked="checked">&nbsp;Share ticket via URL</label></p><p class="_ticket_share_url"><input class="ticket-share-input" type="text"></p></form></div><a class="_json_link"><span class="_ht sprite delete_icon"></span></a></div></td></tr></tr>
+          </tbody>
+        </table><div class="dataTables_bottom" style="display: none;"><div class="dataTables_info" style="display: none;">Showing 1 to 63 of 63 entries</div><div class="dataTables_paginate paging_full_numbers" style="display: none;"><span class="first paginate_button paginate_button_disabled">&lt;&lt;</span><span class="previous paginate_button paginate_button_disabled">&lt;</span><span></span><span class="next paginate_button paginate_button_disabled">&gt;</span><span class="last paginate_button paginate_button_disabled">&gt;&gt;</span></div><div class="invisible"></div></div></div>
+      </div>
+    </div>
+</div>
+
+</div></div>
+      </div>
+  
+        <div id="footer">
+          <div class="column-wrapper">
+    <div class="column-two left">
+      <p>Ensembl release 116 - June 2026 &copy;
+        <span class="print_hide"><a href="http://www.ebi.ac.uk/" class="nowrap constant">EMBL-EBI</a></span>
+        <span class="screen_hide_inline">EMBL-EBI<br />http://jun2026.archive.ensembl.org</span>
+      </p>
+      
+    </div>
+    <div class="column-two right print_hide"><p>
+        <a class="modal_link" id="p_link" href="/Help/Permalink?url=http%3A%2F%2Fjun2026.archive.ensembl.org">Permanent link</a>
+     - <a href="http://www.ensembl.org/info/docs/tools/vep/online/input.html">View in current Ensembl</a></p></div>
+            <p class="invisible">.</p>
+          </div>
+          <div class="column-wrapper"><hr /><div id="fat-footer">
+              <div class="column-four left">
+                <h3>About Us</h3>
+                <p><a href="/info/about" rel="nofollow">About us</a></p>
+                <p><a href="/info/about/contact/" rel="nofollow">Contact us</a></p>
+                <p><a href="/info/about/publications.html" rel="nofollow">Citing Ensembl</a></p>
+                <p><a href="https://www.ensembl.org/info/about/legal/privacy.html" rel="nofollow">Privacy policy</a></p>
+                <p><a href="https://www.ebi.ac.uk/long-term-data-preservation" rel="nofollow">Long-term data preservation</a></p>
+                <p><a href="/info/about/legal/" rel="nofollow">Disclaimer</a></p>
+              </div>
+  
+              <div class="column-four left">
+                <h3>Get help</h3>
+                <p><a href="/info/website/" rel="nofollow">Using this website</a></p>
+                <p><a href="/info/website/upload" rel="nofollow">Adding custom tracks</a></p>
+                <p><a href="/downloads.html" rel="nofollow">Downloading data</a></p>
+                <p><a href="/info/website/tutorials/" rel="nofollow">Video tutorials</a></p>
+                <p><a href="/info/docs/tools/vep/" rel="nofollow">Ensembl Variant Effect Predictor (VEP)</a></p>
+              </div>
+  
+              <div class="column-four left">
+                <h3>Our sister sites</h3>
+                <p><a href="http://bacteria.ensembl.org" rel="nofollow">Ensembl Bacteria</a></p>
+                <p><a href="http://fungi.ensembl.org" rel="nofollow">Ensembl Fungi</a></p>
+                <p><a href="http://plants.ensembl.org" rel="nofollow">Ensembl Plants</a></p>
+                <p><a href="http://protists.ensembl.org" rel="nofollow">Ensembl Protists</a></p>
+                <p><a href="http://metazoa.ensembl.org" rel="nofollow">Ensembl Metazoa</a></p>
+              </div>
+  
+              <div class="column-four left">
+                <h3>Follow us</h3>
+                <p><a class="media-icon" href="http://www.ensembl.info/" rel="nofollow">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="height: 16px;background-position: -776px -47px;background-size: 1000px 782px;width: 16px" alt="[RSS logo]" title="Ensembl blog"/></a>
+                  <a href="http://www.ensembl.info/" rel="nofollow">Blog</a></p>
+                <p><a class="media-icon" href="http://www.twitter.com/Ensembl" rel="nofollow">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 20px;background-position: -346px -69px;background-size: 1000px 782px;height: 16px" alt="[twitter logo]" title="Follow us on Twitter!"/></a>
+                    <a href="http://www.twitter.com/ensembl" rel="nofollow">Twitter</a></p>
+                <p><a class="media-icon" href="http://www.facebook.com/Ensembl.org" rel="nofollow">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 16px;background-size: 1000px 782px;background-position: -600px -47px;height: 16px" alt="[Facebook logo]" title="Our Facebook page"/></a>
+                  <a href="http://www.facebook.com/Ensembl.org" rel="nofollow">Facebook</a></p>
+              </div>
+  </div>
+            <p class="invisible">.</p>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <form id="core_params" action="#" style="display:none">
+    <fieldset><input type="hidden" name="db" value="core" /></fieldset>
+  </form>
+  <input type="hidden" id="species_path" name="species_path" value="" />
+  <input type="hidden" id="gdpr_version" name="gdpr_version" value="2.0.0" />
+  <input type="hidden" id="gdpr_policy_url" name="gdpr_policy_url" value="https://www.ensembl.org/info/about/legal/privacy.html" />
+  <input type="hidden" id="gdpr_terms_url" name="gdpr_terms_url" value="https://www.ebi.ac.uk/about/terms-of-use" />
+  <input type="hidden" id="gdpr_cookie_name" name="gdpr_cookie_name" value="ENSEMBL_PRIVACY_POLICY" />
+  <input type="hidden" id="species_common_name" name="species_common_name" value="Human" />
+  <input type="hidden" id="ensembl_image_root" name="ensembl_image_root" value="/i/" />
+  <input type="hidden" id="max_region_length" name="max_region_length" value="1000100" />
+  <input type="hidden" id="ensembl_species_image" name="ensembl_species_image" value="/i/species/Homo_sapiens.png" />
+    
+  <div id="modal_bg"></div>
+  <div id="modal_panel" class="js_panel">
+    <input type="hidden" class="panel_type" value="ModalContainer" />
+    <div class="modal_title">
+      <ul class="tabs">
+        <li><a class="modal_user_data" href="UserData/ManageData?time=1789314105">Personal Data</a></li>
+      </ul>
+      <div class="modal_caption"></div>
+      <div class="modal_close"></div>
+    </div>
+    <div id="modal_user_data" class="modal_content js_panel fixed_width" style="display:none"></div>
+    <div id="modal_default" class="modal_content js_panel fixed_width" style="display:none"></div>
+    <div class="modal_overlay"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png overlay_close" style="background-position: -642px -115px;background-size: 1000px 782px;width: 20px;height: 20px" alt="close" title="Cancel"/><div class="overlay_content"></div></div>
+    <div class="modal_overlay_bg"></div>
+  </div>
+  
+    
+    <script type="text/javascript" src="//static.ensembl.org/minified/1dedb9539c2da47014070b317c6b3ba6.js"></script>
+<script type="text/javascript" src="//static.ensembl.org/minified/2244b87fc07dc64eaec6dfb62a828c37.js"></script>
+
+  <input type="hidden" id="hidden_species_list" name="hidden_species_list" value=Geospiza_fortis|Gadus_morhua|Oryzias_javanicus|Chinchilla_lanigera|Bos_taurus|Oryzias_sinensis|Varanus_komodoensis|Meriones_unguiculatus|Strigops_habroptila|Sphaeramia_orbicularis|Dromaius_novaehollandiae|Pseudonaja_textilis|Moschus_moschiferus|Mus_musculus_129S1_SvImJ|Canis_lupus_familiarisbasenji|Rattus_norvegicus|Anas_zonorhyncha|Ailuropoda_melanoleuca|Oryzias_latipes_hsok|Oreochromis_aureus|Terrapene_carolina_triunguis|Crocodylus_porosus|Echeneis_naucrates|Pan_paniscus|Parambassis_ranga|Numida_meleagris|Ficedula_albicollis|Gorilla_gorilla|Ornithorhynchus_anatinus|Equus_caballus|Ovis_aries_kermani|Sus_scrofa_pb115|Denticeps_clupeoides|Piliocolobus_tephrosceles|Oryctolagus_cuniculus|Taeniopygia_guttata|Monodelphis_domestica|Hippocampus_comes|Capra_hircus|Rattus_norvegicus_SHRSPBbbUtx|Sorex_araneus|Scophthalmus_maximus|Suricata_suricatta|Danio_rerio|Ovis_aries_chinese_merino|Carassius_auratus|Labrus_bergylta|Gambusia_affinis|Mus_musculus_LP_J|Felis_catus_abyssinian|Cyprinus_carpio_hebao_red|Poecilia_reticulata|Sus_scrofa_GCA_041937265.1|Parus_major|Mus_musculus_JF1_MsJ|Esox_lucius|Zosterops_lateralis_melanops|Xiphophorus_maculatus|Tursiops_truncatus|Sus_scrofa_landrace|Clupea_harengus|Nannospalax_galili|Marmota_marmota_marmota|Anolis_carolinensis|Betta_splendens|Equus_asinus|Tupaia_belangeri|Salmo_salar_north_american_atlantic_salmon|Anser_cygnoides|Otolemur_garnettii|Sus_scrofa_ossabaw_miniature|Sus_scrofa_largewhite|Colobus_angolensis_palliatus|Salvator_merianae|Ursus_thibetanus_thibetanus|Ciona_intestinalis|Cairina_moschata_domestica|Canis_lupus_familiarisgreatdane|Neogobius_melanostomus|Sciurus_vulgaris|Oreochromis_niloticus|Tetraodon_nigroviridis|Mus_musculus_NZO_HlLtJ|Calidris_pygmaea|Sphenodon_punctatus|Cervus_hanglu_yarkandensis|Jaculus_jaculus|Microcebus_murinus|Gasterosteus_aculeatus_marine_bam|Sus_scrofa_nihs_2020|Vombatus_ursinus|Spermophilus_dauricus|Balaenoptera_musculus|Fukomys_damarensis|Carlito_syrichta|Erpetoichthys_calabaricus|Neovison_vison|Rhinopithecus_roxellana|Mus_musculus_CAST_EiJ|Gadus_morhua_GCA_010882105.1|Xiphophorus_couchianus|Saccharomyces_cerevisiae|Falco_tinnunculus|Cynoglossus_semilaevis|Kryptolebias_marmoratus|Stachyris_ruficeps|Sus_scrofa_hampshire|Prolemur_simus|Ictalurus_punctatus|Stegastes_partitus|Astyanax_mexicanus|Poecilia_mexicana|Bos_mutus|Apteryx_haastii|Coturnix_japonica|Bos_taurus_hybrid|Mus_pahari|Delphinapterus_leucas|Nothobranchius_furzeri|Sus_scrofa_domesticus_GCA_017957985.1|Lepisosteus_oculatus|Pundamilia_nyererei|Mus_musculus_C57BL_6NJ|Gallus_gallus|Sus_scrofa_bamei|Aotus_nancymaae|Myotis_lucifugus|Nomascus_leucogenys|Sinocyclocheilus_anshuiensis|Drosophila_melanogaster|Cricetulus_griseus_crigri|Accipiter_nisus|Acanthochromis_polyacanthus|Sus_scrofa_wuzhishan|Sinocyclocheilus_rhinocerous|Catagonus_wagneri|Takifugu_rubripes|Myripristis_murdjan|Sus_scrofa_euw1|Lates_calcarifer|Amphiprion_percula|Bison_bison_bison|Heterocephalus_glaber_male|Amazona_collaria|Electrophorus_electricus|Macaca_mulatta|Salarias_fasciatus|Nothoprocta_perdicaria|Sus_scrofa_GCA_040869115.1|Ovis_aries_white_dorper|Callithrix_jacchus|Gasterosteus_aculeatus|Dipodomys_ordii|Ciona_savignyi|Gallus_gallus_GCA_016700215.2|Pelodiscus_sinensis|Macaca_nemestrina|Ovis_aries_hu|Ovis_aries_polled_dorset|Sus_scrofa_ningxiang|Aquila_chrysaetos_chrysaetos|Cavia_aperea|Chrysemys_picta_bellii|Catharus_ustulatus|Gasterosteus_aculeatus_marine_syl|Podarcis_muralis|Sus_scrofa_GCA_037447515.1|Maylandia_zebra|Bos_taurus_wagyu|Salmo_salar_north_american_origin_brian|Salmo_salar|Sus_scrofa_duroc|Salmo_trutta|Sparus_aurata|Caenorhabditis_elegans|Canis_lupus_familiarisgermanshepherd|Oncorhynchus_mykiss|Salmo_salar_european_origin_alta|Lonchura_striata_domestica|Chrysolophus_pictus|Otus_sunia|Mus_musculus_A_J|Bos_grunniens|Mus_musculus_CBA_J|Saimiri_boliviensis_boliviensis|Cricetulus_griseus_picr|Petromyzon_marinus|Mus_spretus|Camarhynchus_parvulus|Ovis_aries|Octodon_degus|Capra_hircus_saanen_dairy|Mola_mola|Chelydra_serpentina|Rattus_norvegicus_WKYBbb|Scleropages_formosus|Lynx_canadensis|Dasypus_novemcinctus|Canis_lupus_dingo|Erinaceus_europaeus|Peromyscus_maniculatus_bairdii|Strix_occidentalis_caurina|Theropithecus_gelada|Seriola_dumerili|Anas_platyrhynchos_platyrhynchos|Poecilia_latipinna|Sus_scrofa_norwegian_landrace|Pteropus_vampyrus|Laticauda_laticaudata|Amphiprion_ocellaris|Mus_musculus_C3H_HeJ|Sus_scrofa_pietrain|Rhinopithecus_bieti|Serinus_canaria|Leptobrachium_leishanense|Manacus_vitellinus|Sus_scrofa_meishan|Canis_lupus_familiarisboxer|Latimeria_chalumnae|Panthera_tigris_altaica|Sus_scrofa|Mastacembelus_armatus|Mus_musculus_WSB_EiJ|Homo_sapiens|Ictidomys_tridecemlineatus|Amphilophus_citrinellus|Calidris_pugnax|Hucho_hucho|Pongo_abelii|Rattus_norvegicus_SHRUtx|Choloepus_hoffmanni|Notamacropus_eugenii|Oryzias_melastigma|Capra_hircus_xinong_saanen_dairy|Cercocebus_atys|Erythrura_gouldiae|Cyprinus_carpio_carpio|Gallus_gallus_GCA_000002315.5|Mus_spicilegus|Lepidothrix_coronata|Poecilia_formosa|Ovis_aries_qiaoke|Echinops_telfairi|Mus_caroli|Apteryx_owenii|Mus_musculus_NOD_ShiLtJ|Anser_brachyrhynchus|Cavia_porcellus|Oncorhynchus_kisutch|Oryzias_latipes|Mustela_putorius_furo|Anabas_testudineus|Apteryx_rowi|Propithecus_coquereli|Sus_scrofa_jinhua|Haplochromis_burtoni|Monodon_monoceros|Sus_scrofa_GCA_039654815.1|Malurus_cyaneus_samueli|Corvus_moneduloides|Cricetulus_griseus_chok1gshd|Heterocephalus_glaber_female|Camelus_dromedarius|Ovis_aries_ujimqin|Callorhinchus_milii|Oryzias_latipes_hni|Zonotrichia_albicollis|Pygocentrus_nattereri|Pogona_vitticeps|Sander_lucioperca|Buteo_japonicus|Oncorhynchus_tshawytscha|Neolamprologus_brichardi|Cyanistes_caeruleus|Bos_taurus_tuli|Ovis_aries_romanov|Athene_cunicularia|Phascolarctos_cinereus|Sus_scrofa_bama_miniature|Bos_taurus_norwegian_red|Cottoperca_gobio|Ovis_aries_GCA_022416775.1|Mus_musculus_DBA_2J|Dicentrarchus_labrax|Panthera_pardus|Panthera_leo|Fundulus_heteroclitus|Chlorocebus_sabaeus|Mesocricetus_auratus|Equus_asinus_gca041296235v2|Vicugna_pacos|Monopterus_albus|Naja_naja|Xenopus_tropicalis|Melopsittacus_undulatus|Ursus_americanus|Gouania_willdenowi|Urocitellus_parryii|Vulpes_vulpes|Mus_musculus_FVB_NJ|Mus_musculus_PWK_PhJ|Larimichthys_crocea|Zalophus_californianus|Ovis_aries_texel|Pan_troglodytes|Cyprinodon_variegatus|Bubo_bubo|Meleagris_gallopavo|Bos_indicus_hybrid|Papio_anubis|Cyprinus_carpio_german_mirror|Periophthalmus_magnuspinnatus|Felis_catus|Loxodonta_africana|Ochotona_princeps|Sus_scrofa_GCA_048338725.1|Junco_hyemalis|Sarcophilus_harrisii|Gopherus_evgoodei|Gopherus_agassizii|Sus_scrofa_GCA_044906105.1|Seriola_lalandi_dorsalis|Pelusios_castaneus|Sus_scrofa_ghungroo|Phocoena_sinus|Pavo_cristatus|Canis_lupus_familiaris|Sus_scrofa_usmarc|Phasianus_colchicus|Sus_scrofa_tibetan|Mus_musculus|Anas_platyrhynchos|Cyclopterus_lumpus|Notechis_scutatus|Eptatretus_burgeri|Ursus_maritimus|Mus_musculus_AKR_J|Microtus_ochrogaster|Castor_canadensis|Macaca_fascicularis|Struthio_camelus_australis|Rhinolophus_ferrumequinum|Sus_scrofa_rongchang|Physeter_catodon|Mus_musculus_BALB_cJ|Procavia_capensis|Sus_scrofa_GCA_044906185.1|Ovis_aries_east_friesian|Astyanax_mexicanus_pachon|Capra_hircus_blackbengal|Astatotilapia_calliptera|Cebus_imitator|Sus_scrofa_berkshire|Gasterosteus_aculeatus_freshwater_bot|Sinocyclocheilus_grahami|Mandrillus_leucophaeus|Chelonoidis_abingdonii|Paramormyrops_kingsleyae|Cyprinus_carpio_huanghe>
+</body>
+</html>

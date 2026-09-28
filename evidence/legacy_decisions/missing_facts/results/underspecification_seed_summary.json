@@ -1,0 +1,379 @@
+{
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "temperature": 0.0,
+ "readers": [
+  "gemma4:26b",
+  "gemma4:e4b"
+ ],
+ "per_seed": [
+  {
+   "seed": 42,
+   "rows": [
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1834",
+     "n_material": 1,
+     "material": [
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "analysis_goal"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1638",
+     "n_material": 2,
+     "material": [
+      "variant_size_class",
+      "region_focus"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "origin",
+      "variant_size_class",
+      "region_focus"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1595",
+     "n_material": 1,
+     "material": [
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "analysis_goal"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1769",
+     "n_material": 3,
+     "material": [
+      "variant_size_class",
+      "region_focus",
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "variant_size_class",
+      "region_focus"
+     ],
+     "pastes_flags": false
+    },
+    {
+     "url": "https://github.com/Ensembl/VEP_plugins/issues/694",
+     "n_material": 2,
+     "material": [
+      "variant_size_class",
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "variant_size_class",
+      "analysis_goal"
+     ],
+     "pastes_flags": false
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/52",
+     "n_material": 1,
+     "material": [
+      "region_focus"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "region_focus"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/458",
+     "n_material": 1,
+     "material": [
+      "region_focus"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "origin"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/866",
+     "n_material": 0,
+     "material": [],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [],
+     "pastes_flags": false
+    }
+   ]
+  },
+  {
+   "seed": 43,
+   "rows": [
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1834",
+     "n_material": 1,
+     "material": [
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "analysis_goal"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1638",
+     "n_material": 2,
+     "material": [
+      "variant_size_class",
+      "region_focus"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "origin",
+      "variant_size_class",
+      "region_focus"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1595",
+     "n_material": 1,
+     "material": [
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "analysis_goal"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1769",
+     "n_material": 3,
+     "material": [
+      "variant_size_class",
+      "region_focus",
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "variant_size_class",
+      "region_focus"
+     ],
+     "pastes_flags": false
+    },
+    {
+     "url": "https://github.com/Ensembl/VEP_plugins/issues/694",
+     "n_material": 2,
+     "material": [
+      "variant_size_class",
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "variant_size_class",
+      "analysis_goal"
+     ],
+     "pastes_flags": false
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/52",
+     "n_material": 1,
+     "material": [
+      "region_focus"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "region_focus"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/458",
+     "n_material": 1,
+     "material": [
+      "region_focus"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "origin"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/866",
+     "n_material": 0,
+     "material": [],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [],
+     "pastes_flags": false
+    }
+   ]
+  },
+  {
+   "seed": 44,
+   "rows": [
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1834",
+     "n_material": 1,
+     "material": [
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "analysis_goal"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1638",
+     "n_material": 2,
+     "material": [
+      "variant_size_class",
+      "region_focus"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "origin",
+      "variant_size_class",
+      "region_focus"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1595",
+     "n_material": 1,
+     "material": [
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "analysis_goal"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/1769",
+     "n_material": 3,
+     "material": [
+      "variant_size_class",
+      "region_focus",
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "variant_size_class",
+      "region_focus"
+     ],
+     "pastes_flags": false
+    },
+    {
+     "url": "https://github.com/Ensembl/VEP_plugins/issues/694",
+     "n_material": 2,
+     "material": [
+      "variant_size_class",
+      "analysis_goal"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "variant_size_class",
+      "analysis_goal"
+     ],
+     "pastes_flags": false
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/52",
+     "n_material": 1,
+     "material": [
+      "region_focus"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "region_focus"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/458",
+     "n_material": 1,
+     "material": [
+      "region_focus"
+     ],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [
+      "origin"
+     ],
+     "pastes_flags": true
+    },
+    {
+     "url": "https://github.com/Ensembl/ensembl-vep/issues/866",
+     "n_material": 0,
+     "material": [],
+     "immaterial": [
+      "origin"
+     ],
+     "disagreed": [],
+     "pastes_flags": false
+    }
+   ]
+  }
+ ],
+ "open_mean": 2.0,
+ "open_sd": 0.0
+}

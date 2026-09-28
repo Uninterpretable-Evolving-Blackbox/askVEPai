@@ -1,0 +1,511 @@
+{
+ "per_query": [
+  {
+   "row": 1,
+   "enabled": [
+    "af_gnomade",
+    "af_gnomadg",
+    "cadd",
+    "canonical",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "hgvs",
+    "mane",
+    "phenotypes",
+    "polyphen",
+    "protein",
+    "regulatory",
+    "sift",
+    "spliceai",
+    "symbol"
+   ],
+   "leaked": [
+    "canonical"
+   ]
+  },
+  {
+   "row": 2,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "coding_only",
+    "core_type",
+    "hgvs",
+    "protein",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 3,
+   "enabled": [
+    "af_gnomade",
+    "af_gnomadg",
+    "alphamissense",
+    "cadd",
+    "canonical",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "hgvs",
+    "mane",
+    "polyphen",
+    "protein",
+    "regulatory",
+    "sift",
+    "spliceai",
+    "symbol"
+   ],
+   "leaked": [
+    "canonical"
+   ]
+  },
+  {
+   "row": 4,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "symbol"
+   ]
+  },
+  {
+   "row": 5,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 6,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "numbers",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "numbers",
+    "symbol"
+   ]
+  },
+  {
+   "row": 7,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 8,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "coding_only",
+    "core_type",
+    "hgvs",
+    "numbers",
+    "protein",
+    "sift",
+    "symbol"
+   ],
+   "leaked": [
+    "check_existing"
+   ]
+  },
+  {
+   "row": 9,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "protein",
+    "regulatory",
+    "sift",
+    "symbol"
+   ],
+   "leaked": [
+    "sift"
+   ]
+  },
+  {
+   "row": 10,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 11,
+   "enabled": [
+    "biotype",
+    "canonical",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "mane",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "canonical",
+    "regulatory"
+   ]
+  },
+  {
+   "row": 12,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "numbers",
+    "protein",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 13,
+   "enabled": [
+    "af_gnomade",
+    "biotype",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "af_gnomade"
+   ]
+  },
+  {
+   "row": 14,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "symbol"
+   ]
+  },
+  {
+   "row": 15,
+   "enabled": [
+    "biotype",
+    "canonical",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "numbers",
+    "protein",
+    "regulatory",
+    "sift",
+    "symbol"
+   ],
+   "leaked": [
+    "sift"
+   ]
+  },
+  {
+   "row": 16,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "gnomad_sv",
+    "most_severe",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "most_severe",
+    "symbol"
+   ]
+  },
+  {
+   "row": 17,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "gnomad_sv",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "symbol"
+   ]
+  },
+  {
+   "row": 18,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "numbers",
+    "protein",
+    "regulatory",
+    "sift",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 19,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 20,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "numbers",
+    "protein",
+    "sift",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 21,
+   "enabled": [
+    "biotype",
+    "coding_only",
+    "core_type",
+    "hgvs",
+    "numbers",
+    "protein",
+    "sift",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 22,
+   "enabled": [
+    "biotype",
+    "core_type",
+    "gnomad_sv",
+    "per_gene",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "per_gene",
+    "regulatory"
+   ]
+  },
+  {
+   "row": 23,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "gnomad_sv",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "symbol"
+   ]
+  },
+  {
+   "row": 24,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "symbol"
+   ]
+  },
+  {
+   "row": 25,
+   "enabled": [
+    "af_gnomade",
+    "af_gnomadg",
+    "biotype",
+    "cadd",
+    "canonical",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "hgvs",
+    "mane",
+    "phenotypes",
+    "polyphen",
+    "protein",
+    "regulatory",
+    "sift",
+    "symbol"
+   ],
+   "leaked": [
+    "af_gnomade",
+    "af_gnomadg",
+    "canonical",
+    "hgvs",
+    "polyphen",
+    "protein",
+    "sift"
+   ]
+  },
+  {
+   "row": 26,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "symbol"
+   ]
+  },
+  {
+   "row": 27,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "symbol"
+   ]
+  },
+  {
+   "row": 28,
+   "enabled": [
+    "biotype",
+    "coding_only",
+    "core_type",
+    "hgvs",
+    "numbers",
+    "protein",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 29,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "gnomad_sv",
+    "symbol"
+   ],
+   "leaked": []
+  },
+  {
+   "row": 30,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "numbers",
+    "protein",
+    "regulatory",
+    "sift",
+    "symbol"
+   ],
+   "leaked": [
+    "check_existing"
+   ]
+  },
+  {
+   "row": 31,
+   "enabled": [
+    "biotype",
+    "check_existing",
+    "core_type",
+    "gnomad_sv",
+    "per_gene",
+    "regulatory",
+    "symbol"
+   ],
+   "leaked": [
+    "per_gene"
+   ]
+  }
+ ],
+ "leak_by_option": {
+  "canonical": 4,
+  "symbol": 9,
+  "numbers": 1,
+  "check_existing": 2,
+  "sift": 3,
+  "regulatory": 2,
+  "af_gnomade": 2,
+  "most_severe": 1,
+  "per_gene": 2,
+  "af_gnomadg": 1,
+  "hgvs": 1,
+  "polyphen": 1,
+  "protein": 1
+ },
+ "promoted": {
+  "check_existing": 26,
+  "coding_only": 4,
+  "hgvs": 1,
+  "clinvar": 3
+ }
+}

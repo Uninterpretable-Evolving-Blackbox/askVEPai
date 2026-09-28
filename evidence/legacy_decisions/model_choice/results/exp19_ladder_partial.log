@@ -1,0 +1,167 @@
+=== [22:29] pulling gemma4:e4b ===
+  ... {"status":"pulling 4c27e0f5b5ad","digest":"sha256:4c27e0f5b5adf02ac956c7322bd2ee7636fe3f45a8512c9aba5385242cb6e09a","total":9608338848,"completed":3172204304}
+  pulled OK
+--- probing for anything smaller in the family ---
+=== [22:30] pulling gemma4:e2b ===
+  pulled OK
+  gemma4:e4b ctx=16384 vram=3.4GB
+=== [22:32] eval gemma4:e4b (3 seeds, gold live, think off) ===
+  !! 31/31 rows: the set file's frozen config differs from what the priority table resolves today.
+     Scoring against --gold live. 'stored' would count every applied mentor correction as a model error.
+  seed 42: running 31 rows at concurrency 1…
+    [ 1/31]  31.1s  F1  72%  gen_humangermlinestructuralCNVcoding+regulat
+    [ 2/31]  47.9s  F1  94%  gen_nonhumansomaticsmallcodingbasicconsequen
+    [ 3/31]  76.0s  F1  83%  gen_humangermlinesmallcoding+regulatorynonco
+    [ 4/31]  36.7s  F1  73%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [ 5/31]  50.2s  F1  72%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 6/31]  51.5s  F1  75%  gen_nonhumangermlinesmallregulatorynoncoding
+    [ 7/31]  56.4s  F1  86%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 8/31]  34.2s  F1  95%  gen_nonhumangermlinesmallcodingclinicalinter
+    [ 9/31]  52.3s  F1  94%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [10/31]  21.3s  F1  82%  gen_humangermlinestructuralCNVcodingpopulati
+    [11/31]  42.4s  F1  90%  gen_humangermlinestructuralCNVcodingclinical
+    [12/31]  76.2s  F1  82%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [13/31]  24.0s  F1  90%  gen_humangermlinestructuralCNVcoding+regulat
+    [14/31]  46.0s  F1  88%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [15/31]  23.9s  F1  94%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [16/31]  28.3s  F1  83%  gen_humansomaticstructuralCNVregulatorynonco
+    [17/31]  48.8s  F1  77%  gen_humangermlinestructuralCNVregulatorynonc
+    [18/31]  36.0s  F1  91%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [19/31]  48.4s  F1  84%  gen_humangermlinestructuralCNVcoding+regulat
+    [20/31]  52.4s  F1  84%  gen_nonhumansomaticsmallcodingclinicalinterp
+    [21/31]  51.7s  F1  80%  gen_nonhumangermlinesmallcodingbasicconseque
+    [22/31]  23.8s  F1  80%  gen_humansomaticstructuralCNVcodingbasiccons
+    [23/31]  50.4s  F1  50%  gen_humansomaticstructuralCNVregulatorynonco
+    [24/31]  38.6s  F1  73%  gen_nonhumangermlinesmallregulatorynoncoding
+    [25/31]  31.7s  F1  77%  gen_humangermlinestructuralCNVcoding+regulat
+    [26/31]  42.1s  F1  62%  gen_nonhumansomaticsmallregulatorynoncodingc
+    [27/31]  50.4s  F1  53%  gen_humansomaticstructuralCNVregulatorynonco
+    [28/31]  35.9s  F1  93%  gen_nonhumangermlinesmallcodingbasicconseque
+    [29/31]  28.7s  F1  76%  gen_humansomaticstructuralCNVcodingbasiccons
+    [30/31]  47.4s  F1  82%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [31/31]  25.9s  F1  82%  gen_humangermlinestructuralCNVcoding+regulat
+  seed 42: enable-F1 81%  enable-recall 79%  42.3s/query
+  seed 43: running 31 rows at concurrency 1…
+    [ 1/31]  73.5s  F1  67%  gen_humangermlinestructuralCNVcoding+regulat
+    [ 2/31]  46.6s  F1  94%  gen_nonhumansomaticsmallcodingbasicconsequen
+    [ 3/31]  35.8s  F1  88%  gen_humangermlinesmallcoding+regulatorynonco
+    [ 4/31]  37.1s  F1  73%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [ 5/31]  38.7s  F1  80%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 6/31]  50.1s  F1  75%  gen_nonhumangermlinesmallregulatorynoncoding
+    [ 7/31]  26.2s  F1  80%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 8/31]  49.6s  F1  84%  gen_nonhumangermlinesmallcodingclinicalinter
+    [ 9/31]  49.9s  F1  94%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [10/31]  45.9s  F1  71%  gen_humangermlinestructuralCNVcodingpopulati
+    [11/31]  60.6s  F1  87%  gen_humangermlinestructuralCNVcodingclinical
+    [12/31]  47.1s  F1  70%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [13/31]  25.3s  F1  90%  gen_humangermlinestructuralCNVcoding+regulat
+    [14/31]  40.9s  F1  80%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [15/31]  51.9s  F1  95%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [16/31]  28.4s  F1  83%  gen_humansomaticstructuralCNVregulatorynonco
+    [17/31]  47.0s  F1  77%  gen_humangermlinestructuralCNVregulatorynonc
+    [18/31]  40.7s  F1  91%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [19/31]  52.5s  F1  84%  gen_humangermlinestructuralCNVcoding+regulat
+    [20/31]  48.0s  F1  87%  gen_nonhumansomaticsmallcodingclinicalinterp
+    [21/31]  51.7s  F1  80%  gen_nonhumangermlinesmallcodingbasicconseque
+    [22/31]  17.4s  F1  80%  gen_humansomaticstructuralCNVcodingbasiccons
+    [23/31]  50.1s  F1  50%  gen_humansomaticstructuralCNVregulatorynonco
+    [24/31]  50.5s  F1  73%  gen_nonhumangermlinesmallregulatorynoncoding
+    [25/31]  73.8s  F1  68%  gen_humangermlinestructuralCNVcoding+regulat
+    [26/31]  42.4s  F1  62%  gen_nonhumansomaticsmallregulatorynoncodingc
+    [27/31]  14.8s  F1  50%  gen_humansomaticstructuralCNVregulatorynonco
+    [28/31]  35.6s  F1  93%  gen_nonhumangermlinesmallcodingbasicconseque
+    [29/31]  27.7s  F1  76%  gen_humansomaticstructuralCNVcodingbasiccons
+    [30/31]  44.8s  F1  82%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [31/31]  48.8s  F1  89%  gen_humangermlinestructuralCNVcoding+regulat
+  seed 43: enable-F1 79%  enable-recall 78%  43.6s/query
+  seed 44: running 31 rows at concurrency 1…
+    [ 1/31]  73.5s  F1  67%  gen_humangermlinestructuralCNVcoding+regulat
+    [ 2/31]  46.1s  F1  94%  gen_nonhumansomaticsmallcodingbasicconsequen
+    [ 3/31]  36.1s  F1  88%  gen_humangermlinesmallcoding+regulatorynonco
+    [ 4/31]  36.8s  F1  73%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [ 5/31]  38.6s  F1  80%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 6/31]  49.8s  F1  75%  gen_nonhumangermlinesmallregulatorynoncoding
+    [ 7/31]  26.2s  F1  80%  gen_humansomaticstructuralCNVcoding+regulato
+    [ 8/31]  49.2s  F1  84%  gen_nonhumangermlinesmallcodingclinicalinter
+    [ 9/31]  49.8s  F1  94%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [10/31]  46.2s  F1  71%  gen_humangermlinestructuralCNVcodingpopulati
+    [11/31]  60.7s  F1  87%  gen_humangermlinestructuralCNVcodingclinical
+    [12/31]  47.1s  F1  70%  gen_nonhumansomaticsmallcoding+regulatorynon
+    [13/31]  25.3s  F1  90%  gen_humangermlinestructuralCNVcoding+regulat
+    [14/31]  40.6s  F1  80%  gen_nonhumansomaticsmallregulatorynoncodingb
+    [15/31]  52.3s  F1  95%  gen_nonhumangermlinesmallcoding+regulatoryno
+    [16/31]  28.1s  F1  83%  gen_humansomaticstructuralCNVregulatorynonco
+Traceback (most recent call last):
+  File "/Users/hubi/Desktop/GSoC_WORK/work/harness/eval_factor_set.py", line 308, in <module>
+    main()
+    ~~~~^^
+  File "/Users/hubi/Desktop/GSoC_WORK/work/harness/eval_factor_set.py", line 245, in main
+    res = list(ex.map(lambda rid: one_progress(rid, seed), [r["id"] for r in rows]))
+  File "/opt/anaconda3/lib/python3.13/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/opt/anaconda3/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/Users/hubi/Desktop/GSoC_WORK/work/harness/eval_factor_set.py", line 245, in <lambda>
+    res = list(ex.map(lambda rid: one_progress(rid, seed), [r["id"] for r in rows]))
+                                  ~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/hubi/Desktop/GSoC_WORK/work/harness/eval_factor_set.py", line 235, in one_progress
+    r = one(rid, seed)
+  File "/Users/hubi/Desktop/GSoC_WORK/work/harness/eval_factor_set.py", line 217, in one
+    text = ev.call_llm(client, args.model, prompt, g["query"], temperature=args.temperature,
+                       seed=seed, think=THINK)
+  File "/Users/hubi/Desktop/GSoC_WORK/vep_ai_demo/evaluate.py", line 528, in call_llm
+    response_text = _call_llm_native(model, system_prompt, user_query, temperature,
+                                     this_seed, think)
+  File "/Users/hubi/Desktop/GSoC_WORK/vep_ai_demo/evaluate.py", line 496, in _call_llm_native
+    with _url.urlopen(req, timeout=900) as r:
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/urllib/request.py", line 189, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/urllib/request.py", line 489, in open
+    response = self._open(req, data)
+  File "/opt/anaconda3/lib/python3.13/urllib/request.py", line 506, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/opt/anaconda3/lib/python3.13/urllib/request.py", line 466, in _call_chain
+    result = func(*args)
+  File "/opt/anaconda3/lib/python3.13/urllib/request.py", line 1367, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/urllib/request.py", line 1323, in do_open
+    r = h.getresponse()
+  File "/opt/anaconda3/lib/python3.13/http/client.py", line 1430, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/http/client.py", line 292, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/socket.py", line 719, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+  File "/opt/anaconda3/lib/python3.13/ssl.py", line 1304, in recv_into
+    return self.read(nbytes, buffer)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/ssl.py", line 1138, in read
+    return self._sslobj.read(len, buffer)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+    exit 1
+=== [00:30] eval gemma4:e2b (3 seeds, gold live, think off) ===
+--factors inferred needs Ollama, and it is not answering (URLError). Start it first; otherwise every row silently scores as --factors none.
+    exit 1
+=== [00:30] LADDER DONE ===

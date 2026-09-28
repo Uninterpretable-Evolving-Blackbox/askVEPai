@@ -1,0 +1,23 @@
+seed 42: 31/31 classified
+
+gemma4:26b, 31-row set, seeds [42]
+
+  factor                  label match  config match
+  species                    31.0/31      31.0/31  
+  origin                     28.0/31      31.0/31     (3 misses cost nothing)
+  variant_size_class         30.0/31      30.0/31  
+  region_focus               31.0/31      31.0/31  
+  analysis_goal              24.0/31      30.0/31     (6 misses cost nothing)
+  EXACT TUPLE                21.0/31      29.0/31
+
+  LABEL MATCH is agreement with the generator's stored tuple. CONFIG MATCH asks whether
+  swapping that factor for the model's answer changes the resolved configuration at all;
+  where it does not, the mismatch is our labelling, not a defect the user would see.
+
+  end-to-end F1 (true-tuple gold vs post-checker config from the inferred tuple):
+     0.975
+
+  A factor can be wrong and cost nothing: `origin` moves exactly one option
+  (`frequency`) and only on human population-frequency scenarios.
+
+  wrote work/results/factor_accuracy_reasoning_default.json

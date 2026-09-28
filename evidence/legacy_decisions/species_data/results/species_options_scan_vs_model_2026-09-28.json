@@ -1,0 +1,5636 @@
+{
+ "tuple": {
+  "species": "non-human",
+  "origin": "germline",
+  "variant_size_class": [
+   "small"
+  ],
+  "region_focus": [
+   "coding"
+  ],
+  "analysis_goal": [
+   "clinical-interpretation"
+  ]
+ },
+ "n": 242,
+ "model_results": "organism_121_names_reasoning_on.json",
+ "summary": {
+  "scan": {
+   "organism_ok": 174,
+   "options_ok": 226
+  },
+  "model": {
+   "organism_ok": 239,
+   "options_ok": 242
+  }
+ },
+ "rows": [
+  {
+   "id": "bino-1",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from danio rerio. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "danio_rerio",
+    "scan": "danio_rerio",
+    "model": "danio_rerio"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-1",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "My supervisor works on oreochromis niloticus, but the samples are danio rerio. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "danio_rerio",
+    "scan": "oreochromis_niloticus",
+    "model": "danio_rerio"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-2",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are mus musculus samples. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "mus_musculus",
+    "scan": "mus_musculus",
+    "model": "mus_musculus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-2",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "The variants were first reported in anser cygnoides; ours are from mus musculus. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "mus_musculus",
+    "scan": "anser_cygnoides",
+    "model": "mus_musculus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "intact",
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-3",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from acanthochromis polyacanthus. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "acanthochromis_polyacanthus",
+    "scan": "acanthochromis_polyacanthus",
+    "model": "acanthochromis_polyacanthus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-3",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "We followed a protocol written for procavia capensis, and the samples are acanthochromis polyacanthus. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "acanthochromis_polyacanthus",
+    "scan": "acanthochromis_polyacanthus",
+    "model": "acanthochromis_polyacanthus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-4",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from cottoperca gobio. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "cottoperca_gobio",
+    "scan": "cottoperca_gobio",
+    "model": "cottoperca_gobio"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-4",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "Not a ornithorhynchus anatinus study: the samples are cottoperca gobio. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "cottoperca_gobio",
+    "scan": "ornithorhynchus_anatinus",
+    "model": "cottoperca_gobio"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-5",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are balaenoptera musculus samples. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "balaenoptera_musculus",
+    "scan": "balaenoptera_musculus",
+    "model": "balaenoptera_musculus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-5",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "My supervisor works on crocodylus porosus, but the samples are balaenoptera musculus. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "balaenoptera_musculus",
+    "scan": "balaenoptera_musculus",
+    "model": "balaenoptera_musculus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-6",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from callithrix jacchus. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "callithrix_jacchus",
+    "scan": "callithrix_jacchus",
+    "model": "callithrix_jacchus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-6",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "The variants were first reported in ciona savignyi; ours are from callithrix jacchus. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "callithrix_jacchus",
+    "scan": "callithrix_jacchus",
+    "model": "callithrix_jacchus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-7",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from oncorhynchus mykiss. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "oncorhynchus_mykiss",
+    "scan": "oncorhynchus_mykiss",
+    "model": "oncorhynchus_mykiss"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-7",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "We followed a protocol written for accipiter nisus, and the samples are oncorhynchus mykiss. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "oncorhynchus_mykiss",
+    "scan": "oncorhynchus_mykiss",
+    "model": "oncorhynchus_mykiss"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-8",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are dipodomys ordii samples. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "dipodomys_ordii",
+    "scan": "dipodomys_ordii",
+    "model": "dipodomys_ordii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-8",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "Not a erythrura gouldiae study: the samples are dipodomys ordii. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "dipodomys_ordii",
+    "scan": "erythrura_gouldiae",
+    "model": "dipodomys_ordii"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-9",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from oryzias melastigma. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "oryzias_melastigma",
+    "scan": "oryzias_melastigma",
+    "model": "oryzias_melastigma"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-9",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "My supervisor works on stachyris ruficeps, but the samples are oryzias melastigma. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "oryzias_melastigma",
+    "scan": "oryzias_melastigma",
+    "model": "oryzias_melastigma"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-10",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from junco hyemalis. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "junco_hyemalis",
+    "scan": "junco_hyemalis",
+    "model": "junco_hyemalis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-10",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "The variants were first reported in melopsittacus undulatus; ours are from junco hyemalis. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "junco_hyemalis",
+    "scan": "melopsittacus_undulatus",
+    "model": "junco_hyemalis"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-11",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are stachyris ruficeps samples. We have inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "stachyris_ruficeps",
+    "scan": "stachyris_ruficeps",
+    "model": "stachyris_ruficeps"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-11",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "We followed a protocol written for amphiprion percula, and the samples are stachyris ruficeps. We have inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "stachyris_ruficeps",
+    "scan": "amphiprion_percula",
+    "model": "stachyris_ruficeps"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-12",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from scophthalmus maximus. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "scophthalmus_maximus",
+    "scan": "scophthalmus_maximus",
+    "model": "scophthalmus_maximus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-12",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "Not a laticauda laticaudata study: the samples are scophthalmus maximus. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "scophthalmus_maximus",
+    "scan": "laticauda_laticaudata",
+    "model": "scophthalmus_maximus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-13",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from carassius auratus. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "carassius_auratus",
+    "scan": "carassius_auratus",
+    "model": "carassius_auratus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-13",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "My supervisor works on anas platyrhynchos, but the samples are carassius auratus. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "carassius_auratus",
+    "scan": "anas_platyrhynchos",
+    "model": "carassius_auratus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-14",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are geospiza fortis samples. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "geospiza_fortis",
+    "scan": "geospiza_fortis",
+    "model": "geospiza_fortis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-14",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "The variants were first reported in cavia aperea; ours are from geospiza fortis. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "geospiza_fortis",
+    "scan": "geospiza_fortis",
+    "model": "geospiza_fortis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-15",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from ciona savignyi. We called inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "ciona_savignyi",
+    "scan": "ciona_savignyi",
+    "model": "ciona_savignyi"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-15",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "We followed a protocol written for mandrillus leucophaeus, and the samples are ciona savignyi. We called inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "ciona_savignyi",
+    "scan": "mandrillus_leucophaeus",
+    "model": "ciona_savignyi"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-16",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from pseudonaja textilis. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "pseudonaja_textilis",
+    "scan": "pseudonaja_textilis",
+    "model": "pseudonaja_textilis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-16",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "Not a bos grunniens study: the samples are pseudonaja textilis. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "pseudonaja_textilis",
+    "scan": "pseudonaja_textilis",
+    "model": "pseudonaja_textilis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-17",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are sphaeramia orbicularis samples. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "sphaeramia_orbicularis",
+    "scan": "sphaeramia_orbicularis",
+    "model": "sphaeramia_orbicularis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-17",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "My supervisor works on meriones unguiculatus, but the samples are sphaeramia orbicularis. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "sphaeramia_orbicularis",
+    "scan": "sphaeramia_orbicularis",
+    "model": "sphaeramia_orbicularis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-18",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from apteryx haastii. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "apteryx_haastii",
+    "scan": "apteryx_haastii",
+    "model": "apteryx_haastii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-18",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "The variants were first reported in serinus canaria; ours are from apteryx haastii. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "apteryx_haastii",
+    "scan": "apteryx_haastii",
+    "model": "apteryx_haastii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-19",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from chelydra serpentina. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "chelydra_serpentina",
+    "scan": "chelydra_serpentina",
+    "model": "chelydra_serpentina"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-19",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "We followed a protocol written for athene cunicularia, and the samples are chelydra serpentina. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "chelydra_serpentina",
+    "scan": "chelydra_serpentina",
+    "model": "chelydra_serpentina"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-20",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are gallus gallus samples. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "gallus_gallus",
+    "scan": "gallus_gallus",
+    "model": "gallus_gallus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-20",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "Not a spermophilus dauricus study: the samples are gallus gallus. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "gallus_gallus",
+    "scan": "spermophilus_dauricus",
+    "model": "gallus_gallus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "cadd",
+     "intact",
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-21",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from monopterus albus. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "monopterus_albus",
+    "scan": "monopterus_albus",
+    "model": "monopterus_albus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-21",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "My supervisor works on cyclopterus lumpus, but the samples are monopterus albus. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "monopterus_albus",
+    "scan": "cyclopterus_lumpus",
+    "model": "monopterus_albus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-22",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from salarias fasciatus. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "salarias_fasciatus",
+    "scan": "salarias_fasciatus",
+    "model": "salarias_fasciatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-22",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "The variants were first reported in mus spicilegus; ours are from salarias fasciatus. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "salarias_fasciatus",
+    "scan": "salarias_fasciatus",
+    "model": "salarias_fasciatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-23",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are oryzias sinensis samples. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "oryzias_sinensis",
+    "scan": "oryzias_sinensis",
+    "model": "oryzias_sinensis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-23",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "We followed a protocol written for castor canadensis, and the samples are oryzias sinensis. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "oryzias_sinensis",
+    "scan": "castor_canadensis",
+    "model": "oryzias_sinensis"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-24",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from chinchilla lanigera. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "chinchilla_lanigera",
+    "scan": "chinchilla_lanigera",
+    "model": "chinchilla_lanigera"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-24",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "Not a sinocyclocheilus rhinocerous study: the samples are chinchilla lanigera. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "chinchilla_lanigera",
+    "scan": "sinocyclocheilus_rhinocerous",
+    "model": "chinchilla_lanigera"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-25",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from dromaius novaehollandiae. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "dromaius_novaehollandiae",
+    "scan": "dromaius_novaehollandiae",
+    "model": "dromaius_novaehollandiae"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-25",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "My supervisor works on rattus norvegicus, but the samples are dromaius novaehollandiae. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "dromaius_novaehollandiae",
+    "scan": "dromaius_novaehollandiae",
+    "model": "dromaius_novaehollandiae"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-26",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are tupaia belangeri samples. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "tupaia_belangeri",
+    "scan": "tupaia_belangeri",
+    "model": "tupaia_belangeri"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-26",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "The variants were first reported in mesocricetus auratus; ours are from tupaia belangeri. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "tupaia_belangeri",
+    "scan": "mesocricetus_auratus",
+    "model": "tupaia_belangeri"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-27",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from rattus norvegicus. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "rattus_norvegicus",
+    "scan": "rattus_norvegicus",
+    "model": "rattus_norvegicus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-27",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "We followed a protocol written for eptatretus burgeri, and the samples are rattus norvegicus. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "rattus_norvegicus",
+    "scan": "eptatretus_burgeri",
+    "model": "rattus_norvegicus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "intact",
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-28",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The samples are from nannospalax galili. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "nannospalax_galili",
+    "scan": "nannospalax_galili",
+    "model": "nannospalax_galili"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-28",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "Not a pygocentrus nattereri study: the samples are nannospalax galili. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "nannospalax_galili",
+    "scan": "pygocentrus_nattereri",
+    "model": "nannospalax_galili"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-29",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "These are carlito syrichta samples. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "carlito_syrichta",
+    "scan": "carlito_syrichta",
+    "model": "carlito_syrichta"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-29",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "My supervisor works on nothobranchius furzeri, but the samples are carlito syrichta. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "carlito_syrichta",
+    "scan": "nothobranchius_furzeri",
+    "model": "carlito_syrichta"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-30",
+   "kind": "binomial",
+   "version": "plain",
+   "query": "The data are from neolamprologus brichardi. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "neolamprologus_brichardi",
+    "scan": "neolamprologus_brichardi",
+    "model": "neolamprologus_brichardi"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "bino-30",
+   "kind": "binomial",
+   "version": "decoy",
+   "query": "The variants were first reported in scleropages formosus; ours are from neolamprologus brichardi. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "neolamprologus_brichardi",
+    "scan": "neolamprologus_brichardi",
+    "model": "neolamprologus_brichardi"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-1",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from monterrey platyfish. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "xiphophorus_couchianus",
+    "scan": "xiphophorus_couchianus",
+    "model": "xiphophorus_couchianus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-1",
+   "kind": "common",
+   "version": "decoy",
+   "query": "My supervisor works on white-tufted-ear marmoset, but the samples are monterrey platyfish. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "xiphophorus_couchianus",
+    "scan": "callithrix_jacchus",
+    "model": "xiphophorus_couchianus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-2",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are california sea lion samples. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "zalophus_californianus",
+    "scan": "zalophus_californianus",
+    "model": "zalophus_californianus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-2",
+   "kind": "common",
+   "version": "decoy",
+   "query": "The variants were first reported in spiny chromis; ours are from california sea lion. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "zalophus_californianus",
+    "scan": "zalophus_californianus",
+    "model": "zalophus_californianus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-3",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from small-eared galago. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "otolemur_garnettii",
+    "scan": "otolemur_garnettii",
+    "model": "otolemur_garnettii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-3",
+   "kind": "common",
+   "version": "decoy",
+   "query": "We followed a protocol written for small tree finch, and the samples are small-eared galago. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "otolemur_garnettii",
+    "scan": "otolemur_garnettii",
+    "model": "otolemur_garnettii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-4",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from western european hedgehog. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "erinaceus_europaeus",
+    "scan": "erinaceus_europaeus",
+    "model": "erinaceus_europaeus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-4",
+   "kind": "common",
+   "version": "decoy",
+   "query": "Not a shortfin molly study: the samples are western european hedgehog. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "erinaceus_europaeus",
+    "scan": "erinaceus_europaeus",
+    "model": "erinaceus_europaeus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-5",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are mexican tetra samples. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "astyanax_mexicanus",
+    "scan": "astyanax_mexicanus",
+    "model": "astyanax_mexicanus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-5",
+   "kind": "common",
+   "version": "decoy",
+   "query": "My supervisor works on rufous-capped babbler, but the samples are mexican tetra. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "astyanax_mexicanus",
+    "scan": "stachyris_ruficeps",
+    "model": "astyanax_mexicanus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-6",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from pig-tailed macaque. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "macaca_nemestrina",
+    "scan": "macaca_nemestrina",
+    "model": "macaca_nemestrina"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-6",
+   "kind": "common",
+   "version": "decoy",
+   "query": "The variants were first reported in damara mole rat; ours are from pig-tailed macaque. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "macaca_nemestrina",
+    "scan": "macaca_nemestrina",
+    "model": "macaca_nemestrina"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-7",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from ryukyu mouse. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "mus_caroli",
+    "scan": "mus_caroli",
+    "model": "mus_caroli"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-7",
+   "kind": "common",
+   "version": "decoy",
+   "query": "We followed a protocol written for medium ground-finch, and the samples are ryukyu mouse. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "mus_caroli",
+    "scan": "geospiza_fortis",
+    "model": "mus_caroli"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-8",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are golden-collared manakin samples. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "manacus_vitellinus",
+    "scan": "manacus_vitellinus",
+    "model": "manacus_vitellinus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-8",
+   "kind": "common",
+   "version": "decoy",
+   "query": "Not a mongolian gerbil study: the samples are golden-collared manakin. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "manacus_vitellinus",
+    "scan": "manacus_vitellinus",
+    "model": "manacus_vitellinus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-9",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from sea lamprey. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "petromyzon_marinus",
+    "scan": "petromyzon_marinus",
+    "model": "petromyzon_marinus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-9",
+   "kind": "common",
+   "version": "decoy",
+   "query": "My supervisor works on indian glassy fish, but the samples are sea lamprey. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "petromyzon_marinus",
+    "scan": "parambassis_ranga",
+    "model": "petromyzon_marinus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-10",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from arctic ground squirrel. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "urocitellus_parryii",
+    "scan": "urocitellus_parryii",
+    "model": "urocitellus_parryii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-10",
+   "kind": "common",
+   "version": "decoy",
+   "query": "The variants were first reported in ryukyu mouse; ours are from arctic ground squirrel. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "urocitellus_parryii",
+    "scan": "urocitellus_parryii",
+    "model": "urocitellus_parryii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-11",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are blunt-snouted clingfish samples. We have inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "gouania_willdenowi",
+    "scan": "gouania_willdenowi",
+    "model": "gouania_willdenowi"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-11",
+   "kind": "common",
+   "version": "decoy",
+   "query": "We followed a protocol written for green anole, and the samples are blunt-snouted clingfish. We have inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "gouania_willdenowi",
+    "scan": "gouania_willdenowi",
+    "model": "gouania_willdenowi"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-12",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from climbing perch. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "anabas_testudineus",
+    "scan": "anabas_testudineus",
+    "model": "anabas_testudineus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-12",
+   "kind": "common",
+   "version": "decoy",
+   "query": "Not a collared flycatcher study: the samples are climbing perch. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "anabas_testudineus",
+    "scan": "ficedula_albicollis",
+    "model": "anabas_testudineus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-13",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from pink-footed goose. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "anser_brachyrhynchus",
+    "scan": "anser_brachyrhynchus",
+    "model": "anser_brachyrhynchus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-13",
+   "kind": "common",
+   "version": "decoy",
+   "query": "My supervisor works on northern tree shrew, but the samples are pink-footed goose. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "anser_brachyrhynchus",
+    "scan": "tupaia_belangeri",
+    "model": "anser_brachyrhynchus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-14",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are great tit samples. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "parus_major",
+    "scan": "parus_major",
+    "model": "parus_major"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-14",
+   "kind": "common",
+   "version": "decoy",
+   "query": "The variants were first reported in mainland tiger snake; ours are from great tit. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "parus_major",
+    "scan": "notechis_scutatus",
+    "model": "parus_major"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-15",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from komodo dragon. We called inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "varanus_komodoensis",
+    "scan": "varanus_komodoensis",
+    "model": "varanus_komodoensis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-15",
+   "kind": "common",
+   "version": "decoy",
+   "query": "We followed a protocol written for golden-collared manakin, and the samples are komodo dragon. We called inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "varanus_komodoensis",
+    "scan": "manacus_vitellinus",
+    "model": "varanus_komodoensis"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-16",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from chacoan peccary. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "catagonus_wagneri",
+    "scan": "catagonus_wagneri",
+    "model": "catagonus_wagneri"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-16",
+   "kind": "common",
+   "version": "decoy",
+   "query": "Not a african savanna elephant study: the samples are chacoan peccary. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "catagonus_wagneri",
+    "scan": "loxodonta_africana",
+    "model": "catagonus_wagneri"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-17",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are collared flycatcher samples. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "ficedula_albicollis",
+    "scan": "ficedula_albicollis",
+    "model": "ficedula_albicollis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-17",
+   "kind": "common",
+   "version": "decoy",
+   "query": "My supervisor works on spoon-billed sandpiper, but the samples are collared flycatcher. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "ficedula_albicollis",
+    "scan": "calidris_pygmaea",
+    "model": "ficedula_albicollis"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-18",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from black snub-nosed monkey. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "rhinopithecus_bieti",
+    "scan": "rhinopithecus_bieti",
+    "model": "rhinopithecus_bieti"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-18",
+   "kind": "common",
+   "version": "decoy",
+   "query": "The variants were first reported in zebrafish; ours are from black snub-nosed monkey. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "rhinopithecus_bieti",
+    "scan": "rhinopithecus_bieti",
+    "model": "rhinopithecus_bieti"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-19",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from western lowland gorilla. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "gorilla_gorilla",
+    "scan": "gorilla_gorilla",
+    "model": "gorilla_gorilla"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-19",
+   "kind": "common",
+   "version": "decoy",
+   "query": "We followed a protocol written for round goby, and the samples are western lowland gorilla. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "gorilla_gorilla",
+    "scan": "gorilla_gorilla",
+    "model": "gorilla_gorilla"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-20",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are daurian ground squirrel samples. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "spermophilus_dauricus",
+    "scan": "spermophilus_dauricus",
+    "model": "spermophilus_dauricus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-20",
+   "kind": "common",
+   "version": "decoy",
+   "query": "Not a chacoan peccary study: the samples are daurian ground squirrel. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "spermophilus_dauricus",
+    "scan": "spermophilus_dauricus",
+    "model": "spermophilus_dauricus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-21",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from goodes thornscrub tortoise. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "gopherus_evgoodei",
+    "scan": "gopherus_evgoodei",
+    "model": "gopherus_evgoodei"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-21",
+   "kind": "common",
+   "version": "decoy",
+   "query": "My supervisor works on sea squirt ciona savignyi, but the samples are goodes thornscrub tortoise. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "gopherus_evgoodei",
+    "scan": "gopherus_evgoodei",
+    "model": "gopherus_evgoodei"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-22",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from live sharksucker. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "echeneis_naucrates",
+    "scan": "echeneis_naucrates",
+    "model": "echeneis_naucrates"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-22",
+   "kind": "common",
+   "version": "decoy",
+   "query": "The variants were first reported in northern pike; ours are from live sharksucker. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "echeneis_naucrates",
+    "scan": "echeneis_naucrates",
+    "model": "echeneis_naucrates"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-23",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are golden-line barbel samples. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "sinocyclocheilus_grahami",
+    "scan": "sinocyclocheilus_grahami",
+    "model": "sinocyclocheilus_grahami"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-23",
+   "kind": "common",
+   "version": "decoy",
+   "query": "We followed a protocol written for brown trout, and the samples are golden-line barbel. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "sinocyclocheilus_grahami",
+    "scan": "sinocyclocheilus_grahami",
+    "model": "sinocyclocheilus_grahami"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-24",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from western wild mouse. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "mus_spretus",
+    "scan": "mus_spretus",
+    "model": "mus_spretus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-24",
+   "kind": "common",
+   "version": "decoy",
+   "query": "Not a atlantic herring study: the samples are western wild mouse. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "mus_spretus",
+    "scan": "mus_spretus",
+    "model": "mus_spretus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-25",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from american pika. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "ochotona_princeps",
+    "scan": "ochotona_princeps",
+    "model": "ochotona_princeps"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-25",
+   "kind": "common",
+   "version": "decoy",
+   "query": "My supervisor works on zebra mbuna, but the samples are american pika. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "ochotona_princeps",
+    "scan": "ochotona_princeps",
+    "model": "ochotona_princeps"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-26",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are siberian musk deer samples. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "moschus_moschiferus",
+    "scan": "moschus_moschiferus",
+    "model": "moschus_moschiferus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-26",
+   "kind": "common",
+   "version": "decoy",
+   "query": "The variants were first reported in javanese ricefish; ours are from siberian musk deer. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "moschus_moschiferus",
+    "scan": "moschus_moschiferus",
+    "model": "moschus_moschiferus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-27",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from tropical clawed frog. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "xenopus_tropicalis",
+    "scan": "xenopus_tropicalis",
+    "model": "xenopus_tropicalis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-27",
+   "kind": "common",
+   "version": "decoy",
+   "query": "We followed a protocol written for siamese fighting fish, and the samples are tropical clawed frog. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "xenopus_tropicalis",
+    "scan": "betta_splendens",
+    "model": "xenopus_tropicalis"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-28",
+   "kind": "common",
+   "version": "plain",
+   "query": "The samples are from small madagascar hedgehog. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "echinops_telfairi",
+    "scan": "echinops_telfairi",
+    "model": "echinops_telfairi"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-28",
+   "kind": "common",
+   "version": "decoy",
+   "query": "Not a large flying fox study: the samples are small madagascar hedgehog. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "echinops_telfairi",
+    "scan": "echinops_telfairi",
+    "model": "echinops_telfairi"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-29",
+   "kind": "common",
+   "version": "plain",
+   "query": "These are spoon-billed sandpiper samples. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "calidris_pygmaea",
+    "scan": "calidris_pygmaea",
+    "model": "calidris_pygmaea"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-29",
+   "kind": "common",
+   "version": "decoy",
+   "query": "My supervisor works on medium ground-finch, but the samples are spoon-billed sandpiper. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "calidris_pygmaea",
+    "scan": "calidris_pygmaea",
+    "model": "calidris_pygmaea"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-30",
+   "kind": "common",
+   "version": "plain",
+   "query": "The data are from zebra mbuna. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "maylandia_zebra",
+    "scan": "maylandia_zebra",
+    "model": "maylandia_zebra"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "comm-30",
+   "kind": "common",
+   "version": "decoy",
+   "query": "The variants were first reported in clown anemonefish; ours are from zebra mbuna. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "maylandia_zebra",
+    "scan": "amphiprion_ocellaris",
+    "model": "maylandia_zebra"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-1",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from an opossum. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "monodelphis_domestica",
+    "scan": "monodelphis_domestica",
+    "model": "monodelphis_domestica"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-1",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "My supervisor works on mallard, but the samples are from an opossum. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "monodelphis_domestica",
+    "scan": "anas_platyrhynchos",
+    "model": "monodelphis_domestica"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-2",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a coelacanth. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "latimeria_chalumnae",
+    "scan": "latimeria_chalumnae",
+    "model": "latimeria_chalumnae"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-2",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "The variants were first reported in alpaca; ours are from a coelacanth. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "latimeria_chalumnae",
+    "scan": "latimeria_chalumnae",
+    "model": "latimeria_chalumnae"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-3",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from a budgerigar. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "melopsittacus_undulatus",
+    "scan": "melopsittacus_undulatus",
+    "model": "melopsittacus_undulatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-3",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "We followed a protocol written for platyfish, and the samples are from a budgerigar. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "melopsittacus_undulatus",
+    "scan": "melopsittacus_undulatus",
+    "model": "melopsittacus_undulatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-4",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from a goat. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "capra_hircus",
+    "scan": "capra_hircus",
+    "model": "capra_hircus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-4",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "Not a pig study: the samples are from a goat. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "capra_hircus",
+    "scan": "capra_hircus",
+    "model": "capra_hircus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-5",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a degu. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "octodon_degus",
+    "scan": "octodon_degus",
+    "model": "octodon_degus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-5",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "My supervisor works on tuatara, but the samples are from a degu. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "octodon_degus",
+    "scan": "sphenodon_punctatus",
+    "model": "octodon_degus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-6",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from a wallaby. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "notamacropus_eugenii",
+    "scan": "notamacropus_eugenii",
+    "model": "notamacropus_eugenii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-6",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "The variants were first reported in shrew; ours are from a wallaby. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "notamacropus_eugenii",
+    "scan": "notamacropus_eugenii",
+    "model": "notamacropus_eugenii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-7",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from a kakapo. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "strigops_habroptila",
+    "scan": "strigops_habroptila",
+    "model": "strigops_habroptila"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-7",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "We followed a protocol written for chicken, and the samples are from a kakapo. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "strigops_habroptila",
+    "scan": "gallus_gallus",
+    "model": "strigops_habroptila"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "cadd",
+     "intact",
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-8",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a leopard. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "panthera_pardus",
+    "scan": "panthera_pardus",
+    "model": "panthera_pardus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-8",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "Not a koala study: the samples are from a leopard. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "panthera_pardus",
+    "scan": "panthera_pardus",
+    "model": "panthera_pardus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-9",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from a stickleback. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "gasterosteus_aculeatus",
+    "scan": "gasterosteus_aculeatus",
+    "model": "gasterosteus_aculeatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-9",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "My supervisor works on wallaby, but the samples are from a stickleback. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "gasterosteus_aculeatus",
+    "scan": "gasterosteus_aculeatus",
+    "model": "gasterosteus_aculeatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-10",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from an armadillo. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "dasypus_novemcinctus",
+    "scan": "dasypus_novemcinctus",
+    "model": "dasypus_novemcinctus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-10",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "The variants were first reported in gorilla; ours are from an armadillo. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "dasypus_novemcinctus",
+    "scan": "dasypus_novemcinctus",
+    "model": "dasypus_novemcinctus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-11",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a ruff. We have inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "calidris_pugnax",
+    "scan": "calidris_pugnax",
+    "model": "calidris_pugnax"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-11",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "We followed a protocol written for degu, and the samples are from a ruff. We have inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "calidris_pugnax",
+    "scan": "octodon_degus",
+    "model": "calidris_pugnax"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-12",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from a gibbon. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "nomascus_leucogenys",
+    "scan": "nomascus_leucogenys",
+    "model": "nomascus_leucogenys"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-12",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "Not a degu study: the samples are from a gibbon. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "nomascus_leucogenys",
+    "scan": "nomascus_leucogenys",
+    "model": "nomascus_leucogenys"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-13",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from a tetraodon. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "tetraodon_nigroviridis",
+    "scan": "tetraodon_nigroviridis",
+    "model": "tetraodon_nigroviridis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-13",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "My supervisor works on lion, but the samples are from a tetraodon. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "tetraodon_nigroviridis",
+    "scan": "tetraodon_nigroviridis",
+    "model": "tetraodon_nigroviridis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-14",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a tiger. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "panthera_tigris_altaica",
+    "scan": "panthera_tigris_altaica",
+    "model": "panthera_tigris_altaica"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-14",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "The variants were first reported in hagfish; ours are from a tiger. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "panthera_tigris_altaica",
+    "scan": "eptatretus_burgeri",
+    "model": "panthera_tigris_altaica"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-15",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from a guppy. We called inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "poecilia_reticulata",
+    "scan": "poecilia_reticulata",
+    "model": "poecilia_reticulata"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-15",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "We followed a protocol written for dingo, and the samples are from a guppy. We called inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "poecilia_reticulata",
+    "scan": "canis_lupus_dingo",
+    "model": "poecilia_reticulata"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-16",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from an ass. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "equus_asinus",
+    "scan": "equus_asinus",
+    "model": "equus_asinus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-16",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "Not a elephant study: the samples are from an ass. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "equus_asinus",
+    "scan": "loxodonta_africana",
+    "model": "equus_asinus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-17",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a platyfish. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "xiphophorus_maculatus",
+    "scan": "xiphophorus_maculatus",
+    "model": "xiphophorus_maculatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-17",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "My supervisor works on goat, but the samples are from a platyfish. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "xiphophorus_maculatus",
+    "scan": "xiphophorus_maculatus",
+    "model": "xiphophorus_maculatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-18",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from a narwhal. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "monodon_monoceros",
+    "scan": "monodon_monoceros",
+    "model": "monodon_monoceros"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-18",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "The variants were first reported in gorilla; ours are from a narwhal. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "monodon_monoceros",
+    "scan": "gorilla_gorilla",
+    "model": "monodon_monoceros"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-19",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from a squirrel. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "ictidomys_tridecemlineatus",
+    "scan": "ictidomys_tridecemlineatus",
+    "model": "ictidomys_tridecemlineatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-19",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "We followed a protocol written for dingo, and the samples are from a squirrel. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "ictidomys_tridecemlineatus",
+    "scan": "ictidomys_tridecemlineatus",
+    "model": "ictidomys_tridecemlineatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-20",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a vole. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "microtus_ochrogaster",
+    "scan": "microtus_ochrogaster",
+    "model": "microtus_ochrogaster"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-20",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "Not a shrew study: the samples are from a vole. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "microtus_ochrogaster",
+    "scan": "sorex_araneus",
+    "model": "microtus_ochrogaster"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-21",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from a chimpanzee. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "pan_troglodytes",
+    "scan": "pan_troglodytes",
+    "model": "pan_troglodytes"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-21",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "My supervisor works on wallaby, but the samples are from a chimpanzee. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "pan_troglodytes",
+    "scan": "pan_troglodytes",
+    "model": "pan_troglodytes"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-22",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from a tuatara. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "sphenodon_punctatus",
+    "scan": "sphenodon_punctatus",
+    "model": "sphenodon_punctatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-22",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "The variants were first reported in armadillo; ours are from a tuatara. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "sphenodon_punctatus",
+    "scan": "dasypus_novemcinctus",
+    "model": "sphenodon_punctatus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-23",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a dingo. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "canis_lupus_dingo",
+    "scan": "canis_lupus_dingo",
+    "model": "canis_lupus_dingo"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-23",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "We followed a protocol written for guppy, and the samples are from a dingo. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "canis_lupus_dingo",
+    "scan": "canis_lupus_dingo",
+    "model": "canis_lupus_dingo"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-24",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from a sloth. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "choloepus_hoffmanni",
+    "scan": "choloepus_hoffmanni",
+    "model": "choloepus_hoffmanni"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-24",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "Not a elephant study: the samples are from a sloth. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "choloepus_hoffmanni",
+    "scan": "loxodonta_africana",
+    "model": "choloepus_hoffmanni"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-25",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from a pig. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "sus_scrofa",
+    "scan": "sus_scrofa",
+    "model": "sus_scrofa"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-25",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "My supervisor works on fugu, but the samples are from a pig. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "sus_scrofa",
+    "scan": "takifugu_rubripes",
+    "model": "sus_scrofa"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "cadd",
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-26",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a dolphin. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "tursiops_truncatus",
+    "scan": "tursiops_truncatus",
+    "model": "tursiops_truncatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-26",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "The variants were first reported in degu; ours are from a dolphin. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "tursiops_truncatus",
+    "scan": "tursiops_truncatus",
+    "model": "tursiops_truncatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-27",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from an elephant. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "loxodonta_africana",
+    "scan": "loxodonta_africana",
+    "model": "loxodonta_africana"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-27",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "We followed a protocol written for ass, and the samples are from an elephant. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "loxodonta_africana",
+    "scan": "loxodonta_africana",
+    "model": "loxodonta_africana"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-28",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The samples are from a sheep. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "ovis_aries",
+    "scan": "ovis_aries",
+    "model": "ovis_aries"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-28",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "Not a hyrax study: the samples are from a sheep. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "ovis_aries",
+    "scan": "procavia_capensis",
+    "model": "ovis_aries"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-29",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "These samples come from a meerkat. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "suricata_suricatta",
+    "scan": "suricata_suricatta",
+    "model": "suricata_suricatta"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-29",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "My supervisor works on leopard, but the samples are from a meerkat. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "suricata_suricatta",
+    "scan": "panthera_pardus",
+    "model": "suricata_suricatta"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-30",
+   "kind": "english_word",
+   "version": "plain",
+   "query": "The data are from a fugu. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "takifugu_rubripes",
+    "scan": "takifugu_rubripes",
+    "model": "takifugu_rubripes"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "engl-30",
+   "kind": "english_word",
+   "version": "decoy",
+   "query": "The variants were first reported in dolphin; ours are from a fugu. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "takifugu_rubripes",
+    "scan": "tursiops_truncatus",
+    "model": "takifugu_rubripes"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-1",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The samples are from seriola lalandi dorsalis. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "seriola_lalandi_dorsalis",
+    "scan": "seriola_lalandi_dorsalis",
+    "model": "seriola_lalandi_dorsalis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-1",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "My supervisor works on mouse pwk/phj, but the samples are seriola lalandi dorsalis. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "seriola_lalandi_dorsalis",
+    "scan": "seriola_lalandi_dorsalis",
+    "model": "seriola_lalandi_dorsalis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-2",
+   "kind": "strain",
+   "version": "plain",
+   "query": "These are asiatic black bear samples. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "ursus_thibetanus_thibetanus",
+    "scan": "ursus_thibetanus_thibetanus",
+    "model": "ursus_thibetanus_thibetanus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-2",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "The variants were first reported in yellowtail amberjack; ours are from asiatic black bear. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "ursus_thibetanus_thibetanus",
+    "scan": "seriola_lalandi_dorsalis",
+    "model": "ursus_thibetanus_thibetanus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-3",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The data are from chinese hamster chok1gs. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "cricetulus_griseus",
+    "scan": "cricetulus_griseus",
+    "model": "cricetulus_griseus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-3",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "We followed a protocol written for cyprinus carpio hebaored, and the samples are chinese hamster chok1gs. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "cricetulus_griseus",
+    "scan": "cyprinus_carpio",
+    "model": "cricetulus_griseus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-4",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The samples are from oryzias latipes hni. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "oryzias_latipes",
+    "scan": "oryzias_latipes",
+    "model": "oryzias_latipes"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-4",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "Not a mouse fvb/nj study: the samples are oryzias latipes hni. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "oryzias_latipes",
+    "scan": "oryzias_latipes",
+    "model": "oryzias_latipes"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-5",
+   "kind": "strain",
+   "version": "plain",
+   "query": "These are cyprinus carpio huanghe samples. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "cyprinus_carpio",
+    "scan": "cyprinus_carpio",
+    "model": "cyprinus_carpio"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-5",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "My supervisor works on canis lupus familiarisboxer, but the samples are cyprinus carpio huanghe. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "cyprinus_carpio",
+    "scan": "canis_lupus_familiaris",
+    "model": "cyprinus_carpio"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-6",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The data are from northern spotted owl. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "strix_occidentalis_caurina",
+    "scan": "strix_occidentalis_caurina",
+    "model": "strix_occidentalis_caurina"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-6",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "The variants were first reported in canis lupus familiarisboxer; ours are from northern spotted owl. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "strix_occidentalis_caurina",
+    "scan": "canis_lupus_familiaris",
+    "model": "strix_occidentalis_caurina"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-7",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The samples are from american bison. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "bison_bison_bison",
+    "scan": "bison_bison_bison",
+    "model": "bison_bison_bison"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-7",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "We followed a protocol written for mouse a/j, and the samples are american bison. I'm working with inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "bison_bison_bison",
+    "scan": "bison_bison_bison",
+    "model": "bison_bison_bison"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-8",
+   "kind": "strain",
+   "version": "plain",
+   "query": "These are alpine marmot samples. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "marmota_marmota_marmota",
+    "scan": "marmota_marmota_marmota",
+    "model": "marmota_marmota_marmota"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-8",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "Not a mouse c57bl/6nj study: the samples are alpine marmot. Our lab just got back acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "marmota_marmota_marmota",
+    "scan": "mus_musculus",
+    "model": "marmota_marmota_marmota"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "intact",
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-9",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The data are from domestic cattle. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "bos_taurus",
+    "scan": "bos_taurus",
+    "model": "bos_taurus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-9",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "My supervisor works on colobus angolensis palliatus, but the samples are domestic cattle. I've got a VCF of germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "bos_taurus",
+    "scan": "colobus_angolensis_palliatus",
+    "model": "bos_taurus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-10",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The samples are from a silver-eye. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "zosterops_lateralis_melanops",
+    "scan": "zosterops_lateralis_melanops",
+    "model": "zosterops_lateralis_melanops"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-10",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "The variants were first reported in chinese hamster crigri; ours are from a silver-eye. We called somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "zosterops_lateralis_melanops",
+    "scan": "cricetulus_griseus",
+    "model": "zosterops_lateralis_melanops"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-11",
+   "kind": "strain",
+   "version": "plain",
+   "query": "These are naked mole-rat male samples. We have inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "heterocephalus_glaber",
+    "scan": "heterocephalus_glaber",
+    "model": "heterocephalus_glaber"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-11",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "We followed a protocol written for canis lupus familiarisbasenji, and the samples are naked mole-rat male. We have inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "heterocephalus_glaber",
+    "scan": "canis_lupus_familiaris",
+    "model": "heterocephalus_glaber"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-12",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The data are from felis catus abyssinian. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "felis_catus",
+    "scan": "felis_catus",
+    "model": "felis_catus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-12",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "Not a yellowtail amberjack study: the samples are felis catus abyssinian. I'm working with acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "felis_catus",
+    "scan": "felis_catus",
+    "model": "felis_catus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-13",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The samples are from bengalese finch. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "lonchura_striata_domestica",
+    "scan": "lonchura_striata_domestica",
+    "model": "lonchura_striata_domestica"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-13",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "My supervisor works on saimiri boliviensis boliviensis, but the samples are bengalese finch. Our lab just got back germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "lonchura_striata_domestica",
+    "scan": "saimiri_boliviensis_boliviensis",
+    "model": "lonchura_striata_domestica"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-14",
+   "kind": "strain",
+   "version": "plain",
+   "query": "These are superb fairywren samples. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "malurus_cyaneus_samueli",
+    "scan": "malurus_cyaneus_samueli",
+    "model": "malurus_cyaneus_samueli"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-14",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "The variants were first reported in lonchura striata domestica; ours are from superb fairywren. I've got a VCF of somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "malurus_cyaneus_samueli",
+    "scan": "lonchura_striata_domestica",
+    "model": "malurus_cyaneus_samueli"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-15",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The data are from northern american deer mouse. We called inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "peromyscus_maniculatus_bairdii",
+    "scan": "peromyscus_maniculatus_bairdii",
+    "model": "peromyscus_maniculatus_bairdii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-15",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "We followed a protocol written for sus scrofa tibetan, and the samples are northern american deer mouse. We called inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "peromyscus_maniculatus_bairdii",
+    "scan": "peromyscus_maniculatus_bairdii",
+    "model": "peromyscus_maniculatus_bairdii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-16",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The samples are from african ostrich. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "struthio_camelus_australis",
+    "scan": "struthio_camelus_australis",
+    "model": "struthio_camelus_australis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-16",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "Not a sus scrofa largewhite study: the samples are african ostrich. We have acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "struthio_camelus_australis",
+    "scan": "sus_scrofa",
+    "model": "struthio_camelus_australis"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "cadd",
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-17",
+   "kind": "strain",
+   "version": "plain",
+   "query": "These are atlantic salmon samples. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "salmo_salar",
+    "scan": "salmo_salar",
+    "model": "salmo_salar"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-17",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "My supervisor works on mouse c57bl/6nj, but the samples are atlantic salmon. I'm working with germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "salmo_salar",
+    "scan": "salmo_salar",
+    "model": "salmo_salar"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-18",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The data are from painted turtle. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "chrysemys_picta_bellii",
+    "scan": "chrysemys_picta_bellii",
+    "model": "chrysemys_picta_bellii"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-18",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "The variants were first reported in marmota marmota marmota; ours are from painted turtle. Our lab just got back somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "chrysemys_picta_bellii",
+    "scan": "marmota_marmota_marmota",
+    "model": "chrysemys_picta_bellii"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-19",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The samples are from terrapene carolina triunguis. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "terrapene_carolina_triunguis",
+    "scan": "terrapene_carolina_triunguis",
+    "model": "terrapene_carolina_triunguis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-19",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "We followed a protocol written for heterocephalus glaber female, and the samples are terrapene carolina triunguis. I've got a VCF of inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "terrapene_carolina_triunguis",
+    "scan": "heterocephalus_glaber",
+    "model": "terrapene_carolina_triunguis"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-20",
+   "kind": "strain",
+   "version": "plain",
+   "query": "These are colobus angolensis palliatus samples. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "colobus_angolensis_palliatus",
+    "scan": "colobus_angolensis_palliatus",
+    "model": "colobus_angolensis_palliatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-20",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "Not a naked mole-rat study: the samples are colobus angolensis palliatus. We called acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "colobus_angolensis_palliatus",
+    "scan": "colobus_angolensis_palliatus",
+    "model": "colobus_angolensis_palliatus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-21",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The data are from yarkand deer. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "cervus_hanglu_yarkandensis",
+    "scan": "cervus_hanglu_yarkandensis",
+    "model": "cervus_hanglu_yarkandensis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-21",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "My supervisor works on western european house mouse, but the samples are yarkand deer. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "cervus_hanglu_yarkandensis",
+    "scan": "mus_musculus_wsbeij",
+    "model": "cervus_hanglu_yarkandensis"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-22",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The samples are from domestic ferret. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "mustela_putorius_furo",
+    "scan": "mustela_putorius_furo",
+    "model": "mustela_putorius_furo"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-22",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "The variants were first reported in naked mole-rat; ours are from domestic ferret. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "mustela_putorius_furo",
+    "scan": "mustela_putorius_furo",
+    "model": "mustela_putorius_furo"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-23",
+   "kind": "strain",
+   "version": "plain",
+   "query": "These are cairina moschata domestica samples. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "cairina_moschata_domestica",
+    "scan": "cairina_moschata_domestica",
+    "model": "cairina_moschata_domestica"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-23",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "We followed a protocol written for mus musculus c3hhej, and the samples are cairina moschata domestica. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "cairina_moschata_domestica",
+    "scan": "cairina_moschata_domestica",
+    "model": "cairina_moschata_domestica"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-24",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The data are from golden eagle. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "aquila_chrysaetos_chrysaetos",
+    "scan": "aquila_chrysaetos_chrysaetos",
+    "model": "aquila_chrysaetos_chrysaetos"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-24",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "Not a atlantic salmon study: the samples are golden eagle. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "aquila_chrysaetos_chrysaetos",
+    "scan": "salmo_salar",
+    "model": "aquila_chrysaetos_chrysaetos"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-25",
+   "kind": "strain",
+   "version": "plain",
+   "query": "The samples are from bolivian squirrel monkey. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "saimiri_boliviensis_boliviensis",
+    "scan": "saimiri_boliviensis_boliviensis",
+    "model": "saimiri_boliviensis_boliviensis"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-25",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "My supervisor works on terrapene carolina triunguis, but the samples are bolivian squirrel monkey. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "saimiri_boliviensis_boliviensis",
+    "scan": "terrapene_carolina_triunguis",
+    "model": "saimiri_boliviensis_boliviensis"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-26",
+   "kind": "strain",
+   "version": "plain",
+   "query": "These are anas platyrhynchos platyrhynchos samples. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "anas_platyrhynchos_platyrhynchos",
+    "scan": "anas_platyrhynchos_platyrhynchos",
+    "model": "anas_platyrhynchos"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": false
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "stra-26",
+   "kind": "strain",
+   "version": "decoy",
+   "query": "The variants were first reported in mus musculus wsbeij; ours are from anas platyrhynchos platyrhynchos. We have somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "anas_platyrhynchos_platyrhynchos",
+    "scan": "anas_platyrhynchos_platyrhynchos",
+    "model": "anas_platyrhynchos"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": false
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-1",
+   "kind": "trap",
+   "version": "plain",
+   "query": "The samples are from a platypus. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "ornithorhynchus_anatinus",
+    "scan": null,
+    "model": "ornithorhynchus_anatinus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-1",
+   "kind": "trap",
+   "version": "decoy",
+   "query": "My supervisor works on turkey, but the samples are from a platypus. We have germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "ornithorhynchus_anatinus",
+    "scan": null,
+    "model": "ornithorhynchus_anatinus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-2",
+   "kind": "trap",
+   "version": "plain",
+   "query": "These samples come from a drill. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "mandrillus_leucophaeus",
+    "scan": null,
+    "model": null
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": false
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-2",
+   "kind": "trap",
+   "version": "decoy",
+   "query": "The variants were first reported in dog; ours are from a drill. I'm working with somatic point mutations in promoters and enhancers. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "mandrillus_leucophaeus",
+    "scan": "canis_lupus_familiaris",
+    "model": "mandrillus_leucophaeus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "sift"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-3",
+   "kind": "trap",
+   "version": "plain",
+   "query": "The data are from guinea pig. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "cavia_porcellus",
+    "scan": null,
+    "model": "cavia_porcellus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-3",
+   "kind": "trap",
+   "version": "decoy",
+   "query": "We followed a protocol written for dog, and the samples are guinea pig. Our lab just got back inherited structural variants in coding regions. I just need the basic consequences.",
+   "organism": {
+    "truth": "cavia_porcellus",
+    "scan": null,
+    "model": "cavia_porcellus"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-4",
+   "kind": "trap",
+   "version": "plain",
+   "query": "The samples are from a rabbit. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "oryctolagus_cuniculus",
+    "scan": "oryctolagus_cuniculus",
+    "model": "oryctolagus_cuniculus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-4",
+   "kind": "trap",
+   "version": "decoy",
+   "query": "Not a drill study: the samples are from a rabbit. I've got a VCF of acquired somatic CNVs in regulatory regions. I want to know which are pathogenic.",
+   "organism": {
+    "truth": "oryctolagus_cuniculus",
+    "scan": "oryctolagus_cuniculus",
+    "model": "oryctolagus_cuniculus"
+   },
+   "organism_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_ok": {
+    "scan": true,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-5",
+   "kind": "trap",
+   "version": "plain",
+   "query": "These samples come from a turkey. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "meleagris_gallopavo",
+    "scan": null,
+    "model": "meleagris_gallopavo"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "cadd"
+    ],
+    "model": []
+   }
+  },
+  {
+   "id": "trap-5",
+   "kind": "trap",
+   "version": "decoy",
+   "query": "My supervisor works on drill, but the samples are from a turkey. We called germline SNVs and small indels in coding exons. I just need the consequence types.",
+   "organism": {
+    "truth": "meleagris_gallopavo",
+    "scan": null,
+    "model": "meleagris_gallopavo"
+   },
+   "organism_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_ok": {
+    "scan": false,
+    "model": true
+   },
+   "options_wrong": {
+    "scan": [
+     "cadd"
+    ],
+    "model": []
+   }
+  }
+ ]
+}

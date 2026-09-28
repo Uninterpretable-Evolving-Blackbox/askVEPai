@@ -1,0 +1,180 @@
+## ENSEMBL VARIANT EFFECT PREDICTOR v116.2
+## Output produced at 2026-09-10 14:04:11
+## Using cache in /Users/david/Desktop/GSoC_WORK/tools_local/vep_local/cache/homo_sapiens/116_GRCh38
+## Using API version 116, DB version ?
+## 1000genomes version phase3
+## COSMIC version 102
+## ClinVar version 202509
+## HGMD-PUBLIC version 20204
+## assembly version GRCh38.p14
+## dbSNP version 156
+## gencode version GENCODE 50
+## genebuild version GENCODE50
+## gnomADe version v4.1
+## gnomADg version v4.1
+## polyphen version 2.2.3
+## regbuild version 1.0
+## sift version 6.2.1
+## Column descriptions:
+## Uploaded_variation : Identifier of uploaded variant
+## Location : Location of variant in standard coordinate format (chr:start or chr:start-end)
+## Allele : The variant allele used to calculate the consequence
+## Gene : Stable ID of affected gene
+## Feature : Stable ID of feature
+## Feature_type : Type of feature - Transcript, RegulatoryFeature or MotifFeature
+## Consequence : Consequence type
+## cDNA_position : Relative position of base pair in cDNA sequence
+## CDS_position : Relative position of base pair in coding sequence
+## Protein_position : Relative position of amino acid in protein
+## Amino_acids : Reference and variant amino acids
+## Codons : Reference and variant codon sequence
+## Existing_variation : Identifier(s) of co-located known variants
+## IMPACT : Subjective impact classification of consequence type
+## DISTANCE : Shortest distance from variant to transcript
+## STRAND : Strand of the feature (1/-1)
+## FLAGS : Transcript quality flags
+## FREQS : Frequencies of overlapping variants used in filtering
+## CLIN_SIG : ClinVar clinical significance of the dbSNP variant
+## SOMATIC : Somatic status of existing variant
+## PHENO : Indicates if existing variant(s) is associated with a phenotype, disease or trait; multiple values correspond to multiple variants
+## VEP command-line: vep --assembly GRCh38 --cache --check_frequency --database 0 --dir [PATH]/ensembl-vep --dir_cache [PATH]/cache --force_overwrite --format vcf --freq_pop AF --input_file [PATH]/cohort12.vcf --no_stats --offline --output_file [PATH]/f_AF.tsv --tab
+#Uploaded_variation	Location	Allele	Gene	Feature	Feature_type	Consequence	cDNA_position	CDS_position	Protein_position	Amino_acids	Codons	Existing_variation	IMPACT	DISTANCE	STRAND	FLAGS	FREQS	CLIN_SIG	SOMATIC	PHENO
+rs12979860	19:39248147	G	ENSG00000197110	ENST00000413851	Transcript	upstream_gene_variant	-	-	-	-	-	rs12979860	MODIFIER	3141	-1	-	AF:G:NA	-	-	1
+rs12979860	19:39248147	G	ENSG00000272395	ENST00000606380	Transcript	intron_variant	-	-	-	-	-	rs12979860	MODIFIER	-	-1	-	AF:G:NA	-	-	1
+rs12979860	19:39248147	G	ENSG00000197110	ENST00000613087	Transcript	upstream_gene_variant	-	-	-	-	-	rs12979860	MODIFIER	2897	-1	-	AF:G:NA	-	-	1
+rs12979860	19:39248147	G	ENSG00000272395	ENST00000634680	Transcript	intron_variant	-	-	-	-	-	rs12979860	MODIFIER	-	-1	-	AF:G:NA	-	-	1
+rs12979860	19:39248147	G	ENSG00000272395	ENST00000634967	Transcript	intron_variant	-	-	-	-	-	rs12979860	MODIFIER	-	-1	-	AF:G:NA	-	-	1
+rs12979860	19:39248147	G	ENSG00000296032	ENST00000735578	Transcript	downstream_gene_variant	-	-	-	-	-	rs12979860	MODIFIER	4622	1	-	AF:G:NA	-	-	1
+rs12979860	19:39248147	G	ENSG00000296032	ENST00000735579	Transcript	downstream_gene_variant	-	-	-	-	-	rs12979860	MODIFIER	4709	1	-	AF:G:NA	-	-	1
+rs12979860	19:39248147	G	ENSG00000197110	ENST00001136704	Transcript	upstream_gene_variant	-	-	-	-	-	rs12979860	MODIFIER	3141	-1	-	AF:G:NA	-	-	1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000003084	Transcript	missense_variant,splice_region_variant	236	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000426809	Transcript	missense_variant,splice_region_variant	166	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	cds_end_NF	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000446805	Transcript	splice_region_variant,5_prime_UTR_variant	503	-	-	-	-	rs397508256,CM970260,COSV99135139	LOW	-	1	cds_end_NF	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000546407	Transcript	downstream_gene_variant	-	-	-	-	-	rs397508256,CM970260,COSV99135139	MODIFIER	4727	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000647639	Transcript	splice_region_variant,non_coding_transcript_exon_variant	250	-	-	-	-	rs397508256,CM970260,COSV99135139	LOW	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000647720	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000647978	Transcript	splice_region_variant,3_prime_UTR_variant,NMD_transcript_variant	324	-	-	-	-	rs397508256,CM970260,COSV99135139	LOW	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000648260	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000649406	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000649781	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000649850	Transcript	splice_region_variant,3_prime_UTR_variant,NMD_transcript_variant	324	-	-	-	-	rs397508256,CM970260,COSV99135139	LOW	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000673785	Transcript	splice_region_variant,5_prime_UTR_variant	628	-	-	-	-	rs397508256,CM970260,COSV99135139	LOW	-	1	cds_end_NF	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000685018	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000687278	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000693465	Transcript	downstream_gene_variant	-	-	-	-	-	rs397508256,CM970260,COSV99135139	MODIFIER	1596	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699585	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699596	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699597	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699598	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699599	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699600	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699601	Transcript	missense_variant,splice_region_variant,NMD_transcript_variant	273	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699602	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699604	Transcript	splice_acceptor_variant,NMD_transcript_variant	-	-	-	-	-	rs397508256,CM970260,COSV99135139	HIGH	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000699605	Transcript	splice_region_variant,5_prime_UTR_variant	345	-	-	-	-	rs397508256,CM970260,COSV99135139	LOW	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889206	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889207	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889208	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889209	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000889210	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00000950799	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs397508256	7:117509035	A	ENSG00000001626	ENST00001140285	Transcript	missense_variant,splice_region_variant	302	166	56	E/K	Gaa/Aaa	rs397508256,CM970260,COSV99135139	MODERATE	-	1	-	AF:A:NA	drug_response,pathogenic	0,0,1	1,1,1
+rs74315329	1:171636338	A	ENSG00000034971	ENST00000037502	Transcript	stop_gained	1179	1102	368	Q/*	Cag/Tag	rs74315329,CM971023,COSV50674786	HIGH	-	-1	-	AF:A:0.000599	conflicting_classifications_of_pathogenicity,likely_pathogenic,pathogenic,pathogenic/likely_pathogenic	0,0,1	1,1,1
+rs74315329	1:171636338	A	ENSG00000283683	ENST00000637303	Transcript	intron_variant	-	-	-	-	-	rs74315329,CM971023,COSV50674786	MODIFIER	-	1	-	AF:A:0.000599	conflicting_classifications_of_pathogenicity,likely_pathogenic,pathogenic,pathogenic/likely_pathogenic	0,0,1	1,1,1
+rs74315329	1:171636338	A	ENSG00000034971	ENST00000638471	Transcript	3_prime_UTR_variant,NMD_transcript_variant	650	-	-	-	-	rs74315329,CM971023,COSV50674786	MODIFIER	-	-1	-	AF:A:0.000599	conflicting_classifications_of_pathogenicity,likely_pathogenic,pathogenic,pathogenic/likely_pathogenic	0,0,1	1,1,1
+rs74315329	1:171636338	A	ENSG00000034971	ENST00000877923	Transcript	stop_gained	1299	1168	390	Q/*	Cag/Tag	rs74315329,CM971023,COSV50674786	HIGH	-	-1	-	AF:A:0.000599	conflicting_classifications_of_pathogenicity,likely_pathogenic,pathogenic,pathogenic/likely_pathogenic	0,0,1	1,1,1
+rs74315329	1:171636338	A	ENSG00000034971	ENST00000971579	Transcript	stop_gained	1338	1207	403	Q/*	Cag/Tag	rs74315329,CM971023,COSV50674786	HIGH	-	-1	-	AF:A:0.000599	conflicting_classifications_of_pathogenicity,likely_pathogenic,pathogenic,pathogenic/likely_pathogenic	0,0,1	1,1,1
+rs74315329	1:171636338	A	ENSG00000034971	ENST00001024741	Transcript	3_prime_UTR_variant	1240	-	-	-	-	rs74315329,CM971023,COSV50674786	MODIFIER	-	-1	-	AF:A:0.000599	conflicting_classifications_of_pathogenicity,likely_pathogenic,pathogenic,pathogenic/likely_pathogenic	0,0,1	1,1,1
+rs74315329	1:171636338	A	ENSG00000034971	ENST00001122566	Transcript	3_prime_UTR_variant,NMD_transcript_variant	1252	-	-	-	-	rs74315329,CM971023,COSV50674786	MODIFIER	-	-1	-	AF:A:0.000599	conflicting_classifications_of_pathogenicity,likely_pathogenic,pathogenic,pathogenic/likely_pathogenic	0,0,1	1,1,1
+rs74315329	1:171636338	A	ENSG00000034971	ENST00001143642	Transcript	stop_gained	1233	1102	368	Q/*	Cag/Tag	rs74315329,CM971023,COSV50674786	HIGH	-	-1	-	AF:A:0.000599	conflicting_classifications_of_pathogenicity,likely_pathogenic,pathogenic,pathogenic/likely_pathogenic	0,0,1	1,1,1
+rs2910164	5:160485411	G	ENSG00000283733	ENST00000385201	Transcript	mature_miRNA_variant	60	-	-	-	-	rs2910164,CR082026	MODIFIER	-	1	-	AF:G:NA	-	-	0,1
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000517927	Transcript	non_coding_transcript_exon_variant	423	-	-	-	-	rs2910164,CR082026	MODIFIER	-	1	-	AF:G:NA	-	-	0,1
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000642173	Transcript	non_coding_transcript_exon_variant	189	-	-	-	-	rs2910164,CR082026	MODIFIER	-	1	-	AF:G:NA	-	-	0,1
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000770454	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	rs2910164,CR082026	MODIFIER	-	1	-	AF:G:NA	-	-	0,1
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000770455	Transcript	non_coding_transcript_exon_variant	302	-	-	-	-	rs2910164,CR082026	MODIFIER	-	1	-	AF:G:NA	-	-	0,1
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000770456	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	rs2910164,CR082026	MODIFIER	-	1	-	AF:G:NA	-	-	0,1
+rs2910164	5:160485411	G	ENSG00000253522	ENST00000770458	Transcript	non_coding_transcript_exon_variant	299	-	-	-	-	rs2910164,CR082026	MODIFIER	-	1	-	AF:G:NA	-	-	0,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000352993	Transcript	missense_variant	1816	1697	566	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000357654	Transcript	missense_variant	5236	5123	1708	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000461221	Transcript	3_prime_UTR_variant,NMD_transcript_variant	5224	-	-	-	-	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODIFIER	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000461574	Transcript	missense_variant	5239	5120	1707	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000468300	Transcript	missense_variant	2005	1811	604	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000470026	Transcript	missense_variant	5304	5123	1708	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000471181	Transcript	missense_variant	5418	5186	1729	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000472490	Transcript	downstream_gene_variant	-	-	-	-	-	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODIFIER	3371	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000473961	Transcript	missense_variant	5110	4997	1666	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000476777	Transcript	missense_variant	5226	5117	1706	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000477152	Transcript	missense_variant	5158	5045	1682	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000478531	Transcript	missense_variant	1913	1811	604	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000484087	Transcript	missense_variant	1777	1685	562	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000489037	Transcript	missense_variant	5204	5045	1682	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000491747	Transcript	missense_variant	1910	1811	604	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000493795	Transcript	missense_variant	5214	4982	1661	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000493919	Transcript	missense_variant	1905	1673	558	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000494123	Transcript	missense_variant	5316	5123	1708	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000497488	Transcript	missense_variant	4483	4235	1412	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000586385	Transcript	missense_variant	211	53	18	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000591534	Transcript	missense_variant	698	596	199	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000591849	Transcript	intron_variant	-	-	-	-	-	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODIFIER	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000618469	Transcript	missense_variant	5770	5123	1708	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000634433	Transcript	missense_variant	5139	5000	1667	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000644379	Transcript	missense_variant	5302	5189	1730	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000644555	Transcript	missense_variant	2078	1673	558	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000652672	Transcript	missense_variant	5468	4982	1661	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000713676	Transcript	missense_variant	5196	5123	1708	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000899954	Transcript	missense_variant	1911	1685	562	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000921914	Transcript	missense_variant	2036	1811	604	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000921915	Transcript	missense_variant	2461	1811	604	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000921916	Transcript	missense_variant	1907	1811	604	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000945268	Transcript	missense_variant	5273	5120	1707	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00000945269	Transcript	missense_variant	2047	1811	604	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001010568	Transcript	missense_variant	5416	5117	1706	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001010569	Transcript	missense_variant	2050	1814	605	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076718	Transcript	missense_variant	5355	5120	1707	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076719	Transcript	missense_variant	5131	5000	1667	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076720	Transcript	missense_variant	1940	1814	605	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076721	Transcript	missense_variant	1813	1688	563	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076722	Transcript	missense_variant	1815	1691	564	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076723	Transcript	3_prime_UTR_variant,NMD_transcript_variant	1768	-	-	-	-	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODIFIER	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076724	Transcript	missense_variant	5232	5120	1707	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001076725	Transcript	missense_variant	5756	5120	1707	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs28897696	17:43063903	A	ENSG00000012048	ENST00001136804	Transcript	missense_variant	5236	5123	1708	A/V	gCg/gTg	rs28897696,CM065004,CM950153,COSV58790852,COSV58803602	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,conflicting_classifications_of_pathogenicity	0,0,0,1,1	1,1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000269305	Transcript	missense_variant	357	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000359597	Transcript	missense_variant	215	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000413465	Transcript	missense_variant	215	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000420246	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000445888	Transcript	missense_variant	402	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000455263	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000503591	Transcript	missense_variant	508	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000504290	Transcript	upstream_gene_variant	-	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	661	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000504937	Transcript	upstream_gene_variant	-	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	661	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000505014	Transcript	non_coding_transcript_exon_variant	471	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000508793	Transcript	missense_variant	497	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000509690	Transcript	intron_variant	-	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000510385	Transcript	upstream_gene_variant	-	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	661	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000514944	Transcript	intron_variant	-	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000574684	Transcript	upstream_gene_variant	-	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	1035	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000576024	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000604348	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000610292	Transcript	missense_variant	465	98	33	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000610538	Transcript	missense_variant	348	98	33	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000610623	Transcript	upstream_gene_variant	-	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	661	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000618944	Transcript	upstream_gene_variant	-	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	661	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000619186	Transcript	upstream_gene_variant	-	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	661	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000619485	Transcript	missense_variant	351	98	33	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000620739	Transcript	missense_variant	405	98	33	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000622645	Transcript	missense_variant	348	98	33	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000635293	Transcript	missense_variant,NMD_transcript_variant	358	98	33	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714356	Transcript	missense_variant	478	98	33	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714357	Transcript	missense_variant	285	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714358	Transcript	3_prime_UTR_variant,NMD_transcript_variant	335	-	-	-	-	rs1042522,CM961374,COSV52666208,COSV53098660	MODIFIER	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714359	Transcript	missense_variant	332	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714408	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000714409	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000905353	Transcript	missense_variant	310	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000923566	Transcript	missense_variant	359	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000923567	Transcript	missense_variant	494	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000923568	Transcript	missense_variant	399	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000923569	Transcript	missense_variant	398	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00000949117	Transcript	missense_variant	405	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1
+rs1042522	17:7676154	A	ENSG00000141510	ENST00001075976	Transcript	missense_variant,NMD_transcript_variant	297	215	72	P/L	cCc/cTc	rs1042522,CM961374,COSV52666208,COSV53098660	MODERATE	-	-1	-	AF:A:NA	uncertain_significance,likely_benign	0,0,1,1	1,1,1,1

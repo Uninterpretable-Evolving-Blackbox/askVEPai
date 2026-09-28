@@ -1,0 +1,49 @@
+## ENSEMBL VARIANT EFFECT PREDICTOR v116.2
+## Output produced at 2026-09-10 14:04:45
+## Using cache in /Users/david/Desktop/GSoC_WORK/tools_local/vep_local/cache/homo_sapiens/116_GRCh38
+## Using API version 116, DB version ?
+## 1000genomes version phase3
+## COSMIC version 102
+## ClinVar version 202509
+## HGMD-PUBLIC version 20204
+## assembly version GRCh38.p14
+## dbSNP version 156
+## gencode version GENCODE 50
+## genebuild version GENCODE50
+## gnomADe version v4.1
+## gnomADg version v4.1
+## polyphen version 2.2.3
+## regbuild version 1.0
+## sift version 6.2.1
+## Column descriptions:
+## Uploaded_variation : Identifier of uploaded variant
+## Location : Location of variant in standard coordinate format (chr:start or chr:start-end)
+## Allele : The variant allele used to calculate the consequence
+## Gene : Stable ID of affected gene
+## Feature : Stable ID of feature
+## Feature_type : Type of feature - Transcript, RegulatoryFeature or MotifFeature
+## Consequence : Consequence type
+## cDNA_position : Relative position of base pair in cDNA sequence
+## CDS_position : Relative position of base pair in coding sequence
+## Protein_position : Relative position of amino acid in protein
+## Amino_acids : Reference and variant amino acids
+## Codons : Reference and variant codon sequence
+## Existing_variation : Identifier(s) of co-located known variants
+## IMPACT : Subjective impact classification of consequence type
+## DISTANCE : Shortest distance from variant to transcript
+## STRAND : Strand of the feature (1/-1)
+## FLAGS : Transcript quality flags
+## VEP command-line: vep --assembly GRCh38 --cache --database 0 --dir_cache [PATH]/cache --force_overwrite --format vcf --input_file [PATH]/cohort12.vcf --no_stats --offline --output_file [PATH]/r_summary.tsv --summary --tab
+#Uploaded_variation	Location	Allele	Gene	Feature	Feature_type	Consequence	cDNA_position	CDS_position	Protein_position	Amino_acids	Codons	Existing_variation	IMPACT	DISTANCE	STRAND	FLAGS
+rs1800795	7:22727026	-	-	-	-	5_prime_UTR_variant,intron_variant,non_coding_transcript_variant,upstream_gene_variant	-	-	-	-	-	-	-	-	-	-
+rs12979860	19:39248147	-	-	-	-	intron_variant,upstream_gene_variant,downstream_gene_variant	-	-	-	-	-	-	-	-	-	-
+rs397508256	7:117509035	-	-	-	-	splice_acceptor_variant,missense_variant,splice_region_variant,5_prime_UTR_variant,3_prime_UTR_variant,non_coding_transcript_exon_variant,NMD_transcript_variant,downstream_gene_variant	-	-	-	-	-	-	-	-	-	-
+rs74315329	1:171636338	-	-	-	-	stop_gained,3_prime_UTR_variant,intron_variant,NMD_transcript_variant	-	-	-	-	-	-	-	-	-	-
+rs763110	1:172658358	-	-	-	-	upstream_gene_variant	-	-	-	-	-	-	-	-	-	-
+rs2910164	5:160485411	-	-	-	-	mature_miRNA_variant,non_coding_transcript_exon_variant,intron_variant,non_coding_transcript_variant	-	-	-	-	-	-	-	-	-	-
+rs28897696	17:43063903	-	-	-	-	missense_variant,3_prime_UTR_variant,intron_variant,NMD_transcript_variant,downstream_gene_variant	-	-	-	-	-	-	-	-	-	-
+rs1801133	1:11796321	-	-	-	-	missense_variant,5_prime_UTR_variant,3_prime_UTR_variant,non_coding_transcript_exon_variant,intron_variant,NMD_transcript_variant,non_coding_transcript_variant,downstream_gene_variant	-	-	-	-	-	-	-	-	-	-
+rs429358	19:44908684	-	-	-	-	missense_variant,3_prime_UTR_variant,intron_variant,upstream_gene_variant,downstream_gene_variant	-	-	-	-	-	-	-	-	-	-
+rs7412	19:44908822	-	-	-	-	missense_variant,splice_polypyrimidine_tract_variant,3_prime_UTR_variant,intron_variant,upstream_gene_variant,downstream_gene_variant	-	-	-	-	-	-	-	-	-	-
+rs334	11:5227002	-	-	-	-	missense_variant,intron_variant,NMD_transcript_variant,non_coding_transcript_variant,upstream_gene_variant	-	-	-	-	-	-	-	-	-	-
+rs1042522	17:7676154	-	-	-	-	missense_variant,3_prime_UTR_variant,non_coding_transcript_exon_variant,intron_variant,NMD_transcript_variant,upstream_gene_variant	-	-	-	-	-	-	-	-	-	-

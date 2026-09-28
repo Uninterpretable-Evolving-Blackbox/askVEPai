@@ -1,0 +1,57 @@
+species index: 756 names
+  row  1 entangled truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'human', 'hinted': 'human'}
+  row  2 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row  3 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row  4 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row  5 entangled truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row  6 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row  7 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row  8 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'unstated', 'model': 'unstated', 'hinted': 'unstated'}
+  row  9 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 10 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 11 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 12 entangled truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'unstated', 'model': 'unstated', 'hinted': 'unstated'}
+  row 13 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 14 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 15 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 16 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 17 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 18 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 20 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 21 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 22 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 23 entangled truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'unstated', 'model': 'unstated', 'hinted': 'unstated'}
+  row 24 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 26 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 28 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'unstated', 'model': 'unstated', 'hinted': 'unstated'}
+  row 29 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+  row 30 pure      truth=non-human orig={'rule': 'non-human', 'model': 'non-human', 'hinted': 'non-human'}  abl={'rule': 'unstated', 'model': 'unstated', 'hinted': 'unstated'}
+  row 31 redundant truth=human     orig={'rule': 'human', 'model': 'human', 'hinted': 'human'}  abl={'rule': 'human', 'model': 'unstated', 'hinted': 'unstated'}
+
+=== species: rule vs model vs hinted -- gemma4:26b, seed 42, 28 rows, 612s ===
+
+ORIGINAL text (species stated) -- correct / 28
+        rule     model    hinted
+          28        28        28
+
+ABLATED text, PURE rows (cue gone) -- n=14
+  says unstated (knows it does not know)             3        14        14
+  says human on a non-human row (masked)            11         0         0
+  says non-human on a non-human row                  0         0         0
+  says human on a human row                          0         0         0
+
+ABLATED text, REDUNDANT rows -- n=10, answer distribution
+  rule     {'human': 10}
+  model    {'unstated': 10}
+  hinted   {'unstated': 10}
+
+ABLATED text, ENTANGLED rows -- n=4, answer distribution
+  rule     {'human': 2, 'unstated': 2}
+  model    {'human': 1, 'unstated': 3}
+  hinted   {'human': 1, 'unstated': 3}
+
+  rule = infer_species (shipped, overrides the model); model = the classifier's own species field;
+  hinted = classifier shown the 356-species scan's matches as rejectable hints.
+
+  wrote work/results/overnight_2026-09-10/species_rule_vs_model_26b.json
+ALLDONE

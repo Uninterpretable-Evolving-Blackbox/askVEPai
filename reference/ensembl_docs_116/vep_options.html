@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+
+<head>
+  <title>Running Ensembl VEP</title>
+
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/bf7fa94804cc780f606b9a4a584a3a49.ie7.css"/><![endif]--><!--[if gt IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/bf7fa94804cc780f606b9a4a584a3a49.css"/><![endif]--><!--[if !IE]><!--><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/bf7fa94804cc780f606b9a4a584a3a49.css"/><!--<![endif]--><!--[if lte IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/83e4f3a09860a9877e49a5cf0e14f6e7.image.ie7.css"/><![endif]--><!--[if gt IE 7]><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/83e4f3a09860a9877e49a5cf0e14f6e7.image.css"/><![endif]--><!--[if !IE]><!--><link rel="stylesheet" type="text/css" media="all" href="//static.ensembl.org/minified/83e4f3a09860a9877e49a5cf0e14f6e7.image.css"/><!--<![endif]-->
+  <link type="image/png" rel="icon" href="//static.ensembl.org/i/ensembl-favicon.png" />
+  <link href="/apple-touch-icon.png" rel="apple-touch-icon" type="image/png" />
+  <link rel="search" type="application/opensearchdescription+xml" title="Ensembl (All)" href="//jun2026.archive.ensembl.org/opensearch/all.xml" />
+
+  <meta name="google-site-verification" content="tG3WW0bg9gNaIHH002gJl-fV2k0bzf-ZxC8pBqXTaNo" />
+<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+<script>var prefetch = ['/minified/35a717a4475e04c3ffa9b8a224fc081e.png','/minified/a6ae9bf9efe8fbf6981985ab77faa2f3.png','/minified/a8d43fbd196113816742d5331b7c6a50.png','/minified/52e8582f289ca8afbfbbaaeb38eae23e.png','/minified/ce64c940745dc5b1441f9be516921487.png','/minified/c4422ca5e9d311c28cb02222687e088e.png','/minified/7ddf5a861dc3142f79b0ea0b0a865a1d.jpg'];</script>
+</head>
+<body data-pace="2" class="static" id="ensembl-webpage">
+
+  <div id="min_width_container">
+    <div id="min_width_holder">
+    
+    <!-- Announcement Banner -->    
+        
+    <!-- /Announcement Banner -->
+
+      <div id="masthead" class="js_panel">
+        <input type="hidden" class="panel_type" value="Masthead" />
+        <div class="logo_holder"><a href="/"><div class="logo-header print_hide" title="Ensembl Home">&nbsp;</div></a><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png screen_hide_inline" style="width: 185px;background-size: 1233.33333333333px 879.75px;height: 45px;background-position: -7.4px -325.125px" alt="Ensembl Home" title="Ensembl Home"/></div>
+        <div class="mh print_hide">
+          <div class="account_holder"><div class="_account_holder"><div class="account-loading">Loading&hellip;</div><form action="/Ajax/accounts_dropdown"></form></div></div>
+          <div class="tools_holder"><ul class="tools"><li><a class="constant" href="/Multi/Tools/Blast">BLAST/BLAT</a></li><li><a class="constant" href="/info/docs/tools/vep/">VEP</a></li><li><a class="constant" href="/info/docs/tools/index.html">Tools</a></li><li><a class="constant" href="/biomart/martview">BioMart</a></li><li><a class="constant" rel="nofollow" href="/info/data/">Downloads</a></li><li><a class="constant" rel="nofollow" href="/info/">Help &amp; Docs</a></li><li class="last"><a class="constant" target="_blank" href="https://www.ensembl.info">Blog</a></li></ul><div class="more"><a href="#">More <span class="arrow">&#9660;</span></a></div></div>
+          <div class="search_holder print_hide">
+    <div id="searchPanel" class="js_panel">
+      <input type="hidden" class="panel_type" value="SearchBox" />
+      <form action="/Multi/Psychic">
+        <div class="search print_hide">
+          <div class="sites button">
+            <img class="search_image no-sprite badge-16" src="//static.ensembl.org/i/search/ensembl.gif" alt="" />
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 7px;background-size: 1000px 782px;height: 16px;background-position: -798px -47px" />
+            <input type="hidden" name="site" value="ensembl_all" />
+          </div>
+          <div>
+            <label class="hidden" for="se_q">Search terms</label>
+            <input class="query inactive" id="se_q" type="text" name="q" value="Search all species&hellip;" data-role="none" onkeydown="if (event.keyCode == 13) { $(this).closest('form').submit(); return false; }" />
+          </div>
+          <div class="button"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 16px;background-size: 1000px 782px;cursor: pointer;background-position: -292px -47px;height: 16px" alt="Search&nbsp;&raquo;" onClick="$(this).closest('form').submit()"/></div>
+        </div>
+        <div class="site_menu hidden">
+          <div class="ensembl_all"><img class="no-sprite" src="//static.ensembl.org/i/search/ensembl.gif" class="badge-16" alt="Search all species"/>Search all species<input type="hidden" value="Search all species&hellip;" /></div>
+<div class="ensembl_genomes"><img class="no-sprite" src="//static.ensembl.org/i/search/ensembl_genomes.gif" class="badge-16" alt="Search Ensembl genomes"/>Search Ensembl genomes<input type="hidden" value="Search Ensembl genomes&hellip;" /></div>
+<div class="vega"><img class="no-sprite" src="//static.ensembl.org/i/search/vega.gif" class="badge-16" alt="Search Vega"/>Search Vega<input type="hidden" value="Search Vega&hellip;" /></div>
+<div class="ebi"><img class="no-sprite" src="//static.ensembl.org/i/search/ebi.gif" class="badge-16" alt="Search EMBL-EBI"/>Search EMBL-EBI<input type="hidden" value="Search EMBL-EBI&hellip;" /></div>
+<div class="sanger"><img class="no-sprite" src="//static.ensembl.org/i/search/sanger.gif" class="badge-16" alt="Search Sanger"/>Search Sanger<input type="hidden" value="Search Sanger&hellip;" /></div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+        </div>
+  
+        
+        <div class="tabs_holder print_hide"><ul class="tabs"><li class=" short_tab" style="display:none"><a href="/info/website/" title="Using this website">Using</a></li><li class=" short_tab" style="display:none"><a href="/info/genome/" title="Annotation and prediction">Annotation</a></li><li class=" short_tab" style="display:none"><a href="/info/data/" title="Data access">Data</a></li><li class=" active short_tab" style="display:none"><a href="/info/docs/" title="API &amp; software">API</a></li><li class=" short_tab" style="display:none"><a href="/info/about/" title="About us">About</a></li><li class=" long_tab" style="display:block"><a href="/info/website/">Using this website</a></li><li class=" long_tab" style="display:block"><a href="/info/genome/">Annotation and prediction</a></li><li class=" long_tab" style="display:block"><a href="/info/data/">Data access</a></li><li class=" active long_tab" style="display:block"><a href="/info/docs/">API &amp; software</a></li><li class=" long_tab" style="display:block"><a href="/info/about/">About us</a></li></ul></div>
+        
+      </div>
+
+      <div id="main_holder">
+      
+      <div id="page_nav_wrapper">
+        <div id="page_nav" class="nav print_hide js_panel floating">
+          
+    <input type="hidden" class="panel_type" value="LocalContext" />
+    <div class="header">In this section</div>
+    <ul class="local_context">
+      <li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle vep_tutorial.html" alt=""><a href="vep_tutorial.html"><b>Tutorial</b></a></li><li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle vep_download.html" alt=""><a href="vep_download.html"><b>Download and install</b></a></li><li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle vep_options.html" alt=""><a href="vep_options.html"><b>Running Ensembl VEP</b></a></li><li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle vep_cache.html" alt=""><a href="vep_cache.html"><b>Annotation sources</b></a></li><li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle vep_filter.html" alt=""><a href="vep_filter.html"><b>Filtering results</b></a></li><li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle vep_custom.html" alt=""><a href="vep_custom.html"><b>Custom annotations</b></a></li><li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle vep_plugins.html" alt=""><a href="vep_plugins.html"><b>Plugins</b></a></li><li class="top_level"><img src="//static.ensembl.org/i/leaf.gif" class="toggle vep_example.html" alt=""><a href="vep_example.html"><b>Examples and use cases</b></a></li><li class="last"><img src="//static.ensembl.org/i/leaf.gif" class="toggle vep_other.html" alt=""><a href="vep_other.html"><b>Other information</b></a></li>
+    </ul>
+    
+      <div class="subheader">On this page</div>
+      <ul class="local_context" style="border-width:0">
+        <li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 14px;background-size: 1000px 782px;height: 14px;background-position: -452px -3px" /><a href="#basic">Basic options</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 14px;background-position: -452px -3px;height: 14px" /><a href="#cacheopt">Cache options</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 14px;background-position: -452px -3px;height: 14px" /><a href="#other">Other annotation sources</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 14px;background-position: -452px -3px;height: 14px" /><a href="#format">Output format options</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-position: -452px -3px;height: 14px;background-size: 1000px 782px;width: 14px" /><a href="#output">Output options</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 14px;background-position: -452px -3px;height: 14px" /><a href="#ident">Identifiers</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 14px;background-position: -452px -3px;height: 14px" /><a href="#existing">Co-located variants</a></li><li class="top_level"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 14px;background-size: 1000px 782px;height: 14px;background-position: -452px -3px" /><a href="#filt">Filtering and QC options</a></li><li class="last"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 14px;background-size: 1000px 782px;height: 14px;background-position: -452px -3px" /><a href="#dbopt">Database options</a></li>
+      </ul>
+    
+    
+      <div class="js_panel" style="margin:16px 0 0 8px">
+        <input type="hidden" class="panel_type" value="SearchBox" />
+        <form action="/Multi/Psychic" method="get" class="clear search-form"><fieldset><input value="ensembl" name="site" type="hidden" /><input name="facet_feature_type" type="hidden" value="Documentation" /><div class="ff-multi form-field"><div class="ff-right ff-inline"><input size="20" name="q" value="Search documentation&#8230;" class="input _string inactive optional ftext query" type="text" id="q" /><input value="Go" class="fbutton" type="submit" id="6VriMwcL_1" /></div></div></fieldset></form>
+      </div>
+    
+  
+          
+          
+          <p class="invisible">.</p>
+        </div>
+      </div>
+    
+
+      <div id="main">
+          <ul class="breadcrumbs print_hide"><li><a class="home" href="//jun2026.archive.ensembl.org">Home</a></li><li><a href="/info/">Help &amp; Documentation</a></li><li><a href="/info/docs/" title="API & Software">API & Software</a></li><li><a href="/info/docs/tools/" title="Ensembl Tools">Ensembl Tools</a></li><li><a href="/info/docs/tools/vep/" title="Ensembl Variant Effect Predictor (VEP)">Ensembl Variant Effect Predictor (VEP)</a></li><li><a href="/info/docs/tools/vep/script/" title="Ensembl VEP command line">Ensembl VEP command line</a></li><li class="last">Running Ensembl VEP</li></ul>
+          
+          <div id="content"><div id="static">
+    
+<style>
+tr:nth-child(odd) {background-color: #f0f0f0;}
+td {
+  line-height: 1.25em;
+  word-wrap: break-word;
+}
+th { word-wrap: break-word; }
+.info {width: inherit !important;}
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+</style>
+
+<div>
+  
+  <div style="float:right"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="width: 111px;background-size: 1000px 782px;height: 50px;background-position: -185px -392px" /></div>
+  
+  <h1 id="top"><span style="color:#006;padding-right:15px">Ensembl Variant Effect Predictor</span><span style="color:#666"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-position: -314px -47px;height: 16px;background-size: 1000px 782px;width: 16px" /> Running Ensembl VEP</span></h1>
+  <hr/>
+  
+  <p>Ensembl VEP is run on the command line as follows (assuming you are in the ensembl-vep directory): </p>
+  
+  <div>
+    <div style="float:left">
+      <pre class="code sh_sh"> ./vep [options] </pre>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+  
+  <p> where [options] represent a set of flags and options.
+  A basic set of flags can be listed using <a href="#opt_help">--help</a>: </p>
+
+  <div>
+    <div style="float:left">
+      <pre class="code sh_sh"> ./vep --help </pre>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+  
+  Ensembl VEP can be run in the following modes:
+  <ul>
+  <li><p> For optimum performance, download a cache file for your species of interest, using
+  either the <a href="vep_download.html#installer"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 16px;vertical-align: bottom;height: 16px;background-position: -880px -3px" /> installer </a> or by
+  following the <a href="vep_cache.html#pre">VEP Cache documentation</a>, and run Ensembl VEP with either
+  the <a href="#opt_cache">--cache</a> or <a href="#opt_offline">--offline</a>
+  option. </p></li>
+  
+  <li><p> By connecting to the public Ensembl database servers in place of a cache. 
+      This can be adequate when annotating small files, but the database servers can become busy and slow.
+      To enable this option, use <a href="#opt_database">--database</a>. </p></li>
+
+  <li><p> To run Ensembl VEP using your own species and assembly, please use
+      a <a href="#opt_fasta">--fasta</a> file and <a href="#opt_gff">--gff</a>
+      or <a href="#opt_gtf">--gtf</a> annotation. </p></li>
+  </ul>
+
+  <p> To run Ensembl VEP with default options, use the following command: </p>
+  
+  <div>
+      <div style="float:left">
+      <pre class="code sh_sh"> ./vep --cache -i input.txt -o output.txt </pre>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+
+  <p> where <kbd>input.txt</kbd> contains data in one of the compatible
+  <a href="../vep_formats.html#input"> input formats</a>
+  and <kbd>output.txt</kbd> is the <a href="../vep_formats.html#output">output file</a> to be created.
+  </p>
+  
+  <p> Options can be passed as the full string (e.g. <a
+  href="vep_options.html#opt_format">--format</a>), or as the shortest unique
+  string among the options (e.g. <a
+  href="vep_options.html#opt_form">--form</a> for <a
+  href="vep_options.html#opt_format">--format</a>, since there is another
+  option <a
+  href="vep_options.html#opt_force_overwrite">--force_overwrite</a>). </p>
+
+  <p> You may use one or two hypen ("-") characters before each option name; <b>--cache</b> or <b>-cache</b>.</p>
+
+  <p> Ensembl VEP options can also be read from: </p>
+  <ul>
+    <li>
+      <b>Configuration files</b> using <a href="#opt_config">--config</a>.
+      Options set in configuration files are overriden if specified on the
+      command line.
+    </li>
+    <li>
+      <b>Environment variables</b> that start with prefix <kbd>VEP_</kbd>. For
+      instance, you can set the cache flag with <kbd>export VEP_CACHE=1</kbd>
+      and the input flag with <kbd>export VEP_INPUT="/path/to/input.txt"</kbd>
+      before running <kbd>./vep</kbd>. Options set in environment variables are
+      overriden if specified in configuration files or on the command line.
+    </li>
+  </ul>
+
+  <div id="nv_species"> 
+    <div class="info" style="float:left">
+      <h3>Running Ensembl VEP on non-vertebrate species</h3>
+      <div class="message-pad">
+        <p>To use Ensembl VEP on non-vertebrate species, you need to use extra options:</p>
+        <ul>
+          <li> <p> <b>Database</b> access: add the option <a href="#opt_genomes">--genomes</a> to point to the correct database server. </p>
+
+          <pre class="code sh_sh"> ./vep -i input.txt -o output.txt --species triticum_aestivum --database --genomes </pre>
+
+          <p>Some of the non-vetebrate species databases (mainly bacteria and protists) are composed of a collection of species.
+          For these databases the flag "<a href="#opt_is_multispecies">--is_multispecies</a> 1" is required.</p>
+
+          <pre class="code sh_sh"> ./vep -i input.txt -o output.txt --species protists_euglenozoa1 --database --genomes --is_multispecies 1 </pre>
+          </li>
+
+        <li> <p> <b>Cache</b> access: use the option "<a href="#opt_genomes">--cache_version</a> <i>eg_version</i>" where <i>eg_version</i> is the 
+        <a href="http://ensemblgenomes.org/">Ensembl genomes</a> version number, which differs from the Ensembl vertebrates/VEP version numbers
+        (116).</p>
+
+        <pre class="code sh_sh"> ./vep -i input.txt -o output.txt --species triticum_aestivum --cache --cache_version 42</pre>
+
+        <p>More information about the Ensembl VEP cache is available <a href="vep_cache.html#cache">here</a>.</p>
+        </li>
+        </ul>
+      </div>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+  
+
+  <br/> 
+  <hr/>
+  <h2 id="basic">Basic options</h2>
+  
+  <table class="ss" style="table-layout: fixed">
+    <tr>
+      <th width="20%">Flag</th>
+      <th width="8%">Alternate</th>
+      <th>Description</th>
+      <th width="10%">Incompatible with</th>
+    </tr>
+    <tr id="opt_help">
+      <td><pre>--help</pre></td>
+      <td>&nbsp;</td>
+      <td>Display help message and quit</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_quiet">
+      <td><pre>--quiet</pre></td>
+      <td><pre>-q</pre></td>
+      <td>Suppress warning messages.<i>Not used by
+      default</i></td>
+      <td><a href="#opt_verbose">--verbose</a></td> 
+    </tr>
+    <tr id="opt_verbose">
+      <td><pre>--verbose</pre></td>
+      <td><pre>-v</pre></td>
+      <td>Print out a bit more information while running. <i>Not used by
+      default</i></td>
+      <td><a href="#opt_quiet">--quiet</a></td>
+    </tr>    
+    <tr id="opt_config">
+      <td><pre>--config [filename]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <p>Load configuration options from a config file. The config file
+        should consist of whitespace-separated pairs of option names and
+        settings e.g.:</p>
+  <pre class="code sh_sh">output_file   my_output.txt
+species       mus_musculus
+format        vcf
+host          useastdb.ensembl.org</pre>
+        A config file can also be implicitly read; save the file as
+        <b>$HOME/.vep/vep.ini</b> (or equivalent directory if using
+        <a href="vep_options.html#opt_dir">--dir</a>). Any options in this file will be overridden by
+        those specified in a config file using <a href="vep_options.html#opt_config">--config</a>, and in
+        turn by any options specified on the command line. You
+        can create a quick version file of this by setting the flags as
+        normal and running Ensembl VEP in verbose (<b>-v</b>) mode. This
+        will output lines that can be copied to a config file that can
+        be loaded in on the next run using <a href="vep_options.html#opt_config">--config</a>. <i>Not used
+        by default</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_everything">
+      <td><pre>--everything</pre></td>
+      <td><pre>-e</pre></td>
+      <td>Shortcut flag to switch on all of the following:
+        <p>
+          <a href="#opt_sift">--sift b</a>,
+          <a href="#opt_polyphen">--polyphen b</a>,
+          <a href="#opt_ccds">--ccds</a>,
+          <a href="#opt_hgvs">--hgvs</a>,
+          <a href="#opt_symbol">--symbol</a>,
+          <a href="#opt_numbers">--numbers</a>,
+          <a href="#opt_domains">--domains</a>,
+          <a href="#opt_regulatory">--regulatory</a>,
+          <a href="#opt_canonical">--canonical</a>,
+          <a href="#opt_protein">--protein</a>,
+          <a href="#opt_biotype">--biotype</a>,
+          <a href="#opt_af">--af</a>,
+          <a href="#opt_af_1kg">--af_1kg</a>,
+          <a href="#opt_af_gnomade">--af_gnomade</a>,
+          <a href="#opt_af_gnomadg">--af_gnomadg</a>,
+          <a href="#opt_max_af">--max_af</a>,
+          <a href="#opt_pubmed">--pubmed</a>,
+          <a href="#opt_uniprot">--uniprot</a>,
+          <a href="#opt_mane">--mane</a>,
+          <a href="#opt_tsl">--tsl</a>,
+          <a href="#opt_appris">--appris</a>,
+          <a href="#opt_variant_class">--variant_class</a>,
+          <a href="#opt_gene_phenotype">--gene_phenotype</a>,
+          <a href="#opt_mirna">--mirna</a>
+        </ul>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_species">
+      <td><pre>--species [species]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Species for your data. This can be the latin name e.g.
+        "homo_sapiens" or any Ensembl alias e.g. "mouse". Specifying the
+        latin name can speed up initial database connection as the
+        registry does not have to load all available database aliases on
+        the server. <i>Default = "homo_sapiens"</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_assembly">
+      <td><pre>--assembly [name]</pre></td>
+      <td><pre>-a</pre></td>
+      <td>
+        Select the assembly version to use if more than one available. If using
+        the cache, you must have the appropriate assembly's cache file
+        installed. If not specified and you have only 1 assembly version
+        installed, this will be chosen by default. <i>Default = use found
+        assembly version</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_input_file">
+      <td><pre>--input_file [filename]</pre></td>
+      <td><pre>-i</pre></td>
+      <td>Input file name. If not specified, Ensembl VEP will attempt to read from STDIN. Can use compressed file (gzipped).</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_input_data">
+      <td><pre>--input_data [string]</pre></td>
+      <td><pre>--id</pre></td>
+      <td><p>Raw input data as a string. May be used, for example, to input a single rsID
+        or HGVS notation quickly to Ensembl VEP:</p>
+        <pre class="code sh_sh">--input_data rs699</pre>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_format">
+      <td><pre>--format [format]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <p>
+        <a href="../vep_formats.html#input">Input file format</a> - one of
+        "ensembl", "vcf", "hgvs", "id", "region", "spdi".<br />
+        By default, Ensembl VEP auto-detects the input file format. Using this option you
+        can specify the input file is Ensembl, VCF, IDs, HGVS, SPDI or region format.
+        Can use compressed version (gzipped) of any file format listed above.
+        <i>Auto-detects format by default</i>
+        </p>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_output_file">
+      <td><pre>--output_file [filename]</pre></td>
+      <td><pre>-o</pre></td>
+      <td>
+        Output file name. Results can write to STDOUT by specifying
+        'STDOUT' as the output file name - this will force quiet mode.
+        <i>Default = "variant_effect_output.txt"</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_force_overwrite">
+      <td><pre>--force_overwrite</pre></td>
+      <td><pre>--force</pre></td>
+      <td>
+        By default, Ensembl VEP will fail with an error if the output
+        file already exists. You can force the overwrite of the existing
+        file by using this flag. <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_no_stats">
+      <td><pre>--no_stats</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Don't generate a stats file. Provides marginal gains in run time.
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_stats_file">
+      <td><pre>--stats_file [filename]</pre></td>
+      <td><pre>--sf</pre></td>
+      <td>
+        <a href="../vep_formats.html#stats">Summary stats file</a> name. This
+        file contains a summary of the Ensembl VEP run. If stats are returned in an HTML
+        file (default), the filename should end in <kbd>.html</kbd> or
+        <kbd>.htm</kbd>. <i>Default = "variant_effect_output.txt_summary.html"</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_stats_html">
+      <td><pre>--stats_html</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Generate a <a href="../vep_formats.html#stats">HTML stats file</a>
+        (default).
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_stats_text">
+      <td><pre>--stats_text</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Generate a plain text stats file. Can be combined with
+        <kbd><a href="#opt_stats_html">--stats_html</a></kbd> to generate
+        both plain text and HTML stats files.
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_warning_file">
+      <td><pre>--warning_file [filename]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        File name to write warnings and errors to.
+        <i>Default = STDERR (standard error)</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_skipped_variants_file">
+      <td><pre>--skipped_variants_file [filename]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        File name to write skipped variants to.
+        <i>Default = STDERR (standard error)</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_max_sv_size">
+      <td><pre>--max_sv_size</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Limit the maximum Structural Variant size Ensembl VEP will process to reduce potential memory usage.
+        Set to -1 to disable this filter. <b>Warning:</b> disabling this filter can result in a large memory usage and slow runtime.
+        <i>Default = 10000000</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_no_check_variants_order">
+      <td><pre>--no_check_variants_order</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Permit the use of unsorted input files. However running Ensembl VEP on unsorted input files slows down the tool and requires more memory.
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_fork">
+      <td><pre>--fork [num_forks]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Enable <a href="vep_other.html#faster">forking</a>, using the specified
+        number of forks. Forking can dramatically improve runtime. <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_safe">
+      <td><pre>--safe</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        By default, an Ensembl VEP run is successful even when a plugin reports issues.
+        Use this flag to ensure Ensembl VEP fails if a plugin raises warnings or generates compilation errors.
+        This is particularly useful to ensure plugins run successfully when using Ensembl VEP in pipelines.
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+  
+  
+  
+
+  <br/>  
+  <hr/>
+    
+  <h2 id="cacheopt">Cache options</h2>
+  
+  <table class="ss" style="table-layout: fixed">
+    <tr>
+      <th width="20%">Flag</th>
+      <th width="8%">Alternate</th>
+      <th>Description</th>
+      <th width="12%">Output fields</th>
+      <th width="10%">Incompatible with</th>
+    </tr>
+    <tr id="opt_cache">
+      <td><pre>--cache</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Enables use of the <a href="vep_cache.html#cache">cache</a>. Add <a
+        href="#opt_refseq">--refseq</a> or <a href="#opt_merged">--merged</a> to use the refseq or merged cache, (if installed).
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+      </td>
+    </tr>
+    <tr id="opt_dir">
+      <td><pre>--dir [directory]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Specify the base cache/plugin directory to use. <i>Default =
+        "$HOME/.vep/"</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_dir_cache">
+      <td><pre>--dir_cache [directory]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Specify the cache directory to use. <i>Default =
+        "$HOME/.vep/"</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_dir_plugins">
+      <td><pre>--dir_plugins [directory]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Specify the plugin directory to use. <i>Default =
+        "$HOME/.vep/"</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_offline">
+      <td><pre>--offline</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Enable <a href="vep_cache.html#offline">offline mode</a>. No database
+        connections will be made, and a cache file or <a href="#opt_gff">GFF</a>/<a href="#opt_gtf">GTF</a> file is required for annotation. 
+        Add <a href="#opt_refseq">--refseq</a> to use the refseq cache (if
+        installed). <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+        <div style="padding:2px 0px"><a href="#opt_check_svs">--check_svs</a></div>
+        <div style="padding:2px 0px"><a href="#opt_lrg">--lrg</a></div>
+      </td>
+    </tr>
+    <tr id="opt_fasta">
+      <td><pre>--fasta [file|dir]</pre></td>
+      <td><pre>--fa</pre></td>
+      <td>
+        Specify a FASTA file or a directory containing FASTA files to
+        use to look up reference sequence. The first time you run Ensembl VEP
+        with this parameter an index will be built which can take
+        a few minutes. This is required if fetching HGVS annotations (<a
+        href="#opt_hgvs">--hgvs</a>) or checking reference sequences (<a
+        href="#opt_check_ref">--check_ref</a>) in offline mode (<a
+        href="#opt_offline">--offline</a>), and optional with some
+        performance increase in cache mode (<a
+        href="#opt_cache">--cache</a>). See <a
+        href="vep_cache.html#fasta">documentation</a> for more details.
+        <i>Not used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_refseq">
+      <td><pre>--refseq</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <p> Specify this option if you have installed the RefSeq
+        cache in order for Ensembl VEP to pick up the alternate cache directory. This cache contains
+        transcript objects corresponding to RefSeq transcripts.
+        Consequence output will be given relative to these transcripts in place
+        of the default Ensembl transcripts (see <a
+        href="vep_other.html#refseq">documentation</a>)</p>
+        </p>
+      </td>
+      <td>REFSEQ_MATCH, BAM_EDIT</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_gencode_basic">--gencode_basic</a></div>
+        <div style="padding:2px 0px"><a href="#opt_gencode_primary">--gencode_primary</a></div>
+        <div style="padding:2px 0px"><a href="#opt_merged">--merged</a></div>
+      </td>
+    </tr>
+    <tr id="opt_merged">
+      <td><pre>--merged</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <p> Use the merged Ensembl and RefSeq cache. Consequences are flagged
+        with the SOURCE of each transcript used. <p>
+      </td>
+      <td>REFSEQ_MATCH, BAM_EDIT, SOURCE</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_refseq">--refseq</a></div>
+      </td>
+    </tr>
+    <tr id="opt_cache_version">
+      <td><pre>--cache_version</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Use a different cache version than the assumed default (the Ensembl VEP
+        version). This should be used with Ensembl Genomes caches since their
+        version numbers do not match Ensembl versions. For example, the
+        VEP/Ensembl version may be 88 and the Ensembl Genomes version 35. <i>Not
+        used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_show_cache_info">
+      <td><pre>--show_cache_info</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Show source version information for selected cache and quit
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_buffer_size">
+      <td><pre>--buffer_size [number]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Sets the internal buffer size, corresponding to the number of
+        variants that are read in to memory simultaneously. Set this
+        lower to use less memory at the expense of longer run time, and
+        higher to use more memory with a faster run time. <i>Default =
+        5000</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+  </table>
+
+
+  <br/>
+  <hr/>  
+  <h2 id="other">Other annotation sources</h2>
+  
+  <table class="ss" style="table-layout: fixed">
+    <tr>
+      <th width="20%">Flag</th>
+      <th width="10%">Alternate</th>
+      <th>Description</th>
+      <th width="15%">Output fields</th>
+    </tr>
+    <tr id="opt_plugin">
+      <td><pre>--plugin [plugin name]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Use named plugin. Plugin modules should be installed in the
+        Plugins subdirectory of the Ensembl VEP cache directory (defaults to
+        $HOME/.vep/). Multiple plugins can be used by supplying the
+        <a href="vep_options.html#opt_plugin">--plugin</a> flag multiple times. See <a
+        href="vep_plugins.html">plugin documentation</a>. <i>Not used by
+        default</i>
+      </td>
+      <td>Plugin-dependent</td>
+    </tr>
+    <tr id="opt_custom">
+      <td><pre>--custom file=[filename]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Add custom annotation to the output. Files must be tabix indexed
+        or in the bigWig format. Multiple files can be specified by
+        supplying the <a href="vep_options.html#opt_custom">--custom</a> flag multiple times. <a
+        href="vep_custom.html">See here</a> for full details. <i>Not
+        used by default</i>
+      </td>
+      <td>SOURCE, Custom file dependent</td>
+    </tr>
+    <tr id="opt_gff">
+      <td><pre>--gff [filename]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Use <a href="vep_cache.html#gff">GFF transcript annotations</a> in [filename] as an annotation source. Requires a <a href="#opt_fasta">FASTA file</a> of genomic sequence. <i>Not
+        used by default</i>
+      </td>
+      <td>SOURCE</td>
+    </tr>
+    <tr id="opt_gtf">
+      <td><pre>--gtf [filename]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Use <a href="vep_cache.html#gff">GTF transcript annotations</a> in [filename] as an annotation source. Requires a <a href="#opt_fasta">FASTA file</a> of genomic sequence. <i>Not
+        used by default</i>
+      </td>
+      <td>SOURCE</td>
+    </tr>
+    <tr id="opt_bam">
+      <td><pre>--bam [filename]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <b>ADVANCED</b> Use BAM file of sequence alignments to correct transcript models not derived from reference genome sequence. Used to correct <a href="vep_other.html#refseq_bam">RefSeq transcript models</a>. Not required when using with the refseq or merged caches as they are already corrected, if used with those caches, errors may occur. Enables <a href="#opt_use_transcript_ref">--use_transcript_ref</a>; add <a href="#opt_use_given_ref">--use_given_ref</a> to override this behaviour.
+        <i>Not used by default</i>
+      </td>
+      <td>BAM_EDIT</td>
+    </tr>
+    <tr id="opt_use_transcript_ref">
+      <td><pre>--use_transcript_ref</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        By default Ensembl VEP uses the reference allele provided in the input file to calculate consequences for the provided alternate allele(s). Use this flag to force Ensembl VEP to replace the provided reference allele with sequence derived from the overlapped transcript. This is especially relevant when using the RefSeq cache, see <a href="vep_other.html#refseq_bam">documentation</a> for more details. The <a href="../vep_formats.html#output">GIVEN_REF and USED_REF fields</a> are set in the output to indicate any change.
+        <i>Not used by default</i>
+      </td>
+      <td>GIVEN_REF, USED_REF</td>
+    </tr>
+    <tr id="opt_use_given_ref">
+      <td><pre>--use_given_ref</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Using <a href="#opt_bam">--bam</a> or a <a href="vep_other.html#refseq_bam">BAM-edited RefSeq cache</a> by default enables <a href="#opt_use_transcript_ref">--use_transcript_ref</a>; add this flag to override this behaviour and use the provided reference allele from the input.
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_custom_multi_allelic">
+      <td><pre>--custom_multi_allelic</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        By default, comma separated lists found within the INFO field of custom annotation VCFs are assumed to be allele specific. For example, a variant with allele_string A/G/C with associated custom annotation 'single,double,triple' will associate triple with C, double with G and single with A. This flag instructs Ensembl VEP to return all annotations for all alleles.
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+    
+ 
+  <br/>
+  <hr/>
+  <h2 id="format">Output format options</h2>
+
+  <table class="ss" style="table-layout: fixed">
+    <tr>
+      <th width="20%">Flag</th>
+      <th width="10%">Alternate</th>
+      <th>Description</th>
+      <th width="10%">Output fields</th>
+      <th width="10%">Incompatible with</th>
+    </tr>
+    <tr id="opt_vcf">
+      <td><pre>--vcf</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <p> Writes output in <a href="../vep_formats.html#vcfout">VCF format</a>.
+        Consequences are added in the INFO field of the VCF file, using the key
+        "CSQ". Data fields are encoded separated by "&#124;"; the order of
+        fields is written in the VCF header. Output fields in the "CSQ" INFO field can be selected by
+        using <a href="#opt_fields">--fields</a>.</p>
+        <p> If the input format
+        was VCF, the file will remain unchanged save for the addition of the CSQ
+        field (unless using any filtering).<br/><br/> Custom data added with <a
+        href="#opt_custom">--custom</a> are added as separate fields, using the
+        key specified for each data file.<br/><br/> Commas in fields are
+        replaced with ampersands (&amp;) to preserve VCF format.</p>
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_json">--json</a></div>
+        <div style="padding:2px 0px"><a href="#opt_tab">--tab</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_ga4gh_vrs">--ga4gh_vrs</a></div>
+      </td>
+    </tr>
+    <tr id="opt_tab">
+      <td><pre>--tab</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Writes output in <a href="../vep_formats.html#tab">tab-delimited format</a>.
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_json">--json</a></div>
+        <div style="padding:2px 0px"><a href="#opt_vcf">--vcf</a></div>
+      </td>
+    </tr>
+    <tr id="opt_json">
+      <td><pre>--json</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Writes output in <a href="../vep_formats.html#json">JSON format</a>.
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_tab">--tab</a></div>
+        <div style="padding:2px 0px"><a href="#opt_vcf">--vcf</a></div>
+      </td>
+    </tr>  
+    <tr id="opt_compress_output">
+      <td><pre>--compress_output [gzip|bgzip]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Writes output compressed using either gzip or bgzip.
+        <i>Not used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_fields">
+      <td><pre>--fields [list]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <p>Configure the output format using a comma separated list of
+        fields.<br />
+        Can only be used with <a href="../vep_formats.html#tab">tab</a> (<a href="#opt_tab">--tab</a>) or <a href="../vep_formats.html#vcfout">VCF format</a> (<a href="#opt_vcf">--vcf</a>) output.<br />
+        For the tab format output, the selected fields may be those present in the default <a href="../vep_formats.html#output">output columns</a>, or any of
+        those that appear in the Extra column (including those added by plugins or custom annotations) if the appropriate output is available (e.g. use <a href="#opt_show_ref_allele">--show_ref_allele</a> to access 'REF_ALLELE'). Output remains tab-delimited.<br />
+        For the VCF format output, the selected fields are those present within the "CSQ" INFO field.
+        </p>
+        <p>Example of command for the tab output:</p>
+        <pre class="code sh_sh">--tab --fields "Uploaded_variation,Location,Allele,Gene"</pre>
+        <p>Example of command for the VCF format output:</p>
+        <pre class="code sh_sh">--vcf --fields "Allele,Consequence,Feature_type,Feature"</pre>
+        <i>Not used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_minimal">
+      <td><pre>--minimal</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Convert alleles to their most minimal representation before
+        consequence calculation i.e. sequence that is identical between
+        each pair of reference and alternate alleles is trimmed off from
+        both ends, with coordinates adjusted accordingly.<br />
+        Note this may
+        lead to discrepancies between input coordinates and coordinates
+        reported by Ensembl VEP relative to transcript sequences; to avoid
+        issues, use <a href="#opt_allele_number">--allele_number</a>
+        and/or ensure that your input variants have unique identifiers.
+        The MINIMISED flag is set in the Ensembl VEP output where relevant.
+        For an insertion/deletion, the allele is minimised by default. 
+        To access the input allele before minimisation, use 
+        <a href="#opt_uploaded_allele">--uploaded_allele</a>.<br/> 
+        <i>Not used by default</i>
+      </td>
+      <td>MINIMISED</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_individual">--individual</a></div>
+      </td> 
+    </tr>
+  </table>
+
+
+ 
+  <br/> 
+  <hr/>
+  <h2 id="output">Output options</h2>
+  
+  <table class="ss" style="table-layout: fixed">
+    <tr>
+      <th width="20%">Flag</th>
+      <th width="8%">Alternate</th>
+      <th>Description</th>
+      <th width="10%">Output fields</th>
+      <th width="10%">Incompatible with</th>
+    </tr>
+    <tr id="opt_variant_class">
+      <td><pre>--variant_class</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Output the Sequence Ontology <a
+        href="/info/genome/variation/prediction/classification.html#classes">variant
+        class</a>. <i>Not used by default</i>
+      </td>
+      <td>VARIANT_CLASS</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_sift">
+      <td><pre>--sift [p<b>|</b>s<b>|</b>b]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <span style="color:red;">Species limited</span>
+        <a rel="external" href="http://sift.bii.a-star.edu.sg/" target="_blank">SIFT</a>
+        predicts whether an amino acid substitution affects protein
+        function based on sequence homology and the physical properties
+        of amino acids. Ensembl VEP can output the <b>p</b>rediction term,
+        <b>s</b>core or <b>b</b>oth. <i>Not used by default</i>
+      </td>
+      <td>SIFT</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_polyphen">
+      <td><pre>--polyphen [p<b>|</b>s<b>|</b>b]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <span style="color:red;">Human only</span>
+        <a rel="external" href="http://genetics.bwh.harvard.edu/pph2/"
+        target="_blank">PolyPhen</a> is a tool which predicts possible
+        impact of an amino acid substitution on the structure and
+        function of a human protein using straightforward physical and
+        comparative considerations. Ensembl VEP can output the
+        <b>p</b>rediction term, <b>s</b>core or <b>b</b>oth. Ensembl VEP uses the
+        humVar score by default - use <a href="#opt_humdiv">--humdiv</a> to
+        retrieve the humDiv score. <i>Not used by default</i>
+      </td>
+      <td>PolyPhen</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_humdiv">
+      <td><pre>--humdiv</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <span style="color:red;">Human only</span>
+        Retrieve the <a
+        href="http://genetics.bwh.harvard.edu/wiki/!pph2/overview#prediction"
+        rel="external">humDiv PolyPhen prediction</a> instead of the default
+        humVar. <i>Not used by default</i>
+      </td>
+      <td>PolyPhen</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_nearest">
+      <td><pre>--nearest [transcript|gene|symbol]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <p> Retrieve the transcript or gene with the nearest protein-coding transcription start site (TSS)
+        to each input variant. Use "transcript" to retrieve the transcript
+        stable ID, "gene" to retrieve the gene stable ID, or "symbol" to retrieve
+        the gene symbol. Note that the nearest TSS may not belong to a transcript
+        that overlaps the input variant, and more than one may be reported in the
+        case where two are equidistant from the input coordinates.</p>
+
+        <p> Currently only available when using a
+        <a href="vep_cache.html#cache">cache</a> annotation source, and <a href="vep_download.html#additional">requires
+        the Set::IntervalTree perl module</a>.</p>
+        <i>Not used by default</i>
+      </td>
+      <td>NEAREST</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_distance">
+      <td><pre>--distance [bp_distance(,downstream_distance)]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Modify the distance up and/or downstream between a variant and a transcript
+        for which Ensembl VEP will assign the upstream_gene_variant or downstream_gene_variant
+        consequences. Giving one distance will modify both up- and downstream distances;
+        prodiving two separated by commas will set the up- (5') and down- (3') stream
+        distances respectively.
+        <i>Default: 5000</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_overlaps">
+      <td><pre>--overlaps</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Report the proportion and length of a transcript overlapped by a structural variant in VCF format.
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_gene_phenotype">
+      <td><pre>--gene_phenotype</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Indicates if the overlapped gene is associated with a phenotype, disease
+        or trait. See <a
+        href="/info/genome/variation/phenotype/sources_phenotype_documentation.html">list
+        of phenotype sources</a>. <i>Not used by default</i>
+      </td>
+      <td>GENE_PHENO</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_regulatory">
+      <td><pre>--regulatory</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Look for overlaps with regulatory regions. Ensembl VEP can also
+        report if a variant falls in a high information position within a
+        transcription factor binding site. Output lines have a Feature
+        type of RegulatoryFeature or MotifFeature. <i>Not used by
+        default</i>
+      </td>
+      <td>MOTIF_NAME, MOTIF_POS, HIGH_INF_POS, MOTIF_SCORE_CHANGE</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_cell_type">
+      <td><pre>--cell_type</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Report only regulatory regions that are found in the given cell
+        type(s). Can be a single cell type or a comma-separated list.
+        The functional type in each cell type is reported under
+        CELL_TYPE in the output. To retrieve a list of cell types, use
+        <a href="vep_options.html#opt_cell_type">--cell_type list</a>. <i>Not used by default</i>
+      </td>
+      <td>CELL_TYPE</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_regulatory_gff">
+      <td><pre>--regulatory_gff [file=filename,...]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Use regulatory annotation from Ensembl regulatory GFF3 files, instead of
+        data from a cache or database. Will override
+        <a href="vep_options.html#opt_regulatory">--regulatory</a> if used together.
+        Files available from <a href="https://ftp.ensembl.org/pub/current/regulation/">Ensembl FTP</a>
+        under species/annotation.
+        <br /><br />
+        The argument is comma-separated list of key=value pairs, in the same style as
+        <a href="vep_options.html#opt_custom">--custom</a> providing one or more of: <b>file</b> (the
+        regulatory-feature GFF3), <b>motifs</b> (a
+        transcription factor binding motif GFF3) and <b>emars</b> (an
+        epigenetically modified accessible region GFF3).
+        <br /><br />
+        Features from <b>file</b> and <b>emars</b> have a Feature type of
+        RegulatoryFeature and the consequence regulatory_region_variant (with short variants, 
+        for example), with the feature's type — for example promoter, enhancer, CTCF_binding_site
+        or open_chromatin_region — reported under BIOTYPE. Features from
+        <b>motifs</b> have a Feature type of MotifFeature and the consequence
+        TF_binding_site_variant. HIGH_INF_POS and MOTIF_SCORE_CHANGE require
+        the position weight matrix, which the GFF does not carry, and are
+        omitted.
+        <br /><br />
+        <a href="vep_options.html#opt_cell_type">--cell_type</a> is ignored,
+        with a warning, as a GFF carries no epigenome activity data. See
+        <a href="vep_cache.html#reg_gff">regulatory annotation from GFF
+        files</a>. <i>Not used by default</i>
+      </td>
+      <td>BIOTYPE, MOTIF_NAME, MOTIF_POS, TRANSCRIPTION_FACTORS</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_extended_promoters">
+      <td><pre>--extended_promoters</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Use the extended boundaries of promoter features when annotating with
+        <a href="vep_options.html#opt_regulatory_gff">--regulatory_gff</a>.
+        Ensembl regulatory GFF files record both a core promoter region and a
+        wider region, given in the extended_start and extended_end attributes;
+        by default the core coordinates are used, matching the VEP cache. The
+        extended region is never smaller than the core region, so this option
+        only ever adds annotation. Affects promoter features only.
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_individual">
+      <td><pre>--individual [all|ind list]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Consider only alternate alleles present in the genotypes of the
+        specified individual(s). May be a single individual, a
+        comma-separated list or "all" to assess all individuals
+        separately. Individual variant combinations homozygous for the
+        given reference allele will not be reported. Each individual and
+        variant combination is given on a separate line of output. Only
+        works with VCF files containing individual genotype data;
+        individual IDs are taken from column headers. <i>Not used by
+        default</i>
+      </td>
+      <td>IND, ZYG</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_minimal">--minimal</a></div>
+        <div style="padding:2px 0px"><a href="#opt_individual_zyg">--individual_zyg</a></div>
+      </td>
+    </tr>
+    <tr id="opt_individual_zyg">
+      <td><pre>--individual_zyg [all|ind list]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Consider alternate and reference alleles present in the genotypes of the
+        specified individual(s). May be a single individual, a
+        comma-separated list or "all" to assess all individuals
+        separately. Returns a list of individuals and their zygosity.
+        Only works with VCF files containing individual genotype data;
+        individual IDs are taken from column headers. <i>Not used by
+        default</i>
+      </td>
+      <td>ZYG</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_individual">--individual</a></div>
+      </td>
+    </tr>
+    <tr id="opt_phased">
+      <td><pre>--phased</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Force VCF genotypes to be interpreted as phased. For use with
+        plugins that depend on phased data. <i>Not used by
+        default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_allele_number">
+      <td><pre>--allele_number</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Identify allele number from VCF input, where 1 = first ALT
+        allele, 2 = second ALT allele etc. Useful when using <a href="#opt_minimal">--minimal</a>
+        <i>Not used by default</i>
+      </td>
+      <td>ALLELE_NUM</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_show_ref_allele">
+      <td><pre>--show_ref_allele</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds the reference allele in the output (after minimisation). Mainly useful for the Ensembl VEP "default" and tab-delimited output formats.
+        <i>Not used by default</i>
+      </td>
+      <td>REF_ALLELE</td>
+      <td>&nbsp;</td>
+    </tr> 
+    <tr id="opt_uploaded_allele">
+      <td><pre>--uploaded_allele</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds the uploaded allele string in the output (before minimisation). 
+      </td>
+      <td>UPLOADED_ALLELE</td>
+      <td>&nbsp;</td>
+    </tr> 
+    <tr id="opt_total_length">
+      <td><pre>--total_length</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Give cDNA, CDS and protein positions as Position/Length. <i>Not
+        used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_numbers">
+      <td><pre>--numbers</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds affected exon and intron numbering to to output. Format is
+        Number/Total. <i>Not used by default</i>
+      </td>
+      <td>EXON, INTRON</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_mirna">
+      <td><pre>--mirna</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Reports where the variant lies in the miRNA secondary structure (only for Ensembl/GENCODE transcripts). <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_no_escape">
+      <td><pre>--no_escape</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Don't URI escape HGVSp field. <i>Default = escape</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_keep_csq">
+      <td><pre>--keep_csq</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Don't overwrite existing CSQ entry in
+        <a href="../vep_formats.html#vcfout">VCF INFO field</a>.  A new consequence will be added, not merged with the original. <i>Overwrites
+        by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_vcf_info_field">
+      <td><pre>--vcf_info_field [CSQ|ANN|(other)]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Change the name of the INFO key that Ensembl VEP write the consequences to
+        in its <a href="../vep_formats.html#vcfout">VCF output</a>. Use "ANN"
+        for compatibility with other tools such as <a
+        href="http://snpeff.sourceforge.net/" rel="external">snpEff</a>.
+        <i>Default: CSQ</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_terms">
+      <td><pre>--terms [SO|display|NCBI]</pre></td>
+      <td><pre>-t</pre></td>
+      <td>
+        The type of consequence terms to output. The Ensembl terms are
+        described <a
+        href="/info/genome/variation/prediction/predicted_data.html#consequences"
+        target="_blank">here</a>. The <a
+        rel="external" href="http://www.sequenceontology.org/" target="_blank">Sequence
+        Ontology</a> is a joint effort by genome annotation centres to
+        standardise descriptions of biological sequences. <i>Default =
+        "SO"</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_no_headers">
+      <td><pre>--no_headers</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Don't write header lines in output files. <i>Default = add headers</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_shift_3prime">
+      <td><pre>--shift_3prime [0<b>|</b>1]</pre></td>
+      <td>&nbsp;</td>
+      <td> Right aligns all variants relative to their associated transcripts prior to consequence calculation. <br/>
+	   An example using this option can be found <a
+        href="/info/docs/tools/vep/script/vep_other.html#shifting"
+        target="_blank">here</a>.<br/> <i>Default = 0</i>
+      </td>
+      <td></td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_shift_hgvs">--shift_hgvs</a></div>
+      </td>
+    </tr>
+    <tr id="opt_shift_genomic">
+      <td><pre>--shift_genomic [0<b>|</b>1]</pre></td>
+      <td>&nbsp;</td>
+      <td> Right aligns all variants, including intergenic variants, before consequence calculation and updates the <i>Location</i> field. <br/>
+           An example using this option can be found <a
+        href="/info/docs/tools/vep/script/vep_other.html#shifting"
+        target="_blank">here</a>.<br/> <i>Default = 0</i>
+      </td>
+      <td></td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_shift_hgvs">--shift_hgvs</a></div>
+      </td>
+    </tr>
+    <tr id="opt_shift_length">
+      <td><pre>--shift_length</pre></td>
+      <td>&nbsp;</td>
+      <td> Reports the distance each variant has been shifted when used in conjuction with <a href="#opt_shift_3prime">--shift_3prime</a>
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+    
+  
+  <br/> 
+  <hr/>
+  <h2 id="ident">Identifiers</h2>
+  
+  <table class="ss" style="table-layout: fixed">
+    <tr>
+      <th width="20%">Flag</th>
+      <th width="8%">Alternate</th>
+      <th>Description</th>
+      <th width="10%">Output fields</th>
+      <th width="10%">Incompatible with</th>
+    </tr>
+    <tr id="opt_hgvs">
+      <td><pre>--hgvs</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Add <a rel="external" href="//varnomen.hgvs.org"
+        target="_blank">HGVS</a> nomenclature based on Ensembl stable
+        identifiers to the output. Both coding and protein sequence
+        names are added where appropriate. To generate HGVS identifiers when
+        using <a href="#opt_cache">--cache</a> or <a
+        href="#opt_offline">--offline</a> you must use a FASTA file and <a
+        href="#opt_fasta">--fasta</a>. HGVS notations given on Ensembl
+        identifiers are <a href="/info/genome/stable_ids/index.html">
+        versioned</a>. <i>Not used by default</i>
+      </td>
+      <td>HGVSc, HGVSp, HGVS_OFFSET</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_hgvsg">
+      <td><pre>--hgvsg</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Add genomic <a rel="external" href="//varnomen.hgvs.org"
+        target="_blank">HGVS</a> nomenclature based on the input chromosome name.
+        To generate HGVS identifiers when
+        using <a href="#opt_cache">--cache</a> or <a
+        href="#opt_offline">--offline</a> you must use a FASTA file and <a
+        href="#opt_fasta">--fasta</a>. <i>Not used by default</i>
+      </td>
+      <td>HGVSg</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_hgvsg_use_accession">
+      <td><pre>--hgvsg_use_accession</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Force <a href="#opt_hgvsg">--hgvsg</a> to return RefSeq reference sequence.
+        For example, reports NC_000002.11 for human chromosome 2 (build GRCh38).
+      </td>
+      <td>HGVSg</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_hgvsp_use_prediction">
+      <td><pre>--hgvsp_use_prediction</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Force <a href="#opt_hgvs">--hgvs</a> to return the HGVSp notation in predicted format.
+        For example, ENSP00000233741.4:p.Thr367AsnfsTer13 will be returned as 
+        ENSP00000233741.4:p.(Thr367AsnfsTer13).
+      </td>
+      <td>HGVSp</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_ambiguous_hgvs">
+      <td><pre>--ambiguous_hgvs [0|1]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Allow input HGVSp to resolve to all genomic locations. Otherwise, most likely transcript will be selected. <i>Default: 0 (most likely transcript selected)</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_spdi">
+      <td><pre>--spdi</pre></td>
+      <td>&nbsp;</td>
+      <td>
+      Add genomic <a rel="external" href="https://www.ncbi.nlm.nih.gov/variation/notation/",
+      target="_blank">SPDI</a> notation. To generate SPDI when using <a href="#opt_cache">--cache</a> or <a
+      href="#opt_offline">--offline</a> you must use a FASTA file and <a
+      href="#opt_fasta">--fasta</a>. <i>Not used by default</i>
+      </td>
+      <td>SPDI</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_ga4gh_vrs">
+      <td><pre>--ga4gh_vrs</pre></td>
+      <td>&nbsp;</td>
+      <td>
+      Add <a rel="external" href="https://vrs.ga4gh.org/",
+      target="_blank">GA4GH Variation Representation Specification (VRS)</a> notation. To generate GA4GH VRS when using <a href="#opt_cache">--cache</a> or <a
+      href="#opt_offline">--offline</a> you must use a FASTA file and <a
+      href="#opt_fasta">--fasta</a>. <i>Not used by default</i>
+      </td>
+      <td>GA4GH_VRS</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_vcf">--vcf</a></div>
+      </td>
+    </tr>
+    <tr id="opt_shift_hgvs">
+      <td><pre>--shift_hgvs [0|1]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Enable or disable 3' shifting of HGVS notations. HGVS nomenclature 
+        requires an ambiguous sequence change to be described at the most 
+        3' possible location. When enabled, this causes "shifting" 
+        to the most 3' possible coordinates (relative to the transcript 
+        sequence and strand) before the HGVS notations are calculated; 
+        the flag HGVS_OFFSET is set to the number of bases by which the 
+        variant has shifted, relative to the input genomic coordinates. 
+        If HGVS_OFFSET is equals to 0, no value will be added to 
+        HGVS_OFFSET column. To disable the changing of location at transcript
+        level set --shift_hgvs to 0. <i>Default: 1 (shift)</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >
+        <div style="padding:2px 0px"><a href="#opt_shift_3prime">--shift_3prime</a></div>
+        <div style="padding:2px 0px"><a href="#opt_shift_genomic">--shift_genomic</a></div>
+      </td>
+    </tr>
+    <tr id="opt_transcript_version">
+      <td><pre>--transcript_version</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Add version numbers to Ensembl transcript identifiers</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_gene_version">
+      <td><pre>--gene_version</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Add version numbers to Ensembl gene identifiers</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_protein">
+      <td><pre>--protein</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Add the Ensembl protein identifier to the output where
+        appropriate. <i>Not used by default</i>
+      </td>
+      <td>ENSP</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_symbol">
+      <td><pre>--symbol</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds the gene symbol (e.g. HGNC) (where available) to the output. Some gene symbol, e.g. HGNC, are only available in merged and Ensembl caches and therefore should <b>not</b> be used with the <a href="#opt_refseq">--refseq</a> cache option.  
+        <i>Not used by default</i>
+      </td>
+      <td>SYMBOL, SYMBOL_SOURCE, HGNC_ID</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_ccds">
+      <td><pre>--ccds</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds the CCDS transcript identifer (where available) to the
+        output. <i>Not used by default</i>
+      </td>
+      <td>CCDS</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_uniprot">
+      <td><pre>--uniprot</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds best match accessions for translated protein products from three <a
+        href="http://www.ebi.ac.uk/uniprot" rel="external">UniProt</a>-related
+        databases (SWISSPROT, TREMBL and UniParc) to the output. <i>Not used by
+        default</i>
+      </td>
+      <td>SWISSPROT, TREMBL, UNIPARC, UNIPROT_ISOFORM</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_tsl">
+      <td><pre>--tsl</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds the <a href="/glossary/ENSGLOSSARY_0000005">transcript support level</a>
+        for this transcript to the output. <i>Not used by default</i>
+        <div class="info" style="max-width:350px;margin:5px 0px 5px 10px">
+          <h3>Note</h3>
+          <div class="message-pad" style="padding:5px 10px;background-color:#FFF">
+            Only available for human on the GRCh38 assembly
+          </div>
+        </div>
+      </td>
+      <td>TSL</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_appris">
+      <td><pre>--appris</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds the <a href="/glossary/ENSGLOSSARY_0000012">APPRIS</a> isoform annotation
+        for this transcript to the output. <i>Not used by default</i>
+        <div class="info" style="max-width:350px;margin:5px 0px 5px 10px">
+          <h3>Note</h3>
+          <div class="message-pad" style="padding:5px 10px;background-color:#FFF">
+            Only available for human on the GRCh38 assembly
+          </div>
+        </div>
+      </td>
+      <td>APPRIS</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_canonical">
+      <td><pre>--canonical</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds a flag indicating if the transcript is the canonical
+        transcript for the gene. <i>Not used by default</i>
+      </td>
+      <td>CANONICAL</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_mane">
+      <td><pre>--mane</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds a flag indicating if the transcript is the <a href="/info/genome/genebuild/mane.html">MANE Select</a> or <a href="/info/genome/genebuild/mane.html">MANE Plus Clinical</a> 
+        transcript for the gene. If <a href="#opt_cache">--cache</a> or <a href="#opt_database">--database</a> annotation source is used, the alternative transcript stable ID is also added. 
+        <i>Not used by default</i>
+        <div class="info" style="max-width:350px;margin:5px 0px 5px 10px">
+          <h3>Note</h3>
+          <div class="message-pad" style="padding:5px 10px;background-color:#FFF">
+            Only available for human on the GRCh38 assembly
+          </div>
+        </div>
+      </td>
+      <td>MANE, MANE_SELECT, MANE_PLUS_CLINICAL</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_mane_select">
+      <td><pre>--mane_select</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds a flag indicating if the transcript is the <a href="/info/genome/genebuild/mane.html">MANE Select</a>
+        transcript for the gene. If <a href="#opt_cache">--cache</a> or <a href="#opt_database">--database</a> annotation source is used, the alternative transcript stable ID is also added. 
+        <i>Not used by default</i>
+        <div class="info" style="max-width:350px;margin:5px 0px 5px 10px">
+          <h3>Note</h3>
+          <div class="message-pad" style="padding:5px 10px;background-color:#FFF">
+            Only available for human on the GRCh38 assembly
+          </div>
+        </div>
+      </td>
+      <td>MANE, MANE_SELECT</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_biotype">
+      <td><pre>--biotype</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds the biotype of the transcript or regulatory feature. <i>Not used by
+        default</i>
+      </td>
+      <td>BIOTYPE</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_domains">
+      <td><pre>--domains</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Adds names of overlapping protein domains to output. <i>Not used
+        by default</i>
+      </td>
+      <td>DOMAINS</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_xref_refseq">
+      <td><pre>--xref_refseq</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Output aligned RefSeq mRNA identifier for transcript. <i>Not used by default</i>
+        <div class="info" style="margin:5px 0px 5px 10px">
+          <h3>Note</h3>
+          <div class="message-pad" style="padding:5px 10px;background-color:#FFF">
+            The RefSeq and Ensembl transcripts aligned in this way MAY NOT,
+            AND FREQUENTLY WILL NOT, match exactly in sequence, exon
+            structure and protein product
+          </div>
+        </div>
+      </td>
+      <td>RefSeq</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_synonyms">
+      <td><pre>--synonyms [file]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Load a file of chromosome synonyms. File should be tab-delimited
+        with the primary identifier in column 1 and the synonym in column 2.
+        Synonyms allow different chromosome identifiers to be used in the
+        input file and any annotation source (cache, database, GFF, custom file, FASTA file).
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+    
+  
+  <br/>
+  <hr/>
+  <h2 id="existing">Co-located variants</h2>
+  
+  <table class="ss" style="table-layout: fixed">
+    <tr>
+      <th width="20%">Flag</th>
+      <th width="8%">Alternate</th>
+      <th>Description</th>
+      <th width="10%">Output fields</th>
+      <th width="10%">Incompatible with</th>
+    </tr>
+    <tr id="opt_check_existing">
+      <td><pre>--check_existing</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Checks for the existence of known variants that are co-located
+        with your input. By default the alleles are compared and variants on an allele-specific
+        basis - to compare only coordinates,
+        use <a href="#opt_no_check_alleles">--no_check_alleles</a>.
+        <br/><br/>Some databases may contain variants with unknown (null) alleles and these
+        are included by default; to exclude them use <a href="#opt_exclude_null_alleles">
+        --exclude_null_alleles</a>.
+        <br/><br/>See <a href="vep_other.html#colocated">this page</a> for more details.
+        <br/><br/><i>Not used by default</i>
+      </td>
+      <td>Existing_variation, CLIN_SIG, SOMATIC, PHENO</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_check_svs">
+      <td><pre>--check_svs</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Checks for the existence of structural variants that overlap your
+        input. Currently requires database access. <i>Not used by
+        default</i>
+      </td>
+      <td>SV</td>
+      <td><a href="#opt_offline">--offline</a></td>
+    </tr>
+    <tr id="opt_clin_sig_allele">
+      <td><pre>--clin_sig_allele [1|0]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Return allele specific clinical significance. Setting this option to 0 will provide all known clinical significance values at the given locus.
+        <i>Default: 1 (Provide allele-specific annotations)</i>
+      </td>
+      <td>CLIN_SIG</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_clinvar_somatic">
+      <td><pre>--clinvar_somatic_classification</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Return the somatic classification of a variant as reported by ClinVar.
+        <i>Not used by default</i>
+      </td>
+      <td>SOMATIC_CLASSIFICATION</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_exclude_null_alleles">
+      <td><pre>--exclude_null_alleles</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Do not include variants with unknown alleles when checking for co-located variants.
+        Our human database contains variants from HGMD and COSMIC for which the
+        alleles are not publically available; by default these are included when using
+        <a href="#opt_check_existing">--check_existing</a>, use this flag to exclude them.
+        <i>Not used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_no_check_alleles">
+      <td><pre>--no_check_alleles</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        When checking for existing variants, by default Ensembl VEP only reports a co-located
+        variant if none of the input alleles are novel. For example,
+        if your input variant has alleles A/G, and an existing co-located
+        variant has alleles A/C, the co-located variant will not be
+        reported.<br/><br/>Strand is also taken into account - in the
+        same example, if the input variant has alleles T/G but on the
+        negative strand, then the co-located variant <b>will</b> be
+        reported since its alleles match the reverse complement of
+        input variant.
+        <br/><br/>Use this flag to disable this behaviour and compare using coordinates alone.
+        <i>Not used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_af">
+      <td><pre>--af</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Add the global allele frequency (AF) from 1000 Genomes
+        Phase 3 data for any known co-located variant to the output. For this and all --af_* flags, the frequency reported is for the <b>input allele</b> only, not necessarily the non-reference or derived allele. <i>Not used
+        by default</i>
+      </td>
+      <td>AF</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_max_af">
+      <td><pre>--max_af</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Report the highest allele frequency observed in any population from 1000 genomes, ESP or gnomAD. <i>Not used
+        by default</i>
+      </td>
+      <td>MAX_AF, MAX_AF_POPS</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+      </td>
+    </tr>
+    <tr id="opt_af_1kg">
+      <td><pre>--af_1kg</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Add allele frequency from continental populations (AFR,AMR,EAS,EUR,SAS) of <a href="http://www.1000genomes.org/" rel="external">1000
+        Genomes Phase 3</a> to the output. Must be used with <a
+        href="#opt_cache">--cache</a>. <i>Not used by default</i>
+      </td>
+      <td>AFR_AF, AMR_AF, EAS_AF, EUR_AF, SAS_AF</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+      </td>
+    </tr>
+    <tr id="opt_af_esp">
+      <td><pre>--af_esp</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Include allele frequency from <a href="http://evs.gs.washington.edu/EVS/" rel="external">NHLBI-ESP</a> populations. Must be used with
+        <a href="#opt_cache">--cache</a>. <i>Please note this option is deprecated and will produce an error from Ensembl VEP version 107 onwards.</i>
+      </td>
+      <td>AA_AF, EA_AF</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+      </td>
+    </tr>
+    <tr id="opt_af_gnomade">
+      <td><pre>--af_gnomade</pre></td>
+      <td><pre>--af_gnomad</pre></td>
+      <td>
+        Include allele frequency from <a href="http://gnomad.broadinstitute.org/" rel="external">Genome Aggregation Database (gnomAD)</a> exome populations. Note only data from the gnomAD exomes are included; to retrieve data from the additional genomes data set,
+        see <a href="vep_example.html#gnomad">this guide</a>. Must be used with
+        <a href="#opt_cache">--cache</a> <i>Not used by default</i>
+      </td>
+      <td>gnomADe_AF, gnomADe_AFR_AF, gnomADe_AMR_AF, gnomADe_ASJ_AF, gnomADe_EAS_AF, gnomADe_FIN_AF, gnomADe_NFE_AF, gnomADe_OTH_AF, gnomADe_SAS_AF</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+        <div style="padding:2px 0px"><a href="#opt_af_gnomad">--af_gnomad</a></div>
+      </td>
+    </tr>
+    <tr id="opt_af_gnomadg">
+      <td><pre>--af_gnomadg</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Include allele frequency from <a href="http://gnomad.broadinstitute.org/" rel="external">Genome Aggregation Database (gnomAD)</a> genome populations. Note only data from the gnomAD genomes are included; to retrieve data from the additional genomes data set,
+        see <a href="vep_example.html#gnomad">this guide</a>. Must be used with
+        <a href="#opt_cache">--cache</a> <i>Not used by default</i>
+      </td>
+      <td>gnomADg_AF, gnomADg_AFR_AF, gnomADg_AMI_AF, gnomADg_AMR_AF, gnomADg_ASJ_AF, gnomADg_EAS_AF, gnomADg_FIN_AF, gnomADg_MID_AF, gnomADg_NFE_AF, gnomADg_OTH_AF, gnomADg_SAS_AF</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+      </td>
+    </tr>
+    <tr id="opt_af_exac">
+      <td><pre>--af_exac</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Include allele frequency from <a href="http://exac.broadinstitute.org/" rel="external">ExAC project</a> populations. Must be used with
+        <a href="#opt_cache">--cache</a>. <i>Deprecated.</i>
+      </td>
+      <td>ExAC_AF, ExAC_Adj_AF, ExAC_AFR_AF, ExAC_AMR_AF, ExAC_EAS_AF, ExAC_FIN_AF, ExAC_NFE_AF, ExAC_OTH_AF, ExAC_SAS_AF</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+      </td>
+    </tr>
+    <tr id="opt_pubmed">
+      <td><pre>--pubmed</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Report Pubmed IDs for publications that cite existing variant.
+        Must be used with <a href="#opt_cache">--cache</a>. <i>Not used
+        by default</i>
+      </td>
+      <td>PUBMED</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+      </td>
+    </tr>
+    <tr id="opt_var_synonyms">
+      <td><pre>--var_synonyms</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Report known synonyms for co-located variants.
+        Must be used with <a href="#opt_cache">--cache</a>. <i>Not used
+        by default</i>
+      </td>
+      <td>VAR_SYNONYMS</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_database">--database</a></div>
+      </td>
+    </tr>
+    <tr id="opt_failed">
+      <td><pre>--failed [0|1]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        When checking for co-located variants, by default Ensembl VEP
+        will exclude variants that have been flagged as failed. Set this
+        flag to include such variants. <i>Default: 0 (exclude)</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+  </table>
+  
+  
+  <br/>
+  <hr/> 
+  <h2 id="filt">Filtering and QC options</h2>
+    
+    <p> <b>NOTE:</b> The filtering options here filter your results
+    <b>before</b> they are written to your output file. Using Ensembl VEP's <a
+    href="vep_filter.html">filtering script</a>, it is possible to filter your
+    results <b>after</b> Ensembl VEP has run. This way you can retain all of the
+    results and run multiple filter sets on the same results to find different
+    data of interest. </p>
+  
+  <table class="ss" style="table-layout: fixed">
+    <tr>
+      <th width="20%">Flag</th>
+      <th width="8%">Alternate</th>
+      <th>Description</th>
+      <th width="10%">Output fields</th>
+      <th width="10%">Incompatible with</th>
+    </tr>
+    <tr id="opt_gencode_basic">
+      <td><pre>--gencode_basic</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Limit your analysis to transcripts belonging to the GENCODE
+        basic set. This set has fragmented or problematic transcripts removed. <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_gencode_primary">--gencode_primary</a></div>
+        <div style="padding:2px 0px"><a href="#opt_refseq">--refseq</a></div>
+      </td>
+    </tr>
+    <tr id="opt_gencode_primary">
+      <td><pre>--gencode_primary</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Limit your analysis to transcripts belonging to the GENCODE
+        primary set. This set covers all human exons in a minimal set of transcripts. <i>Not used by default</i>
+        <div class="info" style="max-width:350px;margin:5px 0px 5px 10px">
+          <h3>Note</h3>
+          <div class="message-pad" style="padding:5px 10px;background-color:#FFF">
+            Only available for human on the GRCh38 assembly
+          </div>
+        </div>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_gencode_basic">--gencode_basic</a></div>
+        <div style="padding:2px 0px"><a href="#opt_refseq">--refseq</a></div>
+      </td>
+    </tr>
+    <tr id="opt_exclude_predicted">
+      <td><pre>--exclude_predicted</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        When using the RefSeq or merged cache, exclude predicted transcripts
+        (i.e. those with identifiers beginning with "XM_" or "XR_").
+        <div class="info" style="max-width:350px;margin:5px 0px 5px 10px">
+          <h3>Note</h3>
+          <div class="message-pad" style="padding:5px 10px;background-color:#FFF">
+            We do not support predicted RefSeq transcripts for GRCh37.
+          </div>
+        </div>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_transcript_filter">
+      <td><pre>--transcript_filter</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <p><b>ADVANCED</b> Filter transcripts according to any arbitrary set of rules. Uses similar notation to <a href="vep_filter.html">filter_vep</a>.</p>
+        <p>You may filter on any key defined in the root of the transcript object; most commonly this will be "stable_id":</p>
+        <pre class="code sh_sh">--transcript_filter "stable_id match N[MR]_"</pre>
+        <p>or, a list of stable ids in file acting as a allowlist or a blocklist:</p>
+        <pre class="code sh_sh">--transcript_filter "not stable_id in blocklist.txt"</pre>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_check_ref">
+      <td><pre>--check_ref</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Force Ensembl VEP to check the supplied reference allele against
+        the sequence stored in the Ensembl Core database or supplied <a href="#opt_fasta">FASTA file</a>. Lines that do
+        not match are skipped. Checking is done on the minimised sequence. Example chr13 32900399 . AGT A . the As are removed and the reference sequence is checked from 32900400 to see if it matches GT<i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_lookup_ref">--lookup_ref</a></div>
+      </td>
+    </tr>
+    <tr id="opt_lookup_ref">
+      <td><pre>--lookup_ref</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Force overwrite the supplied reference allele with
+        the sequence stored in the Ensembl Core database or supplied <a href="#opt_fasta">FASTA file</a>. <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_check_ref">--check_ref</a></div>
+      </td>
+    </tr>
+    <tr id="dont_skip">
+      <td><pre>--dont_skip</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Don't skip input variants that fail validation, e.g. those that
+        fall on unrecognised sequences.<br />Combining <a href="#opt_check_ref">--check_ref</a> with <a href="#opt_dont_skip">--dont_skip</a> will add a CHECK_REF output field when the given reference does not match the underlying reference sequence.
+      </td>
+      <td>CHECK_REF</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_allow_non_variant">
+      <td><pre>--allow_non_variant</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        When using VCF format as input and output, by default Ensembl VEP
+        will skip non-variant lines of input (where the ALT allele is
+        null). Enabling this option the lines will be printed in the VCF
+        output with no consequence data added.
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_chr">
+      <td><pre>--chr [list]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Select a subset of chromosomes to analyse from your file. Any
+        data not on this chromosome in the input will be skipped. The
+        list can be comma separated, with "-" characters representing an
+        interval.<br />For example, to include chromosomes 1, 2, 3, 10 and X
+        you could use <a href="vep_options.html#opt_chr">--chr 1-3,10,X</a> <i>Not used by
+        default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_coding_only">
+      <td><pre>--coding_only</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Only return consequences that fall in the coding regions of
+        transcripts. <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_no_intergenic">
+      <td><pre>--no_intergenic</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Do not include intergenic consequences in the output. <i>Not
+        used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_pick">
+      <td><pre>--pick</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Pick one line or block of consequence data per variant, including
+        transcript-specific columns.<br />Consequences are chosen according to the
+        criteria described <a href="vep_other.html#pick">here</a>, and the
+        order the criteria are applied may be customised with
+        <a href="#opt_pick_order">--pick_order</a>.
+        This is the best method to use if you are interested only in
+        one consequence per variant. <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_pick_allele">
+      <td><pre>--pick_allele</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Like <a href="#opt_pick">--pick</a>, but chooses one line or block of
+        consequence data per variant allele. Will only differ in behaviour from
+        <b>--pick</b> when the input variant has multiple alternate alleles.
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_per_gene">
+      <td><pre>--per_gene</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Output only the most severe consequence per gene. The transcript
+        selected is arbitrary if more than one has the same predicted
+        consequence. Uses the same ranking system as
+        <a href="#opt_pick">--pick</a> therefore, the highest ranking
+        transcript is selected before the most severe consequence. <i>Not used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_pick_allele_gene">
+      <td><pre>--pick_allele_gene</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Like <a href="#opt_pick">--pick_allele</a>, but chooses one line or block of
+        consequence data per variant allele <b>and</b> gene combination.
+        <i>Not used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_flag_pick">
+      <td><pre>--flag_pick</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        As per <a href="#opt_pick">--pick</a>, but adds the PICK flag to the
+        chosen block of consequence data and retains others. <i>Not used by
+        default</i>
+      </td>
+      <td>PICK</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_flag_pick_allele">
+      <td><pre>--flag_pick_allele</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        As per <a href="#opt_pick_allele">--pick_allele</a>, but adds the PICK
+        flag to the chosen block of consequence data and retains others. <i>Not used by default</i>
+      </td>
+      <td>PICK</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+      </td>
+    </tr>
+    <tr id="opt_flag_pick_allele_gene">
+      <td><pre>--flag_pick_allele_gene</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        As per <a href="#opt_pick_allele_gene">--pick_allele_gene</a>, but adds the PICK
+        flag to the chosen block of consequence data and retains others. <i>Not used by default</i>
+      </td>
+      <td>PICK</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_pick_order">
+      <td><pre>--pick_order [c1,c2,...,cN]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        <p>Customise the order of criteria (and the list of criteria) applied when choosing a block of
+        annotation data with one of the following options: <a href="#opt_pick">--pick</a>, <a href="#opt_pick_allele">--pick_allele</a>, <a href="#opt_per_gene">--per_gene</a>, <a href="#opt_pick_allele_gene">--pick_allele_gene</a>, <a href="#opt_flag_pick">--flag_pick</a>, <a href="#opt_flag_pick_allele">--flag_pick_allele</a>, <a href="#opt_flag_pick_allele_gene">--flag_pick_allele_gene</a>. See
+        <a href="vep_other.html#pick_options">this page</a> for the default order.<br />
+        Valid criteria are: <i>mane_select, mane_plus_clinical, canonical, appris, tsl, biotype, ccds, rank, length, ensembl, refseq</i>. e.g.:</p>
+        <pre class="code sh_sh">--pick --pick_order tsl,appris,rank</pre>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_most_severe">
+      <td><pre>--most_severe</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Output only the most severe consequence per variant.
+        Transcript-specific columns will be left blank. Consequence ranks are
+        given in <a
+        href="/info/genome/variation/prediction/predicted_data.html#consequences">this
+        table</a>.<br />
+        To include regulatory consequences, use the <b>--regulatory</b> option in combination with this flag.<br /> 
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_appris">--appris</a></div>
+        <div style="padding:2px 0px"><a href="#opt_biotype">--biotype</a></div>
+        <div style="padding:2px 0px"><a href="#opt_canonical">--canonical</a></div>
+        <div style="padding:2px 0px"><a href="#opt_ccds">--ccds</a></div>
+        <div style="padding:2px 0px"><a href="#opt_coding_only">--coding_only</a></div>
+        <div style="padding:2px 0px"><a href="#opt_domains">--domains</a></div>
+        <div style="padding:2px 0px"><a href="#opt_flag_pick">--flag_pick</a></div>
+        <div style="padding:2px 0px"><a href="#opt_flag_pick_allele">--flag_pick_allele</a></div>
+        <div style="padding:2px 0px"><a href="#opt_no_intergenic">--no_intergenic</a></div>
+        <div style="padding:2px 0px"><a href="#opt_numbers">--numbers</a></div>
+        <div style="padding:2px 0px"><a href="#opt_pick">--pick</a></div>
+        <div style="padding:2px 0px"><a href="#opt_pick_allele">--pick_allele</a></div>
+        <div style="padding:2px 0px"><a href="#opt_polyphen">--polyphen</a></div>
+        <div style="padding:2px 0px"><a href="#opt_protein">--protein</a></div>
+        <div style="padding:2px 0px"><a href="#opt_sift">--sift</a></div>
+        <div style="padding:2px 0px"><a href="#opt_summary">--summary</a></div>
+        <div style="padding:2px 0px"><a href="#opt_symbol">--symbol</a></div>
+        <div style="padding:2px 0px"><a href="#opt_tsl">--tsl</a></div>
+        <div style="padding:2px 0px"><a href="#opt_uniprot">--uniprot</a></div>
+        <div style="padding:2px 0px"><a href="#opt_xref_refseq">--xref_refseq</a></div>
+        <div style="padding:2px 0px"><a href="#opt_mane">--mane</a></div>
+        <div style="padding:2px 0px"><a href="#opt_mane_select">--mane_select</a></div>
+        <div style="padding:2px 0px"><a href="#opt_vcf">--vcf</a></div>
+      </td>
+    </tr>
+    <tr id="opt_summary">
+      <td><pre>--summary</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Output only a comma-separated list of all observed consequences
+        per variant. Transcript-specific columns will be left blank.
+        <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_appris">--appris</a></div>
+        <div style="padding:2px 0px"><a href="#opt_biotype">--biotype</a></div>
+        <div style="padding:2px 0px"><a href="#opt_canonical">--canonical</a></div>
+        <div style="padding:2px 0px"><a href="#opt_ccds">--ccds</a></div>
+        <div style="padding:2px 0px"><a href="#opt_coding_only">--coding_only</a></div>
+        <div style="padding:2px 0px"><a href="#opt_domains">--domains</a></div>
+        <div style="padding:2px 0px"><a href="#opt_flag_pick">--flag_pick</a></div>
+        <div style="padding:2px 0px"><a href="#opt_flag_pick_allele">--flag_pick_allele</a></div>
+        <div style="padding:2px 0px"><a href="#opt_most_severe">--most_severe</a></div>
+        <div style="padding:2px 0px"><a href="#opt_no_intergenic">--no_intergenic</a></div>
+        <div style="padding:2px 0px"><a href="#opt_numbers">--numbers</a></div>
+        <div style="padding:2px 0px"><a href="#opt_pick">--pick</a></div>
+        <div style="padding:2px 0px"><a href="#opt_pick_allele">--pick_allele</a></div>
+        <div style="padding:2px 0px"><a href="#opt_polyphen">--polyphen</a></div>
+        <div style="padding:2px 0px"><a href="#opt_protein">--protein</a></div>
+        <div style="padding:2px 0px"><a href="#opt_sift">--sift</a></div>
+        <div style="padding:2px 0px"><a href="#opt_symbol">--symbol</a></div>
+        <div style="padding:2px 0px"><a href="#opt_tsl">--tsl</a></div>
+        <div style="padding:2px 0px"><a href="#opt_uniprot">--uniprot</a></div>
+        <div style="padding:2px 0px"><a href="#opt_xref_refseq">--xref_refseq</a></div>
+        <div style="padding:2px 0px"><a href="#opt_mane">--mane</a></div>
+        <div style="padding:2px 0px"><a href="#opt_mane_select">--mane_select</a></div>
+        <div style="padding:2px 0px"><a href="#opt_vcf">--vcf</a></div>
+      </td>
+    </tr>
+    <tr id="opt_flag_gencode_primary">
+      <td><pre>--flag_gencode_primary</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Flags transcripts as GENCODE primary using a boolean value. <i>Not used by default</i>
+        <div class="info" style="max-width:350px;margin:5px 0px 5px 10px">
+          <h3>Note</h3>
+          <div class="message-pad" style="padding:5px 10px;background-color:#FFF">
+            Only available for human on the GRCh38 assembly
+          </div>
+        </div>
+      </td>
+      <td>GENCODE_PRIMARY</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_filter_common">
+      <td><pre>--filter_common</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Shortcut flag for the filters below - this will exclude variants
+        that have a co-located existing variant with global AF &gt;
+        0.01 (1%). May be modified using any of the following freq_*
+        filters. <i>Not used by default</i>
+      </td>
+      <td>FREQS</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_check_frequency">
+      <td><pre>--check_frequency</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Turns on frequency filtering. Use this to include or exclude
+        variants based on the frequency of co-located existing variants
+        in the Ensembl Variation database. You must also specify all of the --freq_* flags below.
+        Frequencies used in filtering are added to the output under the FREQS
+        key in the Extra field. <i>Not used by default</i>
+      </td>
+      <td>FREQS</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr id="opt_freq_pop">
+      <td><pre>--freq_pop [pop]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Name of the population to use in frequency filter. This must be one of the following:
+        <p>
+          <table class="ss" style="width:auto">
+            <thead>
+              <tr>
+                <th>Name</th><th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg2">
+                <td>1KG_ALL</td><td>1000 genomes combined population (global)</td>
+              </tr>
+              <tr>
+                <td>1KG_AFR</td><td>1000 genomes combined African population</td>
+              </tr>
+              <tr class="bg1">
+                <td>1KG_AMR</td><td>1000 genomes combined American population</td>
+              </tr>
+              <tr>
+                <td>1KG_EAS</td><td>1000 genomes combined East Asian population</td>
+              </tr>
+              <tr class="bg1">
+                <td>1KG_EUR</td><td>1000 genomes combined European population</td>
+              </tr>
+              <tr>
+                <td>1KG_SAS</td><td>1000 genomes combined South Asian population</td>
+              </tr>
+
+              <tr class="bg2">
+                <td>gnomADe</td><td>gnomAD exomes combined population</td>
+              </tr>
+              <tr>
+                <td>gnomADe_AFR</td><td>gnomAD exomes African/African American population</td>
+              </tr>
+              <tr class="bg1">
+                <td>gnomADe_AMR</td><td>gnomAD exomes Latino population</td>
+              </tr>
+              <tr>
+                <td>gnomADe_ASJ</td><td>gnomAD exomes Ashkenazi Jewish population</td>
+              </tr>
+              <tr class="bg1">
+                <td>gnomADe_EAS</td><td>gnomAD exomes East Asian population</td>
+              </tr>
+              <tr>
+                <td>gnomADe_FIN</td><td>gnomAD exomes Finnish population</td>
+              </tr>
+              <tr class="bg1">
+                <td>gnomADe_NFE</td><td>gnomAD exomes non-Finnish European population</td>
+              </tr>
+              <tr>
+                <td>gnomADe_OTH</td><td>gnomAD exomes other population</td>
+              </tr>
+              <tr class="bg1">
+                <td>gnomADe_SAS</td><td>gnomAD exomes South Asian population</td>
+              </tr>
+              <tr class="bg2">
+                <td>gnomADg</td><td>gnomAD genomes combined population</td>
+              </tr>
+              <tr class="bg1">
+                <td>gnomADg_AFR</td><td>gnomAD genomes African/African American population</td>
+              </tr>
+              <tr>
+                <td>gnomADg_AMR</td><td>gnomAD genomes Latino population</td>
+              </tr>
+              <tr class="bg1">
+                <td>gnomADg_AMI</td><td>gnomAD genomes Amish population</td>
+              </tr>
+              <tr>
+                <td>gnomADg_ASJ</td><td>gnomAD genomes Ashkenazi Jewish population</td>
+              </tr>
+              <tr class="bg1">
+                <td>gnomADg_EAS</td><td>gnomAD genomes East Asian population</td>
+              </tr>
+              <tr>
+                <td>gnomADg_FIN</td><td>gnomAD genomes Finnish population</td>
+              </tr>
+              <tr class="bg1">
+                <td>gnomADg_MID</td><td>gnomAD genomes Mid-eastern population</td>
+              </tr>
+              <tr>
+                <td>gnomADg_NFE</td><td>gnomAD genomes non-Finnish European population</td>
+              </tr>
+              <tr class="bg1">
+                <td>gnomADg_OTH</td><td>gnomAD genomes other population</td>
+              </tr>
+              <tr>
+                <td>gnomADg_SAS</td><td>gnomAD genomes South Asian population</td>
+              </tr>
+            </tbody>
+          </table>
+        </p>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_freq_freq">
+      <td><pre>--freq_freq [freq]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Allele frequency to use for filtering. Must be a float
+        value between 0 and 1
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_freq_gt_lt">
+      <td><pre>--freq_gt_lt [gt<b>|</b>lt]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Specify whether the frequency of the co-located variant must be
+        greater than (<b>gt</b>) or less than (<b>lt</b>) the value
+        specified with <a href="#opt_freq_freq">--freq_freq</a>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_freq_filter">
+      <td><pre>--freq_filter [exclude<b>|</b>include]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Specify whether to <b>exclude</b> or <b>include</b> only
+        variants that pass the frequency filter
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>    
+  </table>
+ 
+
+  <br/>
+  <hr/>
+  <h2 id="dbopt">Database options</h2>
+  
+  <table class="ss">
+    <tr>
+      <th width="20%">Flag</th>
+      <th width="8%">Alternate</th>
+      <th>Description</th>
+      <th width="10%">Output fields</th>
+      <th width="10%">Incompatible with</th>
+    </tr>
+    <tr id="opt_database">
+      <td><pre>--database</pre></td>
+      <td>&nbsp;</td>
+      <td>Enable Ensembl VEP to use local or remote databases.</td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_af_1kg">--af_1kg</a></div>
+        <div style="padding:2px 0px"><a href="#opt_af_exac">--af_exac</a></div>
+        <div style="padding:2px 0px"><a href="#opt_af_gnomade">--af_gnomad</a></div>
+        <div style="padding:2px 0px"><a href="#opt_af_gnomade">--af_gnomade</a></div>
+        <div style="padding:2px 0px"><a href="#opt_af_gnomadg">--af_gnomadg</a></div>
+        <div style="padding:2px 0px"><a href="#opt_cache">--cache</a></div>
+        <div style="padding:2px 0px"><a href="#opt_max_af">--max_af</a></div>
+        <div style="padding:2px 0px"><a href="#opt_offline">--offline</a></div>
+        <div style="padding:2px 0px"><a href="#opt_pubmed">--pubmed</a></div>
+        <div style="padding:2px 0px"><a href="#opt_var_synonyms">--var_synonyms</a></div>
+      </td>
+    </tr>
+    <tr id="opt_host">
+      <td><pre>--host [hostname]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Manually define the database host to connect to. Users in the US
+        may find connection and transfer speeds quicker using our East
+        coast mirror, useastdb.ensembl.org. <i>Default =
+        "ensembldb.ensembl.org"</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_user">
+      <td><pre>--user [username]</pre></td>
+      <td><pre>-u</pre></td>
+      <td>Manually define the database username. <i>Default =
+      "anonymous"</i></td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_password">
+      <td><pre>--password [password]</pre></td>
+      <td><pre>--pass</pre></td>
+      <td>Manually define the database password. <i>Not used by
+      default</i></td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_port">
+      <td><pre>--port [number]</pre></td>
+      <td>&nbsp;</td>
+      <td>Manually define the database port. <i>Default = 5306</i></td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_genomes">
+      <td><pre>--genomes</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Override the default connection settings with those for the
+        Ensembl Genomes public MySQL server. Required when using any of
+        the <a rel="external" href="https://www.ensemblgenomes.org/"
+        target="_blank">Ensembl Genomes</a> species. <i>Not used by
+        default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_is_multispecies">
+      <td><pre>--is_multispecies [0|1]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Some of the <a rel="external" href="https://www.ensemblgenomes.org/"
+        target="_blank">Ensembl Genomes</a> databases (mainly bacteria and protists) are composed of a collection of close species.
+        It updates the database connection settings (i.e. the database name) if the value is set to 1. <i>Default: 0</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_lrg">
+      <td><pre>--lrg</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Map input variants to LRG coordinates (or to chromosome coordinates if
+        given in LRG coordinates), and provide consequences on both LRG and
+        chromosomal transcripts. <i>Not used by default</i>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div style="padding:2px 0px"><a href="#opt_offline">--offline</a></div>
+      </td>
+    </tr>
+    <tr id="opt_db_version">
+      <td><pre>--db_version [number]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Force Ensembl VEP to connect to a specific version of the Ensembl
+        databases. Not recommended as there may be conflicts
+        between software and database versions. <i>Not used by
+        default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+    <tr id="opt_registry">
+      <td><pre>--registry [filename]</pre></td>
+      <td>&nbsp;</td>
+      <td>
+        Defining a registry file overwrites other connection settings
+        and uses those found in the specified registry file to connect.
+        <i>Not used by default</i>
+      </td>
+      <td >&nbsp;</td>
+      <td >&nbsp;</td>
+    </tr>
+  </table>
+</div>
+
+</div></div>
+      </div>
+  
+        <div id="footer">
+          <div class="column-wrapper">
+    <div class="column-two left">
+      <p>Ensembl release 116 - June 2026 &copy;
+        <span class="print_hide"><a href="http://www.ebi.ac.uk/" class="nowrap constant">EMBL-EBI</a></span>
+        <span class="screen_hide_inline">EMBL-EBI<br />http://jun2026.archive.ensembl.org</span>
+      </p>
+      
+    </div>
+    <div class="column-two right print_hide"><p>
+        <a class="modal_link" id="p_link" href="/Help/Permalink?url=http%3A%2F%2Fjun2026.archive.ensembl.org">Permanent link</a>
+     - <a href="http://www.ensembl.org/info/docs/tools/vep/script/vep_options.html">View in current Ensembl</a></p></div>
+            <p class="invisible">.</p>
+          </div>
+          <div class="column-wrapper"><hr /><div id="fat-footer">
+              <div class="column-four left">
+                <h3>About Us</h3>
+                <p><a href="/info/about" rel="nofollow">About us</a></p>
+                <p><a href="/info/about/contact/" rel="nofollow">Contact us</a></p>
+                <p><a href="/info/about/publications.html" rel="nofollow">Citing Ensembl</a></p>
+                <p><a href="https://www.ensembl.org/info/about/legal/privacy.html" rel="nofollow">Privacy policy</a></p>
+                <p><a href="https://www.ebi.ac.uk/long-term-data-preservation" rel="nofollow">Long-term data preservation</a></p>
+                <p><a href="/info/about/legal/" rel="nofollow">Disclaimer</a></p>
+              </div>
+  
+              <div class="column-four left">
+                <h3>Get help</h3>
+                <p><a href="/info/website/" rel="nofollow">Using this website</a></p>
+                <p><a href="/info/website/upload" rel="nofollow">Adding custom tracks</a></p>
+                <p><a href="/downloads.html" rel="nofollow">Downloading data</a></p>
+                <p><a href="/info/website/tutorials/" rel="nofollow">Video tutorials</a></p>
+                <p><a href="/info/docs/tools/vep/" rel="nofollow">Ensembl Variant Effect Predictor (VEP)</a></p>
+              </div>
+  
+              <div class="column-four left">
+                <h3>Our sister sites</h3>
+                <p><a href="http://bacteria.ensembl.org" rel="nofollow">Ensembl Bacteria</a></p>
+                <p><a href="http://fungi.ensembl.org" rel="nofollow">Ensembl Fungi</a></p>
+                <p><a href="http://plants.ensembl.org" rel="nofollow">Ensembl Plants</a></p>
+                <p><a href="http://protists.ensembl.org" rel="nofollow">Ensembl Protists</a></p>
+                <p><a href="http://metazoa.ensembl.org" rel="nofollow">Ensembl Metazoa</a></p>
+              </div>
+  
+              <div class="column-four left">
+                <h3>Follow us</h3>
+                <p><a class="media-icon" href="http://www.ensembl.info/" rel="nofollow">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-position: -776px -47px;height: 16px;background-size: 1000px 782px;width: 16px" alt="[RSS logo]" title="Ensembl blog"/></a>
+                  <a href="http://www.ensembl.info/" rel="nofollow">Blog</a></p>
+                <p><a class="media-icon" href="http://www.twitter.com/Ensembl" rel="nofollow">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-size: 1000px 782px;width: 20px;background-position: -346px -69px;height: 16px" alt="[twitter logo]" title="Follow us on Twitter!"/></a>
+                    <a href="http://www.twitter.com/ensembl" rel="nofollow">Twitter</a></p>
+                <p><a class="media-icon" href="http://www.facebook.com/Ensembl.org" rel="nofollow">
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png " style="background-position: -600px -47px;height: 16px;background-size: 1000px 782px;width: 16px" alt="[Facebook logo]" title="Our Facebook page"/></a>
+                  <a href="http://www.facebook.com/Ensembl.org" rel="nofollow">Facebook</a></p>
+              </div>
+  </div>
+            <p class="invisible">.</p>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <form id="core_params" action="#" style="display:none">
+    <fieldset><input type="hidden" name="db" value="core" /></fieldset>
+  </form>
+  <input type="hidden" id="species_path" name="species_path" value="" />
+  <input type="hidden" id="gdpr_version" name="gdpr_version" value="2.0.0" />
+  <input type="hidden" id="gdpr_policy_url" name="gdpr_policy_url" value="https://www.ensembl.org/info/about/legal/privacy.html" />
+  <input type="hidden" id="gdpr_terms_url" name="gdpr_terms_url" value="https://www.ebi.ac.uk/about/terms-of-use" />
+  <input type="hidden" id="gdpr_cookie_name" name="gdpr_cookie_name" value="ENSEMBL_PRIVACY_POLICY" />
+  <input type="hidden" id="species_common_name" name="species_common_name" value="Human" />
+  <input type="hidden" id="ensembl_image_root" name="ensembl_image_root" value="/i/" />
+  <input type="hidden" id="max_region_length" name="max_region_length" value="1000100" />
+  <input type="hidden" id="ensembl_species_image" name="ensembl_species_image" value="/i/species/Homo_sapiens.png" />
+    
+  <div id="modal_bg"></div>
+  <div id="modal_panel" class="js_panel">
+    <input type="hidden" class="panel_type" value="ModalContainer" />
+    <div class="modal_title">
+      <ul class="tabs">
+        <li><a class="modal_user_data" href="UserData/ManageData?time=1789314099">Personal Data</a></li>
+      </ul>
+      <div class="modal_caption"></div>
+      <div class="modal_close"></div>
+    </div>
+    <div id="modal_user_data" class="modal_content js_panel fixed_width" style="display:none"></div>
+    <div id="modal_default" class="modal_content js_panel fixed_width" style="display:none"></div>
+    <div class="modal_overlay"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="autosprite-src-default-png overlay_close" style="height: 20px;background-position: -642px -115px;width: 20px;background-size: 1000px 782px" alt="close" title="Cancel"/><div class="overlay_content"></div></div>
+    <div class="modal_overlay_bg"></div>
+  </div>
+  
+    
+    <script type="text/javascript" src="//static.ensembl.org/minified/1dedb9539c2da47014070b317c6b3ba6.js"></script>
+<script type="text/javascript" src="//static.ensembl.org/minified/2244b87fc07dc64eaec6dfb62a828c37.js"></script>
+
+  <input type="hidden" id="hidden_species_list" name="hidden_species_list" value=Calidris_pygmaea|Apteryx_rowi|Felis_catus|Marmota_marmota_marmota|Electrophorus_electricus|Catagonus_wagneri|Gopherus_agassizii|Ovis_aries_polled_dorset|Melopsittacus_undulatus|Xiphophorus_couchianus|Pseudonaja_textilis|Bos_mutus|Athene_cunicularia|Macaca_fascicularis|Mus_musculus_PWK_PhJ|Suricata_suricatta|Papio_anubis|Caenorhabditis_elegans|Spermophilus_dauricus|Poecilia_formosa|Camarhynchus_parvulus|Sarcophilus_harrisii|Xenopus_tropicalis|Sus_scrofa_GCA_041937265.1|Urocitellus_parryii|Sinocyclocheilus_grahami|Mus_musculus_JF1_MsJ|Malurus_cyaneus_samueli|Mus_musculus_NZO_HlLtJ|Fukomys_damarensis|Sus_scrofa_euw1|Rhinolophus_ferrumequinum|Sus_scrofa_wuzhishan|Pan_troglodytes|Dipodomys_ordii|Sphaeramia_orbicularis|Ornithorhynchus_anatinus|Pygocentrus_nattereri|Mus_musculus_DBA_2J|Ficedula_albicollis|Mus_caroli|Junco_hyemalis|Theropithecus_gelada|Cavia_aperea|Cyprinus_carpio_hebao_red|Myripristis_murdjan|Salmo_trutta|Chelydra_serpentina|Cynoglossus_semilaevis|Equus_asinus|Gallus_gallus_GCA_000002315.5|Oncorhynchus_kisutch|Catharus_ustulatus|Zalophus_californianus|Oryzias_melastigma|Latimeria_chalumnae|Mus_musculus_BALB_cJ|Sus_scrofa_GCA_048338725.1|Poecilia_mexicana|Sus_scrofa_ossabaw_miniature|Cyclopterus_lumpus|Stachyris_ruficeps|Coturnix_japonica|Monodelphis_domestica|Aotus_nancymaae|Seriola_dumerili|Nannospalax_galili|Saimiri_boliviensis_boliviensis|Astatotilapia_calliptera|Salmo_salar|Taeniopygia_guttata|Notamacropus_eugenii|Cyprinus_carpio_huanghe|Mus_musculus_CBA_J|Panthera_leo|Zosterops_lateralis_melanops|Sus_scrofa_GCA_044906185.1|Ovis_aries_qiaoke|Cottoperca_gobio|Mus_musculus_C3H_HeJ|Anas_platyrhynchos|Rattus_norvegicus_SHRSPBbbUtx|Sus_scrofa_nihs_2020|Oryzias_latipes_hni|Canis_lupus_familiarisgreatdane|Chelonoidis_abingdonii|Mandrillus_leucophaeus|Mus_musculus_C57BL_6NJ|Carlito_syrichta|Phocoena_sinus|Periophthalmus_magnuspinnatus|Oryzias_javanicus|Sus_scrofa_pb115|Phascolarctos_cinereus|Pavo_cristatus|Homo_sapiens|Cricetulus_griseus_crigri|Sinocyclocheilus_anshuiensis|Mus_musculus_AKR_J|Salarias_fasciatus|Oryzias_latipes|Cricetulus_griseus_picr|Sus_scrofa_hampshire|Cyprinus_carpio_german_mirror|Ovis_aries|Capra_hircus_xinong_saanen_dairy|Cyprinodon_variegatus|Sander_lucioperca|Heterocephalus_glaber_male|Pteropus_vampyrus|Larimichthys_crocea|Danio_rerio|Sus_scrofa_usmarc|Oryctolagus_cuniculus|Amphiprion_ocellaris|Cairina_moschata_domestica|Panthera_pardus|Phasianus_colchicus|Gallus_gallus_GCA_016700215.2|Equus_caballus|Bos_taurus_wagyu|Vombatus_ursinus|Lonchura_striata_domestica|Neolamprologus_brichardi|Vulpes_vulpes|Scophthalmus_maximus|Sus_scrofa_domesticus_GCA_017957985.1|Mus_pahari|Gasterosteus_aculeatus_freshwater_bot|Propithecus_coquereli|Macaca_mulatta|Buteo_japonicus|Seriola_lalandi_dorsalis|Scleropages_formosus|Astyanax_mexicanus|Gambusia_affinis|Ciona_savignyi|Pogona_vitticeps|Tetraodon_nigroviridis|Mus_spretus|Oncorhynchus_mykiss|Camelus_dromedarius|Lynx_canadensis|Sus_scrofa|Ictalurus_punctatus|Cercocebus_atys|Gadus_morhua|Mus_musculus_129S1_SvImJ|Laticauda_laticaudata|Colobus_angolensis_palliatus|Dromaius_novaehollandiae|Canis_lupus_dingo|Monodon_monoceros|Manacus_vitellinus|Ursus_americanus|Echinops_telfairi|Dasypus_novemcinctus|Felis_catus_abyssinian|Ovis_aries_east_friesian|Mus_musculus_WSB_EiJ|Rattus_norvegicus_SHRUtx|Poecilia_reticulata|Ovis_aries_GCA_022416775.1|Delphinapterus_leucas|Rattus_norvegicus|Anas_platyrhynchos_platyrhynchos|Clupea_harengus|Macaca_nemestrina|Pongo_abelii|Ochotona_princeps|Bos_taurus|Procavia_capensis|Neogobius_melanostomus|Geospiza_fortis|Capra_hircus|Salvator_merianae|Acanthochromis_polyacanthus|Mus_musculus_FVB_NJ|Stegastes_partitus|Sus_scrofa_GCA_037447515.1|Tursiops_truncatus|Ursus_thibetanus_thibetanus|Sus_scrofa_ningxiang|Leptobrachium_leishanense|Microcebus_murinus|Paramormyrops_kingsleyae|Choloepus_hoffmanni|Haplochromis_burtoni|Gopherus_evgoodei|Mus_musculus|Canis_lupus_familiarisbasenji|Ailuropoda_melanoleuca|Dicentrarchus_labrax|Esox_lucius|Lates_calcarifer|Erinaceus_europaeus|Bison_bison_bison|Bos_indicus_hybrid|Drosophila_melanogaster|Kryptolebias_marmoratus|Castor_canadensis|Ovis_aries_ujimqin|Mus_spicilegus|Astyanax_mexicanus_pachon|Sus_scrofa_tibetan|Gadus_morhua_GCA_010882105.1|Apteryx_owenii|Carassius_auratus|Ovis_aries_chinese_merino|Anabas_testudineus|Mesocricetus_auratus|Chlorocebus_sabaeus|Amphiprion_percula|Panthera_tigris_altaica|Amphilophus_citrinellus|Balaenoptera_musculus|Anolis_carolinensis|Sinocyclocheilus_rhinocerous|Podarcis_muralis|Salmo_salar_north_american_origin_brian|Strigops_habroptila|Naja_naja|Fundulus_heteroclitus|Sparus_aurata|Oryzias_sinensis|Microtus_ochrogaster|Anas_zonorhyncha|Sus_scrofa_GCA_040869115.1|Notechis_scutatus|Chrysolophus_pictus|Sus_scrofa_bamei|Oreochromis_niloticus|Amazona_collaria|Mola_mola|Peromyscus_maniculatus_bairdii|Maylandia_zebra|Monopterus_albus|Loxodonta_africana|Otolemur_garnettii|Ovis_aries_kermani|Takifugu_rubripes|Sorex_araneus|Bos_grunniens|Lepisosteus_oculatus|Parus_major|Anser_cygnoides|Physeter_catodon|Ovis_aries_romanov|Erythrura_gouldiae|Gasterosteus_aculeatus_marine_syl|Equus_asinus_gca041296235v2|Denticeps_clupeoides|Capra_hircus_saanen_dairy|Canis_lupus_familiarisgermanshepherd|Nomascus_leucogenys|Cyanistes_caeruleus|Bos_taurus_norwegian_red|Ictidomys_tridecemlineatus|Cavia_porcellus|Chinchilla_lanigera|Ovis_aries_white_dorper|Otus_sunia|Parambassis_ranga|Gasterosteus_aculeatus|Oryzias_latipes_hsok|Sus_scrofa_norwegian_landrace|Sphenodon_punctatus|Sus_scrofa_landrace|Cyprinus_carpio_carpio|Eptatretus_burgeri|Saccharomyces_cerevisiae|Ursus_maritimus|Sus_scrofa_rongchang|Salmo_salar_european_origin_alta|Struthio_camelus_australis|Meriones_unguiculatus|Callorhinchus_milii|Rattus_norvegicus_WKYBbb|Mus_musculus_LP_J|Sus_scrofa_duroc|Mustela_putorius_furo|Nothobranchius_furzeri|Nothoprocta_perdicaria|Meleagris_gallopavo|Heterocephalus_glaber_female|Tupaia_belangeri|Sus_scrofa_meishan|Ovis_aries_hu|Corvus_moneduloides|Rhinopithecus_bieti|Oreochromis_aureus|Erpetoichthys_calabaricus|Sus_scrofa_bama_miniature|Sciurus_vulgaris|Sus_scrofa_GCA_044906105.1|Betta_splendens|Canis_lupus_familiaris|Petromyzon_marinus|Myotis_lucifugus|Gasterosteus_aculeatus_marine_bam|Jaculus_jaculus|Poecilia_latipinna|Calidris_pugnax|Varanus_komodoensis|Anser_brachyrhynchus|Pundamilia_nyererei|Gorilla_gorilla|Moschus_moschiferus|Labrus_bergylta|Xiphophorus_maculatus|Sus_scrofa_ghungroo|Pelodiscus_sinensis|Sus_scrofa_GCA_039654815.1|Vicugna_pacos|Cricetulus_griseus_chok1gshd|Gouania_willdenowi|Echeneis_naucrates|Callithrix_jacchus|Oncorhynchus_tshawytscha|Salmo_salar_north_american_atlantic_salmon|Rhinopithecus_roxellana|Cebus_imitator|Prolemur_simus|Chrysemys_picta_bellii|Bos_taurus_hybrid|Canis_lupus_familiarisboxer|Sus_scrofa_berkshire|Sus_scrofa_pietrain|Ovis_aries_texel|Hucho_hucho|Gallus_gallus|Accipiter_nisus|Sus_scrofa_jinhua|Mus_musculus_A_J|Pan_paniscus|Hippocampus_comes|Mus_musculus_CAST_EiJ|Mus_musculus_NOD_ShiLtJ|Crocodylus_porosus|Neovison_vison|Numida_meleagris|Capra_hircus_blackbengal|Octodon_degus|Serinus_canaria|Strix_occidentalis_caurina|Apteryx_haastii|Terrapene_carolina_triunguis|Piliocolobus_tephrosceles|Ciona_intestinalis|Pelusios_castaneus|Zonotrichia_albicollis|Bubo_bubo|Cervus_hanglu_yarkandensis|Mastacembelus_armatus|Bos_taurus_tuli|Sus_scrofa_largewhite|Falco_tinnunculus|Lepidothrix_coronata|Aquila_chrysaetos_chrysaetos>
+</body>
+</html>

@@ -1,0 +1,48 @@
+  1 two= 19( 12.4s) single= 17( 1.2s) single⊆two=True  only_two=2 only_single=0
+  2 two=  8(  8.6s) single=  8( 1.1s) single⊆two=True  only_two=0 only_single=0
+  3 two= 28(  9.3s) single= 28( 1.2s) single⊆two=True  only_two=0 only_single=0
+  4 two=  4(  7.3s) single=  4( 1.1s) single⊆two=True  only_two=0 only_single=0
+  5 two= 16( 10.3s) single= 16( 1.2s) single⊆two=True  only_two=0 only_single=0
+  6 two=  9(  9.7s) single=  7( 1.1s) single⊆two=True  only_two=2 only_single=0
+  7 two= 10(  8.9s) single= 10( 1.2s) single⊆two=True  only_two=0 only_single=0
+  8 two= 11( 10.5s) single= 11( 1.0s) single⊆two=True  only_two=0 only_single=0
+  9 two=  9(  9.6s) single=  9( 1.1s) single⊆two=True  only_two=0 only_single=0
+ 10 two= 11(  8.4s) single= 11( 1.1s) single⊆two=True  only_two=0 only_single=0
+ 11 two= 16(  9.7s) single= 16( 1.2s) single⊆two=True  only_two=0 only_single=0
+ 12 two= 12(  8.4s) single= 12( 1.1s) single⊆two=True  only_two=0 only_single=0
+ 13 two= 12(  8.4s) single= 12( 1.1s) single⊆two=True  only_two=0 only_single=0
+ 14 two= 10( 11.2s) single=  7( 1.1s) single⊆two=True  only_two=3 only_single=0
+ 15 two=  9(  8.5s) single=  9( 1.1s) single⊆two=True  only_two=0 only_single=0
+ 16 two=  7(  7.3s) single=  6( 1.1s) single⊆two=True  only_two=1 only_single=0
+ 17 two=  8(  8.4s) single=  8( 1.2s) single⊆two=True  only_two=0 only_single=0
+ 18 two= 13(  8.3s) single= 12( 1.1s) single⊆two=True  only_two=1 only_single=0
+ 19 two= 12(  8.7s) single= 12( 1.2s) single⊆two=True  only_two=0 only_single=0
+ 20 two= 11(  8.7s) single= 11( 1.0s) single⊆two=True  only_two=0 only_single=0
+ 21 two= 11(  7.4s) single= 11( 1.1s) single⊆two=True  only_two=0 only_single=0
+ 22 two= 10(  8.3s) single=  9( 1.1s) single⊆two=True  only_two=1 only_single=0
+ 23 two= 11(  8.4s) single= 11( 1.2s) single⊆two=True  only_two=0 only_single=0
+ 24 two=  7( 11.9s) single=  4( 1.1s) single⊆two=True  only_two=3 only_single=0
+ 25 two= 28(  9.8s) single= 28( 1.2s) single⊆two=True  only_two=0 only_single=0
+ 26 two=  8(  7.4s) single=  7( 1.1s) single⊆two=True  only_two=1 only_single=0
+ 27 two= 11(  7.0s) single= 11( 1.1s) single⊆two=True  only_two=0 only_single=0
+ 28 two=  8( 12.5s) single=  8( 1.1s) single⊆two=True  only_two=0 only_single=0
+ 29 two= 15( 12.0s) single= 15( 1.2s) single⊆two=True  only_two=0 only_single=0
+ 30 two= 13( 10.1s) single= 12( 1.1s) single⊆two=True  only_two=1 only_single=0
+ 31 two= 10(  7.7s) single= 10( 1.1s) single⊆two=True  only_two=0 only_single=0
+
+=== 31/31 compared, gemma4:e2b ===
+  identical block          22/31
+  single-pass ⊆ two-pass   31/31   <- the core survives; two-pass only ADDS
+  mean options  two=11.8  single=11.4
+  mean latency  two=9.2s  single=1.1s
+
+  options ONLY the two-pass run adds (the unpriced extras):
+     8x  Find co-located short variants
+     1x  MANE
+     1x  Transcript version
+     1x  Exon and intron numbers
+     1x  GO terms
+     1x  Include flagged variants
+     1x  Protein matches
+     1x  Upstream/Downstream distance (bp)
+ALLDONE

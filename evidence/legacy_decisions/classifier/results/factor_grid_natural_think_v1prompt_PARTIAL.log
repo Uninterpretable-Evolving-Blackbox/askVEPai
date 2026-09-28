@@ -1,0 +1,46 @@
+150 cases x 4 test types = 600 queries -> work/results/factor_grid_cases_natural.csv
+full tuples covered (trap+twin): 32 of 32 valid; uses per tuple min 9 max 11
+  spec-nega-1      ++++  
+  spec-nega-2      ++++  
+  spec-nega-3      ++++  
+  spec-nega-4      ++++  
+  spec-nega-5      ++++  
+  spec-nega-6      ++++  
+  spec-word-1      ++++  
+  spec-word-2      ++++  
+  spec-word-3      ++++  
+  spec-word-4      ++++  
+  spec-word-5      ++++  
+  spec-word-6      ++++  
+  spec-tool-1      ++++  
+  spec-tool-2      ++++  
+  spec-tool-3      ++++  
+  spec-tool-4      x+++  plain=None
+  spec-tool-5      ++++  
+  spec-tool-6      ++++  
+  spec-atta-1      ++++  
+  spec-atta-2      ++++  
+  spec-atta-3      ++++  
+  spec-atta-4      ++++  
+  spec-atta-5      ++++  
+  spec-atta-6      ++++  
+  spec-doma-1      ++++  
+  spec-doma-2      ++++  
+  spec-doma-3      ++++  
+  spec-doma-4      ++++  
+  spec-doma-5      ++++  
+  spec-doma-6      ++++  
+  orig-nega-1      ++++  
+  orig-nega-2      ++++  
+  orig-nega-3      ++++  
+  orig-nega-4      ++++  
+  orig-nega-5      ++++  
+  orig-nega-6      ++++  
+  orig-word-1      ++++  
+  orig-word-2      ++++  
+  orig-word-3      ++++  
+  orig-word-4      ++++  
+  orig-word-5      ++++  
+  orig-word-6      ++++  
+  orig-tool-1      ++++  
+  orig-tool-2      ++x+  twin=None

@@ -1,0 +1,18 @@
+want        RULE wins   MODEL decides case
+human       X  non-human OK human      going down a rabbit hole with my homo_sapien  [idiom]
+human       X  non-human OK human      used the first patient as a guinea pig for t  [idiom]
+human       OK human    OK human      hedgehog signalling pathway variants in prob  [pathway/gene]
+human       OK human    OK human      sonic hedgehog SHH promoter variants  [gene]
+human       OK human    OK human      variants called with Platypus on our patient  [tool]
+human       OK human    OK human      expression quantified with Salmon, annotatin  [tool]
+human       X  non-human OK human      this is not a mouse study, these are patient  [negation]
+non-human   X  human    OK non-human  somatic variants in my zebra finch samples  [unlisted + cancer words]
+non-human   X  human    OK non-human  Atlantic salmon (Salmo salar) aquaculture va  [unlisted]
+non-human   X  human    OK non-human  macaque variants from a primate cohort  [unlisted]
+non-human   OK non-human OK non-human  guinea pig cardiac model, germline variants  [shadowed name]
+non-human   X  human    OK non-human  carcinoma model in Xenopus tropicalis  [unlisted + cancer words]
+non-human   OK non-human OK non-human  germline SNVs in mouse knockouts  [control]
+human       OK human    OK human      rare disease exome, clinical interpretation  [control]
+
+  rule-overrides-model : 7/14
+  model-decides        : 14/14
