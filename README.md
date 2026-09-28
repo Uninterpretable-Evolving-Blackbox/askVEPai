@@ -264,6 +264,10 @@ page instead.
 **Enable-F1 is undefined on the default path.** It scored a model-written draft that the
 default path no longer produces.
 
+AI Usage Statement:
+
+Claude Opus 4.7, 5.0 and 5.5 were used to assist with coding research and write ups. Everythign were oversaw manually to make sure it's all as accurate as possible and for reading nicely.
+
 ---
 
 ## Legacy: the two-pass path (`--two-pass`)
