@@ -87,7 +87,7 @@ The design is [`../../docs/research/reprompting_proposal.md`](../../docs/researc
 | `score_ablations.py` | the options lost when each fact is missing, by tier | which missing facts matter most |
 | `default_direction_sweep.py` | every possible default priced both ways; species → human over-includes 3.62 columns and loses 0.38 | the defaults: human, somatic, both sizes, both regions |
 | `default_candidates_output.py` | the same on real VEP output | the same |
-| `results/reprompting/` (`../../tests/ask_rate.py`) | only the goal has no safe default; asking about it interrupts 12 of 78 | ask for the goal only |
+| `results/reprompting/` | only the goal has no safe default; asking about it interrupts 12 of 78 | ask for the goal only |
 | `score_try_queries.py`, `try_queries.sh` | 19 of 20 carelessly written scenarios read correctly | the rules hold on untidy wording |
 | `try_reprompting.py` | shows asking and assuming as a user meets them | a demonstration, no figure |
 
@@ -121,7 +121,6 @@ The design is [`../../docs/research/reprompting_proposal.md`](../../docs/researc
 |---|---|---|
 | `mentor_review/` round 1 (sheet, queue, `DECISIONS.md`) and `../../data/round1_review_COMPLETED_mentor_returned.csv` | the mentor's verdicts on 31 scenarios in three tiers | the table's entries corrected |
 | `mentor_review/` round 2, `retitle_review_two_tier.py` | the Ensembl team's comments | two tiers: critical merged into RECOMMENDED, DEFAULT renamed RECOMMENDED (2026-08-19) |
-| `../../tests/check_round2_ready.py` | the table still matches what the mentors were told, with 3 deliberate differences | kept in the test suite |
 | `../../data/build/build_mentor_gold.py` | the table against the reviewer's own round-1 answers: F1 0.796 | a check, no change |
 
 ## D9 · how the 31 review scenarios were generated

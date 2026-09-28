@@ -26,7 +26,7 @@ Designs whose conclusion still holds are in [`../legacy_decisions/`](../legacy_d
 | files | what they did | replaced by |
 |---|---|---|
 | `bootstrap_examples.json`, `test_queries.json`, `preliminary_examples_README.md` | the demo's 7 worked examples and 7 test queries | the 31 review scenarios (`../../data/iced.json`) |
-| `validate_examples.py` | checked those examples against the catalogue and the checker | the test suite in `../../tests/` |
+| `validate_examples.py` | checked those examples against the catalogue and the checker | — |
 | `id_migration.json` | mapped the demo's option ids to the new catalogue | the catalogue built from Ensembl's sources |
 
 ## `use_cases/` · the seven use cases
@@ -105,7 +105,6 @@ Older result files, handovers and the experiment ledger use the names on the lef
 | `fallback_e2e.py` in `legacy_decisions/missing_facts/` | `../current_evidence/missing_facts_78_rewrites.py` | 2026-09-28 |
 | `grid_species_shipped.py` (overnight folder, untracked) | `../current_evidence/factors_150_species_through_tool.py` | 2026-09-28 |
 | `grid_settings_score.py` (work/harness/exp, untracked) | `../current_evidence/factors_150_settings_effect.py` | 2026-09-28 |
-| `engine_regressions.py`, `printed_output_guard.py` (work/harness/suites, untracked) | `../../tests/engine_regressions.py`, `../../tests/printed_output_guard.py` | 2026-09-28 |
 | `rerun_2026-09-27/`: `grid_{on,off}_r{1,2,3}.json`, `grid_species_off_r{1,2,3}.json`, `fallback_e2e_r{1,2,3}.json`, `factor_accuracy.json`, `mentor_queries.json` (local run folder) | `../current_evidence/results/`: `factors_150_tricky_cases_reasoning_{on,off}_repeat{1,2,3}.json`, `factors_150_species_through_tool_reasoning_off_repeat{1,2,3}.json`, `missing_facts_78_rewrites_reasoning_on_repeat{1,2,3}.json`, `factors_31_review_scenarios_reasoning_on_repeat1.json`, `mentor_queries_reasoning_on_repeat1.json` | 2026-09-28 |
 | reader `shipped` / `think`, in file names too | `reasoning_off` / `reasoning_on` | 2026-09-23 |
 | result suffix `_v2prompt` | `_before_organism_field` (the prompt of 09-16) | 2026-09-28 |

@@ -22,8 +22,8 @@ the part for checking whether "answering this changes something essential" is ac
 Questions are asked only when stdin is a terminal, so piping or redirecting never blocks. Use
 --no-ask to suppress them in a terminal too.
 
-To compare this policy against the alternatives, use `tests/ask_rate.py`, which prices every arm
-on the same 78 cases.
+How this policy compares with the alternatives on the same 78 cases is in
+`results/reprompting/ask_rate.txt`.
 """
 import argparse
 import json

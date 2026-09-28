@@ -28,8 +28,7 @@ RECOMMENDED, the other four as ADD-ONS), before → after:
 | ancestral_allele | 96 → 48 |
 | mutfunc | 32 → 64 |
 
-One rule was retired (see handover 2026-09-22 §1.5). `../../../tests/verify_pipeline.py` §10 holds 12
-invariants on these lists.
+One rule was retired (see handover 2026-09-22 §1.5).
 
 No experiment folder of its own: the evidence is Ensembl's text, and the check is the test suite.
 

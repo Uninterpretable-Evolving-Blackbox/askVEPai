@@ -72,9 +72,6 @@ GPU.
 ## Run
 
 ```bash
-# fast deterministic verification — NO GPU; proves the pipeline's safety invariants
-PYTHONHASHSEED=0 python3 ../tests/verify_pipeline.py
-
 # whole pipeline (needs a local Ollama server running with the model pulled)
 bash run_generation.sh 31 gemma4:26b 42        # 31 balanced rows, teacher gemma4:26b, seed 42
 

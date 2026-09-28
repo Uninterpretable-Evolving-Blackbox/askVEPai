@@ -182,7 +182,6 @@ evidence/                THE EVIDENCE
   current_evidence/        today's measurements of the tool: start with its README
   legacy_decisions/        why the tool is built this way; each decision and what backed it
   legacy_superseded/       what was replaced, and the former names of files
-tests/                   pass/fail checks, no model, seconds; in CI
 data/                    the 31 review scenarios, the 78 missing-fact rewrites, the priority table's
                          notes, and build/, which writes the engine's data files from their sources
 pipeline/                the generation pipeline that produced the 31 review scenarios
@@ -242,18 +241,6 @@ the question behind it, how it is scored, where it fails, and the file it comes 
 At temperature 0 the seed does not change the answer; the repeats measure run-to-run variation from
 parallel requests. The 31-scenario figures score against the tool's own priority table, so they
 measure how much a misread moves the output, not whether the table is right.
-
-`tests/` runs without a model, in seconds, and in CI:
-
-```bash
-python3 tests/verify_pipeline.py      # 79 invariants
-python3 tests/test_user_context.py    # 15: a stated fact beats the classifier
-python3 tests/defaults_evidence.py    # 28: every assumed value still matches its evidence
-python3 tests/result_filter_note.py   # 37: the gene and loss-of-function note
-python3 tests/engine_regressions.py   # 52: the engine defects found in the final audit stay fixed
-python3 tests/species_by_organism.py  # no option shown to an organism it is not listed for (355 organisms)
-python3 tests/ask_rate.py             # how often the tool asks: 12 of 78
-```
 
 `vep_ai_demo/legacy/evaluate.py` is the retired two-pass benchmark. It never exercises the
 default path and is kept only as a record; see `vep_ai_demo/legacy/README.md`.

@@ -12,7 +12,7 @@ today is experiment 5 in [`../../current_evidence/`](../../current_evidence/READ
 | every default priced both ways; species → human over-includes 3.62 columns, loses 0.38 | Exp 23 | `default_direction_sweep.py` | `results/default_direction_sweep.json` |
 | the same, on real VEP output | Exp 23 | `default_candidates_output.py` | `results/default_species_mouse.json`, `results/default_region_focus.json` |
 | the decided default is reached AND disclosed on 76/78; species 14/14 (2026-09-15) | Exp 24 | `../../current_evidence/missing_facts_78_rewrites.py` (then `fallback_e2e.py`) | `../single_pass/results/final_2026-09-15/fallback_e2e_26b.json` |
-| the tool asks on 12 of 78, all `analysis_goal` | — | `../../../tests/ask_rate.py` | computed at run time; archived outputs in `results/reprompting/` |
+| the tool asks on 12 of 78, all `analysis_goal` | — | — | `results/reprompting/ask_rate.txt`, `results/reprompting/ask_rate_by_row_shipped.txt` |
 | what 8 real tracker questions leave unstated | — | `fetch_real_queries.py`, `measure_underspecification.py` | `results/underspecification_measurement.json` |
 | 19 of 20 sloppy hand-written scenarios read correctly | — | `score_try_queries.py` (`try_queries.sh` runs them by hand) | `results/try_queries_scored.json` |
 

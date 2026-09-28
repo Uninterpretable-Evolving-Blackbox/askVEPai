@@ -273,8 +273,7 @@ assumed anything.
 | origin · size · region · goal | 18/20 · 23/23 · 22/23 · 10/12 | 18/20 · 23/23 · 23/23 · 8/12 |
 | files | `missing_facts_78_rewrites_reasoning_on.json` | `missing_facts_78_rewrites_reasoning_off.json` |
 
-How often the tool asks is fixed by that table, with no model involved: 12 of the 78, all analysis goal
-(`../../tests/ask_rate.py`).
+How often the tool asks is fixed by that table, with no model involved: 12 of the 78, all analysis goal.
 
 **Where it fails.** With reasoning on, the model supplied origin twice, region once and a
 `basic-consequence` goal twice, so the tool did not ask those two users. The goal fill is the same

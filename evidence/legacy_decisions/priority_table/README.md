@@ -13,7 +13,6 @@ the review rounds that corrected it.
 | round 2 drafts, and the Ensembl team's sheet comments | `review_round2.csv`, `review_round2_twotier.csv`, `AskVEPai_review_round2.xlsx`, `round2_comments.py` |
 | DEFAULT renamed RECOMMENDED in the round-2 sheet | `retitle_review_two_tier.py` |
 | round 2 exactly as sent on 2026-08-19 (four tabs) | `mentor_review/AskVEPai_round2_SENT_2026-08-19.xlsx`, with tabs 2 and 3 as `round2_questions.csv`, `scenario_rules_proposed.csv` |
-| the table still matches what the mentors were told | [`../../../tests/check_round2_ready.py`](../../../tests/check_round2_ready.py): 0 outstanding, 3 deliberate differences recorded as OURS |
 | the table scored against the reviewer's own round-1 answers | [`../../../data/build/build_mentor_gold.py`](../../../data/build/build_mentor_gold.py): F1 0.796 |
 
 What the mentors said, verbatim, is in [`../../../docs/MENTOR_MESSAGES.md`](../../../docs/MENTOR_MESSAGES.md).
