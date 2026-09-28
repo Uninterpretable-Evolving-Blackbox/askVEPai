@@ -37,13 +37,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "vep_ai_demo"))
-sys.path.insert(0, str(ROOT / "pipeline"))
+sys.path.insert(0, str(ROOT / "generation"))
 os.environ.setdefault("VEP_OPTIONS_FILE", str(ROOT / "vep_ai_demo" / "vep_options.json"))
 import genlib                                                            # noqa: E402
 import vep_assistant as va                                              # noqa: E402
 from openai import OpenAI                                               # noqa: E402
 
-STORE = ROOT / "data" / "real_queries_fetched.json"
+STORE = ROOT / "evidence/legacy_decisions/missing_facts/real_queries_fetched.json"
 READERS = ("gemma4:26b", "gemma4:e4b")
 MATERIAL = 3          # options changed before a factor counts as worth having
 

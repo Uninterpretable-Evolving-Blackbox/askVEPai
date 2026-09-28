@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-GEN = HERE.parents[2] / "pipeline"
+GEN = HERE.parents[2] / "generation"
 sys.path.insert(0, str(GEN))
 import genlib  # noqa: E402
 

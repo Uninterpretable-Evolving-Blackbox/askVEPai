@@ -25,7 +25,7 @@ import statistics
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "pipeline"))   # genlib and the pipeline stages
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "generation"))   # genlib and the generation stages
 import genlib
 import resolve_config as rc
 import sample_factors as sf

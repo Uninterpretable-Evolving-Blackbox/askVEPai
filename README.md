@@ -182,11 +182,7 @@ evidence/                THE EVIDENCE
   current_evidence/        today's measurements of the tool: start with its README
   legacy_decisions/        why the tool is built this way; each decision and what backed it
   legacy_superseded/       what was replaced, and the former names of files
-data/                    the 31 review scenarios, the 78 missing-fact rewrites, the priority table's
-                         notes, and build/, which writes the engine's data files from their sources
-pipeline/                the generation pipeline that produced the 31 review scenarios
 reference/               Ensembl's own pages and source files the catalogue is built from
-docs/                    the experiment ledger (EXPERIMENTS.md) and design proposals (research/)
 ```
 
 `vep_ai_demo/` holds the only copy of every data file the engine reads. Some documents cite the
@@ -206,8 +202,8 @@ and nothing else. They index the priority table; the checker then applies gates,
 dependencies, ranking a conflict by the priority the factor resolution gives each option. The 23
 examples in `vep_ai_demo/legacy/training_examples.json` play no part; only `--two-pass` reads them.
 
-**Evaluation scenarios.** The **31 review scenarios** in `data/iced.json` were generated and
-screened by the pipeline in `pipeline/` and reviewed by the Ensembl mentors.
+**Evaluation scenarios.** The **31 review scenarios** in `evidence/current_evidence/cases/iced.json` were generated and
+screened by our generation code (private working repository) and reviewed by the Ensembl mentors.
 
 The five factors:
 
@@ -221,7 +217,7 @@ The five factors:
 
 The earlier single-label use-case scheme (rare-disease-germline / somatic-cancer / …) was
 retired in September 2026: a mouse somatic SV is somatic **and** structural **and** non-human
-at once, and one bucket picks the wrong priorities. See `docs/research/taxonomy_proposal.md`.
+at once, and one bucket picks the wrong priorities. The design is `taxonomy_proposal.md` (private working repository).
 It survives only as labels in `vep_ai_demo/legacy/` and decides nothing.
 
 ## Evaluation

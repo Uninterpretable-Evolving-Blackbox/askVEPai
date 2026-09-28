@@ -51,7 +51,7 @@ os.environ.setdefault("VEP_OPTIONS_FILE", str(ROOT / "vep_ai_demo" / "vep_option
 import vep_assistant as va                                              # noqa: E402
 
 FACTORS = ("species", "origin", "variant_size_class", "region_focus", "analysis_goal")
-ROWS = ROOT / "data" / "iced.json"
+ROWS = ROOT / "evidence/current_evidence/cases/iced.json"
 
 
 def norm(v):

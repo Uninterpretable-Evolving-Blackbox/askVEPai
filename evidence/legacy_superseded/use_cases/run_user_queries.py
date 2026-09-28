@@ -10,7 +10,7 @@ Greedy (temp 0) + fixed seed for a reproducible single shot.
 
 Run (env vars select the expanded catalogue + 20-example corpus):
   VEP_OPTIONS_FILE=vep_ai_demo/vep_options.json \
-  VEP_EXAMPLES_FILE=data/simulated_gold_examples.json \
+  VEP_EXAMPLES_FILE=vep_ai_demo/legacy/training_examples.json \
   python evidence/legacy_superseded/use_cases/run_user_queries.py --model gemma4:26b --concurrency 3
 """
 import argparse, json, os, sys, time

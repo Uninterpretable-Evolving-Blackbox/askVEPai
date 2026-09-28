@@ -55,7 +55,7 @@ def main():
     ap.add_argument("--json", default=None)
     a = ap.parse_args()
     a.json = a.json or str(ROOT / f"evidence/current_evidence/results/missing_facts_78_rewrites_{a.reader}.json")
-    rows = [r for r in json.load(open(ROOT / "data/ablated_queries.json")) if r["pure"]]
+    rows = [r for r in json.load(open(ROOT / "evidence/current_evidence/cases/ablated_queries.json")) if r["pure"]]
     if a.limit:
         rows = rows[:a.limit]
     tally = defaultdict(Counter); detail = []

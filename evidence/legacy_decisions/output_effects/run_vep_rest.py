@@ -291,7 +291,7 @@ def main():
     catalogue, _ = va.load_knowledge_base()
 
     if args.row:
-        rows = json.load(open(ROOT / "data/iced.json"))
+        rows = json.load(open(ROOT / "evidence/current_evidence/cases/iced.json"))
         ft = rows[args.row - 1]["factor_labels"]
         print(f"row {args.row}: {rows[args.row - 1]['user_query'][:90]}…\n")
     elif args.factors:

@@ -46,7 +46,7 @@ def main():
     ap.add_argument("--model", default="gemma4:26b")
     ap.add_argument("--json", default=str(ROOT / "evidence/legacy_decisions/single_pass/results/singlepass_vs_twopass.json"))
     args = ap.parse_args()
-    rows = json.load(open(ROOT / "data/iced.json"))
+    rows = json.load(open(ROOT / "evidence/current_evidence/cases/iced.json"))
     res = []
     for i, r in enumerate(rows, 1):
         q = r["user_query"]

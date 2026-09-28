@@ -2,7 +2,7 @@
 
 Nothing here is used by the tool. Each folder is an earlier design, or a way of testing, that has since been
 replaced. Below, for each folder: why it no longer applies, what its files did, and what replaced them.
-The experiment ledger ([`../../docs/EXPERIMENTS.md`](../../docs/EXPERIMENTS.md)) cites these files for
+The experiment ledger (`EXPERIMENTS.md`, private working repository) cites these files for
 its earlier numbers; most of their result files stay on the development machine in `../local_runs/`.
 Several scripts here no longer run.
 
@@ -15,7 +15,7 @@ Designs whose conclusion still holds are in [`../legacy_decisions/`](../legacy_d
 | [`two_pass/`](two_pass/) | 07-15 → 09-09 | one model call ([D3](../legacy_decisions/README.md#d3--one-model-call-the-draft-call-is-gone)) |
 | [`keyword_traps/`](keyword_traps/) | 09-10 → 09-15 | experiment 1 of [`../current_evidence/`](../current_evidence/README.md) |
 | [`remote_guard/`](remote_guard/) | 09-06 → 09-23 | running everything locally |
-| [`old_docs/`](old_docs/) | to 09-23 | [`../../README.md`](../../README.md), [`../../docs/ONBOARDING.md`](../../docs/ONBOARDING.md) |
+| [`old_docs/`](old_docs/) | to 09-23 | [`../../README.md`](../../README.md) |
 
 ---
 
@@ -25,7 +25,7 @@ Designs whose conclusion still holds are in [`../legacy_decisions/`](../legacy_d
 
 | files | what they did | replaced by |
 |---|---|---|
-| `bootstrap_examples.json`, `test_queries.json`, `preliminary_examples_README.md` | the demo's 7 worked examples and 7 test queries | the 31 review scenarios (`../../data/iced.json`) |
+| `bootstrap_examples.json`, `test_queries.json`, `preliminary_examples_README.md` | the demo's 7 worked examples and 7 test queries | the 31 review scenarios (`../current_evidence/cases/iced.json`) |
 | `validate_examples.py` | checked those examples against the catalogue and the checker | — |
 | `id_migration.json` | mapped the demo's option ids to the new catalogue | the catalogue built from Ensembl's sources |
 
@@ -52,7 +52,7 @@ Designs whose conclusion still holds are in [`../legacy_decisions/`](../legacy_d
 
 | files | what they did | replaced by |
 |---|---|---|
-| `PROGRESS.md`, `READING_ORDER.md`, `action_plan_2026-08-03.md`, `action_plan_2026-08-11.md` | the progress log, reading order and plans of that period | `../../docs/ONBOARDING.md` |
+| `PROGRESS.md`, `READING_ORDER.md`, `action_plan_2026-08-03.md`, `action_plan_2026-08-11.md` | the progress log, reading order and plans of that period | [`../../README.md`](../../README.md) |
 | `colab_eval.md`, `colab_tunnel.md`, `resume_attribution.sh` | running the experiments on a remote Colab GPU | every run on the local machine |
 | `prompting_literature.md` | prompt-writing literature and what applied to the tool at the time | — |
 | `playground.html` | a generated page for trying the tool | none; the web interface is Ensembl's to build |
@@ -109,6 +109,9 @@ Older result files, handovers and the experiment ledger use the names on the lef
 | reader `shipped` / `think`, in file names too | `reasoning_off` / `reasoning_on` | 2026-09-23 |
 | result suffix `_v2prompt` | `_before_organism_field` (the prompt of 09-16) | 2026-09-28 |
 | `organism_all_names_*` results | `organism_754_names_*` | 2026-09-26 |
+| `data/iced.json`, `data/ablated_queries.json` | `../current_evidence/cases/iced.json`, `../current_evidence/cases/ablated_queries.json` | 2026-09-28 |
+| `data/real_queries_fetched.json`, `data/real_queries_draw_log.json` | `../legacy_decisions/missing_facts/real_queries_fetched.json`, `../legacy_decisions/missing_facts/real_queries_draw_log.json` | 2026-09-28 |
+| `data/simulated_gold_examples.json` | `../../vep_ai_demo/legacy/training_examples.json` (the same 23 examples) | 2026-09-28 |
 
 The results in `../current_evidence/results/` for the 150 tricky cases and the 31 scenarios with
 reasoning on, and for the mentor queries, are the overnight run of 2026-09-23 (engine `51912b2`), copied

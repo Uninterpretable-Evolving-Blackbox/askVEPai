@@ -31,7 +31,7 @@ sys.path.insert(0, str(ROOT / "vep_ai_demo"))
 os.environ.setdefault("VEP_OPTIONS_FILE", str(ROOT / "vep_ai_demo" / "vep_options.json"))
 import vep_assistant as va                                              # noqa: E402
 
-ABL = ROOT / "data" / "ablated_queries.json"
+ABL = ROOT / "evidence/current_evidence/cases/ablated_queries.json"
 ORDER = ("region_focus", "variant_size_class", "origin", "analysis_goal", "species")
 GUESS = {"region_focus": "guessed *both*", "variant_size_class": "guessed *both*",
          "origin": "guessed *somatic*", "analysis_goal": "asked; *basic-consequence* on skip",

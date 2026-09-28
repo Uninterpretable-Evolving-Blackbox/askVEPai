@@ -1,7 +1,7 @@
 # D9 · how the 31 review scenarios were generated
 
-The 31 scenarios every figure is scored on ([`../../../data/iced.json`](../../../data/iced.json)) came from
-the pipeline in [`../../../pipeline/`](../../../pipeline/): code picks a factor combination and resolves its
+The 31 scenarios every figure is scored on ([`../../current_evidence/cases/iced.json`](../../current_evidence/cases/iced.json)) came from
+our generation code, `generation/` (private working repository): code picks a factor combination and resolves its
 configuration, then a model writes only the query. Two choices in that pipeline rest on experiments here.
 
 | decision | number | script | file |

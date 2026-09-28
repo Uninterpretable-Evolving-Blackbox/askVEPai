@@ -17,7 +17,7 @@ Metrics per run:
   n_on       options the config ends up enabling
 
   # deployed model, default prompt set, 1 warmup + 3 timed runs each
-  VEP_OPTIONS_FILE=vep_ai_demo/vep_options.json VEP_EXAMPLES_FILE=data/simulated_gold_examples.json \
+  VEP_OPTIONS_FILE=vep_ai_demo/vep_options.json VEP_EXAMPLES_FILE=vep_ai_demo/legacy/training_examples.json \
       python evidence/legacy_superseded/use_cases/bench_latency.py --model gemma4:26b --runs 3
 
   # compare models (the speed/quality trade) on the same prompts

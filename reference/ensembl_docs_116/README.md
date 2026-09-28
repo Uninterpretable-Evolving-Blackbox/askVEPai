@@ -11,5 +11,5 @@ Raw HTML and the parsed JSON derived from it. Source of record for `research/out
 All three `www.ensembl.org` URLs return **308 → `jun2026.archive.ensembl.org`** as of 2026-09-13, the same
 archive move the form itself made (STATUS.md). The archive copies are what is saved here.
 
-Parsed with the inline scripts recorded in `data/build/build_output_effects_dossier.py`. Re-fetch and
+Parsed with the inline scripts recorded in `build_output_effects_dossier.py` (private working repository). Re-fetch and
 re-parse when the release changes; diff the JSON to see what moved.

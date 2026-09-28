@@ -101,7 +101,7 @@ def main():
     args = ap.parse_args()
     client = OpenAI(base_url=args.base_url, api_key="ollama")
     cat, legacy = va.load_knowledge_base()
-    rows = json.load(open(ROOT / "data/iced.json"))
+    rows = json.load(open(ROOT / "evidence/current_evidence/cases/iced.json"))
     ks = [int(x) for x in args.shots.split(",")]
     out = {"model": args.model, "seed": args.seed, "shots": ks, "arms": {}}
 

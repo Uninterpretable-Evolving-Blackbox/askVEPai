@@ -23,7 +23,8 @@ experiments 2 and 4 are three calls of the same question. The run itself can mov
 requests and the server's prompt cache change the arithmetic slightly, and a near-tie can then go the
 other way. Experiments 1, 2, 4 and 5 were run again on 2026-09-27 with the same prompt and model; those
 files end in `_repeat1` to `_repeat3`, and each section gives their figures. Each script writes to
-[`results/`](results/) under its own name, with `reasoning_on` or `reasoning_off`.
+[`results/`](results/) under its own name, with `reasoning_on` or `reasoning_off`. Experiments 2 and 5 read
+their cases from [`cases/`](cases/); the others carry their cases in the script.
 
 ---
 
@@ -117,7 +118,7 @@ orig-doma-6 and vari-atta-3 miss in some runs only.
 
 **Question.** For plainly worded scenarios, does the user get the configuration the true factors give?
 
-**Cases.** The 31 scenarios the mentors reviewed (`../../data/iced.json`), each with its five factor labels.
+**Cases.** The 31 scenarios the mentors reviewed ([`cases/iced.json`](cases/iced.json)), each with its five factor labels.
 
 **Scored.** Per factor, whether the model's answer matches the label, and whether it changes the
 RECOMMENDED options at all: a label mismatch that leaves the configuration unchanged costs the user
@@ -246,7 +247,7 @@ stable between runs.
 safe value and say so?
 
 **Cases.** 78 rewrites of the 31 review scenarios, each with one fact's wording removed
-(`../../data/ablated_queries.json`): origin 20, variant size 23, region 23, analysis goal 12. A model
+([`cases/ablated_queries.json`](cases/ablated_queries.json)): origin 20, variant size 23, region 23, analysis goal 12. A model
 rewrote each scenario; a rewrite was kept only if a re-read found the removed fact unstated and the other
 four unchanged.
 

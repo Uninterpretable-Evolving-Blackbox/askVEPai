@@ -3,7 +3,7 @@
 
 WHY. enable-F1 treats every option as one unit. But a volunteered `pick` deletes 96% of a user's rows
 and a volunteered `uniprot` adds one ignorable column, while a missed `mane` costs a navigation flag
-the user needed. The dossier (`docs/research/output_effects_dossier.md` §1) classes every option by its
+the user needed. The dossier (`output_effects_dossier.md` §1, private working repository) classes every option by its
 documented effect; this scores errors by class. It is the candidate replacement for enable-F1 that
 item 11 of the round-2 sheet asked for, and it is undefined on nothing: it needs only the shown set
 and the gold set, so it works for single-pass, two-pass and any external model.

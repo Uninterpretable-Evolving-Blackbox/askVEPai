@@ -8,7 +8,8 @@ experiments whose conclusion was reversed are in [`../legacy_superseded/`](../le
 The conclusions all hold for the current system. Four scripts ran on an earlier version and do not run as
 they are, because they import the old evaluator (now `vep_ai_demo/legacy/evaluate.py`):
 `model_choice/eval_factor_set.py`, `model_choice/run_parallel_eval.py`, `generation/persona_ablation.py`
-and `generation/teacher_sweep.py`.
+and `generation/teacher_sweep.py`. Scripts that import `genlib` need the generation code, which is kept in
+the private working repository.
 
 | | folder | decision |
 |---|---|---|
@@ -78,12 +79,12 @@ The tool used to make a second call, a "draft" of the configuration for a checke
 
 **Not current evidence:** the defaults were priced on an older priority table and catalogue. The tool's behaviour today is experiment 5 of `../current_evidence/`.
 
-The design is [`../../docs/research/reprompting_proposal.md`](../../docs/research/reprompting_proposal.md).
+The design is `reprompting_proposal.md` (private working repository).
 
 | file | what it showed | what it led to |
 |---|---|---|
 | `fetch_real_queries.py`, `measure_underspecification.py` | 7 of 8 real questions from Ensembl's issue trackers leave out a fact that changes the configuration (goal 4, region 4, size 3) | missing facts are the normal case, so the tool needs a rule for each |
-| `ablate_queries.py` | 78 rewrites of the 31 scenarios with one fact removed, each checked to have lost only that fact (`../../data/ablated_queries.json`) | the test set for everything below |
+| `ablate_queries.py` | 78 rewrites of the 31 scenarios with one fact removed, each checked to have lost only that fact (`../current_evidence/cases/ablated_queries.json`) | the test set for everything below |
 | `score_ablations.py` | the options lost when each fact is missing, by tier | which missing facts matter most |
 | `default_direction_sweep.py` | every possible default priced both ways; species → human over-includes 3.62 columns and loses 0.38 | the defaults: human, somatic, both sizes, both regions |
 | `default_candidates_output.py` | the same on real VEP output | the same |
@@ -97,7 +98,7 @@ The design is [`../../docs/research/reprompting_proposal.md`](../../docs/researc
 
 | file | what it showed | what it led to |
 |---|---|---|
-| Ensembl's pages and config files (`../../reference/`), built into each option's `species` list by `../../data/build/` | seven of our catalogue's species claims disagreed with Ensembl's lists | Ensembl's lists win (2026-09-20) |
+| Ensembl's pages and config files (`../../reference/`), built into each option's `species` list by our builders (private working repository) | seven of our catalogue's species claims disagreed with Ensembl's lists | Ensembl's lists win (2026-09-20) |
 | `species_options_scan_vs_model.py`, `results/organism_121_names_*` | options offered from the organism the model names: right 242/242; from a name scan of the text: 222/242 | the engine takes the organism from the model (2026-09-22) |
 
 ## D7 · an option is judged by what it does to VEP's output
@@ -109,7 +110,7 @@ The design is [`../../docs/research/reprompting_proposal.md`](../../docs/researc
 | `run_vep_ab.py` | at cohort scale, clinical → basic loses 19 output columns; population → basic loses none | recommendations are scored by the columns and rows they change, not by counting option names |
 | `run_vep_rest.py` | all 17 options that can be checked deliver on a five-class variant panel | the same |
 | `exp_output_loss.py` | what dropping each option costs in VEP's output | the same |
-| `../../data/build/build_output_effects_dossier.py` | each option's output fields and conflicts, from Ensembl's release-116 pages | the same; options the form already ticks are shown once as ALREADY ON |
+| `build_output_effects_dossier.py` (private working repository) | each option's output fields and conflicts, from Ensembl's release-116 pages | the same; options the form already ticks are shown once as ALREADY ON |
 | `local_option_sweep.py`, `results/local_vep_2026-09-10/` | every option one at a time on a local VEP; the frequency check at its default population deletes nothing | the same |
 | `results/leak_rate_*` | the restrict-results options delete rows (per_gene: 334 → 19) | those options are never switched on silently |
 
@@ -119,9 +120,9 @@ The design is [`../../docs/research/reprompting_proposal.md`](../../docs/researc
 
 | file | what it showed | what it led to |
 |---|---|---|
-| `mentor_review/` round 1 (sheet, queue, `DECISIONS.md`) and `../../data/round1_review_COMPLETED_mentor_returned.csv` | the mentor's verdicts on 31 scenarios in three tiers | the table's entries corrected |
+| `mentor_review/` round 1 (sheet, queue, `DECISIONS.md`) and the returned round-1 sheet (private working repository) | the mentor's verdicts on 31 scenarios in three tiers | the table's entries corrected |
 | `mentor_review/` round 2, `retitle_review_two_tier.py` | the Ensembl team's comments | two tiers: critical merged into RECOMMENDED, DEFAULT renamed RECOMMENDED (2026-08-19) |
-| `../../data/build/build_mentor_gold.py` | the table against the reviewer's own round-1 answers: F1 0.796 | a check, no change |
+| `build_mentor_gold.py` (private working repository) | the table against the reviewer's own round-1 answers: F1 0.796 | a check, no change |
 
 ## D9 · how the 31 review scenarios were generated
 

@@ -148,8 +148,8 @@ def main():
     client = OpenAI(base_url=os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1"),
                     api_key="ollama")
 
-    rows = json.load(open(ROOT / "data/iced.json"))
-    abl = json.load(open(ROOT / "data/ablated_queries.json"))
+    rows = json.load(open(ROOT / "evidence/current_evidence/cases/iced.json"))
+    abl = json.load(open(ROOT / "evidence/current_evidence/cases/ablated_queries.json"))
     abl = [a for a in abl if a["outcome"] != "rewrite failed"]
     if args.limit:
         rows, abl = rows[:args.limit], abl[:args.limit]

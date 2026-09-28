@@ -21,9 +21,7 @@ tools_local/
 # were under the old work/). Not published. The runs today's numbers rest on are tracked in evidence/current_evidence/results,
 # and those behind each design decision in evidence/legacy_decisions/<decision>/results.
 evidence/local_runs/
-pipeline/candidates/
-pipeline/provenance.jsonl
-data/iced_pre_refresh_*.json
+evidence/current_evidence/cases/iced_pre_refresh_*.json
 
 # Session handovers and message drafts stay on the development machine; they are not published.
 docs/handovers/

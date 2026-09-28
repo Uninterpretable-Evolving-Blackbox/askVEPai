@@ -6,14 +6,15 @@ pages and config files, and the checker removes an option the species lacks, say
 
 | what | source (in `../../../reference/`) | builder | output |
 |---|---|---|---|
-| SIFT / PolyPhen species | `ensembl_docs_116/protein_function.html` | `../../../data/build/build_species_data.py` | `../../../data/species_data.json` |
+| SIFT / PolyPhen species | `ensembl_docs_116/protein_function.html` | `build_species_data.py` | `species_data.json` |
 | form gating (CCDS, variant synonyms), frequency files | `ensembl_source/VEP/InputForm.pm`, `ensembl_source/vep_custom_web_config.json` | same | same |
-| per-plugin species lists, release 116 | `ensembl_source/vep_plugins_species_config_116.txt` | `../../../data/build/build_plugin_species.py` | same, `plugin_species` |
-| the 356-species name index | Ensembl REST | `../../../data/build/build_species_index.py` | `../../../vep_ai_demo/species_index.json` |
+| per-plugin species lists, release 116 | `ensembl_source/vep_plugins_species_config_116.txt` | `build_plugin_species.py` | same, `plugin_species` |
+| the 356-species name index | Ensembl REST | `build_species_index.py` | `../../../vep_ai_demo/species_index.json` |
 
 2026-09-23: `build_species_data.py` and `species_data.json` no longer exist. Every list above now sits in
 the `species` field of its option in `../../../vep_ai_demo/vep_options.json`, with the source named in the
-option's `provenance`; `build_plugin_species.py` writes the plugin rows there directly.
+option's `provenance`; `build_plugin_species.py` writes the plugin rows there directly. The builders are kept in
+the private working repository.
 
 Seven disagreements with our own catalogue prose were resolved in Ensembl's favour on 2026-09-20.
 Six changed how often an option appears over the 252 factor combinations (cadd and utrannotator as

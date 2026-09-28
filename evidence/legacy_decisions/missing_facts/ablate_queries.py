@@ -30,13 +30,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "vep_ai_demo"))
-sys.path.insert(0, str(ROOT / "pipeline"))
+sys.path.insert(0, str(ROOT / "generation"))
 os.environ.setdefault("VEP_OPTIONS_FILE", str(ROOT / "vep_ai_demo" / "vep_options.json"))
 import genlib                                                            # noqa: E402
 import vep_assistant as va                                              # noqa: E402
 from openai import OpenAI                                               # noqa: E402
 
-OUT = ROOT / "data" / "ablated_queries.json"
+OUT = ROOT / "evidence/current_evidence/cases/ablated_queries.json"
 TARGETS = ("origin", "variant_size_class", "region_focus", "analysis_goal", "species")
 
 # Phrased in the researcher's own vocabulary, never the scheme's: naming the factor would teach the
@@ -224,7 +224,7 @@ def main():
                          "the published figures are scored on that file.")
     a = ap.parse_args()
 
-    rows = json.load(open(ROOT / "data/iced.json"))
+    rows = json.load(open(ROOT / "evidence/current_evidence/cases/iced.json"))
     partial = bool(a.rows)
     if partial:
         rows = rows[:a.rows]

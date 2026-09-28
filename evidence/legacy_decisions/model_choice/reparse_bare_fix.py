@@ -14,7 +14,7 @@ the published ones. Valid because the prompt and the model outputs are unchanged
 (the same argument rescore_offline.py makes).
 
   VEP_OPTIONS_FILE=vep_ai_demo/vep_options.json \
-  VEP_EXAMPLES_FILE=data/simulated_gold_examples.json \
+  VEP_EXAMPLES_FILE=vep_ai_demo/legacy/training_examples.json \
   python evidence/legacy_decisions/model_choice/reparse_bare_fix.py
 """
 import json

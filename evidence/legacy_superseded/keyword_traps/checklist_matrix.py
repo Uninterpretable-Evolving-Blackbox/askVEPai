@@ -118,14 +118,14 @@ def collect():
 
     # ---- the ablations: the cue is REMOVED, so the answer must move to unstated. That is DIR, and
     #      the capability is `absent` -- a different thing from every trap, which keeps the cue in.
-    abl = json.load(open(ROOT / "data/ablated_queries.json"))
+    abl = json.load(open(ROOT / "evidence/current_evidence/cases/ablated_queries.json"))
     for a in abl:
         rows.append({"src": "ablations", "type": DIR, "cap": "absent",
                      "factor": a["target"], "why": f"target removed, pure={a['pure']}",
                      "query": a.get("ablated", "")[:80]})
 
     # ---- the review rows: every factor stated outright.
-    iced = json.load(open(ROOT / "data/iced.json"))
+    iced = json.load(open(ROOT / "evidence/current_evidence/cases/iced.json"))
     for r in iced:
         rows.append({"src": "review_rows", "type": MFT, "cap": "plain", "factor": "all",
                      "why": "every factor stated in the query", "query": r["user_query"][:80]})

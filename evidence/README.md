@@ -30,5 +30,5 @@ attribution experiments, the 24 keyword traps (replaced by the grid above), the 
 
 ---
 
-The full experiment ledger is [`../docs/EXPERIMENTS.md`](../docs/EXPERIMENTS.md) (Exp 1–25). Every run ever
+The full experiment ledger is `EXPERIMENTS.md` (private working repository) (Exp 1–25). Every run ever
 made on the development machine sits in `local_runs/` (gitignored).

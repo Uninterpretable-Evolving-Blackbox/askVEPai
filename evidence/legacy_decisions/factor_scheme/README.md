@@ -2,7 +2,7 @@
 
 The configuration is priced by five factors (species, origin, variant size, region focus, analysis
 goal) instead of one of seven hand-made use-case labels. The scheme itself is specified in
-[`../../../docs/research/taxonomy_proposal.md`](../../../docs/research/taxonomy_proposal.md).
+`taxonomy_proposal.md` (private working repository).
 
 | number | experiment | script | file |
 |---|---|---|---|

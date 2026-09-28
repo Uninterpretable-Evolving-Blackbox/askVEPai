@@ -12,7 +12,7 @@ sees the query. High agreement = the RAG path is faithful to the table. This is 
 two paths, not correctness against real gold — read it as directional (the table itself is provisional).
 
   VEP_OPTIONS_FILE=vep_ai_demo/vep_options.json \
-  python evidence/legacy_decisions/model_choice/eval_factor_set.py --set data/iced.json \
+  python evidence/legacy_decisions/model_choice/eval_factor_set.py --set evidence/current_evidence/cases/iced.json \
       --model gemma4:26b --runs 3
 """
 import argparse

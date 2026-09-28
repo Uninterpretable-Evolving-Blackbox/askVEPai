@@ -105,7 +105,7 @@ def main():
     catalogue, legacy = va.load_knowledge_base()
     global DEFAULTS
     DEFAULTS = form_default_names(catalogue)
-    rows = json.load(open(ROOT / "data/iced.json"))
+    rows = json.load(open(ROOT / "evidence/current_evidence/cases/iced.json"))
     tmp = Path(tempfile.mkdtemp())
     (tmp / "none.json").write_text("[]")
     legacy_path = str(ROOT / "vep_ai_demo" / "legacy" / "training_examples.json")

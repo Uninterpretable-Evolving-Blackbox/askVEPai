@@ -77,7 +77,7 @@ def main():
     args = ap.parse_args()
     client = OpenAI(base_url=args.base_url, api_key="ollama")
     catalogue, examples = va.load_knowledge_base()
-    rows = json.load(open(ROOT / "data/iced.json"))
+    rows = json.load(open(ROOT / "evidence/current_evidence/cases/iced.json"))
     seeds = [int(s) for s in args.seeds.split(",")]
     out = {"model": args.model, "seeds": seeds, "n_rows": len(rows), "per_seed": [], "rows": []}
 

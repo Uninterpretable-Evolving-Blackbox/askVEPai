@@ -31,7 +31,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-OUT = ROOT / "data" / "real_queries_fetched.json"
+OUT = ROOT / "evidence/legacy_decisions/missing_facts/real_queries_fetched.json"
 
 # The sampling frame, stated so it can be argued with: user-opened issues on Ensembl's two VEP
 # repositories. Pull requests are excluded by the API filter, not by us.
