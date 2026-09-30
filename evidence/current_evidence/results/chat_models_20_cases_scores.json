@@ -1,0 +1,916 @@
+{
+ "Ask VEPai (gemma4:26b, reasoning on)": {
+  "her_in_recommended": 52,
+  "named_anywhere": 67,
+  "reference_total": 76,
+  "row_deleting": 0,
+  "short_tools_on_sv": 0,
+  "file": "chat_models_20_cases_answers_ask_vepai.json",
+  "per_case": {
+   "1": {
+    "missed": [
+     "frequency"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "2": {
+    "missed": [
+     "cell_type",
+     "frequency",
+     "hgvs",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "3": {
+    "missed": [
+     "cell_type",
+     "hgvs",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "4": {
+    "missed": [
+     "cell_type",
+     "frequency",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "5": {
+    "missed": [
+     "hgvs"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "6": {
+    "missed": [
+     "cell_type",
+     "hgvs",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "7": {
+    "missed": [
+     "maxentscan"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "8": {
+    "missed": [
+     "maxentscan"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "9": {
+    "missed": [
+     "cell_type",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "10": {
+    "missed": [
+     "cell_type",
+     "maxentscan",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "11": {
+    "missed": [
+     "maxentscan"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "12": {
+    "missed": [
+     "protein"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   }
+  }
+ },
+ "ChatGPT website, default free model, Thinking on": {
+  "her_in_recommended": 11,
+  "named_anywhere": 30,
+  "reference_total": 76,
+  "row_deleting": 3,
+  "short_tools_on_sv": 13,
+  "file": "chat_models_20_cases_answers_chatgpt.json",
+  "per_case": {
+   "1": {
+    "missed": [
+     "alphamissense",
+     "cadd",
+     "domains",
+     "eve",
+     "frequency",
+     "hgvs",
+     "numbers",
+     "phenotypes",
+     "spliceai",
+     "utrannotator"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "2": {
+    "missed": [
+     "cadd",
+     "cell_type",
+     "dosage_sensitivity",
+     "frequency",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "numbers"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_1kg",
+     "af_gnomade",
+     "af_gnomadg"
+    ]
+   },
+   "3": {
+    "missed": [
+     "cell_type",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "numbers"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "4": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "frequency",
+     "gnomad_sv",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_gnomade",
+     "af_gnomadg"
+    ]
+   },
+   "5": {
+    "missed": [
+     "cadd",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [
+     "Return results for variants in coding regions only"
+    ],
+    "short_tools_on_sv": [
+     "af_1kg",
+     "af_gnomade",
+     "af_gnomadg",
+     "coding_only",
+     "hgvs"
+    ]
+   },
+   "6": {
+    "missed": [
+     "cadd",
+     "cell_type",
+     "dosage_sensitivity",
+     "hgvs",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_1kg",
+     "af_gnomade",
+     "af_gnomadg"
+    ]
+   },
+   "7": {
+    "missed": [
+     "canonical",
+     "domains",
+     "hgvs",
+     "maxentscan",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [
+     "Return results for variants in coding regions only"
+    ],
+    "short_tools_on_sv": []
+   },
+   "8": {
+    "missed": [
+     "canonical",
+     "maxentscan",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [
+     "Return results for variants in coding regions only"
+    ],
+    "short_tools_on_sv": []
+   },
+   "9": {
+    "missed": [
+     "canonical",
+     "cell_type",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "10": {
+    "missed": [
+     "canonical",
+     "cell_type",
+     "hgvs",
+     "maxentscan",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "11": {
+    "missed": [
+     "maxentscan",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "12": {
+    "missed": [
+     "canonical",
+     "domains",
+     "hgvs",
+     "numbers",
+     "protein"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   }
+  }
+ },
+ "Claude website (claude.ai), Sonnet, medium effort": {
+  "her_in_recommended": 7,
+  "named_anywhere": 25,
+  "reference_total": 76,
+  "row_deleting": 1,
+  "short_tools_on_sv": 6,
+  "file": "chat_models_20_cases_answers_claude_chat.json",
+  "per_case": {
+   "1": {
+    "missed": [
+     "af_1kg",
+     "alphamissense",
+     "cadd",
+     "domains",
+     "eve",
+     "frequency",
+     "hgvs",
+     "numbers",
+     "spliceai",
+     "utrannotator"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "2": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "frequency",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "numbers"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_gnomadg",
+     "revel"
+    ]
+   },
+   "3": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "numbers"
+    ],
+    "row_deleting": [
+     "Pick one consequence per gene / \"Most severe consequence\" summary option, so coding and regulatory hits across many over"
+    ],
+    "short_tools_on_sv": []
+   },
+   "4": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "frequency",
+     "gnomad_sv",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_gnomadg"
+    ]
+   },
+   "5": {
+    "missed": [
+     "cadd",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "hgvs",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_gnomade",
+     "af_gnomadg"
+    ]
+   },
+   "6": {
+    "missed": [
+     "cadd",
+     "cell_type",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_gnomadg"
+    ]
+   },
+   "7": {
+    "missed": [
+     "canonical",
+     "hgvs",
+     "maxentscan",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "8": {
+    "missed": [
+     "canonical",
+     "domains",
+     "maxentscan",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "9": {
+    "missed": [
+     "canonical",
+     "cell_type",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "10": {
+    "missed": [
+     "canonical",
+     "cell_type",
+     "hgvs",
+     "maxentscan",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "11": {
+    "missed": [
+     "canonical",
+     "hgvs",
+     "maxentscan",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "12": {
+    "missed": [
+     "canonical",
+     "domains",
+     "hgvs",
+     "numbers",
+     "protein"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   }
+  }
+ },
+ "claude-opus-5-5 via the API, effort medium": {
+  "her_in_recommended": 22,
+  "named_anywhere": 38,
+  "reference_total": 76,
+  "row_deleting": 6,
+  "short_tools_on_sv": 11,
+  "file": "chat_models_20_cases_answers_opus55.json",
+  "per_case": {
+   "1": {
+    "missed": [
+     "af_1kg",
+     "eve",
+     "frequency",
+     "phenotypes",
+     "utrannotator"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "2": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "frequency",
+     "gnomad_sv",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_1kg",
+     "af_gnomade",
+     "af_gnomadg",
+     "alphamissense",
+     "hgvs",
+     "revel",
+     "spliceai"
+    ]
+   },
+   "3": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "numbers"
+    ],
+    "row_deleting": [
+     "Restrict results: Pick one line or block of consequence data per variant, including transcript-specific columns (`--pick"
+    ],
+    "short_tools_on_sv": []
+   },
+   "4": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "frequency",
+     "gnomad_sv",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "5": {
+    "missed": [
+     "cadd",
+     "dosage_sensitivity",
+     "gnomad_sv"
+    ],
+    "row_deleting": [
+     "Pick one consequence per variant or restrict to MANE Select"
+    ],
+    "short_tools_on_sv": [
+     "af_gnomade",
+     "af_gnomadg",
+     "domains",
+     "hgvs"
+    ]
+   },
+   "6": {
+    "missed": [
+     "cadd",
+     "cell_type",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "7": {
+    "missed": [
+     "maxentscan",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [
+     "Filters: Return results for variants in coding regions only"
+    ],
+    "short_tools_on_sv": []
+   },
+   "8": {
+    "missed": [
+     "canonical",
+     "maxentscan",
+     "phenotypes"
+    ],
+    "row_deleting": [
+     "Filtering options: Return results for variants in coding regions only"
+    ],
+    "short_tools_on_sv": []
+   },
+   "9": {
+    "missed": [
+     "canonical",
+     "cell_type",
+     "mirna"
+    ],
+    "row_deleting": [
+     "Restrict results: Show one selected consequence per variant (for a quick top-line view)"
+    ],
+    "short_tools_on_sv": []
+   },
+   "10": {
+    "missed": [
+     "canonical",
+     "cell_type",
+     "hgvs",
+     "maxentscan",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "11": {
+    "missed": [
+     "canonical",
+     "hgvs",
+     "maxentscan",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "12": {
+    "missed": [
+     "domains",
+     "hgvs",
+     "protein"
+    ],
+    "row_deleting": [
+     "Show one selected consequence per variant (pick) for the high-level summary pass"
+    ],
+    "short_tools_on_sv": []
+   }
+  }
+ },
+ "claude-opus-5-5 via the API, effort medium, VEP documentation PDF": {
+  "her_in_recommended": 33,
+  "named_anywhere": 56,
+  "reference_total": 76,
+  "row_deleting": 2,
+  "short_tools_on_sv": 7,
+  "file": "chat_models_20_cases_answers_opus55_pdf.json",
+  "per_case": {
+   "1": {
+    "missed": [
+     "af_1kg",
+     "domains",
+     "eve",
+     "frequency",
+     "utrannotator"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "2": {
+    "missed": [
+     "cell_type",
+     "frequency",
+     "gnomad_sv",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_gnomade",
+     "af_gnomadg",
+     "alphamissense",
+     "hgvs",
+     "revel",
+     "spliceai"
+    ]
+   },
+   "3": {
+    "missed": [
+     "cell_type",
+     "gnomad_sv",
+     "hgvs",
+     "mirna"
+    ],
+    "row_deleting": [
+     "Restrict results: Show one selected consequence per gene"
+    ],
+    "short_tools_on_sv": []
+   },
+   "4": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "frequency",
+     "gnomad_sv",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "5": {
+    "missed": [
+     "cadd",
+     "gnomad_sv",
+     "hgvs"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "6": {
+    "missed": [
+     "cadd",
+     "cell_type",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_gnomadg"
+    ]
+   },
+   "7": {
+    "missed": [
+     "domains",
+     "maxentscan",
+     "phenotypes"
+    ],
+    "row_deleting": [
+     "Return results for variants in coding regions only"
+    ],
+    "short_tools_on_sv": []
+   },
+   "8": {
+    "missed": [
+     "maxentscan",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "9": {
+    "missed": [
+     "cell_type",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "10": {
+    "missed": [
+     "cell_type",
+     "hgvs",
+     "maxentscan",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "11": {
+    "missed": [
+     "maxentscan",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "12": {
+    "missed": [
+     "domains",
+     "protein"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   }
+  }
+ },
+ "claude-sonnet-5 via the API, effort medium, VEP documentation PDF": {
+  "her_in_recommended": 9,
+  "named_anywhere": 39,
+  "reference_total": 76,
+  "row_deleting": 3,
+  "short_tools_on_sv": 17,
+  "file": "chat_models_20_cases_answers_sonnet5_pdf.json",
+  "per_case": {
+   "1": {
+    "missed": [
+     "alphamissense",
+     "cadd",
+     "domains",
+     "eve",
+     "frequency",
+     "numbers",
+     "phenotypes",
+     "spliceai",
+     "utrannotator"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "2": {
+    "missed": [
+     "cadd",
+     "cell_type",
+     "dosage_sensitivity",
+     "frequency",
+     "gnomad_sv",
+     "mirna",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_1kg",
+     "af_gnomade",
+     "af_gnomadg",
+     "hgvs"
+    ]
+   },
+   "3": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "numbers"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "4": {
+    "missed": [
+     "cell_type",
+     "dosage_sensitivity",
+     "frequency",
+     "gnomad_sv",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_1kg",
+     "af_gnomade",
+     "af_gnomadg"
+    ]
+   },
+   "5": {
+    "missed": [
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [
+     "Return results for variants in coding regions only"
+    ],
+    "short_tools_on_sv": [
+     "af_1kg",
+     "af_gnomade",
+     "af_gnomadg",
+     "clinpred",
+     "coding_only",
+     "hgvs",
+     "revel"
+    ]
+   },
+   "6": {
+    "missed": [
+     "cadd",
+     "cell_type",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "hgvs",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": [
+     "af_1kg",
+     "af_gnomade",
+     "af_gnomadg"
+    ]
+   },
+   "7": {
+    "missed": [
+     "canonical",
+     "domains",
+     "hgvs",
+     "maxentscan",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [
+     ": Return results for variants in coding regions only"
+    ],
+    "short_tools_on_sv": []
+   },
+   "8": {
+    "missed": [
+     "canonical",
+     "domains",
+     "hgvs",
+     "maxentscan",
+     "numbers",
+     "phenotypes"
+    ],
+    "row_deleting": [
+     "Return results for variants in coding regions only"
+    ],
+    "short_tools_on_sv": []
+   },
+   "9": {
+    "missed": [
+     "canonical",
+     "cell_type",
+     "mirna"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "10": {
+    "missed": [
+     "canonical",
+     "cell_type",
+     "hgvs",
+     "maxentscan",
+     "mirna",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "11": {
+    "missed": [
+     "hgvs",
+     "maxentscan",
+     "phenotypes"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   },
+   "12": {
+    "missed": [
+     "domains",
+     "hgvs",
+     "numbers",
+     "protein"
+    ],
+    "row_deleting": [],
+    "short_tools_on_sv": []
+   }
+  }
+ }
+}

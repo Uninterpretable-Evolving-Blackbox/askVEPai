@@ -1,0 +1,468 @@
+{
+ "arm": "claude-sonnet-5 via the API, effort medium, VEP documentation PDF",
+ "how": "Anthropic API; instruction as system prompt; VEP web documentation PDF before each case; one call per case, no memory",
+ "date": "2026-09-25",
+ "total_cost_usd": 0.536,
+ "cases": [
+  {
+   "case": 1,
+   "answer": "RECOMMENDED: Find co-located known variants (Yes); Frequency data for co-located variants \u2013 1000 Genomes global, 1000 Genomes continental, gnomAD exomes, gnomAD genomes; Get regulatory region consequences; Gene symbol; HGVS; Protein; Identify canonical transcripts; Transcript biotype; SIFT (prediction and score); PolyPhen (prediction and score)\n\nOPTIONAL: CCDS; UniProt; Transcript version; Exon and intron numbers; Transcript support level; APPRIS; MANE; AlphaMissense; CADD; REVEL; ClinPred; dbNSFP; SpliceAI; MaxEntScan; dbscSNV; Ancestral allele; BLOSUM62; PubMed IDs for citations of co-located variants; Phenotypes; Gene Ontology; Mastermind; UTRAnnotator; NMD; Advanced filtering (by frequency); Restrict results (Show one selected consequence)\n\nNOT ON THE FORM: none\n\nASSUMED: Data will be uploaded as VCF (sorted by location) from the WGS cohort; species/assembly is Homo sapiens GRCh38; \"regulatory or non-coding regions\" refers to Ensembl Regulatory Build annotation (motif/TFBS/regulatory feature consequences) rather than external epigenomic datasets.",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 69567
+    },
+    "cache_creation_input_tokens": 69567,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 222,
+    "output_tokens": 475,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.1791,
+   "seconds": 9.4
+  },
+  {
+   "case": 2,
+   "answer": "RECOMMENDED: Gene symbol; HGVS; Find co-located known variants (Yes); Frequency data for co-located variants (1000 Genomes global; 1000 Genomes continental; gnomAD exomes; gnomAD genomes); Get regulatory region consequences; SIFT; PolyPhen; Identify canonical transcripts; Transcript biotype\n\nOPTIONAL: CCDS; Protein; UniProt; Transcript version; Variant synonyms; PubMed IDs for citations; AlphaMissense; CADD; REVEL; ClinPred; SpliceAI; dbscSNV; MaxEntScan; Ancestral allele; Phenotypes; Gene Ontology; Mastermind; DosageSensitivity; LOEUF; Exon and intron numbers; Transcript support level; APPRIS; Filter by frequency (Exclude common variants/Advanced filtering); Buffer size reduction (if using regulatory data)\n\nNOT ON THE FORM: Formal ClinVar-style clinical pathogenicity classification/reporting (VEP reports CLIN_SIG for known variants but does not itself perform clinical curation); cancer-specific phenotype annotation (excluded from web Phenotypes plugin)\n\nASSUMED: Input will be provided as VCF (standard for WGS calling, including structural variant SVTYPE encoding); structural variants are described using supported types (DEL/DUP/INV/CNV/INS/BND); \"clinical pathogenicity assessment\" means using VEP's available pathogenicity predictors and ClinVar/frequency annotation rather than an automated clinical verdict",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 80,
+    "output_tokens": 555,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0196,
+   "seconds": 9.2
+  },
+  {
+   "case": 3,
+   "answer": "RECOMMENDED: Gene symbol; Get regulatory region consequences; Show one selected consequence\n\nOPTIONAL: Transcript biotype; Identify canonical transcripts; Find co-located known variants; Protein matches; Phenotypes; TSL/APPRIS (for transcript prioritisation); reducing Buffer size (recommended when Regulatory data is enabled, max 500)\n\nNOT ON THE FORM: SIFT/PolyPhen/most missense/splicing pathogenicity predictors are not meaningful for structural variants/CNVs (they apply to SNVs/indels); precise breakpoint-level annotation refinements beyond VEP's SV consequence calling\n\nASSUMED: Variants are formatted as VCF (or default/REST-style SV notation) with recognised SV types (DEL, DUP, CNV, INS, INV, etc.); \"quickly identify primary functional consequences\" implies wanting one representative consequence per variant rather than every overlapping transcript/regulatory feature; species is Homo sapiens on GRCh38",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 77,
+    "output_tokens": 357,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0176,
+   "seconds": 8.9
+  },
+  {
+   "case": 4,
+   "answer": "RECOMMENDED: Get regulatory region consequences; Find co-located known variants; Frequency data for co-located variants (1000 Genomes global, 1000 Genomes continental, gnomAD exomes, gnomAD genomes)\n\nOPTIONAL: Gene symbol; Restrict results (Show one selected consequence, if you want a simplified per-variant summary); Advanced filtering (to directly exclude common variants above a MAF threshold); reducing Buffer size (since regulatory data + large SVs can increase memory needs)\n\nNOT ON THE FORM: Structural variant-specific frequency annotation (the AF options report frequencies for co-located known variants generally, not SV-specific population frequency databases like gnomAD-SV); dedicated SV population frequency resources\n\nASSUMED: Your structural variant input is formatted as VCF (or default VEP format) with SVTYPE annotations recognised by VEP (e.g., DEL, DUP); you are using the GRCh38 human assembly.",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 166,
+    "output_tokens": 336,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0176,
+   "seconds": 8.0
+  },
+  {
+   "case": 5,
+   "answer": "RECOMMENDED: Gene symbol; Protein; HGVS; Find co-located known variants (Yes); Frequency data for co-located variants (1000 Genomes global, 1000 Genomes continental, gnomAD exomes, gnomAD genomes); Transcript biotype; Identify canonical transcripts; MANE (already default); CADD; REVEL; ClinPred; Return results for variants in coding regions only\n\nOPTIONAL: CCDS; UniProt; Transcript support level; APPRIS; Exon and intron numbers; PubMed IDs for citations; AlphaMissense; dbNSFP; SpliceAI; dbscSNV; MaxEntScan; Phenotypes; Gene Ontology; Mastermind; Show one selected consequence (--pick) for summarising per-variant output; Protein matches; Advanced filtering (exclude common variants by frequency)\n\nNOT ON THE FORM: Somatic-specific annotation (e.g. COSMIC overlap, tumour-specific filtering, cancer phenotype data - cancer phenotypes explicitly excluded from web interface); dedicated CNV/copy-number interpretation beyond standard structural variant consequence calling; command-line-only options like --custom annotation files, --allele_number, --minimal for complex multi-allelic VCF handling\n\nASSUMED: Species is Homo_sapiens, GRCh38 assembly; input will be VCF (from WES/WGS calls) sorted by location, including SV/CNV records encoded with SVTYPE in INFO field; \"clinical pathogenicity\" is addressed via CADD/REVEL/ClinPred/AlphaMissense missense predictors plus ClinVar CLIN_SIG (retrieved automatically when \"Find co-located known variants\" is enabled) rather than a dedicated ClinVar-only option; non-commercial use terms for CADD/REVEL/ClinPred are acceptable",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 81,
+    "output_tokens": 651,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0206,
+   "seconds": 10.1
+  },
+  {
+   "case": 6,
+   "answer": "RECOMMENDED: Get regulatory region consequences; Find co-located known variants; Frequency data for co-located variants (1000 Genomes global, 1000 Genomes continental, gnomAD exomes, gnomAD genomes)\n\nOPTIONAL: Variant synonyms; PubMed IDs for citations of co-located variants; Include flagged variants; Phenotypes; Gene Ontology; Open Targets Genetics; reduce Buffer size (since Regulatory data is enabled, max is 500); Ancestral allele\n\nNOT ON THE FORM: Cancer-specific phenotype/COSMIC annotation (web interface does not report cancer phenotype data); dedicated CNV/structural-variant-specific frequency or regulatory impact scoring beyond standard SV consequence prediction\n\nASSUMED: Your \"extra or missing\" DNA sections are structural variants (duplications/deletions, i.e. CNVs) which you will input using the supported structural variant formats (default VEP format, VCF, or REST-style regions) with appropriate SVTYPE (DUP/DEL); species is Homo sapiens on the GRCh38 assembly; you want standard Ensembl/GENCODE transcript annotation alongside regulatory build overlap information",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 193,
+    "output_tokens": 423,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0185,
+   "seconds": 11.1
+  },
+  {
+   "case": 7,
+   "answer": "RECOMMENDED: Return results for variants in coding regions only; SIFT predictions\nOPTIONAL: Gene symbol; Protein; Identify canonical transcripts; Exon and intron numbers; Restrict results (Show one selected consequence, if a single top consequence per variant is desired)\nNOT ON THE FORM: PolyPhen (human only, not available for mouse); CADD, REVEL, ClinPred, EVE, AlphaMissense, dbNSFP (human-only pathogenicity predictors, not available for mouse); frequency data options (1000 Genomes/gnomAD are human-only)\nASSUMED: Data will be uploaded as VCF (WES variant calls); \"Mus musculus\" reference/species selection on the form is appropriate; no specific mouse strain/assembly given, so default Ensembl mouse assembly assumed",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 72,
+    "output_tokens": 289,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0169,
+   "seconds": 10.0
+  },
+  {
+   "case": 8,
+   "answer": "RECOMMENDED: Species (Zebrafish/Danio_rerio); Gene symbol; Protein; Return results for variants in coding regions only; SIFT predictions\n\nOPTIONAL: Transcript version; CCDS; HGVS; Identify canonical transcripts; Transcript biotype; Exon and intron numbers; Protein matches; BLOSUM62; Show one selected consequence (or per gene); Filtering options (advanced filtering by consequence type)\n\nNOT ON THE FORM: PolyPhen predictions (human-only), CADD/REVEL/ClinPred/dbNSFP/AlphaMissense/EVE (limited/no non-human species support\u2014check availability for zebrafish, likely unavailable), gnomAD/1000 Genomes frequency data (human-only), Mastermind/Phenotypes/Geno2MP (human-focused literature/phenotype resources), somatic-vs-germline comparison/filtering itself (VEP annotates variants you supply; it does not perform the somatic calling/subtraction)\n\nASSUMED: Species selection is Danio_rerio (zebrafish) on Ensembl; variants will be supplied as VCF (already called as somatic SNVs/indels from tumor-vs-germline comparison); \"protein function impact\" desired is at the sequence-based prediction level available for this species (primarily SIFT), not human-specific pathogenicity predictors",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 165,
+    "output_tokens": 472,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.019,
+   "seconds": 10.1
+  },
+  {
+   "case": 9,
+   "answer": "RECOMMENDED: Get regulatory region consequences; Show most severe per variant\n\nOPTIONAL: Gene symbol; Identify canonical transcripts; Transcript biotype; Restrict results (Show one selected consequence, if you'd rather have one row per variant with transcript-level detail instead of most-severe-only)\n\nNOT ON THE FORM: Species-specific frequency data (1000 Genomes/gnomAD options are human-only, not applicable to Mus musculus); SIFT/PolyPhen/AlphaMissense/CADD/REVEL/ClinPred/EVE pathogenicity predictors (human-only, not relevant/available for mouse non-coding analysis)\n\nASSUMED: Data will be uploaded as VCF (sorted by location) using the Mus musculus species/assembly on the VEP web form; \"quick top-line assessment\" means you want a simplified, one-line-per-variant summary rather than full transcript-by-transcript detail; you are not requiring co-located known variant lookups since the focus is functional regulatory annotation rather than variant identity/frequency",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 189,
+    "output_tokens": 365,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0179,
+   "seconds": 10.5
+  },
+  {
+   "case": 10,
+   "answer": "RECOMMENDED: Get regulatory region consequences\nOPTIONAL: Gene symbol; Transcript biotype; Identify canonical transcripts; Exon and intron numbers\n\nNOT ON THE FORM: SIFT, PolyPhen, dbNSFP, AlphaMissense, CADD, REVEL, ClinPred, EVE, dbscSNV, MaxEntScan, SpliceAI, Conservation scores, and frequency data (1000 Genomes/gnomAD) are human-only/not applicable for zebrafish; Ensembl Regulatory Build coverage for zebrafish is much more limited than for human, so regulatory/TFBS annotation may be sparse or unavailable depending on species data availability\n\nASSUMED: Species set to Danio_rerio on the input form; variants are being uploaded in VCF or default VEP format with genomic coordinates; \"non-coding\" means intergenic/intronic/regulatory variants rather than coding variants, so coding-only filtering should NOT be applied",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 97,
+    "output_tokens": 344,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0175,
+   "seconds": 6.4
+  },
+  {
+   "case": 11,
+   "answer": "RECOMMENDED: Species = Mus_musculus; File upload (VCF, sorted by location); Get regulatory region consequences (Yes); Find co-located known variants; Transcript biotype; Gene symbol; Transcript version; Identify canonical transcripts; Exon and intron numbers; MANE (if applicable)/APPRIS/TSL (if listed for mouse)\n\nOPTIONAL: HGVS identifiers; Protein (ENSP); CCDS; UniProt; Variant synonyms; PubMed IDs for citations; Include flagged variants; Ancestral allele; BLOSUM62 (only relevant for coding variants, low priority given non-coding focus); Restrict results (e.g. \"Show most severe per variant\") if you want a simplified summary; Buffer size reduction (e.g. 500) if using regulatory data on large WGS cohort to avoid memory issues; Right align variants prior to consequence calculation (recommended for consistent indel representation)\n\nNOT ON THE FORM: 1000 Genomes/gnomAD frequency annotations (human-only); SIFT \"score/prediction\" is available but PolyPhen, CADD, REVEL, ClinPred, dbNSFP, AlphaMissense, SpliceAI, and Mastermind are human-only tools and not applicable/available for mouse; Enformer, UTRAnnotator, RiboseqORFs, MaveDB, IntAct, mutfunc, Geno2MP, Open Targets Genetics, Paralogues, DosageSensitivity, LOEUF are human-only plugins and not available for mouse data\n\nASSUMED: Species is Mus_musculus with an Ensembl Variation database available; data will be uploaded as a (sorted) VCF file from WGS calling; \"pathogenicity assessment\" here means using available regulatory/conservation annotation rather than human-specific missense predictors, since your variants are largely non-coding",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 73,
+    "output_tokens": 1134,
+    "output_tokens_details": {
+     "thinking_tokens": 489
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0254,
+   "seconds": 15.4
+  },
+  {
+   "case": 12,
+   "answer": "RECOMMENDED: Gene symbol; Get regulatory region consequences; Identify canonical transcripts; Transcript biotype\nOPTIONAL: Show one selected consequence per gene; Show most severe per variant; Exon and intron numbers; Protein; HGVS; CCDS; Restrict results (if summary-level output preferred over full transcript detail); Buffer size reduction (if regulatory data selected and job is large)\n\nNOT ON THE FORM: Mouse-specific frequency data (1000 Genomes/gnomAD options only apply to human); somatic-specific filtering (e.g. tumor/normal comparison) is not a feature of this form\n\nASSUMED: Species is Mus musculus with an available Ensembl VEP transcript/regulatory build; input data is in VCF or default VEP format from WES/WGS calling pipelines; \"high-level annotation pass\" means you want both coding and regulatory consequence categorization rather than restricting to coding-only regions",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 198,
+    "output_tokens": 327,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0176,
+   "seconds": 6.7
+  },
+  {
+   "case": 13,
+   "answer": "RECOMMENDED: none\n\nOPTIONAL: Gene symbol; Find co-located known variants; PubMed IDs for citations of co-located variants; Phenotypes; Gene Ontology; Mastermind; Identify canonical transcripts\n\nNOT ON THE FORM: Searching/filtering variants by gene name, disease association, or \"colorectal cancer\" as a search term \u2014 VEP requires you to already have a list of variants or coordinates to submit; it does not find variants for you based on a phenotype or gene panel query\n\nASSUMED: Species is human; you already have (or can obtain elsewhere) a set of specific variants/coordinates to upload, and are asking about annotation options rather than variant discovery",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 38,
+    "output_tokens": 235,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0163,
+   "seconds": 8.9
+  },
+  {
+   "case": 14,
+   "answer": "RECOMMENDED: Find co-located known variants; Gene symbol; Phenotypes; Restrict results (Show one selected consequence per gene)\n\nOPTIONAL: HGVS; CADD; REVEL; ClinPred; Identify canonical transcripts; PubMed IDs for citations of co-located variants; 1000 Genomes global / gnomAD frequencies (to gauge rarity); Mastermind\n\nNOT ON THE FORM: Direct filtering of results by a specific disease/phenotype term such as \"breast cancer\" (Phenotypes annotation reports overlapping phenotype data generally, but there is no dedicated breast-cancer-specific filter \u2014 you would need to filter/search the downloaded results manually or restrict input to known breast cancer genes, e.g. BRCA1/BRCA2)\n\nASSUMED: Species is human; you have already uploaded/pasted your sample variant data in a supported format (VCF, rsIDs, etc.); \"breast cancer\" means genes with known clinical/phenotype associations rather than a specific curated gene panel",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 41,
+    "output_tokens": 358,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0176,
+   "seconds": 7.0
+  },
+  {
+   "case": 15,
+   "answer": "RECOMMENDED: Gene symbol\nOPTIONAL: Transcript version; CCDS; Protein; UniProt; HGVS; Identify canonical transcripts; MANE (default on); Filter results by Gene symbol on results page (post-run filtering, not a form tick-box)\n\nNOT ON THE FORM: There is no option to input a gene name/symbol as the search query itself \u2014 VEP requires variant-level input (coordinates, rsIDs, HGVS, VCF, etc.), not a gene list. You cannot submit \"BRCA1, BRCA2\" directly as input.\n\nASSUMED: You already have a set of variants (e.g., VCF, rsIDs, or HGVS notations) that you want to annotate/filter for BRCA1/BRCA2, human species, and you want the results table filtered/searched for these genes after running the job.",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 39,
+    "output_tokens": 283,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0168,
+   "seconds": 11.6
+  },
+  {
+   "case": 16,
+   "answer": "RECOMMENDED: Gene symbol; Transcript version; Identify canonical transcripts; MANE; Transcript biotype; Find co-located known variants; SIFT; PolyPhen; NMD; Return results for variants in coding regions only\n\nOPTIONAL: HGVS; CCDS; Protein; UniProt; LOEUF; DosageSensitivity; Exon and intron numbers; Transcript support level; APPRIS; CADD; REVEL; ClinPred; dbNSFP; AlphaMissense; SpliceAI; MaxEntScan; dbscSNV; Phenotypes; Gene Ontology; Mastermind; Frequency data for co-located variants (1000 Genomes/gnomAD); PubMed IDs for citations; Show one selected consequence per gene (Restrict results); Filter by frequency (Exclude common variants)\n\nNOT ON THE FORM: automatic restriction of output to only \"loss-of-function\" consequence types (e.g. equivalent to LOFTEE) \u2014 VEP does not have a built-in single tickbox for this; you would need to filter results post-hoc by Consequence type (e.g. stop_gained, frameshift, splice_donor/acceptor, start_lost) using the results-page filtering tools, or restrict your input to a pre-defined gene panel list (VEP has no \"gene panel\" upload option \u2014 you'd need to filter by gene symbol after running)\n\nASSUMED: Species is Homo sapiens; \"hereditary cancer gene panel\" refers to a known list of genes you will filter/search for in the results (not a special VEP option); input variants will be provided in one of the standard supported formats (VCF, rsIDs, etc.)",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 49,
+    "output_tokens": 567,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0197,
+   "seconds": 33.3
+  },
+  {
+   "case": 17,
+   "answer": "RECOMMENDED: Get regulatory region consequences; Restrict results - Show one selected consequence per gene; Return results for variants in coding regions only (set to unticked/excluded \u2014 see note)\n\nOPTIONAL: Gene symbol; Find co-located known variants; Frequency data for co-located variants (1000 Genomes global, gnomAD genomes); Phenotypes; Identify canonical transcripts\n\nNOT ON THE FORM: A dedicated \"non-coding only\" filter (the form only offers \"coding regions only\", not its inverse) \u2014 you would need to filter this out afterward using the results-page Consequence filter (e.g., exclude coding consequence terms) or filter downstream output\n\nASSUMED: Data will be uploaded as VCF or default format with germline SNVs only (no indels/SVs); species is Homo_sapiens on GRCh38; \"what each one hits\" means gene/regulatory feature overlap rather than pathogenicity scoring, so predictors (SIFT/PolyPhen/CADD etc.) are not needed since these are non-coding",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 90,
+    "output_tokens": 354,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0176,
+   "seconds": 7.6
+  },
+  {
+   "case": 18,
+   "answer": "RECOMMENDED: Find co-located known variants (Yes); Frequency data for co-located variants \u2013 1000 Genomes continental allele frequencies; gnomAD (exomes) allele frequencies; gnomAD (genomes) allele frequencies; Get regulatory region consequences\n\nOPTIONAL: 1000 Genomes global minor allele frequency; Variant synonyms; PubMed IDs for citations of co-located variants; Phenotypes; Gene Ontology; Regulatory impact (Enformer); Sort/upload file by location (for faster VCF processing); Buffer size reduction (if job is large, since regulatory data caps buffer at 500)\n\nNOT ON THE FORM: none\n\nASSUMED: Data will be uploaded as VCF or default VEP format sorted by location; \"inherited from the parents\" implies germline (not somatic) variants, so no special somatic filtering needed; you want frequencies from all available population sources rather than one specific project; indels are small (not large structural variants), compatible with standard input formats.",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 108,
+    "output_tokens": 345,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0176,
+   "seconds": 9.6
+  },
+  {
+   "case": 19,
+   "answer": "RECOMMENDED: Species = Sus_scrofa (pig); Gene symbol; Protein (ENSP); SIFT predictions (prediction and score); Protein matches (domain overlap); BLOSUM62; Identify canonical transcripts; Restrict results = \"Show one selected consequence\" (if you only want the top call per variant)\n\nOPTIONAL: Transcript version; CCDS/UniProt (if available for pig); Find co-located known variants (if a pig variation database exists for your assembly); Exon and intron numbers; Transcript biotype; Ancestral allele (if a pig ancestral FASTA is available)\n\nNOT ON THE FORM: PolyPhen predictions (human protein\u2013only tool, not available for pig); 1000 Genomes/gnomAD frequency annotations (human-only); CADD, REVEL, ClinPred, AlphaMissense, EVE, dbNSFP (these pathogenicity predictors are human-specific/only work with human-trained models and are not offered for pig); Mastermind, Geno2MP, Phenotypes (human/clinical literature-linked, not meaningful for pig)\n\nASSUMED: Species is Sus scrofa (domestic pig) using the standard Ensembl pig genome assembly/annotation; variants are already called SNVs (not raw sequencing reads) in a supported input format (VCF, default VEP format, etc.); \"deleterious\" assessment here relies on SIFT score plus conservation/domain overlap, since human-trained deleteriousness predictors aren't available for this species.",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 50,
+    "output_tokens": 917,
+    "output_tokens_details": {
+     "thinking_tokens": 400
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0232,
+   "seconds": 13.7
+  },
+  {
+   "case": 20,
+   "answer": "RECOMMENDED: Find co-located known variants (set to \"Yes\")\n\nOPTIONAL: Variant synonyms; Include flagged variants; Restrict results to coding regions only (if you want to focus on functional SNVs); Buffer size adjustment if file is large (ensure file sorted by location for speed)\n\nNOT ON THE FORM: Frequency data for co-located variants (1000 Genomes/gnomAD) is only available when species = Homo_sapiens \u2014 Ensembl VEP does not provide breed-level or Ovis_aries population allele frequency data, so \"how common each variant is across breeds\" cannot be answered by any option on this form\n\nASSUMED: Species is Ovis_aries (sheep); data will be uploaded as VCF or default format; \"germline SNVs\" means simple single-nucleotide variants, not structural variants; no separate breed/population panel exists in Ensembl's sheep variation database",
+   "stop_reason": "end_turn",
+   "usage": {
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 0,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 69567,
+    "inference_geo": "global",
+    "input_tokens": 50,
+    "output_tokens": 556,
+    "output_tokens_details": {
+     "thinking_tokens": 253
+    },
+    "server_tool_use": null,
+    "service_tier": "standard"
+   },
+   "cost_usd": 0.0196,
+   "seconds": 9.9
+  }
+ ]
+}

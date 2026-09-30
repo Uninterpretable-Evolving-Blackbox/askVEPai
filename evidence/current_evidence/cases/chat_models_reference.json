@@ -1,0 +1,482 @@
+{
+ "_what": "Reference for cases 1-12: the reviewer's returned round-1 sheet with her edits applied (built by build_mentor_gold.py in the private working repository). 'verdict' is her mark on the row: approve = as shown, edit = changed. Option ids are the catalogue's (vep_ai_demo/vep_options.json).",
+ "cases": {
+  "1": {
+   "review_row": 3,
+   "verdict": "edit",
+   "facts": {
+    "species": "human",
+    "origin": "germline",
+    "variant_size_class": [
+     "small"
+    ],
+    "region_focus": [
+     "coding",
+     "regulatory-noncoding"
+    ],
+    "analysis_goal": [
+     "clinical-interpretation",
+     "population-frequency"
+    ]
+   },
+   "recommended": [
+    "af",
+    "af_1kg",
+    "af_gnomade",
+    "af_gnomadg",
+    "alphamissense",
+    "appris",
+    "biotype",
+    "cadd",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "domains",
+    "eve",
+    "frequency",
+    "hgvs",
+    "mane",
+    "numbers",
+    "phenotypes",
+    "polyphen",
+    "regulatory",
+    "sift",
+    "spliceai",
+    "symbol",
+    "tsl",
+    "utrannotator"
+   ],
+   "addon": [
+    "ccds",
+    "cell_type",
+    "clinpred",
+    "dbnsfp",
+    "dbscsnv",
+    "dosage_sensitivity",
+    "enformer",
+    "geno2mp",
+    "loeuf",
+    "mastermind",
+    "maxentscan",
+    "mirna",
+    "mutfunc",
+    "nmd",
+    "paralogues",
+    "protein",
+    "pubmed",
+    "revel",
+    "uniprot",
+    "var_synonyms"
+   ]
+  },
+  "2": {
+   "review_row": 25,
+   "verdict": "approve",
+   "facts": {
+    "species": "human",
+    "origin": "germline",
+    "variant_size_class": [
+     "structural-CNV"
+    ],
+    "region_focus": [
+     "coding",
+     "regulatory-noncoding"
+    ],
+    "analysis_goal": [
+     "clinical-interpretation",
+     "population-frequency"
+    ]
+   },
+   "recommended": [
+    "appris",
+    "biotype",
+    "cadd",
+    "cell_type",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "dosage_sensitivity",
+    "frequency",
+    "gnomad_sv",
+    "hgvs",
+    "mane",
+    "mirna",
+    "numbers",
+    "phenotypes",
+    "regulatory",
+    "symbol",
+    "tsl"
+   ],
+   "addon": [
+    "failed",
+    "loeuf",
+    "mastermind",
+    "nmd",
+    "pubmed"
+   ]
+  },
+  "3": {
+   "review_row": 31,
+   "verdict": "approve",
+   "facts": {
+    "species": "human",
+    "origin": "germline",
+    "variant_size_class": [
+     "structural-CNV"
+    ],
+    "region_focus": [
+     "coding",
+     "regulatory-noncoding"
+    ],
+    "analysis_goal": [
+     "basic-consequence"
+    ]
+   },
+   "recommended": [
+    "appris",
+    "biotype",
+    "cell_type",
+    "check_existing",
+    "core_type",
+    "dosage_sensitivity",
+    "gnomad_sv",
+    "hgvs",
+    "mirna",
+    "numbers",
+    "regulatory",
+    "symbol",
+    "tsl"
+   ],
+   "addon": [
+    "nmd"
+   ]
+  },
+  "4": {
+   "review_row": 17,
+   "verdict": "approve",
+   "facts": {
+    "species": "human",
+    "origin": "germline",
+    "variant_size_class": [
+     "structural-CNV"
+    ],
+    "region_focus": [
+     "regulatory-noncoding"
+    ],
+    "analysis_goal": [
+     "population-frequency"
+    ]
+   },
+   "recommended": [
+    "biotype",
+    "cell_type",
+    "check_existing",
+    "core_type",
+    "dosage_sensitivity",
+    "frequency",
+    "gnomad_sv",
+    "mirna",
+    "regulatory",
+    "symbol"
+   ],
+   "addon": [
+    "clinvar"
+   ]
+  },
+  "5": {
+   "review_row": 29,
+   "verdict": "approve",
+   "facts": {
+    "species": "human",
+    "origin": "somatic",
+    "variant_size_class": [
+     "structural-CNV"
+    ],
+    "region_focus": [
+     "coding"
+    ],
+    "analysis_goal": [
+     "basic-consequence",
+     "clinical-interpretation",
+     "population-frequency"
+    ]
+   },
+   "recommended": [
+    "appris",
+    "biotype",
+    "cadd",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "dosage_sensitivity",
+    "gnomad_sv",
+    "hgvs",
+    "mane",
+    "numbers",
+    "phenotypes",
+    "symbol",
+    "tsl"
+   ],
+   "addon": [
+    "failed",
+    "go",
+    "loeuf",
+    "mastermind",
+    "nmd",
+    "pubmed"
+   ]
+  },
+  "6": {
+   "review_row": 27,
+   "verdict": "approve",
+   "facts": {
+    "species": "human",
+    "origin": "somatic",
+    "variant_size_class": [
+     "structural-CNV"
+    ],
+    "region_focus": [
+     "regulatory-noncoding"
+    ],
+    "analysis_goal": [
+     "clinical-interpretation",
+     "population-frequency"
+    ]
+   },
+   "recommended": [
+    "biotype",
+    "cadd",
+    "cell_type",
+    "check_existing",
+    "clinvar",
+    "core_type",
+    "dosage_sensitivity",
+    "gnomad_sv",
+    "hgvs",
+    "mirna",
+    "phenotypes",
+    "regulatory",
+    "symbol"
+   ],
+   "addon": [
+    "failed",
+    "loeuf",
+    "mastermind",
+    "pubmed"
+   ]
+  },
+  "7": {
+   "review_row": 21,
+   "verdict": "approve",
+   "facts": {
+    "species": "non-human",
+    "origin": "germline",
+    "variant_size_class": [
+     "small"
+    ],
+    "region_focus": [
+     "coding"
+    ],
+    "analysis_goal": [
+     "basic-consequence",
+     "clinical-interpretation"
+    ]
+   },
+   "recommended": [
+    "biotype",
+    "canonical",
+    "check_existing",
+    "core_type",
+    "domains",
+    "hgvs",
+    "maxentscan",
+    "numbers",
+    "phenotypes",
+    "sift",
+    "symbol"
+   ],
+   "addon": [
+    "coding_only",
+    "failed",
+    "nmd",
+    "paralogues",
+    "protein",
+    "uniprot"
+   ]
+  },
+  "8": {
+   "review_row": 20,
+   "verdict": "approve",
+   "facts": {
+    "species": "non-human",
+    "origin": "somatic",
+    "variant_size_class": [
+     "small"
+    ],
+    "region_focus": [
+     "coding"
+    ],
+    "analysis_goal": [
+     "clinical-interpretation"
+    ]
+   },
+   "recommended": [
+    "biotype",
+    "canonical",
+    "check_existing",
+    "core_type",
+    "domains",
+    "hgvs",
+    "maxentscan",
+    "numbers",
+    "phenotypes",
+    "sift",
+    "symbol"
+   ],
+   "addon": [
+    "coding_only",
+    "failed",
+    "nmd",
+    "paralogues",
+    "protein",
+    "uniprot"
+   ]
+  },
+  "9": {
+   "review_row": 24,
+   "verdict": "approve",
+   "facts": {
+    "species": "non-human",
+    "origin": "germline",
+    "variant_size_class": [
+     "small"
+    ],
+    "region_focus": [
+     "regulatory-noncoding"
+    ],
+    "analysis_goal": [
+     "basic-consequence"
+    ]
+   },
+   "recommended": [
+    "biotype",
+    "canonical",
+    "cell_type",
+    "check_existing",
+    "core_type",
+    "mirna",
+    "regulatory",
+    "symbol"
+   ],
+   "addon": [
+    "distance",
+    "hgvs"
+   ]
+  },
+  "10": {
+   "review_row": 26,
+   "verdict": "edit",
+   "facts": {
+    "species": "non-human",
+    "origin": "somatic",
+    "variant_size_class": [
+     "small"
+    ],
+    "region_focus": [
+     "regulatory-noncoding"
+    ],
+    "analysis_goal": [
+     "clinical-interpretation"
+    ]
+   },
+   "recommended": [
+    "biotype",
+    "canonical",
+    "cell_type",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "maxentscan",
+    "mirna",
+    "phenotypes",
+    "regulatory",
+    "sift",
+    "symbol"
+   ],
+   "addon": [
+    "failed"
+   ]
+  },
+  "11": {
+   "review_row": 6,
+   "verdict": "edit",
+   "facts": {
+    "species": "non-human",
+    "origin": "germline",
+    "variant_size_class": [
+     "small"
+    ],
+    "region_focus": [
+     "regulatory-noncoding"
+    ],
+    "analysis_goal": [
+     "clinical-interpretation"
+    ]
+   },
+   "recommended": [
+    "biotype",
+    "canonical",
+    "check_existing",
+    "core_type",
+    "hgvs",
+    "maxentscan",
+    "phenotypes",
+    "regulatory",
+    "symbol"
+   ],
+   "addon": [
+    "cell_type",
+    "failed",
+    "mirna"
+   ]
+  },
+  "12": {
+   "review_row": 9,
+   "verdict": "edit",
+   "facts": {
+    "species": "non-human",
+    "origin": "somatic",
+    "variant_size_class": [
+     "small"
+    ],
+    "region_focus": [
+     "coding",
+     "regulatory-noncoding"
+    ],
+    "analysis_goal": [
+     "basic-consequence"
+    ]
+   },
+   "recommended": [
+    "biotype",
+    "canonical",
+    "core_type",
+    "domains",
+    "hgvs",
+    "numbers",
+    "protein",
+    "regulatory",
+    "sift",
+    "symbol"
+   ],
+   "addon": [
+    "cell_type",
+    "check_existing",
+    "coding_only",
+    "mirna",
+    "nmd",
+    "uniprot"
+   ]
+  }
+ }
+}

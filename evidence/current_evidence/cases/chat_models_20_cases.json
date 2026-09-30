@@ -1,0 +1,125 @@
+{
+ "_what": "The 20 cases put to every arm of chat_models_20_cases.py. 1-12: scenarios the reviewer marked on the round-1 sheet (the only cases with an agreed answer); 13-16: the mentors' four example queries; 17-18: trap versions from the 150 tricky cases; 19-20: pig and sheep, species with their own data lists.",
+ "cases": [
+  {
+   "case": 1,
+   "source": "reviewed scenario, row 3",
+   "why": "human germline SMALL variants, clinical + frequency: the only reviewed human small-variant case",
+   "query": "I am working on a project involving human germline small variants, specifically SNVs and indels, identified from our whole-genome sequencing cohort. My primary goal is to perform clinical interpretation to identify potentially pathogenic variants, so I need to assess the impact on protein-coding sequences as well as any functional changes in regulatory or non-coding regions. Additionally, it is crucial for my analysis that I can incorporate population allele frequency context to help distinguish rare, potentially deleterious variants from common polymorphisms. How should I approach the setup to ensure I am capturing all these biological impacts and the necessary frequency data?"
+  },
+  {
+   "case": 2,
+   "source": "reviewed scenario, row 25",
+   "why": "human germline SV, coding + regulatory, clinical + frequency (approved as shown)",
+   "query": "I am analyzing human germline WGS data from a patient to assess the clinical pathogenicity of both coding and regulatory variants, including any identified structural changes, against population allele frequencies."
+  },
+  {
+   "case": 3,
+   "source": "reviewed scenario, row 31",
+   "why": "human germline SV, basic consequence only (approved as shown): does the model hold back?",
+   "query": "I am analyzing human germline structural variants and CNVs from a WGS cohort and want to quickly identify the primary functional consequences across both protein-coding and regulatory regions."
+  },
+  {
+   "case": 4,
+   "source": "reviewed scenario, row 17",
+   "why": "human germline SV, regulatory only, population frequency (approved as shown)",
+   "query": "I am processing human germline sequencing data from a large-scale population cohort and have identified several large structural changes, such as deletions and duplications of DNA segments. I want to focus my analysis on these changes when they occur in regulatory regions that control gene activity, rather than just looking at the protein-coding parts of the genome. For these types of variations, I need to ensure my annotation process includes information on how common these changes are within the general population so I can identify which ones are truly rare."
+  },
+  {
+   "case": 5,
+   "source": "reviewed scenario, row 29",
+   "why": "human somatic SV, coding, all three goals (approved as shown)",
+   "query": "I have human somatic tumor WES/WGS data containing structural variants and CNVs. I want to identify protein-coding consequences, clinical pathogenicity, and population allele frequency context."
+  },
+  {
+   "case": 6,
+   "source": "reviewed scenario, row 27",
+   "why": "human somatic SV, regulatory only, clinical + frequency (approved as shown): missense predictors do not apply",
+   "query": "I am looking at some human tumor sequencing results and I have noticed several large sections of DNA that seem to be either extra or missing. I am especially interested in the areas that don't actually make proteins but instead act as control switches for genes, as I want to see if these big changes might be affecting how those genes work and contributing to the cancer. It is also really important for me to know how common these same types of variations are in healthy people so I can tell the difference between normal variation and something potentially dangerous. How should I configure my run to get all that info about the regulatory impact and the population background?"
+  },
+  {
+   "case": 7,
+   "source": "reviewed scenario, row 21",
+   "why": "mouse germline small, coding, basic + clinical (approved as shown)",
+   "query": "I have germline Mus musculus WES data; I need to identify protein-altering SNVs and indels in coding regions and assess their predicted functional pathogenicity."
+  },
+  {
+   "case": 8,
+   "source": "reviewed scenario, row 20",
+   "why": "zebrafish somatic small, coding, clinical (approved as shown)",
+   "query": "I am working with whole exome sequencing data from a cohort of zebrafish tumor models where I have identified several somatic SNVs and small indels by comparing the tumor DNA to matched germline samples. My primary goal is to identify which of these mutations in the protein-coding regions are likely to be pathogenic, so I need a way to assess their potential impact on the amino acid sequence and overall protein function to help prioritize candidate driver mutations for further study."
+  },
+  {
+   "case": 9,
+   "source": "reviewed scenario, row 24",
+   "why": "non-human germline small, regulatory, basic (approved as shown)",
+   "query": "I am working on a new project involving whole genome sequencing data from a large cohort of wild-type *Mus musculus* and I am trying to figure out how to properly set up my annotation pipeline. We have identified many germline SNVs and small indels, but since my research focuses specifically on the impact of variants in non-coding and regulatory regions like enhancers, I am struggling with the configuration. My goal is just to get a quick top-line assessment of whether these small variants fall within functional non-coding elements or have predicted effects in those areas."
+  },
+  {
+   "case": 10,
+   "source": "reviewed scenario, row 26",
+   "why": "zebrafish somatic small, regulatory, clinical (edited by the reviewer)",
+   "query": "I am analyzing somatic SNVs and indels from a zebrafish tumor sample. I want to assess the potential pathogenicity of these non-coding variants by evaluating their impact on regulatory elements or transcription factor binding sites."
+  },
+  {
+   "case": 11,
+   "source": "reviewed scenario, row 6",
+   "why": "mouse germline small, regulatory, clinical (edited by the reviewer)",
+   "query": "I am analyzing WGS data from a mouse cohort to identify germline SNVs and indels within regulatory and non-coding regions for pathogenicity assessment."
+  },
+  {
+   "case": 12,
+   "source": "reviewed scenario, row 9",
+   "why": "mouse somatic small, coding + regulatory, basic (edited by the reviewer)",
+   "query": "I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis."
+  },
+  {
+   "case": 13,
+   "source": "mentor example query",
+   "why": "mentor example: disease gene set (form cannot filter by gene)",
+   "query": "Find variants in genes associated with colorectal cancer."
+  },
+  {
+   "case": 14,
+   "source": "mentor example query",
+   "why": "mentor example: disease gene set, origin unstated",
+   "query": "Which variants in my sample affect genes associated with breast cancer?"
+  },
+  {
+   "case": 15,
+   "source": "mentor example query",
+   "why": "mentor example: named genes, goal unstated (our tool reads basic-consequence)",
+   "query": "Show me variants affecting BRCA1, BRCA2"
+  },
+  {
+   "case": 16,
+   "source": "mentor example query",
+   "why": "mentor example: LoF filter + gene panel",
+   "query": "Which variants produce loss-of-function consequences in my hereditary cancer gene panel?"
+  },
+  {
+   "case": 17,
+   "source": "150-case grid, spec-nega-1 trap",
+   "why": "tricky wording: 'Not a mouse study' -> human",
+   "query": "Our lab just got back constitutional single-nucleotide changes, and I only care about the non-coding regulatory ones. Not a mouse study: the samples are from human volunteers. All I really want is to know what each one hits."
+  },
+  {
+   "case": 18,
+   "source": "150-case grid, orig-word-2 trap",
+   "why": "tricky wording: 'this cancer of a pipeline' -> germline, population frequency",
+   "query": "I'm working with point mutations and a few short indels from Homo sapiens samples, and they're mostly in promoters and enhancers. Mainly I'm after allele frequencies in different populations. This cancer of a pipeline finally ran; the variants are inherited from the parents."
+  },
+  {
+   "case": 19,
+   "source": "added for species lists",
+   "why": "pig, clinical: Ensembl's plugin lists include pig for CADD; human-only options (e.g. ClinVar, PolyPhen) should not appear. SIFT is available for pig.",
+   "query": "I have inherited missense SNVs from our pig herd and want to know which are likely deleterious."
+  },
+  {
+   "case": 20,
+   "source": "added for species lists",
+   "why": "sheep, population frequency: the only non-human frequency case; per-species frequency data exists for sheep, the human frequency sets do not apply",
+   "query": "Germline SNVs from our sheep flock; I want to know how common each variant is across breeds."
+  }
+ ]
+}
