@@ -255,6 +255,10 @@ The first column scores against our own priority table, so it shows the chat mod
 rules; the other two rest on Ensembl's species lists and on what VEP can compute for a structural variant,
 and hold whatever the table says.
 
+The 754 organism names are Ensembl's own (its REST species list), and each decoy is another name from the
+same list; [experiment 3](evidence/current_evidence/README.md#3--754-organism-names) says where each part
+of the test comes from.
+
 At temperature 0 the seed does not change the answer; the repeats measure run-to-run variation from
 parallel requests. The 31-scenario figures score against the tool's own priority table, so they
 measure how much a misread moves the output, not whether the table is right.

@@ -185,6 +185,15 @@ four factors stated plainly:
   reported in X; ours are from Y", "We followed a protocol written for X, and the samples are Y" and
   "Not an X study: the samples are Y".
 
+Where each part comes from:
+
+| part | source |
+|---|---|
+| the 754 names | Ensembl's own species list, REST `/info/species` (saved as `reference/ensembl_source/rest_info_species_2026-09-28.json`); names derived for lookup are not test cases |
+| the decoys | drawn at random (fixed seed) from the same list, always another species |
+| kind of name | scientific: the name is the genome's scientific name; also an ordinary word: the name is in the English dictionary (`/usr/share/dict/words`); breed or strain, and tags: the form of Ensembl's name; common false hits: a list of ours with the reason for each (hedgehog, the SHH gene family; platypus, the variant caller; guinea pig, the idiom) |
+| the sentences | ours: the four decoy frames and the background stating the other four factors |
+
 The cases are in `results/organism_754_names_list.csv`.
 
 **Scored.** The organism the tool looks up from the model's answer, at species level as the engine groups
