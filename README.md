@@ -234,6 +234,23 @@ the question behind it, how it is scored, where it fails, and the file it comes 
 | 754 organism names in Ensembl's index, named right (plain / with a decoy) | 746 / 749 | 746 / 745 |
 | 78 scenarios with one fact removed: assumed and disclosed | 73/78 (repeats: 72 each) | 72/78 (72 each) |
 
+**Against commercial closed-source models** ([experiment 6](evidence/current_evidence/README.md#6--chat-models-20-cases)):
+Ask VEPai, running a local open model, does better than bare commercial chat models given the same job, the
+current state-of-the-art Claude Opus 5.5 included. On 20 cases, with the same short instruction and no
+rules, the best of them reaches about half of what the priority table recommends, and every one recommends
+options that cannot work for the case or filters that silently delete results; Ask VEPai recommends none.
+
+| arm | table options recommended (of 92, 16 cases) | options that cannot work for the case (20 cases) | row-deleting filters (20 cases) |
+|---|---|---|---|
+| **Ask VEPai** (gemma4:26b, local) | **92** | **0** | **0** |
+| Claude Opus 5.5, with Ensembl's VEP documentation | 48 | 8 | 2 |
+| Claude Opus 5.5 | 32 | 12 | 11 |
+| ChatGPT (website, Thinking on) | 14 | 14 | 3 |
+
+The first column scores against our own priority table, so it shows the chat models do not follow our
+rules; the other two rest on Ensembl's species lists and on what VEP can compute for a structural variant,
+and hold whatever the table says.
+
 At temperature 0 the seed does not change the answer; the repeats measure run-to-run variation from
 parallel requests. The 31-scenario figures score against the tool's own priority table, so they
 measure how much a misread moves the output, not whether the table is right.
