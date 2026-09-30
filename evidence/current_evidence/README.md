@@ -349,7 +349,7 @@ the VEP web form, and answer as RECOMMENDED, OPTIONAL, NOT ON THE FORM and ASSUM
 | arm | where | settings |
 |---|---|---|
 | Ask VEPai | this repository, run locally | `vep_assistant.py --no-ask`, gemma4:26b, reasoning on |
-| ChatGPT | chatgpt.com website; thinking on| the default free model with the Thinking button on; memory off; a new chat per case, the instruction pasted above the question. Web search was also on (its answers cite ensembl.org) |
+| ChatGPT | the chatgpt.com website| the default free model with the Thinking button on; memory off; a new chat per case, the instruction pasted above the question. Web search was also on (its answers cite ensembl.org) |
 | Claude Sonnet 5 medium | the claude.ai website | Sonnet 5, medium effort (default); memory off; a new chat per case, the instruction pasted above the question |
 | Claude Sonnet 5, with the VEP documentation | the Anthropic API | `claude-sonnet-5`, effort medium; the instruction as the system prompt; Ensembl's 27-page VEP web documentation PDF before each case |
 | Claude Opus 5.5 (SOTA)| the Anthropic API | `claude-opus-5-5`, effort medium (default); the instruction as the system prompt |
