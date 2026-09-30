@@ -1,5 +1,5 @@
 {
- "_what": "Reference configuration for cases 1-12: our configuration for each review scenario with the corrections from the round-1 review (built by build_mentor_gold.py in the private working repository). 'verdict': approve = approved as shown, edit = corrected. Option ids are the catalogue's (vep_ai_demo/vep_options.json).",
+ "_what": "Secondary reference for cases 1-12, kept for comparison: our configuration for each review scenario as it stood in the round-1 review (August), with the corrections from that review (built by build_mentor_gold.py in the private working repository). The priority table has changed since; the main reference is the table itself (see chat_models_20_cases.py). 'verdict': approve = approved as shown, edit = corrected.",
  "cases": {
   "1": {
    "review_row": 3,

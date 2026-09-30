@@ -1,31 +1,37 @@
 #!/usr/bin/env python3
-"""Ask VEPai against general chat models, on 20 cases: does a chat model given the same job recommend the
-options of the reference configuration, and does it avoid the ones that delete results or do not apply?
+"""Ask VEPai against general chat models, on 20 cases: given the same job, does a chat model recommend what
+the priority table recommends, and does it avoid options that cannot work for the case or delete results?
+
+The priority table (vep_ai_demo/priority_by_factor.json) is the standard here: it is the project's statement
+of which options each kind of analysis should get, and the reference configuration for a case is what it
+gives for the case's true factors. Ask VEPai is that table applied to the model's reading of the factors, so
+its score measures the reading; the chat models' score measures the whole job.
 
 Every arm gets the same short system prompt (cases/chat_models_system_prompt.txt), one question per case.
-The chat-app answers (ChatGPT, Claude chat) were pasted by hand; the API arms are asked by this script.
+The website answers (ChatGPT, claude.ai) were pasted by hand; the API arms are asked by this script.
 
   python3 evidence/current_evidence/chat_models_20_cases.py                  # score every arm in results/
-  python3 evidence/current_evidence/chat_models_20_cases.py --detail         # and list each case's misses
+  python3 evidence/current_evidence/chat_models_20_cases.py --detail         # and list each case's differences
   python3 evidence/current_evidence/chat_models_20_cases.py --ask claude-opus-5-5 [--pdf] [--effort medium]
   python3 evidence/current_evidence/chat_models_20_cases.py --ours           # run Ask VEPai on the 20 cases
 
 --ask reads the key from ~/.anthropic_key or ANTHROPIC_API_KEY and never writes it. --pdf puts Ensembl's VEP
 web documentation (27 pages, vep_ai_demo/legacy/VEP_web_documentation.pdf) before every case.
 
-Scored on the 12 review scenarios, against the reference configuration (cases/chat_models_reference.json):
-our configuration for each, with the corrections from the round-1 review. Options the form ticks by
-default are left out on both sides. A free-text answer is mapped to catalogue options by OPTION_PATTERNS, entry by entry (entries split on
+A free-text answer is mapped to catalogue options by OPTION_PATTERNS, entry by entry (entries split on
 semicolons, bullets and lines); an entry that says not to tick something, or gives a form field an off
-value ("Filter by frequency: No filtering"), is dropped.
+value ("Filter by frequency: No filtering"), is dropped. Options the form ticks by default are left out.
 
-  reference options in REC     the reference's recommended options found in the RECOMMENDED part
-  named anywhere               the same options found anywhere in the answer
-  row-deleting filters         RECOMMENDED entries that switch on pick, pick_allele, per_gene, most_severe,
-                               summary, coding regions only or the frequency filter, where the reference
-                               does not recommend it
-  short-variant tools on SV    options the priority table marks not applicable to structural variants,
-                               recommended on the cases whose variants are structural only
+  reference options recommended   of the table's RECOMMENDED options, how many the arm recommends
+                                  (the 16 cases with known facts: 1-12, 17-20)
+  not in the reference            options the arm recommends that the table does not (the same 16)
+  cannot work for the case        recommended options Ensembl does not offer for the case's species, or
+                                  short-variant options on a case whose variants are structural only (all 20)
+  row-deleting filters            recommended entries that switch on pick, pick_allele, per_gene, most_severe,
+                                  summary, coding regions only or the frequency filter (all 20)
+
+The scores file also scores the 12 review scenarios against their round-1 configuration
+(cases/chat_models_reference_round1.json), which predates later changes to the table.
 """
 import argparse
 import base64
@@ -93,7 +99,7 @@ OPTION_PATTERNS = {
     "spliceai": r"spliceai",
     "utrannotator": r"utrannotator|utr ?annotator",
     "enformer": r"enformer",
-    "protein": r"(?:^|[;:,(]\s*)(?:ensembl )?protein(?: ids?| identifiers?)?\s*(?=[;,)\n]|$)",
+    "protein": r"(?:^\s*|[;:,(]\s*)(?:ensembl )?protein(?: ids?| identifiers?)?\s*(?=[;,)(\n]|$)",
     "af": r"1000 ?genomes?[^;\n]{0,25}global|global (?:minor )?allele freq|\b1kg global",
     "biotype": r"biotype",
     "distance": r"upstream/downstream distance|\bdistance\b",
@@ -125,7 +131,7 @@ OPTION_PATTERNS = {
 PATTERNS = {k: re.compile(v, re.I | re.M) for k, v in OPTION_PATTERNS.items()}
 # "do not select X", "leave X unticked", and a form field listed with an off value ("Filter by frequency: No
 # filtering", "Return results for variants in coding regions only: unticked") recommend nothing.
-NEGATED = re.compile(r"\b(?:do not|don't|not select|avoid|leave\b[^;\n]{0,90}\b(?:off|unticked)|untick|skip)\b"
+NEGATED = re.compile(r"\b(?:do not|don't|not select|avoid|leave\b[^;\n]{0,90}\b(?:off|unticked)|untick(?:ed)?|skip)\b"
                      r"|:\s*(?:no\b|none\b|off\b|unticked\b|not (?:ticked|selected))", re.I)
 
 
@@ -208,44 +214,71 @@ def ours():
 
 
 # ---------------------------------------------------------------- scoring
+def reference_configuration(va, cat, facts, query, organism):
+    """The priority table's RECOMMENDED options for these true factors, as the tool would print them."""
+    resolved = va.resolve_for_query(facts, cat) or {}
+    enabled, disabled = set(), set()
+    va.restore_missing_recommended(enabled, disabled, resolved, cat, query)
+    return {o for o in enabled if va.offer_available(o, cat, organism, "GRCh38")}
+
+
 def score(detail=False):
-    ref = json.loads((CASES / "chat_models_reference.json").read_text())["cases"]
-    cat = json.loads((ENGINE / "vep_options.json").read_text())
-    cat = cat if isinstance(cat, list) else cat["options"]
-    defaults = {o["id"] for o in cat if o.get("web_default_on")}
+    sys.path.insert(0, str(ENGINE))
+    import vep_assistant as va
+    cat = va.load_knowledge_base()
+    cat = cat[0] if isinstance(cat, tuple) else cat
+    byid = {o["id"]: o for o in cat}
+    defaults = {o for o in byid if byid[o].get("web_default_on")}
     pbf = json.loads((ENGINE / "priority_by_factor.json").read_text())["priorities"]
     short_only = {o for o, r in pbf.items() if r.get("variant_size_class", {}).get("structural-CNV") == "not_applicable"}
-    sv_only = {int(c) for c, r in ref.items() if r["facts"]["variant_size_class"] == ["structural-CNV"]}
+    cases = {c["case"]: c for c in load_cases()}
+    organism = {n: ("homo_sapiens" if not c["facts"] or c["facts"]["species"] == "human"
+                    else va.resolve_species_name(c["query"])) for n, c in cases.items()}
+    ref = {n: reference_configuration(va, cat, c["facts"], c["query"], organism[n]) - defaults
+           for n, c in cases.items() if c["facts"]}
+    round1 = json.loads((CASES / "chat_models_reference_round1.json").read_text())["cases"]
+
+    def cannot_work(n, o):
+        spec = byid[o].get("species")
+        if isinstance(spec, list) and not va.on_species_list(organism[n], spec):
+            return True
+        f = cases[n]["facts"]
+        return bool(f) and f["variant_size_class"] == ["structural-CNV"] and o in short_only
 
     table = {}
     for f in sorted(RESULTS.glob(f"{PREFIX}_answers_*.json")):
         d = json.loads(f.read_text())
         ans = {c["case"]: c["answer"] for c in d["cases"]}
-        s = {"reference_in_recommended": 0, "named_anywhere": 0, "reference_total": 0, "row_deleting": 0,
-             "short_tools_on_sv": 0, "file": f.name, "per_case": {}}
-        for c, r in ref.items():
-            c = int(c)
-            must = set(r["recommended"]) - defaults
-            rec = recommended_part(ans.get(c))
-            got_rec, got_all = options_in(rec) - defaults, options_in(ans.get(c))
-            dele = [it.strip()[:120] for it in items(rec) if options_in(it) & (ROW_DELETING - set(r["recommended"]))]
-            sv = sorted(got_rec & short_only) if c in sv_only else []
-            s["reference_total"] += len(must)
-            s["reference_in_recommended"] += len(must & got_rec)
-            s["named_anywhere"] += len(must & got_all)
-            s["row_deleting"] += len(dele)
-            s["short_tools_on_sv"] += len(sv)
-            s["per_case"][c] = {"missed": sorted(must - got_rec), "row_deleting": dele, "short_tools_on_sv": sv}
+        s = {"file": f.name, "reference_total": sum(map(len, ref.values())), "reference_recommended": 0,
+             "not_in_reference": 0, "cannot_work": 0, "row_deleting": 0,
+             "round1": {"reference_total": 0, "reference_recommended": 0}, "per_case": {}}
+        for n in cases:
+            rec = recommended_part(ans.get(n))
+            got = options_in(rec) - defaults
+            p = {"cannot_work": sorted(o for o in got if cannot_work(n, o)),
+                 "row_deleting": [it.strip()[:120] for it in items(rec) if options_in(it) & ROW_DELETING]}
+            if n in ref:
+                p["missed"], p["not_in_reference"] = sorted(ref[n] - got), sorted(got - ref[n])
+                s["reference_recommended"] += len(got & ref[n])
+                s["not_in_reference"] += len(got - ref[n])
+            if str(n) in round1:
+                must = set(round1[str(n)]["recommended"]) - defaults
+                s["round1"]["reference_total"] += len(must)
+                s["round1"]["reference_recommended"] += len(got & must)
+            s["cannot_work"] += len(p["cannot_work"])
+            s["row_deleting"] += len(p["row_deleting"])
+            s["per_case"][n] = p
         table[d["arm"]] = s
 
-    print(f"{'arm':66s} {'reference options in REC':>25s} {'named anywhere':>15s} {'row-deleting':>13s} {'short tools on SV':>18s}")
+    print(f"{'arm':66s} {'reference options':>18s} {'not in reference':>17s} {'cannot work':>12s} {'row-deleting':>13s}"
+          f" {'round-1 ref':>12s}")
     for arm, s in table.items():
-        t = s["reference_total"]
-        print(f"{arm:66s} {s['reference_in_recommended']:>18d}/{t:<6d} {s['named_anywhere']:>8d}/{t:<6d}"
-              f" {s['row_deleting']:>13d} {s['short_tools_on_sv']:>18d}")
+        print(f"{arm:66s} {s['reference_recommended']:>11d}/{s['reference_total']:<6d} {s['not_in_reference']:>17d}"
+              f" {s['cannot_work']:>12d} {s['row_deleting']:>13d}"
+              f" {s['round1']['reference_recommended']:>8d}/{s['round1']['reference_total']:<3d}")
         if detail:
-            for c, p in s["per_case"].items():
-                print(f"    case {c:2d} missed {p['missed']}  row-deleting {p['row_deleting']}  short-on-SV {p['short_tools_on_sv']}")
+            for n, p in s["per_case"].items():
+                print(f"    case {n:2d} {p}")
     (RESULTS / f"{PREFIX}_scores.json").write_text(json.dumps(table, indent=1))
 
 
