@@ -120,6 +120,38 @@ All figures: `gemma4:26b` through Ollama on an Apple M5 Max, temperature 0. The 
 
 The 31-scenario figures score the tool against its own priority table: they measure how far a misread moves the output, not whether the table is right. The external check is agreement with the mentor's own edits to round 1 of the review: F1 0.763, measured on the scenarios as she reviewed them.
 
+### Compared with general chat models
+
+Could a general chat model do this job instead? Each model got the same short instruction ("recommend which
+options to tick on the VEP web form") and 20 scenarios, one question per scenario, with no memory between
+them. Some also got Ensembl's 27-page VEP web documentation.
+
+| model | options it recommended, of the 92 the table recommends | options that cannot work for the case | filters that delete results |
+|---|---|---|---|
+| **Ask VEPai** (`gemma4:26b`, local) | **92** | **0** | **0** |
+| Claude Opus 5.5 (state of the art), with the documentation | 48 | 8 | 2 |
+| Claude Opus 4.7, with the documentation | 35 | 20 | 9 |
+| Claude Opus 5.5 | 32 | 12 | 11 |
+| Claude Sonnet 5, with the documentation | 18 | 18 | 6 |
+| ChatGPT (website, Thinking on) | 14 | 14 | 3 |
+| Claude Sonnet 5 (claude.ai website) | 8 | 6 | 2 |
+
+How to read the columns:
+
+- **Options recommended.** The standard is this project's priority table, applied to each scenario's known
+  facts: 92 options over 16 scenarios. Ask VEPai scores 92 because it *is* that table, so this column shows
+  how far the chat models are from our choices, not that they are wrong.
+- **Cannot work for the case.** Options Ensembl does not offer for that species (CADD for sheep), or
+  short-variant tools recommended for structural variants (SIFT, SpliceAI). These are errors by Ensembl's
+  own lists, whatever table one prefers.
+- **Filters that delete results.** Settings such as "one consequence per gene" or "coding regions only",
+  which remove rows from the output and can hide the variant the user is looking for.
+
+Bigger models and the documentation help, but even the best arm, Opus 5.5 with the documentation, recommends
+about half of the table's options and still suggests options that cannot work. The full method, every
+answer and the per-case scores are in experiment 6 of
+[`evidence/current_evidence/README.md`](evidence/current_evidence/README.md).
+
 ## 5. Upstream
 
 *To confirm with the mentors on 1 October.*
@@ -138,9 +170,8 @@ The 31-scenario figures score the tool against its own priority table: they meas
 1. **Mentor decisions on the priority table:** the structural-variant exclusions; canonical transcripts on every query; three rows marked as ours; the seven rows where our table differs from the mentor's edits.
 2. **Catalogue sources:** re-source the older options from the release-116 form files; they still cite the release-115 files. The three options added from the release-116 form, and every corrected one, already cite release 116.
 3. **Tricky cases:** draw the organisms from Ensembl's index.
-4. **Comparison with chat models:** the mentors asked how general chat models do on the same scenarios. ChatGPT, Claude, and Claude given the VEP documentation have answered 20 scenarios; the scores are not yet published.
-5. **Real questions:** turn the eight configuration questions from Ensembl's issue trackers into a test set, with answers confirmed by the mentors.
-6. **Web integration:** a JSON output mode or an API, if the web team wants one.
+4. **Real questions:** turn the eight configuration questions from Ensembl's issue trackers into a test set, with answers confirmed by the mentors.
+5. **Web integration:** a JSON output mode or an API, if the web team wants one.
 ## 8. How to extend
 
 Everything the tool knows is in four JSON files in [`vep_ai_demo/`](vep_ai_demo/); the code reads them at start-up. An environment variable points the tool at another copy of any of them (listed in [`vep_ai_demo/README.md`](vep_ai_demo/README.md)).
