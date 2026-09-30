@@ -1,6 +1,6 @@
 {
  "Ask VEPai (gemma4:26b, reasoning on)": {
-  "her_in_recommended": 52,
+  "reference_in_recommended": 52,
   "named_anywhere": 67,
   "reference_total": 76,
   "row_deleting": 0,
@@ -106,7 +106,7 @@
   }
  },
  "ChatGPT website, default free model, Thinking on": {
-  "her_in_recommended": 11,
+  "reference_in_recommended": 11,
   "named_anywhere": 30,
   "reference_total": 76,
   "row_deleting": 3,
@@ -275,8 +275,8 @@
    }
   }
  },
- "Claude website (claude.ai), Sonnet, medium effort": {
-  "her_in_recommended": 7,
+ "Claude website (claude.ai), Sonnet 5, medium effort (default)": {
+  "reference_in_recommended": 7,
   "named_anywhere": 25,
   "reference_total": 76,
   "row_deleting": 1,
@@ -439,7 +439,7 @@
   }
  },
  "claude-opus-5-5 via the API, effort medium": {
-  "her_in_recommended": 22,
+  "reference_in_recommended": 22,
   "named_anywhere": 38,
   "reference_total": 76,
   "row_deleting": 6,
@@ -600,7 +600,7 @@
   }
  },
  "claude-opus-5-5 via the API, effort medium, VEP documentation PDF": {
-  "her_in_recommended": 33,
+  "reference_in_recommended": 33,
   "named_anywhere": 56,
   "reference_total": 76,
   "row_deleting": 2,
@@ -738,7 +738,7 @@
   }
  },
  "claude-sonnet-5 via the API, effort medium, VEP documentation PDF": {
-  "her_in_recommended": 9,
+  "reference_in_recommended": 9,
   "named_anywhere": 39,
   "reference_total": 76,
   "row_deleting": 3,

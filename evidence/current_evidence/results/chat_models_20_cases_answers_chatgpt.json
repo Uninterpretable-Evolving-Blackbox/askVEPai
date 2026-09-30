@@ -1,6 +1,6 @@
 {
  "arm": "ChatGPT website, default free model, Thinking on",
- "how": "chatgpt.com website, logged in; default free model, Thinking on; memory off; a new chat per case, instruction pasted above the question; web search was on",
+ "how": "chatgpt.com website; default free model, Thinking on; memory off; a new chat per case, instruction pasted above the question; web search was on",
  "date": "2026-09-25",
  "cases": [
   {

@@ -17,7 +17,7 @@ sixth sets the tool beside general chat models.
 | [3 · 754 organism names](#3--754-organism-names) | Does the model name the organism? | **746/754** (repeats 747, 746) | 746/754 (746, 746) |
 | [4 · the mentors' four queries](#4--the-mentors-four-queries) | What does the model make of the mentors' own example queries? | stable within a run on 3 of 4 | stable on 4 of 4, and between runs |
 | [5 · 78 missing facts](#5--78-missing-facts) | When a fact is missing, does the tool ask, or assume a safe value and say so? | **73/78** (repeats 72, 72, 72) | 72/78 (72, 72, 72) |
-| [6 · chat models, 20 cases](#6--chat-models-20-cases) | Does a general chat model, given the same job, recommend what the reviewer asked for? | **52/76** of her options; best chat model 33/76 | not run |
+| [6 · chat models, 20 cases](#6--chat-models-20-cases) | Does a general chat model, given the same job, recommend the options of the reference configuration? | **52/76** reference options; best chat model 33/76 | not run |
 
 Every run: `gemma4:26b` on an Apple M5 Max, temperature 0, seed 42. At temperature 0 the seed does not
 change the answer (seeds 42 and 43 give the same text on the same query), so the seeds 42, 43 and 44 of
@@ -332,13 +332,13 @@ same as its first run (18/20, 23/23, 23/23, 8/12).
 `chat_models_20_cases.py`
 
 **Question.** Could a general chat model do this job instead? Given the same instruction, does it recommend
-the options the reviewer asked for, and avoid the ones that delete results or do not apply?
+the options of the reference configuration, and avoid the ones that delete results or do not apply?
 
 **Cases.** 20 (`cases/chat_models_20_cases.json`, each with its source and why it was picked):
 
 | cases | source | why |
 |---|---|---|
-| 1–12 | scenarios the reviewer marked on the round-1 sheet (rows 3, 25, 31, 17, 29, 27, 21, 20, 24, 26, 6, 9) | the only cases with an agreed answer; she approved 8 as shown and edited 4 |
+| 1–12 | review scenarios checked in the round-1 review (rows 3, 25, 31, 17, 29, 27, 21, 20, 24, 26, 6, 9) | the only cases with a reference configuration: 8 approved as shown, 4 corrected |
 | 13–16 | the mentors' four example queries | gene lists and loss-of-function filters, which the form cannot set |
 | 17–18 | trap versions from experiment 1 | misleading wording ("not a mouse study") |
 | 19–20 | pig (clinical) and sheep (population frequency) | species with their own data lists |
@@ -357,32 +357,32 @@ the VEP web form, and answer as RECOMMENDED, OPTIONAL, NOT ON THE FORM and ASSUM
 
 An API call carries no memory and no earlier conversation: each case is a single call.
 
-**Scored.** On cases 1–12, against the reviewer's round-1 sheet with her edits
-(`cases/chat_models_reference.json`): 76 options she wants recommended, leaving out the ones the form
-already ticks. Each answer is read entry by entry and mapped to catalogue options by the patterns in the
+**Scored.** On cases 1–12, against the reference configuration (`cases/chat_models_reference.json`): our
+configuration for each scenario with the corrections from the round-1 review. It recommends 76 options,
+leaving out the ones the form already ticks. Each answer is read entry by entry and mapped to catalogue options by the patterns in the
 script; an entry that says not to tick something ("leave … unticked", "Filter by frequency: No filtering")
 recommends nothing. Four counts:
 
-- **her options in RECOMMENDED**: of her 76, how many the arm tells the user to tick
+- **reference options in RECOMMENDED**: of the 76, how many the arm tells the user to tick
 - **named anywhere**: how many it mentions at all, in any part of the answer
 - **row-deleting filters**: recommended entries that switch on a filter that removes result rows (pick, one
-  consequence per gene, most severe, coding regions only, the frequency filter) where she did not ask for it
+  consequence per gene, most severe, coding regions only, the frequency filter) where the reference does not recommend it
 - **short-variant tools on SV-only cases**: options the priority table marks not applicable to structural
   variants (SIFT, PolyPhen, the gnomAD and 1000 Genomes short-variant frequencies, SpliceAI …), recommended
   on cases 2–6, whose variants are structural only
 
-Cases 13–20 have no agreed answer; they were read by hand.
+Cases 13–20 have no reference configuration; they were read by hand.
 
 **Results.**
 
-| arm | her options in RECOMMENDED | named anywhere | row-deleting filters | short-variant tools on SV-only cases |
+| arm | reference options in RECOMMENDED | named anywhere | row-deleting filters | short-variant tools on SV-only cases |
 |---|---|---|---|---|
 | **Ask VEPai** | **52/76** | **67/76** | **0** | **0** |
-| Claude Opus 5.5 (API), with the VEP documentation | 33/76 | 56/76 | 2 | 7 |
-| Claude Opus 5.5 (API) | 22/76 | 38/76 | 6 | 11 |
+| Claude Opus 5.5 (SOTA, API), with the VEP documentation | 33/76 | 56/76 | 2 | 7 |
+| Claude Opus 5.5 (SOTA, API) | 22/76 | 38/76 | 6 | 11 |
 | ChatGPT (website) | 11/76 | 30/76 | 3 | 13 |
 | Claude Sonnet 5 (API), with the VEP documentation | 9/76 | 39/76 | 3 | 17 |
-| Claude Sonnet (claude.ai website) | 7/76 | 25/76 | 1 | 6 |
+| Claude Sonnet 5 medium (claude.ai website) | 7/76 | 25/76 | 1 | 6 |
 
 Files: `results/chat_models_20_cases_answers_{ask_vepai,opus55_pdf,opus55,chatgpt,sonnet5_pdf,claude_chat}.json`,
 scores with every miss per case in `results/chat_models_20_cases_scores.json`. API cost for the 20 cases:
@@ -396,8 +396,8 @@ Opus 5.5 $0.50 (16 s a case), with the PDF $1.17 (23 s); Sonnet 5 with the PDF $
 - **Filters that delete rows.** The chat arms recommend "coding regions only" for coding questions and "one
   consequence per variant" for summaries; both remove results the user cannot get back. Ask VEPai never
   recommends them.
-- **The documentation helps the larger model most.** With the PDF, Opus 5.5 goes from 22 to 33 of her 76 and
-  from 6 to 2 row-deleting filters; Sonnet 5 with it scores 9, against 7 for Sonnet in the chat app. It still misses the options that depend on the
+- **The documentation helps the larger model most.** With the PDF, Opus 5.5 goes from 22 to 33 of the 76 and
+  from 6 to 2 row-deleting filters; Sonnet 5 with it scores 9, against 7 for Sonnet 5 on the claude.ai website. It still misses the options that depend on the
   kind of variant or question: cell type and miRNA structure (6 cases each), gnomAD SV and Phenotypes (5 each).
 - **Species (cases 19, 20).** Only Ask VEPai offers CADD for pig; both Opus arms say CADD is human-only,
   which Ensembl's plugin configuration contradicts. For sheep every arm says the form has no breed
@@ -408,8 +408,8 @@ Opus 5.5 $0.50 (16 s a case), with the PDF $1.17 (23 s); Sonnet 5 with the PDF $
 - **Where the chat models do better.** They explain what the form cannot do (restricting to a gene list, a
   loss-of-function filter) at more length, and suggest external resources.
 
-**Limits.** The reference favours Ask VEPai: it is our tool's round-1 output with the reviewer's edits, and she
-approved 8 of the 12 as shown. One answer per case per arm; the two websites run with their own hidden
+**Limits.** The reference favours Ask VEPai: it is our tool's round-1 output after review, and 8
+of the 12 were approved as shown. One answer per case per arm; the two websites run with their own hidden
 instructions and settings, and ChatGPT searched the web; the API arms have neither. The mapping from free text to options is by
 pattern; the per-case misses in the scores file show every decision it made.
 

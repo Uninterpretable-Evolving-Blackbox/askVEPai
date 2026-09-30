@@ -1,6 +1,6 @@
 {
- "arm": "Claude website (claude.ai), Sonnet, medium effort",
- "how": "claude.ai website; Sonnet, medium effort; memory off; a new chat per case, instruction pasted above the question",
+ "arm": "Claude website (claude.ai), Sonnet 5, medium effort (default)",
+ "how": "claude.ai website; Sonnet 5, medium effort (default); memory off; a new chat per case, instruction pasted above the question",
  "date": "2026-09-25",
  "cases": [
   {

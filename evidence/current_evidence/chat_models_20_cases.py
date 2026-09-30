@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Ask VEPai against general chat models, on 20 cases: does a chat model given the same job recommend the
-options the reviewer asked for, and does it avoid the ones that delete results or do not apply?
+options of the reference configuration, and does it avoid the ones that delete results or do not apply?
 
 Every arm gets the same short system prompt (cases/chat_models_system_prompt.txt), one question per case.
 The chat-app answers (ChatGPT, Claude chat) were pasted by hand; the API arms are asked by this script.
@@ -13,16 +13,16 @@ The chat-app answers (ChatGPT, Claude chat) were pasted by hand; the API arms ar
 --ask reads the key from ~/.anthropic_key or ANTHROPIC_API_KEY and never writes it. --pdf puts Ensembl's VEP
 web documentation (27 pages, vep_ai_demo/legacy/VEP_web_documentation.pdf) before every case.
 
-Scored on the 12 cases the reviewer marked, against her round-1 sheet with her edits
-(cases/chat_models_reference.json). Options the form ticks by default are left out on both sides. A
-free-text answer is mapped to catalogue options by OPTION_PATTERNS, entry by entry (entries split on
+Scored on the 12 review scenarios, against the reference configuration (cases/chat_models_reference.json):
+our configuration for each, with the corrections from the round-1 review. Options the form ticks by
+default are left out on both sides. A free-text answer is mapped to catalogue options by OPTION_PATTERNS, entry by entry (entries split on
 semicolons, bullets and lines); an entry that says not to tick something, or gives a form field an off
 value ("Filter by frequency: No filtering"), is dropped.
 
-  her options in RECOMMENDED   her recommended options found in the RECOMMENDED part of the answer
+  reference options in REC     the reference's recommended options found in the RECOMMENDED part
   named anywhere               the same options found anywhere in the answer
   row-deleting filters         RECOMMENDED entries that switch on pick, pick_allele, per_gene, most_severe,
-                               summary, coding regions only or the frequency filter, where her reference
+                               summary, coding regions only or the frequency filter, where the reference
                                does not recommend it
   short-variant tools on SV    options the priority table marks not applicable to structural variants,
                                recommended on the cases whose variants are structural only
@@ -221,7 +221,7 @@ def score(detail=False):
     for f in sorted(RESULTS.glob(f"{PREFIX}_answers_*.json")):
         d = json.loads(f.read_text())
         ans = {c["case"]: c["answer"] for c in d["cases"]}
-        s = {"her_in_recommended": 0, "named_anywhere": 0, "reference_total": 0, "row_deleting": 0,
+        s = {"reference_in_recommended": 0, "named_anywhere": 0, "reference_total": 0, "row_deleting": 0,
              "short_tools_on_sv": 0, "file": f.name, "per_case": {}}
         for c, r in ref.items():
             c = int(c)
@@ -231,17 +231,17 @@ def score(detail=False):
             dele = [it.strip()[:120] for it in items(rec) if options_in(it) & (ROW_DELETING - set(r["recommended"]))]
             sv = sorted(got_rec & short_only) if c in sv_only else []
             s["reference_total"] += len(must)
-            s["her_in_recommended"] += len(must & got_rec)
+            s["reference_in_recommended"] += len(must & got_rec)
             s["named_anywhere"] += len(must & got_all)
             s["row_deleting"] += len(dele)
             s["short_tools_on_sv"] += len(sv)
             s["per_case"][c] = {"missed": sorted(must - got_rec), "row_deleting": dele, "short_tools_on_sv": sv}
         table[d["arm"]] = s
 
-    print(f"{'arm':66s} {'her options in REC':>18s} {'named anywhere':>15s} {'row-deleting':>13s} {'short tools on SV':>18s}")
+    print(f"{'arm':66s} {'reference options in REC':>25s} {'named anywhere':>15s} {'row-deleting':>13s} {'short tools on SV':>18s}")
     for arm, s in table.items():
         t = s["reference_total"]
-        print(f"{arm:66s} {s['her_in_recommended']:>11d}/{t:<6d} {s['named_anywhere']:>8d}/{t:<6d}"
+        print(f"{arm:66s} {s['reference_in_recommended']:>18d}/{t:<6d} {s['named_anywhere']:>8d}/{t:<6d}"
               f" {s['row_deleting']:>13d} {s['short_tools_on_sv']:>18d}")
         if detail:
             for c, p in s["per_case"].items():

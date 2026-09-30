@@ -1,5 +1,5 @@
 {
- "_what": "The 20 cases put to every arm of chat_models_20_cases.py. 1-12: scenarios the reviewer marked on the round-1 sheet (the only cases with an agreed answer); 13-16: the mentors' four example queries; 17-18: trap versions from the 150 tricky cases; 19-20: pig and sheep, species with their own data lists.",
+ "_what": "The 20 cases put to every arm of chat_models_20_cases.py. 1-12: review scenarios checked in the round-1 review (the only cases with a reference configuration); 13-16: the mentors' four example queries; 17-18: trap versions from the 150 tricky cases; 19-20: pig and sheep, species with their own data lists.",
  "cases": [
   {
    "case": 1,
@@ -58,19 +58,19 @@
   {
    "case": 10,
    "source": "reviewed scenario, row 26",
-   "why": "zebrafish somatic small, regulatory, clinical (edited by the reviewer)",
+   "why": "zebrafish somatic small, regulatory, clinical (corrected in review)",
    "query": "I am analyzing somatic SNVs and indels from a zebrafish tumor sample. I want to assess the potential pathogenicity of these non-coding variants by evaluating their impact on regulatory elements or transcription factor binding sites."
   },
   {
    "case": 11,
    "source": "reviewed scenario, row 6",
-   "why": "mouse germline small, regulatory, clinical (edited by the reviewer)",
+   "why": "mouse germline small, regulatory, clinical (corrected in review)",
    "query": "I am analyzing WGS data from a mouse cohort to identify germline SNVs and indels within regulatory and non-coding regions for pathogenicity assessment."
   },
   {
    "case": 12,
    "source": "reviewed scenario, row 9",
-   "why": "mouse somatic small, coding + regulatory, basic (edited by the reviewer)",
+   "why": "mouse somatic small, coding + regulatory, basic (corrected in review)",
    "query": "I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis."
   },
   {

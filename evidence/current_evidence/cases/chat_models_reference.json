@@ -1,5 +1,5 @@
 {
- "_what": "Reference for cases 1-12: the reviewer's returned round-1 sheet with her edits applied (built by build_mentor_gold.py in the private working repository). 'verdict' is her mark on the row: approve = as shown, edit = changed. Option ids are the catalogue's (vep_ai_demo/vep_options.json).",
+ "_what": "Reference configuration for cases 1-12: our configuration for each review scenario with the corrections from the round-1 review (built by build_mentor_gold.py in the private working repository). 'verdict': approve = approved as shown, edit = corrected. Option ids are the catalogue's (vep_ai_demo/vep_options.json).",
  "cases": {
   "1": {
    "review_row": 3,
