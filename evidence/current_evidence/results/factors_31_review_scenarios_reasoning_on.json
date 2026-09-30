@@ -7,33 +7,37 @@
     "per": {
      "species": true,
      "origin": true,
-     "variant_size_class": false,
-     "region_focus": true,
-     "analysis_goal": false
-    },
-    "exact": false,
-    "per_config": {
-     "species": true,
-     "origin": true,
-     "variant_size_class": false,
+     "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact_config": false,
-    "e2e_f1": 0.6808510638297872,
-    "n_gold": 16,
-    "n_pred": 31,
+    "exact": true,
+    "per_config": {
+     "species": true,
+     "origin": true,
+     "variant_size_class": true,
+     "region_focus": true,
+     "analysis_goal": true
+    },
+    "exact_config": true,
+    "e2e_f1": 0.983050847457627,
+    "n_gold": 29,
+    "n_pred": 30,
     "truth": {
      "species": "human",
      "origin": "germline",
-     "variant_size_class": "structural-CNV",
+     "variant_size_class": [
+      "small",
+      "structural-CNV"
+     ],
      "region_focus": [
       "coding",
       "regulatory-noncoding"
      ],
      "analysis_goal": [
       "basic-consequence",
-      "clinical-interpretation"
+      "clinical-interpretation",
+      "population-frequency"
      ]
     },
     "got": {
@@ -118,9 +122,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9818181818181818,
-    "n_gold": 27,
-    "n_pred": 28,
+    "e2e_f1": 0.9811320754716981,
+    "n_gold": 26,
+    "n_pred": 27,
     "truth": {
      "species": "human",
      "origin": "germline",
@@ -214,9 +218,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9696969696969697,
-    "n_gold": 16,
-    "n_pred": 17,
+    "e2e_f1": 0.967741935483871,
+    "n_gold": 15,
+    "n_pred": 16,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -346,12 +350,12 @@
     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
     "per": {
      "species": true,
-     "origin": false,
+     "origin": true,
      "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": false,
+    "exact": true,
     "per_config": {
      "species": true,
      "origin": true,
@@ -365,7 +369,7 @@
     "n_pred": 10,
     "truth": {
      "species": "non-human",
-     "origin": "germline",
+     "origin": "unstated",
      "variant_size_class": "small",
      "region_focus": [
       "coding"
@@ -500,9 +504,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.967741935483871,
-    "n_gold": 15,
-    "n_pred": 16,
+    "e2e_f1": 0.9655172413793104,
+    "n_gold": 14,
+    "n_pred": 15,
     "truth": {
      "species": "human",
      "origin": "germline",
@@ -877,12 +881,12 @@
      "origin": true,
      "variant_size_class": true,
      "region_focus": true,
-     "analysis_goal": false
+     "analysis_goal": true
     },
-    "exact_config": false,
-    "e2e_f1": 0.7857142857142858,
-    "n_gold": 11,
-    "n_pred": 17,
+    "exact_config": true,
+    "e2e_f1": 0.967741935483871,
+    "n_gold": 15,
+    "n_pred": 16,
     "truth": {
      "species": "human",
      "origin": "germline",
@@ -893,6 +897,7 @@
      ],
      "analysis_goal": [
       "basic-consequence",
+      "clinical-interpretation",
       "population-frequency"
      ]
     },
@@ -1069,9 +1074,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9565217391304348,
-    "n_gold": 11,
-    "n_pred": 12,
+    "e2e_f1": 0.9523809523809523,
+    "n_gold": 10,
+    "n_pred": 11,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -1151,26 +1156,29 @@
     "per": {
      "species": true,
      "origin": true,
-     "variant_size_class": true,
+     "variant_size_class": false,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": true,
+    "exact": false,
     "per_config": {
      "species": true,
      "origin": true,
-     "variant_size_class": true,
+     "variant_size_class": false,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact_config": true,
-    "e2e_f1": 0.9696969696969697,
-    "n_gold": 16,
-    "n_pred": 17,
+    "exact_config": false,
+    "e2e_f1": 0.6666666666666667,
+    "n_gold": 29,
+    "n_pred": 16,
     "truth": {
      "species": "human",
      "origin": "germline",
-     "variant_size_class": "structural-CNV",
+     "variant_size_class": [
+      "small",
+      "structural-CNV"
+     ],
      "region_focus": [
       "coding",
       "regulatory-noncoding"
@@ -1260,9 +1268,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9565217391304348,
-    "n_gold": 11,
-    "n_pred": 12,
+    "e2e_f1": 0.9523809523809523,
+    "n_gold": 10,
+    "n_pred": 11,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -1294,12 +1302,12 @@
     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
     "per": {
      "species": true,
-     "origin": false,
+     "origin": true,
      "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": false,
+    "exact": true,
     "per_config": {
      "species": true,
      "origin": true,
@@ -1313,7 +1321,7 @@
     "n_pred": 8,
     "truth": {
      "species": "non-human",
-     "origin": "germline",
+     "origin": "unstated",
      "variant_size_class": "small",
      "region_focus": [
       "coding"
@@ -1354,9 +1362,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.967741935483871,
-    "n_gold": 15,
-    "n_pred": 16,
+    "e2e_f1": 0.9655172413793104,
+    "n_gold": 14,
+    "n_pred": 15,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -1389,12 +1397,12 @@
     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
     "per": {
      "species": true,
-     "origin": false,
+     "origin": true,
      "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": false,
+    "exact": true,
     "per_config": {
      "species": true,
      "origin": true,
@@ -1408,7 +1416,7 @@
     "n_pred": 12,
     "truth": {
      "species": "non-human",
-     "origin": "germline",
+     "origin": "unstated",
      "variant_size_class": "small",
      "region_focus": [
       "coding",
@@ -1481,7 +1489,8 @@
      ]
     }
    }
-  ]
+  ],
+  "relabelled_2026_09_30": true
  },
  {
   "seed": 43,
@@ -1491,33 +1500,37 @@
     "per": {
      "species": true,
      "origin": true,
-     "variant_size_class": false,
-     "region_focus": true,
-     "analysis_goal": false
-    },
-    "exact": false,
-    "per_config": {
-     "species": true,
-     "origin": true,
-     "variant_size_class": false,
+     "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact_config": false,
-    "e2e_f1": 0.6808510638297872,
-    "n_gold": 16,
-    "n_pred": 31,
+    "exact": true,
+    "per_config": {
+     "species": true,
+     "origin": true,
+     "variant_size_class": true,
+     "region_focus": true,
+     "analysis_goal": true
+    },
+    "exact_config": true,
+    "e2e_f1": 0.983050847457627,
+    "n_gold": 29,
+    "n_pred": 30,
     "truth": {
      "species": "human",
      "origin": "germline",
-     "variant_size_class": "structural-CNV",
+     "variant_size_class": [
+      "small",
+      "structural-CNV"
+     ],
      "region_focus": [
       "coding",
       "regulatory-noncoding"
      ],
      "analysis_goal": [
       "basic-consequence",
-      "clinical-interpretation"
+      "clinical-interpretation",
+      "population-frequency"
      ]
     },
     "got": {
@@ -1602,9 +1615,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9818181818181818,
-    "n_gold": 27,
-    "n_pred": 28,
+    "e2e_f1": 0.9811320754716981,
+    "n_gold": 26,
+    "n_pred": 27,
     "truth": {
      "species": "human",
      "origin": "germline",
@@ -1698,9 +1711,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9696969696969697,
-    "n_gold": 16,
-    "n_pred": 17,
+    "e2e_f1": 0.967741935483871,
+    "n_gold": 15,
+    "n_pred": 16,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -1830,12 +1843,12 @@
     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
     "per": {
      "species": true,
-     "origin": false,
+     "origin": true,
      "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": false,
+    "exact": true,
     "per_config": {
      "species": true,
      "origin": true,
@@ -1849,7 +1862,7 @@
     "n_pred": 10,
     "truth": {
      "species": "non-human",
-     "origin": "germline",
+     "origin": "unstated",
      "variant_size_class": "small",
      "region_focus": [
       "coding"
@@ -1984,9 +1997,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.967741935483871,
-    "n_gold": 15,
-    "n_pred": 16,
+    "e2e_f1": 0.9655172413793104,
+    "n_gold": 14,
+    "n_pred": 15,
     "truth": {
      "species": "human",
      "origin": "germline",
@@ -2361,12 +2374,12 @@
      "origin": true,
      "variant_size_class": true,
      "region_focus": true,
-     "analysis_goal": false
+     "analysis_goal": true
     },
-    "exact_config": false,
-    "e2e_f1": 0.7857142857142858,
-    "n_gold": 11,
-    "n_pred": 17,
+    "exact_config": true,
+    "e2e_f1": 0.967741935483871,
+    "n_gold": 15,
+    "n_pred": 16,
     "truth": {
      "species": "human",
      "origin": "germline",
@@ -2377,6 +2390,7 @@
      ],
      "analysis_goal": [
       "basic-consequence",
+      "clinical-interpretation",
       "population-frequency"
      ]
     },
@@ -2553,9 +2567,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9565217391304348,
-    "n_gold": 11,
-    "n_pred": 12,
+    "e2e_f1": 0.9523809523809523,
+    "n_gold": 10,
+    "n_pred": 11,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -2635,26 +2649,29 @@
     "per": {
      "species": true,
      "origin": true,
-     "variant_size_class": true,
+     "variant_size_class": false,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": true,
+    "exact": false,
     "per_config": {
      "species": true,
      "origin": true,
-     "variant_size_class": true,
+     "variant_size_class": false,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact_config": true,
-    "e2e_f1": 0.9696969696969697,
-    "n_gold": 16,
-    "n_pred": 17,
+    "exact_config": false,
+    "e2e_f1": 0.6666666666666667,
+    "n_gold": 29,
+    "n_pred": 16,
     "truth": {
      "species": "human",
      "origin": "germline",
-     "variant_size_class": "structural-CNV",
+     "variant_size_class": [
+      "small",
+      "structural-CNV"
+     ],
      "region_focus": [
       "coding",
       "regulatory-noncoding"
@@ -2744,9 +2761,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9565217391304348,
-    "n_gold": 11,
-    "n_pred": 12,
+    "e2e_f1": 0.9523809523809523,
+    "n_gold": 10,
+    "n_pred": 11,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -2778,12 +2795,12 @@
     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
     "per": {
      "species": true,
-     "origin": false,
+     "origin": true,
      "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": false,
+    "exact": true,
     "per_config": {
      "species": true,
      "origin": true,
@@ -2797,7 +2814,7 @@
     "n_pred": 8,
     "truth": {
      "species": "non-human",
-     "origin": "germline",
+     "origin": "unstated",
      "variant_size_class": "small",
      "region_focus": [
       "coding"
@@ -2838,9 +2855,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.967741935483871,
-    "n_gold": 15,
-    "n_pred": 16,
+    "e2e_f1": 0.9655172413793104,
+    "n_gold": 14,
+    "n_pred": 15,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -2873,12 +2890,12 @@
     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
     "per": {
      "species": true,
-     "origin": false,
+     "origin": true,
      "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": false,
+    "exact": true,
     "per_config": {
      "species": true,
      "origin": true,
@@ -2892,7 +2909,7 @@
     "n_pred": 12,
     "truth": {
      "species": "non-human",
-     "origin": "germline",
+     "origin": "unstated",
      "variant_size_class": "small",
      "region_focus": [
       "coding",
@@ -2965,7 +2982,8 @@
      ]
     }
    }
-  ]
+  ],
+  "relabelled_2026_09_30": true
  },
  {
   "seed": 44,
@@ -2975,33 +2993,37 @@
     "per": {
      "species": true,
      "origin": true,
-     "variant_size_class": false,
-     "region_focus": true,
-     "analysis_goal": false
-    },
-    "exact": false,
-    "per_config": {
-     "species": true,
-     "origin": true,
-     "variant_size_class": false,
+     "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact_config": false,
-    "e2e_f1": 0.6808510638297872,
-    "n_gold": 16,
-    "n_pred": 31,
+    "exact": true,
+    "per_config": {
+     "species": true,
+     "origin": true,
+     "variant_size_class": true,
+     "region_focus": true,
+     "analysis_goal": true
+    },
+    "exact_config": true,
+    "e2e_f1": 0.983050847457627,
+    "n_gold": 29,
+    "n_pred": 30,
     "truth": {
      "species": "human",
      "origin": "germline",
-     "variant_size_class": "structural-CNV",
+     "variant_size_class": [
+      "small",
+      "structural-CNV"
+     ],
      "region_focus": [
       "coding",
       "regulatory-noncoding"
      ],
      "analysis_goal": [
       "basic-consequence",
-      "clinical-interpretation"
+      "clinical-interpretation",
+      "population-frequency"
      ]
     },
     "got": {
@@ -3086,9 +3108,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9818181818181818,
-    "n_gold": 27,
-    "n_pred": 28,
+    "e2e_f1": 0.9811320754716981,
+    "n_gold": 26,
+    "n_pred": 27,
     "truth": {
      "species": "human",
      "origin": "germline",
@@ -3182,9 +3204,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9696969696969697,
-    "n_gold": 16,
-    "n_pred": 17,
+    "e2e_f1": 0.967741935483871,
+    "n_gold": 15,
+    "n_pred": 16,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -3314,12 +3336,12 @@
     "id": "gen_nonhumangermlinesmallcodingclinicalinterpretation",
     "per": {
      "species": true,
-     "origin": false,
+     "origin": true,
      "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": false,
+    "exact": true,
     "per_config": {
      "species": true,
      "origin": true,
@@ -3333,7 +3355,7 @@
     "n_pred": 10,
     "truth": {
      "species": "non-human",
-     "origin": "germline",
+     "origin": "unstated",
      "variant_size_class": "small",
      "region_focus": [
       "coding"
@@ -3468,9 +3490,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.967741935483871,
-    "n_gold": 15,
-    "n_pred": 16,
+    "e2e_f1": 0.9655172413793104,
+    "n_gold": 14,
+    "n_pred": 15,
     "truth": {
      "species": "human",
      "origin": "germline",
@@ -3845,12 +3867,12 @@
      "origin": true,
      "variant_size_class": true,
      "region_focus": true,
-     "analysis_goal": false
+     "analysis_goal": true
     },
-    "exact_config": false,
-    "e2e_f1": 0.7857142857142858,
-    "n_gold": 11,
-    "n_pred": 17,
+    "exact_config": true,
+    "e2e_f1": 0.967741935483871,
+    "n_gold": 15,
+    "n_pred": 16,
     "truth": {
      "species": "human",
      "origin": "germline",
@@ -3861,6 +3883,7 @@
      ],
      "analysis_goal": [
       "basic-consequence",
+      "clinical-interpretation",
       "population-frequency"
      ]
     },
@@ -4037,9 +4060,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9565217391304348,
-    "n_gold": 11,
-    "n_pred": 12,
+    "e2e_f1": 0.9523809523809523,
+    "n_gold": 10,
+    "n_pred": 11,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -4119,26 +4142,29 @@
     "per": {
      "species": true,
      "origin": true,
-     "variant_size_class": true,
+     "variant_size_class": false,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": true,
+    "exact": false,
     "per_config": {
      "species": true,
      "origin": true,
-     "variant_size_class": true,
+     "variant_size_class": false,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact_config": true,
-    "e2e_f1": 0.9696969696969697,
-    "n_gold": 16,
-    "n_pred": 17,
+    "exact_config": false,
+    "e2e_f1": 0.6666666666666667,
+    "n_gold": 29,
+    "n_pred": 16,
     "truth": {
      "species": "human",
      "origin": "germline",
-     "variant_size_class": "structural-CNV",
+     "variant_size_class": [
+      "small",
+      "structural-CNV"
+     ],
      "region_focus": [
       "coding",
       "regulatory-noncoding"
@@ -4228,9 +4254,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.9565217391304348,
-    "n_gold": 11,
-    "n_pred": 12,
+    "e2e_f1": 0.9523809523809523,
+    "n_gold": 10,
+    "n_pred": 11,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -4262,12 +4288,12 @@
     "id": "gen_nonhumangermlinesmallcodingbasicconsequence",
     "per": {
      "species": true,
-     "origin": false,
+     "origin": true,
      "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": false,
+    "exact": true,
     "per_config": {
      "species": true,
      "origin": true,
@@ -4281,7 +4307,7 @@
     "n_pred": 8,
     "truth": {
      "species": "non-human",
-     "origin": "germline",
+     "origin": "unstated",
      "variant_size_class": "small",
      "region_focus": [
       "coding"
@@ -4322,9 +4348,9 @@
      "analysis_goal": true
     },
     "exact_config": true,
-    "e2e_f1": 0.967741935483871,
-    "n_gold": 15,
-    "n_pred": 16,
+    "e2e_f1": 0.9655172413793104,
+    "n_gold": 14,
+    "n_pred": 15,
     "truth": {
      "species": "human",
      "origin": "somatic",
@@ -4357,12 +4383,12 @@
     "id": "gen_nonhumangermlinesmallcoding+regulatorynoncodingclinicalinterpretation",
     "per": {
      "species": true,
-     "origin": false,
+     "origin": true,
      "variant_size_class": true,
      "region_focus": true,
      "analysis_goal": true
     },
-    "exact": false,
+    "exact": true,
     "per_config": {
      "species": true,
      "origin": true,
@@ -4376,7 +4402,7 @@
     "n_pred": 12,
     "truth": {
      "species": "non-human",
-     "origin": "germline",
+     "origin": "unstated",
      "variant_size_class": "small",
      "region_focus": [
       "coding",
@@ -4449,6 +4475,7 @@
      ]
     }
    }
-  ]
+  ],
+  "relabelled_2026_09_30": true
  }
 ]

@@ -11,18 +11,18 @@ Five experiments measure it. Each reports the tool's setting (reasoning on) besi
 
 | experiment | question | reasoning on | reasoning off |
 |---|---|---|---|
-| [1 · 150 tricky cases](#1--150-tricky-cases) | Does the model read the five factors when the wording misleads? | **143/150** | 135/150 |
-| [2 · 31 review scenarios](#2--31-review-scenarios) | Does the user get the right configuration for plainly worded scenarios? | **29/31** | 30/31 |
-| [3 · 754 organism names](#3--754-organism-names) | Does the model name the organism? | **746/754** | 746/754 |
-| [4 · the mentors' four queries](#4--the-mentors-four-queries) | What does the model make of the mentors' own example queries? | stable on 3 of 4 | not run |
-| [5 · 78 missing facts](#5--78-missing-facts) | When a fact is missing, does the tool ask, or assume a safe value and say so? | **73/78** | 72/78 |
+| [1 · 150 tricky cases](#1--150-tricky-cases) | Does the model read the five factors when the wording misleads? | **145/150** (repeats 143, 146) | 137/150 (137, 137) |
+| [2 · 31 review scenarios](#2--31-review-scenarios) | Does the user get the right configuration for plainly worded scenarios? | **30/31** | 29/31 |
+| [3 · 754 organism names](#3--754-organism-names) | Does the model name the organism? | **746/754** (repeats 747, 746) | 746/754 (746, 746) |
+| [4 · the mentors' four queries](#4--the-mentors-four-queries) | What does the model make of the mentors' own example queries? | stable within a run on 3 of 4 | stable on 4 of 4, and between runs |
+| [5 · 78 missing facts](#5--78-missing-facts) | When a fact is missing, does the tool ask, or assume a safe value and say so? | **73/78** (repeats 72, 72, 72) | 72/78 (72, 72, 72) |
 
 Every run: `gemma4:26b` on an Apple M5 Max, temperature 0, seed 42. At temperature 0 the seed does not
 change the answer (seeds 42 and 43 give the same text on the same query), so the seeds 42, 43 and 44 of
 experiments 2 and 4 are three calls of the same question. The run itself can move an answer: parallel
 requests and the server's prompt cache change the arithmetic slightly, and a near-tie can then go the
-other way. Experiments 1, 2, 4 and 5 were run again on 2026-09-27 with the same prompt and model; those
-files end in `_repeat1` to `_repeat3`, and each section gives their figures. Each script writes to
+other way. Every experiment was run more than once with the same prompt and model; the extra runs end in
+`_repeat1` to `_repeat3`, and each section gives their figures. Each script writes to
 [`results/`](results/) under its own name, with `reasoning_on` or `reasoning_off`. Experiments 2 and 5 read
 their cases from [`cases/`](cases/); the others carry their cases in the script.
 
@@ -46,6 +46,13 @@ biology. Each case is asked four ways, with the other four factors stated plainl
 | absent | the fact removed; the answer must be "unstated" |
 
 The cases are in `results/factors_150_tricky_cases_list.csv`.
+
+21 cases carry a hand fix where the generated wording clashed with its background, referred to something
+never mentioned, or had a debatable label. Each fix applies to its own case only (`CASE_FIXES` in the
+script, with the reason; the case list's last column says what it changes), so the other cases keep their
+generated wording: one case is hand-written (a pig-kidney transplant), 14 have one background fact or one
+sentence rewritten, and on seven versions a second reading is also scored right: "not just the consequence
+types" also counts basic, and a frequency question that names a disease also counts clinical.
 
 **Why this design.** The tricks are the ways a cue word points the wrong way. A keyword scan reads the
 first cue it finds: it took "going down this rabbit hole" as rabbit, "used as a guinea pig" as pig and "not
@@ -76,39 +83,39 @@ RECOMMENDED options.
 | | reasoning on | reasoning off |
 |---|---|---|
 | plain | 150/150 | 150/150 |
-| trap | 146/150 | 140/150 |
+| trap | 148/150 | 142/150 |
 | twin | 150/150 | 149/150 |
 | absent | 147/150 | 146/150 |
-| **all four right** | **143/150** | **135/150** |
-| RECOMMENDED options unchanged by the misreads (`factors_150_settings_effect.py` on `factors_150_tricky_cases_reasoning_on.json`, written to `factors_150_settings_effect_reasoning_on.json`) | 148/150 | not scored: it reads species before the tool's correction |
-| by factor, all four right of 30: species · origin · size · region · goal | 29 · 29 · 30 · 30 · 25 | 26 · 26 · 28 · 29 · 26 |
-| time per query, one user (40 queries) | 5.0 s | 1.0 s |
+| **all four right** | **145/150** | **137/150** |
+| RECOMMENDED options unchanged by the misreads (`factors_150_settings_effect.py`, written to `factors_150_settings_effect_reasoning_on.json`) | 149/150 | not scored: it reads species before the tool's correction |
+| by factor, all four right of 30: species · origin · size · region · goal | 29 · 29 · 30 · 30 · 27 | 25 · 26 · 29 · 29 · 28 |
+| time per query, one user (40 queries) | 5.1 s | 1.0 s |
 | files | `factors_150_tricky_cases_reasoning_on.json`, `factors_150_species_through_tool_reasoning_on.json` | `factors_150_tricky_cases_reasoning_off.json`, `factors_150_species_through_tool_reasoning_off.json` |
 
 Baselines on the same 150: keyword rules 27/150; always answering the commonest value 0/150.
 
-**Where it fails.** With reasoning on, five of the seven misses are the analysis goal: two fill in
-`basic-consequence` when no goal was stated, so the tool does not ask; two are traps that mix up clinical
-and population-frequency goals; one reads "clinical precision" as a clinical goal. Two of the seven change
-the RECOMMENDED options, both by adding options (anal-word-1 and anal-doma-5). Of the other five, three only
-lose the "Assumed …" line the tool would have printed. Reasoning off gets 10 cases wrong that reasoning on gets
-right (three species, three origin, two variant-size, one region, one goal) and 2 right that reasoning on
-gets wrong. Its raw species answer, before the tool's correction, scores 125/150.
+**Where it fails.** With reasoning on, five misses. Two fill in `basic-consequence` when no goal was stated
+(anal-word-2, anal-tool-4) and one fills in germline when no origin was stated (orig-word-3), so the tool
+neither asks nor prints its "Assumed …" line. One answers "unstated" for iPSCs from volunteers grown on mouse
+feeder cells (spec-doma-2); the tool then assumes human, the right answer. One reads "clinical precision" as a
+clinical goal (anal-word-1), the only miss that changes the RECOMMENDED options: it adds HGVS and Phenotypes.
+Reasoning off gets 9 cases wrong that reasoning on gets right (four species, three origin, one variant-size,
+one region) and 1 right that reasoning on gets wrong. Its raw species answer, before the tool's correction,
+scores 127/150.
 
-**Repeats.** Three more runs (`factors_150_tricky_cases_reasoning_{on,off}_repeat{1,2,3}.json`,
-`factors_150_species_through_tool_reasoning_off_repeat{1,2,3}.json`):
+**Repeats.** Two more runs of each (the same file names ending `_repeat1` and `_repeat2`):
 
-| | run above | repeat 1 | repeat 2 | repeat 3 |
-|---|---|---|---|---|
-| reasoning on, all four right | 143 | 141 | 142 | 142 |
-| reasoning on, RECOMMENDED unchanged | 148 | 147 | 148 | 146 |
-| reasoning off, all four right, species through the tool | 135 | 135 | 135 | 135 |
+| | run above | repeat 1 | repeat 2 |
+|---|---|---|---|
+| reasoning on, all four right | 145 | 143 | 146 |
+| reasoning on, RECOMMENDED unchanged | 149 | 148 | 149 |
+| reasoning off, all four right, species through the tool | 137 | 137 | 137 |
 
-With reasoning on, six misses recur in all four runs (spec-doma-2 trap, orig-word-3 absent, anal-word-1
-trap, anal-tool-4 absent, anal-doma-4 trap, anal-doma-5 trap); anal-nega-3, anal-word-2, vari-doma-6,
-orig-doma-6 and vari-atta-3 miss in some runs only.
+With reasoning on, three misses recur in all three runs (orig-word-3 absent, anal-word-1 trap, anal-tool-4
+absent); spec-doma-2 and anal-word-2 miss in two, orig-word-6, orig-doma-6 and vari-doma-6 in one.
 
-**Limits.** The cases were written by us; the `label_ok` column of the case list is not yet filled in.
+**Limits.** The cases were written and read through by us; no mentor has checked the labels yet
+(the `label_ok` column of the case list is empty).
 
 ---
 
@@ -119,27 +126,37 @@ orig-doma-6 and vari-atta-3 miss in some runs only.
 **Question.** For plainly worded scenarios, does the user get the configuration the true factors give?
 
 **Cases.** The 31 scenarios the mentors reviewed ([`cases/iced.json`](cases/iced.json)), each with its five factor labels.
+Six rows carry a label correction, recorded in the row under `_relabelled_2026-09-30` with the old value and
+the reason: rows 1 and 25 describe short variants as well as structural ones; row 1 also asks for
+population frequencies, and row 19 is about "a patient", which the definitions count as clinical; rows 8,
+28 and 30 never say germline or somatic, so origin is unstated.
 
 **Scored.** Per factor, whether the model's answer matches the label, and whether it changes the
 RECOMMENDED options at all: a label mismatch that leaves the configuration unchanged costs the user
 nothing. End-to-end F1 compares the configuration from the model's factors with the one from the true
 factors. The three calls per scenario (seeds 42, 43 and 44) gave identical answers, and so did a repeat
-run (`factors_31_review_scenarios_reasoning_on_repeat1.json`).
+run of each setting (`factors_31_review_scenarios_reasoning_{on,off}_repeat1.json`).
 
 **Results.**
 
 | | reasoning on | reasoning off |
 |---|---|---|
-| **same RECOMMENDED options as from the true factors** | **29/31** | **30/31** |
-| end-to-end F1 | 0.960 | 0.967 |
-| all five labels exactly right | 21/31 | 22/31 |
-| labels right: species · origin · size · region · goal | 31 · 28 · 30 · 31 · 24 | 31 · 28 · 30 · 31 · 25 |
+| **same RECOMMENDED options as from the true factors** | **30/31** | **29/31** |
+| end-to-end F1 | 0.966 | 0.962 |
+| all five labels exactly right | 24/31 | 25/31 |
+| labels right: species · origin · size · region · goal | 31 · 31 · 30 · 31 · 25 | 31 · 31 · 30 · 31 · 26 |
 | files | `factors_31_review_scenarios_reasoning_on.json` | `factors_31_review_scenarios_reasoning_off.json` |
 
-**Where it fails.** Of the 11 label misses with reasoning on (in 10 scenarios), 9 change nothing the user
-sees: origin moves only one option, and a goal answered as [basic, clinical] where the label says
-[clinical] gives the same options. The two that change the configuration are one variant-size and one goal
-reading.
+**Where it fails.** With reasoning on, 7 label misses in 7 scenarios. Six are the analysis goal, where the
+model leaves out basic-consequence ([clinical] where the label says [basic, clinical]); a basic goal adds
+nothing to a clinical one, so the user sees the same options. The one that changes the configuration is row
+25: the model reads structural variants only, where the scenario also covers short variants. With reasoning
+off, row 19 also changes the configuration: it reads the goal as population frequency only.
+
+**Smaller models.** The same 31 scenarios, the same prompt and labels, reasoning on, three
+calls each (identical): gemma4:e4b 27/31 same RECOMMENDED options, F1 0.962, 20/31 all five labels right;
+gemma4:e2b 25/31, F1 0.945, 18/31 (`factors_31_review_scenarios_reasoning_on_{e4b,e2b}.json`). gemma4:26b,
+above, 30/31, F1 0.966, 24/31.
 
 **Limits.** The scenarios and their labels were written by us and reviewed by the mentors. Plainly worded,
 so easier than experiment 1.
@@ -178,13 +195,13 @@ contradicts the organism it named.
 
 | kind of name | example | n | on, plain | on, decoy | off, plain | off, decoy |
 |---|---|---|---|---|---|---|
-| scientific | Nothobranchius furzeri | 239 | 238 | 238 | 238 | 236 |
+| scientific | Nothobranchius furzeri | 239 | 238 | 238 | 238 | 237 |
 | common | nine-banded armadillo | 208 | 208 | 207 | 208 | 206 |
 | also an ordinary word | turkey, cattle | 55 | 55 | 55 | 55 | 55 |
 | breed or strain | Rambouillet sheep | 134 | 130 | 132 | 131 | 132 |
 | flagged as a common false hit | drill, guinea pig | 8 | 7 | 8 | 7 | 8 |
 | with an assembly or hybrid tag | muscovy duck (domestic type) | 110 | 108 | 109 | 107 | 107 |
-| **all** | | **754** | **746** | **749** | **746** | **744** |
+| **all** | | **754** | **746** | **749** | **746** | **745** |
 
 | | reasoning on | reasoning off |
 |---|---|---|
@@ -199,10 +216,24 @@ German mirror and Hebao red carp (2). The tool then offers the data of the speci
 off the name is about as good, but the human/non-human answer contradicts the named animal 266 times; the tool
 corrects that from the name.
 
-**Limits.** The test cases are Ensembl's own names. To look a name up, the species list also holds 24
-names derived from them, each marked `derived`: the plain scientific name of each species Ensembl hosts
-only by strain or sex ("heterocephalus glaber" for `heterocephalus_glaber_female` and `_male`), and
-"muscovy duck" for Ensembl's "muscovy duck (domestic type)". One run at temperature 0.
+**Limits.** The test cases are Ensembl's own names. To look a name up, the species list also holds 540
+names derived from them, each marked `derived` and none of them a test case: the plain scientific name of
+each species Ensembl hosts only by strain or sex ("heterocephalus glaber" for `heterocephalus_glaber_female`
+and `_male`), "muscovy duck" for Ensembl's "muscovy duck (domestic type)", Ensembl's REST aliases ("swine",
+"bovine"), abbreviated scientific names ("s scrofa" for "S. scrofa"), six adjectives of ours ("porcine"),
+and yeast, C. elegans and fruit fly, which the form lists and REST /info/species does not. Every result
+file is scored against this list.
+
+**Repeats.** Two more runs of each setting, on the species list with the derived names
+(`organism_754_names_reasoning_{on,off}_repeat{1,2}.json`):
+
+| | run above | repeat 1 | repeat 2 |
+|---|---|---|---|
+| reasoning on: plain / decoy | 746 / 749 | 747 / 750 | 746 / 749 |
+| reasoning off: plain / decoy | 746 / 745 | 746 / 744 | 746 / 743 |
+| reasoning off: human/non-human answer contradicts the named animal | 266 | 263 | 259 |
+
+With reasoning on the contradiction count is 0 in all three.
 
 ---
 
@@ -235,7 +266,12 @@ form cannot restrict by gene or consequence and points to the filter on Ensembl'
 calls for both cancer queries; the other two queries read as above. Origin for these two queries is not
 stable between runs.
 
-**Limits.** Four queries. Reasoning off not run.
+**Reasoning off** (`mentor_queries_reasoning_off.json`, `_repeat1.json`), the same in all three calls and in
+both runs: colorectal cancer, origin germline, goal clinical; breast cancer, origin unstated, goal clinical;
+BRCA1, BRCA2, species human, no goal (so the tool asks, where reasoning on fills in basic-consequence);
+the hereditary panel, origin germline, goal basic-consequence and clinical.
+
+**Limits.** Four queries.
 
 ---
 
@@ -280,8 +316,9 @@ How often the tool asks is fixed by that table, with no model involved: 12 of th
 `basic-consequence` goal twice, so the tool did not ask those two users. The goal fill is the same
 failure as in experiment 1.
 
-**Repeats.** Three more runs with reasoning on (`missing_facts_78_rewrites_reasoning_on_repeat{1,2,3}.json`):
-72/78 each (origin 17/20, size 23/23, region 21/23, goal 11/12).
+**Repeats.** Three more runs of each setting (`missing_facts_78_rewrites_reasoning_{on,off}_repeat{1,2,3}.json`):
+reasoning on 72/78 each (origin 17/20, size 23/23, region 21/23, goal 11/12); reasoning off 72/78 each, the
+same as its first run (18/20, 23/23, 23/23, 8/12).
 
 **Limits.** The rewrites come from our own scenarios; species has no rewrites among the 78.
 

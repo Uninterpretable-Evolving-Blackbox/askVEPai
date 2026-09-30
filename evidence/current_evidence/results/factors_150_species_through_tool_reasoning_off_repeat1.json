@@ -1,1202 +1,1212 @@
-[
- {
-  "id": "spec-nega-1",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-1",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-1",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "mus_musculus",
-  "truth": "non-human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-1",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-nega-2",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-2",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-2",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-nega-2",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-nega-3",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-3",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-3",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "canis_lupus_familiaris",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-nega-3",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-nega-4",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-nega-4",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "sus_scrofa",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-nega-4",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-4",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-nega-5",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-nega-5",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "gallus_gallus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-nega-5",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-5",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-nega-6",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "ovis_aries",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-nega-6",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "rattus_norvegicus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-nega-6",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-nega-6",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-word-1",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-1",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-1",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "oryctolagus_cuniculus",
-  "truth": "non-human",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-word-1",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-word-2",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-2",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-2",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "cavia_porcellus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-word-2",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-word-3",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-3",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-3",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "mus_musculus",
-  "truth": "non-human",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-word-3",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-word-4",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-word-4",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-4",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-4",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-word-5",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "mus_musculus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-word-5",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "bos_taurus",
-  "truth": "non-human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-5",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-5",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-word-6",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "sus_scrofa",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-word-6",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "capra_hircus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-word-6",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-word-6",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-tool-1",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-1",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-1",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "salmo_salar",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-tool-1",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-tool-2",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-2",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-2",
-  "test": "twin",
-  "species": "non-human",
-  "organism": null,
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-tool-2",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-tool-3",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-3",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-3",
-  "test": "twin",
-  "species": "unstated",
-  "organism": null,
-  "truth": "non-human",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-tool-3",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-tool-4",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "gallus_gallus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-tool-4",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-tool-4",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-4",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-tool-5",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "rattus_norvegicus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-tool-5",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "sus_scrofa",
-  "truth": "non-human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-5",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-5",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-tool-6",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "sus_scrofa",
-  "truth": "non-human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-6",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "gallus_gallus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-tool-6",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-tool-6",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-atta-1",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-1",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-1",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "mus_musculus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-atta-1",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-atta-2",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-2",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-2",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-atta-2",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-atta-3",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-3",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-3",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "sus_scrofa",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-atta-3",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-atta-4",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-atta-4",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "ovis_aries",
-  "truth": "non-human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-4",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-4",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-atta-5",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "gallus_gallus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-atta-5",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "mus_musculus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-atta-5",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-5",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-atta-6",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-atta-6",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "rattus_norvegicus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-atta-6",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-atta-6",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-doma-1",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-1",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-1",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "mus_musculus",
-  "truth": "non-human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-1",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-doma-2",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-2",
-  "test": "trap",
-  "species": "unstated",
-  "organism": null,
-  "truth": "human",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-doma-2",
-  "test": "twin",
-  "species": "non-human",
-  "organism": "mus_musculus",
-  "truth": "non-human",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-doma-2",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-doma-3",
-  "test": "plain",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-3",
-  "test": "trap",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-3",
-  "test": "twin",
-  "species": "non-human",
-  "organism": null,
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-doma-3",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-doma-4",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "canis_lupus_familiaris",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-doma-4",
-  "test": "trap",
-  "species": "non-human",
-  "organism": "mus_musculus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-doma-4",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-4",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-doma-5",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "bos_taurus",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-doma-5",
-  "test": "trap",
-  "species": "human",
-  "organism": null,
-  "truth": "non-human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-5",
-  "test": "twin",
-  "species": "human",
-  "organism": "homo_sapiens",
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-5",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-doma-6",
-  "test": "plain",
-  "species": "non-human",
-  "organism": "danio_rerio",
-  "truth": "non-human",
-  "raw": [
-   "non-human"
-  ]
- },
- {
-  "id": "spec-doma-6",
-  "test": "trap",
-  "species": "unstated",
-  "organism": null,
-  "truth": "non-human",
-  "raw": [
-   "unstated"
-  ]
- },
- {
-  "id": "spec-doma-6",
-  "test": "twin",
-  "species": "human",
-  "organism": null,
-  "truth": "human",
-  "raw": [
-   "human"
-  ]
- },
- {
-  "id": "spec-doma-6",
-  "test": "absent",
-  "species": "unstated",
-  "organism": null,
-  "truth": "unstated",
-  "raw": [
-   "unstated"
-  ]
- }
-]
+{
+ "source": "factors_150_tricky_cases_reasoning_off_repeat1.json",
+ "all_four": 25,
+ "per_test": {
+  "plain": 30,
+  "trap": 26,
+  "twin": 29,
+  "absent": 30
+ },
+ "rows": [
+  {
+   "id": "spec-nega-1",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-1",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-1",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "mus_musculus",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-1",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-nega-2",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-2",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-2",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-nega-2",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-nega-3",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-3",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-3",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "canis_lupus_familiaris",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-nega-3",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-nega-4",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-nega-4",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "sus_scrofa",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-nega-4",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-4",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-nega-5",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-nega-5",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "gallus_gallus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-nega-5",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-5",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-nega-6",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "ovis_aries",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-nega-6",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "rattus_norvegicus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-nega-6",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-nega-6",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-word-1",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-1",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-1",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "oryctolagus_cuniculus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-word-1",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-word-2",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-2",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-2",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "cavia_porcellus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-word-2",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-word-3",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-3",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-3",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "mus_musculus",
+   "truth": "non-human",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-word-3",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-word-4",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-word-4",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-4",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-4",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-word-5",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "mus_musculus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-word-5",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "bos_taurus",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-5",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-5",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-word-6",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "sus_scrofa",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-word-6",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "capra_hircus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-word-6",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-word-6",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-tool-1",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-1",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-1",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "salmo_salar",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-1",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-tool-2",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-2",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-2",
+   "test": "twin",
+   "species": "non-human",
+   "organism": null,
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-tool-2",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-tool-3",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-3",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-3",
+   "test": "twin",
+   "species": "unstated",
+   "organism": null,
+   "truth": "non-human",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-tool-3",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-tool-4",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "gallus_gallus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-tool-4",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-tool-4",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-4",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-tool-5",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "rattus_norvegicus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-tool-5",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "sus_scrofa",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-5",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-5",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-tool-6",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "sus_scrofa",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-6",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "gallus_gallus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-tool-6",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-tool-6",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-atta-1",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-1",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-1",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "mus_musculus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-atta-1",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-atta-2",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-2",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-2",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-atta-2",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-atta-3",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-3",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-3",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "sus_scrofa",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-atta-3",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-atta-4",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-atta-4",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "ovis_aries",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-4",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-4",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-atta-5",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "gallus_gallus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-atta-5",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "mus_musculus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-atta-5",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-5",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-atta-6",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-atta-6",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "rattus_norvegicus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-atta-6",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-atta-6",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-doma-1",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-1",
+   "test": "trap",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-1",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "mus_musculus",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-1",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-doma-2",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-2",
+   "test": "trap",
+   "species": "unstated",
+   "organism": null,
+   "truth": "human",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-doma-2",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "mus_musculus",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-2",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-doma-3",
+   "test": "plain",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-3",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "sus_scrofa",
+   "truth": "human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-doma-3",
+   "test": "twin",
+   "species": "non-human",
+   "organism": "sus_scrofa",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-doma-3",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-doma-4",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "canis_lupus_familiaris",
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-4",
+   "test": "trap",
+   "species": "non-human",
+   "organism": "mus_musculus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-doma-4",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-4",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-doma-5",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "bos_taurus",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-doma-5",
+   "test": "trap",
+   "species": "human",
+   "organism": null,
+   "truth": "non-human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-5",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-5",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-doma-6",
+   "test": "plain",
+   "species": "non-human",
+   "organism": "danio_rerio",
+   "truth": "non-human",
+   "raw": [
+    "non-human"
+   ]
+  },
+  {
+   "id": "spec-doma-6",
+   "test": "trap",
+   "species": "unstated",
+   "organism": null,
+   "truth": "non-human",
+   "raw": [
+    "unstated"
+   ]
+  },
+  {
+   "id": "spec-doma-6",
+   "test": "twin",
+   "species": "human",
+   "organism": "homo_sapiens",
+   "truth": "human",
+   "raw": [
+    "human"
+   ]
+  },
+  {
+   "id": "spec-doma-6",
+   "test": "absent",
+   "species": "unstated",
+   "organism": null,
+   "truth": "unstated",
+   "raw": [
+    "unstated"
+   ]
+  }
+ ]
+}

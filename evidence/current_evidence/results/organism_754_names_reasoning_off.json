@@ -5,7 +5,7 @@
   "per_kind": {
     "binomial": {
       "name_plain": 238,
-      "name_decoy": 236,
+      "name_decoy": 237,
       "binary_plain": 208,
       "binary_decoy": 204,
       "disagree": 65,
@@ -54,7 +54,7 @@
   },
   "total": {
     "name_plain": 746,
-    "name_decoy": 744,
+    "name_decoy": 745,
     "binary_plain": 651,
     "binary_decoy": 588,
     "disagree": 266,
@@ -3642,19 +3642,21 @@
       "result": {
         "plain": {
           "said": "red jungle fowl",
-          "resolved": "gallus_gallus",
+          "resolved": "gallus_gallus_gca000002315v5",
           "species": "non-human",
           "name_ok": true,
           "binary_ok": true,
-          "disagree": false
+          "disagree": false,
+          "resolved_at_run": "gallus_gallus"
         },
         "decoy": {
           "said": "chicken (red jungle fowl)",
-          "resolved": "gallus_gallus",
+          "resolved": "gallus_gallus_gca000002315v5",
           "species": "non-human",
           "name_ok": true,
           "binary_ok": true,
-          "disagree": false
+          "disagree": false,
+          "resolved_at_run": "gallus_gallus"
         }
       }
     },
@@ -12314,9 +12316,9 @@
         },
         "decoy": {
           "said": "Macropus eugenii",
-          "resolved": null,
+          "resolved": "notamacropus_eugenii",
           "species": "non-human",
-          "name_ok": false,
+          "name_ok": true,
           "binary_ok": true,
           "disagree": false,
           "resolved_at_run": "notamacropus_eugenii"
@@ -20557,7 +20559,7 @@
   ],
   "rescored": {
     "date": "2026-09-28",
-    "index_names": 780,
-    "lookups_changed": 51
+    "index_names": 1296,
+    "lookups_changed": 3
   }
 }

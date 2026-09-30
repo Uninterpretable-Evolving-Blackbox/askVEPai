@@ -1698,6 +1698,17 @@
   "incompatible_with": []
  },
  {
+  "id": "freq_pop",
+  "flag": "--freq_pop [pop]",
+  "alternate": "",
+  "section": "Note",
+  "description": "Name of the population to use in frequency filter. This must be one of the following: Name Description 1KG_ALL 1000 genomes combined population (global) 1KG_AFR 1000 genomes combined African population 1KG_AMR 1000 genomes combined American population 1KG_EAS 1000 genomes combined East Asian population 1KG_EUR 1000 genomes combined European population 1KG_SAS 1000 genomes combined South Asian population gnomADe gnomAD exomes combined population gnomADe_AFR gnomAD exomes African/African American population gnomADe_AMR gnomAD exomes Latino population gnomADe_ASJ gnomAD exomes Ashkenazi Jewish population gnomADe_EAS gnomAD exomes East Asian population gnomADe_FIN gnomAD exomes Finnish population gnomADe_NFE gnomAD exomes non-Finnish European population gnomADe_OTH gnomAD exomes other population gnomADe_SAS gnomAD exomes South Asian population gnomADg gnomAD genomes combined population gnomADg_AFR gnomAD genomes African/African American population gnomADg_AMR gnomAD genomes Latino population gnomADg_AMI gnomAD genomes Amish population gnomADg_ASJ gnomAD genomes Ashkenazi Jewish population gnomADg_EAS gnomAD genomes East Asian population gnomADg_FIN gnomAD genomes Finnish population gnomADg_MID gnomAD genomes Mid-eastern population gnomADg_NFE gnomAD genomes non-Finnish European population gnomADg_OTH gnomAD genomes other population gnomADg_SAS gnomAD genomes South Asian population",
+  "not_used_by_default": false,
+  "default": null,
+  "output_fields": "",
+  "incompatible_with": []
+ },
+ {
   "id": "freq_freq",
   "flag": "--freq_freq [freq]",
   "alternate": "",

@@ -1,0 +1,189 @@
+{
+ "model": "gemma4:26b",
+ "seeds": [
+  42,
+  43,
+  44
+ ],
+ "think": "0",
+ "rows": [
+  {
+   "query": "Find variants in genes associated with colorectal cancer.",
+   "outside_scheme": [
+    "gene set by disease"
+   ],
+   "stable": true,
+   "reads": [
+    {
+     "seed": 42,
+     "species": "unstated",
+     "origin": "germline",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [
+      "clinical-interpretation"
+     ],
+     "organism": null,
+     "request_type": "configure"
+    },
+    {
+     "seed": 43,
+     "species": "unstated",
+     "origin": "germline",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [
+      "clinical-interpretation"
+     ],
+     "organism": null,
+     "request_type": "configure"
+    },
+    {
+     "seed": 44,
+     "species": "unstated",
+     "origin": "germline",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [
+      "clinical-interpretation"
+     ],
+     "organism": null,
+     "request_type": "configure"
+    }
+   ]
+  },
+  {
+   "query": "Which variants in my sample affect genes associated with breast cancer?",
+   "outside_scheme": [
+    "gene set by disease"
+   ],
+   "stable": true,
+   "reads": [
+    {
+     "seed": 42,
+     "species": "unstated",
+     "origin": "unstated",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [
+      "clinical-interpretation"
+     ],
+     "organism": null,
+     "request_type": "configure"
+    },
+    {
+     "seed": 43,
+     "species": "unstated",
+     "origin": "unstated",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [
+      "clinical-interpretation"
+     ],
+     "organism": null,
+     "request_type": "configure"
+    },
+    {
+     "seed": 44,
+     "species": "unstated",
+     "origin": "unstated",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [
+      "clinical-interpretation"
+     ],
+     "organism": null,
+     "request_type": "configure"
+    }
+   ]
+  },
+  {
+   "query": "Show me variants affecting BRCA1, BRCA2",
+   "outside_scheme": [
+    "named gene list"
+   ],
+   "stable": true,
+   "reads": [
+    {
+     "seed": 42,
+     "species": "human",
+     "origin": "unstated",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [],
+     "organism": null,
+     "request_type": "configure"
+    },
+    {
+     "seed": 43,
+     "species": "human",
+     "origin": "unstated",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [],
+     "organism": null,
+     "request_type": "configure"
+    },
+    {
+     "seed": 44,
+     "species": "human",
+     "origin": "unstated",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [],
+     "organism": null,
+     "request_type": "configure"
+    }
+   ]
+  },
+  {
+   "query": "Which variants produce loss-of-function consequences in my hereditary cancer gene panel?",
+   "outside_scheme": [
+    "gene panel",
+    "loss-of-function filter"
+   ],
+   "stable": true,
+   "reads": [
+    {
+     "seed": 42,
+     "species": "unstated",
+     "origin": "germline",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "organism": null,
+     "request_type": "configure"
+    },
+    {
+     "seed": 43,
+     "species": "unstated",
+     "origin": "germline",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "organism": null,
+     "request_type": "configure"
+    },
+    {
+     "seed": 44,
+     "species": "unstated",
+     "origin": "germline",
+     "variant_size_class": [],
+     "region_focus": [],
+     "analysis_goal": [
+      "basic-consequence",
+      "clinical-interpretation"
+     ],
+     "organism": null,
+     "request_type": "configure"
+    }
+   ]
+  }
+ ]
+}

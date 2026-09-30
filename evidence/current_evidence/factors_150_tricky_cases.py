@@ -527,6 +527,80 @@ def valid(t):
     return not any(all(t.get(k) == v for k, v in ex.items()) for ex in EXCLUSIONS)
 
 
+# 2026-09-28 and 2026-09-30: the cases the read-throughs of all 600 queries flagged (23 Sept: 12; 30 Sept: 9 more).
+# Each fix is applied to its own case after
+# that case is built. Changing a frame's constraints instead would change how many candidates the shared
+# random sequence shuffles, and every later case would get a new background and wording; this way the
+# other 138 cases stay word for word as they were. A changed background is re-worded from a random
+# sequence of its own (seeded by the case id), and the balancer's counts keep the original background.
+#   trap / twin   the clause replaced
+#   background    the one background fact that clashed with the clause
+#   trap_also / twin_also   another answer also scored right on that version
+#   date          when the fix was made (28 Sept: the 23 Sept read-through; 30 Sept: the second one)
+CASE_FIXES = {
+    # ---- 28 Sept: the 12 cases of the 23 Sept read-through
+    "spec-doma-3": {"date": "28 Sept",
+                    "trap": "Biopsies from pig-kidney transplant recipients; we sequenced the patients' own tissue",
+                    "twin": "Biopsies of the transplanted pig kidney; we sequenced the donor organ's tissue",
+                    "why": "Ensembl has no Neanderthal genome; VEP would annotate it as human. Replaced."},
+    "anal-doma-4": {"date": "28 Sept", "trap_also": [[CL, P]],
+                    "why": "the trap asks whether a variant common in one ancestry is benign or pathogenic, "
+                           "which uses frequency as evidence for benign, so clinical + frequency is a fair "
+                           "reading. Either is scored right."},
+    "regi-doma-3": {"date": "28 Sept", "background": {"variant_size_class": SM},
+                    "why": "amino-acid changes in a DNA-binding domain are point mutations, not CNVs."},
+    "anal-doma-3": {"date": "28 Sept", "background": {"origin": G},
+                    "why": "a seizure phenotype is explained by germline variants, not tumour mutations."},
+    "anal-doma-2": {"date": "28 Sept", "background": {"origin": G},
+                    "why": "a population cohort is germline, not tumour mutations."},
+    "spec-word-1": {"date": "28 Sept", "background": {"region_focus": C},
+                    "why": "exomes are coding; the background said promoters and enhancers."},
+    "anal-tool-1": {"date": "28 Sept", "background": {"species": H}, "twin_also": [[B, CL]],
+                    "why": "ClinVar is human only; the background said cattle. 30 Sept: the twin says 'not just "
+                           "the consequence per transcript', so basic + clinical is also scored right."},
+    "vari-doma-5": {"date": "28 Sept", "background": {"origin": G},
+                    "trap": "Copy-number losses detected with a SNP array",
+                    "why": "a SNP array genotypes germline SNPs, not tumour mutations. 30 Sept: with a germline "
+                           "background the trap now names constitutional copy-number losses, the usual finding "
+                           "of a clinical SNP array, instead of chromosome-arm gains, which are a tumour finding."},
+    "regi-doma-6": {"date": "28 Sept",
+                    "twin": "Variants in the protein-coding sequence of genes, which is transcribed and translated",
+                    "why": "the old twin named whole protein-coding genes, which also covers their introns "
+                           "and UTRs; the twin now says coding sequence."},
+    "vari-atta-3": {"date": "28 Sept", "twin": "We are following up a CNV paper with our own CNV calls",
+                    "why": "the twin said 'that paper', which the query never introduced."},
+    "regi-atta-2": {"date": "28 Sept",
+                    "twin": "The gene's promoter was characterised last year; we are annotating the changes in that promoter",
+                    "why": "the twin said 'that promoter', which the query never introduced."},
+    "regi-atta-1": {"date": "28 Sept",
+                    "twin": "The paper we follow was about enhancers, and our variants are in enhancers too",
+                    "why": "the twin began 'Like the paper', which the query never introduced."},
+    # ---- 30 Sept: the read-through of all 600 queries on the fixed cases
+    "orig-tool-2": {"date": "30 Sept", "background": {"variant_size_class": SM},
+                    "why": "Mutect2 and HaplotypeCaller call SNVs and indels; the background said structural variants."},
+    "vari-word-1": {"date": "30 Sept", "background": {"region_focus": C},
+                    "why": "the clauses are about the protein; the background said non-coding regulatory only."},
+    "vari-doma-4": {"date": "30 Sept", "background": {"region_focus": C},
+                    "why": "the clauses are about a whole gene and a base in the gene; the background said "
+                           "promoters and enhancers."},
+    "vari-tool-2": {"date": "30 Sept",
+                    "trap": "The CNVkit container is on our server, unused; these are SNVs from Mutect2",
+                    "why": "the trap named HaplotypeCaller, a germline caller, for somatic SNVs; Mutect2 is the somatic caller."},
+    "anal-doma-5": {"date": "30 Sept", "trap_also": [[CL, P]],
+                    "why": "carrier frequency of a recessive disease allele names a disease, so clinical + "
+                           "frequency is a fair reading, as on anal-doma-4. Either is scored right."},
+    "anal-nega-1": {"date": "30 Sept", "twin_also": [[B, CL]],
+                    "why": "the twin says 'not just which genes and transcripts they hit', so basic + clinical "
+                           "is also scored right."},
+    "anal-nega-6": {"date": "30 Sept", "trap_also": [[B, P]],
+                    "why": "the trap says 'Not just what they hit', so basic + frequency is also scored right."},
+    "anal-word-1": {"date": "30 Sept", "twin_also": [[B, CL]],
+                    "why": "the twin says 'not just the consequence types', so basic + clinical is also scored right."},
+    "anal-atta-1": {"date": "30 Sept", "twin_also": [[B, CL]],
+                    "why": "the twin says 'not just the consequence types', so basic + clinical is also scored right."},
+}
+
+
 def truth_val(f, v):
     return [v] if f in MULTI else v
 
@@ -588,8 +662,36 @@ def build(seed=20260916, style="natural"):
                                  2: [data, goal, clause]}[order]
                         return " ".join(p for p in parts if p)
                 plain_text = rng.choice(PLAIN[f, t_truth]).format(a=animal)
+                cid = f"{f[:4]}-{trick[:4]}-{i + 1}"
+                fix = CASE_FIXES.get(cid, {})
+                if fix.get("background"):
+                    bg = dict(bg, **fix["background"])
+                    assert valid(dict(bg, **{f: t_truth})) and valid(dict(bg, **{f: w_truth})), cid
+                    own = random.Random(f"{seed}:{cid}")
+                    if style == "terse":
+                        frags = [own.choice(BG[k, v]).format(a=animal) for k, v in bg.items()]
+                        own.shuffle(frags)
+
+                        def compose(clause, bg_text=", ".join(frags), trick_first=trick_first):
+                            b = bg_text[0].upper() + bg_text[1:] + "."
+                            if not clause:
+                                return b
+                            clause = clause.rstrip(".?") + ("?" if clause.endswith("?") else ".")
+                            return f"{clause} {b}" if trick_first else f"{b} {clause}"
+                    else:
+                        data, goal = natural_background(bg, animal, own)
+                        if order == 1 and data.startswith("Hi, "):
+                            data = "W" + data[5:]
+
+                        def compose(clause, data=data, goal=goal, order=order):
+                            if clause:
+                                clause = clause.rstrip(".?") + ("?" if clause.endswith("?") else ".")
+                            parts = {0: [data, clause, goal], 1: [clause, data, goal],
+                                     2: [data, goal, clause]}[order]
+                            return " ".join(p for p in parts if p)
+                t_text, w_text = fix.get("trap", t_text), fix.get("twin", w_text)
                 cases.append({
-                    "id": f"{f[:4]}-{trick[:4]}-{i + 1}",
+                    "id": cid,
                     "factor": f, "trick": trick,
                     "plain_query": compose(plain_text), "plain_truth": truth_val(f, t_truth),
                     "trap_query": compose(t_text), "trap_truth": truth_val(f, t_truth),
@@ -597,6 +699,12 @@ def build(seed=20260916, style="natural"):
                     "absent_query": compose(""), "absent_truth": [] if f in MULTI else "unstated",
                     "background": {k: truth_val(k, v) for k, v in bg.items()},
                 })
+                for ver in ("trap", "twin"):
+                    if fix.get(f"{ver}_also"):
+                        cases[-1][f"{ver}_also"] = [truth_val(f, v) if not isinstance(v, list) else v
+                                                   for v in fix[f"{ver}_also"]]
+                if fix:
+                    cases[-1]["case_fix"] = f"{fix['date']}: {fix['why']}"
     return cases, full_use
 
 
@@ -641,10 +749,15 @@ def main():
     with open(csv_path, "w", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(["id", "factor", "trick", "background"]
-                   + [x for t in TEST_TYPES for x in (f"{t}_query", f"{t}_truth")] + ["label_ok (fill in)"])
+                   + [x for t in TEST_TYPES for x in (f"{t}_query", f"{t}_truth")] + ["label_ok (fill in)",
+                                                                                     "case fixed (date: why)"])
         for c in cases:
+            note = c.get("case_fix", "")
+            for ver in ("trap", "twin"):
+                if c.get(f"{ver}_also"):
+                    note += f" {ver.capitalize()} also right: {c[f'{ver}_also']}."
             w.writerow([c["id"], c["factor"], c["trick"], json.dumps(c["background"])]
-                       + [x for t in TEST_TYPES for x in (c[f"{t}_query"], c[f"{t}_truth"])] + [""])
+                       + [x for t in TEST_TYPES for x in (c[f"{t}_query"], c[f"{t}_truth"])] + ["", note.strip()])
     n_valid = sum(1 for combo in itertools.product(*[VALUES[k] for k in FACTORS])
                   if valid(dict(zip(FACTORS, combo))))
     print(f"{len(cases)} cases x {len(TEST_TYPES)} test types = {len(cases) * len(TEST_TYPES)} queries "
@@ -736,7 +849,8 @@ def main():
             reads = [answers[(ci, t, sd)] for sd in seeds]
             vals = [r.get(f) for r in reads]
             rule_val = species_of(None, q) if f == "species" else rule_read(q).get(f)
-            out[t] = {"model": vals, "model_ok": all(norm(v) == norm(truth) for v in vals),
+            accepted = [norm(truth)] + [norm(x) for x in c.get(f"{t}_also", [])]
+            out[t] = {"model": vals, "model_ok": all(norm(v) in accepted for v in vals),
                       "background_read_ok": all(norm(reads[0].get(k)) == norm(v) for k, v in c["background"].items()),
                       "rule": rule_val, "rule_ok": norm(rule_val) == norm(truth),
                       "majority_ok": maj[f] == norm(truth)}

@@ -1,0 +1,113 @@
+{
+  dbNSFP => {
+    "available" => 1
+  },
+
+  LOEUF => {
+    "available" => 1
+  },
+
+  dbscSNV => {
+    "available" => 1
+  },
+
+  MaxEntScan => {
+    "available" => 1
+  },
+
+  Blosum62 => {
+    "available" => 1
+  },
+
+  AncestralAllele => {
+    "available" => 1
+  },
+
+  CADD => {
+    "available" => 1
+  },
+
+  EVE => {
+    "available" => 1
+  },
+
+  Phenotypes => {
+    "available" => 1
+  },
+
+  Geno2MP => {
+    "available" => 1
+  },
+
+  GO => {
+    "available" => 1
+  },
+
+  SpliceAI => {
+    "available" => 1
+  },
+
+  Mastermind => {
+    "available" => 1
+  },
+
+  IntAct => {
+    "available" => 1
+  },
+
+  MaveDB => {
+    "available" => 1
+  },
+
+  mutfunc => {
+    "available" => 1
+  },
+
+  ProtVar => {
+    "available" => 1
+  },
+
+  DosageSensitivity => {
+    "available" => 1    
+  },
+
+  NMD => {
+    "available" => 1
+  },
+
+  Enformer => {
+    "available" => 1
+  },
+
+  UTRAnnotator => {
+    "available" => 1
+  },
+
+  OpenTargets => {
+    "available" => 1
+  },
+
+  RiboseqORFs => {
+    "available" => 1
+  },
+
+  AlphaMissense => {
+    "available" => 1
+  },
+
+  REVEL => {
+    "available" => 1
+  },
+
+  ClinPred => {
+    "available" => 1
+  },
+
+  Paralogues => {
+    "available" => 1
+  },
+
+  AVI => {
+    "available" => 1
+  },
+}

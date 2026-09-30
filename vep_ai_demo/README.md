@@ -68,7 +68,7 @@ Python 3.9+. Only `openai` is required.
 
 ```
 vep_assistant.py         the engine
-vep_options.json         the 67-option catalogue, each fact sourced in its `provenance`
+vep_options.json         the 70-option catalogue, each fact sourced in its `provenance`
 factors.json             the factor scheme: values, hard gates, exclusions
 priority_by_factor.json  the priority table the resolver reads
 species_index.json       Ensembl's species names, to check the organism the model names
@@ -87,6 +87,6 @@ from Ensembl's sources.
 | | |
 |---|---|
 | what the project is, how it was evaluated | [`../README.md`](../README.md) |
-| the test harnesses | `../work/harness/` — see its README for what each script is |
-| design rationale, the option dossiers | `../work/research/` |
-| the 31 review scenarios and the pipeline that made them | `../work/generation/` |
+| the experiments and their results | `../evidence/current_evidence/` |
+| why the tool is built this way | `../evidence/legacy_decisions/` |
+| the test cases | `../evidence/current_evidence/cases/` |

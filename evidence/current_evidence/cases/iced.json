@@ -5,19 +5,48 @@
     "factor_labels": {
       "species": "human",
       "origin": "germline",
-      "variant_size_class": "structural-CNV",
+      "variant_size_class": [
+        "small",
+        "structural-CNV"
+      ],
       "region_focus": [
         "coding",
         "regulatory-noncoding"
       ],
       "analysis_goal": [
         "basic-consequence",
-        "clinical-interpretation"
+        "clinical-interpretation",
+        "population-frequency"
       ]
     },
     "use_case_category": null,
     "confidence": "provisional",
     "recommended_options": {
+      "af": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "af_1kg": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "af_gnomade": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "af_gnomadg": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "alphamissense": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "appris": {
         "value": true,
         "enabled": true,
@@ -53,12 +82,27 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "dosage_sensitivity": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       },
+      "eve": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -73,7 +117,7 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mastermind": {
+      "mavedb": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -88,7 +132,27 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "polyphen": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "protein": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "spliceai": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -102,10 +166,67 @@
         "value": true,
         "enabled": true,
         "priority": "recommended"
+      },
+      "utrannotator": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
       }
     },
     "add_on_options": {
+      "allofus": {
+        "value": true,
+        "priority": "optional"
+      },
+      "ancestral_allele": {
+        "value": true,
+        "priority": "optional"
+      },
+      "avi": {
+        "value": true,
+        "priority": "optional"
+      },
+      "blosum62": {
+        "value": true,
+        "priority": "optional"
+      },
       "cell_type": {
+        "value": true,
+        "priority": "optional"
+      },
+      "clinpred": {
+        "value": true,
+        "priority": "optional"
+      },
+      "clinvar_sv": {
+        "value": true,
+        "priority": "optional"
+      },
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "dbnsfp": {
+        "value": true,
+        "priority": "optional"
+      },
+      "dbscsnv": {
+        "value": true,
+        "priority": "optional"
+      },
+      "enformer": {
+        "value": true,
+        "priority": "optional"
+      },
+      "frequency": {
+        "value": true,
+        "priority": "optional"
+      },
+      "gencode_promoter": {
+        "value": true,
+        "priority": "optional"
+      },
+      "geno2mp": {
         "value": true,
         "priority": "optional"
       },
@@ -117,7 +238,19 @@
         "value": true,
         "priority": "optional"
       },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "maxentscan": {
+        "value": true,
+        "priority": "optional"
+      },
       "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mutfunc": {
         "value": true,
         "priority": "optional"
       },
@@ -129,11 +262,31 @@
         "value": true,
         "priority": "optional"
       },
+      "paralogues": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protvar": {
+        "value": true,
+        "priority": "optional"
+      },
       "pubmed": {
         "value": true,
         "priority": "optional"
       },
+      "revel": {
+        "value": true,
+        "priority": "optional"
+      },
       "riboseqorfs": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      },
+      "var_synonyms": {
         "value": true,
         "priority": "optional"
       }
@@ -221,8 +374,32 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
-    ]
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
+    ],
+    "_relabelled_2026-09-30": {
+      "variant_size_class": {
+        "was": "structural-CNV",
+        "now": [
+          "small",
+          "structural-CNV"
+        ],
+        "why": "the text asks for 'both coding SNVs and larger structural variants or CNVs'"
+      },
+      "analysis_goal": {
+        "was": [
+          "basic-consequence",
+          "clinical-interpretation"
+        ],
+        "now": [
+          "basic-consequence",
+          "clinical-interpretation",
+          "population-frequency"
+        ],
+        "why": "the text asks for 'consequence calls and population allele frequencies to support my clinical interpretation'; her round-1 row 1 note says the same"
+      }
+    }
   },
   {
     "id": "gen_nonhumansomaticsmallcodingbasicconsequence",
@@ -371,7 +548,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -473,11 +652,6 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mastermind": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
       "mavedb": {
         "value": true,
         "enabled": true,
@@ -535,6 +709,10 @@
       }
     },
     "add_on_options": {
+      "allofus": {
+        "value": true,
+        "priority": "optional"
+      },
       "ancestral_allele": {
         "value": true,
         "priority": "optional"
@@ -579,6 +757,10 @@
         "value": true,
         "priority": "optional"
       },
+      "gencode_promoter": {
+        "value": true,
+        "priority": "optional"
+      },
       "geno2mp": {
         "value": true,
         "priority": "optional"
@@ -592,6 +774,10 @@
         "priority": "optional"
       },
       "loeuf": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
         "value": true,
         "priority": "optional"
       },
@@ -723,7 +909,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -859,7 +1047,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -936,11 +1126,6 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mastermind": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
       "numbers": {
         "value": true,
         "enabled": true,
@@ -972,11 +1157,23 @@
         "value": true,
         "priority": "optional"
       },
+      "clinvar_sv": {
+        "value": true,
+        "priority": "optional"
+      },
+      "gencode_promoter": {
+        "value": true,
+        "priority": "optional"
+      },
       "go": {
         "value": true,
         "priority": "optional"
       },
       "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
         "value": true,
         "priority": "optional"
       },
@@ -1076,7 +1273,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -1150,6 +1349,10 @@
         "priority": "optional"
       },
       "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "var_synonyms": {
         "value": true,
         "priority": "optional"
       }
@@ -1227,7 +1430,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -1318,6 +1523,10 @@
         "value": true,
         "priority": "optional"
       },
+      "gencode_promoter": {
+        "value": true,
+        "priority": "optional"
+      },
       "mirna": {
         "value": true,
         "priority": "optional"
@@ -1404,7 +1613,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -1412,7 +1623,7 @@
     "user_query": "I am analyzing small DNA changes from a mouse study to determine which mutations in the parts of the genome that make proteins are most likely to cause disease.",
     "factor_labels": {
       "species": "non-human",
-      "origin": "germline",
+      "origin": "unstated",
       "variant_size_class": "small",
       "region_focus": [
         "coding"
@@ -1480,10 +1691,6 @@
         "value": true,
         "priority": "optional"
       },
-      "check_existing": {
-        "value": "yes",
-        "priority": "optional"
-      },
       "coding_only": {
         "value": true,
         "priority": "optional"
@@ -1505,6 +1712,10 @@
         "priority": "optional"
       },
       "uniprot": {
+        "value": true,
+        "priority": "optional"
+      },
+      "var_synonyms": {
         "value": true,
         "priority": "optional"
       }
@@ -1583,8 +1794,17 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
-    ]
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
+    ],
+    "_relabelled_2026-09-30": {
+      "origin": {
+        "was": "germline",
+        "now": "unstated",
+        "why": "the text never says germline, inherited, somatic or tumour ('small DNA changes from a mouse study')"
+      }
+    }
   },
   {
     "id": "gen_nonhumansomaticsmallcoding+regulatorynoncodingbasicconsequence",
@@ -1752,7 +1972,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -1913,7 +2135,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -1989,11 +2213,6 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mastermind": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
       "numbers": {
         "value": true,
         "enabled": true,
@@ -2016,6 +2235,10 @@
       }
     },
     "add_on_options": {
+      "clinvar_sv": {
+        "value": true,
+        "priority": "optional"
+      },
       "frequency": {
         "value": true,
         "priority": "optional"
@@ -2025,6 +2248,10 @@
         "priority": "optional"
       },
       "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
         "value": true,
         "priority": "optional"
       },
@@ -2115,7 +2342,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -2237,6 +2466,10 @@
       "uniprot": {
         "value": true,
         "priority": "optional"
+      },
+      "var_synonyms": {
+        "value": true,
+        "priority": "optional"
       }
     },
     "justification": null,
@@ -2312,7 +2545,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -2406,6 +2641,10 @@
         "value": true,
         "priority": "optional"
       },
+      "gencode_promoter": {
+        "value": true,
+        "priority": "optional"
+      },
       "mirna": {
         "value": true,
         "priority": "optional"
@@ -2492,7 +2731,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -2567,6 +2808,10 @@
         "priority": "optional"
       },
       "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "var_synonyms": {
         "value": true,
         "priority": "optional"
       }
@@ -2644,7 +2889,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -2814,7 +3061,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -2880,6 +3129,10 @@
         "priority": "optional"
       },
       "clinvar": {
+        "value": true,
+        "priority": "optional"
+      },
+      "gencode_promoter": {
         "value": true,
         "priority": "optional"
       },
@@ -2965,7 +3218,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -3035,6 +3290,10 @@
         "priority": "optional"
       },
       "frequency": {
+        "value": true,
+        "priority": "optional"
+      },
+      "gencode_promoter": {
         "value": true,
         "priority": "optional"
       },
@@ -3120,7 +3379,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -3243,6 +3504,10 @@
       "uniprot": {
         "value": true,
         "priority": "optional"
+      },
+      "var_synonyms": {
+        "value": true,
+        "priority": "optional"
       }
     },
     "justification": null,
@@ -3318,7 +3583,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -3334,6 +3601,7 @@
       ],
       "analysis_goal": [
         "basic-consequence",
+        "clinical-interpretation",
         "population-frequency"
       ]
     },
@@ -3350,7 +3618,22 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "cadd": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "canonical": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "check_existing": {
+        "value": "yes",
+        "enabled": true,
+        "priority": "optional"
+      },
+      "clinvar": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3375,7 +3658,17 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "mane": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "numbers": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "phenotypes": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -3401,15 +3694,27 @@
         "value": true,
         "priority": "optional"
       },
-      "check_existing": {
-        "value": "yes",
-        "priority": "optional"
-      },
-      "clinvar": {
+      "clinvar_sv": {
         "value": true,
         "priority": "optional"
       },
       "frequency": {
+        "value": true,
+        "priority": "optional"
+      },
+      "gencode_promoter": {
+        "value": true,
+        "priority": "optional"
+      },
+      "go": {
+        "value": true,
+        "priority": "optional"
+      },
+      "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
         "value": true,
         "priority": "optional"
       },
@@ -3418,6 +3723,14 @@
         "priority": "optional"
       },
       "nmd": {
+        "value": true,
+        "priority": "optional"
+      },
+      "opentargets": {
+        "value": true,
+        "priority": "optional"
+      },
+      "pubmed": {
         "value": true,
         "priority": "optional"
       },
@@ -3499,8 +3812,24 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
-    ]
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
+    ],
+    "_relabelled_2026-09-30": {
+      "analysis_goal": {
+        "was": [
+          "basic-consequence",
+          "population-frequency"
+        ],
+        "now": [
+          "basic-consequence",
+          "clinical-interpretation",
+          "population-frequency"
+        ],
+        "why": "'for a patient' is clinical by the classifier's own definition ('a patient ... indicate this')"
+      }
+    }
   },
   {
     "id": "gen_nonhumansomaticsmallcodingclinicalinterpretation",
@@ -3602,6 +3931,10 @@
       "uniprot": {
         "value": true,
         "priority": "optional"
+      },
+      "var_synonyms": {
+        "value": true,
+        "priority": "optional"
       }
     },
     "justification": null,
@@ -3673,7 +4006,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -3777,6 +4112,10 @@
       "uniprot": {
         "value": true,
         "priority": "optional"
+      },
+      "var_synonyms": {
+        "value": true,
+        "priority": "optional"
       }
     },
     "justification": null,
@@ -3851,7 +4190,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -4004,7 +4345,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -4071,11 +4414,6 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mastermind": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
       "phenotypes": {
         "value": true,
         "enabled": true,
@@ -4092,11 +4430,23 @@
         "value": true,
         "priority": "optional"
       },
+      "clinvar_sv": {
+        "value": true,
+        "priority": "optional"
+      },
+      "gencode_promoter": {
+        "value": true,
+        "priority": "optional"
+      },
       "go": {
         "value": true,
         "priority": "optional"
       },
       "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
         "value": true,
         "priority": "optional"
       },
@@ -4191,7 +4541,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -4327,7 +4679,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -4336,7 +4690,10 @@
     "factor_labels": {
       "species": "human",
       "origin": "germline",
-      "variant_size_class": "structural-CNV",
+      "variant_size_class": [
+        "small",
+        "structural-CNV"
+      ],
       "region_focus": [
         "coding",
         "regulatory-noncoding"
@@ -4349,6 +4706,31 @@
     "use_case_category": null,
     "confidence": "provisional",
     "recommended_options": {
+      "af": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "af_1kg": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "af_gnomade": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "af_gnomadg": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "alphamissense": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "appris": {
         "value": true,
         "enabled": true,
@@ -4384,12 +4766,27 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "domains": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "dosage_sensitivity": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
       },
+      "eve": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "gnomad_sv": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "hgvs": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -4404,7 +4801,7 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mastermind": {
+      "mavedb": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -4419,7 +4816,27 @@
         "enabled": true,
         "priority": "recommended"
       },
+      "polyphen": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "protein": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
       "regulatory": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "sift": {
+        "value": "b",
+        "enabled": true,
+        "priority": "recommended"
+      },
+      "spliceai": {
         "value": true,
         "enabled": true,
         "priority": "recommended"
@@ -4433,14 +4850,67 @@
         "value": true,
         "enabled": true,
         "priority": "recommended"
+      },
+      "utrannotator": {
+        "value": true,
+        "enabled": true,
+        "priority": "recommended"
       }
     },
     "add_on_options": {
+      "allofus": {
+        "value": true,
+        "priority": "optional"
+      },
+      "ancestral_allele": {
+        "value": true,
+        "priority": "optional"
+      },
+      "avi": {
+        "value": true,
+        "priority": "optional"
+      },
+      "blosum62": {
+        "value": true,
+        "priority": "optional"
+      },
       "cell_type": {
         "value": true,
         "priority": "optional"
       },
+      "clinpred": {
+        "value": true,
+        "priority": "optional"
+      },
+      "clinvar_sv": {
+        "value": true,
+        "priority": "optional"
+      },
+      "coding_only": {
+        "value": true,
+        "priority": "optional"
+      },
+      "dbnsfp": {
+        "value": true,
+        "priority": "optional"
+      },
+      "dbscsnv": {
+        "value": true,
+        "priority": "optional"
+      },
+      "enformer": {
+        "value": true,
+        "priority": "optional"
+      },
       "frequency": {
+        "value": true,
+        "priority": "optional"
+      },
+      "gencode_promoter": {
+        "value": true,
+        "priority": "optional"
+      },
+      "geno2mp": {
         "value": true,
         "priority": "optional"
       },
@@ -4452,7 +4922,19 @@
         "value": true,
         "priority": "optional"
       },
+      "mastermind": {
+        "value": true,
+        "priority": "optional"
+      },
+      "maxentscan": {
+        "value": true,
+        "priority": "optional"
+      },
       "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mutfunc": {
         "value": true,
         "priority": "optional"
       },
@@ -4464,11 +4946,31 @@
         "value": true,
         "priority": "optional"
       },
+      "paralogues": {
+        "value": true,
+        "priority": "optional"
+      },
+      "protvar": {
+        "value": true,
+        "priority": "optional"
+      },
       "pubmed": {
         "value": true,
         "priority": "optional"
       },
+      "revel": {
+        "value": true,
+        "priority": "optional"
+      },
       "riboseqorfs": {
+        "value": true,
+        "priority": "optional"
+      },
+      "uniprot": {
+        "value": true,
+        "priority": "optional"
+      },
+      "var_synonyms": {
         "value": true,
         "priority": "optional"
       }
@@ -4548,8 +5050,20 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
-    ]
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
+    ],
+    "_relabelled_2026-09-30": {
+      "variant_size_class": {
+        "was": "structural-CNV",
+        "now": [
+          "small",
+          "structural-CNV"
+        ],
+        "why": "the text says 'coding and regulatory variants, including any identified structural changes'"
+      }
+    }
   },
   {
     "id": "gen_nonhumansomaticsmallregulatorynoncodingclinicalinterpretation",
@@ -4622,6 +5136,10 @@
         "priority": "optional"
       },
       "mirna": {
+        "value": true,
+        "priority": "optional"
+      },
+      "var_synonyms": {
         "value": true,
         "priority": "optional"
       }
@@ -4699,7 +5217,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -4765,11 +5285,6 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mastermind": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
       "phenotypes": {
         "value": true,
         "enabled": true,
@@ -4786,11 +5301,23 @@
         "value": true,
         "priority": "optional"
       },
+      "clinvar_sv": {
+        "value": true,
+        "priority": "optional"
+      },
+      "gencode_promoter": {
+        "value": true,
+        "priority": "optional"
+      },
       "go": {
         "value": true,
         "priority": "optional"
       },
       "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
         "value": true,
         "priority": "optional"
       },
@@ -4884,7 +5411,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -4892,7 +5421,7 @@
     "user_query": "I am currently reviewing exome sequencing results from a cohort of mice used in our recent developmental study. We have identified several single-letter changes and small additions or deletions throughout the genome. For my preliminary report, I just need to quickly identify which of these variations actually alter the protein sequence or create an early stop signal within the coding regions.",
     "factor_labels": {
       "species": "non-human",
-      "origin": "germline",
+      "origin": "unstated",
       "variant_size_class": "small",
       "region_focus": [
         "coding"
@@ -4946,10 +5475,6 @@
       }
     },
     "add_on_options": {
-      "check_existing": {
-        "value": "yes",
-        "priority": "optional"
-      },
       "coding_only": {
         "value": true,
         "priority": "optional"
@@ -5034,8 +5559,17 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
-    ]
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
+    ],
+    "_relabelled_2026-09-30": {
+      "origin": {
+        "was": "germline",
+        "now": "unstated",
+        "why": "the text never says germline, inherited, somatic or tumour ('exome sequencing results from a cohort of mice used in our recent developmental study')"
+      }
+    }
   },
   {
     "id": "gen_humansomaticstructuralCNVcodingbasicconsequence+clinicalinterpretation+populationfrequency",
@@ -5111,11 +5645,6 @@
         "enabled": true,
         "priority": "recommended"
       },
-      "mastermind": {
-        "value": true,
-        "enabled": true,
-        "priority": "recommended"
-      },
       "numbers": {
         "value": true,
         "enabled": true,
@@ -5138,11 +5667,19 @@
       }
     },
     "add_on_options": {
+      "clinvar_sv": {
+        "value": true,
+        "priority": "optional"
+      },
       "go": {
         "value": true,
         "priority": "optional"
       },
       "intact": {
+        "value": true,
+        "priority": "optional"
+      },
+      "mastermind": {
         "value": true,
         "priority": "optional"
       },
@@ -5233,7 +5770,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   },
   {
@@ -5241,7 +5780,7 @@
     "user_query": "I am analyzing genome sequencing from a mouse model to determine if any small spelling changes in protein-coding or gene control regions are likely causing the observed disease.",
     "factor_labels": {
       "species": "non-human",
-      "origin": "germline",
+      "origin": "unstated",
       "variant_size_class": "small",
       "region_focus": [
         "coding",
@@ -5324,10 +5863,6 @@
         "value": true,
         "priority": "optional"
       },
-      "check_existing": {
-        "value": "yes",
-        "priority": "optional"
-      },
       "coding_only": {
         "value": true,
         "priority": "optional"
@@ -5353,6 +5888,10 @@
         "priority": "optional"
       },
       "uniprot": {
+        "value": true,
+        "priority": "optional"
+      },
+      "var_synonyms": {
         "value": true,
         "priority": "optional"
       }
@@ -5432,8 +5971,17 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
-    ]
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
+    ],
+    "_relabelled_2026-09-30": {
+      "origin": {
+        "was": "germline",
+        "now": "unstated",
+        "why": "the text never says germline, inherited, somatic or tumour ('genome sequencing from a mouse model')"
+      }
+    }
   },
   {
     "id": "gen_humangermlinestructuralCNVcoding+regulatorynoncodingbasicconsequence",
@@ -5516,6 +6064,10 @@
       },
       "check_existing": {
         "value": "yes",
+        "priority": "optional"
+      },
+      "gencode_promoter": {
+        "value": true,
         "priority": "optional"
       },
       "mirna": {
@@ -5604,7 +6156,9 @@
     "_refreshed": [
       "2026-09-20",
       "2026-09-20",
-      "2026-09-22"
+      "2026-09-22",
+      "2026-09-30",
+      "2026-09-30"
     ]
   }
 ]

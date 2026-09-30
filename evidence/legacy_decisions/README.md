@@ -74,6 +74,9 @@ The tool used to make a second call, a "draft" of the configuration for a checke
 | `results/factor_grid_natural_shipped_v2draft1.json` | the first rewrite of the prompt scored 129/150: it filled in goal and origin nobody stated | rejected; the prompt now says an unstated fact stays unstated |
 | `results/factors_150_tricky_cases_reasoning_{on,off}_before_organism_field.json` | 150 tricky cases on one prompt: reasoning on 148/150, off 138/150 | reasoning back on (2026-09-20) |
 | `results/factor_grid_{natural,terse}_shipped.json`, `results/factor_grid_think_seq20.json` | wording style changes nothing (138 vs 139/150); running calls in parallel changes nothing (20/20) | the 150 cases are run in conversational wording, 8 at a time |
+| `results/factors_150_*_before_case_fixes*.json` | the 150 tricky cases before any hand fix, four runs: reasoning on 143, 141, 142, 142; off 135 in all four (species through the tool) | 21 case fixes; the runs on the fixed cases are experiment 1 of `../current_evidence/` |
+| `results/factors_150_*_first_12_case_fixes*.json` | the same after the first 12 fixes: reasoning on 145, off 135 (species through the tool) | the other 9 fixes |
+| `results/factors_31_review_scenarios_reasoning_*_before_relabelling*.json` | the 31 scenarios scored on the labels before six were corrected: on 29/31 F1 0.960, off 30/31 F1 0.967 | the same answers re-scored on the corrected labels are experiment 2 of `../current_evidence/` |
 
 ## D5 · a missing fact is assumed out loud, or asked for
 

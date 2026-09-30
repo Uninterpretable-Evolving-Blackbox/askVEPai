@@ -3643,19 +3643,21 @@
       "result": {
         "plain": {
           "said": "chicken (red jungle fowl)",
-          "resolved": "gallus_gallus",
+          "resolved": "gallus_gallus_gca000002315v5",
           "species": "non-human",
           "name_ok": true,
           "binary_ok": true,
-          "disagree": false
+          "disagree": false,
+          "resolved_at_run": "gallus_gallus"
         },
         "decoy": {
           "said": "chicken (red jungle fowl)",
-          "resolved": "gallus_gallus",
+          "resolved": "gallus_gallus_gca000002315v5",
           "species": "non-human",
           "name_ok": true,
           "binary_ok": true,
-          "disagree": false
+          "disagree": false,
+          "resolved_at_run": "gallus_gallus"
         }
       }
     },
@@ -20555,7 +20557,7 @@
   ],
   "rescored": {
     "date": "2026-09-28",
-    "index_names": 780,
-    "lookups_changed": 51
+    "index_names": 1296,
+    "lookups_changed": 2
   }
 }

@@ -101,7 +101,7 @@ def score_file(path):
         for t in TEST_TYPES:
             truth = r[f"{t}_truth"]
             for i, read in enumerate(r["result"][t]["model"]):
-                label_ok = norm(f, read) == norm(f, truth)
+                label_ok = norm(f, read) in [norm(f, x) for x in [truth] + r.get(f"{t}_also", [])]
                 rec = {"id": r["id"], "factor": f, "trick": r["trick"], "test": t, "read_index": i,
                        "truth": truth, "read": read, "label_ok": label_ok,
                        "background_read_ok": r["result"][t]["background_read_ok"]}

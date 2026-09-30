@@ -2,21 +2,21 @@
  {
   "file": "evidence/current_evidence/results/factors_150_tricky_cases_reasoning_on.json",
   "model": "gemma4:26b",
-  "reader": "think",
+  "reader": "reasoning_on",
   "n_cases": 150,
   "reads_per_query": 1,
   "totals": {
    "queries": 600,
-   "label_ok": 593,
-   "same_recommended": 598,
-   "same_full": 596,
-   "same_disclosure": 595,
+   "label_ok": 595,
+   "same_recommended": 599,
+   "same_full": 598,
+   "same_disclosure": 596,
    "background_misread": 0
   },
   "cases_all_four": {
-   "label_ok": 143,
-   "same_recommended": 148,
-   "same_full": 146
+   "label_ok": 145,
+   "same_recommended": 149,
+   "same_full": 148
   },
   "misses": [
    {
@@ -56,27 +56,6 @@
     ]
    },
    {
-    "id": "anal-nega-3",
-    "factor": "analysis_goal",
-    "trick": "negation",
-    "test": "absent",
-    "read_index": 0,
-    "truth": [],
-    "read": [
-     "basic-consequence"
-    ],
-    "label_ok": false,
-    "background_read_ok": true,
-    "same_recommended": true,
-    "same_full": true,
-    "same_disclosure": false,
-    "recommended_only_truth": [],
-    "recommended_only_read": [],
-    "disclosure_lost": [
-     "analysis_goal = basic-consequence"
-    ]
-   },
-   {
     "id": "anal-word-1",
     "factor": "analysis_goal",
     "trick": "word_sense",
@@ -95,12 +74,31 @@
     "same_disclosure": true,
     "recommended_only_truth": [],
     "recommended_only_read": [
-     "CADD drop-down: CADD SNVs annotation file",
      "HGVS   (Identifiers section)",
-     "Pathogenicity predictions: CADD   (Predictions section)",
      "Phenotypes   (Additional annotations \u203a Phenotype data and citations)"
     ],
     "disclosure_lost": []
+   },
+   {
+    "id": "anal-word-2",
+    "factor": "analysis_goal",
+    "trick": "word_sense",
+    "test": "absent",
+    "read_index": 0,
+    "truth": [],
+    "read": [
+     "basic-consequence"
+    ],
+    "label_ok": false,
+    "background_read_ok": true,
+    "same_recommended": true,
+    "same_full": true,
+    "same_disclosure": false,
+    "recommended_only_truth": [],
+    "recommended_only_read": [],
+    "disclosure_lost": [
+     "analysis_goal = basic-consequence"
+    ]
    },
    {
     "id": "anal-tool-4",
@@ -122,58 +120,6 @@
     "disclosure_lost": [
      "analysis_goal = basic-consequence"
     ]
-   },
-   {
-    "id": "anal-doma-4",
-    "factor": "analysis_goal",
-    "trick": "domain",
-    "test": "trap",
-    "read_index": 0,
-    "truth": [
-     "clinical-interpretation"
-    ],
-    "read": [
-     "clinical-interpretation",
-     "population-frequency"
-    ],
-    "label_ok": false,
-    "background_read_ok": true,
-    "same_recommended": true,
-    "same_full": false,
-    "same_disclosure": true,
-    "recommended_only_truth": [],
-    "recommended_only_read": [],
-    "disclosure_lost": []
-   },
-   {
-    "id": "anal-doma-5",
-    "factor": "analysis_goal",
-    "trick": "domain",
-    "test": "trap",
-    "read_index": 0,
-    "truth": [
-     "population-frequency"
-    ],
-    "read": [
-     "clinical-interpretation",
-     "population-frequency"
-    ],
-    "label_ok": false,
-    "background_read_ok": true,
-    "same_recommended": false,
-    "same_full": false,
-    "same_disclosure": false,
-    "recommended_only_truth": [],
-    "recommended_only_read": [
-     "CADD drop-down: CADD SNVs and InDels annotation file",
-     "HGVS   (Identifiers section)",
-     "Mastermind   (Additional annotations \u203a Phenotype data and citations)",
-     "MaveDB   (Additional annotations \u203a Functional effect)",
-     "Pathogenicity predictions: CADD   (Predictions section)",
-     "Phenotypes   (Additional annotations \u203a Phenotype data and citations)",
-     "Splicing predictions: SpliceAI   (Predictions section)"
-    ],
-    "disclosure_lost": []
    }
   ]
  }

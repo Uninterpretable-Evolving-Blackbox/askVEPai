@@ -1,9 +1,177 @@
 {
- "_n_names": 780,
+ "_n_names": 1296,
  "_n_species": 356,
  "_note": "Matches are HINTS for the classifier, never an answer. See the module docstring.",
  "_source": "https://rest.ensembl.org/info/species?content-type=application/json",
  "names": {
+  "a brachyrhynchus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of anser_brachyrhynchus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anser_brachyrhynchus",
+   "trap": null
+  },
+  "a calliptera": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of astatotilapia_calliptera",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astatotilapia_calliptera",
+   "trap": null
+  },
+  "a carolinensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of anolis_carolinensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anolis_carolinensis",
+   "trap": null
+  },
+  "a chrysaetos": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of aquila_chrysaetos_chrysaetos",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "aquila_chrysaetos_chrysaetos",
+   "trap": null
+  },
+  "a citrinellus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of amphilophus_citrinellus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amphilophus_citrinellus",
+   "trap": null
+  },
+  "a collaria": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of amazona_collaria",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amazona_collaria",
+   "trap": null
+  },
+  "a cunicularia": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of athene_cunicularia",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "athene_cunicularia",
+   "trap": null
+  },
+  "a cygnoides": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of anser_cygnoides",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anser_cygnoides",
+   "trap": null
+  },
+  "a haastii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of apteryx_haastii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "apteryx_haastii",
+   "trap": null
+  },
+  "a melanoleuca": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ailuropoda_melanoleuca",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ailuropoda_melanoleuca",
+   "trap": null
+  },
+  "a mexicanus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of astyanax_mexicanus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astyanax_mexicanus",
+   "trap": null
+  },
+  "a nancymaae": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of aotus_nancymaae",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "aotus_nancymaae",
+   "trap": null
+  },
+  "a nisus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of accipiter_nisus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "accipiter_nisus",
+   "trap": null
+  },
+  "a ocellaris": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of amphiprion_ocellaris",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amphiprion_ocellaris",
+   "trap": null
+  },
+  "a owenii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of apteryx_owenii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "apteryx_owenii",
+   "trap": null
+  },
+  "a percula": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of amphiprion_percula",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "amphiprion_percula",
+   "trap": null
+  },
+  "a platyrhynchos": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of anas_platyrhynchos",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anas_platyrhynchos",
+   "trap": null
+  },
+  "a polyacanthus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of acanthochromis_polyacanthus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "acanthochromis_polyacanthus",
+   "trap": null
+  },
+  "a rowi": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of apteryx_rowi",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "apteryx_rowi",
+   "trap": null
+  },
+  "a testudineus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of anabas_testudineus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anabas_testudineus",
+   "trap": null
+  },
+  "a zonorhyncha": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of anas_zonorhyncha",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "anas_zonorhyncha",
+   "trap": null
+  },
   "abingdon island giant tortoise": {
    "binomial": false,
    "english_word": false,
@@ -23,6 +191,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "accipiter_nisus",
+   "trap": null
+  },
+  "african elephant": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "loxodonta_africana",
    "trap": null
   },
   "african green monkey": {
@@ -51,6 +227,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "gopherus_agassizii",
+   "trap": null
+  },
+  "agm": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
    "trap": null
   },
   "ailuropoda melanoleuca": {
@@ -121,6 +305,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "ochotona_princeps",
+   "trap": null
+  },
+  "amex": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "astyanax_mexicanus",
+   "trap": null
+  },
+  "amexicanus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astyanax_mexicanus",
    "trap": null
   },
   "amphilophus citrinellus": {
@@ -264,6 +464,14 @@
    "species": "salvator_merianae",
    "trap": null
   },
+  "arma": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dasypus_novemcinctus",
+   "trap": null
+  },
   "armadillo": {
    "binomial": false,
    "english_word": true,
@@ -297,6 +505,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "astatotilapia_calliptera",
+   "trap": null
+  },
+  "astmex": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astyanax_mexicanus",
    "trap": null
   },
   "astyanax mexicanus": {
@@ -367,6 +583,70 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "crocodylus_porosus",
+   "trap": null
+  },
+  "b bison": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of bison_bison_bison",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bison_bison_bison",
+   "trap": null
+  },
+  "b bubo": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of bubo_bubo",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bubo_bubo",
+   "trap": null
+  },
+  "b grunniens": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of bos_grunniens",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_grunniens",
+   "trap": null
+  },
+  "b japonicus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of buteo_japonicus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "buteo_japonicus",
+   "trap": null
+  },
+  "b musculus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of balaenoptera_musculus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "balaenoptera_musculus",
+   "trap": null
+  },
+  "b mutus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of bos_mutus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_mutus",
+   "trap": null
+  },
+  "b splendens": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of betta_splendens",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "betta_splendens",
+   "trap": null
+  },
+  "b taurus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of bos_taurus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus",
    "trap": null
   },
   "balaenoptera musculus": {
@@ -503,6 +783,14 @@
    "species": "pan_paniscus",
    "trap": null
   },
+  "bornean orangutan": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pongo_abelii",
+   "trap": null
+  },
   "bos grunniens": {
    "binomial": true,
    "english_word": false,
@@ -530,6 +818,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "bos_mutus",
+   "trap": null
+  },
+  "bos tau": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus",
    "trap": null
   },
   "bos taurus": {
@@ -567,11 +863,27 @@
    "species": "bos_taurus_wagyu",
    "trap": null
   },
+  "bottlenose dolphin": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tursiops_truncatus",
+   "trap": null
+  },
   "bottlenosed dolphin": {
    "binomial": false,
    "english_word": false,
    "shadowed_by": null,
    "species": "tursiops_truncatus",
+   "trap": null
+  },
+  "bovine": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "bos_taurus",
    "trap": null
   },
   "brazilian guinea pig": {
@@ -586,6 +898,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "salmo_trutta",
+   "trap": null
+  },
+  "btau": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus",
+   "trap": null
+  },
+  "btaurus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus",
    "trap": null
   },
   "bubo bubo": {
@@ -630,6 +958,310 @@
    "species": "buteo_japonicus",
    "trap": null
   },
+  "c abingdonii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of chelonoidis_abingdonii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chelonoidis_abingdonii",
+   "trap": null
+  },
+  "c angolensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of colobus_angolensis_palliatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "colobus_angolensis_palliatus",
+   "trap": null
+  },
+  "c aperea": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cavia_aperea",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_aperea",
+   "trap": null
+  },
+  "c atys": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cercocebus_atys",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cercocebus_atys",
+   "trap": null
+  },
+  "c auratus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of carassius_auratus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carassius_auratus",
+   "trap": null
+  },
+  "c caeruleus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cyanistes_caeruleus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyanistes_caeruleus",
+   "trap": null
+  },
+  "c canadensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of castor_canadensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "castor_canadensis",
+   "trap": null
+  },
+  "c carpio": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cyprinus_carpio",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinus_carpio_germanmirror",
+   "trap": null
+  },
+  "c dromedarius": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of camelus_dromedarius",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "camelus_dromedarius",
+   "trap": null
+  },
+  "c elegans": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of caenorhabditis_elegans",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "caenorhabditis_elegans",
+   "trap": null
+  },
+  "c gobio": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cottoperca_gobio",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cottoperca_gobio",
+   "trap": null
+  },
+  "c griseus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cricetulus_griseus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_chok1gshd",
+   "trap": null
+  },
+  "c hanglu": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cervus_hanglu_yarkandensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cervus_hanglu_yarkandensis",
+   "trap": null
+  },
+  "c harengus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of clupea_harengus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "clupea_harengus",
+   "trap": null
+  },
+  "c hircus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of capra_hircus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "capra_hircus",
+   "trap": null
+  },
+  "c hoffmanni": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of choloepus_hoffmanni",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
+  "c imitator": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cebus_imitator",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cebus_imitator",
+   "trap": null
+  },
+  "c jacchus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of callithrix_jacchus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "callithrix_jacchus",
+   "trap": null
+  },
+  "c japonica": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of coturnix_japonica",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "coturnix_japonica",
+   "trap": null
+  },
+  "c lanigera": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of chinchilla_lanigera",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chinchilla_lanigera",
+   "trap": null
+  },
+  "c lumpus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cyclopterus_lumpus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyclopterus_lumpus",
+   "trap": null
+  },
+  "c milii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of callorhinchus_milii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "callorhinchus_milii",
+   "trap": null
+  },
+  "c moneduloides": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of corvus_moneduloides",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "corvus_moneduloides",
+   "trap": null
+  },
+  "c moschata": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cairina_moschata_domestica",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cairina_moschata_domestica",
+   "trap": null
+  },
+  "c parvulus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of camarhynchus_parvulus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "camarhynchus_parvulus",
+   "trap": null
+  },
+  "c picta": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of chrysemys_picta_bellii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chrysemys_picta_bellii",
+   "trap": null
+  },
+  "c pictus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of chrysolophus_pictus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chrysolophus_pictus",
+   "trap": null
+  },
+  "c porcellus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cavia_porcellus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_porcellus",
+   "trap": null
+  },
+  "c porosus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of crocodylus_porosus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "crocodylus_porosus",
+   "trap": null
+  },
+  "c pugnax": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of calidris_pugnax",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "calidris_pugnax",
+   "trap": null
+  },
+  "c pygmaea": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of calidris_pygmaea",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "calidris_pygmaea",
+   "trap": null
+  },
+  "c sabaeus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of chlorocebus_sabaeus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
+   "trap": null
+  },
+  "c semilaevis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cynoglossus_semilaevis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cynoglossus_semilaevis",
+   "trap": null
+  },
+  "c serpentina": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of chelydra_serpentina",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chelydra_serpentina",
+   "trap": null
+  },
+  "c syrichta": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of carlito_syrichta",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "c ustulatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of catharus_ustulatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "catharus_ustulatus",
+   "trap": null
+  },
+  "c variegatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of cyprinodon_variegatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cyprinodon_variegatus",
+   "trap": null
+  },
+  "c wagneri": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of catagonus_wagneri",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "catagonus_wagneri",
+   "trap": null
+  },
   "c.intestinalis": {
    "binomial": false,
    "english_word": false,
@@ -642,6 +1274,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "ciona_savignyi",
+   "trap": null
+  },
+  "caenorhabditis elegans": {
+   "binomial": true,
+   "derived": "on the release-116 VEP form as \"Caenorhabditis elegans (Nematode, N2)\"; not in REST /info/species",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "caenorhabditis_elegans",
    "trap": null
   },
   "cairina moschata": {
@@ -715,6 +1355,22 @@
    "species": "lynx_canadensis",
    "trap": null
   },
+  "canine": {
+   "binomial": false,
+   "derived": "ours: the adjective for this animal",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "canis_lupus_familiaris",
+   "trap": null
+  },
+  "canis familiaris": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "canis_lupus_familiaris",
+   "trap": null
+  },
   "canis lupus dingo": {
    "binomial": true,
    "english_word": false,
@@ -764,6 +1420,14 @@
    "species": "procavia_capensis",
    "trap": null
   },
+  "caperea": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_aperea",
+   "trap": null
+  },
   "capra hircus": {
    "binomial": true,
    "english_word": false,
@@ -792,6 +1456,14 @@
    "species": "capra_hircus_gca026652205v1",
    "trap": null
   },
+  "caprine": {
+   "binomial": false,
+   "derived": "ours: the adjective for this animal",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "capra_hircus",
+   "trap": null
+  },
   "carassius auratus": {
    "binomial": true,
    "english_word": false,
@@ -799,8 +1471,32 @@
    "species": "carassius_auratus",
    "trap": null
   },
+  "carlito": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
   "carlito syrichta": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "carlitosyrichta": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "carsyr": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "carlito_syrichta",
@@ -812,6 +1508,14 @@
    "shadowed_by": null,
    "species": "castor_canadensis",
    "trap": null
+  },
+  "cat": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "felis_catus_abyssinian",
+   "trap": "the CAT catalase gene"
   },
   "cat - abyssinian": {
    "binomial": false,
@@ -862,6 +1566,22 @@
    "species": "bos_taurus_wagyu",
    "trap": null
   },
+  "cavape": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_aperea",
+   "trap": null
+  },
+  "cave fish": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "astyanax_mexicanus",
+   "trap": null
+  },
   "cavia aperea": {
    "binomial": true,
    "english_word": false,
@@ -874,6 +1594,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "cavia_porcellus",
+   "trap": null
+  },
+  "cavpor": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_porcellus",
+   "trap": null
+  },
+  "cebus capucinus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cebus_imitator",
    "trap": null
   },
   "cebus imitator": {
@@ -910,6 +1646,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "cervus_hanglu_yarkandensis",
+   "trap": null
+  },
+  "cgri": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_chok1gshd",
+   "trap": null
+  },
+  "cgriseus crigri": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_crigri",
    "trap": null
   },
   "chacoan peccary": {
@@ -968,11 +1720,27 @@
    "species": "gallus_gallus_gca000002315v5",
    "trap": null
   },
+  "chilan": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chinchilla_lanigera",
+   "trap": null
+  },
   "chilean tinamou": {
    "binomial": false,
    "english_word": false,
    "shadowed_by": null,
    "species": "nothoprocta_perdicaria",
+   "trap": null
+  },
+  "chimp": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_troglodytes",
    "trap": null
   },
   "chimpanzee": {
@@ -1024,6 +1792,14 @@
    "species": "oryzias_sinensis",
    "trap": null
   },
+  "chinese soft shell turtle": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pelodiscus_sinensis",
+   "trap": null
+  },
   "chinese softshell turtle": {
    "binomial": false,
    "english_word": false,
@@ -1045,8 +1821,64 @@
    "species": "chlorocebus_sabaeus",
    "trap": null
   },
+  "chlorocebus sabeus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
+   "trap": null
+  },
+  "chlsab": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
+   "trap": null
+  },
+  "chof": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
+  "choffmanni": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
+  "chohof": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
+  "choloepus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
   "choloepus hoffmanni": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
+  "choloepushoffmanni": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "choloepus_hoffmanni",
@@ -1074,6 +1906,38 @@
    "species": "chrysolophus_pictus",
    "trap": null
   },
+  "cint": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_intestinalis",
+   "trap": null
+  },
+  "cintestinalis": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_intestinalis",
+   "trap": null
+  },
+  "cioint": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_intestinalis",
+   "trap": null
+  },
+  "ciona": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_intestinalis",
+   "trap": null
+  },
   "ciona intestinalis": {
    "binomial": true,
    "english_word": false,
@@ -1086,6 +1950,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "ciona_savignyi",
+   "trap": null
+  },
+  "ciosav": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_savignyi",
+   "trap": null
+  },
+  "clanigera": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chinchilla_lanigera",
    "trap": null
   },
   "climbing perch": {
@@ -1180,6 +2060,14 @@
    "species": "cyprinus_carpio_huanghe",
    "trap": null
   },
+  "common chimpanzee": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_troglodytes",
+   "trap": null
+  },
   "common kestrel": {
    "binomial": false,
    "english_word": false,
@@ -1243,6 +2131,30 @@
    "species": "coturnix_japonica",
    "trap": null
   },
+  "cow": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "bos_taurus",
+   "trap": null
+  },
+  "cpor": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_porcellus",
+   "trap": null
+  },
+  "cporcellus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cavia_porcellus",
+   "trap": null
+  },
   "crab-eating macaque": {
    "binomial": false,
    "english_word": false,
@@ -1279,11 +2191,67 @@
    "species": "cricetulus_griseus_picr",
    "trap": null
   },
+  "crigri": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "cricetulus_griseus_chok1gshd",
+   "trap": null
+  },
   "crocodylus porosus": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "crocodylus_porosus",
+   "trap": null
+  },
+  "csab": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
+   "trap": null
+  },
+  "csabaeus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
+   "trap": null
+  },
+  "csav": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_savignyi",
+   "trap": null
+  },
+  "csavignyi": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ciona_savignyi",
+   "trap": null
+  },
+  "csyr": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "csyrichta": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
    "trap": null
   },
   "cyanistes caeruleus": {
@@ -1350,6 +2318,70 @@
    "species": "cyprinus_carpio_huanghe",
    "trap": null
   },
+  "d clupeoides": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of denticeps_clupeoides",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "denticeps_clupeoides",
+   "trap": null
+  },
+  "d labrax": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of dicentrarchus_labrax",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dicentrarchus_labrax",
+   "trap": null
+  },
+  "d leucas": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of delphinapterus_leucas",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "delphinapterus_leucas",
+   "trap": null
+  },
+  "d melanogaster": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of drosophila_melanogaster",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "drosophila_melanogaster",
+   "trap": null
+  },
+  "d novaehollandiae": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of dromaius_novaehollandiae",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dromaius_novaehollandiae",
+   "trap": null
+  },
+  "d novemcinctus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of dasypus_novemcinctus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dasypus_novemcinctus",
+   "trap": null
+  },
+  "d ordii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of dipodomys_ordii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "d rerio": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "danio_rerio",
+   "trap": null
+  },
   "damara mole rat": {
    "binomial": false,
    "english_word": false,
@@ -1357,8 +2389,24 @@
    "species": "fukomys_damarensis",
    "trap": null
   },
+  "danio": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "danio_rerio",
+   "trap": null
+  },
   "danio rerio": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "danio_rerio",
+   "trap": null
+  },
+  "danrer": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "danio_rerio",
@@ -1369,6 +2417,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "junco_hyemalis",
+   "trap": null
+  },
+  "dasnov": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dasypus_novemcinctus",
+   "trap": null
+  },
+  "dasypus novemcinctu": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dasypus_novemcinctus",
    "trap": null
   },
   "dasypus novemcinctus": {
@@ -1434,6 +2498,38 @@
    "species": "dipodomys_ordii",
    "trap": null
   },
+  "dipodomysordii": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "dipord": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "dnov": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dasypus_novemcinctus",
+   "trap": null
+  },
+  "dnovemcinctus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dasypus_novemcinctus",
+   "trap": null
+  },
   "dog": {
    "binomial": false,
    "english_word": true,
@@ -1469,6 +2565,14 @@
    "species": "canis_lupus_familiarisgreatdane",
    "trap": null
   },
+  "doguera baboon": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "papio_anubis",
+   "trap": null
+  },
   "dolphin": {
    "binomial": false,
    "english_word": true,
@@ -1488,6 +2592,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "bos_taurus_gca963921495v1",
+   "trap": null
+  },
+  "domestic cow": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "bos_taurus",
    "trap": null
   },
   "domestic ferret": {
@@ -1532,6 +2644,38 @@
    "species": "equus_asinus_gca041296235v2",
    "trap": null
   },
+  "dord": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "dordii": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "drer": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "danio_rerio",
+   "trap": null
+  },
+  "drerio": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "danio_rerio",
+   "trap": null
+  },
   "drill": {
    "binomial": false,
    "english_word": true,
@@ -1546,12 +2690,100 @@
    "species": "dromaius_novaehollandiae",
    "trap": null
   },
+  "drosophila melanogaster": {
+   "binomial": true,
+   "derived": "on the release-116 VEP form as \"Drosophila melanogaster - (Fruit fly)\"; not in REST /info/species",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "drosophila_melanogaster",
+   "trap": null
+  },
   "duck": {
    "binomial": false,
    "english_word": true,
    "shadowed_by": null,
    "species": "anas_platyrhynchos_platyrhynchos",
    "trap": "'duck typing'"
+  },
+  "e asinus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of equus_asinus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "equus_asinus",
+   "trap": null
+  },
+  "e burgeri": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of eptatretus_burgeri",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "eptatretus_burgeri",
+   "trap": null
+  },
+  "e caballus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of equus_caballus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "equus_caballus",
+   "trap": null
+  },
+  "e calabaricus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of erpetoichthys_calabaricus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erpetoichthys_calabaricus",
+   "trap": null
+  },
+  "e electricus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of electrophorus_electricus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "electrophorus_electricus",
+   "trap": null
+  },
+  "e europaeus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of erinaceus_europaeus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erinaceus_europaeus",
+   "trap": null
+  },
+  "e gouldiae": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of erythrura_gouldiae",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erythrura_gouldiae",
+   "trap": null
+  },
+  "e lucius": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of esox_lucius",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "esox_lucius",
+   "trap": null
+  },
+  "e naucrates": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of echeneis_naucrates",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echeneis_naucrates",
+   "trap": null
+  },
+  "e telfairi": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of echinops_telfairi",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
+   "trap": null
   },
   "eastern brown snake": {
    "binomial": false,
@@ -1588,6 +2820,22 @@
    "species": "anas_zonorhyncha",
    "trap": null
   },
+  "ecab": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "equus_caballus",
+   "trap": null
+  },
+  "ecaballus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "equus_caballus",
+   "trap": null
+  },
   "echeneis naucrates": {
    "binomial": true,
    "english_word": false,
@@ -1600,6 +2848,30 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "echinops_telfairi",
+   "trap": null
+  },
+  "echtel": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
+   "trap": null
+  },
+  "eeur": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erinaceus_europaeus",
+   "trap": null
+  },
+  "eeuropaeus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erinaceus_europaeus",
    "trap": null
   },
   "electric eel": {
@@ -1637,11 +2909,43 @@
    "species": "dromaius_novaehollandiae",
    "trap": null
   },
+  "enshs": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "homo_sapiens",
+   "trap": null
+  },
+  "ensmm": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus",
+   "trap": null
+  },
   "eptatretus burgeri": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "eptatretus_burgeri",
+   "trap": null
+  },
+  "equcab": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "equus_caballus",
+   "trap": null
+  },
+  "equine": {
+   "binomial": false,
+   "derived": "ours: the adjective for this animal",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "equus_caballus",
    "trap": null
   },
   "equus asinus": {
@@ -1663,6 +2967,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "equus_caballus",
+   "trap": null
+  },
+  "equuscaballus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "equus_caballus",
+   "trap": null
+  },
+  "erieur": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "erinaceus_europaeus",
    "trap": null
   },
   "erinaceus europaeus": {
@@ -1691,6 +3011,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "esox_lucius",
+   "trap": null
+  },
+  "etel": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
+   "trap": null
+  },
+  "etelfairi": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
    "trap": null
   },
   "eurasian eagle-owl": {
@@ -1728,11 +3064,99 @@
    "species": "sorex_araneus",
    "trap": null
   },
+  "f albicollis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ficedula_albicollis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ficedula_albicollis",
+   "trap": null
+  },
+  "f catus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of felis_catus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "felis_catus",
+   "trap": null
+  },
+  "f damarensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of fukomys_damarensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "fukomys_damarensis",
+   "trap": null
+  },
+  "f heteroclitus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of fundulus_heteroclitus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "fundulus_heteroclitus",
+   "trap": null
+  },
+  "f tinnunculus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of falco_tinnunculus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "falco_tinnunculus",
+   "trap": null
+  },
   "falco tinnunculus": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "falco_tinnunculus",
+   "trap": null
+  },
+  "fcat": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "felis_catus_abyssinian",
+   "trap": null
+  },
+  "fcatus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "felis_catus_abyssinian",
+   "trap": null
+  },
+  "fdam": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "fukomys_damarensis",
+   "trap": null
+  },
+  "fdamarensi": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "fukomys_damarensis",
+   "trap": null
+  },
+  "felcat": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "felis_catus_abyssinian",
+   "trap": null
+  },
+  "feline": {
+   "binomial": false,
+   "derived": "ours: the adjective for this animal",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "felis_catus",
    "trap": null
   },
   "felis catus": {
@@ -1763,11 +3187,51 @@
    "species": "ficedula_albicollis",
    "trap": null
   },
+  "fox": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "vulpes_vulpes",
+   "trap": null
+  },
+  "fresh water pufferfish": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tetraodon_nigroviridis",
+   "trap": null
+  },
+  "fruit fly": {
+   "binomial": false,
+   "derived": "on the release-116 VEP form as \"Drosophila melanogaster - (Fruit fly)\"; not in REST /info/species",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "drosophila_melanogaster",
+   "trap": null
+  },
   "fugu": {
    "binomial": false,
    "english_word": true,
    "shadowed_by": null,
    "species": "takifugu_rubripes",
+   "trap": null
+  },
+  "fukdam": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "fukomys_damarensis",
+   "trap": null
+  },
+  "fukomys damarensi": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "fukomys_damarensis",
    "trap": null
   },
   "fukomys damarensis": {
@@ -1782,6 +3246,78 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "fundulus_heteroclitus",
+   "trap": null
+  },
+  "g aculeatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of gasterosteus_aculeatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gasterosteus_aculeatus",
+   "trap": null
+  },
+  "g affinis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of gambusia_affinis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gambusia_affinis",
+   "trap": null
+  },
+  "g agassizii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of gopherus_agassizii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gopherus_agassizii",
+   "trap": null
+  },
+  "g evgoodei": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of gopherus_evgoodei",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gopherus_evgoodei",
+   "trap": null
+  },
+  "g fortis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of geospiza_fortis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "geospiza_fortis",
+   "trap": null
+  },
+  "g gallus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gallus_gallus",
+   "trap": null
+  },
+  "g gorilla": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of gorilla_gorilla",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gorilla_gorilla",
+   "trap": null
+  },
+  "g morhua": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of gadus_morhua",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gadus_morhua",
+   "trap": null
+  },
+  "g willdenowi": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of gouania_willdenowi",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gouania_willdenowi",
    "trap": null
   },
   "gadus morhua": {
@@ -1803,6 +3339,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "gadus_morhua_gca010882105v1",
+   "trap": null
+  },
+  "galago": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "otolemur_garnettii",
+   "trap": null
+  },
+  "galgal": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "gallus_gallus",
    "trap": null
   },
   "gallus gallus": {
@@ -1873,6 +3425,38 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "geospiza_fortis",
+   "trap": null
+  },
+  "ggal": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gallus_gallus",
+   "trap": null
+  },
+  "ggallus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gallus_gallus",
+   "trap": null
+  },
+  "ggor": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gorilla_gorilla",
+   "trap": null
+  },
+  "ggorilla": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gorilla_gorilla",
    "trap": null
   },
   "giant panda": {
@@ -1994,6 +3578,14 @@
    "species": "gopherus_evgoodei",
    "trap": null
   },
+  "gorgor": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gorilla_gorilla",
+   "trap": null
+  },
   "gorilla": {
    "binomial": false,
    "english_word": true,
@@ -2005,6 +3597,14 @@
    "binomial": true,
    "english_word": false,
    "shadowed_by": "gorilla",
+   "species": "gorilla_gorilla",
+   "trap": null
+  },
+  "gorilla gorilla gorilla": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
    "species": "gorilla_gorilla",
    "trap": null
   },
@@ -2078,6 +3678,22 @@
    "species": "anolis_carolinensis",
    "trap": null
   },
+  "grey mouse lemur": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microcebus_murinus",
+   "trap": null
+  },
+  "ground shrew": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sorex_araneus",
+   "trap": null
+  },
   "guinea pig": {
    "binomial": false,
    "english_word": false,
@@ -2090,6 +3706,46 @@
    "english_word": true,
    "shadowed_by": null,
    "species": "poecilia_reticulata",
+   "trap": null
+  },
+  "h burtoni": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of haplochromis_burtoni",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "haplochromis_burtoni",
+   "trap": null
+  },
+  "h comes": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of hippocampus_comes",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "hippocampus_comes",
+   "trap": null
+  },
+  "h glaber": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of heterocephalus_glaber",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "heterocephalus_glaber_female",
+   "trap": null
+  },
+  "h hucho": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of hucho_hucho",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "hucho_hucho",
+   "trap": null
+  },
+  "h sapiens": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "homo_sapiens",
    "trap": null
   },
   "hagfish": {
@@ -2163,6 +3819,14 @@
    "species": "homo_sapiens",
    "trap": null
   },
+  "homsap": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "homo_sapiens",
+   "trap": null
+  },
   "horned golden-line barbel": {
    "binomial": false,
    "english_word": false,
@@ -2182,6 +3846,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "mus_musculus_129s1svimj",
+   "trap": null
+  },
+  "hsap": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "homo_sapiens",
+   "trap": null
+  },
+  "hsapiens": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "homo_sapiens",
    "trap": null
   },
   "huchen": {
@@ -2233,6 +3913,22 @@
    "species": "procavia_capensis",
    "trap": null
   },
+  "i punctatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ictalurus_punctatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictalurus_punctatus",
+   "trap": null
+  },
+  "i tridecemlineatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ictidomys_tridecemlineatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictidomys_tridecemlineatus",
+   "trap": null
+  },
   "ictalurus punctatus": {
    "binomial": true,
    "english_word": false,
@@ -2282,11 +3978,43 @@
    "species": "eptatretus_burgeri",
    "trap": null
   },
+  "j hyemalis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of junco_hyemalis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "junco_hyemalis",
+   "trap": null
+  },
+  "j jaculus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of jaculus_jaculus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "jaculus_jaculus",
+   "trap": null
+  },
+  "jacjac": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "jaculus_jaculus",
+   "trap": null
+  },
   "jaculus jaculus": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "jaculus_jaculus",
+   "trap": null
+  },
+  "japanese medaka": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes",
    "trap": null
   },
   "japanese medaka hdrr": {
@@ -2338,11 +4066,35 @@
    "species": "salarias_fasciatus",
    "trap": null
   },
+  "jjac": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "jaculus_jaculus",
+   "trap": null
+  },
+  "jjaculus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "jaculus_jaculus",
+   "trap": null
+  },
   "junco hyemalis": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "junco_hyemalis",
+   "trap": null
+  },
+  "k marmoratus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of kryptolebias_marmoratus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "kryptolebias_marmoratus",
    "trap": null
   },
   "kakapo": {
@@ -2357,6 +4109,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "kenya baboon": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "papio_anubis",
    "trap": null
   },
   "koala": {
@@ -2380,11 +4140,123 @@
    "species": "kryptolebias_marmoratus",
    "trap": null
   },
+  "l africana": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of loxodonta_africana",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "loxodonta_africana",
+   "trap": null
+  },
+  "l bergylta": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of labrus_bergylta",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "labrus_bergylta",
+   "trap": null
+  },
+  "l calcarifer": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of lates_calcarifer",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lates_calcarifer",
+   "trap": null
+  },
+  "l canadensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of lynx_canadensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lynx_canadensis",
+   "trap": null
+  },
+  "l chalumnae": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of latimeria_chalumnae",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "latimeria_chalumnae",
+   "trap": null
+  },
+  "l coronata": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of lepidothrix_coronata",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lepidothrix_coronata",
+   "trap": null
+  },
+  "l crocea": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of larimichthys_crocea",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "larimichthys_crocea",
+   "trap": null
+  },
+  "l laticaudata": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of laticauda_laticaudata",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "laticauda_laticaudata",
+   "trap": null
+  },
+  "l leishanense": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of leptobrachium_leishanense",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "leptobrachium_leishanense",
+   "trap": null
+  },
+  "l oculatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of lepisosteus_oculatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lepisosteus_oculatus",
+   "trap": null
+  },
+  "l striata": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of lonchura_striata_domestica",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lonchura_striata_domestica",
+   "trap": null
+  },
   "labrus bergylta": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "labrus_bergylta",
+   "trap": null
+  },
+  "lafr": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "loxodonta_africana",
+   "trap": null
+  },
+  "lafricana": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "loxodonta_africana",
+   "trap": null
+  },
+  "lamineria": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "latimeria_chalumnae",
    "trap": null
   },
   "lamprey": {
@@ -2415,6 +4287,14 @@
    "species": "larimichthys_crocea",
    "trap": null
   },
+  "latcha": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "latimeria_chalumnae",
+   "trap": null
+  },
   "lates calcarifer": {
    "binomial": true,
    "english_word": false,
@@ -2431,6 +4311,22 @@
   },
   "latimeria chalumnae": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "latimeria_chalumnae",
+   "trap": null
+  },
+  "lcha": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "latimeria_chalumnae",
+   "trap": null
+  },
+  "lchalumnae": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "latimeria_chalumnae",
@@ -2464,6 +4360,14 @@
    "species": "lepisosteus_oculatus",
    "trap": null
   },
+  "lepocu": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lepisosteus_oculatus",
+   "trap": null
+  },
   "leptobrachium leishanense": {
    "binomial": true,
    "english_word": false,
@@ -2476,6 +4380,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "jaculus_jaculus",
+   "trap": null
+  },
+  "lesser hedgehog": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
    "trap": null
   },
   "lesser hedgehog tenrec": {
@@ -2513,6 +4425,22 @@
    "species": "echeneis_naucrates",
    "trap": null
   },
+  "locu": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lepisosteus_oculatus",
+   "trap": null
+  },
+  "loculatus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "lepisosteus_oculatus",
+   "trap": null
+  },
   "lonchura striata": {
    "binomial": true,
    "derived": "plain scientific name; Ensembl genomes: lonchura_striata_domestica",
@@ -2533,6 +4461,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "chinchilla_lanigera",
+   "trap": null
+  },
+  "loxafr": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "loxodonta_africana",
    "trap": null
   },
   "loxodonta africana": {
@@ -2561,6 +4497,230 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "neolamprologus_brichardi",
+   "trap": null
+  },
+  "m albus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of monopterus_albus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monopterus_albus",
+   "trap": null
+  },
+  "m armatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of mastacembelus_armatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mastacembelus_armatus",
+   "trap": null
+  },
+  "m auratus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of mesocricetus_auratus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mesocricetus_auratus",
+   "trap": null
+  },
+  "m caroli": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of mus_caroli",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_caroli",
+   "trap": null
+  },
+  "m cyaneus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of malurus_cyaneus_samueli",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "malurus_cyaneus_samueli",
+   "trap": null
+  },
+  "m domestica": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of monodelphis_domestica",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monodelphis_domestica",
+   "trap": null
+  },
+  "m fascicularis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of macaca_fascicularis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "macaca_fascicularis",
+   "trap": null
+  },
+  "m gallopavo": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of meleagris_gallopavo",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "meleagris_gallopavo",
+   "trap": null
+  },
+  "m leucophaeus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of mandrillus_leucophaeus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mandrillus_leucophaeus",
+   "trap": null
+  },
+  "m lucifugus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of myotis_lucifugus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myotis_lucifugus",
+   "trap": null
+  },
+  "m marmota": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of marmota_marmota_marmota",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "marmota_marmota_marmota",
+   "trap": null
+  },
+  "m mola": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of mola_mola",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mola_mola",
+   "trap": null
+  },
+  "m monoceros": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of monodon_monoceros",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monodon_monoceros",
+   "trap": null
+  },
+  "m moschiferus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of moschus_moschiferus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "moschus_moschiferus",
+   "trap": null
+  },
+  "m mulatta": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of macaca_mulatta",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "macaca_mulatta",
+   "trap": null
+  },
+  "m murdjan": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of myripristis_murdjan",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myripristis_murdjan",
+   "trap": null
+  },
+  "m murinus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of microcebus_murinus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microcebus_murinus",
+   "trap": null
+  },
+  "m musculus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus",
+   "trap": null
+  },
+  "m nemestrina": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of macaca_nemestrina",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "macaca_nemestrina",
+   "trap": null
+  },
+  "m ochrogaster": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microtus_ochrogaster",
+   "trap": null
+  },
+  "m pahari": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of mus_pahari",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_pahari",
+   "trap": null
+  },
+  "m putorius": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of mustela_putorius_furo",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mustela_putorius_furo",
+   "trap": null
+  },
+  "m spicilegus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of mus_spicilegus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_spicilegus",
+   "trap": null
+  },
+  "m spretus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of mus_spretus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_spretus",
+   "trap": null
+  },
+  "m undulatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of melopsittacus_undulatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "melopsittacus_undulatus",
+   "trap": null
+  },
+  "m unguiculatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of meriones_unguiculatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "meriones_unguiculatus",
+   "trap": null
+  },
+  "m vitellinus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of manacus_vitellinus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "manacus_vitellinus",
+   "trap": null
+  },
+  "m zebra": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of maylandia_zebra",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "maylandia_zebra",
    "trap": null
   },
   "ma's night monkey": {
@@ -2596,6 +4756,46 @@
    "english_word": true,
    "shadowed_by": null,
    "species": "macaca_mulatta",
+   "trap": null
+  },
+  "maceug": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "macropus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "macropus eugenii": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "macropuseugenii": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "madagascar hedgehog": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
    "trap": null
   },
   "mainland tiger snake": {
@@ -2655,6 +4855,14 @@
    "species": "kryptolebias_marmoratus",
    "trap": null
   },
+  "marmoset": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "callithrix_jacchus",
+   "trap": null
+  },
   "marmota marmota": {
    "binomial": true,
    "derived": "plain scientific name; Ensembl genomes: marmota_marmota_marmota",
@@ -2677,11 +4885,67 @@
    "species": "mastacembelus_armatus",
    "trap": null
   },
+  "maur": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mesocricetus_auratus",
+   "trap": null
+  },
+  "mauratus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mesocricetus_auratus",
+   "trap": null
+  },
   "maylandia zebra": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "maylandia_zebra",
+   "trap": null
+  },
+  "mcar": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_caroli",
+   "trap": null
+  },
+  "mcaroli": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_caroli",
+   "trap": null
+  },
+  "mdom": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monodelphis_domestica",
+   "trap": null
+  },
+  "mdomestica": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monodelphis_domestica",
+   "trap": null
+  },
+  "medaka": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes",
    "trap": null
   },
   "medium ground-finch": {
@@ -2726,6 +4990,14 @@
    "species": "meriones_unguiculatus",
    "trap": null
   },
+  "mesaur": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mesocricetus_auratus",
+   "trap": null
+  },
   "mesocricetus auratus": {
    "binomial": true,
    "english_word": false,
@@ -2733,11 +5005,43 @@
    "species": "mesocricetus_auratus",
    "trap": null
   },
+  "meug": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "meugenii": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
   "mexican tetra": {
    "binomial": false,
    "english_word": false,
    "shadowed_by": null,
    "species": "astyanax_mexicanus",
+   "trap": null
+  },
+  "micmur": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microcebus_murinus",
+   "trap": null
+  },
+  "micoch": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microtus_ochrogaster",
    "trap": null
   },
   "microbat": {
@@ -2768,11 +5072,83 @@
    "species": "amphilophus_citrinellus",
    "trap": null
   },
+  "mluc": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myotis_lucifugus",
+   "trap": null
+  },
+  "mlucifugus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myotis_lucifugus",
+   "trap": null
+  },
+  "mmur": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microcebus_murinus",
+   "trap": null
+  },
+  "mmurinus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microcebus_murinus",
+   "trap": null
+  },
+  "mmus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus",
+   "trap": null
+  },
+  "mmusculus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus",
+   "trap": null
+  },
+  "moch": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microtus_ochrogaster",
+   "trap": null
+  },
+  "mochrogaster": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microtus_ochrogaster",
+   "trap": null
+  },
   "mola mola": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "mola_mola",
+   "trap": null
+  },
+  "mondom": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "monodelphis_domestica",
    "trap": null
   },
   "mongolian gerbil": {
@@ -2943,6 +5319,38 @@
    "species": "mus_musculus_wsbeij",
    "trap": null
   },
+  "mpah": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_pahari",
+   "trap": null
+  },
+  "mpahari": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_pahari",
+   "trap": null
+  },
+  "mput": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mustela_putorius_furo",
+   "trap": null
+  },
+  "mputorius furo": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mustela_putorius_furo",
+   "trap": null
+  },
   "mummichog": {
    "binomial": false,
    "english_word": true,
@@ -3097,6 +5505,14 @@
    "species": "mus_spretus",
    "trap": null
   },
+  "muscar": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_caroli",
+   "trap": null
+  },
   "muscovy duck": {
    "binomial": false,
    "derived": "Ensembl's \"muscovy duck (domestic type)\" without its bracketed tag",
@@ -3110,6 +5526,30 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "cairina_moschata_domestica",
+   "trap": null
+  },
+  "musmus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_musculus",
+   "trap": null
+  },
+  "muspah": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mus_pahari",
+   "trap": null
+  },
+  "musput": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "mustela_putorius_furo",
    "trap": null
   },
   "mustela putorius": {
@@ -3127,6 +5567,14 @@
    "species": "mustela_putorius_furo",
    "trap": null
   },
+  "myoluc": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "myotis_lucifugus",
+   "trap": null
+  },
   "myotis lucifugus": {
    "binomial": true,
    "english_word": false,
@@ -3139,6 +5587,94 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "myripristis_murdjan",
+   "trap": null
+  },
+  "n brichardi": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of neolamprologus_brichardi",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "neolamprologus_brichardi",
+   "trap": null
+  },
+  "n eugenii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of notamacropus_eugenii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "n furzeri": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of nothobranchius_furzeri",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nothobranchius_furzeri",
+   "trap": null
+  },
+  "n galili": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of nannospalax_galili",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nannospalax_galili",
+   "trap": null
+  },
+  "n leucogenys": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of nomascus_leucogenys",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nomascus_leucogenys",
+   "trap": null
+  },
+  "n melanostomus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of neogobius_melanostomus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "neogobius_melanostomus",
+   "trap": null
+  },
+  "n meleagris": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of numida_meleagris",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "numida_meleagris",
+   "trap": null
+  },
+  "n naja": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of naja_naja",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "naja_naja",
+   "trap": null
+  },
+  "n perdicaria": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of nothoprocta_perdicaria",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nothoprocta_perdicaria",
+   "trap": null
+  },
+  "n scutatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of notechis_scutatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notechis_scutatus",
+   "trap": null
+  },
+  "n vison": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of neovison_vison",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "neovison_vison",
    "trap": null
   },
   "naja naja": {
@@ -3169,6 +5705,14 @@
    "species": "heterocephalus_glaber_male",
    "trap": null
   },
+  "nangal": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nannospalax_galili",
+   "trap": null
+  },
   "nannospalax galili": {
    "binomial": true,
    "english_word": false,
@@ -3181,6 +5725,14 @@
    "english_word": true,
    "shadowed_by": null,
    "species": "monodon_monoceros",
+   "trap": null
+  },
+  "nematode": {
+   "binomial": false,
+   "derived": "on the release-116 VEP form as \"Caenorhabditis elegans (Nematode, N2)\"; not in REST /info/species",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "caenorhabditis_elegans",
    "trap": null
   },
   "neogobius melanostomus": {
@@ -3204,11 +5756,43 @@
    "species": "neovison_vison",
    "trap": null
   },
+  "neug": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "neugenii": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
   "new caledonian crow": {
    "binomial": false,
    "english_word": false,
    "shadowed_by": null,
    "species": "corvus_moneduloides",
+   "trap": null
+  },
+  "ngal": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nannospalax_galili",
+   "trap": null
+  },
+  "ngalili": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nannospalax_galili",
    "trap": null
   },
   "nile tilapia": {
@@ -3225,8 +5809,32 @@
    "species": "dasypus_novemcinctus",
    "trap": null
   },
+  "nleu": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nomascus_leucogenys",
+   "trap": null
+  },
+  "nleucogenys": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nomascus_leucogenys",
+   "trap": null
+  },
   "nomascus leucogenys": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "nomascus_leucogenys",
+   "trap": null
+  },
+  "nomleu": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "nomascus_leucogenys",
@@ -3281,8 +5889,24 @@
    "species": "rattus_norvegicus",
    "trap": null
   },
+  "notamacropus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
   "notamacropus eugenii": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
+   "trap": null
+  },
+  "notamacropuseugenii": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "notamacropus_eugenii",
@@ -3293,6 +5917,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "notechis_scutatus",
+   "trap": null
+  },
+  "noteug": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "notamacropus_eugenii",
    "trap": null
   },
   "nothobranchius furzeri": {
@@ -3316,6 +5948,134 @@
    "species": "numida_meleagris",
    "trap": null
   },
+  "o anatinus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ornithorhynchus_anatinus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ornithorhynchus_anatinus",
+   "trap": null
+  },
+  "o aries": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ovis_aries",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ovis_aries",
+   "trap": null
+  },
+  "o aureus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oreochromis_aureus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oreochromis_aureus",
+   "trap": null
+  },
+  "o cuniculus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oryctolagus_cuniculus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryctolagus_cuniculus",
+   "trap": null
+  },
+  "o degus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of octodon_degus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "octodon_degus",
+   "trap": null
+  },
+  "o garnettii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of otolemur_garnettii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otolemur_garnettii",
+   "trap": null
+  },
+  "o javanicus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oryzias_javanicus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_javanicus",
+   "trap": null
+  },
+  "o kisutch": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oncorhynchus_kisutch",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oncorhynchus_kisutch",
+   "trap": null
+  },
+  "o latipes": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oryzias_latipes",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes",
+   "trap": null
+  },
+  "o melastigma": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oryzias_melastigma",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_melastigma",
+   "trap": null
+  },
+  "o mykiss": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oncorhynchus_mykiss",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oncorhynchus_mykiss",
+   "trap": null
+  },
+  "o niloticus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oreochromis_niloticus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oreochromis_niloticus",
+   "trap": null
+  },
+  "o princeps": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ochotona_princeps",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ochotona_princeps",
+   "trap": null
+  },
+  "o sinensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oryzias_sinensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_sinensis",
+   "trap": null
+  },
+  "o sunia": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of otus_sunia",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otus_sunia",
+   "trap": null
+  },
+  "o tshawytscha": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of oncorhynchus_tshawytscha",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oncorhynchus_tshawytscha",
+   "trap": null
+  },
   "ocean sunfish": {
    "binomial": false,
    "english_word": false,
@@ -3330,6 +6090,22 @@
    "species": "ochotona_princeps",
    "trap": null
   },
+  "ochpri": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ochotona_princeps",
+   "trap": null
+  },
+  "octdeg": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "octodon_degus",
+   "trap": null
+  },
   "octodon degus": {
    "binomial": true,
    "english_word": false,
@@ -3337,11 +6113,75 @@
    "species": "octodon_degus",
    "trap": null
   },
+  "ocun": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryctolagus_cuniculus",
+   "trap": null
+  },
+  "ocuniculus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryctolagus_cuniculus",
+   "trap": null
+  },
+  "odeg": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "octodon_degus",
+   "trap": null
+  },
+  "odegus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "octodon_degus",
+   "trap": null
+  },
+  "ogar": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otolemur_garnettii",
+   "trap": null
+  },
+  "ogarnettii": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otolemur_garnettii",
+   "trap": null
+  },
   "okarito brown kiwi": {
    "binomial": false,
    "english_word": false,
    "shadowed_by": null,
    "species": "apteryx_rowi",
+   "trap": null
+  },
+  "olat": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes",
+   "trap": null
+  },
+  "olatipes": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes",
    "trap": null
   },
   "olive baboon": {
@@ -3379,11 +6219,35 @@
    "species": "monodelphis_domestica",
    "trap": null
   },
+  "opri": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ochotona_princeps",
+   "trap": null
+  },
+  "oprinceps": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ochotona_princeps",
+   "trap": null
+  },
   "orange clownfish": {
    "binomial": false,
    "english_word": false,
    "shadowed_by": null,
    "species": "amphiprion_percula",
+   "trap": null
+  },
+  "orangutan": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "pongo_abelii",
    "trap": null
   },
   "orbiculate cardinalfish": {
@@ -3395,6 +6259,14 @@
   },
   "ord's kangaroo rat": {
    "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "dipodomys_ordii",
+   "trap": null
+  },
+  "ords kangaroo rat": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "dipodomys_ordii",
@@ -3433,6 +6305,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "oryctolagus_cuniculus",
+   "trap": null
+  },
+  "orycun": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryctolagus_cuniculus",
+   "trap": null
+  },
+  "orylat": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "oryzias_latipes",
    "trap": null
   },
   "oryzias javanicus": {
@@ -3477,6 +6365,14 @@
    "species": "oryzias_sinensis",
    "trap": null
   },
+  "otogar": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "otolemur_garnettii",
+   "trap": null
+  },
   "otolemur garnettii": {
    "binomial": true,
    "english_word": false,
@@ -3489,6 +6385,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "otus_sunia",
+   "trap": null
+  },
+  "ovine": {
+   "binomial": false,
+   "derived": "ours: the adjective for this animal",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "ovis_aries",
    "trap": null
   },
   "ovis aries": {
@@ -3582,6 +6486,278 @@
    "species": "ovis_aries_texel",
    "trap": null
   },
+  "p abelii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pongo_abelii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pongo_abelii",
+   "trap": null
+  },
+  "p anubis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of papio_anubis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "papio_anubis",
+   "trap": null
+  },
+  "p capensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of procavia_capensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "procavia_capensis",
+   "trap": null
+  },
+  "p castaneus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pelusios_castaneus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pelusios_castaneus",
+   "trap": null
+  },
+  "p catodon": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of physeter_catodon",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "physeter_catodon",
+   "trap": null
+  },
+  "p cinereus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of phascolarctos_cinereus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "phascolarctos_cinereus",
+   "trap": null
+  },
+  "p colchicus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of phasianus_colchicus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "phasianus_colchicus",
+   "trap": null
+  },
+  "p coquereli": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of propithecus_coquereli",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "propithecus_coquereli",
+   "trap": null
+  },
+  "p cristatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pavo_cristatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pavo_cristatus",
+   "trap": null
+  },
+  "p formosa": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of poecilia_formosa",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_formosa",
+   "trap": null
+  },
+  "p kingsleyae": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of paramormyrops_kingsleyae",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "paramormyrops_kingsleyae",
+   "trap": null
+  },
+  "p latipinna": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of poecilia_latipinna",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_latipinna",
+   "trap": null
+  },
+  "p leo": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of panthera_leo",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "panthera_leo",
+   "trap": null
+  },
+  "p magnuspinnatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of periophthalmus_magnuspinnatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "periophthalmus_magnuspinnatus",
+   "trap": null
+  },
+  "p major": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of parus_major",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "parus_major",
+   "trap": null
+  },
+  "p maniculatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of peromyscus_maniculatus_bairdii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "peromyscus_maniculatus_bairdii",
+   "trap": null
+  },
+  "p marinus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of petromyzon_marinus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "petromyzon_marinus",
+   "trap": null
+  },
+  "p mexicana": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of poecilia_mexicana",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_mexicana",
+   "trap": null
+  },
+  "p muralis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of podarcis_muralis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "podarcis_muralis",
+   "trap": null
+  },
+  "p nattereri": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pygocentrus_nattereri",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pygocentrus_nattereri",
+   "trap": null
+  },
+  "p nyererei": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pundamilia_nyererei",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pundamilia_nyererei",
+   "trap": null
+  },
+  "p paniscus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pan_paniscus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_paniscus",
+   "trap": null
+  },
+  "p pardus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of panthera_pardus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "panthera_pardus",
+   "trap": null
+  },
+  "p ranga": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of parambassis_ranga",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "parambassis_ranga",
+   "trap": null
+  },
+  "p reticulata": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of poecilia_reticulata",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_reticulata",
+   "trap": null
+  },
+  "p simus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of prolemur_simus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "prolemur_simus",
+   "trap": null
+  },
+  "p sinensis": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pelodiscus_sinensis",
+   "trap": null
+  },
+  "p sinus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of phocoena_sinus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "phocoena_sinus",
+   "trap": null
+  },
+  "p tephrosceles": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of piliocolobus_tephrosceles",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "piliocolobus_tephrosceles",
+   "trap": null
+  },
+  "p textilis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pseudonaja_textilis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pseudonaja_textilis",
+   "trap": null
+  },
+  "p tigris": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of panthera_tigris_altaica",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "panthera_tigris_altaica",
+   "trap": null
+  },
+  "p troglodytes": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pan_troglodytes",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_troglodytes",
+   "trap": null
+  },
+  "p vampyrus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pteropus_vampyrus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pteropus_vampyrus",
+   "trap": null
+  },
+  "p vitticeps": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of pogona_vitticeps",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pogona_vitticeps",
+   "trap": null
+  },
   "pachon cavefish": {
    "binomial": false,
    "english_word": false,
@@ -3646,6 +6822,14 @@
    "species": "panthera_tigris_altaica",
    "trap": null
   },
+  "pantro": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_troglodytes",
+   "trap": null
+  },
   "papio anubis": {
    "binomial": true,
    "english_word": false,
@@ -3681,6 +6865,22 @@
    "species": "pavo_cristatus",
    "trap": null
   },
+  "pcap": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "procavia_capensis",
+   "trap": null
+  },
+  "pcapensis": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "procavia_capensis",
+   "trap": null
+  },
   "pelodiscus sinensis": {
    "binomial": true,
    "english_word": false,
@@ -3702,6 +6902,14 @@
    "species": "periophthalmus_magnuspinnatus",
    "trap": null
   },
+  "perman": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "peromyscus_maniculatus_bairdii",
+   "trap": null
+  },
   "peromyscus maniculatus": {
    "binomial": true,
    "derived": "plain scientific name; Ensembl genomes: peromyscus_maniculatus_bairdii",
@@ -3717,11 +6925,35 @@
    "species": "peromyscus_maniculatus_bairdii",
    "trap": null
   },
+  "petmar": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "petromyzon_marinus",
+   "trap": null
+  },
   "petromyzon marinus": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "petromyzon_marinus",
+   "trap": null
+  },
+  "pfor": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_formosa",
+   "trap": null
+  },
+  "pformosa": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_formosa",
    "trap": null
   },
   "phascolarctos cinereus": {
@@ -3976,6 +7208,14 @@
    "species": "macaca_nemestrina",
    "trap": null
   },
+  "pigs": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa",
+   "trap": null
+  },
   "pika": {
    "binomial": false,
    "english_word": true,
@@ -4025,6 +7265,38 @@
    "species": "ornithorhynchus_anatinus",
    "trap": "the variant caller"
   },
+  "pman": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "peromyscus_maniculatus_bairdii",
+   "trap": null
+  },
+  "pmaniculatus bairdii": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "peromyscus_maniculatus_bairdii",
+   "trap": null
+  },
+  "pmar": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "petromyzon_marinus",
+   "trap": null
+  },
+  "pmarinus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "petromyzon_marinus",
+   "trap": null
+  },
   "podarcis muralis": {
    "binomial": true,
    "english_word": false,
@@ -4060,6 +7332,14 @@
    "species": "poecilia_reticulata",
    "trap": null
   },
+  "poefor": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "poecilia_formosa",
+   "trap": null
+  },
   "pogona vitticeps": {
    "binomial": true,
    "english_word": false,
@@ -4081,6 +7361,14 @@
    "species": "pongo_abelii",
    "trap": null
   },
+  "porcine": {
+   "binomial": false,
+   "derived": "ours: the adjective for this animal",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "sus_scrofa",
+   "trap": null
+  },
   "prairie vole": {
    "binomial": false,
    "english_word": false,
@@ -4088,8 +7376,24 @@
    "species": "microtus_ochrogaster",
    "trap": null
   },
+  "procap": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "procavia_capensis",
+   "trap": null
+  },
   "procavia capensis": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "procavia_capensis",
+   "trap": null
+  },
+  "procaviacapensis": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "procavia_capensis",
@@ -4116,11 +7420,51 @@
    "species": "pseudonaja_textilis",
    "trap": null
   },
+  "psinensis": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pelodiscus_sinensis",
+   "trap": null
+  },
   "pteropus vampyrus": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "pteropus_vampyrus",
+   "trap": null
+  },
+  "pteropusvampyrus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pteropus_vampyrus",
+   "trap": null
+  },
+  "ptevam": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pteropus_vampyrus",
+   "trap": null
+  },
+  "ptro": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_troglodytes",
+   "trap": null
+  },
+  "ptroglodytes": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pan_troglodytes",
    "trap": null
   },
   "pundamilia nyererei": {
@@ -4130,11 +7474,67 @@
    "species": "pundamilia_nyererei",
    "trap": null
   },
+  "pvam": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pteropus_vampyrus",
+   "trap": null
+  },
+  "pvampyrus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pteropus_vampyrus",
+   "trap": null
+  },
+  "pvole": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "microtus_ochrogaster",
+   "trap": null
+  },
   "pygocentrus nattereri": {
    "binomial": true,
    "english_word": false,
    "shadowed_by": null,
    "species": "pygocentrus_nattereri",
+   "trap": null
+  },
+  "r bieti": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of rhinopithecus_bieti",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rhinopithecus_bieti",
+   "trap": null
+  },
+  "r ferrumequinum": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of rhinolophus_ferrumequinum",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rhinolophus_ferrumequinum",
+   "trap": null
+  },
+  "r norvegicus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of rattus_norvegicus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rattus_norvegicus",
+   "trap": null
+  },
+  "r roxellana": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of rhinopithecus_roxellana",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "rhinopithecus_roxellana",
    "trap": null
   },
   "rabbit": {
@@ -4249,6 +7649,14 @@
    "species": "phasianus_colchicus",
    "trap": null
   },
+  "rock hyrax": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "procavia_capensis",
+   "trap": null
+  },
   "round goby": {
    "binomial": false,
    "english_word": false,
@@ -4275,6 +7683,246 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "mus_caroli",
+   "trap": null
+  },
+  "s anshuiensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sinocyclocheilus_anshuiensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sinocyclocheilus_anshuiensis",
+   "trap": null
+  },
+  "s araneus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sorex_araneus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sorex_araneus",
+   "trap": null
+  },
+  "s aurata": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sparus_aurata",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sparus_aurata",
+   "trap": null
+  },
+  "s boliviensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of saimiri_boliviensis_boliviensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "saimiri_boliviensis_boliviensis",
+   "trap": null
+  },
+  "s camelus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of struthio_camelus_australis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "struthio_camelus_australis",
+   "trap": null
+  },
+  "s canaria": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of serinus_canaria",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "serinus_canaria",
+   "trap": null
+  },
+  "s cerevisiae": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of saccharomyces_cerevisiae",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "saccharomyces_cerevisiae",
+   "trap": null
+  },
+  "s dauricus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of spermophilus_dauricus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "spermophilus_dauricus",
+   "trap": null
+  },
+  "s dumerili": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of seriola_dumerili",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "seriola_dumerili",
+   "trap": null
+  },
+  "s fasciatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of salarias_fasciatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salarias_fasciatus",
+   "trap": null
+  },
+  "s formosus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of scleropages_formosus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "scleropages_formosus",
+   "trap": null
+  },
+  "s grahami": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sinocyclocheilus_grahami",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sinocyclocheilus_grahami",
+   "trap": null
+  },
+  "s habroptila": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of strigops_habroptila",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "strigops_habroptila",
+   "trap": null
+  },
+  "s harrisii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sarcophilus_harrisii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sarcophilus_harrisii",
+   "trap": null
+  },
+  "s lalandi": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of seriola_lalandi_dorsalis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "seriola_lalandi_dorsalis",
+   "trap": null
+  },
+  "s lucioperca": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sander_lucioperca",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sander_lucioperca",
+   "trap": null
+  },
+  "s maximus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of scophthalmus_maximus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "scophthalmus_maximus",
+   "trap": null
+  },
+  "s merianae": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of salvator_merianae",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salvator_merianae",
+   "trap": null
+  },
+  "s occidentalis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of strix_occidentalis_caurina",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "strix_occidentalis_caurina",
+   "trap": null
+  },
+  "s orbicularis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sphaeramia_orbicularis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sphaeramia_orbicularis",
+   "trap": null
+  },
+  "s partitus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of stegastes_partitus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "stegastes_partitus",
+   "trap": null
+  },
+  "s punctatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sphenodon_punctatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sphenodon_punctatus",
+   "trap": null
+  },
+  "s rhinocerous": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sinocyclocheilus_rhinocerous",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sinocyclocheilus_rhinocerous",
+   "trap": null
+  },
+  "s ruficeps": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of stachyris_ruficeps",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "stachyris_ruficeps",
+   "trap": null
+  },
+  "s salar": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of salmo_salar",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_salar",
+   "trap": null
+  },
+  "s scrofa": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sus_scrofa",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa",
+   "trap": null
+  },
+  "s suricatta": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of suricata_suricatta",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "suricata_suricatta",
+   "trap": null
+  },
+  "s trutta": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of salmo_trutta",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "salmo_trutta",
+   "trap": null
+  },
+  "s vulgaris": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of sciurus_vulgaris",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sciurus_vulgaris",
+   "trap": null
+  },
+  "saccharomyces cerevisiae": {
+   "binomial": true,
+   "derived": "on the release-116 VEP form as \"Saccharomyces cerevisiae\"; not in REST /info/species",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "saccharomyces_cerevisiae",
    "trap": null
   },
   "sailfin molly": {
@@ -4353,6 +8001,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "sander_lucioperca",
+   "trap": null
+  },
+  "saraneus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sorex_araneus",
    "trap": null
   },
   "sarcophilus harrisii": {
@@ -4552,6 +8208,14 @@
    "species": "moschus_moschiferus",
    "trap": null
   },
+  "silver fox": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vulpes_vulpes",
+   "trap": null
+  },
   "silver-eye": {
    "binomial": false,
    "english_word": false,
@@ -4608,11 +8272,27 @@
    "species": "otolemur_garnettii",
    "trap": null
   },
+  "softshell turtle": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "pelodiscus_sinensis",
+   "trap": null
+  },
   "sooty mangabey": {
    "binomial": false,
    "english_word": false,
    "shadowed_by": null,
    "species": "cercocebus_atys",
+   "trap": null
+  },
+  "sorara": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sorex_araneus",
    "trap": null
   },
   "sorex araneus": {
@@ -4655,6 +8335,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "spermophilus_dauricus",
+   "trap": null
+  },
+  "spermophilus tridecemlineatus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictidomys_tridecemlineatus",
+   "trap": null
+  },
+  "spetri": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictidomys_tridecemlineatus",
    "trap": null
   },
   "sphaeramia orbicularis": {
@@ -4706,6 +8402,22 @@
    "species": "ictidomys_tridecemlineatus",
    "trap": null
   },
+  "sscr": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa",
+   "trap": null
+  },
+  "sscrofa": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa",
+   "trap": null
+  },
   "stachyris ruficeps": {
    "binomial": true,
    "english_word": false,
@@ -4732,6 +8444,22 @@
    "english_word": true,
    "shadowed_by": null,
    "species": "gasterosteus_aculeatus",
+   "trap": null
+  },
+  "stri": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictidomys_tridecemlineatus",
+   "trap": null
+  },
+  "stridecemlineatus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ictidomys_tridecemlineatus",
    "trap": null
   },
   "strigops habroptila": {
@@ -5023,6 +8751,70 @@
    "species": "anser_cygnoides",
    "trap": null
   },
+  "swine": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "sus_scrofa",
+   "trap": null
+  },
+  "t belangeri": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of tupaia_belangeri",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tupaia_belangeri",
+   "trap": null
+  },
+  "t carolina": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of terrapene_carolina_triunguis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "terrapene_carolina_triunguis",
+   "trap": null
+  },
+  "t gelada": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of theropithecus_gelada",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "theropithecus_gelada",
+   "trap": null
+  },
+  "t guttata": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of taeniopygia_guttata",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "taeniopygia_guttata",
+   "trap": null
+  },
+  "t nigroviridis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of tetraodon_nigroviridis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tetraodon_nigroviridis",
+   "trap": null
+  },
+  "t rubripes": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of takifugu_rubripes",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "takifugu_rubripes",
+   "trap": null
+  },
+  "t truncatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of tursiops_truncatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tursiops_truncatus",
+   "trap": null
+  },
   "taeniopygia guttata": {
    "binomial": true,
    "english_word": false,
@@ -5051,11 +8843,59 @@
    "species": "carlito_syrichta",
    "trap": null
   },
+  "tarsius syrichta": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "tarsiussyrichta": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "tarsyr": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
   "tasmanian devil": {
    "binomial": false,
    "english_word": false,
    "shadowed_by": null,
    "species": "sarcophilus_harrisii",
+   "trap": null
+  },
+  "tbel": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tupaia_belangeri",
+   "trap": null
+  },
+  "tbelangeri": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tupaia_belangeri",
+   "trap": null
+  },
+  "tenrec": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": true,
+   "shadowed_by": null,
+   "species": "echinops_telfairi",
    "trap": null
   },
   "terrapene carolina": {
@@ -5071,6 +8911,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "terrapene_carolina_triunguis",
+   "trap": null
+  },
+  "tetnig": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tetraodon_nigroviridis",
    "trap": null
   },
   "tetraodon": {
@@ -5150,6 +8998,22 @@
    "species": "hippocampus_comes",
    "trap": null
   },
+  "tnig": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tetraodon_nigroviridis",
+   "trap": null
+  },
+  "tnigroviridis": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tetraodon_nigroviridis",
+   "trap": null
+  },
   "tongue sole": {
    "binomial": false,
    "english_word": false,
@@ -5171,6 +9035,38 @@
    "species": "xenopus_tropicalis",
    "trap": null
   },
+  "tsyr": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "tsyrichta": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "carlito_syrichta",
+   "trap": null
+  },
+  "ttru": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tursiops_truncatus",
+   "trap": null
+  },
+  "ttruncatus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tursiops_truncatus",
+   "trap": null
+  },
   "tuatara": {
    "binomial": false,
    "english_word": true,
@@ -5180,6 +9076,14 @@
   },
   "tupaia belangeri": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tupaia_belangeri",
+   "trap": null
+  },
+  "tupbel": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "tupaia_belangeri",
@@ -5211,6 +9115,62 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "tursiops_truncatus",
+   "trap": null
+  },
+  "tursiopstruncatus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tursiops_truncatus",
+   "trap": null
+  },
+  "turtru": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "tursiops_truncatus",
+   "trap": null
+  },
+  "two toed sloth": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "choloepus_hoffmanni",
+   "trap": null
+  },
+  "u americanus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ursus_americanus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ursus_americanus",
+   "trap": null
+  },
+  "u maritimus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ursus_maritimus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ursus_maritimus",
+   "trap": null
+  },
+  "u parryii": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of urocitellus_parryii",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "urocitellus_parryii",
+   "trap": null
+  },
+  "u thibetanus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of ursus_thibetanus_thibetanus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "ursus_thibetanus_thibetanus",
    "trap": null
   },
   "ugandan red colobus": {
@@ -5263,6 +9223,38 @@
    "species": "ursus_thibetanus_thibetanus",
    "trap": null
   },
+  "v komodoensis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of varanus_komodoensis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "varanus_komodoensis",
+   "trap": null
+  },
+  "v pacos": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of vicugna_pacos",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vicugna_pacos",
+   "trap": null
+  },
+  "v ursinus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of vombatus_ursinus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vombatus_ursinus",
+   "trap": null
+  },
+  "v vulpes": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of vulpes_vulpes",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vulpes_vulpes",
+   "trap": null
+  },
   "vaquita": {
    "binomial": false,
    "english_word": false,
@@ -5277,6 +9269,14 @@
    "species": "varanus_komodoensis",
    "trap": null
   },
+  "vervet monkey": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "chlorocebus_sabaeus",
+   "trap": null
+  },
   "vervet-agm": {
    "binomial": false,
    "english_word": false,
@@ -5284,8 +9284,24 @@
    "species": "chlorocebus_sabaeus",
    "trap": null
   },
+  "vicpac": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vicugna_pacos",
+   "trap": null
+  },
   "vicugna pacos": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vicugna_pacos",
+   "trap": null
+  },
+  "vicugnapacos": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "vicugna_pacos",
@@ -5303,6 +9319,22 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "vombatus_ursinus",
+   "trap": null
+  },
+  "vpac": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vicugna_pacos",
+   "trap": null
+  },
+  "vpacos": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "vicugna_pacos",
    "trap": null
   },
   "vulpes vulpes": {
@@ -5338,6 +9370,14 @@
    "english_word": false,
    "shadowed_by": null,
    "species": "mus_musculus_wsbeij",
+   "trap": null
+  },
+  "western gorilla": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "gorilla_gorilla",
    "trap": null
   },
   "western lowland gorilla": {
@@ -5382,11 +9422,43 @@
    "species": "callithrix_jacchus",
    "trap": null
   },
+  "wild boar": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "sus_scrofa",
+   "trap": null
+  },
   "wild yak": {
    "binomial": false,
    "english_word": false,
    "shadowed_by": null,
    "species": "bos_mutus",
+   "trap": null
+  },
+  "x couchianus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of xiphophorus_couchianus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xiphophorus_couchianus",
+   "trap": null
+  },
+  "x maculatus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of xiphophorus_maculatus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xiphophorus_maculatus",
+   "trap": null
+  },
+  "x tropicalis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of xenopus_tropicalis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xenopus_tropicalis",
    "trap": null
   },
   "xenopus tropicalis": {
@@ -5405,6 +9477,30 @@
   },
   "xiphophorus maculatus": {
    "binomial": true,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xiphophorus_maculatus",
+   "trap": null
+  },
+  "xipmac": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xiphophorus_maculatus",
+   "trap": null
+  },
+  "xmac": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "xiphophorus_maculatus",
+   "trap": null
+  },
+  "xmaculatus": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "xiphophorus_maculatus",
@@ -5431,6 +9527,30 @@
    "species": "seriola_lalandi_dorsalis",
    "trap": null
   },
+  "z albicollis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of zonotrichia_albicollis",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "zonotrichia_albicollis",
+   "trap": null
+  },
+  "z californianus": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of zalophus_californianus",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "zalophus_californianus",
+   "trap": null
+  },
+  "z lateralis": {
+   "binomial": true,
+   "derived": "abbreviated scientific name of zosterops_lateralis_melanops",
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "zosterops_lateralis_melanops",
+   "trap": null
+  },
   "zalophus californianus": {
    "binomial": true,
    "english_word": false,
@@ -5454,6 +9574,14 @@
   },
   "zebrafish": {
    "binomial": false,
+   "english_word": false,
+   "shadowed_by": null,
+   "species": "danio_rerio",
+   "trap": null
+  },
+  "zfish": {
+   "binomial": false,
+   "derived": "Ensembl REST alias (/info/species `aliases`)",
    "english_word": false,
    "shadowed_by": null,
    "species": "danio_rerio",
@@ -5526,6 +9654,7 @@
   "bos_taurus_wagyu": "bos_taurus",
   "bubo_bubo": "bubo_bubo",
   "buteo_japonicus": "buteo_japonicus",
+  "caenorhabditis_elegans": "caenorhabditis_elegans",
   "cairina_moschata_domestica": "cairina_moschata_domestica",
   "calidris_pugnax": "calidris_pugnax",
   "calidris_pygmaea": "calidris_pygmaea",
@@ -5586,6 +9715,7 @@
   "dicentrarchus_labrax": "dicentrarchus_labrax",
   "dipodomys_ordii": "dipodomys_ordii",
   "dromaius_novaehollandiae": "dromaius_novaehollandiae",
+  "drosophila_melanogaster": "drosophila_melanogaster",
   "echeneis_naucrates": "echeneis_naucrates",
   "echinops_telfairi": "echinops_telfairi",
   "electrophorus_electricus": "electrophorus_electricus",
@@ -5765,6 +9895,7 @@
   "rhinolophus_ferrumequinum": "rhinolophus_ferrumequinum",
   "rhinopithecus_bieti": "rhinopithecus_bieti",
   "rhinopithecus_roxellana": "rhinopithecus_roxellana",
+  "saccharomyces_cerevisiae": "saccharomyces_cerevisiae",
   "saimiri_boliviensis_boliviensis": "saimiri_boliviensis_boliviensis",
   "salarias_fasciatus": "salarias_fasciatus",
   "salmo_salar": "salmo_salar",

@@ -1,9 +1,9 @@
 {
  "source": "factors_150_tricky_cases_reasoning_off.json",
- "all_four": 26,
+ "all_four": 25,
  "per_test": {
   "plain": 30,
-  "trap": 27,
+  "trap": 26,
   "twin": 29,
   "absent": 30
  },
@@ -275,7 +275,7 @@
    "organism": "oryctolagus_cuniculus",
    "truth": "non-human",
    "raw": [
-    "unstated"
+    "non-human"
    ]
   },
   {
@@ -515,7 +515,7 @@
    "organism": "salmo_salar",
    "truth": "non-human",
    "raw": [
-    "non-human"
+    "human"
    ]
   },
   {
@@ -1061,18 +1061,18 @@
   {
    "id": "spec-doma-3",
    "test": "trap",
-   "species": "human",
-   "organism": "homo_sapiens",
+   "species": "non-human",
+   "organism": "sus_scrofa",
    "truth": "human",
    "raw": [
-    "human"
+    "non-human"
    ]
   },
   {
    "id": "spec-doma-3",
    "test": "twin",
    "species": "non-human",
-   "organism": null,
+   "organism": "sus_scrofa",
    "truth": "non-human",
    "raw": [
     "non-human"

@@ -1,0 +1,197 @@
+[
+ {
+  "file": "evidence/current_evidence/results/factors_150_tricky_cases_reasoning_on_repeat1.json",
+  "model": "gemma4:26b",
+  "reader": "reasoning_on",
+  "n_cases": 150,
+  "reads_per_query": 1,
+  "totals": {
+   "queries": 600,
+   "label_ok": 592,
+   "same_recommended": 598,
+   "same_full": 597,
+   "same_disclosure": 594,
+   "background_misread": 0
+  },
+  "cases_all_four": {
+   "label_ok": 142,
+   "same_recommended": 148,
+   "same_full": 147
+  },
+  "misses": [
+   {
+    "id": "spec-doma-2",
+    "factor": "species",
+    "trick": "domain",
+    "test": "trap",
+    "read_index": 0,
+    "truth": "human",
+    "read": "unstated",
+    "label_ok": false,
+    "background_read_ok": true,
+    "same_recommended": true,
+    "same_full": true,
+    "same_disclosure": false,
+    "recommended_only_truth": [],
+    "recommended_only_read": [],
+    "disclosure_lost": []
+   },
+   {
+    "id": "orig-word-3",
+    "factor": "origin",
+    "trick": "word_sense",
+    "test": "absent",
+    "read_index": 0,
+    "truth": "unstated",
+    "read": "germline",
+    "label_ok": false,
+    "background_read_ok": true,
+    "same_recommended": true,
+    "same_full": false,
+    "same_disclosure": false,
+    "recommended_only_truth": [],
+    "recommended_only_read": [],
+    "disclosure_lost": [
+     "origin = somatic"
+    ]
+   },
+   {
+    "id": "orig-word-6",
+    "factor": "origin",
+    "trick": "word_sense",
+    "test": "absent",
+    "read_index": 0,
+    "truth": "unstated",
+    "read": "germline",
+    "label_ok": false,
+    "background_read_ok": true,
+    "same_recommended": true,
+    "same_full": true,
+    "same_disclosure": false,
+    "recommended_only_truth": [],
+    "recommended_only_read": [],
+    "disclosure_lost": [
+     "origin = somatic"
+    ]
+   },
+   {
+    "id": "orig-doma-6",
+    "factor": "origin",
+    "trick": "domain",
+    "test": "trap",
+    "read_index": 0,
+    "truth": "germline",
+    "read": "unstated",
+    "label_ok": false,
+    "background_read_ok": true,
+    "same_recommended": true,
+    "same_full": true,
+    "same_disclosure": false,
+    "recommended_only_truth": [],
+    "recommended_only_read": [],
+    "disclosure_lost": []
+   },
+   {
+    "id": "vari-doma-6",
+    "factor": "variant_size_class",
+    "trick": "domain",
+    "test": "trap",
+    "read_index": 0,
+    "truth": [
+     "structural-CNV"
+    ],
+    "read": [
+     "small"
+    ],
+    "label_ok": false,
+    "background_read_ok": true,
+    "same_recommended": false,
+    "same_full": false,
+    "same_disclosure": true,
+    "recommended_only_truth": [
+     "CADD drop-down: CADD-SV annotation file (supported only in GRCh38)",
+     "DosageSensitivity   (Additional annotations \u203a Gene tolerance to change)",
+     "LOEUF   (Additional annotations \u203a Gene tolerance to change)",
+     "Pathogenicity predictions: CADD   (Predictions section)",
+     "gnomAD SV allele frequencies   (Variants and frequency data section)"
+    ],
+    "recommended_only_read": [
+     "CADD drop-down: CADD SNVs and InDels annotation file",
+     "HGVS   (Identifiers section)",
+     "MaveDB   (Additional annotations \u203a Functional effect)",
+     "Pathogenicity predictions: AlphaMissense, CADD, EVE   (Predictions section)",
+     "Protein   (Identifiers section)",
+     "Protein matches   (Additional annotations \u203a Protein annotation)",
+     "Splicing predictions: SpliceAI   (Predictions section)"
+    ],
+    "disclosure_lost": []
+   },
+   {
+    "id": "anal-word-1",
+    "factor": "analysis_goal",
+    "trick": "word_sense",
+    "test": "trap",
+    "read_index": 0,
+    "truth": [
+     "basic-consequence"
+    ],
+    "read": [
+     "clinical-interpretation"
+    ],
+    "label_ok": false,
+    "background_read_ok": true,
+    "same_recommended": false,
+    "same_full": false,
+    "same_disclosure": true,
+    "recommended_only_truth": [],
+    "recommended_only_read": [
+     "HGVS   (Identifiers section)",
+     "Phenotypes   (Additional annotations \u203a Phenotype data and citations)"
+    ],
+    "disclosure_lost": []
+   },
+   {
+    "id": "anal-word-2",
+    "factor": "analysis_goal",
+    "trick": "word_sense",
+    "test": "absent",
+    "read_index": 0,
+    "truth": [],
+    "read": [
+     "basic-consequence"
+    ],
+    "label_ok": false,
+    "background_read_ok": true,
+    "same_recommended": true,
+    "same_full": true,
+    "same_disclosure": false,
+    "recommended_only_truth": [],
+    "recommended_only_read": [],
+    "disclosure_lost": [
+     "analysis_goal = basic-consequence"
+    ]
+   },
+   {
+    "id": "anal-tool-4",
+    "factor": "analysis_goal",
+    "trick": "tool_name",
+    "test": "absent",
+    "read_index": 0,
+    "truth": [],
+    "read": [
+     "basic-consequence"
+    ],
+    "label_ok": false,
+    "background_read_ok": true,
+    "same_recommended": true,
+    "same_full": true,
+    "same_disclosure": false,
+    "recommended_only_truth": [],
+    "recommended_only_read": [],
+    "disclosure_lost": [
+     "analysis_goal = basic-consequence"
+    ]
+   }
+  ]
+ }
+]

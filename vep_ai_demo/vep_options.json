@@ -357,6 +357,37 @@
     "assemblies": null
   },
   {
+    "id": "allofus",
+    "name": "AllOfUs allele frequencies",
+    "cli_flag": "--custom (AllOfUs VCF, type=exact)",
+    "web_form_section": "variants_frequency_data",
+    "category": "frequency_data",
+    "description": "Report allele frequencies from the NIH AllOfUs study",
+    "depends_on": [
+      "check_existing"
+    ],
+    "conflicts_with": [],
+    "web_form_subsection": "Variants and frequency data",
+    "provenance": {
+      "flag": "release_116/vep_custom_web_config.json:67 (id custom_homo_sapiens_AllOfUs)",
+      "section": "release_116/vep_custom_web_config.json:72 (section); read off the page 2026-09-28 (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)",
+      "name": "release_116/InputForm.pm:532 builds the caption as short_name + ' allele frequencies'; the page shows 'AllOfUs allele frequencies' (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)",
+      "description": "release_116/vep_custom_web_config.json:71 (description), verbatim",
+      "default": "release_116/InputForm.pm:538 `'checked'   => 0`; unchecked on the page (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)",
+      "depends_on": "check_existing: the checkbox sits in 'Frequency data for co-located variants', field_class _stt_yes _stt_allele (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)",
+      "species": "release_116/vep_custom_web_config.json:68 `\"species\": \"homo_sapiens\"`",
+      "assemblies": "release_116/vep_custom_web_config.json:69 `\"assembly\": \"GRCh38\"`; absent from the GRCh37 form (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)"
+    },
+    "web_default_on": false,
+    "web_default_value": null,
+    "species": [
+      "homo_sapiens"
+    ],
+    "assemblies": [
+      "GRCh38"
+    ]
+  },
+  {
     "id": "appris",
     "name": "APPRIS",
     "cli_flag": "--appris",
@@ -410,6 +441,34 @@
     "web_default_value": null,
     "species": "all",
     "assemblies": null
+  },
+  {
+    "id": "gencode_promoter",
+    "name": "Report overlap with GENCODE Promoters",
+    "cli_flag": "--custom (GENCODE_promoter GFF, type=overlap)",
+    "web_form_section": "additional_annotations",
+    "category": "regulatory",
+    "description": "GENCODE promoter windows are an extension of the gene annotation. They are stable 1000 bp genomic regions.",
+    "depends_on": [],
+    "conflicts_with": [],
+    "web_form_subsection": "Regulatory data",
+    "provenance": {
+      "flag": "release_116/vep_custom_web_config.json:50 (id custom_homo_sapiens_gencode_promoter)",
+      "section": "release_116/vep_custom_web_config.json (section 'Regulatory data'); release_116/InputForm.pm:798-841 renders it in that fieldset; read off the page 2026-09-28 (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)",
+      "name": "release_116/vep_custom_web_config.json:54 (label), verbatim",
+      "description": "release_116/vep_custom_web_config.json:55 (description), verbatim",
+      "default": "release_116/InputForm.pm:839 `'checked'       => 0`; unchecked on the page (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)",
+      "species": "release_116/vep_custom_web_config.json:51 `\"species\": \"homo_sapiens\"`",
+      "assemblies": "release_116/vep_custom_web_config.json:52 `\"assembly\": \"GRCh38\"`; absent from the GRCh37 form (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)"
+    },
+    "web_default_on": false,
+    "web_default_value": null,
+    "species": [
+      "homo_sapiens"
+    ],
+    "assemblies": [
+      "GRCh38"
+    ]
   },
   {
     "id": "coding_only",
@@ -528,16 +587,14 @@
       "description": "plugin_config.txt:1345 (helptip), verbatim",
       "default": "vep_plugins_web_config.txt:38; plugin_config.txt:1347 → InputForm.pm:1175 (research/form_defaults_check_2026-09-22.md)",
       "species": "plugin_config.txt:1351 (release/116 `species` list)",
-      "assemblies": "WEAK: vep_plugins.html:774 says only that `the variant location in Geno2MP website is based on GRCh37 coordinates` (the URL option); no source says the data file is GRCh37-only"
+      "assemblies": "none: the form offers it on GRCh38 and GRCh37 (../reference/ensembl_docs_116/form_species_check_2026-09-28.json, 'geno2mp'; grch37_form_plugins_2026-09-23.json). Until 2026-09-28 GRCh37 only, from vep_plugins.html:774, which says only that `the variant location in Geno2MP website is based on GRCh37 coordinates` (the URL option)"
     },
     "web_default_on": false,
     "web_default_value": null,
     "species": [
       "homo_sapiens"
     ],
-    "assemblies": [
-      "GRCh37"
-    ]
+    "assemblies": null
   },
   {
     "id": "transcript_version",
@@ -589,6 +646,34 @@
       "homo_sapiens"
     ],
     "assemblies": null
+  },
+  {
+    "id": "clinvar_sv",
+    "name": "Clinical Significance (SV)",
+    "cli_flag": "--custom (ClinVar_SV VCF, dbVar nstd102, type=exact, overlap_cutoff 80/90/100/exact)",
+    "web_form_section": "additional_annotations",
+    "category": "phenotype_data_and_citations",
+    "description": "Report clinical significance data from dbVar Clinical Structural Variants study (nstd102)",
+    "depends_on": [],
+    "conflicts_with": [],
+    "web_form_subsection": "Phenotype data and citations",
+    "provenance": {
+      "flag": "release_116/vep_custom_web_config.json:104 (id custom_homo_sapiens_nstd102)",
+      "section": "release_116/vep_custom_web_config.json (section 'Phenotype data and citations'); read off the page 2026-09-28 (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)",
+      "name": "release_116/vep_custom_web_config.json:108 (label), verbatim",
+      "description": "release_116/vep_custom_web_config.json:109 (description), verbatim",
+      "default": "release_116/InputForm.pm:1245 `'value'       => 'no'`; Disabled on the page (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)",
+      "species": "release_116/vep_custom_web_config.json:105 `\"species\": \"homo_sapiens\"`",
+      "assemblies": "release_116/vep_custom_web_config.json:106 `\"assembly\": \"GRCh38\"`; absent from the GRCh37 form (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)"
+    },
+    "web_default_on": false,
+    "web_default_value": null,
+    "species": [
+      "homo_sapiens"
+    ],
+    "assemblies": [
+      "GRCh38"
+    ]
   },
   {
     "id": "pubmed",
@@ -821,7 +906,7 @@
       "description": "vep_online_input.html, control 'Variant synonyms', verbatim",
       "default": "InputForm.pm:479 `'checked' => 0` (research/form_defaults_check_2026-09-22.md)",
       "depends_on": "check_existing: InputForm.pm:480 shows it only when check_existing is 'yes' or 'allele' (field_class _stt_yes _stt_allele)",
-      "species": "InputForm.pm:472 `'class'         => '_stt_Homo_sapiens _stt_Sus_scrofa',`"
+      "species": "InputForm.pm:472 `'class'         => '_stt_Homo_sapiens _stt_Sus_scrofa',`; confirmed on the release-116 form 2026-09-28 (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)"
     },
     "web_default_on": false,
     "web_default_value": null,
@@ -930,7 +1015,7 @@
       "description": "plugin_config.txt:662 (helptip), verbatim",
       "default": "vep_plugins_web_config.txt:26; plugin_config.txt:660 → InputForm.pm:1139 (research/form_defaults_check_2026-09-22.md)",
       "web_form_values": "plugin_config.txt:673 (CADD file_type drop-down: captions and the snv_indels default), verbatim; per-value `species` from the `\"class\" => \"_stt_Homo_sapiens\"` on snv_indels, indels and sv (plugin_config.txt:678-681); `snv` has no class, so it is the only file the form offers other species",
-      "species": "plugin_config.txt:665 (release/116 `species` list)"
+      "species": "plugin_config.txt:665 (release/116 `species` list); kept at genome level since 2026-09-28: gallus_gallus_gca000002315v5 is the Red Jungle fowl, not the broiler reference (../reference/ensembl_docs_116/form_species_check_2026-09-28.json)"
     },
     "web_default_on": false,
     "web_default_value": null,
@@ -972,7 +1057,7 @@
       }
     ],
     "species": [
-      "gallus_gallus",
+      "gallus_gallus_gca000002315v5",
       "homo_sapiens",
       "meleagris_gallopavo",
       "sus_scrofa"
@@ -1177,7 +1262,7 @@
       "description": "vep_online_input.html, control 'SIFT predictions', verbatim",
       "default": "InputForm.pm:916 `'value' => 'b'` (research/form_defaults_check_2026-09-22.md)",
       "conflicts_with": "most_severe: vep_options.html (--sift: Incompatible with --most_severe); summary: vep_options.html (--sift: Incompatible with --summary)",
-      "species": "InputForm.pm:908 `if ($have_sift) {`"
+      "species": "InputForm.pm:908 `if ($have_sift) {`; saccharomyces_cerevisiae added 2026-09-28: the release-116 form gives yeast the `_stt__sift` class (reference/ensembl_docs_116/form_species_check_2026-09-28.json)"
     },
     "web_default_on": true,
     "web_default_value": "b",
@@ -1193,7 +1278,8 @@
       "mus_musculus",
       "ovis_aries",
       "rattus_norvegicus",
-      "sus_scrofa"
+      "sus_scrofa",
+      "saccharomyces_cerevisiae"
     ],
     "assemblies": null
   },
@@ -1674,14 +1760,14 @@
       "name": "plugin_config.txt:1849 (label)",
       "description": "plugin_config.txt:1853 (helptip), verbatim",
       "default": "vep_plugins_web_config.txt:54; plugin_config.txt:1851 → InputForm.pm:1139 (research/form_defaults_check_2026-09-22.md)",
-      "species": "plugin_config.txt:1861 (release/116 `species` list)"
+      "species": "plugin_config.txt:1861 (release/116 `species` list); kept at genome level since 2026-09-28 (Red Jungle fowl, ../reference/ensembl_docs_116/form_species_check_2026-09-28.json)"
     },
     "web_default_on": false,
     "web_default_value": null,
     "species": [
       "arabidopsis_thaliana",
       "drosophila_melanogaster",
-      "gallus_gallus",
+      "gallus_gallus_gca000002315v5",
       "homo_sapiens",
       "mus_musculus",
       "rattus_norvegicus",
@@ -1835,7 +1921,7 @@
     "cli_flag": "--custom (the species' frequency file offered on the form)",
     "web_form_section": "variants_frequency_data",
     "category": "frequency_data",
-    "description": "Custom population-frequency dataset the web form offers for a NON-HUMAN species: chicken (EVA PRJEB44919), dog (EVA PRJEB24066, one file per assembly), goat (NextGen, 5 populations), sheep (NextGen Iranian + Moroccan, per assembly). Rendered from vep_custom_web_config.json for exactly these species; no other non-human species has frequency data on the form.",
+    "description": "Custom population-frequency dataset for a NON-HUMAN species. release/116 vep_custom_web_config.json lists files for chicken (EVA PRJEB44919), dog (EVA PRJEB24066, one file per assembly), goat (NextGen, 5 populations) and sheep (NextGen Iranian + Moroccan, per assembly), but the release-116 web form renders none of them, so it is offered for no species. Kept so a later release that renders them needs only a species list.",
     "depends_on": [],
     "conflicts_with": [],
     "web_form_subsection": "Variants and frequency data",
@@ -1845,18 +1931,11 @@
       "name": "ours: Ensembl has no control of this name",
       "description": "ours: Ensembl has no text for this grouping",
       "default": "InputForm.pm:541 `'checked' => 0` (research/form_defaults_check_2026-09-22.md)",
-      "species": "vep_custom_web_config.json: the non-human 'Variants and frequency data' entries (InputForm.pm:556 matches the species name exactly)"
+      "species": "none: ../reference/ensembl_docs_116/form_species_check_2026-09-28.json (2026-09-28): no page renders a non-human custom file; release_116/InputForm.pm:1205-1209 keeps an entry only if the page's ASSEMBLY_NAME matches its assembly. Until 2026-09-28: the non-human entries of the release/115 vep_custom_web_config.json (chicken, dog, dog boxer, goat, sheep)"
     },
     "web_default_on": false,
     "web_default_value": null,
-    "species": [
-      "gallus_gallus",
-      "canis_lupus_familiaris",
-      "canis_lupus_familiarisboxer",
-      "capra_hircus",
-      "ovis_aries_rambouillet",
-      "ovis_aries"
-    ],
+    "species": [],
     "assemblies": null
   }
 ]

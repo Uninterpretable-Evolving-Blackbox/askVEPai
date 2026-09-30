@@ -39,3 +39,19 @@ The runs that turned classifier reasoning back on, moved here from `../../curren
 
 The 148 vs 138 pair decided it: on the same prompt, reasoning off missed three species twins, three
 unstated origins and two traps that reasoning on got right.
+
+## The 150 cases before the case fixes, the 31 scenarios before the relabelling
+
+Moved here from `../../current_evidence/results/`, where the runs on the fixed cases and the corrected
+labels replaced them. Same prompt and model as experiments 1 and 2 there.
+
+| run | reasoning on | reasoning off | files |
+|---|---|---|---|
+| 150 tricky cases, all four right, before any case fix | 143 (repeats 141, 142, 142) | 135 in all four runs, species through the tool | `results/factors_150_{tricky_cases,species_through_tool}_reasoning_{on,off}_before_case_fixes[_repeat1,2,3].json` |
+| the same, RECOMMENDED unchanged by the misreads | 148 (147, 148, 146) | not scored | `results/factors_150_settings_effect_reasoning_on_before_case_fixes.json` |
+| 150 tricky cases after the first 12 fixes | 145 through the tool (raw 146; a repeat, raw only, 143); RECOMMENDED unchanged 148 | 135 through the tool (raw 125) | `results/factors_150_*_first_12_case_fixes[_repeat1].json` |
+| 31 review scenarios, same RECOMMENDED, labels before six were corrected | 29/31, F1 0.960, 21/31 exact | 30/31, F1 0.967, 22/31 exact | `results/factors_31_review_scenarios_reasoning_{on,off}_before_relabelling[_repeat1].json` |
+
+Before the fixes, six misses recurred in all four reasoning-on runs: spec-doma-2 trap, orig-word-3 absent,
+anal-word-1 trap, anal-tool-4 absent, anal-doma-4 trap and anal-doma-5 trap. The case fixes score
+anal-doma-4 and anal-doma-5 right on clinical + frequency as well.

@@ -142,15 +142,15 @@ The checker enforces:
 
 - **Species.** Human-only options are not applicable to a non-human run. Plugins follow
   Ensembl's own per-plugin species lists (VEP_plugins release/116 `plugin_config.txt`), checked
-  against the organism named. SIFT data exists for 12 species, per-species frequency files for
-  chicken, dog, goat and sheep; each is checked against the organism and named when missing.
+  against the organism named. SIFT data exists for 13 species; each list is checked against the organism and the option
+  named when missing. The release-116 form shows no per-species frequency file for any species.
   The CADD annotation file offered depends on the organism: three of CADD's four files are human
-  only. Variant synonyms is removed for every non-human run, including pig, where Ensembl has it.
+  only. Variant synonyms is offered to pig, the one other species Ensembl has it for.
 - **Assembly.** Options whose data exists for one build only are dropped when the other build
-  is stated: MANE, TSL, APPRIS, EVE, MaveDB, gnomAD SV and six further plugins are GRCh38 only,
-  Geno2MP GRCh37 only.
-- **Restrict results.** `pick`, `pick_allele`, `per_gene` and `summary` are never offered;
-  `most_severe` is an add-on for basic-consequence questions.
+  is stated: MANE, TSL, APPRIS, EVE, MaveDB, gnomAD SV, All of Us, GENCODE promoters, ClinVar SV
+  and six further plugins are GRCh38 only. No option is GRCh37 only.
+- **Restrict results.** `pick`, `pick_allele`, `per_gene`, `most_severe` and `summary` are never
+  offered.
 - **Dependencies.** A missing prerequisite is switched on and recorded.
 - **Conflicts.** Conflict edges come from the "Incompatible with" column of Ensembl's options
   page and from the one Restrict-results drop-down; one side is dropped and the output says which.
@@ -168,7 +168,7 @@ measured with. `gemma4:e4b` fits on a machine with less than about 20 GB of free
 ```
 vep_ai_demo/             THE TOOL: reads only this folder, so it runs on its own
   vep_assistant.py         the engine: classifier -> resolver -> checker -> output
-  vep_options.json         the 67-option catalogue; each fact's source in its `provenance`
+  vep_options.json         the 70-option catalogue; each fact's source in its `provenance`
   factors.json             the factor scheme (values, hard gates, exclusions)
   priority_by_factor.json  the priority table the resolver reads
   species_index.json       Ensembl's species names, and which genomes are one species (by taxon)
@@ -190,8 +190,8 @@ project's mentor correspondence and review sheets; those are kept in the private
 
 ## Knowledge base
 
-**67 VEP options**, as the release-116 web form offers them. Names and descriptions are
-Ensembl's own words for 65 of them (the other two, `clinvar` and `species_frequency`, are our
+**70 VEP options**, as the release-116 web form offers them. Names and descriptions are
+Ensembl's own words for 68 of them (the other two, `clinvar` and `species_frequency`, are our
 groupings of controls the form offers indirectly). Every option's `provenance` records the file
 and line each fact came from: the form code (`InputForm.pm`, `Object_VEP.pm`), the plugin
 config, and the options, plugins and form pages. The on/off defaults were checked against the
@@ -228,11 +228,11 @@ the question behind it, how it is scored, where it fails, and the file it comes 
 
 | experiment | reasoning on | reasoning off |
 |---|---|---|
-| 150 tricky cases: all four versions of a case read right | 143/150 (three repeats: 141, 142, 142) | 135/150 |
-| …of which the misreads leave the RECOMMENDED options unchanged | 148/150 | |
-| 31 review scenarios: same RECOMMENDED options as from the true factors | 29/31 | 30/31 |
-| 754 organism names in Ensembl's index, named right (plain / with a decoy) | 746 / 749 | 746 / 744 |
-| 78 scenarios with one fact removed: assumed and disclosed | 73/78 (repeats: 72 each) | 72/78 |
+| 150 tricky cases: all four versions of a case read right | 145/150 (repeats: 143, 146) | 137/150 (137, 137) |
+| …of which the misreads leave the RECOMMENDED options unchanged | 149/150 | |
+| 31 review scenarios: same RECOMMENDED options as from the true factors | 30/31 | 29/31 |
+| 754 organism names in Ensembl's index, named right (plain / with a decoy) | 746 / 749 | 746 / 745 |
+| 78 scenarios with one fact removed: assumed and disclosed | 73/78 (repeats: 72 each) | 72/78 (72 each) |
 
 At temperature 0 the seed does not change the answer; the repeats measure run-to-run variation from
 parallel requests. The 31-scenario figures score against the tool's own priority table, so they
@@ -249,13 +249,15 @@ derives it.
 
 **An unstated goal is sometimes filled in.** With reasoning on, the classifier occasionally
 answers `basic-consequence` for a query that states no goal ("Show me variants affecting BRCA1,
-BRCA2"), so the tool assumes the goal without asking. The configuration is the same as the
-fallback it would otherwise use.
+BRCA2"), so the tool neither asks nor prints that it assumed one. The configuration is the same as
+the fallback it would otherwise use.
 
-**Three species decisions disagree with the rendered release-116 form** and wait on the mentors:
-the per-species frequency option is recommended for chicken and sheep, but the form shows no such
-control for them; CADD is offered to the broiler chicken genome, but Ensembl lists it only for Red
-Jungle fowl; Variant synonyms is never offered to pig, but the form has it.
+**Three species settings were corrected against the rendered release-116 form** (28 September): the
+per-species frequency option is no longer recommended, because the form shows no non-human frequency
+file for any species; CADD is offered to the Red Jungle fowl genome only, not the broiler chicken; and
+pig is offered Variant synonyms. The missing frequency files look like an issue on Ensembl's side
+(`InputForm.pm` release 116, lines 1205–1209). What the form showed is in
+`reference/ensembl_docs_116/form_species_check_2026-09-28.json`.
 
 **Gene lists and consequence classes cannot be set on the input form.** The tool does not
 restrict the configuration by gene or by consequence; it prints how to filter the results

@@ -138,8 +138,8 @@ def load_priority_by_factor(vep_options=None):
         if len(problems) > 8:
             print(f"    ... and {len(problems) - 8} more")
         print()
-    # Species gate: human-only, or a two-species set that includes human, is not_applicable for
-    # non-human. Plugins are skipped; the checker uses their species lists (Ensembl plugin_config.txt).
+    # Species gate: a human-only option is not_applicable for non-human. Other species lists, and
+    # plugins, are left to the checker's per-organism gate (plugins: Ensembl plugin_config.txt).
     priorities = table.setdefault("priorities", {})
     for o in vep_options:
         if option_source(o) == "plugin":
@@ -281,7 +281,7 @@ def size_dependent_choice(oid, size_value, vep_options, assembly=None, organism=
     skipped_for_species = False
     for v in values:
         if size_value in (v.get("covers") or []):
-            if who and v.get("species") and species_key(who) not in {species_key(x) for x in v["species"]}:
+            if who and v.get("species") and not on_species_list(who, v["species"]):
                 skipped_for_species = True
                 continue
             need = v.get("assembly_restriction")
@@ -1142,6 +1142,22 @@ def _species_hint_on():
 
 
 _SPECIES_OF = None
+_GENOME_LEVEL = None
+
+
+def _genome_level_entries():
+    """Genomes an option's species list names by themselves, not as their species
+    (`gallus_gallus_gca000002315v5`, the Red Jungle fowl, for CADD and IntAct). The organism lookup
+    keeps these rather than folding them into the species' reference genome."""
+    global _GENOME_LEVEL
+    if _GENOME_LEVEL is None:
+        try:
+            opts = json.loads(_kb_path("VEP_OPTIONS_FILE", "vep_options.json").read_text())
+        except Exception:                                                # noqa: BLE001
+            opts = []
+        _GENOME_LEVEL = {genome_key(x) for o in opts if isinstance(o.get("species"), list)
+                         for x in o["species"] if species_key(x) != genome_key(x)}
+    return _GENOME_LEVEL
 
 
 def species_key(production_name):
@@ -1159,15 +1175,33 @@ def species_key(production_name):
             _SPECIES_OF = json.loads((BASE_DIR / "species_index.json").read_text()).get("species_of") or {}
         except Exception:                                                # noqa: BLE001
             _SPECIES_OF = {}
-    p = (production_name or "").lower()
-    p = re.sub(r"_gca_?(\d+)\.(\d+)$", r"_gca\1v\2", p)
+    p = genome_key(production_name)
     return _SPECIES_OF.get(p) or "_".join(p.split("_")[:2])
+
+
+def genome_key(production_name):
+    """One genome's name in the index's form: lower case, `gallus_gallus_GCA_000002315.5` ->
+    `gallus_gallus_gca000002315v5`. Unlike `species_key` it keeps strains and assemblies apart."""
+    p = (production_name or "").lower()
+    return re.sub(r"_gca_?(\d+)\.(\d+)$", r"_gca\1v\2", p)
+
+
+def on_species_list(production_name, spec):
+    """True if an option whose species list is `spec` is offered for this genome.
+
+    A list entry naming a species' own genome (`sus_scrofa`) covers every genome of that species, as
+    `species_key` groups them. An entry naming one particular genome (`gallus_gallus_gca000002315v5`,
+    the Red Jungle fowl) covers that genome only: the form shows CADD for it and not for the broiler
+    reference `gallus_gallus` (release-116 form, class `_stt_Gallus_gallus_GCA_000002315.5`)."""
+    listed = {genome_key(x) for x in spec}
+    g = genome_key(production_name)
+    return g in listed or species_key(g) in {x for x in listed if species_key(x) == x}
 
 
 def load_species_index():
     """The species-name index {name: {species, trap, english_word, ...}}, cached; {} if missing.
 
-    Built by `work/harness/build/build_species_index.py`. Callers fall back to `_SPECIES_KEYWORDS`.
+    Built by `data/build/build_species_index.py` (in the working repository). Callers fall back to `_SPECIES_KEYWORDS`.
     """
     global _SPECIES_INDEX
     if _SPECIES_INDEX is None:
@@ -1275,8 +1309,11 @@ def resolve_model_organism(name):
         by_words.setdefault(_name_words(k), v)
 
     def canonical(prod):
-        """`bos_taurus_wagyu` -> `bos_taurus` when the index also has the plain species."""
+        """`bos_taurus_wagyu` -> `bos_taurus` when the index also has the plain species; a genome an
+        option lists by itself (the Red Jungle fowl, for CADD) is kept."""
         base = species_key(prod)
+        if prod in _genome_level_entries():
+            return prod
         return base if base != prod and base in by_production else prod
 
     if n in by_words:
@@ -1303,10 +1340,12 @@ def resolve_model_organism(name):
     if len(n) >= 4:
         words = set(n.split())
         head = n.split()[-1]
-        tier1 = {species_key(v["species"]) for k, v in by_words.items() if words <= set(k.split())}
-        tier2 = {species_key(v["species"]) for k, v in by_words.items()
-                 if set(k.split()) <= words and head in k.split()}
-        for hits in (tier1, tier2):
+        g1 = {v["species"] for k, v in by_words.items() if words <= set(k.split())}
+        g2 = {v["species"] for k, v in by_words.items() if set(k.split()) <= words and head in k.split()}
+        for genomes in (g1, g2):
+            hits = {species_key(g) for g in genomes}
+            if len(genomes) == 1 and next(iter(genomes)) in _genome_level_entries():
+                return next(iter(genomes))            # "red jungle fowl" -> that genome, for CADD
             if len(hits) == 1:
                 key = hits.pop()
                 return key if key in by_production or key in species_keys else canonical(key)
@@ -1363,11 +1402,12 @@ def _is_human_only(species) -> bool:
 
 
 def _gates_nonhuman(species) -> bool:
-    """True if the resolver should mark an option not_applicable for a non-human scenario.
+    """True if the resolver should mark an option not_applicable for a non-human scenario: human only.
 
-    Also gates a two-species set that includes human (`var_synonyms` = human + pig), because the
-    binary factor cannot name the organism. The checker's per-species lookup lets it back."""
-    return species != "all" and "homo_sapiens" in species and len(species) <= 2
+    A list naming human and another species (`var_synonyms` = human + pig) is left to the checker's
+    per-organism species gate, which removes it for any organism not on the list. Until 2026-09-28
+    this also gated such two-species lists, so pig never saw Variant synonyms."""
+    return _is_human_only(species)
 
 
 # Human build spellings -> canonical name. Keys are lower-cased and separator-stripped.
@@ -1397,6 +1437,29 @@ _WORD_SPLIT_RE = re.compile(r"[\s,;:()?!'\"/\[\]{}<>|*`]+")
 _NOT_GENES = re.compile(r"^(?:BLOSUM\d+|NA\d+|HG\d+|GRC[HMZ]\d+|CHM13|ENS[A-Z]*\d+|CNV\d*|SNV\d*|SV\d*"
                         r"|UK10K|T2T)$")
 _HGNC_SYMBOLS = None
+# Abbreviations that are also HGNC symbols but, in variant-analysis prose, mean something else. Not
+# read as genes unless the next word is "gene". An abbreviation spelled out just before it in brackets
+# ("autosomal recessive (AR)") is caught by _spelled_out below, so AR the androgen-receptor gene still
+# counts when it is written plainly.
+_ABBREVIATIONS_NOT_GENES = {"PGD": "preimplantation genetic diagnosis"}
+
+
+def _spelled_out(query, symbol):
+    """True if `symbol` appears as "(SYMBOL)" right after words whose initials spell it."""
+    for m in re.finditer(r"\(\s*" + re.escape(symbol) + r"\s*\)", query):
+        words = re.findall(r"[A-Za-z]+", query[:m.start()])[-len(symbol):]
+        if len(words) == len(symbol) and "".join(w[0] for w in words).upper() == symbol.upper():
+            return True
+    return False
+
+
+def _reads_as_gene(query, symbol):
+    """False for an abbreviation used in its non-gene sense (see _ABBREVIATIONS_NOT_GENES)."""
+    if _spelled_out(query, symbol):
+        return False
+    if symbol in _ABBREVIATIONS_NOT_GENES:
+        return bool(re.search(r"\b" + re.escape(symbol) + r"\s+gene\b", query, re.I))
+    return True
 
 
 def load_gene_symbols():
@@ -1423,6 +1486,7 @@ def mentions_result_filter(query):
     else:
         symbols = [s for s in names if re.fullmatch(r"[A-Z][A-Z0-9]{1,7}[0-9][A-Z0-9]*", s)
                    and not _NOT_GENES.match(s)]
+    symbols = [x for x in symbols if _reads_as_gene(q, x)]
     if symbols:
         found.append("genes: " + ", ".join(symbols))
     elif _GENE_PHRASE_RE.search(q):
@@ -1540,36 +1604,43 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
                 continue
             if oid in plugin_ids:
                 allowed = spec
-                if species_key(sp_name or "") in allowed:
+                if sp_name and on_species_list(sp_name, allowed):
                     continue
                 _nm = next((o.get("name", oid) for o in vep_options if o["id"] == oid), oid)
+                # A list naming another genome of this species (CADD: the Red Jungle fowl, not the
+                # broiler chicken) says so, or "gallus_gallus is not among them" reads as a contradiction.
+                _other = [x for x in allowed if sp_name and species_key(x) == species_key(sp_name)]
                 violations.append({
                     "type": "species_data",
                     "option_disabled": oid,
                     "reason": (f"{_nm} [{oid}] is provided for {len(allowed)} species "
                                f"({', '.join(allowed)}); this analysis is "
                                f"{species_key(sp_name) if sp_name else species}, which is not among "
-                               f"them (VEP_plugins release/116 plugin_config.txt)"),
+                               f"them (VEP_plugins release/116 plugin_config.txt)"
+                               + (f"; for this species Ensembl offers it on the {', '.join(_other)} "
+                                  f"genome only" if _other else "")),
                 })
                 enabled.discard(oid)
                 disabled.add(oid)
                 continue
             # Native and custom options compare per species: `ovis_aries_texel` counts as `ovis_aries`.
             have_keys = {species_key(x) for x in spec}
-            if sp_name is None or species_key(sp_name) not in have_keys:
+            if sp_name is None or not on_species_list(sp_name, spec):
                 _nm = next((o.get("name", oid) for o in vep_options if o["id"] == oid), oid)
                 violations.append({
                     "type": "species_data",
                     "option_disabled": oid,
                     "reason": (f"{_nm} [{oid}] is available for {len(have_keys)} species "
                                f"({', '.join(sorted(have_keys))}); this analysis is "
-                               f"{species_key(sp_name) if sp_name else species}, which is not among them"),
+                               f"{species_key(sp_name) if sp_name else species}, which is not among them"
+                               if have_keys else
+                               f"{_nm} [{oid}]: the release-116 web form offers it for no species"),
                 })
                 enabled.discard(oid)
                 disabled.add(oid)
 
     # --- Assembly ---
-    # Some sources exist for one build only (MANE, EVE: GRCh38; Geno2MP: GRCh37), and the web form
+    # Some sources exist for one build only (MANE, EVE, the GRCh38 custom files), and the web form
     # shows them for any human assembly (InputForm.pm:694-702). Gated only when a build is known.
     assembly = assembly_override or infer_assembly(user_query)
     if assembly:
@@ -1713,14 +1784,16 @@ def cli_flags_for(enabled, vep_options):
     caller offers as a choice instead of putting in the command. Shared by both command builders.
     """
     flag_by_id = {o["id"]: (o.get("cli_flag") or "") for o in vep_options}
+    default_by_id = {o["id"]: o.get("web_default_value") for o in vep_options}
     flags, choices, seen = [], [], set()
     for oid in sorted(enabled):
         f = flag_by_id.get(oid, "").strip()
         if not f.startswith("--"):
             continue
-        # "(+ ...)" lists sub-parameters used alongside the flag ("--check_frequency (+ --freq_pop/...)").
-        # They need user values and are not alternatives, so only the leading flag is kept.
+        # "(+ ...)" lists sub-parameters the flag needs ("--check_frequency (+ --freq_pop/...)"). They take
+        # the user's values, so each is emitted with a placeholder: --freq_pop <freq_pop>.
         head = f.split("(+", 1)[0].strip() if "(+" in f else f
+        subs = re.findall(r"--[A-Za-z0-9_]+", f.split("(+", 1)[1]) if "(+" in f else []
         alts = re.findall(r"--[A-Za-z0-9_]+", head)
         # Menu check runs before the "no flag" skip: core_type's flag is a real menu that also says
         # "(no flag for core)" about its default.
@@ -1731,15 +1804,16 @@ def cli_flags_for(enabled, vep_options):
         # Derived options ride on another option's flag (clinvar -> check_existing).
         if "derived" in f or "no flag" in f:
             continue
-        # "[b|p|s]" is a value placeholder. Replace it with the default from _SET_VALUE_DEFAULTS,
-        # or drop it when there is none.
+        # "[b|p|s]" is a value placeholder. Replace it with the form's default for that control
+        # (`web_default_value`, sourced to InputForm.pm in the option's provenance), or drop it.
         if re.search(r"\[[^\]]*\|[^\]]*\]", f):
-            default = _SET_VALUE_DEFAULTS.get(oid)
+            default = default_by_id.get(oid)
             f = re.sub(r"\s*\[[^\]]*\]", f" {default}" if default else "", f).strip()
         # A remaining parenthetical describes the data file to supply (gnomad_sv's "--custom (...)").
         # Emit the bare flag; the command's "fill in values/paths" note covers the rest.
         if "(" in f:
             f = f.split("(", 1)[0].strip()
+        f = " ".join([f] + [f"{x} <{x.lstrip('-')}>" for x in subs])
         if f not in seen:            # two options can share one flag
             seen.add(f)
             flags.append(f)
@@ -1828,9 +1902,16 @@ def ensembl_says(oid, vep_options):
     page_text = _first_sentence((rec or {}).get("description") or (rec or {}).get("blurb") or "", 150)
     if page_text:
         return f"Ensembl: {page_text}"
-    # Our catalogue prose is agent-written and must never be labelled as Ensembl's.
-    ours = _first_sentence(opt.get("description") or "", 150)
-    return f"our catalogue: {ours}" if ours else None
+    # The catalogue's descriptions are Ensembl's own words since 2026-09-15, each sourced in
+    # `provenance.description` ("plugin_config.txt:1898 (helptip), verbatim"). Say whose words they are
+    # from that record; only a description the record marks "ours" is labelled ours.
+    text = _first_sentence(opt.get("description") or "", 150)
+    if not text:
+        return None
+    src = ((opt.get("provenance") or {}).get("description") or "").strip()
+    if src and not src.lower().startswith("ours") and "verbatim" in src:
+        return f"Ensembl ({src.split(',')[0].split(' (')[0]}): {text}"
+    return f"ours (no Ensembl text): {text}"
 
 
 def why_recommended(oid, trace):
@@ -1842,7 +1923,7 @@ def why_recommended(oid, trace):
     factor, value, _label = win
     if factor == "conditional rule":
         return f"because {value}"
-    other = [v for f, v, _l in t.get("votes", []) if (f, v) != (factor, value)]
+    other = [v for f, v, l in t.get("votes", []) if (f, v) != (factor, value) and l in ("recommended", "optional")]
     also = f" (also under {', '.join(sorted(set(other))[:2])})" if other else ""
     return "because " + _WHY_VALUE.get((factor, value), f"{factor} = {value}") + also
 
@@ -1885,7 +1966,7 @@ def offer_available(oid, vep_options, species, assembly=None):
     spec = opt.get("species", "all")
     if species is not None and spec != "all":
         who = "homo_sapiens" if species == "human" else species
-        if who == "non-human" or species_key(who) not in {species_key(x) for x in spec}:
+        if who == "non-human" or not on_species_list(who, spec):
             return False
     allowed = _assembly_restriction(opt.get("assemblies"))
     return not (assembly and allowed and assembly not in allowed)
@@ -2034,19 +2115,12 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
     flag_by_id = {o["id"]: o.get("cli_flag", "") for o in vep_options}
     name_by_id = {o["id"]: o.get("name", o["id"]) for o in vep_options}
     on = sorted(enabled)
+    already_on = set()                 # set below when the answer is grouped by priority
     lines = ["", "=" * 60,
              "  YOUR VEP CONFIGURATION"]
-    # Count removals and restores together.
-    n_fixed = len(violations) + len(restored)
-    if n_fixed:
-        parts = []
-        if violations:
-            parts.append(f"{len(violations)} removed or resolved")
-        if restored:
-            parts.append(f"{len(restored)} added back")
-        hint = "" if meta_notes else "  --explain shows how"
-        lines.append(f"  (the checker resolved {n_fixed} thing"
-                     f"{'s' if n_fixed != 1 else ''}: {', '.join(parts)}){hint}")
+    # No count of what the checker changed: "the checker resolved 21 things: 20 added back" told the user
+    # nothing (removed 2026-09-30). Removals the user must know about print under NOT AVAILABLE; --explain
+    # has the full trace.
     lines.append("=" * 60)
     if resolved:
         tiers = tier_by_importance(enabled, resolved)
@@ -2162,7 +2236,9 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
                          f"{display_flag(flag_by_id.get(oid, ''))}".rstrip())
         if not on:
             lines.append("  (none)")
-    flag_list, choices = cli_flags_for(on, vep_options)
+    # Every option the answer says is on: the ones to tick and the ones the form already ticks, including
+    # add-ons that are on by default (PubMed), which are not in `on`.
+    flag_list, choices = cli_flags_for(set(on) | set(already_on), vep_options)
     if not show_cli:
         # Web form only by default (mentor, 2026-09-07); --cli adds the command.
         lines.append("=" * 60)
@@ -2172,19 +2248,20 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
     lines.append(f"  vep --input_file <in.vcf> --output_file <out.txt> --cache "
                  f"{' '.join(flag_list)}".rstrip())
     for oid, alts in choices:
-        lines.append(f"  # {name_by_id.get(oid, oid)} [{oid}] — choose ONE: {' | '.join(alts)}")
+        if oid == "core_type":
+            # The form's default is Ensembl transcripts, which is also VEP's default: no flag.
+            lines.append(f"  # {name_by_id.get(oid, oid)}: Ensembl transcripts, VEP's default, needs no flag; "
+                         f"{', '.join(alts[:-1])} or {alts[-1]} selects another set")
+        else:
+            lines.append(f"  # {name_by_id.get(oid, oid)} [{oid}] — choose ONE: {' | '.join(alts)}")
+    if any(f.startswith("--plugin") or f.startswith("--custom") for f in flag_list):
+        lines.append("  # each --plugin and --custom also needs its data file: see the plugin's page on ensembl.org")
     lines.append("=" * 60)
     return "\n".join(lines)
 
 
 # --- Web-form control values -----------------------------------------------------------------
 
-# Default values for native non-checkbox controls (InputForm.pm web defaults). Also fills
-# "[b|p|s]"-style placeholders in cli_flags_for. `core_type` is handled separately.
-_SET_VALUE_DEFAULTS = {
-    "sift": "b", "polyphen": "b", "check_existing": "yes", "shift_3prime": "shift_3prime",
-    "distance": "1000", "buffer_size": "5000", "frequency": "common",
-}
 
 
 _ASSEMBLY_RE = re.compile(r"\b(GRCh[\s_-]?3[78]|hg38|hg19|GRCm39|GRCm38|GRCz11|Rnor_6\.0|mRatBN7\.2)\b",
@@ -2259,7 +2336,7 @@ def print_decision_trace(user_query, vep_options, factor_tuple=None):
         t = tr[oid]
         w = t["winner"]
         print(f"  ✓ {oid:20s} because {w[0]}={w[1]}" if w else f"  ✓ {oid:20s}")
-        others = [v for v in t["votes"] if v is not w]
+        others = [v for v in t["votes"] if v is not w and v[2] in ("recommended", "optional")]
         if others:
             print(f"    {'':20s} also raised by "
                   + "; ".join(f"{f}={v} ({l})" for f, v, l in others))
@@ -2551,7 +2628,9 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     else:
         # Only once the tuple says non-human. The classifier's `organism` comes before the name scan,
         # which takes the first organism named ("not a mouse study ... pig herd" gives mouse).
-        species_for_display = (species_stated
+        # A stated "non-human" is the binary factor, not an organism: the model's organism still names
+        # the animal (--species non-human with "our pig herd" is still a pig).
+        species_for_display = ((species_stated if species_stated not in ("human", "non-human") else None)
                                or (factor_tuple or {}).get("_organism")
                                or resolve_species_name(user_query)
                                or species_for_checker or "human")

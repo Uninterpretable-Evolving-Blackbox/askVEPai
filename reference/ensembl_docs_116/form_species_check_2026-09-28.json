@@ -1,0 +1,34 @@
+{
+  "_what": "Species and build checks on the rendered release-116 VEP web form, for the 2026-09-28 catalogue fixes (species_frequency, cadd, intact, var_synonyms, geno2mp, and the three human custom files).",
+  "_read_on": "2026-09-28",
+  "_pages": {
+    "grch38_multi": "https://jun2026.archive.ensembl.org/Multi/Tools/VEP (title 'Variant Effect Predictor - Homo_sapiens - Ensembl genome browser 116'; www.ensembl.org redirected here; REST /info/software = 116)",
+    "grch38_chicken": "https://jun2026.archive.ensembl.org/Gallus_gallus/Tools/VEP",
+    "grch38_dog": "https://jun2026.archive.ensembl.org/Canis_lupus_familiaris/Tools/VEP",
+    "grch37": "https://grch37.ensembl.org/Homo_sapiens/Tools/VEP (title '... GRCh37 Archive browser 116')"
+  },
+  "_method": "javascript in the loaded page: input names; the _stt_<Species> classes on the nearest ancestor that carries any; label[for] text; defaultChecked.",
+  "custom_files_rendered": {
+    "grch38_multi": ["custom_homo_sapiens_AllOfUs", "custom_homo_sapiens_gnomAD_SV", "custom_homo_sapiens_gencode_promoter", "custom_homo_sapiens_nstd102"],
+    "grch38_chicken": ["custom_homo_sapiens_AllOfUs", "custom_homo_sapiens_gnomAD_SV", "custom_homo_sapiens_gencode_promoter", "custom_homo_sapiens_nstd102"],
+    "grch38_dog": ["custom_homo_sapiens_AllOfUs", "custom_homo_sapiens_gnomAD_SV", "custom_homo_sapiens_gencode_promoter", "custom_homo_sapiens_nstd102"],
+    "grch37": [],
+    "_note": "No page renders a non-human custom file: 0 matches for PRJEB or nextgen in the HTML of any of the four. release_116/vep_custom_web_config.json lists 8 non-human entries (chicken, dog, dog boxer, goat, sheep x2, sheep texel x2); release_116/InputForm.pm:1205-1209 keeps an entry only if the page's ASSEMBLY_NAME starts with the entry's assembly, and the VEP page answers with the human build from every species' URL."
+  },
+  "labels_and_defaults": {
+    "custom_homo_sapiens_AllOfUs": {"label": "AllOfUs allele frequencies", "control": "checkbox in 'Frequency data for co-located variants'", "h2": "Variants and frequency data", "ancestor_classes": ["form-field _stt_yes _stt_allele", "_stt_Homo_sapiens"], "default": "unchecked"},
+    "custom_homo_sapiens_gencode_promoter": {"label": "Report overlap with GENCODE Promoters:", "control": "checkbox", "h2": "Regulatory data", "ancestor_classes": ["_stt_Homo_sapiens form-field"], "default": "unchecked"},
+    "custom_homo_sapiens_nstd102": {"label": "Clinical Significance (SV):", "control": "radio Disabled/Enabled", "h2": "Phenotype data and citations", "ancestor_classes": ["form-field _stt_Homo_sapiens"], "default": "Disabled"},
+    "custom_homo_sapiens_gnomAD_SV": {"label": "gnomAD SV allele frequencies:", "control": "radio Disabled/Enabled", "h2": "Variants and frequency data", "default": "Disabled"}
+  },
+  "plugin_species_classes_grch38": {
+    "plugin_CADD": ["Sus_scrofa", "Gallus_gallus_GCA_000002315.5", "Homo_sapiens", "Meleagris_gallopavo"],
+    "plugin_IntAct": ["Mus_musculus", "Saccharomyces_cerevisiae", "Drosophila_melanogaster", "Arabidopsis_thaliana", "Rattus_norvegicus", "Gallus_gallus_gca000002315v5", "Homo_sapiens"],
+    "plugin_Geno2MP": ["Homo_sapiens"],
+    "plugin_Mastermind": ["Homo_sapiens"],
+    "_species_values": "The form's species value for the Red Jungle fowl is 'Gallus_gallus_GCA_000002315.5'; the broiler reference is 'Gallus_gallus'. IntAct's class spells the genome 'gca000002315v5', which does not equal that value.",
+    "_every_other_plugin": "Every other plugin checkbox on the page carries the same species as vep_options.json (compared by species on 2026-09-28)."
+  },
+  "var_synonyms": {"grch38_ancestor_classes": ["form-field _stt_allele _stt_yes", "_stt_Sus_scrofa _stt_Homo_sapiens"], "on_grch37_form": true},
+  "geno2mp": {"on_grch38_form": true, "on_grch37_form": true, "grch38_ancestor_classes": ["form-field _stt_Homo_sapiens"], "_note": "no assembly class; the form offers it on both builds"}
+}
