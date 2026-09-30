@@ -648,6 +648,291 @@
    }
   }
  },
+ "claude-opus-4-7 via the API, effort medium, adaptive thinking, VEP documentation PDF": {
+  "file": "chat_models_20_cases_answers_opus47_pdf.json",
+  "reference_total": 92,
+  "reference_recommended": 35,
+  "not_in_reference": 33,
+  "cannot_work": 20,
+  "row_deleting": 9,
+  "round1": {
+   "reference_total": 76,
+   "reference_recommended": 26
+  },
+  "per_case": {
+   "1": {
+    "cannot_work": [],
+    "row_deleting": [],
+    "missed": [
+     "af_1kg",
+     "domains",
+     "eve",
+     "mavedb"
+    ],
+    "not_in_reference": [
+     "dbnsfp",
+     "dosage_sensitivity",
+     "loeuf",
+     "maxentscan",
+     "nmd",
+     "revel"
+    ]
+   },
+   "2": {
+    "cannot_work": [
+     "af_gnomade",
+     "af_gnomadg",
+     "alphamissense",
+     "clinpred",
+     "dbscsnv",
+     "hgvs",
+     "maxentscan",
+     "protein",
+     "revel",
+     "spliceai",
+     "utrannotator"
+    ],
+    "row_deleting": [],
+    "missed": [
+     "gnomad_sv"
+    ],
+    "not_in_reference": [
+     "af_gnomade",
+     "af_gnomadg",
+     "alphamissense",
+     "clinpred",
+     "dbscsnv",
+     "hgvs",
+     "maxentscan",
+     "nmd",
+     "protein",
+     "revel",
+     "spliceai",
+     "utrannotator"
+    ]
+   },
+   "3": {
+    "cannot_work": [],
+    "row_deleting": [
+     "Restrict results: Show one selected consequence (--pick)"
+    ],
+    "missed": [
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "loeuf",
+     "numbers"
+    ],
+    "not_in_reference": [
+     "pick"
+    ]
+   },
+   "4": {
+    "cannot_work": [
+     "af_gnomadg"
+    ],
+    "row_deleting": [],
+    "missed": [
+     "canonical",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "loeuf"
+    ],
+    "not_in_reference": [
+     "af_gnomadg"
+    ]
+   },
+   "5": {
+    "cannot_work": [
+     "af_gnomade",
+     "af_gnomadg",
+     "alphamissense",
+     "dbnsfp",
+     "hgvs",
+     "protein",
+     "revel"
+    ],
+    "row_deleting": [],
+    "missed": [
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "loeuf"
+    ],
+    "not_in_reference": [
+     "af_gnomade",
+     "af_gnomadg",
+     "alphamissense",
+     "dbnsfp",
+     "hgvs",
+     "protein",
+     "revel"
+    ]
+   },
+   "6": {
+    "cannot_work": [
+     "af_gnomadg"
+    ],
+    "row_deleting": [],
+    "missed": [
+     "cadd",
+     "canonical",
+     "dosage_sensitivity",
+     "gnomad_sv",
+     "loeuf",
+     "phenotypes"
+    ],
+    "not_in_reference": [
+     "af_gnomadg"
+    ]
+   },
+   "7": {
+    "cannot_work": [],
+    "row_deleting": [
+     "Return results for variants in coding regions only"
+    ],
+    "missed": [
+     "domains",
+     "hgvs",
+     "phenotypes"
+    ],
+    "not_in_reference": [
+     "coding_only"
+    ]
+   },
+   "8": {
+    "cannot_work": [],
+    "row_deleting": [
+     "Return results for variants in coding regions only"
+    ],
+    "missed": [
+     "numbers",
+     "phenotypes"
+    ],
+    "not_in_reference": [
+     "coding_only"
+    ]
+   },
+   "9": {
+    "cannot_work": [],
+    "row_deleting": [],
+    "missed": [
+     "utrannotator"
+    ],
+    "not_in_reference": []
+   },
+   "10": {
+    "cannot_work": [],
+    "row_deleting": [],
+    "missed": [
+     "canonical",
+     "hgvs",
+     "phenotypes",
+     "utrannotator"
+    ],
+    "not_in_reference": []
+   },
+   "11": {
+    "cannot_work": [],
+    "row_deleting": [],
+    "missed": [
+     "hgvs",
+     "phenotypes",
+     "utrannotator"
+    ],
+    "not_in_reference": []
+   },
+   "12": {
+    "cannot_work": [],
+    "row_deleting": [
+     "Restrict results: Show one selected consequence per variant (--pick)"
+    ],
+    "missed": [
+     "domains",
+     "hgvs",
+     "numbers",
+     "protein",
+     "utrannotator"
+    ],
+    "not_in_reference": [
+     "pick"
+    ]
+   },
+   "13": {
+    "cannot_work": [],
+    "row_deleting": [
+     "Filter by frequency (Advanced filtering - Exclude variants with MAF > 0.01 in 1000 Genomes combined population)"
+    ]
+   },
+   "14": {
+    "cannot_work": [],
+    "row_deleting": []
+   },
+   "15": {
+    "cannot_work": [],
+    "row_deleting": [
+     "Restrict results: Show one selected consequence per gene"
+    ]
+   },
+   "16": {
+    "cannot_work": [],
+    "row_deleting": [
+     "Restrict results = Show one selected consequence per gene"
+    ]
+   },
+   "17": {
+    "cannot_work": [],
+    "row_deleting": [
+     "Restrict results = Show one selected consequence per variant (or Show most severe per variant)"
+    ],
+    "missed": [
+     "canonical",
+     "utrannotator"
+    ],
+    "not_in_reference": [
+     "pick"
+    ]
+   },
+   "18": {
+    "cannot_work": [],
+    "row_deleting": [],
+    "missed": [
+     "af_gnomade",
+     "canonical",
+     "utrannotator"
+    ],
+    "not_in_reference": []
+   },
+   "19": {
+    "cannot_work": [],
+    "row_deleting": [
+     "Restrict results: Show one selected consequence (--pick)"
+    ],
+    "missed": [
+     "cadd",
+     "canonical",
+     "domains",
+     "hgvs",
+     "numbers",
+     "phenotypes"
+    ],
+    "not_in_reference": [
+     "pick"
+    ]
+   },
+   "20": {
+    "cannot_work": [],
+    "row_deleting": [],
+    "missed": [
+     "canonical",
+     "domains",
+     "hgvs",
+     "numbers",
+     "protein",
+     "utrannotator"
+    ],
+    "not_in_reference": []
+   }
+  }
+ },
  "claude-opus-5-5 via the API, effort medium": {
   "file": "chat_models_20_cases_answers_opus55.json",
   "reference_total": 92,

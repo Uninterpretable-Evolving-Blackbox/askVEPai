@@ -54,7 +54,9 @@ PREFIX = "chat_models_20_cases"
 ROW_DELETING = {"pick", "pick_allele", "per_gene", "most_severe", "summary", "coding_only", "frequency"}
 # $ per million tokens: input, output, 5-minute cache write, cache read
 PRICES = {"claude-opus-5-5": (4.00, 20.00, 5.00, 0.20), "claude-opus-5": (5.00, 25.00, 6.25, 0.50),
-          "claude-sonnet-5": (2.00, 10.00, 2.50, 0.20)}
+          "claude-opus-4-8": (5.00, 25.00, 6.25, 0.50), "claude-opus-4-7": (5.00, 25.00, 6.25, 0.50),
+          "claude-opus-4-6": (5.00, 25.00, 6.25, 0.50), "claude-sonnet-5-5": (2.00, 10.00, 2.50, 0.20),
+          "claude-sonnet-5": (2.00, 10.00, 2.50, 0.20), "claude-haiku-4-5-20251001": (1.00, 5.00, 1.25, 0.10)}
 
 OPTION_PATTERNS = {
     "core_type": r"transcript database",
@@ -174,8 +176,13 @@ def ask(model, effort, pdf):
     for c in load_cases():
         t0 = time.perf_counter()
         # No refusal fallback: it would answer with another model and mix the arms.
-        r = client.messages.create(model=model, max_tokens=16000, system=system,
-                                   output_config={"effort": effort},
+        # Thinking on for every model, so only the model changes: adaptive thinking at the given effort;
+        # Haiku 4.5 takes neither, so it thinks with a fixed budget instead.
+        if model.startswith("claude-haiku"):
+            think = {"thinking": {"type": "enabled", "budget_tokens": 8000}}
+        else:
+            think = {"thinking": {"type": "adaptive"}, "output_config": {"effort": effort}}
+        r = client.messages.create(model=model, max_tokens=16000, system=system, **think,
                                    messages=[{"role": "user", "content": ([doc] if doc else [])
                                               + [{"type": "text", "text": c["query"]}]}])
         u = r.usage
@@ -186,8 +193,10 @@ def ask(model, effort, pdf):
                      "stop_reason": r.stop_reason, "usage": u.model_dump(), "cost_usd": round(cost, 4),
                      "seconds": round(time.perf_counter() - t0, 1)})
         print(f"case {c['case']:2d}  {r.stop_reason}  {rows[-1]['seconds']}s", flush=True)
-    arm = model.replace("claude-", "").replace("-", "") + ("_pdf" if pdf else "")
-    out = {"arm": f"{model} API, effort {effort}" + (", VEP documentation PDF" if pdf else ""),
+    arm = (model.replace("claude-", "").replace("-20251001", "").replace("-", "")
+           + ("" if effort == "medium" else f"_{effort}") + ("_pdf" if pdf else ""))
+    setting = "thinking budget 8000" if model.startswith("claude-haiku") else f"effort {effort}, adaptive thinking"
+    out = {"arm": f"{model} via the API, {setting}" + (", VEP documentation PDF" if pdf else ""),
            "how": "Anthropic API, minimal system prompt, one call per case", "date": str(datetime.date.today()),
            "total_cost_usd": round(sum(r["cost_usd"] for r in rows), 3), "cases": rows}
     path = RESULTS / f"{PREFIX}_answers_{arm}.json"

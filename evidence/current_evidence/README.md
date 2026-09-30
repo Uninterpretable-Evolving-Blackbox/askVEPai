@@ -354,6 +354,7 @@ the VEP web form, and answer as RECOMMENDED, OPTIONAL, NOT ON THE FORM and ASSUM
 | Claude Sonnet 5, with the VEP documentation | the Anthropic API | `claude-sonnet-5`, effort medium; the instruction as the system prompt; Ensembl's 27-page VEP web documentation PDF before each case |
 | Claude Opus 5.5 (SOTA)| the Anthropic API | `claude-opus-5-5`, effort medium (default); the instruction as the system prompt |
 | Claude Opus 5.5 (SOTA), with the VEP documentation | the Anthropic API | the same, with the same PDF |
+| Claude Opus 4.7, with the VEP documentation | the Anthropic API | `claude-opus-4-7`, effort medium, adaptive thinking on; the same PDF |
 
 An API call carries no memory and no earlier conversation: each case is a single call.
 
@@ -385,15 +386,16 @@ a structural variant.
 |---|---|---|---|---|
 | **Ask VEPai** | **92/92** | **0** | **0** | **0** |
 | Claude Opus 5.5 (SOTA, API), with the VEP documentation | 48/92 | 16 | 8 | 2 |
+| Claude Opus 4.7 (API), with the VEP documentation | 35/92 | 33 | 20 | 9 |
 | Claude Opus 5.5 (SOTA, API) | 32/92 | 22 | 12 | 11 |
 | Claude Sonnet 5 (API), with the VEP documentation | 18/92 | 23 | 18 | 6 |
 | ChatGPT (website) | 14/92 | 18 | 14 | 3 |
 | Claude Sonnet 5 medium (claude.ai website) | 8/92 | 10 | 6 | 2 |
 
-Files: `results/chat_models_20_cases_answers_{ask_vepai,opus55_pdf,opus55,sonnet5_pdf,chatgpt,claude_chat}.json`;
+Files: `results/chat_models_20_cases_answers_{ask_vepai,opus55_pdf,opus55,opus47_pdf,sonnet5_pdf,chatgpt,claude_chat}.json`;
 every case's missed, extra, cannot-work and row-deleting options in `results/chat_models_20_cases_scores.json`.
-API cost for the 20 cases: Opus 5.5 $0.50 (16 s a case), with the PDF $1.17 (23 s); Sonnet 5 with the PDF
-$0.54 (11 s).
+API cost for the 20 cases: Opus 5.5 $0.50 (16 s a case), with the PDF $1.17 (23 s); Opus 4.7 with the PDF
+$1.29 (13 s); Sonnet 5 with the PDF $0.54 (11 s).
 
 **What Ask VEPai's 92/92 means.** Ask VEPai is the table applied to the model's reading of the case, so its
 score measures that reading. The model read 78 of the 80 factor values right on the 16 cases; the two misses
@@ -411,6 +413,10 @@ and 5.
   UTRAnnotator on 8 regulatory cases, Phenotypes on 6 clinical ones, gnomAD SV on 5 structural ones.
 - **Filters that delete rows.** The chat arms recommend "one consequence per variant/gene" and "coding
   regions only"; Opus 5.5 does so 11 times without the documentation, 2 times with it.
+- **The newer model does better with the same documentation.** Opus 4.7 with the PDF recommends 35 of the
+  92, against 48 for Opus 5.5, and twice as many options outside the table (33 against 16), 20 that cannot
+  work for the case (against 8) and 9 row-deleting filters (against 2). With thinking left to the model,
+  Opus 4.7 used none on any case; Opus 5.5 with the PDF used 300–1,070 thinking tokens a case (685 on average).
 - **The documentation helps the larger model most.** With the PDF, Opus 5.5 goes from 32 to 48 of 92 and
   from 11 to 2 row-deleting filters; Sonnet 5 with it reaches 18, against 8 for Sonnet 5 on the claude.ai
   website.
