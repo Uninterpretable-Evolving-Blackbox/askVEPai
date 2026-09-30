@@ -235,17 +235,21 @@ the question behind it, how it is scored, where it fails, and the file it comes 
 | 78 scenarios with one fact removed: assumed and disclosed | 73/78 (repeats: 72 each) | 72/78 (72 each) |
 
 **Against commercial closed-source models** ([experiment 6](evidence/current_evidence/README.md#6--chat-models-20-cases)):
-Ask VEPai, running a local open model, does better than bare commercial chat models given the same job, the
-current state-of-the-art Claude Opus 5.5 included. On 20 cases, with the same short instruction and no
-rules, the best of them reaches about half of what the priority table recommends, and every one recommends
-options that cannot work for the case or filters that silently delete results; Ask VEPai recommends none.
+the same job was given to bare commercial chat models, with one short instruction and no rules. Smarter and
+newer models do better, and Ensembl's documentation helps them, but none gets close to what the tool needs:
+even the current state of the art, Claude Opus 5.5 with the documentation, recommends about half of what the
+priority table recommends, and every model still recommends options that cannot work for the case or filters
+that silently delete results. Ask VEPai, running a local open model, recommends none.
 
 | arm | table options recommended (of 92, 16 cases) | options that cannot work for the case (20 cases) | row-deleting filters (20 cases) |
 |---|---|---|---|
 | **Ask VEPai** (gemma4:26b, local) | **92** | **0** | **0** |
-| Claude Opus 5.5, with Ensembl's VEP documentation | 48 | 8 | 2 |
+| Claude Opus 5.5 (state of the art), with the VEP documentation | 48 | 8 | 2 |
+| Claude Opus 4.7, with the VEP documentation | 35 | 20 | 9 |
 | Claude Opus 5.5 | 32 | 12 | 11 |
+| Claude Sonnet 5, with the VEP documentation | 18 | 18 | 6 |
 | ChatGPT (website, Thinking on) | 14 | 14 | 3 |
+| Claude Sonnet 5 (claude.ai website) | 8 | 6 | 2 |
 
 The first column scores against our own priority table, so it shows the chat models do not follow our
 rules; the other two rest on Ensembl's species lists and on what VEP can compute for a structural variant,
