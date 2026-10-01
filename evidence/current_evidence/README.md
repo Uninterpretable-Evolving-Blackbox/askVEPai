@@ -446,7 +446,7 @@ BRCA2"), which it filled in as basic-consequence without asking: the same miss a
 
 **Limits.** The reference is our own priority table, so Ask VEPai is marked against the rules it follows:
 its score shows the model reads the cases right, not that the rules are right. How right the table is rests
-on its review: of its 70 rows, 22 follow a mentor's written decision and the other 48 are our decisions. The row-deleting column and the species part of cannot-work do not use the table, and hold either way. The facts of cases 19 and 20 were set by us. One answer per case per arm; the two websites run
+on its review: of its 70 rows, 22 follow a mentor's written decision and the other 48 are our decisions. The row-deleting column and the species part of cannot-work do not use the table, and hold either way. The facts of cases 19 and 20 were set by us. Two of them are readings rather than stated facts: case 18's "mostly in promoters and enhancers" is taken as regulatory only, and case 20 never states a region, so it takes the tool's default for an unstated region (both). One answer per case per arm; the two websites run
 with their own hidden instructions and settings, and ChatGPT searched the web; the API arms have neither.
 The mapping from free text to options is by pattern; the scores file lists every decision it made. The
 scores file also scores cases 1–12 against their configuration as reviewed in round 1

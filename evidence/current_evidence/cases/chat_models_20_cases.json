@@ -179,7 +179,7 @@
      "population-frequency"
     ]
    },
-   "facts_from": "the tricky case's labels"
+   "facts_from": "the tricky case's labels; region: \"mostly in promoters and enhancers\" is read as regulatory only, the test set's convention, though both regions would also be a fair reading"
   },
   {
    "case": 19,
@@ -220,7 +220,7 @@
      "population-frequency"
     ]
    },
-   "facts_from": "set by us: germline and small as stated; region unstated, so both; how common = population frequency"
+   "facts_from": "set by us: germline and small as stated; how common = population frequency; region is unstated in the text, so the tool's default for an unstated region (both, stated to the user) is used"
   }
  ]
 }
