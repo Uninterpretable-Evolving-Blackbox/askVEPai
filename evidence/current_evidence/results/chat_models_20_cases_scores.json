@@ -1,7 +1,7 @@
 {
  "Ask VEPai (gemma4:26b, reasoning on)": {
   "file": "chat_models_20_cases_answers_ask_vepai.json",
-  "reference_total": 92,
+  "reference_total": 103,
   "reference_recommended": 92,
   "not_in_reference": 0,
   "cannot_work": 0,
@@ -20,7 +20,19 @@
    "2": {
     "cannot_work": [],
     "row_deleting": [],
-    "missed": [],
+    "missed": [
+     "af_1kg",
+     "af_gnomade",
+     "af_gnomadg",
+     "alphamissense",
+     "domains",
+     "eve",
+     "hgvs",
+     "mavedb",
+     "protein",
+     "spliceai",
+     "utrannotator"
+    ],
     "not_in_reference": []
    },
    "3": {
@@ -127,10 +139,10 @@
  },
  "ChatGPT website, default free model, Thinking on": {
   "file": "chat_models_20_cases_answers_chatgpt.json",
-  "reference_total": 92,
-  "reference_recommended": 14,
-  "not_in_reference": 18,
-  "cannot_work": 14,
+  "reference_total": 103,
+  "reference_recommended": 17,
+  "not_in_reference": 15,
+  "cannot_work": 11,
   "row_deleting": 3,
   "round1": {
    "reference_total": 76,
@@ -157,25 +169,25 @@
     "not_in_reference": []
    },
    "2": {
-    "cannot_work": [
-     "af_1kg",
-     "af_gnomade",
-     "af_gnomadg"
-    ],
+    "cannot_work": [],
     "row_deleting": [],
     "missed": [
+     "alphamissense",
      "cadd",
      "canonical",
+     "domains",
      "dosage_sensitivity",
+     "eve",
      "gnomad_sv",
+     "hgvs",
      "loeuf",
-     "numbers"
+     "mavedb",
+     "numbers",
+     "protein",
+     "spliceai",
+     "utrannotator"
     ],
-    "not_in_reference": [
-     "af_1kg",
-     "af_gnomade",
-     "af_gnomadg"
-    ]
+    "not_in_reference": []
    },
    "3": {
     "cannot_work": [],
@@ -395,10 +407,10 @@
  },
  "Claude website (claude.ai), Sonnet 5, medium effort (default)": {
   "file": "chat_models_20_cases_answers_claude_chat.json",
-  "reference_total": 92,
-  "reference_recommended": 8,
-  "not_in_reference": 10,
-  "cannot_work": 6,
+  "reference_total": 103,
+  "reference_recommended": 9,
+  "not_in_reference": 9,
+  "cannot_work": 4,
   "row_deleting": 2,
   "round1": {
    "reference_total": 76,
@@ -425,20 +437,26 @@
     "not_in_reference": []
    },
    "2": {
-    "cannot_work": [
-     "af_gnomadg",
-     "revel"
-    ],
+    "cannot_work": [],
     "row_deleting": [],
     "missed": [
+     "af_1kg",
+     "af_gnomade",
+     "alphamissense",
      "canonical",
+     "domains",
      "dosage_sensitivity",
+     "eve",
      "gnomad_sv",
+     "hgvs",
      "loeuf",
-     "numbers"
+     "mavedb",
+     "numbers",
+     "protein",
+     "spliceai",
+     "utrannotator"
     ],
     "not_in_reference": [
-     "af_gnomadg",
      "revel"
     ]
    },
@@ -650,10 +668,10 @@
  },
  "claude-opus-4-7 via the API, effort medium, adaptive thinking, VEP documentation PDF": {
   "file": "chat_models_20_cases_answers_opus47_pdf.json",
-  "reference_total": 92,
-  "reference_recommended": 35,
-  "not_in_reference": 33,
-  "cannot_work": 20,
+  "reference_total": 103,
+  "reference_recommended": 42,
+  "not_in_reference": 26,
+  "cannot_work": 9,
   "row_deleting": 9,
   "round1": {
    "reference_total": 76,
@@ -679,36 +697,21 @@
     ]
    },
    "2": {
-    "cannot_work": [
-     "af_gnomade",
-     "af_gnomadg",
-     "alphamissense",
-     "clinpred",
-     "dbscsnv",
-     "hgvs",
-     "maxentscan",
-     "protein",
-     "revel",
-     "spliceai",
-     "utrannotator"
-    ],
+    "cannot_work": [],
     "row_deleting": [],
     "missed": [
-     "gnomad_sv"
+     "af_1kg",
+     "domains",
+     "eve",
+     "gnomad_sv",
+     "mavedb"
     ],
     "not_in_reference": [
-     "af_gnomade",
-     "af_gnomadg",
-     "alphamissense",
      "clinpred",
      "dbscsnv",
-     "hgvs",
      "maxentscan",
      "nmd",
-     "protein",
-     "revel",
-     "spliceai",
-     "utrannotator"
+     "revel"
     ]
    },
    "3": {
@@ -935,10 +938,10 @@
  },
  "claude-opus-5-5 via the API, effort medium": {
   "file": "chat_models_20_cases_answers_opus55.json",
-  "reference_total": 92,
-  "reference_recommended": 32,
-  "not_in_reference": 22,
-  "cannot_work": 12,
+  "reference_total": 103,
+  "reference_recommended": 38,
+  "not_in_reference": 16,
+  "cannot_work": 5,
   "row_deleting": 11,
   "round1": {
    "reference_total": 76,
@@ -960,31 +963,22 @@
     ]
    },
    "2": {
-    "cannot_work": [
-     "af_1kg",
-     "af_gnomade",
-     "af_gnomadg",
-     "alphamissense",
-     "hgvs",
-     "revel",
-     "spliceai"
-    ],
+    "cannot_work": [],
     "row_deleting": [],
     "missed": [
      "canonical",
+     "domains",
      "dosage_sensitivity",
+     "eve",
      "gnomad_sv",
      "loeuf",
-     "phenotypes"
+     "mavedb",
+     "phenotypes",
+     "protein",
+     "utrannotator"
     ],
     "not_in_reference": [
-     "af_1kg",
-     "af_gnomade",
-     "af_gnomadg",
-     "alphamissense",
-     "hgvs",
-     "revel",
-     "spliceai"
+     "revel"
     ]
    },
    "3": {
@@ -1202,10 +1196,10 @@
  },
  "claude-opus-5-5 via the API, effort medium, VEP documentation PDF": {
   "file": "chat_models_20_cases_answers_opus55_pdf.json",
-  "reference_total": 92,
-  "reference_recommended": 48,
-  "not_in_reference": 16,
-  "cannot_work": 8,
+  "reference_total": 103,
+  "reference_recommended": 53,
+  "not_in_reference": 11,
+  "cannot_work": 2,
   "row_deleting": 2,
   "round1": {
    "reference_total": 76,
@@ -1228,25 +1222,19 @@
     ]
    },
    "2": {
-    "cannot_work": [
-     "af_gnomade",
-     "af_gnomadg",
-     "alphamissense",
-     "hgvs",
-     "revel",
-     "spliceai"
-    ],
+    "cannot_work": [],
     "row_deleting": [],
     "missed": [
-     "gnomad_sv"
+     "af_1kg",
+     "domains",
+     "eve",
+     "gnomad_sv",
+     "mavedb",
+     "protein",
+     "utrannotator"
     ],
     "not_in_reference": [
-     "af_gnomade",
-     "af_gnomadg",
-     "alphamissense",
-     "hgvs",
-     "revel",
-     "spliceai"
+     "revel"
     ]
    },
    "3": {
@@ -1427,10 +1415,10 @@
  },
  "claude-sonnet-5 via the API, effort medium, VEP documentation PDF": {
   "file": "chat_models_20_cases_answers_sonnet5_pdf.json",
-  "reference_total": 92,
-  "reference_recommended": 18,
-  "not_in_reference": 23,
-  "cannot_work": 18,
+  "reference_total": 103,
+  "reference_recommended": 22,
+  "not_in_reference": 19,
+  "cannot_work": 14,
   "row_deleting": 6,
   "round1": {
    "reference_total": 76,
@@ -1454,27 +1442,24 @@
     "not_in_reference": []
    },
    "2": {
-    "cannot_work": [
-     "af_1kg",
-     "af_gnomade",
-     "af_gnomadg",
-     "hgvs"
-    ],
+    "cannot_work": [],
     "row_deleting": [],
     "missed": [
+     "alphamissense",
      "cadd",
+     "domains",
      "dosage_sensitivity",
+     "eve",
      "gnomad_sv",
      "loeuf",
+     "mavedb",
      "numbers",
-     "phenotypes"
+     "phenotypes",
+     "protein",
+     "spliceai",
+     "utrannotator"
     ],
-    "not_in_reference": [
-     "af_1kg",
-     "af_gnomade",
-     "af_gnomadg",
-     "hgvs"
-    ]
+    "not_in_reference": []
    },
    "3": {
     "cannot_work": [],

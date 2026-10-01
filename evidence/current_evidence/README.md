@@ -17,7 +17,7 @@ sixth sets the tool beside general chat models.
 | [3 · 754 organism names](#3--754-organism-names) | Does the model name the organism? | **746/754** (repeats 747, 746) | 746/754 (746, 746) |
 | [4 · the mentors' four queries](#4--the-mentors-four-queries) | What does the model make of the mentors' own example queries? | stable within a run on 3 of 4 | stable on 4 of 4, and between runs |
 | [5 · 78 missing facts](#5--78-missing-facts) | When a fact is missing, does the tool ask, or assume a safe value and say so? | **73/78** (repeats 72, 72, 72) | 72/78 (72, 72, 72) |
-| [6 · chat models, 20 cases](#6--chat-models-20-cases) | Does a general chat model, given the same job, recommend what the priority table recommends? | **92/92**; best chat model 48/92 | not run |
+| [6 · chat models, 20 cases](#6--chat-models-20-cases) | Does a general chat model, given the same job, recommend what the priority table recommends? | **92/103**; best chat model 53/103 | not run |
 
 Every run: `gemma4:26b` on an Apple M5 Max, temperature 0, seed 42. At temperature 0 the seed does not
 change the answer (seeds 42 and 43 give the same text on the same query), so the seeds 42, 43 and 44 of
@@ -369,65 +369,73 @@ An API call carries no memory and no earlier conversation: each case is a single
 
 **The standard: the priority table.** The priority table (`vep_ai_demo/priority_by_factor.json`) is this
 project's statement of which options each kind of analysis should get: every recommendation Ask VEPai makes
-comes from it. This experiment treats it as the correct answer. For each case with known facts (1–12 and
-17–20, with the facts in `cases/chat_models_20_cases.json`), the reference configuration is what the table
-recommends for those facts: 92 options over the 16 cases, leaving out the ones the form already ticks. Cases
+comes from it. This experiment treats it as the correct answer. For each case with known facts, the reference
+configuration is what the table recommends for those facts: for cases 1–12, the review scenarios' current
+labels in `cases/iced.json`; for 17–20, the facts in `cases/chat_models_20_cases.json`. That is 103 options
+over the 16 cases, leaving out the ones the form already ticks. Cases
 13–16 leave facts unstated, so they have no reference.
 
 **Scored.** Each answer's RECOMMENDED part is read entry by entry and mapped to catalogue options by the
 patterns in the script; an entry that says not to tick something ("leave … unticked", "Filter by frequency:
 No filtering") recommends nothing. Four counts:
 
-- **reference options recommended** (16 cases): of the table's 92, how many the arm tells the user to tick
+- **reference options recommended** (16 cases): of the table's 103, how many the arm tells the user to tick
 - **not in the reference** (16 cases): options the arm tells the user to tick that the table does not
 - **cannot work for the case** (20 cases): recommended options Ensembl does not offer for the case's species
-  (CADD for sheep, MaxEntScan for mouse), or short-variant options (SIFT, PolyPhen, the gnomAD and 1000
-  Genomes short-variant frequencies, SpliceAI …) for a case whose variants are structural only
+  (CADD for sheep, MaxEntScan for mouse), or options the table marks not applicable to structural variants
+  (the gnomAD and 1000 Genomes short-variant frequencies, missense predictors, HGVS, protein identifiers …)
+  on a case whose variants are structural only (cases 3–6)
 - **row-deleting filters** (20 cases): recommended entries that switch on a filter that removes result rows:
   one consequence per variant or per gene, most severe, coding regions only, the frequency filter
 
-The last two do not depend on the table: they rest on Ensembl's species lists and on what VEP can compute for
-a structural variant.
+Row-deleting filters do not depend on the table. Cannot-work rests on Ensembl's species lists and, for
+structural variants, on the table's list of options that do not apply to them.
 
 **Results.**
 
 | arm | reference options recommended | not in the reference | cannot work for the case | row-deleting filters |
 |---|---|---|---|---|
-| **Ask VEPai** | **92/92** | **0** | **0** | **0** |
-| Claude Opus 5.5 (SOTA, API), with the VEP documentation | 48/92 | 16 | 8 | 2 |
-| Claude Opus 4.7 (API), with the VEP documentation | 35/92 | 33 | 20 | 9 |
-| Claude Opus 5.5 (SOTA, API) | 32/92 | 22 | 12 | 11 |
-| Claude Sonnet 5 (API), with the VEP documentation | 18/92 | 23 | 18 | 6 |
-| ChatGPT (website) | 14/92 | 18 | 14 | 3 |
-| Claude Sonnet 5 medium (claude.ai website) | 8/92 | 10 | 6 | 2 |
+| **Ask VEPai** | **92/103** | **0** | **0** | **0** |
+| Claude Opus 5.5 (SOTA, API), with the VEP documentation | 53/103 | 11 | 2 | 2 |
+| Claude Opus 4.7 (API), with the VEP documentation | 42/103 | 26 | 9 | 9 |
+| Claude Opus 5.5 (SOTA, API) | 38/103 | 16 | 5 | 11 |
+| Claude Sonnet 5 (API), with the VEP documentation | 22/103 | 19 | 14 | 6 |
+| ChatGPT (website) | 17/103 | 15 | 11 | 3 |
+| Claude Sonnet 5 medium (claude.ai website) | 9/103 | 9 | 4 | 2 |
+
+Case by case: Ask VEPai recommends every reference option on 15 of the 16 cases; no chat arm does so on any.
+Cases where the user gets nothing that cannot work and no row-deleting filter, of 20: Ask VEPai 20, Opus 5.5
+with the documentation 16, ChatGPT 15, Sonnet 5 on claude.ai 15, Sonnet 5 with the documentation 12, Opus 5.5
+11, Opus 4.7 with the documentation 8.
 
 Files: `results/chat_models_20_cases_answers_{ask_vepai,opus55_pdf,opus55,opus47_pdf,sonnet5_pdf,chatgpt,claude_chat}.json`;
 every case's missed, extra, cannot-work and row-deleting options in `results/chat_models_20_cases_scores.json`.
 API cost for the 20 cases: Opus 5.5 $0.50 (16 s a case), with the PDF $1.17 (23 s); Opus 4.7 with the PDF
 $1.29 (13 s); Sonnet 5 with the PDF $0.54 (11 s).
 
-**What Ask VEPai's 92/92 means.** Ask VEPai is the table applied to the model's reading of the case, so its
-score measures that reading. The model read 78 of the 80 factor values right on the 16 cases; the two misses
-(cases 5 and 7) leave out basic-consequence beside a clinical goal, which changes no option. On the four
-queries with unstated facts it stated each assumption, except the goal of case 15 ("Show me variants affecting
-BRCA1, BRCA2"), which it filled in as basic-consequence without asking: the same miss as in experiments 1, 4
-and 5.
+**What Ask VEPai's 92/103 means.** Ask VEPai is the table applied to the model's reading of the case, so
+its score measures that reading. The model read 77 of the 80 factor values right on the 16 cases. One miss
+costs options: case 2 (review row 25) also covers short variants, and the model reads structural variants
+only, so the 11 short-variant options are missing; experiment 2 reports the same miss. The other two (cases 5
+and 7) leave out basic-consequence beside a clinical goal, which changes no option. On the four queries with
+unstated facts it stated each assumption, except the goal of case 15 ("Show me variants affecting BRCA1,
+BRCA2"), which it filled in as basic-consequence without asking: the same miss as in experiments 1, 4 and 5.
 
 **Where the chat models differ.**
 
-- **They put tools on the wrong cases.** Every chat arm recommends short-variant tools for structural
-  variants: on case 2, Opus 5.5 with the documentation recommends AlphaMissense, REVEL, SpliceAI, HGVS and the
-  gnomAD short-variant frequencies for structural changes.
+- **They put short-variant tools on structural variants.** Every chat arm does on at least one of cases 3–6:
+  on case 5, a structural-variant question, Opus 4.7 with the documentation recommends AlphaMissense, REVEL,
+  dbNSFP, HGVS and the gnomAD short-variant frequencies. Opus 5.5 with the documentation does it once.
 - **They miss options the table ties to the kind of question.** Opus 5.5 with the documentation misses
-  UTRAnnotator on 8 regulatory cases, Phenotypes on 6 clinical ones, gnomAD SV on 5 structural ones.
+  UTRAnnotator on 9 cases, Phenotypes and Protein matches on 6 each, gnomAD SV on 5.
 - **Filters that delete rows.** The chat arms recommend "one consequence per variant/gene" and "coding
   regions only"; Opus 5.5 does so 11 times without the documentation, 2 times with it.
-- **The newer model does better with the same documentation.** Opus 4.7 with the PDF recommends 35 of the
-  92, against 48 for Opus 5.5, and twice as many options outside the table (33 against 16), 20 that cannot
-  work for the case (against 8) and 9 row-deleting filters (against 2). With thinking left to the model,
+- **The newer model does better with the same documentation.** Opus 4.7 with the PDF recommends 42 of the
+  103, against 53 for Opus 5.5, and more than twice as many options outside the table (26 against 11), 9 that
+  cannot work for the case (against 2) and 9 row-deleting filters (against 2). With thinking left to the model,
   Opus 4.7 used none on any case; Opus 5.5 with the PDF used 300–1,070 thinking tokens a case (685 on average).
-- **The documentation helps the larger model most.** With the PDF, Opus 5.5 goes from 32 to 48 of 92 and
-  from 11 to 2 row-deleting filters; Sonnet 5 with it reaches 18, against 8 for Sonnet 5 on the claude.ai
+- **The documentation helps the larger model most.** With the PDF, Opus 5.5 goes from 38 to 53 of 103
+  and from 11 to 2 row-deleting filters; Sonnet 5 with it reaches 22, against 9 for Sonnet 5 on the claude.ai
   website.
 - **Species (cases 19, 20).** Only Ask VEPai offers CADD for pig; both Opus arms say CADD is human-only,
   which Ensembl's plugin configuration contradicts. For sheep every arm says the form has no breed
@@ -438,8 +446,7 @@ and 5.
 
 **Limits.** The reference is our own priority table, so Ask VEPai is marked against the rules it follows:
 its score shows the model reads the cases right, not that the rules are right. How right the table is rests
-on its review: of its 70 rows, 22 follow a mentor's written decision and the other 48 are our decisions. The two columns that do not use the table (cannot work, row-deleting) are the check that holds
-either way. The facts of cases 19 and 20 were set by us. One answer per case per arm; the two websites run
+on its review: of its 70 rows, 22 follow a mentor's written decision and the other 48 are our decisions. The row-deleting column and the species part of cannot-work do not use the table, and hold either way. The facts of cases 19 and 20 were set by us. One answer per case per arm; the two websites run
 with their own hidden instructions and settings, and ChatGPT searched the web; the API arms have neither.
 The mapping from free text to options is by pattern; the scores file lists every decision it made. The
 scores file also scores cases 1–12 against their configuration as reviewed in round 1

@@ -241,19 +241,19 @@ even the current state of the art, Claude Opus 5.5 with the documentation, recom
 priority table recommends, and every model still recommends options that cannot work for the case or filters
 that silently delete results. Ask VEPai, running a local open model, recommends none.
 
-| arm | table options recommended (of 92, 16 cases) | options that cannot work for the case (20 cases) | row-deleting filters (20 cases) |
+| arm | table options recommended (of 103, 16 cases) | options that cannot work for the case (20 cases) | row-deleting filters (20 cases) |
 |---|---|---|---|
 | **Ask VEPai** (gemma4:26b, local) | **92** | **0** | **0** |
-| Claude Opus 5.5 (state of the art), with the VEP documentation | 48 | 8 | 2 |
-| Claude Opus 4.7, with the VEP documentation | 35 | 20 | 9 |
-| Claude Opus 5.5 | 32 | 12 | 11 |
-| Claude Sonnet 5, with the VEP documentation | 18 | 18 | 6 |
-| ChatGPT (website, Thinking on) | 14 | 14 | 3 |
-| Claude Sonnet 5 (claude.ai website) | 8 | 6 | 2 |
+| Claude Opus 5.5 (state of the art), with the VEP documentation | 53 | 2 | 2 |
+| Claude Opus 4.7, with the VEP documentation | 42 | 9 | 9 |
+| Claude Opus 5.5 | 38 | 5 | 11 |
+| Claude Sonnet 5, with the VEP documentation | 22 | 14 | 6 |
+| ChatGPT (website, Thinking on) | 17 | 11 | 3 |
+| Claude Sonnet 5 (claude.ai website) | 9 | 4 | 2 |
 
 The first column scores against our own priority table, so it shows the chat models do not follow our
-rules; the other two rest on Ensembl's species lists and on what VEP can compute for a structural variant,
-and hold whatever the table says.
+rules. Ask VEPai misses 11 options on one case, where the model reads structural variants only and the
+scenario also covers short ones. Row-deleting filters hold whatever the table says.
 
 The 754 organism names are Ensembl's own (its REST species list), and each decoy is another name from the
 same list; [experiment 3](evidence/current_evidence/README.md#3--754-organism-names) says where each part

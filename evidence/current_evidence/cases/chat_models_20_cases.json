@@ -6,250 +6,108 @@
    "source": "reviewed scenario, row 3",
    "why": "human germline SMALL variants, clinical + frequency: the only reviewed human small-variant case",
    "query": "I am working on a project involving human germline small variants, specifically SNVs and indels, identified from our whole-genome sequencing cohort. My primary goal is to perform clinical interpretation to identify potentially pathogenic variants, so I need to assess the impact on protein-coding sequences as well as any functional changes in regulatory or non-coding regions. Additionally, it is crucial for my analysis that I can incorporate population allele frequency context to help distinguish rare, potentially deleterious variants from common polymorphisms. How should I approach the setup to ensure I am capturing all these biological impacts and the necessary frequency data?",
-   "facts": {
-    "species": "human",
-    "origin": "germline",
-    "variant_size_class": [
-     "small"
-    ],
-    "region_focus": [
-     "coding",
-     "regulatory-noncoding"
-    ],
-    "analysis_goal": [
-     "clinical-interpretation",
-     "population-frequency"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 3
   },
   {
    "case": 2,
    "source": "reviewed scenario, row 25",
    "why": "human germline SV, coding + regulatory, clinical + frequency (approved as shown)",
    "query": "I am analyzing human germline WGS data from a patient to assess the clinical pathogenicity of both coding and regulatory variants, including any identified structural changes, against population allele frequencies.",
-   "facts": {
-    "species": "human",
-    "origin": "germline",
-    "variant_size_class": [
-     "structural-CNV"
-    ],
-    "region_focus": [
-     "coding",
-     "regulatory-noncoding"
-    ],
-    "analysis_goal": [
-     "clinical-interpretation",
-     "population-frequency"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 25
   },
   {
    "case": 3,
    "source": "reviewed scenario, row 31",
    "why": "human germline SV, basic consequence only (approved as shown): does the model hold back?",
    "query": "I am analyzing human germline structural variants and CNVs from a WGS cohort and want to quickly identify the primary functional consequences across both protein-coding and regulatory regions.",
-   "facts": {
-    "species": "human",
-    "origin": "germline",
-    "variant_size_class": [
-     "structural-CNV"
-    ],
-    "region_focus": [
-     "coding",
-     "regulatory-noncoding"
-    ],
-    "analysis_goal": [
-     "basic-consequence"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 31
   },
   {
    "case": 4,
    "source": "reviewed scenario, row 17",
    "why": "human germline SV, regulatory only, population frequency (approved as shown)",
    "query": "I am processing human germline sequencing data from a large-scale population cohort and have identified several large structural changes, such as deletions and duplications of DNA segments. I want to focus my analysis on these changes when they occur in regulatory regions that control gene activity, rather than just looking at the protein-coding parts of the genome. For these types of variations, I need to ensure my annotation process includes information on how common these changes are within the general population so I can identify which ones are truly rare.",
-   "facts": {
-    "species": "human",
-    "origin": "germline",
-    "variant_size_class": [
-     "structural-CNV"
-    ],
-    "region_focus": [
-     "regulatory-noncoding"
-    ],
-    "analysis_goal": [
-     "population-frequency"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 17
   },
   {
    "case": 5,
    "source": "reviewed scenario, row 29",
    "why": "human somatic SV, coding, all three goals (approved as shown)",
    "query": "I have human somatic tumor WES/WGS data containing structural variants and CNVs. I want to identify protein-coding consequences, clinical pathogenicity, and population allele frequency context.",
-   "facts": {
-    "species": "human",
-    "origin": "somatic",
-    "variant_size_class": [
-     "structural-CNV"
-    ],
-    "region_focus": [
-     "coding"
-    ],
-    "analysis_goal": [
-     "basic-consequence",
-     "clinical-interpretation",
-     "population-frequency"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 29
   },
   {
    "case": 6,
    "source": "reviewed scenario, row 27",
    "why": "human somatic SV, regulatory only, clinical + frequency (approved as shown): missense predictors do not apply",
    "query": "I am looking at some human tumor sequencing results and I have noticed several large sections of DNA that seem to be either extra or missing. I am especially interested in the areas that don't actually make proteins but instead act as control switches for genes, as I want to see if these big changes might be affecting how those genes work and contributing to the cancer. It is also really important for me to know how common these same types of variations are in healthy people so I can tell the difference between normal variation and something potentially dangerous. How should I configure my run to get all that info about the regulatory impact and the population background?",
-   "facts": {
-    "species": "human",
-    "origin": "somatic",
-    "variant_size_class": [
-     "structural-CNV"
-    ],
-    "region_focus": [
-     "regulatory-noncoding"
-    ],
-    "analysis_goal": [
-     "clinical-interpretation",
-     "population-frequency"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 27
   },
   {
    "case": 7,
    "source": "reviewed scenario, row 21",
    "why": "mouse germline small, coding, basic + clinical (approved as shown)",
    "query": "I have germline Mus musculus WES data; I need to identify protein-altering SNVs and indels in coding regions and assess their predicted functional pathogenicity.",
-   "facts": {
-    "species": "non-human",
-    "origin": "germline",
-    "variant_size_class": [
-     "small"
-    ],
-    "region_focus": [
-     "coding"
-    ],
-    "analysis_goal": [
-     "basic-consequence",
-     "clinical-interpretation"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 21
   },
   {
    "case": 8,
    "source": "reviewed scenario, row 20",
    "why": "zebrafish somatic small, coding, clinical (approved as shown)",
    "query": "I am working with whole exome sequencing data from a cohort of zebrafish tumor models where I have identified several somatic SNVs and small indels by comparing the tumor DNA to matched germline samples. My primary goal is to identify which of these mutations in the protein-coding regions are likely to be pathogenic, so I need a way to assess their potential impact on the amino acid sequence and overall protein function to help prioritize candidate driver mutations for further study.",
-   "facts": {
-    "species": "non-human",
-    "origin": "somatic",
-    "variant_size_class": [
-     "small"
-    ],
-    "region_focus": [
-     "coding"
-    ],
-    "analysis_goal": [
-     "clinical-interpretation"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 20
   },
   {
    "case": 9,
    "source": "reviewed scenario, row 24",
    "why": "non-human germline small, regulatory, basic (approved as shown)",
    "query": "I am working on a new project involving whole genome sequencing data from a large cohort of wild-type *Mus musculus* and I am trying to figure out how to properly set up my annotation pipeline. We have identified many germline SNVs and small indels, but since my research focuses specifically on the impact of variants in non-coding and regulatory regions like enhancers, I am struggling with the configuration. My goal is just to get a quick top-line assessment of whether these small variants fall within functional non-coding elements or have predicted effects in those areas.",
-   "facts": {
-    "species": "non-human",
-    "origin": "germline",
-    "variant_size_class": [
-     "small"
-    ],
-    "region_focus": [
-     "regulatory-noncoding"
-    ],
-    "analysis_goal": [
-     "basic-consequence"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 24
   },
   {
    "case": 10,
    "source": "reviewed scenario, row 26",
    "why": "zebrafish somatic small, regulatory, clinical (corrected in review)",
    "query": "I am analyzing somatic SNVs and indels from a zebrafish tumor sample. I want to assess the potential pathogenicity of these non-coding variants by evaluating their impact on regulatory elements or transcription factor binding sites.",
-   "facts": {
-    "species": "non-human",
-    "origin": "somatic",
-    "variant_size_class": [
-     "small"
-    ],
-    "region_focus": [
-     "regulatory-noncoding"
-    ],
-    "analysis_goal": [
-     "clinical-interpretation"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 26
   },
   {
    "case": 11,
    "source": "reviewed scenario, row 6",
    "why": "mouse germline small, regulatory, clinical (corrected in review)",
    "query": "I am analyzing WGS data from a mouse cohort to identify germline SNVs and indels within regulatory and non-coding regions for pathogenicity assessment.",
-   "facts": {
-    "species": "non-human",
-    "origin": "germline",
-    "variant_size_class": [
-     "small"
-    ],
-    "region_focus": [
-     "regulatory-noncoding"
-    ],
-    "analysis_goal": [
-     "clinical-interpretation"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 6
   },
   {
    "case": 12,
    "source": "reviewed scenario, row 9",
    "why": "mouse somatic small, coding + regulatory, basic (corrected in review)",
    "query": "I am currently processing a set of somatic mutations identified from mouse tumor sequencing to identify potential driver candidates in this model. We have a collection of SNVs and small indels derived from both WES and some supplemental WGS data, and I need to perform an initial, high-level annotation pass. The goal is to quickly categorize these variants based on their functional impact, specifically distinguishing between those falling within protein-coding sequences and those residing in regulatory or non-coding regions, so I can prioritize which mutations are worth more rigorous downstream analysis.",
-   "facts": {
-    "species": "non-human",
-    "origin": "somatic",
-    "variant_size_class": [
-     "small"
-    ],
-    "region_focus": [
-     "coding",
-     "regulatory-noncoding"
-    ],
-    "analysis_goal": [
-     "basic-consequence"
-    ]
-   },
-   "facts_from": "the review scenario's labels"
+   "facts": null,
+   "facts_from": "the review scenario's current labels, read from cases/iced.json by the script",
+   "review_row": 9
   },
   {
    "case": 13,

@@ -241,6 +241,17 @@ def score(detail=False):
     pbf = json.loads((ENGINE / "priority_by_factor.json").read_text())["priorities"]
     short_only = {o for o, r in pbf.items() if r.get("variant_size_class", {}).get("structural-CNV") == "not_applicable"}
     cases = {c["case"]: c for c in load_cases()}
+    # the review scenarios' facts are their current labels in cases/iced.json, so a label correction there
+    # reaches this experiment too
+    iced = json.loads((CASES / "iced.json").read_text())
+    as_list = lambda v: v if isinstance(v, list) else [v]
+    for c in cases.values():
+        if c.get("review_row"):
+            lab = iced[c["review_row"] - 1]["factor_labels"]
+            assert iced[c["review_row"] - 1]["user_query"].strip() == c["query"].strip(), c["case"]
+            c["facts"] = {"species": lab["species"], "origin": lab["origin"],
+                          "variant_size_class": as_list(lab["variant_size_class"]),
+                          "region_focus": as_list(lab["region_focus"]), "analysis_goal": as_list(lab["analysis_goal"])}
     organism = {n: ("homo_sapiens" if not c["facts"] or c["facts"]["species"] == "human"
                     else va.resolve_species_name(c["query"])) for n, c in cases.items()}
     ref = {n: reference_configuration(va, cat, c["facts"], c["query"], organism[n]) - defaults
