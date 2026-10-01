@@ -56,19 +56,37 @@ generated wording: one case is hand-written (a pig-kidney transplant), 14 have o
 sentence rewritten, and on seven versions a second reading is also scored right: "not just the consequence
 types" also counts basic, and a frequency question that names a disease also counts clinical.
 
-**Why this design.** The tricks are the ways a cue word points the wrong way. A keyword scan reads the
-first cue it finds: it took "going down this rabbit hole" as rabbit, "used as a guinea pig" as pig and "not
-a mouse study" as mouse, and the same happens with "tumour", "deletion" or "clinical" in the other factors
-(the 24 hand-written traps in [`../legacy_superseded/keyword_traps/`](../legacy_superseded/keyword_traps/)).
-The four versions follow two published test designs:
+**Why this design.** The tricks are the ways a cue word points the wrong way. They were chosen from the
+failures of a keyword scan, which reads the first cue it finds: it took "going down this rabbit hole" as
+rabbit, "used as a guinea pig" as pig and "not a mouse study" as mouse, and the same happens with "tumour",
+"deletion" or "clinical" in the other factors (the 24 hand-written traps in
+[`../legacy_superseded/keyword_traps/`](../legacy_superseded/keyword_traps/)). Each trick is a known problem
+in reading biomedical text:
 
-- **trap** is an invariance test from CheckList (Ribeiro et al., "Beyond Accuracy: Behavioral Testing of
-  NLP Models with CheckList", ACL 2020): a change that must not move the answer.
+| trick | known problem | reference |
+|---|---|---|
+| negation ("not a mouse study") | negation detection | Chapman et al., "A simple algorithm for identifying negated findings and diseases in discharge summaries" (NegEx), J Biomed Inform 34(5):301–310, 2001 |
+| attachment ("controls recruited through a cancer registry") | whether a term describes this data or someone else (ConText's *experiencer*) | Harkema et al., "ConText: an algorithm for determining negation, experiencer, and temporal status from clinical reports", J Biomed Inform 42(5):839–851, 2009 |
+| tool name ("we keep COSMIC open for lookups") | names that are also other things: biomedical names that resemble ordinary words or other entities | Chen, Liu & Friedman, "Gene name ambiguity of eukaryotic nomenclatures", Bioinformatics 21(2):248–256, 2005 |
+| word sense ("run it with clinical precision") | word sense disambiguation | Jimeno-Yepes, McInnes & Aronson, "Exploiting MeSH indexing in MEDLINE to generate a data set for word sense disambiguation" (MSH WSD), BMC Bioinformatics 12:223, 2011 |
+| domain ("man's best friend", "grown on mouse feeder cells") | reading that needs domain knowledge | no single source; closest are CheckList's taxonomy and named-entity capabilities (below) |
+
+Most tool-name cases name a resource that suggests another factor (COSMIC for somatic, Delly for structural,
+ENCODE for regulatory); the six species cases have few real tools to draw on (Salmon, Beagle) and are the
+least realistic.
+
+The four versions follow published test designs:
+
+- **plain** is a minimum functionality test, and **trap** an invariance test, from CheckList (Ribeiro et al.,
+  "Beyond Accuracy: Behavioral Testing of NLP Models with CheckList", ACL 2020): simple examples that must
+  work, and a change that must not move the answer.
 - **twin** is a contrast set (Gardner et al., "Evaluating Models' Local Decision Boundaries via Contrast
-  Sets", Findings of EMNLP 2020): a small edit that must flip the answer. Trap and twin are scored as a
-  pair, right on both.
-- **absent** tests what the tool needs to ask or to state an assumption: that a missing fact is read as
-  "unstated" ([`../legacy_decisions/missing_facts/`](../legacy_decisions/missing_facts/)).
+  Sets", Findings of EMNLP 2020, 1307–1323): a small edit that must flip the answer. Trap and twin are scored
+  as a pair, right on both, which the paper calls contrast consistency.
+- **absent** is an unanswerable question in the sense of SQuAD 2.0 (Rajpurkar, Jia & Liang, "Know What You
+  Don't Know: Unanswerable Questions for SQuAD", ACL 2018): when the text does not say, the answer must be
+  "unstated". It is what the tool needs to ask or to state an assumption
+  ([`../legacy_decisions/missing_facts/`](../legacy_decisions/missing_facts/)).
 
 Every factor × trick cell holds 6 cases with its true values balanced (3/3, or 2/2/2 for the goal), so no
 cell is left empty and each factor has 30: a clean sweep bounds its error rate below 10% (rule of three).
