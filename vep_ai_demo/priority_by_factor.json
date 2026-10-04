@@ -562,7 +562,7 @@
     },
     "clinvar_sv": {
       "analysis_goal": {
-        "clinical-interpretation": "optional"
+        "clinical-interpretation": "recommended"
       },
       "variant_size_class": {
         "small": "not_applicable"

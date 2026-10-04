@@ -40,15 +40,17 @@ Python 3.9+. Only `openai` is required.
 |---|---|
 | `--explain` | why each option is there — our rule, and Ensembl's own words for it |
 | `--minimal` | only what you must tick; hides the add-ons |
-| `--full` | every add-on as well |
-| `--cli` | also print the equivalent VEP command line |
+| `--cli` | print the VEP command instead of the web-form lists (add-ons as a comment) |
 | `--species` `--origin` `--size` `--assembly` | state a fact instead of letting the model infer it |
+| `--region` `--goal` | state the region (`coding`, `regulatory`, `both`) and the goal (`basic`, `clinical`, `frequency`, several joined with `+`) |
+| `--organism` | name the organism, e.g. `--organism pig`; looked up in Ensembl's species list, and sets the species |
 | `--no-ask` | never prompt; state the assumed values instead |
 | `--quiet` | apply the safe defaults with no disclosure lines |
-| `--no-factor-think` | skip classifier reasoning: ~0.9 s a query instead of ~4 s, weaker on misleading wording |
+| `--reasoning-off` | the model reads the scenario without reasoning first: ~0.6 s instead of ~3 s, weaker on misleading wording |
 | `--two-pass` | also run the retired draft call (loads `legacy/two_pass.py`), for comparison work |
 
-`--think`, `--semantic` and `--no-check` were removed on 2026-09-16; passing one prints why and exits 2.
+`--think`, `--semantic` and `--no-check` were removed on 2026-09-16, and `--full`, `--factor-think` and `--ask`
+on 2026-10-04 (`--no-factor-think` is now `--reasoning-off`); passing one prints why and exits 2.
 
 ## Environment
 
@@ -72,7 +74,6 @@ vep_options.json         the 70-option catalogue, each fact sourced in its `prov
 factors.json             the factor scheme: values, hard gates, exclusions
 priority_by_factor.json  the priority table the resolver reads
 species_index.json       Ensembl's species names, to check the organism the model names
-vep_consequences.json    41 consequence terms, for `explain-result`
 ensembl_docs/            Ensembl's options and plugins pages, parsed, for `--explain`
 legacy/                  NOT USED BY THE TOOL — the stage-B benchmark and its 23
                          Claude-written examples. See legacy/README.md.

@@ -16,7 +16,6 @@ came from. These are Ensembl's files, not ours; the one exception is `vep_web_in
 | | `ensembl_source/vep_custom_web_config.json`, `release_116/vep_custom_web_config.json` | the frequency and custom-annotation files, and their species and builds |
 | | `ensembl_docs_116/grch37_form_plugins_2026-09-23.json` | which plugins the GRCh37 form offers |
 | `ensembl_docs/vep_options_parsed.json`, `vep_plugins_parsed.json` | copies of the same files in `ensembl_docs_116/` | what `--explain` quotes |
-| `vep_consequences.json` | Ensembl's "Calculated variant consequences" page, release 116 (URL in the file's `_source`) | the 41 consequence terms, their order and IMPACT |
 | `species_index.json` | Ensembl REST `/info/species`, saved as `ensembl_source/rest_info_species_2026-09-28.json` | the species, their common names and Ensembl's aliases |
 | `hgnc_symbols.json` | HGNC's approved-symbol list (source in `ensembl_source/README_sources.md`) | 45,016 human gene symbols |
 

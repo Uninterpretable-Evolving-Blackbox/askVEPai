@@ -76,7 +76,6 @@ input form annotates every variant.
 |---|---|
 | *(none)* | RECOMMENDED plus the OPTIONAL add-ons the scenario justifies |
 | `--minimal` | only the options you must tick; add-ons hidden |
-| `--full` | switch on every add-on the scenario justifies |
 
 ### Decision trace
 
@@ -84,16 +83,14 @@ input form annotates every variant.
 python3 vep_ai_demo/vep_assistant.py --explain "germline exome from a rare-disease patient"
 ```
 
-Before the configuration it prints the factor tuple and, for every option, which factor value
-raised it, what else voted, and which gate removed it. In the configuration each option carries
-a "because …" line and Ensembl's own description of it. After the configuration, *HOW THIS WAS
-CORRECTED* lists what the checker changed.
+Under each option in the configuration it prints a "because …" line (the factor value that raised
+it) and Ensembl's own description of what the option does, with its output column.
 
 ### When the question does not say
 
 | Flag | Meaning |
 |---|---|
-| *(none)* | ask when the answer would change the RECOMMENDED set; otherwise assume it and say so. Needs a terminal; in a pipe it assumes and says so |
+| *(none)* | ask when the answer would change the RECOMMENDED set (the species, when nothing says where the samples come from, and the analysis goal); otherwise assume it and say so. Needs a terminal; in a pipe it assumes and says so |
 | `--no-ask` | never ask; state every assumption |
 | `--quiet` | never ask and print no assumption lines |
 
@@ -105,28 +102,24 @@ python3 vep_ai_demo/vep_assistant.py --origin somatic --assembly GRCh37 "tumour-
 
 | Flag | Values |
 |---|---|
-| `--species` | `human` \| `non-human` (the organism itself goes in the query text) |
+| `--species` | `human` \| `non-human` |
+| `--organism` | any name in Ensembl's species list (`pig`, `Sus scrofa`, `zebra finch`); sets the species too |
 | `--origin` | `germline` \| `somatic` |
 | `--size` | `small` \| `structural-CNV` \| `both` \| `small+structural-CNV` |
+| `--region` | `coding` \| `regulatory` \| `both` |
+| `--goal` | `basic` \| `clinical` \| `frequency` \| `all`, or several joined with `+` |
 | `--assembly` | `GRCh37` \| `GRCh38` (`hg19` / `hg38` accepted; human only) |
 
-A stated fact beats the classifier and skips the question. GRCh38 is assumed for human when no
+A stated fact beats the classifier and skips the question; each line of the detected scenario says
+whether its value came from you, from your text, or was assumed. GRCh38 is assumed for human when no
 assembly is stated, or when the text names both builds ("lifted over from hg19 to GRCh38"); the
 output says so. A value outside this list is rejected with the list.
 
-### Explain a VEP output annotation
-
-```bash
-python3 vep_ai_demo/vep_assistant.py explain-result "why is my variant annotated splice_donor_variant?"
-```
-
-Uses the 41 consequence terms in `vep_consequences.json`.
-
 ### Other flags
 
-`--cli` appends the equivalent VEP command line. `--no-factor-think` makes the classifier answer
-without reasoning first: about 0.9 s a query instead of about 4 s, and weaker on misleading
-wording. `--two-pass` runs the retired draft call (see *Legacy* below).
+`--cli` prints the configuration as a VEP command instead of the web-form lists, with the add-ons
+as a comment. `--reasoning-off` makes the classifier answer without reasoning first: about 0.6 s a
+query instead of about 3 s, and weaker on misleading wording. `--two-pass` runs the retired draft call (see *Legacy* below).
 
 ## How it works
 
@@ -173,7 +166,6 @@ vep_ai_demo/             THE TOOL: reads only this folder, so it runs on its own
   priority_by_factor.json  the priority table the resolver reads
   species_index.json       Ensembl's species names, and which genomes are one species (by taxon)
   hgnc_symbols.json        HGNC approved gene symbols, for the results-filter note
-  vep_consequences.json    41 VEP consequence terms, for explain-result
   ensembl_docs/            Ensembl's options and plugins pages, parsed, for --explain
   legacy/                  NOT USED BY THE DEFAULT PATH: the retired two-pass code and its
                            23 Claude-written examples. See vep_ai_demo/legacy/README.md

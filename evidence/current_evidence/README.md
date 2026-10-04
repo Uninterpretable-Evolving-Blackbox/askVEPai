@@ -327,7 +327,7 @@ applied its rule for that fact:
 
 | missing fact | what the tool does |
 |---|---|
-| species | assumes human and says so |
+| species | asks when nothing says where the samples come from; unanswered, assumes human and says so |
 | origin | assumes somatic and says so: that keeps the common-variant filter off, which would discard real tumour variants |
 | variant size | assumes both sizes and says so |
 | region | assumes both regions and says so |

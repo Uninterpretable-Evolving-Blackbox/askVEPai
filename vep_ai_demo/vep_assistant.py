@@ -3,8 +3,7 @@
 
 An LLM classifier reads the query into five factors plus organism; a deterministic resolver prices
 options from the priority table; a checker applies species, assembly, conflict and dependency gates.
-  python vep_assistant.py ["query"] [--explain] [--minimal|--full] [--cli] [--no-ask|--quiet]
-  python vep_assistant.py explain-result "why..."   # explain a VEP output annotation
+  python vep_assistant.py ["query"] [--explain] [--minimal] [--cli] [--no-ask|--quiet] [--reasoning-off]
 Run with --help for every flag.
 """
 
@@ -49,14 +48,6 @@ def load_knowledge_base():
 
     return vep_options, training_examples
 
-
-def load_consequences():
-    """Load VEP consequence term definitions."""
-    path = BASE_DIR / "vep_consequences.json"
-    if not path.exists():
-        return {}
-    with open(path) as f:
-        return json.load(f)
 
 
 # --- The factor scheme (the generation pipeline imports this) ---
@@ -447,6 +438,12 @@ FACTOR_CLASSIFIER_PROMPT_V2 = (
     "- organism: copy the organism the DATA is from, if the message names one. It is only a name: the "
     "tool looks up what Ensembl has for it. Leave it \"unstated\" when no organism is named, or when the "
     "organism mentioned is not what was sequenced.\n"
+    # Added 2026-10-04 (David): without it the model answered "unstated" for "my patients", "a child" and
+    # "a family", so the tool asked every clinical user which organism their samples came from.
+    "- species: human when the samples come from people (patients, a child, a family) even if the word "
+    "\"human\" is never used; non-human when the data comes from another organism. Tumour, cancer, "
+    "disease or clinical words alone do not decide it: animals have them too. Use \"unstated\" only when "
+    "nothing says where the samples come from. This decides species only, not origin.\n"
     "- request_type: what the user is asking FOR. configure = they want to know which VEP options to "
     "switch on for their data. not-vep = small talk, or a topic unrelated to variant annotation. "
     "vep-support = a VEP question that is not about choosing options: an error or bug, output that "
@@ -563,7 +560,7 @@ def _factor_think_setting():
     """Return the classifier's reasoning mode from VEP_FACTOR_THINK.
 
     unset / 1 -> True (reasoning on, native endpoint; the default, David, 2026-09-20);
-    0 -> False (reasoning off, `--no-factor-think`); compat -> None (the /v1 path).
+    0 -> False (reasoning off, `--reasoning-off`); compat -> None (the /v1 path).
     """
     v = (os.environ.get("VEP_FACTOR_THINK") or "").strip().lower()
     if v == "compat":
@@ -645,12 +642,15 @@ def infer_factors(client, model, user_query, think=False, apply_defaults=True,
 # An unstated factor contributes no options, so each factor has a policy. Guess where one answer is
 # clearly safer; ask where none is. Evidence: research/underspecification_proposal.md.
 UNDERSPECIFIED_POLICY = {
-    # Human, disclosed. Withholding the human-only options from human queries that never say "human"
-    # is the larger harm.
+    # Asked (David, 2026-10-01): the answer moves the RECOMMENDED set on 114 of 126 factor combinations.
+    # Not answered (no terminal, --no-ask, enter) falls back to human, disclosed: withholding the
+    # human-only options from human queries that never say "human" is the larger harm.
     "species": {
-        "assume": "human",
-        "why": "you didn't name an organism, so human is assumed and the human-only options stay "
-               "available. Say the species if it isn't human",
+        "assume": None,
+        "fallback": "human",
+        "why": "you didn't name an organism, and the human-only options depend on it",
+        "fallback_why": "you didn't name an organism, so human is assumed and the human-only options "
+                        "stay available. Say the species if it isn't human",
     },
     "region_focus": {
         "assume": ["coding", "regulatory-noncoding"],
@@ -688,7 +688,8 @@ UNDERSPECIFIED_POLICY = {
 # overrides the classifier; a blank one goes through the classifier and UNDERSPECIFIED_POLICY.
 # Assembly is not a factor but belongs here: a query rarely names a build, and VEP's form shows the
 # GRCh38-only MANE checkbox to every human user (InputForm.pm:694-702).
-USER_CONTEXT_FIELDS = ("species", "origin", "variant_size_class", "assembly")
+# Region and goal joined on 2026-10-04 (David), so a user who knows all five facts can state them.
+USER_CONTEXT_FIELDS = ("species", "origin", "variant_size_class", "region_focus", "analysis_goal", "assembly")
 
 
 def apply_user_context(rec, context):
@@ -713,6 +714,10 @@ def apply_user_context(rec, context):
             continue                                    # ignore a value the scheme does not define
         rec[f] = sorted(vals) if f in MULTI_FACTORS else vals[0]
         overridden.append(f)
+    # A stated organism replaces the one the model named; --organism also set the species.
+    if context.get("organism"):
+        rec["_organism"] = None if context["organism"] == "homo_sapiens" else context["organism"]
+        overridden.append("organism")
     # GRCh37/GRCh38 are human assemblies, so a stated build is ignored on a non-human query.
     asm = context.get("assembly")
     asm = asm if (asm in ("GRCh37", "GRCh38") and rec.get("species") != "non-human") else None
@@ -836,6 +841,9 @@ def clarification_plan(rec, vep_options, user_query=None, assembly=None):
             rec[f] = list(policy["assume"]) if f in MULTI_FACTORS else policy["assume"]
             assumptions.append((f, rec[f], policy["why"]))
         else:
+            if "fallback" in policy:
+                # Filled now so the other questions are scored on a complete tuple; still asked.
+                rec[f] = policy["fallback"]
             questions.append((f, policy.get("why", ""), None))
     # Keep a question only if a must-have is at stake on the tuple after assumptions.
     scored = []
@@ -847,7 +855,13 @@ def clarification_plan(rec, vep_options, user_query=None, assembly=None):
     # what the tool is for. Assumptions still apply so a configuration can be produced.
     if off_topic:
         scored = []
-    else:
+    # A question with a fallback that is not asked becomes a disclosed assumption.
+    asked = {f for f, _w, _s in scored}
+    for f, _why, _ in questions:
+        policy = UNDERSPECIFIED_POLICY.get(f, {})
+        if "fallback" in policy and f not in asked:
+            assumptions.insert(0, (f, rec[f], policy.get("fallback_why", _why)))
+    if not off_topic:
         # Assembly is assumed GRCh38 and disclosed (David, 2026-09-15): the form serves GRCh38, and a
         # wrong GRCh38 guess costs one add-on against four recommendations for GRCh37.
         # assembly_question decides relevance; ask_rate.py patches it.
@@ -952,6 +966,44 @@ def _ask_factor(factor):
     return None
 
 
+def _ask_species():
+    """Ask which organism the samples are from. Returns (species, organism) or None to leave it open.
+
+    An organism name is looked up in Ensembl's species index, so "pig" gives pig's own options.
+    Without a tty it returns None at once, like _ask_factor."""
+    if not sys.stdin.isatty():
+        return None
+
+    def read(prompt):
+        try:
+            return input(prompt).strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            return ""
+
+    print("\n  Which organism are the samples from?")
+    print("    1) human")
+    print("    2) another species")
+    print("    (or type its name, e.g. pig; enter to skip and assume human)")
+    raw = read("  > ")
+    if not raw:
+        return None
+    low = raw.lower()
+    if low in ("1", "h", "human", "homo sapiens"):
+        return "human", None
+    if low in ("2", "another species", "another", "other", "non-human", "animal"):
+        raw = read("  Which species? (its name, or enter if Ensembl may not have it) > ")
+        if not raw:
+            return "non-human", None
+    organism = resolve_model_organism(raw)
+    if organism == "homo_sapiens":
+        return "human", None
+    if organism:
+        return "non-human", organism
+    print(f"    '{raw}' is not in Ensembl's species list")
+    return "non-human", None
+
+
 # --- Assembly: not a factor, resolved the same way ---
 # It describes the input data, so it stays out of factors.json. MANE, EVE, gnomAD-SV and MaveDB exist
 # only for GRCh38; geno2mp only for GRCh37. The checker removes what the build cannot support.
@@ -992,20 +1044,43 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
     # A build named in the text goes into the return value for the checker.
     assembly = assembly or infer_assembly(user_query)
 
+    answered = set()
     if mode == "ask":
         for factor, _why, _delta in questions:
-            answer = _ask_factor(factor)
-            if answer is None:
-                continue
+            if factor == "species":
+                reply = _ask_species()
+                if reply is None:
+                    continue
+                answer, organism = reply
+                filled["_organism"] = organism
+            else:
+                answer = _ask_factor(factor)
+                if answer is None:
+                    continue
             filled[factor] = answer
+            answered.add(factor)
             # Echo the answer so a mistyped choice can be caught.
-            print(f"    → using {', '.join(answer) if isinstance(answer, list) else answer}")
+            shown = ', '.join(answer) if isinstance(answer, list) else answer
+            if factor == "species" and filled.get("_organism"):
+                shown += f" ({filled['_organism']})"
+            print(f"    → using {shown}")
 
     def still_open(q):
         if q[0] == "assembly":
             return assembly is None
         v = filled.get(q[0])
         return (not v) or v in (None, "unstated")
+
+    # The build was assumed for a human scenario; an animal named in reply has no GRCh37/GRCh38.
+    if filled.get("species") == "non-human":
+        assumptions = [a for a in assumptions if a[0] != "assembly"]
+
+    # An unanswered question with a fallback (species) takes the fallback and says so.
+    for q in list(questions):
+        policy = UNDERSPECIFIED_POLICY.get(q[0], {})
+        if "fallback" in policy and q[0] not in answered:
+            assumptions.insert(0, (q[0], filled[q[0]], policy.get("fallback_why", q[1])))
+            questions.remove(q)
 
     questions = [q for q in questions if still_open(q)]
 
@@ -1031,10 +1106,10 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
             # Print the value only; the reason stays in `assumptions` for --explain and the JSON
             # (David, 2026-09-15). A text naming both builds says so, since the user did name one.
             if factor == "assembly" and len(assemblies_named(user_query)) > 1:
-                print(f"  Assumed {factor} = {shown} (your text names both GRCh37 and GRCh38; "
-                      f"use --assembly GRCh37 if the data is on GRCh37)")
+                print(_paint(f"  Assumed {factor} = {shown} (your text names both GRCh37 and GRCh38; "
+                      f"use --assembly GRCh37 if the data is on GRCh37)"))
                 continue
-            print(f"  Assumed {factor} = {shown}")
+            print(_paint(f"  Assumed {factor} = {shown}"))
         for factor, why, at_stake in questions:
             names = ", ".join(at_stake) if at_stake else "part of the configuration"
             how = "run in a terminal to be prompted" if mode == "ask" else "--ask to be prompted"
@@ -1043,18 +1118,28 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
     # Factors filled in rather than read. The `_` prefix makes active_values and the decision trace
     # skip it, like _request_type.
     filled["_assumed"] = sorted(f for f, _v, _w in assumptions)
+    filled["_answered"] = sorted(answered)
     return filled, assembly
 
 
-def describe_factors(factor_tuple):
-    """Render a factor tuple one factor per line, for the prompt and the user-facing trace."""
+def describe_factors(factor_tuple, stated=None):
+    """Render a factor tuple one factor per line, for the prompt and the user-facing trace.
+
+    With `stated` (the facts the user gave as flags), each line says where its value came from, as
+    the assembly line always did (David, 2026-10-04)."""
     if not factor_tuple:
         return ""
     out = []
     for f in FACTOR_VALUES:
         v = factor_tuple.get(f)
         shown = ", ".join(v) if isinstance(v, list) else v
-        out.append(f"- {f}: {shown or 'unstated'}")
+        src = ""
+        if stated is not None:
+            src = (" (you said)" if f in stated else
+                   " (you answered)" if f in factor_tuple.get("_answered", []) else
+                   " (assumed)" if f in factor_tuple.get("_assumed", []) else
+                   " (from your text)")
+        out.append(f"- {f}: {shown or 'unstated'}{src}")
     return "\n".join(out)
 
 
@@ -1896,22 +1981,24 @@ def ensembl_says(oid, vep_options):
         return None
     flag = (opt.get("cli_flag") or "").replace("--plugin", "").strip().lstrip("-").lower()
     rec = _ENSEMBL_PAGE.get(flag) or _ENSEMBL_PAGE.get(oid.lower())
+    # What the option does comes first; the output columns alone ("adds CANONICAL") told the user
+    # nothing (David, 2026-10-04). The catalogue's descriptions are Ensembl's own words since
+    # 2026-09-15, each sourced in `provenance.description` ("plugin_config.txt:1898 (helptip),
+    # verbatim"); only a description the record marks "ours" is labelled ours.
     fields = (rec or {}).get("output_fields") or ""
+    cols = f" Output: {fields}." if fields else ""
+    text = _first_sentence(opt.get("description") or "", 240)
+    src = ((opt.get("provenance") or {}).get("description") or "").strip()
+    if text and src and not src.lower().startswith("ours") and "verbatim" in src:
+        return f"Ensembl ({src.split(',')[0].split(' (')[0]}): {text}{cols}"
+    page_text = _first_sentence((rec or {}).get("description") or (rec or {}).get("blurb") or "", 240)
+    if page_text:
+        return f"Ensembl: {page_text}{cols}"
     if fields:
         return f"Ensembl: adds {fields}"
-    page_text = _first_sentence((rec or {}).get("description") or (rec or {}).get("blurb") or "", 150)
-    if page_text:
-        return f"Ensembl: {page_text}"
-    # The catalogue's descriptions are Ensembl's own words since 2026-09-15, each sourced in
-    # `provenance.description` ("plugin_config.txt:1898 (helptip), verbatim"). Say whose words they are
-    # from that record; only a description the record marks "ours" is labelled ours.
-    text = _first_sentence(opt.get("description") or "", 150)
-    if not text:
-        return None
-    src = ((opt.get("provenance") or {}).get("description") or "").strip()
-    if src and not src.lower().startswith("ours") and "verbatim" in src:
-        return f"Ensembl ({src.split(',')[0].split(' (')[0]}): {text}"
-    return f"ours (no Ensembl text): {text}"
+    if text:
+        return f"ours (no Ensembl text): {text}"
+    return None
 
 
 def why_recommended(oid, trace):
@@ -2077,6 +2164,37 @@ _WEB_SECTION_LABELS = {
 _SPLIT_SECTIONS = frozenset({"additional_annotations", "predictions"})
 
 
+# --- Colour on a terminal ---
+# Headings and assumptions in colour so the lists are easy to tell apart (David, 2026-10-04). Only
+# when stdout is a terminal and NO_COLOR is unset (no-color.org): piped output, saved results and the
+# tests stay plain text.
+_ANSI = {"green": "1;32", "blue": "1;34", "grey": "1;90", "amber": "33", "cyan": "1;36", "dim": "2",
+         "bold": "1"}
+
+
+def _colour_on():
+    return sys.stdout.isatty() and not os.environ.get("NO_COLOR")
+
+
+def _paint(text):
+    """Colour the configuration's headings, assumptions and --explain notes, line by line."""
+    if not _colour_on():
+        return text
+    out = []
+    for line in text.split("\n"):
+        s = line.strip()
+        style = ("green" if s.startswith("RECOMMENDED") else
+                 "blue" if s.startswith("OPTIONAL") else
+                 "grey" if s.startswith("ALREADY ON") else
+                 "bold" if s.startswith(("YOUR VEP", "TWO VEP RUNS", "PASS ", "NOT AVAILABLE")) else
+                 "amber" if s.startswith("Assumed ") else
+                 "cyan" if s.startswith("Detected scenario") else
+                 "dim" if s.startswith(("because ", "Ensembl", "ours (", "# ", "* ", "supported in")) else
+                 None)
+        out.append(f"\033[{_ANSI[style]}m{line}\033[0m" if style else line)
+    return "\n".join(out)
+
+
 def form_location(opt):
     """Where an option sits on the web form, in the form's own words.
 
@@ -2106,7 +2224,7 @@ TYPE_GROUPED_BOXES = ("Pathogenicity predictions", "Splicing predictions")
 
 def format_corrected_config(enabled, vep_options, violations, resolved=None,
                             reason_by_id=None, restored=(), size_value=None, assembly=None,
-                            meta_notes=False, show_cli=True, species=None, show_optional=True):
+                            meta_notes=False, show_cli=False, species=None, show_optional=True):
     """Render the final configuration the user applies: web-form lists, then the CLI command if asked.
 
     `enabled` is the set already repaired by check_and_fix_violations. With `resolved`, options are
@@ -2116,6 +2234,7 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
     name_by_id = {o["id"]: o.get("name", o["id"]) for o in vep_options}
     on = sorted(enabled)
     already_on = set()                 # set below when the answer is grouped by priority
+    addons_offered = []                # likewise; --cli lists them as a comment
     lines = ["", "=" * 60,
              "  YOUR VEP CONFIGURATION"]
     # No count of what the checker changed: "the checker resolved 21 things: 20 added back" told the user
@@ -2202,6 +2321,10 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
                     lines.append(f"      supported in Ensembl VEP{for_clause}: {listing}")
                     lines.append("      * recommended here — any subset works; leaving the choice "
                                  "alone keeps all of them")
+                    for oid in on_members:
+                        if (reason_by_id or {}).get(oid):
+                            lines.append(f"      {name_by_id.get(oid, oid)}:")
+                            lines.append("        " + reason_by_id[oid].replace("\n      ", "\n        "))
                 for oid in on_members:
                     _choice, _ = size_dependent_choice(oid, size_value, vep_options, assembly,
                                                        organism=species)
@@ -2210,20 +2333,31 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
         else:
             lines.append("RECOMMENDED: (none)")
         offered = sorted(set(tiers["addons_offered"]) - grouped_offered)
+        addons_offered = [oid for oid in tiers["addons_offered"]
+                          if not _form_default_on(oid, vep_options, species)]
         already_on |= {oid for oid in offered if _form_default_on(oid, vep_options, species)}
         offered = [oid for oid in offered if oid not in already_on]
         if offered and show_optional:
             lines.append("")
             lines.append(f"OPTIONAL  [{len(offered)}]")
-            lines.extend((f"  {name_by_id.get(oid, oid)}"
-                          + (f"   ({sect_by_id[oid]})" if sect_by_id.get(oid) else "")
-                          + (f"   (deprecated — {dep_by_id[oid].split(';')[0]})"
-                             if dep_by_id.get(oid) else ""))
-                         for oid in offered)
+            for oid in offered:
+                lines.append(f"  {name_by_id.get(oid, oid)}"
+                             + (f"   ({sect_by_id[oid]})" if sect_by_id.get(oid) else "")
+                             + (f"   (deprecated — {dep_by_id[oid].split(';')[0]})"
+                                if dep_by_id.get(oid) else ""))
+                if meta_notes and (reason_by_id or {}).get(oid):
+                    lines.append(f"      {reason_by_id[oid]}")
         if already_on:
             lines.append("")
             lines.append(f"ALREADY ON when the form loads — leave ticked  [{len(already_on)}]")
-            lines.append("  " + ", ".join(name_by_id.get(oid, oid) for oid in sorted(already_on)))
+            if meta_notes:
+                # One per line under --explain, so each option is shown once with its reason.
+                for oid in sorted(already_on, key=lambda o: name_by_id.get(o, o).lower()):
+                    lines.append(f"  {name_by_id.get(oid, oid)}")
+                    if (reason_by_id or {}).get(oid):
+                        lines.append(f"      {reason_by_id[oid]}")
+            else:
+                lines.append("  " + ", ".join(name_by_id.get(oid, oid) for oid in sorted(already_on)))
         if meta_notes:
             # --explain only (mentor, 2026-09-07).
             lines.append("")
@@ -2243,10 +2377,18 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
         # Web form only by default (mentor, 2026-09-07); --cli adds the command.
         lines.append("=" * 60)
         return "\n".join(lines)
-    lines.append("")
-    lines.append("CLI EQUIVALENT — the same configuration as one command (fill in values/paths):")
+    if meta_notes:
+        lines.append("")
+        lines.append("CLI EQUIVALENT — the same configuration as one command (fill in values/paths):")
+    else:
+        # --cli alone prints only the command: the web-form lists are for form users (David, 2026-10-04).
+        lines = ["", "=" * 60, "  YOUR VEP COMMAND (fill in values/paths)", "=" * 60]
     lines.append(f"  vep --input_file <in.vcf> --output_file <out.txt> --cache "
                  f"{' '.join(flag_list)}".rstrip())
+    extra_flags, _ = cli_flags_for(set(addons_offered), vep_options)
+    extra_flags = [f for f in extra_flags if f not in flag_list]
+    if extra_flags:
+        lines.append(f"  # optional add-ons: {' '.join(extra_flags)}")
     for oid, alts in choices:
         if oid == "core_type":
             # The form's default is Ensembl transcripts, which is also VEP's default: no flag.
@@ -2273,34 +2415,12 @@ def _first_sentence(text: str, limit: int = 240) -> str:
     text = (text or "").strip()
     if not text:
         return ""
-    head = text.split(". ")[0].strip()
-    return (head if head.endswith(".") else head + ".")[:limit]
+    # "i.e." and "e.g." do not end a sentence.
+    head = re.split(r"(?<!\bi\.e)(?<!\be\.g)\. ", text)[0].strip()
+    head = head if head.endswith(".") else head + "."
+    # Cut at a word, and say so, rather than mid-word.
+    return head if len(head) <= limit else head[:limit].rsplit(" ", 1)[0] + " …"
 
-
-def build_explain_result_prompt(consequences):
-    """Build system prompt for the VEP output explainer mode."""
-    consequence_text = []
-    for term, info in consequences.items():
-        if term.startswith("_"):      # metadata keys such as `_source`
-            continue
-        impact = f" (impact: {info['impact']})" if info.get("impact") else ""
-        consequence_text.append(f"- **{term}**{impact}: {info['explanation']}")
-    consequence_block = "\n".join(consequence_text)
-
-    return f"""You are a VEP Output Explainer. You help users understand VEP annotation results.
-
-## VEP Consequence Terms Reference
-{consequence_block}
-
-## Your Role
-When a user asks about a VEP output, annotation, or consequence term:
-1. Identify which consequence term(s) are relevant.
-2. Explain what the annotation means in plain language.
-3. Explain WHY VEP assigned that consequence (the biological mechanism).
-4. Suggest what the user should check next (e.g., splicing predictors, frequency data).
-
-Cite the consequence term definitions above. Be specific and educational.
-Keep answers concise but thorough. Use the [term: X] format to cite consequence terms."""
 
 
 # --- Decision trace --------------------------------------------------------
@@ -2441,60 +2561,12 @@ def __getattr__(name):
     raise AttributeError(f"module 'vep_assistant' has no attribute {name!r}")
 
 
-def stream_response(client, model, system_prompt, user_message):
-    """Stream an LLM call; return (answer_text, reasoning_text).
-
-    Sets no temperature, so Ollama's default applies and output is nondeterministic.
-    """
-    response_text, reasoning_text = "", ""
-    answering = False
-    _tty = sys.stdout.isatty()
-    stream = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_message},
-        ],
-        max_tokens=_STREAM_MAX_TOKENS,
-        stream=True,
-        # Keep the model resident between calls, so a second query pays no reload.
-        extra_body={"keep_alive": KEEP_ALIVE},
-    )
-    for chunk in stream:
-        if not chunk.choices:                      # usage-only chunks carry no choices
-            continue
-        delta = chunk.choices[0].delta
-        thought = _delta_reasoning(delta)
-        if thought and not answering:
-            reasoning_text += thought
-            # Live counter on a terminal only: off a tty `\r` does not overwrite, so every update
-            # would pile up in the output.
-            if _tty:
-                print(f"\r  thinking… {len(reasoning_text) // 4} tokens", end="", flush=True)
-        if delta.content:
-            if reasoning_text and not answering:
-                print((f"\r  thought for ~{len(reasoning_text) // 4} tokens" + " " * 24) if _tty
-                      else f"  (thought for ~{len(reasoning_text) // 4} tokens)")
-            answering = True
-            response_text += delta.content
-            # The draft is not printed: it is pre-checker, so it can disagree with the final
-            # configuration. A counter shows the call is alive.
-            if _tty:
-                print(f"\r  drafting… {len(response_text) // 4} tokens", end="", flush=True)
-    if _tty and answering:
-        print("\r" + " " * 40 + "\r", end="", flush=True)
-    if reasoning_text and not response_text:
-        # Say so: an empty answer would otherwise read as "the model recommended nothing".
-        print(f"\r  the model spent its entire generation budget (~{len(reasoning_text) // 4} tokens) "
-              f"reasoning and produced no answer." + " " * 8)
-    print()
-    return response_text, reasoning_text
-
 
 # --- CLI entry points ---
 
 _CONTEXT_FLAGS = {"--species": "species", "--origin": "origin",
-                  "--size": "variant_size_class", "--assembly": "assembly"}
+                  "--size": "variant_size_class", "--region": "region_focus", "--goal": "analysis_goal",
+                  "--assembly": "assembly", "--organism": "organism"}
 _CONTEXT_CHOICES = {"assembly": ["GRCh37", "GRCh38"]}
 
 
@@ -2508,6 +2580,15 @@ def _parse_context_flags(args):
         if not key:
             continue
         val = a.split("=", 1)[1] if "=" in a else (args[i + 1] if i + 1 < len(args) else "")
+        if key == "organism":
+            # Looked up in Ensembl's species index, like the model's answer, so a name Ensembl does
+            # not host fails here instead of silently leaving the organism unknown.
+            prod = resolve_model_organism(val)
+            if not prod:
+                return None, (f"--organism: {val!r} is not in Ensembl's species list"
+                              if val else "--organism needs a name, e.g. --organism pig")
+            ctx["organism"] = prod
+            continue
         allowed = _CONTEXT_CHOICES.get(key) or FACTOR_VALUES.get(key, [])
         if key == "assembly":
             # Accept the same aliases (hg19/hg38, any casing) the prose reader accepts.
@@ -2515,13 +2596,20 @@ def _parse_context_flags(args):
         elif key in MULTI_FACTORS:
             # A multi-select factor takes `both`, or values joined with + or comma
             # (e.g. `small+structural-CNV` for a WGS callset).
-            parts = allowed if val.lower() == "both" else re.split(r"[+,]", val)
-            vals = [next((v for v in allowed if v.lower() == x.strip().lower()), x.strip())
-                    for x in parts if x.strip()]
+            parts = allowed if val.lower() in ("both", "all") else re.split(r"[+,]", val)
+
+            def _match(x):
+                # The value id, or a unique start of it or of one of its words: "clinical", "frequency", "cnv".
+                x = x.strip().lower()
+                exact = [v for v in allowed if v.lower() == x]
+                start = [v for v in allowed if v.lower().startswith(x)
+                         or any(w.startswith(x) for w in v.lower().split("-"))]
+                return (exact or (start if len(start) == 1 else [x]))[0]
+            vals = [_match(x) for x in parts if x.strip()]
             bad = [x for x in vals if x not in allowed]
             if bad or not vals:
                 return None, (f"{a.split('=')[0]} must be one or more of: {', '.join(allowed)} "
-                              f"(joined with +), or 'both'"
+                              f"(joined with +), or 'both'/'all'"
                               + (f" (got {val!r})" if val else " (no value given)"))
             ctx[key] = vals
             continue
@@ -2531,6 +2619,11 @@ def _parse_context_flags(args):
             return None, (f"{a.split('=')[0]} must be one of: {', '.join(allowed)}"
                           + (f" (got {val!r})" if val else " (no value given)"))
         ctx[key] = val
+    if ctx.get("organism"):
+        implied = "human" if ctx["organism"] == "homo_sapiens" else "non-human"
+        if ctx.get("species") and ctx["species"] != implied:
+            return None, f"--species {ctx['species']} contradicts --organism ({ctx['organism']} is {implied})"
+        ctx["species"] = implied
     return ctx, None
 
 
@@ -2576,8 +2669,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         # `assembly` is passed in so a stated assembly is never asked for again.
         factor_tuple, assembly = resolve_underspecified(factor_tuple, vep_options, clarify,
                                                         user_query=user_query, assembly=assembly)
-        print("Detected scenario:")
-        print(describe_factors(factor_tuple))
+        print(_paint("Detected scenario:"))
+        print(describe_factors(factor_tuple, stated=overridden))
         # The build decides several options, so the one used is always shown with where it came from.
         if factor_tuple.get("species") == "human" and assembly:
             src = ("you said" if (context or {}).get("assembly") else
@@ -2592,8 +2685,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         print()
 
     # After resolve_underspecified, so the trace explains the filled-in tuple the run actually uses.
-    if explain:
-        print_decision_trace(user_query, vep_options, factor_tuple=factor_tuple)
+    # --explain no longer prints the separate decision trace: each option's reason is shown once, under
+    # it in the configuration (David, 2026-10-04). print_decision_trace stays for scripts.
 
     # The default makes no draft: the checker builds the configuration from the factor table.
     # --two-pass also asks the model for a draft first (legacy/two_pass.py).
@@ -2603,7 +2696,8 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         response_text, reasoning_text, t_recommend = _two_pass().draft(
             client, model, vep_options, training_examples, user_query, factor_tuple)
 
-    if explain:
+    # The one-call path has no analysing step; its reading time is already on the first line.
+    if explain and not single_pass:
         print(f"\n[{t_classify:.1f}s reading · {t_recommend:.1f}s analysing · "
               f"{t_classify + t_recommend:.1f}s total]")
 
@@ -2744,9 +2838,11 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                                             show_cli=show_cli, meta_notes=explain,
                                             species=species_for_display,
                                             show_optional=(level != "minimal"))
-        print(corrected)
-        # The repair log is shown only under --explain; the saved .md always keeps it.
-        if diagnostics and explain:
+        print(_paint(corrected))
+        # The repair log is shown only under --explain --two-pass, where there is a draft to repair; the
+        # one-call path rebuilds from the table, so its log only repeated the list above. The saved .md
+        # always keeps it.
+        if diagnostics and explain and not single_pass:
             print("\nHOW THIS WAS CORRECTED\n" + "-" * 60)
             for d in diagnostics:
                 print(d)
@@ -2754,7 +2850,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         # Same order as the screen: the configuration, then how it was repaired.
         reports.extend(x for x in (corrected, pass_warnings, restored_report) if x)
     # Flushes anything left if the per-pass loop never ran.
-    if diagnostics and explain:
+    if diagnostics and explain and not single_pass:
         print("\nHOW THIS WAS CORRECTED\n" + "-" * 60)
         for d in diagnostics:
             print(d)
@@ -2791,28 +2887,6 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                 reasoning=reasoning_text)
 
 
-def run_explain_result(client, model, user_query):
-    """Explain a VEP output annotation with the LLM, print the answer and save it."""
-    consequences = load_consequences()
-    if not consequences:
-        print("Error: vep_consequences.json not found.")
-        sys.exit(1)
-
-    system_prompt = build_explain_result_prompt(consequences)
-    print("Explaining VEP output...\n")
-
-    try:
-        response_text, reasoning_text = stream_response(client, model, system_prompt, user_query)
-    except Exception as e:
-        print(f"\nError communicating with Ollama: {e}")
-        sys.exit(1)
-
-    # stream_response does not print the answer, so print it here.
-    if response_text.strip():
-        print(response_text.strip())
-        print()
-    save_result(user_query, response_text, mode="explain", reasoning=reasoning_text)
-
 
 def main():
     base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
@@ -2829,22 +2903,12 @@ def main():
             if required:
                 print("Error: openai SDK not installed. Run: pip install openai")
                 sys.exit(1)
-            # Only explain-result needs the SDK; the recommend path uses the native endpoint.
+            # The recommend path uses the native endpoint; only harnesses on the /v1 path need the SDK.
             return None
         return OpenAI(base_url=base_url, api_key="ollama")
 
-    # --- Mode: explain-result ---
-    if args and args[0] == "explain-result":
-        query = " ".join(args[1:]).strip()
-        if not query:
-            print("Usage: python3 vep_assistant.py explain-result \"Why is my variant splice_donor_variant?\"")
-            sys.exit(1)
-        run_explain_result(make_client(), model, query)
-        return
-
     # --- Mode: recommend ---
-    known_flags = ("--explain", "--minimal", "--full",
-                   "--factor-think", "--no-factor-think", "--quiet", "--assume", "--ask", "--no-ask", "--cli",
+    known_flags = ("--explain", "--minimal", "--reasoning-off", "--quiet", "--assume", "--no-ask", "--cli",
                    "--single-pass", "--two-pass") + tuple(_CONTEXT_FLAGS)
     # Removed flags exit with a reason instead of "Unknown option".
     removed_flags = {
@@ -2852,6 +2916,11 @@ def main():
         "--semantic": "removed: it chose which examples went into the draft prompt, which the default "
                       "run does not build",
         "--no-check": "removed: the checker builds the configuration, so there is nothing to skip",
+        # Removed 2026-10-04 (David): defaults restated as flags, or of no use to a user.
+        "--full": "removed: it moved every add-on into RECOMMENDED; the add-ons are listed under OPTIONAL",
+        "--factor-think": "removed: reasoning is on by default; --reasoning-off turns it off",
+        "--no-factor-think": "is now --reasoning-off",
+        "--ask": "removed: asking is the default; --no-ask turns it off",
     }
     _gone = [a for a in args if a in removed_flags]
     if _gone:
@@ -2864,20 +2933,19 @@ def main():
         print('Usage: python3 vep_assistant.py [flags] "your analysis scenario"')
         print("\nModes:")
         print("  <scenario>                    recommend a VEP web-form configuration")
-        print('  explain-result "<question>"   explain a VEP output annotation')
         print("\nFlags:")
-        for f, h in (("--explain", "say why each option is recommended, and how the checker resolved it"),
+        for f, h in (("--explain", "under each option, why it is recommended and what it does (Ensembl's words)"),
                      ("--minimal", "only the options you must tick; hide the optional add-ons"),
-                     ("--full", "add every add-on"),
-                     ("--cli", "also print the equivalent VEP command line"),
-                     ("--ask", "default: ask when a missing answer would change what is recommended "
-                               "(needs a terminal; otherwise the value is assumed and stated)"),
-                     ("--no-ask", "never ask; state the assumed values instead"),
+                     ("--cli", "print the VEP command instead of the web-form lists (add-ons as a comment)"),
+                     ("--no-ask", "never ask; state the assumed values instead (by default the tool "
+                                  "asks, in a terminal, when a missing fact would change the answer)"),
                      ("--quiet", "never ask and do not print the assumed values"),
-                     ("--no-factor-think", "the classifier answers without reasoning first (faster, "
-                                           "weaker on misleading wording)"),
-                     ("--factor-think", "default: the classifier reasons before answering"),
+                     ("--reasoning-off", "the model reads the scenario without reasoning first (about "
+                                         "0.6 s instead of 3 s, weaker on misleading wording)"),
                      ("--species / --origin / --size / --assembly", "state a fact instead of inferring it"),
+                     ("--region / --goal", "state the region (coding, regulatory or both) and the goal "
+                                           "(basic, clinical, frequency; several joined with +)"),
+                     ("--organism", "name the organism, e.g. --organism pig (sets the species too)"),
                      ("--two-pass", "also make the retired draft call (legacy/two_pass.py); slower, "
                                     "same configuration")):
             print(f"  {f:<44} {h}")
@@ -2905,20 +2973,16 @@ def main():
         sys.exit(2)
 
     # False means "unset": infer_factors resolves it through _factor_think_setting() (default on).
-    # --no-factor-think pins it off via VEP_FACTOR_THINK=0.
-    factor_think = True if "--factor-think" in args else (None if "--no-factor-think" in args else False)
-    if factor_think is None:
+    # --reasoning-off pins it off via VEP_FACTOR_THINK=0.
+    factor_think = False
+    if "--reasoning-off" in args:
         os.environ["VEP_FACTOR_THINK"] = "0"
-        factor_think = False
     # --quiet only suppresses the disclosure lines; defaults are assumed either way.
     # --assume is its old name (renamed after Likhitha's question on the proposal) and still works.
     if "--assume" in args:
         print("note: --assume is now --quiet — assuming happens by default; this flag only silences "
               "the disclosure lines.")
     quiet = "--quiet" in args or "--assume" in args
-    if quiet and "--ask" in args:
-        print("--quiet and --ask ask for opposite things; pick one.")
-        sys.exit(2)
     # Ask is the default. Off a tty `_ask_factor` returns None, so the run falls back to the
     # assumed value with its disclosure line.
     clarify = "assume" if quiet else ("state" if "--no-ask" in args else "ask")
@@ -2928,10 +2992,7 @@ def main():
         print(_ctx_err)
         sys.exit(2)
     explain = "--explain" in args
-    if "--minimal" in args and "--full" in args:
-        print("--minimal and --full ask for opposite things; pick one.")
-        sys.exit(2)
-    level = "minimal" if "--minimal" in args else "full" if "--full" in args else "standard"
+    level = "minimal" if "--minimal" in args else "standard"
     # Drop flags, and the value after a spaced context flag, so only the query text remains.
     _skip, remaining = set(), []
     for i, a in enumerate(args):
