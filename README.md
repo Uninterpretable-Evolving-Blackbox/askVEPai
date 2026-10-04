@@ -1,6 +1,8 @@
 # askVEPai
 
 <p>
+  <img src="images/vep_logo.png" alt="Ensembl VEP logo" height="80" />
+  &nbsp;&nbsp;&nbsp;
   <img src="images/embl_ebi_logo.png" alt="EMBL-EBI logo" height="70" />
   &nbsp;&nbsp;&nbsp;
   <img src="images/gsoc_logo.png" alt="Google Summer of Code logo" height="90" />
