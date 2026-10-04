@@ -4,7 +4,8 @@
 an [Ensembl VEP](https://www.ensembl.org/info/docs/tools/vep/index.html) web-form
 configuration, with the reasoning that put each option there.**
 
-Built as a GSoC project with EMBL-EBI. Runs against a local model via
+Built as a Google Summer of Code 2026 project with EMBL-EBI; the final report is
+[`GSOC_2026.md`](GSOC_2026.md). Runs against a local model via
 [Ollama](https://ollama.com/); no query leaves the machine.
 
 ## What it does
@@ -24,8 +25,7 @@ want clinical interpretation on the coding hits"*, it:
 6. If the scenario asks for only some genes or a class of consequences, which the input form
    cannot restrict, it says how to filter the results page after the run.
 
-Two secondary modes: **explain a VEP output annotation**, and a **decision trace** (`--explain`)
-that shows why each option is where it is.
+With `--explain`, each option also shows why it is there and Ensembl's own description of it.
 
 ## Quick start
 
@@ -135,8 +135,8 @@ The checker enforces:
 
 - **Species.** Human-only options are not applicable to a non-human run. Plugins follow
   Ensembl's own per-plugin species lists (VEP_plugins release/116 `plugin_config.txt`), checked
-  against the organism named. SIFT data exists for 13 species; each list is checked against the organism and the option
-  named when missing. The release-116 form shows no per-species frequency file for any species.
+  against the organism named. SIFT data exists for 13 species. Each option's species list is checked against the organism, and
+  an option left out is named. The release-116 form shows no per-species frequency file for any species.
   The CADD annotation file offered depends on the organism: three of CADD's four files are human
   only. Variant synonyms is offered to pig, the one other species Ensembl has it for.
 - **Assembly.** Options whose data exists for one build only are dropped when the other build
@@ -245,7 +245,8 @@ that silently delete results. askVEPai, running a local open model, recommends n
 
 The first column scores against our own priority table, so it shows the chat models do not follow our
 rules. askVEPai misses 11 options on one case, where the model reads structural variants only and the
-scenario also covers short ones. Row-deleting filters hold whatever the table says.
+scenario also covers short ones. The other two columns do not depend on our table: they rest on Ensembl's species lists and on what
+each filter does.
 
 The 754 organism names are Ensembl's own (its REST species list), and each decoy is another name from the
 same list; [experiment 3](evidence/current_evidence/README.md#3--754-organism-names) says where each part
@@ -260,8 +261,8 @@ default path and is kept only as a record; see `vep_ai_demo/legacy/README.md`.
 
 ## Known limitations
 
-**Priorities are provisional.** The priority table is not mentor-signed yet, so every figure is
-directional until it is. `priority_by_factor.json` is the single authored source; nothing
+**The priority table stays under review.** The mentors think it looks good so far; it stays under
+review as the tool is used and VEP is updated. `priority_by_factor.json` is the single authored source; nothing
 derives it.
 
 **An unstated goal is sometimes filled in.** With reasoning on, the classifier occasionally
@@ -283,9 +284,11 @@ page instead.
 **Enable-F1 is undefined on the default path.** It scored a model-written draft that the
 default path no longer produces.
 
-AI Usage Statement:
+## AI usage statement
 
-Claude Opus 4.7, 5.0 and 5.5 (Anthropic) were used to assist with coding research and write ups. Everything had been overseen manually to make sure it's all as accurate as possible and to read well. Gemma 4 4b, 12b and 26b (Google Deepmind) were used during development as part of the askVEPai system.
+Claude Opus 4.7, 5.0 and 5.5 (Anthropic) were used to assist with coding, research and write-ups. All of
+it was checked by hand for accuracy and readability. Gemma 4 models (Google DeepMind) are part of askVEPai
+itself: `gemma4:26b` reads the scenario, and `gemma4:e4b` and `gemma4:12b` were used during development.
 
 ---
 
