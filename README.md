@@ -1,5 +1,11 @@
 # askVEPai
 
+<p>
+  <img src="images/embl_ebi_logo.png" alt="EMBL-EBI logo" height="70" />
+  &nbsp;&nbsp;&nbsp;
+  <img src="images/gsoc_logo.png" alt="Google Summer of Code logo" height="90" />
+</p>
+
 **A local assistant that turns a plain-English description of a variant-analysis scenario into
 an [Ensembl VEP](https://www.ensembl.org/info/docs/tools/vep/index.html) web-form
 configuration, with the reasoning that put each option there.**
