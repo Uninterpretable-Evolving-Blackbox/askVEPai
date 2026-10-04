@@ -1,4 +1,4 @@
-# Ask VEPai — where the project stands
+# askVEPai — where the project stands
 
 The single "where are we" page: what is done, what is next, and what needs a decision. The README
 covers what the tool is, how it is built and how to run it. Design rationale lives in `research/` —
@@ -206,7 +206,7 @@ These need a domain decision, not more code:
   `www.ensembl.org`. **Not verified:** whether the new form offers the same option set, for plants or
   at all — that needs a pass over the live form, not our release/115 snapshot.
 
-**Settled:** Ask VEPai stays **web-form-only** — CLI-only options (`--overlaps`, `--max_af`,
+**Settled:** askVEPai stays **web-form-only** — CLI-only options (`--overlaps`, `--max_af`,
 `--variant_class`, `--check_svs`, `--clin_sig_allele`, `--clinvar_somatic_classification`) are out of
 scope. Two tiers, named RECOMMENDED and ADD-ONS. `check_existing` may move to add-on.
 

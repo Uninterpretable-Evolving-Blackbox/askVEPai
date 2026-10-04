@@ -1,12 +1,12 @@
 ---
-title: "Ask VEPai — Work Progress"
+title: "askVEPai — Work Progress"
 subtitle: "GSoC 2026 · EMBL-EBI · David (Wei) Gao"
 date: "Last updated: 2026-07-08"
 ---
 
-# Ask VEPai — Work Progress
+# askVEPai — Work Progress
 
-**Project:** Ask VEPai — Provenance-Traced AI Configuration Assistant for Ensembl VEP Web
+**Project:** askVEPai — Provenance-Traced AI Configuration Assistant for Ensembl VEP Web
 **Contributor:** David (Wei) Gao · **Mentor:** Likhitha Surapaneni · **Org:** EMBL-EBI (Genome Assembly & Annotation)
 **Repo:** `vep_ai_demo/` (cloned) · **Working area:** `GSoC_WORK/`
 
@@ -46,10 +46,10 @@ date: "Last updated: 2026-07-08"
 
 ## 3. Proposed system — target architecture, scope & roadmap
 
-This is what Ask VEPai is **meant to become** (from the proposal). §4 ("what we currently have") should be read against this target.
+This is what askVEPai is **meant to become** (from the proposal). §4 ("what we currently have") should be read against this target.
 
 ### 3.1 The problem & the core idea
-The VEP web form exposes a large configuration surface — transcript sets, frequency data, pathogenicity predictors, regulatory annotations, filters, output options, species/assembly — which overwhelms newcomers (clinicians, wet-lab researchers, students) and generates recurring helpdesk queries. **Ask VEPai turns a plain-English description of an analysis into a recommended web-form configuration, with justifications**, running **locally on open-source models** (privacy for patient-cohort queries + alignment with EBI's open principles).
+The VEP web form exposes a large configuration surface — transcript sets, frequency data, pathogenicity predictors, regulatory annotations, filters, output options, species/assembly — which overwhelms newcomers (clinicians, wet-lab researchers, students) and generates recurring helpdesk queries. **askVEPai turns a plain-English description of an analysis into a recommended web-form configuration, with justifications**, running **locally on open-source models** (privacy for patient-cohort queries + alignment with EBI's open principles).
 
 ### 3.2 Target architecture — "defense-in-depth"
 Full GSoC version (the demo only realises part of this — see §3.5):

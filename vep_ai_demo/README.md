@@ -1,4 +1,4 @@
-# Ask VEPai — the engine
+# askVEPai — the engine
 
 The tool itself. **For what the project is, how it was built and how it was evaluated, read the
 [repository README](../README.md) one level up.** This file covers running the engine and nothing else.

@@ -1,4 +1,4 @@
-# Prompt-engineering literature — what applies to Ask VEPai
+# Prompt-engineering literature — what applies to askVEPai
 
 `LITERATURE.md` covers RAG, in-context learning, synthetic generation, attribution and the domain-assistant
 bar. This file covers the prompting layer specifically: the output contract, prompt-format sensitivity,
@@ -18,7 +18,7 @@ the same rule here, nothing below was read at the depth of that 2026-07-12 pass.
 | **Results read** (tables/figures pulled from the HTML full text) | Tam 2024 (Table 9, Fig. 3), Liu 2024 (20-doc results), Su & Cardie 2026 (results summary), BiasBusters (bias table), Miller 2024 (recommendation list) |
 | **Abstract / landing page only** | Sclar 2024, Sprague 2025, Xiong 2024, Turpin 2023, Huang 2024, Zhou 2023, Lu 2022, Mizrahi 2024, Khot 2023, Wang 2023, Angelopoulos 2024, Zhang 2025, Ray 2026 |
 
-Every number below carries the source it came from. Nothing here is a verified claim about Ask VEPai until
+Every number below carries the source it came from. Nothing here is a verified claim about askVEPai until
 the corresponding experiment is run in this repository.
 
 ---
@@ -37,7 +37,7 @@ from text to JSON-mode, with Shuffled Objects flat at 20.4 → 20.9. On **classi
 "When evaluating classification datasets, we observe a different trend compared to reasoning tasks", and
 JSON-mode "performs competitively, and in some cases, surpasses the other three methodologies".
 
-**The split matters because Ask VEPai has both kinds of call.** `FACTOR_CLASSIFIER_PROMPT` is a
+**The split matters because askVEPai has both kinds of call.** `FACTOR_CLASSIFIER_PROMPT` is a
 classification task producing a ~60-token object, which is the regime where the paper finds JSON-mode fine.
 The recommendation stream carries per-option `Reason:` text, which is the regime where it does not.
 

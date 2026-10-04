@@ -5,7 +5,7 @@
 against `work/ensembl_source/` (`VEPConstants.pm`, `InputForm.pm`, `vep_plugins_web_config.txt`) at
 **release/115**.
 
-**Ask VEPai catalogue rule:** Per-option `web_form_section` / `web_form_subsection` / `cli_flag` in
+**askVEPai catalogue rule:** Per-option `web_form_section` / `web_form_subsection` / `cli_flag` in
 `work/vep_options_expanded.json` must match **release/115 source**, not model memory. If this doc and the
 live Ensembl website disagree, trust `ensembl_source/` + the expanded catalogue. See also
 `work/research/plugins_dossier.md`.
@@ -57,7 +57,7 @@ Ids from `VEPConstants.pm`: `identifiers` · `variants_frequency_data` · `addit
 | Open Targets Platform | **OpenTargets** plugin |
 
 **ClinVar:** There is **no standalone ClinVar checkbox**. `CLIN_SIG` is **derived** from co-located
-variant lookup (`check_existing`). In Ask VEPai KB, `clinvar` is documented as derived from
+variant lookup (`check_existing`). In askVEPai KB, `clinvar` is documented as derived from
 `check_existing`.
 
 ### 3. Additional annotations (`additional_annotations`)
@@ -105,7 +105,7 @@ Sub-fieldsets (from `InputForm.pm` + live web docs):
 > **Release/115 note:** In our catalogue (`vep_options_expanded.json`), **Mastermind** and **Geno2MP**
 > are filed under `variants_frequency_data` / Variant data; **Phenotypes** under
 > `additional_annotations`. Live web docs may group Mastermind/Geno2MP under “Phenotype data and citations”.
-> For Ask VEPai, use catalogue + `ensembl_source/` fields.
+> For askVEPai, use catalogue + `ensembl_source/` fields.
 
 ### 4. Predictions (`predictions`)
 
@@ -154,7 +154,7 @@ Ensembl organises plugins into **evidence families** within the sections above:
 | Clinical / literature / phenotype | ClinVar (via check_existing), Phenotypes, Mastermind, Geno2MP | mixed |
 | Population frequency | 1000G, gnomAD exomes/genomes, filter_common | variants_frequency_data |
 
-Ask VEPai uses **scenario factors** (species, origin, size, region, goal) for labelling queries; use these
+askVEPai uses **scenario factors** (species, origin, size, region, goal) for labelling queries; use these
 families when writing `priority_by_factor`, not as top-level user categories.
 
 ---

@@ -1,6 +1,6 @@
 # Current evidence — the system as it runs today
 
-Ask VEPai turns a plain-English variant-analysis scenario into a recommended Ensembl VEP web-form
+askVEPai turns a plain-English variant-analysis scenario into a recommended Ensembl VEP web-form
 configuration, with a reason for every option, running on a local model.
 
 The tool makes **one model call**: `gemma4:26b`, reasoning on, reads the scenario into five factor values
@@ -380,7 +380,7 @@ the VEP web form, and answer as RECOMMENDED, OPTIONAL, NOT ON THE FORM and ASSUM
 
 | arm | where | settings |
 |---|---|---|
-| Ask VEPai | this repository, run locally | `vep_assistant.py --no-ask`, gemma4:26b, reasoning on |
+| askVEPai | this repository, run locally | `vep_assistant.py --no-ask`, gemma4:26b, reasoning on |
 | ChatGPT | the chatgpt.com website| the default free model with the Thinking button on; memory off; a new chat per case, the instruction pasted above the question. Web search was also on (its answers cite ensembl.org) |
 | Claude Sonnet 5 medium | the claude.ai website | Sonnet 5, medium effort (default); memory off; a new chat per case, the instruction pasted above the question |
 | Claude Sonnet 5, with the VEP documentation | the Anthropic API | `claude-sonnet-5`, effort medium; the instruction as the system prompt; Ensembl's 27-page VEP web documentation PDF before each case |
@@ -391,7 +391,7 @@ the VEP web form, and answer as RECOMMENDED, OPTIONAL, NOT ON THE FORM and ASSUM
 An API call carries no memory and no earlier conversation: each case is a single call.
 
 **The standard: the priority table.** The priority table (`vep_ai_demo/priority_by_factor.json`) is this
-project's statement of which options each kind of analysis should get: every recommendation Ask VEPai makes
+project's statement of which options each kind of analysis should get: every recommendation askVEPai makes
 comes from it. This experiment treats it as the correct answer. For each case with known facts, the reference
 configuration is what the table recommends for those facts: for cases 1–12, the review scenarios' current
 labels in `cases/iced.json`; for 17–20, the facts in `cases/chat_models_20_cases.json`. That is 103 options
@@ -418,7 +418,7 @@ structural variants, on the table's list of options that do not apply to them.
 
 | arm | reference options recommended | not in the reference | cannot work for the case | row-deleting filters |
 |---|---|---|---|---|
-| **Ask VEPai** | **92/103** | **0** | **0** | **0** |
+| **askVEPai** | **92/103** | **0** | **0** | **0** |
 | Claude Opus 5.5 (SOTA, API), with the VEP documentation | 53/103 | 11 | 2 | 2 |
 | Claude Opus 4.7 (API), with the VEP documentation | 42/103 | 26 | 9 | 9 |
 | Claude Opus 5.5 (SOTA, API) | 38/103 | 16 | 5 | 11 |
@@ -426,8 +426,8 @@ structural variants, on the table's list of options that do not apply to them.
 | ChatGPT (website) | 17/103 | 15 | 11 | 3 |
 | Claude Sonnet 5 medium (claude.ai website) | 9/103 | 9 | 4 | 2 |
 
-Case by case: Ask VEPai recommends every reference option on 15 of the 16 cases; no chat arm does so on any.
-Cases where the user gets nothing that cannot work and no row-deleting filter, of 20: Ask VEPai 20, Opus 5.5
+Case by case: askVEPai recommends every reference option on 15 of the 16 cases; no chat arm does so on any.
+Cases where the user gets nothing that cannot work and no row-deleting filter, of 20: askVEPai 20, Opus 5.5
 with the documentation 16, ChatGPT 15, Sonnet 5 on claude.ai 15, Sonnet 5 with the documentation 12, Opus 5.5
 11, Opus 4.7 with the documentation 8.
 
@@ -436,7 +436,7 @@ every case's missed, extra, cannot-work and row-deleting options in `results/cha
 API cost for the 20 cases: Opus 5.5 $0.50 (16 s a case), with the PDF $1.17 (23 s); Opus 4.7 with the PDF
 $1.29 (13 s); Sonnet 5 with the PDF $0.54 (11 s).
 
-**What Ask VEPai's 92/103 means.** Ask VEPai is the table applied to the model's reading of the case, so
+**What askVEPai's 92/103 means.** askVEPai is the table applied to the model's reading of the case, so
 its score measures that reading. The model read 77 of the 80 factor values right on the 16 cases. One miss
 costs options: case 2 (review row 25) also covers short variants, and the model reads structural variants
 only, so the 11 short-variant options are missing; experiment 2 reports the same miss. The other two (cases 5
@@ -460,20 +460,20 @@ BRCA2"), which it filled in as basic-consequence without asking: the same miss a
 - **The documentation helps the larger model most.** With the PDF, Opus 5.5 goes from 38 to 53 of 103
   and from 11 to 2 row-deleting filters; Sonnet 5 with it reaches 22, against 9 for Sonnet 5 on the claude.ai
   website.
-- **Species (cases 19, 20).** Only Ask VEPai offers CADD for pig; both Opus arms say CADD is human-only,
+- **Species (cases 19, 20).** Only askVEPai offers CADD for pig; both Opus arms say CADD is human-only,
   which Ensembl's plugin configuration contradicts. For sheep every arm says the form has no breed
   frequencies, which is right; Opus 5.5 with the PDF recommends Variant synonyms, which Ensembl has for human
   and pig only.
 - **Where the chat models do better.** They explain what the form cannot do (restricting to a gene list, a
   loss-of-function filter) at more length, and suggest external resources.
 
-**Limits.** The reference is our own priority table, so Ask VEPai is marked against the rules it follows:
+**Limits.** The reference is our own priority table, so askVEPai is marked against the rules it follows:
 its score shows the model reads the cases right, not that the rules are right. How right the table is rests
 on its review: of its 70 rows, 22 follow a mentor's written decision and the other 48 are our decisions. The row-deleting column and the species part of cannot-work do not use the table, and hold either way. The facts of cases 19 and 20 were set by us. Two of them are readings rather than stated facts: case 18's "mostly in promoters and enhancers" is taken as regulatory only, and case 20 never states a region, so it takes the tool's default for an unstated region (both). One answer per case per arm; the two websites run
 with their own hidden instructions and settings, and ChatGPT searched the web; the API arms have neither.
 The mapping from free text to options is by pattern; the scores file lists every decision it made. The
 scores file also scores cases 1–12 against their configuration as reviewed in round 1
-(`cases/chat_models_reference_round1.json`, before later changes to the table): Ask VEPai 53/76, Opus 5.5
+(`cases/chat_models_reference_round1.json`, before later changes to the table): askVEPai 53/76, Opus 5.5
 with the documentation 34/76.
 
 ---

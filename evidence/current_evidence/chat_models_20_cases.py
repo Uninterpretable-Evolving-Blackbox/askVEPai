@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Ask VEPai against general chat models, on 20 cases: given the same job, does a chat model recommend what
+"""askVEPai against general chat models, on 20 cases: given the same job, does a chat model recommend what
 the priority table recommends, and does it avoid options that cannot work for the case or delete results?
 
 The priority table (vep_ai_demo/priority_by_factor.json) is the standard here: it is the project's statement
 of which options each kind of analysis should get, and the reference configuration for a case is what it
-gives for the case's true factors. Ask VEPai is that table applied to the model's reading of the factors, so
+gives for the case's true factors. askVEPai is that table applied to the model's reading of the factors, so
 its score measures the reading; the chat models' score measures the whole job.
 
 Every arm gets the same short system prompt (cases/chat_models_system_prompt.txt), one question per case.
@@ -13,7 +13,7 @@ The website answers (ChatGPT, claude.ai) were pasted by hand; the API arms are a
   python3 evidence/current_evidence/chat_models_20_cases.py                  # score every arm in results/
   python3 evidence/current_evidence/chat_models_20_cases.py --detail         # and list each case's differences
   python3 evidence/current_evidence/chat_models_20_cases.py --ask claude-opus-5-5 [--pdf] [--effort medium]
-  python3 evidence/current_evidence/chat_models_20_cases.py --ours           # run Ask VEPai on the 20 cases
+  python3 evidence/current_evidence/chat_models_20_cases.py --ours           # run askVEPai on the 20 cases
 
 --ask reads the key from ~/.anthropic_key or ANTHROPIC_API_KEY and never writes it. --pdf puts Ensembl's VEP
 web documentation (27 pages, vep_ai_demo/legacy/VEP_web_documentation.pdf) before every case.
@@ -307,7 +307,7 @@ def main():
     ap.add_argument("--ask", metavar="MODEL", help="ask an Anthropic model the 20 cases")
     ap.add_argument("--effort", default="medium")
     ap.add_argument("--pdf", action="store_true")
-    ap.add_argument("--ours", action="store_true", help="run Ask VEPai on the 20 cases")
+    ap.add_argument("--ours", action="store_true", help="run askVEPai on the 20 cases")
     ap.add_argument("--detail", action="store_true")
     a = ap.parse_args()
     if a.ask:

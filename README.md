@@ -1,4 +1,4 @@
-# Ask VEPai
+# askVEPai
 
 **A local assistant that turns a plain-English description of a variant-analysis scenario into
 an [Ensembl VEP](https://www.ensembl.org/info/docs/tools/vep/index.html) web-form
@@ -239,11 +239,11 @@ the same job was given to bare commercial chat models, with one short instructio
 newer models do better, and Ensembl's documentation helps them, but none gets close to what the tool needs:
 even the current state of the art, Claude Opus 5.5 with the documentation, recommends about half of what the
 priority table recommends, and every model still recommends options that cannot work for the case or filters
-that silently delete results. Ask VEPai, running a local open model, recommends none.
+that silently delete results. askVEPai, running a local open model, recommends none.
 
 | arm | table options recommended (of 103, 16 cases) | options that cannot work for the case (20 cases) | row-deleting filters (20 cases) |
 |---|---|---|---|
-| **Ask VEPai** (gemma4:26b, local) | **92** | **0** | **0** |
+| **askVEPai** (gemma4:26b, local) | **92** | **0** | **0** |
 | Claude Opus 5.5 (state of the art), with the VEP documentation | 53 | 2 | 2 |
 | Claude Opus 4.7, with the VEP documentation | 42 | 9 | 9 |
 | Claude Opus 5.5 | 38 | 5 | 11 |
@@ -252,7 +252,7 @@ that silently delete results. Ask VEPai, running a local open model, recommends 
 | Claude Sonnet 5 (claude.ai website) | 9 | 4 | 2 |
 
 The first column scores against our own priority table, so it shows the chat models do not follow our
-rules. Ask VEPai misses 11 options on one case, where the model reads structural variants only and the
+rules. askVEPai misses 11 options on one case, where the model reads structural variants only and the
 scenario also covers short ones. Row-deleting filters hold whatever the table says.
 
 The 754 organism names are Ensembl's own (its REST species list), and each decoy is another name from the

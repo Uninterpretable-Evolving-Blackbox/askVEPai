@@ -1,5 +1,5 @@
 ---
-title: "Ask VEPai — Experiment Report"
+title: "askVEPai — Experiment Report"
 subtitle: "Rationale, method, and results (GSoC 2026, EMBL-EBI)"
 date: "2026-06-21"
 ---
@@ -26,7 +26,7 @@ date: "2026-06-21"
 
 # Overview
 
-**Ask VEPai** is a locally-hosted RAG assistant that turns a natural-language variant-analysis scenario
+**askVEPai** is a locally-hosted RAG assistant that turns a natural-language variant-analysis scenario
 into a recommended Ensembl VEP web-form configuration, with justifications and provenance. The architecture
 is *defense-in-depth*: a retrieval + local-LLM stage **proposes** a configuration; a deterministic Python
 constraint checker **disposes** of what the LLM gets structurally wrong (species / conflict / dependency).
