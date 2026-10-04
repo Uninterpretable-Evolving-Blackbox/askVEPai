@@ -293,7 +293,7 @@ default path no longer produces.
 
 AI Usage Statement:
 
-Claude Opus 4.7, 5.0 and 5.5 were used to assist with coding research and write ups. Everythign were oversaw manually to make sure it's all as accurate as possible and for reading nicely.
+Claude Opus 4.7, 5.0 and 5.5 (Anthropic) were used to assist with coding research and write ups. Everything had been overseen manually to make sure it's all as accurate as possible and to read well. Gemma 4 4b, 12b and 26b (Google Deepmind) were used during development as part of the askVEPai system.
 
 ---
 
