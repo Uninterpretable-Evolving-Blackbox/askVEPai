@@ -10,13 +10,13 @@ something that no longer exists:
     applies to a bucket that is always empty;
   * the `semantic` condition tests a retrieval design the tool no longer has (`--semantic` was
     removed 2026-09-16);
-  * the ground truth is the retired seven-use-case table, snapshot now in work/harness/legacy/.
+  * the ground truth is the retired seven-use-case table, snapshot now in evidence/legacy_superseded/use_cases/.
 
 Its headline metric, enable-F1, is recorded in EXPERIMENTS.md Exp 20 as UNDEFINED on the default
 path -- it scored the draft, and there is no draft. Do not quote a number from this file.
 
-Measuring the current system: work/harness/exp/factor_accuracy.py (the factor tuple),
-factor_grid.py (600 queries), class_weighted_f1.py (what an error does to the output).
+Measuring the current system: evidence/current_evidence/factors_31_review_scenarios.py (the factor tuple),
+factors_150_tricky_cases.py (600 queries), evidence/legacy_decisions/single_pass/class_weighted_f1.py (what an error does to the output).
 
 The original docstring follows, unaltered.
 """
@@ -185,12 +185,12 @@ _LEGACY_PRIO = None
 
 
 def _legacy_priority_lookup():
-    """The retired `priority_by_use_case` table, from work/harness/legacy/. {} if the file is absent."""
+    """The retired `priority_by_use_case` table, from evidence/legacy_superseded/use_cases/. {} if the file is absent."""
     global _LEGACY_PRIO
     if _LEGACY_PRIO is None:
         import json as _json
         from pathlib import Path as _P
-        f = _P(__file__).resolve().parent.parent / "work" / "harness" / "legacy" / "priority_by_use_case_snapshot.json"
+        f = _P(__file__).resolve().parents[2] / "evidence" / "legacy_superseded" / "use_cases" / "priority_by_use_case_snapshot.json"
         _LEGACY_PRIO = _json.load(open(f))["priorities"] if f.exists() else {}
     return _LEGACY_PRIO
 
