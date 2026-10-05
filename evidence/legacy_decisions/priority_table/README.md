@@ -1,8 +1,8 @@
 # D8 · the priority table's tiers, as corrected by the mentors' review
 
-The table that decides which options are RECOMMENDED and which are ADD-ONS for each factor value is
-[`../../../vep_ai_demo/priority_by_factor.json`](../../../vep_ai_demo/priority_by_factor.json) (in the engine). This folder holds the review
-rounds that corrected it.
+The table that decides which options are RECOMMENDED and which are OPTIONAL for each factor value is
+[`../../../vep_ai_demo/priority_by_factor.json`](../../../vep_ai_demo/priority_by_factor.json) (in the engine). The review rounds that corrected it are kept in the
+private working repository; the table below names their files.
 
 | what | file |
 |---|---|
@@ -11,10 +11,10 @@ rounds that corrected it.
 | round 2 drafts, and the Ensembl team's sheet comments | `review_round2.csv`, `review_round2_twotier.csv`, `AskVEPai_review_round2.xlsx`, `round2_comments.py` |
 | DEFAULT renamed RECOMMENDED in the round-2 sheet | `retitle_review_two_tier.py` |
 | round 2 exactly as sent on 2026-08-19 (four tabs) | `mentor_review/AskVEPai_round2_SENT_2026-08-19.xlsx`, with tabs 2 and 3 as `round2_questions.csv`, `scenario_rules_proposed.csv` |
-| the table scored against the reviewer's own round-1 answers | `build_mentor_gold.py` (private working repository): F1 0.796 |
+| the table scored against the reviewer's own round-1 answers | `build_mentor_gold.py` (private working repository): F1 0.796 (15 Sept; 0.740 on 2026-10-05) |
 
 What the mentors said, verbatim, is in `MENTOR_MESSAGES.md` (private working repository).
 
 **Limits.** The round-1 sheets carry three tiers (critical / recommended / optional); the critical tier was
-merged into recommended on 2026-08-19. The 0.796 was computed before the 2026-09-20 plugin-list changes
-and has not been re-run.
+merged into recommended on 2026-08-19. The 0.796 was computed on 15 Sept, before the 2026-09-20 plugin-list
+changes; on the engine of 2026-10-05 the same script gives 0.740.

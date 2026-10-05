@@ -42,9 +42,9 @@ Designs whose conclusion still holds are in [`../legacy_decisions/`](../legacy_d
 | `author_reference_set.py`, `silver_reference_*`, `SILVER_REFERENCE_README.md` | a reference set drafted for the mentors to confirm; withdrawn | the 31 review scenarios the mentors reviewed (D8, D9) |
 | `test_queries_sim.json`, `real_queries_biostars.json`, `real_queries_smoke.json`, `run_user_queries.py` | test questions of that period, and a script to run one set | the experiments in `../current_evidence/` |
 | `bench_latency.py` | timed the full prompt → model → parser → checker path | the one-user timing in experiment 1 |
-| `show_tiered_output.py` | a first mock-up of splitting the output into core options and add-ons | the RECOMMENDED / ADD-ONS output (D7) |
+| `show_tiered_output.py` | a first mock-up of splitting the output into core options and add-ons | the RECOMMENDED / OPTIONAL / ALREADY ON output (D7) |
 | `priority_by_use_case_snapshot.json`, `catalogue_skeleton.json` | the use-case priority table and the first catalogue plan | `../../vep_ai_demo/priority_by_factor.json` and the catalogue |
-| `AUDIT_PROMPTS.md`, `EXPERIMENT_SUMMARY.md`, `meeting_notes_2026-06-23.md` | documents of that period | — |
+| `AUDIT_PROMPTS.md` and `meeting_notes_2026-06-23.md` (private working repository), `EXPERIMENT_SUMMARY.md` | documents of that period | — |
 
 ## `two_pass/` · the two-call design
 
@@ -52,7 +52,7 @@ Designs whose conclusion still holds are in [`../legacy_decisions/`](../legacy_d
 
 | files | what they did | replaced by |
 |---|---|---|
-| `PROGRESS.md`, `READING_ORDER.md`, `action_plan_2026-08-03.md`, `action_plan_2026-08-11.md` | the progress log, reading order and plans of that period | [`../../README.md`](../../README.md) |
+| `PROGRESS.md`, `action_plan_2026-08-03.md`, `action_plan_2026-08-11.md`; `READING_ORDER.md` (private working repository) | the progress log, reading order and plans of that period | [`../../README.md`](../../README.md) |
 | `colab_eval.md`, `colab_tunnel.md`, `resume_attribution.sh` | running the experiments on a remote Colab GPU | every run on the local machine |
 | `prompting_literature.md` | prompt-writing literature and what applied to the tool at the time | — |
 | `playground.html` | a generated page for trying the tool | none; the web interface is Ensembl's to build |
@@ -105,7 +105,7 @@ Older result files, handovers and the experiment ledger use the names on the lef
 | `fallback_e2e.py` in `legacy_decisions/missing_facts/` | `../current_evidence/missing_facts_78_rewrites.py` | 2026-09-28 |
 | `grid_species_shipped.py` (overnight folder, untracked) | `../current_evidence/factors_150_species_through_tool.py` | 2026-09-28 |
 | `grid_settings_score.py` (work/harness/exp, untracked) | `../current_evidence/factors_150_settings_effect.py` | 2026-09-28 |
-| `rerun_2026-09-27/`: `grid_{on,off}_r{1,2,3}.json`, `grid_species_off_r{1,2,3}.json`, `fallback_e2e_r{1,2,3}.json`, `factor_accuracy.json`, `mentor_queries.json` (local run folder) | `../current_evidence/results/`: `factors_150_tricky_cases_reasoning_{on,off}_repeat{1,2,3}.json`, `factors_150_species_through_tool_reasoning_off_repeat{1,2,3}.json`, `missing_facts_78_rewrites_reasoning_on_repeat{1,2,3}.json`, `factors_31_review_scenarios_reasoning_on_repeat1.json`, `mentor_queries_reasoning_on_repeat1.json` | 2026-09-28 |
+| `rerun_2026-09-27/`: `grid_{on,off}_r{1,2,3}.json`, `grid_species_off_r{1,2,3}.json`, `fallback_e2e_r{1,2,3}.json`, `factor_accuracy.json`, `mentor_queries.json` (local run folder) | `../legacy_decisions/classifier/results/`: `factors_150_tricky_cases_reasoning_{on,off}_before_case_fixes_repeat{1,2,3}.json`, `factors_150_species_through_tool_reasoning_off_before_case_fixes_repeat{1,2,3}.json`; `../current_evidence/results/`: `missing_facts_78_rewrites_reasoning_on_repeat{1,2,3}.json`, `factors_31_review_scenarios_reasoning_on_repeat1.json`, `mentor_queries_reasoning_on_repeat1.json` | 2026-09-28, 2026-09-30 |
 | reader `shipped` / `think`, in file names too | `reasoning_off` / `reasoning_on` | 2026-09-23 |
 | result suffix `_v2prompt` | `_before_organism_field` (the prompt of 09-16) | 2026-09-28 |
 | `organism_all_names_*` results | `organism_754_names_*` | 2026-09-26 |
@@ -113,9 +113,10 @@ Older result files, handovers and the experiment ledger use the names on the lef
 | `data/real_queries_fetched.json`, `data/real_queries_draw_log.json` | `../legacy_decisions/missing_facts/real_queries_fetched.json`, `../legacy_decisions/missing_facts/real_queries_draw_log.json` | 2026-09-28 |
 | `data/simulated_gold_examples.json` | `../../vep_ai_demo/legacy/training_examples.json` (the same 23 examples) | 2026-09-28 |
 
-The results in `../current_evidence/results/` for the 150 tricky cases and the 31 scenarios with
-reasoning on, and for the mentor queries, are the overnight run of 2026-09-23 (engine `51912b2`), copied
-from the untracked `work/results/overnight_2026-09-23/`; its README is `old_docs/overnight_2026-09-23.md`.
-The reasoning-off runs beside them (150 cases, species through the tool, 31 scenarios) were made on
-2026-09-28 with engine `9dd3140`, whose classifier code is unchanged from `51912b2`. The runs they
-replaced are in `../legacy_decisions/classifier/results/`.
+The mentor-query results with reasoning on in `../current_evidence/results/` are the overnight run of
+2026-09-23 (engine `51912b2`), copied from the untracked `work/results/overnight_2026-09-23/`; its README is
+`old_docs/overnight_2026-09-23.md`. The 31-scenario files there hold the same answers as that run
+(reasoning on) and as the 2026-09-28 run with engine `9dd3140` (reasoning off), re-scored on 2026-09-30
+against the six corrected labels. The 150-case files there (tricky cases, species through the tool,
+settings effect) are the 2026-09-30 runs on the fixed cases. The runs they replaced, the overnight 143/150
+among them, are in `../legacy_decisions/classifier/results/` (`*_before_case_fixes*`, `*_before_relabelling*`).

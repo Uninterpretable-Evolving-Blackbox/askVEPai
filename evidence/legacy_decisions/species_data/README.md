@@ -18,7 +18,7 @@ the private working repository.
 
 Seven disagreements with our own catalogue prose were resolved in Ensembl's favour on 2026-09-20.
 Six changed how often an option appears over the 252 factor combinations (cadd and utrannotator as
-RECOMMENDED, the other four as ADD-ONS), before → after:
+RECOMMENDED, the other four as OPTIONAL), before → after:
 
 | option | before → after |
 |---|---|
@@ -29,7 +29,8 @@ RECOMMENDED, the other four as ADD-ONS), before → after:
 | ancestral_allele | 96 → 48 |
 | mutfunc | 32 → 64 |
 
-One rule was retired (see handover 2026-09-22 §1.5).
+One rule was retired: `non-human + clinical-interpretation → maxentscan` (MaxEntScan is human only); it is kept
+under `_conditional_rules_retired` in `../../../vep_ai_demo/factors.json` (handover 2026-09-22 §1.5, not published).
 
 No experiment folder of its own: the evidence is Ensembl's text, and the check is the test suite.
 

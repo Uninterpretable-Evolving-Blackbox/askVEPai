@@ -35,8 +35,8 @@ Local, because patient cohorts cannot leave the building and Ensembl's tools are
 |---|---|---|
 | `run_parallel_eval.py` | with all examples in the prompt, 5 seeds: 26b 84%, 12b 78%, e4b 65% (Exp 10) | 12b and e4b dropped |
 | `reparse_bare_fix.py` | re-reads Exp 10's raw calls after an option-name fix | the corrected Exp 10 column |
-| `eval_factor_set.py` | the size ladder: 26b 88.0, e4b 80.3, e2b 66.7 enable-F1 (Exp 19) | 26b kept over the smaller Gemma 4 models |
-| `../single_pass/full_eval_singlepass.py` | with one model call, e4b gets 19/31 factor tuples exact; e2b cannot produce parseable answers on 7 rows | smaller models not viable on the single-call design either |
+| `eval_factor_set.py` | the size ladder: 26b 88.0, e4b 80.3, e2b 66.3 enable-F1 (Exp 19) | 26b kept over the smaller Gemma 4 models |
+| `single_pass/full_eval_singlepass.py` | with one model call, e4b gets 19/31 factor tuples exact; e2b cannot produce parseable answers on 7 rows | smaller models not viable on the single-call design either |
 
 ## D2 · five factors replace the seven use cases
 
@@ -44,7 +44,7 @@ Local, because patient cohorts cannot leave the building and Ensembl's tools are
 
 | file | what it showed | what it led to |
 |---|---|---|
-| `results/colab_2026-09-04/` (run by `../model_choice/eval_factor_set.py`) | enable-F1: no factors 69.9 → factors from the model 88.0 → the true factors 89.0 (Exp 17) | the configuration is priced by five factors; the model's factor mistakes cost about one point |
+| `results/colab_2026-09-04/` (run by `model_choice/eval_factor_set.py`) | enable-F1: no factors 69.9 → factors from the model 88.0 → the true factors 89.0 (Exp 17) | the configuration is priced by five factors; the model's factor mistakes cost about one point |
 
 ## D3 · one model call; the draft call is gone
 
@@ -92,7 +92,7 @@ The design is `reprompting_proposal.md` (private working repository).
 | `default_direction_sweep.py` | every possible default priced both ways; species → human over-includes 3.62 columns and loses 0.38 | the defaults: human, somatic, both sizes, both regions |
 | `default_candidates_output.py` | the same on real VEP output | the same |
 | `results/reprompting/` | only the goal has no safe default; asking about it interrupts 12 of 78 | ask for the goal only |
-| `score_try_queries.py`, `try_queries.sh` | 19 of 20 carelessly written scenarios read correctly | the rules hold on untidy wording |
+| `score_try_queries.py`, `try_queries.sh` | 19 of 20 carelessly written scenarios read correctly (the file scores 18; row 12's expected origin is wrong) | the rules hold on untidy wording |
 | `try_reprompting.py` | shows asking and assuming as a user meets them | a demonstration, no figure |
 
 ## D6 · which options exist for which species comes from Ensembl's own lists
@@ -123,9 +123,9 @@ The design is `reprompting_proposal.md` (private working repository).
 
 | file | what it showed | what it led to |
 |---|---|---|
-| `mentor_review/` round 1 (sheet, queue, `DECISIONS.md`) and the returned round-1 sheet (private working repository) | the mentor's verdicts on 31 scenarios in three tiers | the table's entries corrected |
-| `mentor_review/` round 2, `retitle_review_two_tier.py` | the Ensembl team's comments | two tiers: critical merged into RECOMMENDED, DEFAULT renamed RECOMMENDED (2026-08-19) |
-| `build_mentor_gold.py` (private working repository) | the table against the reviewer's own round-1 answers: F1 0.796 | a check, no change |
+| `mentor_review/` round 1 (sheet, queue, `DECISIONS.md`) and the returned round-1 sheet, both in the private working repository | the mentor's verdicts on 31 scenarios in three tiers | the table's entries corrected |
+| `mentor_review/` round 2, `retitle_review_two_tier.py` (private working repository) | the Ensembl team's comments | two tiers: critical merged into RECOMMENDED, DEFAULT renamed RECOMMENDED (2026-08-19) |
+| `build_mentor_gold.py` (private working repository) | the table against the reviewer's own round-1 answers: F1 0.796 (15 Sept; 0.740 on 2026-10-05) | a check, no change |
 
 ## D9 · how the 31 review scenarios were generated
 
@@ -136,5 +136,8 @@ The design is `reprompting_proposal.md` (private working repository).
 | `teacher_sweep.py` | four models writing the scenario text (e4b, 12b, 26b, 31b) are within noise | `gemma4:26b` writes them |
 | `persona_ablation.py` | who is asking adds no measurable variety | the persona kept, for realism |
 
-Scripts that call the model read `OLLAMA_BASE_URL`. Scripts that import one another across folders add the
+Scripts that call the model read `OLLAMA_BASE_URL`, except `classifier/fewshot_classifier.py` and
+`single_pass/full_eval_singlepass.py` (which take `--base-url`, default `http://localhost:11434/v1`), and
+`missing_facts/measure_underspecification.py` and `single_pass/results/overnight_2026-09-10/probe_e2b_failures.py`
+(which always call `http://localhost:11434/v1`). Scripts that import one another across folders add the
 other folder to `sys.path` at the top.

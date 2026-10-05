@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Example-ORDER sensitivity experiment for Ask VEPai.
+"""Example-ORDER sensitivity experiment for askVEPai.
 
 Question (from Agarwal et al. 2024, "Many-Shot In-Context Learning", §4.7):
     does the ORDER of the in-context examples change the score, even when the

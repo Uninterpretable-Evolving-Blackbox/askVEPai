@@ -1,7 +1,7 @@
 # D4 · the classifier: why the model reads every factor, including species
 
 The measurements of the classifier as it runs today (the 150-case grid, organism naming, the 31
-scenarios, reasoning on vs off) are in [`../`](../README.md). This folder holds the
+scenarios, reasoning on vs off) are in [`../../current_evidence/`](../../current_evidence/README.md). This folder holds the
 experiments that decided its shape.
 
 | decision | number | script | file |
@@ -16,7 +16,7 @@ experiments that decided its shape.
 **Limits.** `rules_vs_model.py` and `species_rule_vs_model.py` call the model through the `/v1`
 endpoint, which ignores `think=False`, so their model arms reasoned. `species_recall_hint.json`'s saved
 `correct` field holds a scoring that was withdrawn; the quoted figure is recomputed from `rows`.
-`fewshot_classifier.json` is confounded (handover 2026-09-10) and was not re-run.
+`fewshot_classifier.json` is confounded (handover 2026-09-10, not published) and was not re-run.
 
 `rules_vs_model.py` is still imported by `../../current_evidence/factors_150_tricky_cases.py` for its keyword baseline.
 `results/` also holds the grid runs that current_evidence no longer cites: reasoning off on prompt v1

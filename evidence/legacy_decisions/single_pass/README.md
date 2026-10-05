@@ -17,6 +17,6 @@ whatever the draft says, so the draft could only add options the table does not 
 - The 0.858 re-run defines F1 without the form's 16 ticked-by-default options, so it is a different
   number from 0.898, not a regression.
 - `results/final_2026-09-15/` predates prompt v2, species-from-the-model and the plugin species lists
-  (handover 2026-09-22 §5.6). Its latencies are not quotable: the GPU was contended overnight.
+  (handover 2026-09-22 §5.6, not published). Its latencies are not quotable: the GPU was contended overnight.
 - `full_eval_singlepass.py` reproduces the pre-2026-09-16 tool (species from the keyword scan).
 - `results/overnight_2026-09-10/` also holds D1 and D4 runs; their READMEs point here.

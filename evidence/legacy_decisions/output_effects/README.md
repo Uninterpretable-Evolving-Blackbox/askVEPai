@@ -2,7 +2,7 @@
 
 A recommendation is scored by the columns and rows it changes in the user's file, from Ensembl's
 documentation and from real VEP runs, not by counting option names. Options the form already ticks
-are shown once under ALREADY ON; the rest are RECOMMENDED or ADD-ONS.
+are shown once under ALREADY ON; the rest are RECOMMENDED or OPTIONAL.
 
 | number | experiment | script | file |
 |---|---|---|---|
@@ -15,5 +15,7 @@ are shown once under ALREADY ON; the rest are RECOMMENDED or ADD-ONS.
 | the restrict-results options delete rows (per_gene: 334 → 19) | leak rate, 2026-09-08 | — | `results/leak_rate_README.md`, `results/leak_rate_26b_seed42.json` |
 
 **Limits.** The local sweep's percentages depend on the input VCF and its plugin rows are void (the
-plugins never loaded); only its summary, baseline and frequency files are tracked. The other 86 TSVs
-stay in `evidence/current_evidence/results`. The two `local_vep` shell scripts point at a scratch path that no longer exists.
+plugins never loaded); only its summary, baseline and frequency files are tracked. The other 86 files
+(60 TSVs and 26 plugin warning logs) stay on the development machine in
+`evidence/local_runs/results/local_option_sweep_2026-09-10/` (gitignored). The two `local_vep` shell
+scripts point at a scratch path that no longer exists.
