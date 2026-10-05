@@ -1076,6 +1076,7 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
     # The build was assumed for a human scenario; an animal named in reply has no GRCh37/GRCh38.
     if filled.get("species") == "non-human":
         assumptions = [a for a in assumptions if a[0] != "assembly"]
+        assembly = None
 
     # An unanswered question with a fallback (species) takes the fallback and says so.
     for q in list(questions):
@@ -1100,6 +1101,9 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
     # clarification_plan recorded any assumed build; copy it into the return value.
     if assembly is None:
         assembly = next((v for f, v, _w in assumptions if f == "assembly"), None)
+    if assembly is None and filled.get("species") == "human":
+        assumptions.append(("assembly", "GRCh38", ASSEMBLY_ASSUMED_WHY))
+        assembly = "GRCh38"
 
     if mode != "assume" and (assumptions or questions):
         print()
@@ -1698,6 +1702,8 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
     if species not in ("human", "unknown"):
         # The classifier's validated organism if given, else the name scan.
         sp_name = organism or resolve_species_name(user_query)
+        if sp_name == "homo_sapiens":          # a scan hit on "human" is not this analysis's organism
+            sp_name = None
         for oid in list(enabled):
             spec = species_spec.get(oid, "all")
             if spec == "all":
@@ -1742,7 +1748,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
     # --- Assembly ---
     # Some sources exist for one build only (MANE, EVE, the GRCh38 custom files), and the web form
     # shows them for any human assembly (InputForm.pm:694-702). Gated only when a build is known.
-    assembly = assembly_override or infer_assembly(user_query)
+    assembly = assembly_override or (infer_assembly(user_query) if species != "non-human" else None)
     if assembly:
         for oid in list(enabled):
             allowed = _assembly_restriction(assembly_map.get(oid))
@@ -2648,6 +2654,15 @@ def _parse_context_flags(args):
     return ctx, None
 
 
+def _non_human_organism(factor_tuple, user_query):
+    """The organism of a non-human run: the model's, else the name scan. homo_sapiens is never one
+    (--species non-human on a query that says "human"), so it is left unresolved."""
+    for org in ((factor_tuple or {}).get("_organism"), resolve_species_name(user_query)):
+        if org and org != "homo_sapiens":
+            return org
+    return None
+
+
 def run_recommend(client, model, vep_options, training_examples, user_query,
                   explain=False, level="standard", factor_think=False, clarify="ask", context=None,
                   show_cli=False, single_pass=True):
@@ -2685,6 +2700,9 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     factor_tuple, assembly, overridden = apply_user_context(factor_tuple, context)
     if overridden:
         print(f"  Using what you told me for: {', '.join(overridden)}.")
+    if (context or {}).get("assembly") and not assembly:
+        print(f"  Ignored --assembly {context['assembly']}: GRCh37 and GRCh38 are human builds, "
+              f"and this analysis is non-human.")
 
     if factor_tuple:
         # `assembly` is passed in so a stated assembly is never asked for again.
@@ -2700,7 +2718,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         # The organism decides per-species data (CADD, SIFT, frequency files), so it is shown: a
         # wrong lookup ("guinea-pig" read as pig) was invisible before.
         if factor_tuple.get("species") == "non-human":
-            _org = factor_tuple.get("_organism") or resolve_species_name(user_query)
+            _org = _non_human_organism(factor_tuple, user_query)
             print(f"- organism: {_org}" if _org else
                   "- organism: not recognised, so options Ensembl offers only for listed species are left out")
         print()
@@ -2746,8 +2764,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         # A stated "non-human" is the binary factor, not an organism: the model's organism still names
         # the animal (--species non-human with "our pig herd" is still a pig).
         species_for_display = ((species_stated if species_stated not in ("human", "non-human") else None)
-                               or (factor_tuple or {}).get("_organism")
-                               or resolve_species_name(user_query)
+                               or _non_human_organism(factor_tuple, user_query)
                                or species_for_checker or "human")
     # The checker's species-data gate needs a production name, never the binary value.
     organism_for_checker = (species_for_display
