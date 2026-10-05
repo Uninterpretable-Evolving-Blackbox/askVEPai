@@ -1,5 +1,5 @@
 {
-  "_status": "THE SOURCE. This file is authored, not generated: one block per option, factor -> value -> priority. PROVISIONAL, not mentor-validated. Rationale and the mentor quotes behind each choice are in priority_by_factor_NOTES.md. Species gates are NOT in this file -- each option's species_restriction is stamped on at load. Keep the vep_ai_demo/ copy byte-identical.",
+  "_status": "THE SOURCE. This file is authored, not generated: one block per option, factor -> value -> priority. PROVISIONAL, not mentor-validated. Rationale and the mentor quotes behind each choice are in priority_by_factor_NOTES.md (private working repository). Species gates are NOT in this file -- each option's `species` list is stamped on at load.",
   "priorities": {
     "af": {
       "analysis_goal": {

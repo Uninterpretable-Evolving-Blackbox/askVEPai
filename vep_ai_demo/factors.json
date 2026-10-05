@@ -1,5 +1,5 @@
 {
-  "_status": "PROVISIONAL — pending mentor sign-off (see work/research/taxonomy_proposal.md §3). The ENGINE reads this file; on sign-off, edit the values here, not the code.",
+  "_status": "PROVISIONAL — pending mentor sign-off (see taxonomy_proposal.md §3, private working repository). The ENGINE reads this file; on sign-off, edit the values here, not the code.",
   "_notes": {
     "hard_gate": "true = this factor's not_applicable priorities in the table REMOVE the option outright; false = its priorities only shift how strongly an option is recommended. Read by vep_assistant._factor_scheme() -- editing this changes HARD_GATE_FACTORS.",
     "select": "single = exactly one value per query; multi = one or more."
