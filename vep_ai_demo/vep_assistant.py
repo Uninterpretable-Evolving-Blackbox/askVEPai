@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""VEP AI Assistant: recommends which options to tick on the Ensembl VEP web form for a scenario.
+"""askVEPai: recommends which options to tick on the Ensembl VEP web form for a scenario.
 
 An LLM classifier reads the query into five factors plus organism; a deterministic resolver prices
 options from the priority table; a checker applies species, assembly, conflict and dependency gates.
@@ -795,6 +795,13 @@ OUT_OF_SCOPE_NOTE = (
     "  suggest a configuration."
 )
 
+# For a configuration request that names none of the scenario facts ("Show me variants affecting BRCA1").
+NO_SCENARIO_FACTS_NOTE = (
+    "  Your question names none of the facts that decide the configuration: germline or somatic,\n"
+    "  small or structural, which regions, and what you want out of the annotation. The configuration\n"
+    "  below assumes them, as listed. Say them for one that fits your data."
+)
+
 # For a question about VEP that is not a configuration request (errors, output columns, installing).
 VEP_SUPPORT_NOTE = (
     "  This assistant only recommends which Ensembl VEP options to switch on for a given analysis.\n"
@@ -938,7 +945,8 @@ def _ask_factor(factor):
         print(f"    {len(values) + 1}) {all_label}")
         if len(values) > 2:                    # with two values, option 3 already IS "both"
             print(f"    (or several, e.g. 1,{len(values)})")
-    print("    (enter to skip — it will be left open)")
+    print("    (enter to skip — the basic consequence call is used)" if factor == "analysis_goal"
+          else "    (enter to skip — it will be left open)")
     try:
         raw = input("  > ").strip()
     except (EOFError, KeyboardInterrupt):
@@ -1038,10 +1046,10 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
     filled, assumptions, questions = clarification_plan(rec, vep_options, user_query, assembly)
     off_topic = states_nothing_about_variants(rec)
 
-    # Say what the tool is for before assuming anything about a query that describes no analysis.
+    # Say that nothing about the variants was stated before listing what is assumed.
     if mode != "assume" and off_topic:
         print()
-        print(OUT_OF_SCOPE_NOTE)
+        print(NO_SCENARIO_FACTS_NOTE)
 
     # A build named in the text goes into the return value for the checker.
     assembly = assembly or infer_assembly(user_query)
@@ -2682,9 +2690,10 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
     # A failed call used to fall through to an empty or all-defaults configuration that looked like
     # a real answer and exited 0. Nothing is resolved or saved without a reading of the scenario.
     if factor_tuple is None:
+        cls_model = os.environ.get("VEP_FACTOR_MODEL") or model
         print(f"\nCould not read the scenario: {LAST_CLASSIFIER_ERROR or 'the classifier call failed'}.")
-        print(f"No configuration was built. Check that Ollama is running and that {model} is pulled "
-              f"(ollama pull {model}).")
+        print(f"No configuration was built. Check that Ollama is running and that {cls_model} is pulled "
+              f"(ollama pull {cls_model}).")
         return 1
 
     # Scope is decided by the classifier, before any defaults are assumed or questions asked.
@@ -2795,6 +2804,11 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         # Resolved before the checker, which enforces the scenario's gates.
         why_trace = {} if explain else None
         resolved = resolve_for_query(pass_tuple, vep_options, trace=why_trace)
+        if resolved is None and single_pass:
+            print("\nNo configuration was built: the priority table could not be used for this "
+                  "scenario. Check that VEP_OPTIONS_FILE and VEP_PRIORITY_FACTOR_FILE point at a "
+                  "matching, readable pair.")
+            return 1
         violations = check_and_fix_violations(
             p_enabled, p_disabled, vep_options, user_query,
             assembly_override=assembly,
@@ -2951,7 +2965,7 @@ def main():
             from openai import OpenAI
         except ImportError:
             if required:
-                print("Error: openai SDK not installed. Run: pip install openai")
+                print("Error: openai SDK not installed. Run: python3 -m pip install openai")
                 sys.exit(1)
             # The recommend path uses the native endpoint; only harnesses on the /v1 path need the SDK.
             return None
@@ -2960,7 +2974,7 @@ def main():
     # --- Mode: recommend ---
     known_flags = ("--explain", "--minimal", "--reasoning-off", "--quiet", "--assume", "--no-ask", "--cli",
                    "--single-pass", "--two-pass") + tuple(_CONTEXT_FLAGS)
-    # Removed flags exit with a reason instead of "Unknown option".
+    # Removed flags (and the explain-result mode) exit with a reason instead of "Unknown option".
     removed_flags = {
         "--think": "removed: it set reasoning on the draft call, which the default run does not make",
         "--semantic": "removed: it chose which examples went into the draft prompt, which the default "
@@ -2971,6 +2985,8 @@ def main():
         "--factor-think": "removed: reasoning is on by default; --reasoning-off turns it off",
         "--no-factor-think": "is now --reasoning-off",
         "--ask": "removed: asking is the default; --no-ask turns it off",
+        "explain-result": "removed: the tool recommends configurations; --explain explains each "
+                          "recommended option",
     }
     _gone = [a for a in args if a in removed_flags]
     if _gone:
@@ -2989,7 +3005,7 @@ def main():
                      ("--cli", "print the VEP command instead of the web-form lists (add-ons as a comment)"),
                      ("--no-ask", "never ask; state the assumed values instead (by default the tool "
                                   "asks, in a terminal, when a missing fact would change the answer)"),
-                     ("--quiet", "never ask and do not print the assumed values"),
+                     ("--quiet", "never ask and print no assumption lines"),
                      ("--reasoning-off", "the model reads the scenario without reasoning first (about "
                                          "0.6 s instead of 3 s, weaker on misleading wording)"),
                      ("--species / --origin / --size / --assembly", "state a fact instead of inferring it"),
@@ -2997,7 +3013,7 @@ def main():
                                            "(basic, clinical, frequency; several joined with +)"),
                      ("--organism", "name the organism, e.g. --organism pig (sets the species too)"),
                      ("--two-pass", "also make the retired draft call (legacy/two_pass.py); slower, "
-                                    "same configuration")):
+                                    "and the draft can add options to RECOMMENDED")):
             print(f"  {f:<44} {h}")
         print("\nEnvironment:")
         for v, h in (("OLLAMA_BASE_URL", "Ollama server (default http://localhost:11434/v1)"),
@@ -3067,7 +3083,7 @@ def main():
         user_query = " ".join(remaining)
     else:
         print("=" * 60)
-        print("  VEP AI Assistant (local LLM via Ollama)")
+        print("  askVEPai (local LLM via Ollama)")
         print("  Describe your analysis scenario to get VEP recommendations")
         print("  Tip: use --explain to see why each option is recommended")
         print("=" * 60)
