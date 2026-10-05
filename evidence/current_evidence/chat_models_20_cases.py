@@ -16,7 +16,9 @@ The website answers (ChatGPT, claude.ai) were pasted by hand; the API arms are a
   python3 evidence/current_evidence/chat_models_20_cases.py --ours           # run askVEPai on the 20 cases
 
 --ask reads the key from ~/.anthropic_key or ANTHROPIC_API_KEY and never writes it. --pdf puts Ensembl's VEP
-web documentation (27 pages, vep_ai_demo/legacy/VEP_web_documentation.pdf) before every case.
+web documentation (27 pages, vep_ai_demo/legacy/VEP_web_documentation.pdf) before every case. The PDF is not
+in the repository: the runs used a 27-page Safari print of Ensembl's VEP web documentation from March 2026.
+Put a copy at that path to re-run.
 
 A free-text answer is mapped to catalogue options by OPTION_PATTERNS, entry by entry (entries split on
 semicolons, bullets and lines); an entry that says not to tick something, or gives a form field an off
@@ -152,12 +154,15 @@ def options_in(text):
 
 
 def recommended_part(text):
-    m = re.search(r"RECOMMENDED(.*?)(?:\n\s*\*?\s*OPTIONAL|\bOPTIONAL\s*[:\[]|$)", text or "", re.S)
-    return m.group(1) if m else ""
+    return "\n".join(re.findall(r"(?<!NOT )RECOMMENDED(.*?)(?:\n\s*\*?\s*OPTIONAL|\bOPTIONAL\s*[:\[]|$)",
+                                text or "", re.S))
 
 
 # ---------------------------------------------------------------- asking
 def ask(model, effort, pdf):
+    if pdf and not PDF.exists():
+        sys.exit(f"--pdf needs {PDF.relative_to(ROOT)}: Ensembl's VEP web documentation saved as a PDF "
+                 f"(27 pages). It is not in the repository (*.pdf is gitignored).")
     import anthropic
     key = os.environ.get("ANTHROPIC_API_KEY")
     kf = Path.home() / ".anthropic_key"
@@ -206,15 +211,21 @@ def ask(model, effort, pdf):
 
 def ours():
     env = dict(os.environ, NO_PROXY="localhost,127.0.0.1")
-    rows = []
+    rows, failed = [], []
     for c in load_cases():
         r = subprocess.run([sys.executable, str(ENGINE / "vep_assistant.py"), "--no-ask", c["query"]],
                            capture_output=True, text=True, env=env, timeout=600)
         rows.append({"case": c["case"], "answer": r.stdout})
         print(f"case {c['case']:2d}  exit {r.returncode}", flush=True)
+        if r.returncode:
+            failed.append((c["case"], r.stdout + r.stderr))
     for line in "\n".join(r["answer"] for r in rows).splitlines():
         if line.startswith("Result saved to: "):
             Path(line.split(": ", 1)[1].strip()).unlink(missing_ok=True)
+    if failed:
+        n, out = failed[0]
+        sys.exit(f"askVEPai failed on case(s) {[f[0] for f in failed]}; "
+                 f"{PREFIX}_answers_ask_vepai.json and the scores were not rewritten.\ncase {n}:\n{out}")
     for r in rows:
         r["answer"] = re.sub(r"\n?Result saved to: [^\n]*\n?", "\n", r["answer"])
     out = {"arm": "Ask VEPai (gemma4:26b, reasoning on)", "how": "vep_assistant.py --no-ask, one run per case",

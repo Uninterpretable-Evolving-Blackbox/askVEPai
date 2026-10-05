@@ -4,4 +4,7 @@ openai>=1.0.0                 # OpenAI-compatible client for the local Ollama AP
 # Not needed to run the tool. The generation code's de-duplication (filter_candidates.py, private),
 # the persona ablation and the retired embedding retrieval in vep_ai_demo/legacy/two_pass.py use it.
 # sentence-transformers>=2.2.0
-# Tested with Python 3.9.6, openai 2.48.0 and Ollama 0.33.3.
+
+# Not needed to run the tool. Only evidence/current_evidence/chat_models_20_cases.py --ask uses it.
+# anthropic>=0.125.0
+# Tested with Python 3.9.6, openai 2.48.0, anthropic 0.125.0 and Ollama 0.33.3.
