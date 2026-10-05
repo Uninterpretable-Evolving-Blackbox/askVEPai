@@ -2704,23 +2704,31 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         print(f"  Ignored --assembly {context['assembly']}: GRCh37 and GRCh38 are human builds, "
               f"and this analysis is non-human.")
 
+    scenario_lines = []
     if factor_tuple:
         # `assembly` is passed in so a stated assembly is never asked for again.
         factor_tuple, assembly = resolve_underspecified(factor_tuple, vep_options, clarify,
                                                         user_query=user_query, assembly=assembly)
         print(_paint("Detected scenario:"))
         print(describe_factors(factor_tuple, stated=overridden))
+        scenario_lines = ["Detected scenario:", describe_factors(factor_tuple, stated=overridden)]
         # The build decides several options, so the one used is always shown with where it came from.
         if factor_tuple.get("species") == "human" and assembly:
             src = ("you said" if (context or {}).get("assembly") else
                    "assumed" if "assembly" in factor_tuple.get("_assumed", []) else "from your text")
             print(f"- assembly: {assembly} ({src})")
+            scenario_lines.append(f"- assembly: {assembly} ({src})")
         # The organism decides per-species data (CADD, SIFT, frequency files), so it is shown: a
         # wrong lookup ("guinea-pig" read as pig) was invisible before.
         if factor_tuple.get("species") == "non-human":
             _org = _non_human_organism(factor_tuple, user_query)
-            print(f"- organism: {_org}" if _org else
-                  "- organism: not recognised, so options Ensembl offers only for listed species are left out")
+            _src = ("you said" if "organism" in overridden else
+                    "you answered" if ("species" in factor_tuple.get("_answered", [])
+                                       and factor_tuple.get("_organism")) else "from your text")
+            _org_line = (f"- organism: {_org} ({_src})" if _org else
+                         "- organism: not recognised, so options Ensembl offers only for listed species are left out")
+            print(_org_line)
+            scenario_lines.append(_org_line)
         print()
 
     # After resolve_underspecified, so the trace explains the filled-in tuple the run actually uses.
@@ -2920,9 +2928,13 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
                 + "\n".join(how) + "\n" + match)
         print(note)
         reports.append(note)
-    warnings = "\n".join(x for x in (reports + [audit_report, override_report]) if x)
-    save_result(user_query, response_text, mode="recommend", warnings=warnings,
-                reasoning=reasoning_text)
+    reports = scenario_lines + reports
+    if single_pass:
+        # No draft: the configuration is the recommendation.
+        save_result(user_query, "\n".join(x for x in reports if x), mode="recommend", reasoning=reasoning_text)
+    else:
+        warnings = "\n".join(x for x in (reports + [audit_report, override_report]) if x)
+        save_result(user_query, response_text, mode="recommend", warnings=warnings, reasoning=reasoning_text)
 
 
 
