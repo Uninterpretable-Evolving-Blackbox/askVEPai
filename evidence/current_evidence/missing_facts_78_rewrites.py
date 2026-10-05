@@ -33,8 +33,9 @@ POLICY = {"origin": "somatic", "variant_size_class": "small, structural-CNV",
 def run_cli(model, query, reasoning_on=True):
     env = dict(os.environ, VEP_MODEL=model, VEP_FACTOR_MODEL=model, NO_PROXY="localhost,127.0.0.1",
                VEP_FACTOR_THINK="1" if reasoning_on else "0")
-    p = subprocess.run(["python3", "vep_assistant.py", query], cwd=ROOT / "vep_ai_demo",
-                       capture_output=True, text=True, env=env, timeout=300)
+    # stdin closed: the tool asks only on a terminal, and a question here would block unseen.
+    p = subprocess.run([sys.executable, "vep_assistant.py", query], cwd=ROOT / "vep_ai_demo",
+                       stdin=subprocess.DEVNULL, capture_output=True, text=True, env=env, timeout=300)
     return p.returncode, p.stdout + p.stderr
 
 
@@ -42,7 +43,9 @@ def parse(out):
     # The CLI prints the value only since 2026-09-15 ("Assumed origin = somatic"); the old form
     # carried " — <reason>" after it. Accept both.
     assumed = dict(re.findall(r"^\s*Assumed (\w+) = (.+?)(?: —.*)?$", out, re.M))
-    detected = dict(re.findall(r"^- (\w+): (.+)$", out, re.M))
+    # Since 2026-10-05 each value carries its source: "somatic (assumed)", "small (from your text)".
+    detected = {k: re.sub(r" \((?:assumed|from your text|you said|you answered)\)$", "", v)
+                for k, v in re.findall(r"^- (\w+): (.+)$", out, re.M)}
     return assumed, detected
 
 
