@@ -170,7 +170,8 @@ def main():
     json.dump({"model": a.model, "seeds": seeds,
                "correct": {k: dict(v) for k, v in correct.items()}, "rows": rows},
               open(a.json, "w"), indent=2)
-    print(f"\nwrote {Path(a.json).relative_to(ROOT)}")
+    p = Path(a.json).resolve()
+    print(f"\nwrote {p.relative_to(ROOT) if p.is_relative_to(ROOT) else p}")
 
 
 if __name__ == "__main__":

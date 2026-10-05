@@ -128,7 +128,8 @@ def main():
           f"{base['pair']}/{n} on the pairs, {0}/{n} on both")
     json.dump({"model": a.model, "seeds": seeds, "tally": dict(tally),
                "baseline": dict(base), "rows": rows}, open(a.json, "w"), indent=2)
-    print(f"\n  wrote {Path(a.json).relative_to(ROOT)}")
+    p = Path(a.json).resolve()
+    print(f"\n  wrote {p.relative_to(ROOT) if p.is_relative_to(ROOT) else p}")
 
 
 if __name__ == "__main__":

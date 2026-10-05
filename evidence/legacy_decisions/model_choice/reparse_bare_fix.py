@@ -29,9 +29,9 @@ import vep_assistant as va       # noqa: E402
 
 LOGS = [
     ("Exp 4/7  26b (3 seeds)", "evidence/local_runs/results_fixedparser/raw/gemma4_26b.jsonl"),
-    ("Exp 10   e4b (5 seeds)", "evidence/local_runs/results/raw/gemma4_e4b.jsonl"),
-    ("Exp 10   12b (5 seeds)", "evidence/local_runs/results/raw/gemma4_12b.jsonl"),
-    ("Exp 10   26b (5 seeds)", "evidence/local_runs/results/raw/gemma4_26b.jsonl"),
+    ("Exp 10   e4b (5 seeds)", "evidence/legacy_decisions/model_choice/results/raw/gemma4_e4b.jsonl"),
+    ("Exp 10   12b (5 seeds)", "evidence/legacy_decisions/model_choice/results/raw/gemma4_12b.jsonl"),
+    ("Exp 10   26b (5 seeds)", "evidence/legacy_decisions/model_choice/results/raw/gemma4_26b.jsonl"),
     ("Exp 11   26b (5 seeds)", "evidence/local_runs/results_noex/raw/gemma4_26b.jsonl"),
 ]
 CONDS = ["bare", "noex", "keyword", "all", "semantic"]

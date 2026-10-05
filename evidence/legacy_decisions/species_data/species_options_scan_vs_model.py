@@ -42,6 +42,7 @@ import json
 import os
 import sys
 from collections import Counter
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -72,7 +73,7 @@ def offered_for(organism, query, catalogue, resolved):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--json", default=str(Path(__file__).resolve().parent / "results" / "species_options_scan_vs_model.json"))
+    ap.add_argument("--json", default=str(Path(__file__).resolve().parent / "results" / f"species_options_scan_vs_model_{date.today().isoformat()}.json"))
     a = ap.parse_args()
 
     catalogue, _ = va.load_knowledge_base()

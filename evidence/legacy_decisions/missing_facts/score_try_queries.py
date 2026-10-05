@@ -142,7 +142,8 @@ def main():
     for r in rep:
         print(f"  #{r['n']:>2} asks about {', '.join(r['reprompts'])}")
     json.dump({"model": a.model, "rows": rows}, open(a.json, "w"), indent=2)
-    print(f"\nwrote {Path(a.json).relative_to(ROOT)}")
+    p = Path(a.json).resolve()
+    print(f"\nwrote {p.relative_to(ROOT) if p.is_relative_to(ROOT) else p}")
 
 
 if __name__ == "__main__":
