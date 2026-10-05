@@ -1683,7 +1683,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
         })
     elif species != "human":
         # Plugins are skipped here and judged by Ensembl's plugin_config.txt species list below.
-        for oid in list(enabled):
+        for oid in sorted(enabled):
             if oid in plugin_ids:
                 continue
             if _is_human_only(species_spec.get(oid, "all")):
@@ -1704,7 +1704,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
         sp_name = organism or resolve_species_name(user_query)
         if sp_name == "homo_sapiens":          # a scan hit on "human" is not this analysis's organism
             sp_name = None
-        for oid in list(enabled):
+        for oid in sorted(enabled):
             spec = species_spec.get(oid, "all")
             if spec == "all":
                 continue
@@ -1750,7 +1750,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
     # shows them for any human assembly (InputForm.pm:694-702). Gated only when a build is known.
     assembly = assembly_override or (infer_assembly(user_query) if species != "non-human" else None)
     if assembly:
-        for oid in list(enabled):
+        for oid in sorted(enabled):
             allowed = _assembly_restriction(assembly_map.get(oid))
             if allowed and assembly not in allowed:
                 violations.append({
@@ -1764,10 +1764,10 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
 
     # --- Conflicts ---
     checked_pairs = set()
-    for oid_a in list(enabled):
+    for oid_a in sorted(enabled):
         if oid_a not in enabled:          # lost an earlier pair
             continue
-        for oid_b in list(enabled):
+        for oid_b in sorted(enabled):
             if oid_a not in enabled:          # oid_a just lost; its remaining conflicts are moot
                 break
             if oid_b not in enabled or oid_a == oid_b:
@@ -1822,7 +1822,7 @@ def check_and_fix_violations(enabled: set, disabled: set, vep_options: list,
     changed = True
     while changed:
         changed = False
-        for oid in list(enabled):
+        for oid in sorted(enabled):
             for dep in depends_map.get(oid, []):
                 if dep in enabled:
                     continue
