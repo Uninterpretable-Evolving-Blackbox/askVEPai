@@ -42,7 +42,7 @@ Python 3.9+, [Ollama](https://ollama.com/) running locally, and one pulled model
 ```bash
 ollama serve
 ollama pull gemma4:26b
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 
 python3 vep_ai_demo/vep_assistant.py "somatic tumour-normal, clinical interpretation on the coding hits"
 ```
@@ -51,7 +51,7 @@ Only `openai` is required. Behind a proxy you need `NO_PROXY=localhost,127.0.0.1
 Ollama call returns 502.
 
 **The full flag and environment reference is in [`vep_ai_demo/README.md`](vep_ai_demo/README.md)**,
-and `python3 vep_ai_demo/vep_assistant.py --help` prints it.
+and `python3 vep_ai_demo/vep_assistant.py --help` prints the flags and the main environment variables.
 
 ## Usage
 
@@ -133,7 +133,7 @@ query instead of about 3 s, and weaker on misleading wording. `--two-pass` runs 
 
 **One model call.** The classifier reads the scenario into the five factor values and the
 organism: about 4 s with reasoning on (the default) on `gemma4:26b`, M5 Max. The organism name
-is checked against Ensembl's 356-species list (`species_index.json`), matching whole words, so the
+is checked against Ensembl's 359-genome list (`species_index.json`), matching whole words, so the
 model cannot invent one and "guinea-pig" is not read as pig. Genomes of one Ensembl taxon count as
 one species (a dog breed is dog; a dingo is not). If the model call fails, the tool says so and
 exits 1; it never prints a configuration it did not read. Everything after that is deterministic: the priority table resolves the tuple, and the
@@ -218,7 +218,7 @@ The five factors:
 The earlier single-label use-case scheme (rare-disease-germline / somatic-cancer / …) was
 retired in September 2026: a mouse somatic SV is somatic **and** structural **and** non-human
 at once, and one bucket picks the wrong priorities. The design is `taxonomy_proposal.md` (private working repository).
-It survives only as labels in `vep_ai_demo/legacy/` and decides nothing.
+The earlier scheme survives only as labels in `vep_ai_demo/legacy/` and decides nothing.
 
 ## Evaluation
 
@@ -253,8 +253,9 @@ that silently delete results. askVEPai, running a local open model, recommends n
 
 The first column scores against our own priority table, so it shows the chat models do not follow our
 rules. askVEPai misses 11 options on one case, where the model reads structural variants only and the
-scenario also covers short ones. The other two columns do not depend on our table: they rest on Ensembl's species lists and on what
-each filter does.
+scenario also covers short ones. The row-deleting column does not depend on our table: it rests on what each filter does. The cannot-work
+column rests on Ensembl's species lists and, on the four structural-only cases, on the table's list of options
+that do not apply to structural variants.
 
 The 754 organism names are Ensembl's own (its REST species list), and each decoy is another name from the
 same list; [experiment 3](evidence/current_evidence/README.md#3--754-organism-names) says where each part
@@ -304,8 +305,8 @@ itself: `gemma4:26b` reads the scenario, and `gemma4:e4b` and `gemma4:12b` were 
 
 Before September 2026 the default path made **two calls**: the classifier, then a second model
 call that drafted the configuration. The checker rebuilt the RECOMMENDED set from the factor
-tuple whatever the draft said, so on the 31 scenarios single-pass and two-pass produce the same
-set. The draft call took about 18 s a query, and the default path now skips it. The code lives
+tuple whatever the draft said, so the draft could only add options: on the 31 scenarios every
+single-pass option is also in the two-pass set (31/31). The draft call took about 18 s a query, and the default path now skips it. The code lives
 in `vep_ai_demo/legacy/two_pass.py` and runs with `--two-pass`.
 
 On the 2026-09-23 four-arm ablation, single-pass scores plain F1 0.940 against 0.932, 0.918 and
