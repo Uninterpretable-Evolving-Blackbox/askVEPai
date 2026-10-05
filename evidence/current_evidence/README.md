@@ -25,8 +25,9 @@ experiments 2 and 4 are three calls of the same question. The run itself can mov
 requests and the server's prompt cache change the arithmetic slightly, and a near-tie can then go the
 other way. Experiments 1 to 5 were run more than once with the same prompt and model; the extra runs end in
 `_repeat1` to `_repeat3`, and each section gives their figures. Each script writes to
-[`results/`](results/) under its own name, with `reasoning_on` or `reasoning_off`. Experiments 2 and 5 read
-their cases from [`cases/`](cases/); the others carry their cases in the script.
+[`results/`](results/) under its own name, with `reasoning_on` or `reasoning_off` (experiment 6: one answers
+file per arm). Experiments 2, 5 and 6 read their cases from [`cases/`](cases/); experiment 3 takes its names
+from `vep_ai_demo/species_index.json`; experiments 1 and 4 carry their cases in the script.
 
 ---
 
@@ -160,14 +161,16 @@ population frequencies, and row 19 is about "a patient", which the definitions c
 RECOMMENDED options at all: a label mismatch that leaves the configuration unchanged costs the user
 nothing. End-to-end F1 compares the configuration from the model's factors with the one from the true
 factors. The three calls per scenario (seeds 42, 43 and 44) gave identical answers, and so did a repeat
-run of each setting (`factors_31_review_scenarios_reasoning_{on,off}_repeat1.json`).
+run of each setting (`factors_31_review_scenarios_reasoning_{on,off}_repeat1.json`). The saved runs predate
+Clinical Significance (SV) becoming recommended; the F1 figures are their factor reads re-scored on today's
+table, with no model call.
 
 **Results.**
 
 | | reasoning on | reasoning off |
 |---|---|---|
 | **same RECOMMENDED options as from the true factors** | **30/31** | **29/31** |
-| end-to-end F1 | 0.966 | 0.962 |
+| end-to-end F1 | 0.967 | 0.962 |
 | all five labels exactly right | 24/31 | 25/31 |
 | labels right: species · origin · size · region · goal | 31 · 31 · 30 · 31 · 25 | 31 · 31 · 30 · 31 · 26 |
 | files | `factors_31_review_scenarios_reasoning_on.json` | `factors_31_review_scenarios_reasoning_off.json` |
@@ -180,8 +183,9 @@ off, row 19 also changes the configuration: it reads the goal as population freq
 
 **Smaller models.** The same 31 scenarios, the same prompt and labels, reasoning on, three
 calls each (identical): gemma4:e4b 27/31 same RECOMMENDED options, F1 0.962, 20/31 all five labels right;
-gemma4:e2b 25/31, F1 0.945, 18/31 (`factors_31_review_scenarios_reasoning_on_{e4b,e2b}.json`). gemma4:26b,
-above, 30/31, F1 0.966, 24/31.
+gemma4:e2b 25/31, F1 0.945, 18/31 (`factors_31_review_scenarios_reasoning_on_{e4b,e2b}.json`). gemma4:26b
+on the same priority table, 30/31, F1 0.966, 24/31. These three were run before Clinical Significance (SV)
+became a recommended option; on today's table gemma4:26b scores 30/31, F1 0.967 (above).
 
 **Limits.** The scenarios and their labels were written by us and reviewed by the mentors. Plainly worded,
 so easier than experiment 1.
@@ -460,10 +464,10 @@ BRCA2"), which it filled in as basic-consequence without asking: the same miss a
 - **The documentation helps the larger model most.** With the PDF, Opus 5.5 goes from 38 to 53 of 103
   and from 11 to 2 row-deleting filters; Sonnet 5 with it reaches 22, against 9 for Sonnet 5 on the claude.ai
   website.
-- **Species (cases 19, 20).** Only askVEPai offers CADD for pig; both Opus arms say CADD is human-only,
-  which Ensembl's plugin configuration contradicts. For sheep every arm says the form has no breed
-  frequencies, which is right; Opus 5.5 with the PDF recommends Variant synonyms, which Ensembl has for human
-  and pig only.
+- **Species (cases 19, 20).** Only askVEPai offers CADD for pig; all three Opus arms and Sonnet 5 with the
+  documentation say CADD is human-only, which Ensembl's plugin configuration contradicts. For sheep every
+  arm says the form has no breed frequencies, which is right; Opus 5.5 with the PDF recommends Variant
+  synonyms, which Ensembl has for human and pig only.
 - **Where the chat models do better.** They explain what the form cannot do (restricting to a gene list, a
   loss-of-function filter) at more length, and suggest external resources.
 
@@ -487,7 +491,7 @@ python3 evidence/current_evidence/factors_150_tricky_cases.py --reader reasoning
 python3 evidence/current_evidence/factors_150_tricky_cases.py --reader reasoning_off --workers 8 --latency-sample 40   # ~8 min
 python3 evidence/current_evidence/factors_150_species_through_tool.py results/factors_150_tricky_cases_reasoning_on.json results/factors_150_species_through_tool_reasoning_on.json
 VEP_FACTOR_THINK=0 python3 evidence/current_evidence/factors_150_species_through_tool.py results/factors_150_tricky_cases_reasoning_off.json results/factors_150_species_through_tool_reasoning_off.json
-python3 evidence/current_evidence/factors_150_settings_effect.py evidence/current_evidence/results/factors_150_tricky_cases_reasoning_on.json   # no model
+python3 evidence/current_evidence/factors_150_settings_effect.py evidence/current_evidence/results/factors_150_tricky_cases_reasoning_on.json --json evidence/current_evidence/results/factors_150_settings_effect_reasoning_on.json   # no model
 # 2 · 31 review scenarios
 python3 evidence/current_evidence/factors_31_review_scenarios.py --seeds 42,43,44 --json evidence/current_evidence/results/factors_31_review_scenarios_reasoning_on.json
 VEP_FACTOR_THINK=0 python3 evidence/current_evidence/factors_31_review_scenarios.py --seeds 42,43,44 --json evidence/current_evidence/results/factors_31_review_scenarios_reasoning_off.json
@@ -497,12 +501,15 @@ python3 evidence/current_evidence/organism_754_names.py --reader reasoning_off -
 python3 evidence/current_evidence/organism_754_names.py --rescore evidence/current_evidence/results/organism_754_names_reasoning_{on,off}.json   # after a species-list change, no model
 # 4 · the mentors' four queries
 python3 evidence/current_evidence/mentor_queries.py --seeds 42,43,44 --json evidence/current_evidence/results/mentor_queries_reasoning_on.json
+VEP_FACTOR_THINK=0 python3 evidence/current_evidence/mentor_queries.py --seeds 42,43,44 --json evidence/current_evidence/results/mentor_queries_reasoning_off.json
 # 5 · 78 missing facts
 python3 evidence/current_evidence/missing_facts_78_rewrites.py --reader reasoning_on     # ~10 min
 python3 evidence/current_evidence/missing_facts_78_rewrites.py --reader reasoning_off    # ~2 min
 # 6 · chat models, 20 cases (the chat-app answers were pasted by hand; the key is read from ~/.anthropic_key)
+python3 -m pip install anthropic   # --ask only
 python3 evidence/current_evidence/chat_models_20_cases.py --ours                                  # ~3 min
 python3 evidence/current_evidence/chat_models_20_cases.py --ask claude-opus-5-5 --effort medium   # ~$0.50
+# --pdf needs vep_ai_demo/legacy/VEP_web_documentation.pdf, which is not in the repository (a March 2026 print of Ensembl's VEP web documentation)
 python3 evidence/current_evidence/chat_models_20_cases.py --ask claude-opus-5-5 --effort medium --pdf   # ~$1.20
 python3 evidence/current_evidence/chat_models_20_cases.py --detail                                # score only, no model
 ```
