@@ -36,13 +36,15 @@ def main():
     ap.add_argument("--json", default=None)
     a = ap.parse_args()
     from openai import OpenAI                                           # noqa: PLC0415
-    client = OpenAI(base_url=os.environ["OLLAMA_BASE_URL"], api_key="ollama")
+    client = OpenAI(base_url=os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1"), api_key="ollama")
     seeds = [int(s) for s in a.seeds.split(",")]
     out = []
     for q, outside in QUERIES:
         reads = []
         for sd in seeds:
-            got = va.infer_factors(client, a.model, q, apply_defaults=False, seed=sd, temperature=0.0) or {}
+            got = va.infer_factors(client, a.model, q, apply_defaults=False, seed=sd, temperature=0.0)
+            if got is None:
+                sys.exit(f"classifier failed ({va.LAST_CLASSIFIER_ERROR}); nothing written")
             reads.append({"seed": sd, **{f: got.get(f) for f in FACTORS},
                           "organism": got.get("_organism"), "request_type": got.get("_request_type")})
         stable = all({f: r[f] for f in FACTORS} == {f: reads[0][f] for f in FACTORS} for r in reads)

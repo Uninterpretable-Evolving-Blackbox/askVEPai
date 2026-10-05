@@ -361,6 +361,9 @@ def main():
     summary, tot = summarise(rows, f"organism naming: {len(rows)} organisms x 2, {a.model}, reader {a.reader}")
     errors = sum(1 for r in rows for v in ("plain", "decoy") if r["result"][v].get("error"))
     print(f"\n  calls that failed twice (scored wrong): {errors}")
+    if not timings:
+        sys.exit("no model call succeeded: " + next(r["result"][v]["error"] for r in rows
+                                                   for v in ("plain", "decoy") if r["result"][v].get("error")))
     secs = sorted(t["seconds"] for t in timings)
     print(f"\n  per-call time under {a.workers} parallel requests: median {secs[len(secs) // 2]} s")
     print(f"  cases where the name was wrong but the binary answer right: "

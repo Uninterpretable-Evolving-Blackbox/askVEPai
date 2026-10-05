@@ -796,7 +796,7 @@ def main():
 
     if a.reader in ("reasoning_on", "reasoning_off"):
         # reasoning_on = the call the tool makes; reasoning_off = the same call with think False
-        # (VEP_FACTOR_THINK=0 / --no-factor-think). seed 42 fixed in the call.
+        # (VEP_FACTOR_THINK=0 / --reasoning-off). seed 42 fixed in the call.
         seeds = [42]
 
         def reader(q, _seed):

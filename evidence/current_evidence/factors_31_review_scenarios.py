@@ -126,6 +126,8 @@ def main():
     for seed in seeds:
         scored = [s for s in (score_row(client, args.model, r, catalogue, seed)
                               for r in rows) if s]
+        if not scored:
+            sys.exit(f"seed {seed}: 0/{len(rows)} classified: {va.LAST_CLASSIFIER_ERROR}")
         detail.append({"seed": seed, "rows": scored})
         n = len(scored)
         per_seed.append({"seed": seed, "n": n,

@@ -11,6 +11,7 @@ a user gets. The other four factors have no such rule, so the raw grid score sta
   NO_PROXY=localhost,127.0.0.1 VEP_FACTOR_THINK=0 python3 evidence/current_evidence/factors_150_species_through_tool.py \\
       results/factors_150_tricky_cases_reasoning_off.json results/factors_150_species_through_tool_reasoning_off.json
 """
+import argparse
 import json
 import os
 import sys
@@ -28,7 +29,13 @@ TESTS = ("plain", "trap", "twin", "absent")
 
 
 def main():
-    src, out = (HERE / sys.argv[1]), (HERE / sys.argv[2])
+    ap = argparse.ArgumentParser(
+        description="Re-read the 30 species cases of a 150-case grid through infer_factors.")
+    ap.add_argument("src", help="grid results JSON, relative to evidence/current_evidence/ "
+                                "(e.g. results/factors_150_tricky_cases_reasoning_on.json)")
+    ap.add_argument("out", help="where to write, relative to evidence/current_evidence/")
+    a = ap.parse_args()
+    src, out = HERE / a.src, HERE / a.out
     client = OpenAI(base_url=os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1"), api_key="ollama")
     rows = [r for r in json.load(open(src))["rows"] if r["factor"] == "species"]
     jobs = [(r, t) for r in rows for t in TESTS]
@@ -42,6 +49,9 @@ def main():
 
     with ThreadPoolExecutor(8) as ex:
         res = list(ex.map(go, jobs))
+    failed = [(i, t) for i, t, sp, *_ in res if sp is None]
+    if failed:
+        sys.exit(f"{len(failed)} of {len(res)} classifier calls failed (is Ollama running?); nothing written")
     by = {}
     for i, t, sp, org, truth, raw in res:
         by.setdefault(i, {})[t] = (sp == truth, sp, org, truth, raw)
@@ -49,6 +59,13 @@ def main():
     all_four = sum(all(by[i][t][0] for t in by[i]) for i in by)
     print(f"reasoning {os.environ.get('VEP_FACTOR_THINK', 'on (default)')}; species through infer_factors: "
           f"{per_test}, all four {all_four}/30")
+    grid = json.load(open(src))["rows"]
+    ok = {(r["id"], t): r["result"][t]["model_ok"] for r in grid for t in TESTS}
+    ok.update({(i, t): by[i][t][0] for i in by for t in by[i]})
+    ids = [r["id"] for r in grid]
+    comb = {t: sum(ok[(i, t)] for i in ids) for t in TESTS}
+    comb_all = sum(all(ok[(i, t)] for t in TESTS) for i in ids)
+    print(f"with the other four factors from {src.name}: {comb}, all four {comb_all}/{len(ids)}")
     for i in sorted(by):
         for t, (ok, sp, org, truth, raw) in by[i].items():
             if not ok:

@@ -2,7 +2,7 @@
 """Does a MISSING factor reach the fallback we decided, end to end, through the shipped CLI?
 
 WHY. The assume/ask policy is tested deterministically (test_user_context, defaults_evidence,
-ask_rate) by handing it a tuple with a gap already in it. Nothing tests the live chain: cue absent in
+ask_rate, in the private repository's tests/) by handing it a tuple with a gap already in it. Nothing tests the live chain: cue absent in
 the PROSE -> the classifier says `unstated` rather than inventing a value -> `resolve_underspecified`
 applies the fallback -> the output discloses it. If the classifier fills the gap itself, the policy is
 bypassed silently and the disclosure never prints. That bypass is what this measures.
@@ -15,8 +15,8 @@ PER ROW, on the removed factor:
   FALLBACK   an `Assumed <target> = ...` line printed and the detected value is the policy default
   FILLED     no Assumed line; the classifier returned a value on its own (policy bypassed)
   OTHER      anything else (asked, error, unparseable) -- printed for inspection
-Species has no disclosure line in the CLI (the rule maps unknown -> human silently), so for species
-rows FILLED means "read as human with no disclosure", which is the Exp 18 masking, now end to end.
+Species is asked on a terminal; unanswered, it falls back to human with an `Assumed species = human`
+line, so it scores like the other factors. The 78 rows contain no species rewrites.
 
   NO_PROXY=localhost,127.0.0.1 python3 evidence/current_evidence/missing_facts_78_rewrites.py [--reader reasoning_on|reasoning_off] [--limit N]
 """
@@ -87,6 +87,8 @@ def main():
         print(f"  {t:20} {fb:>9} {fi:>8} {oth:>6}   {POLICY[t]}")
     print("\n  FALLBACK = classifier said unstated, the decided default was applied AND disclosed.")
     print("  FILLED   = classifier supplied a value for a cue the text no longer has: policy bypassed.")
+    if detail and all(d["verdict"] == "OTHER(exit)" for d in detail):
+        sys.exit("every CLI run exited non-zero (is Ollama running?); nothing written")
     Path(a.json).write_text(json.dumps({"model": a.model, "reader": a.reader, "tally": {k: dict(v) for k, v in tally.items()},
                                         "rows": detail}, indent=1))
     print(f"  wrote {a.json}")
