@@ -1379,7 +1379,7 @@ def resolve_species_name(user_query: str):
     return prod
 
 
-def resolve_model_organism(name):
+def resolve_model_organism(name, _singular=True):
     """Validate the classifier's `organism` answer against the species index; production name or None.
 
     An unrecognised name returns None, so the model cannot invent a species.
@@ -1416,6 +1416,19 @@ def resolve_model_organism(name):
     species_keys = set(_SPECIES_OF.values()) if _SPECIES_OF else set()
     if flat in species_keys:
         return flat
+    # The model copies the name as written, often plural ("cats", "Great Danes", "guinea pigs"). The
+    # head noun is retried in the singular before the partial tiers, so "guinea pigs" does not reach
+    # the REST alias "pigs". Irregular plurals come from _SPECIES_KEYWORDS ("mice" -> "mouse").
+    if _singular:
+        *rest, head = n.split()
+        kw = _SPECIES_KEYWORDS.get(head)
+        for s in ([kw] if kw in _WORD_TO_PRODUCTION and kw != head else []) + \
+                 ([head[:-3] + "y"] if head.endswith("ies") else []) + \
+                 ([head[:-1]] if head.endswith("s") and not head.endswith("ss") else []) + \
+                 ([head[:-2]] if head.endswith("es") else []):
+            hit = resolve_model_organism(" ".join(rest + [s]), _singular=False)
+            if hit:
+                return hit
     # Partial name, matched on WHOLE words; a substring match read "sea bass" as `ass` (donkey) and
     # "guinea-pig" as `pig`. Two tiers:
     #   1. every word of the model's name is in an index name ("sharksucker" -> `live sharksucker`,
