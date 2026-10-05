@@ -8,8 +8,8 @@ draft said (31/31), so the draft call was dropped and single-pass became the def
 
 What is here: example retrieval (keyword and embedding), the draft prompt builder, the marker parser and
 its citation audit, the override report, and the structured-JSON assembler that had one stage-B caller.
-The engine keeps eight one-line shims with these names so the harnesses and the web app that still
-import them keep working; each shim loads this module on first use.
+The engine's module __getattr__ serves eleven of these names (_LEGACY_NAMES) so the harnesses that
+still import them keep working; the first such access loads this module.
 
 HOW IT BINDS. The functions are byte-identical to when they lived in the engine, so they refer to
 engine names (RANK, load_species_data, _first_sentence, ...) unqualified. `_bind` copies the engine's
@@ -23,8 +23,8 @@ def _bind(engine_namespace):
 
     Takes the engine's `globals()` dict rather than a module object, because the generation pipeline
     loads the engine from its file path without registering it in sys.modules."""
-    # Names this module defines itself are NOT overwritten: the engine carries one-line shims with the
-    # same names that call back into here, and copying those in would make each function call itself.
+    # Names this module defines itself are NOT overwritten: the engine once carried one-line shims with the
+    # same names that called back into here, and copying those in would make each function call itself.
     here = globals()
     here.update({k: v for k, v in engine_namespace.items()
                  if not k.startswith("__") and k not in here})
@@ -411,6 +411,14 @@ def _detect_use_case(enabled: set, vep_options: list, training_examples: list,
     return scored[0][1]["use_case_category"] if scored else "rare_disease_germline"
 
 
+# Value each native non-checkbox control takes when switched ON (Object_VEP.pm `values`; distance and
+# buffer_size are the form defaults). Was read from the engine until _SET_VALUE_DEFAULTS left it on 2026-09-30.
+_SET_VALUE_DEFAULTS = {
+    "sift": "b", "polyphen": "b", "check_existing": "yes", "shift_3prime": "shift_3prime",
+    "distance": "5000", "buffer_size": "5000", "frequency": "common",
+}
+
+
 def _web_form_target(option: dict, species_form: str, model_value=None):
     """Map a catalogue option to its (web_form_field, action, value) for click-to-apply.
 
@@ -451,7 +459,7 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
     check_and_fix_violations (the SAME deterministic checker that repairs the CLI/web output) +
     KB factual fields (web_form_section / cli_flag / web_form_subsection / priority). The model
     never emits JSON; this is valid by construction against
-    work/output_schema/vep_recommendation.schema.json.
+    evidence/legacy_superseded/use_cases/output_schema/vep_recommendation.schema.json.
 
     The serialised `recommendations` are the POST-checker set (corrected enables, mapped to
     enable/set_value, plus any explicit/checker disables as action='disable'), so the JSON never
@@ -483,7 +491,7 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
     # The retired seven-category scheme, reported as `detected_use_case` below. It decides nothing:
     # `get_confidence` ignores the argument, and the checker's conflict ranking reads the factor
     # resolution. Kept only so this function's JSON keeps its shape for its one caller,
-    # work/harness/build/build_output_json.py (stage B, Exp 8).
+    # evidence/legacy_superseded/use_cases/build_output_json.py (stage B, Exp 8).
     use_case = _detect_use_case(enabled, vep_options, training_examples, query, retrieval_mode)
 
     # DERIVED HERE, not 40 lines further down where the command is built. The checker call below
@@ -517,7 +525,7 @@ def build_recommendation_json(query, response_text, vep_options, training_exampl
         if action_kind == "disable":                      # ensure-OFF entry
             action, value = "disable", None
         # Factor-scheme label for THIS tuple (recommended / optional / not_applicable). The legacy
-        # seven-use-case label was retired on 2026-09-13; a frozen copy lives in harness/legacy/.
+        # seven-use-case label was retired on 2026-09-13; a frozen copy lives in evidence/legacy_superseded/use_cases/.
         _e, _pr, _g = (resolved_override or {}).get(oid, (False, None, None))
         priority = _pr if (_pr and not _g) else "not_applicable"
         reason = reason_by_id.get(oid) or _first_sentence(opt.get("description", "")) or opt.get("name", oid)
@@ -756,7 +764,7 @@ def get_confidence(option_id, use_case, vep_options, resolved=None):
     Rewritten 2026-09-13. It used to read `priority_by_use_case` -- the retired seven-use-case table,
     priced against a use case guessed from the top retrieved example -- which stamped `pick` "high"
     on a rare-disease query the factor table never enables (0 of 108 tuples). A frozen copy of that
-    table is in `work/harness/legacy/`; only the offline scorers still read it. `use_case` is kept in
+    table is in `evidence/legacy_superseded/use_cases/`; only the offline scorers still read it. `use_case` is kept in
     the signature so the thirteen call sites and the JSON schema do not move."""
     if resolved is None:
         return "low"
@@ -787,7 +795,7 @@ def build_system_prompt(vep_options, training_examples, user_query="",
             "Reference Examples" block verbatim (order preserved). When given, the normal example
             selection (all / semantic-retrieval / keyword) is bypassed, but OPTION selection still
             follows retrieval_mode (semantic still applies its top-10 option filter). Used by the
-            example-order-sensitivity experiment (work/run_order_sensitivity.py) to vary ONLY the
+            example-order-sensitivity experiment (evidence/legacy_superseded/use_cases/run_order_sensitivity.py) to vary ONLY the
             order/identity of the in-context examples while holding everything else fixed.
     """
     # Resolve THIS query's factor tuple to per-option tiers, so the option block can state the one
