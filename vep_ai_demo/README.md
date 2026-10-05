@@ -17,14 +17,14 @@ scenario (prose)
 ```
 
 **The model's only job is prose → five values.** Everything after that is ordinary code, which is
-why most of the test suite needs no GPU.
+why most of the test suite (in the private working repository) needs no GPU.
 
 ## Run it
 
 ```bash
 ollama serve
 ollama pull gemma4:26b
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 
 python3 vep_assistant.py "somatic tumour-normal, clinical interpretation on the coding hits"
 ```
@@ -49,8 +49,9 @@ Python 3.9+. Only `openai` is required.
 | `--reasoning-off` | the model reads the scenario without reasoning first: ~0.6 s instead of ~3 s, weaker on misleading wording |
 | `--two-pass` | also run the retired draft call (loads `legacy/two_pass.py`), for comparison work |
 
-`--think`, `--semantic` and `--no-check` were removed on 2026-09-16, and `--full`, `--factor-think` and `--ask`
-on 2026-10-04 (`--no-factor-think` is now `--reasoning-off`); passing one prints why and exits 2.
+`--think`, `--semantic` and `--no-check` were removed on 2026-09-16, and `--full`, `--factor-think`, `--ask`
+and the `explain-result` mode on 2026-10-04 (`--no-factor-think` is now `--reasoning-off`); passing one
+prints why and exits 2.
 
 ## Environment
 
@@ -74,14 +75,16 @@ vep_options.json         the 70-option catalogue, each fact sourced in its `prov
 factors.json             the factor scheme: values, hard gates, exclusions
 priority_by_factor.json  the priority table the resolver reads
 species_index.json       Ensembl's species names, to check the organism the model names
+hgnc_symbols.json        HGNC approved gene symbols, for the results-filter note
 ensembl_docs/            Ensembl's options and plugins pages, parsed, for `--explain`
-legacy/                  NOT USED BY THE TOOL — the stage-B benchmark and its 23
-                         Claude-written examples. See legacy/README.md.
+legacy/                  NOT USED BY THE DEFAULT PATH: the retired two-pass code, the stage-B
+                         benchmark and its 23 Claude-written examples. See legacy/README.md.
 ```
 
-The engine reads only this directory, so it runs on its own. An environment variable overrides any
-data file. These files are the only copy; builders kept in the private working repository write them
-from Ensembl's sources.
+The engine reads only this directory, so it runs on its own. `VEP_OPTIONS_FILE`, `VEP_FACTORS_FILE` and
+`VEP_PRIORITY_FACTOR_FILE` override the option catalogue, the factor scheme and the priority table (see
+Environment). These files are the only copy; builders kept in the private working repository write
+them from Ensembl's sources.
 
 ## Where everything else lives
 
