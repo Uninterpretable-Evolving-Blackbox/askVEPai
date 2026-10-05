@@ -1897,9 +1897,10 @@ def cli_flags_for(enabled, vep_options):
             default = default_by_id.get(oid)
             f = re.sub(r"\s*\[[^\]]*\]", f" {default}" if default else "", f).strip()
         # A remaining parenthetical describes the data file to supply (gnomad_sv's "--custom (...)").
-        # Emit the bare flag; the command's "fill in values/paths" note covers the rest.
+        # Keep its name as the placeholder, so two --custom sources stay two: --custom <gnomAD_SV VCF>.
         if "(" in f:
-            f = f.split("(", 1)[0].strip()
+            bare, paren = f.split("(", 1)
+            f = f"{bare.strip()} <{paren.split(',')[0].rstrip(')').strip()}>"
         f = " ".join([f] + [f"{x} <{x.lstrip('-')}>" for x in subs])
         if f not in seen:            # two options can share one flag
             seen.add(f)
@@ -2385,11 +2386,16 @@ def format_corrected_config(enabled, vep_options, violations, resolved=None,
     else:
         # --cli alone prints only the command: the web-form lists are for form users (David, 2026-10-04).
         lines = ["", "=" * 60, "  YOUR VEP COMMAND (fill in values/paths)", "=" * 60]
-    lines.append(f"  vep --input_file <in.vcf> --output_file <out.txt> --cache "
+    human = species in (None, "human", "homo_sapiens")
+    run_flags = ("" if human or species == "unknown"
+                 else f" --species {'<your_species>' if species == 'non-human' else species}")
+    if assembly and human:
+        run_flags += f" --assembly {assembly}"
+    lines.append(f"  vep --input_file <in.vcf> --output_file <out.txt> --cache{run_flags} "
                  f"{' '.join(flag_list)}".rstrip())
     extra_flags, _ = cli_flags_for(set(addons_offered), vep_options)
     extra_flags = [f for f in extra_flags if f not in flag_list]
-    if extra_flags:
+    if extra_flags and show_optional:
         lines.append(f"  # optional add-ons: {' '.join(extra_flags)}")
     for oid, alts in choices:
         if oid == "core_type":
