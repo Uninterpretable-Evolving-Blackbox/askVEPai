@@ -29,8 +29,10 @@ def _kb_path(env_var, filename):
     return BASE_DIR / filename
 
 
-def load_knowledge_base():
-    """Return (vep_options, training_examples); VEP_OPTIONS_FILE / VEP_EXAMPLES_FILE override the paths."""
+def load_knowledge_base(examples=True):
+    """Return (vep_options, training_examples); VEP_OPTIONS_FILE / VEP_EXAMPLES_FILE override the paths.
+
+    examples=False skips the --two-pass corpus and returns [] for it."""
     options_path = _kb_path("VEP_OPTIONS_FILE", "vep_options.json")
     # Only --two-pass reads the examples, so a missing file gives an empty list.
     examples_path = Path(os.environ.get("VEP_EXAMPLES_FILE", BASE_DIR / "legacy" / "training_examples.json"))
@@ -42,7 +44,7 @@ def load_knowledge_base():
     with open(options_path) as f:
         vep_options = json.load(f)
     training_examples = []
-    if examples_path.exists():
+    if examples and examples_path.exists():
         with open(examples_path) as f:
             training_examples = json.load(f)
 
@@ -3008,7 +3010,7 @@ def main():
         remaining.append(a)
 
     try:
-        vep_options, training_examples = load_knowledge_base()
+        vep_options, training_examples = load_knowledge_base(examples="--two-pass" in sys.argv)
     except FileNotFoundError as e:                     # the CLI reports; the library raises
         print(f"Error: {e}")
         return 1
