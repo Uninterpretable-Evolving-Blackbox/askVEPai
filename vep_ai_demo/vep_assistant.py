@@ -53,9 +53,10 @@ def load_knowledge_base(examples=True):
 
 
 # --- The factor scheme (the generation pipeline imports this) ---
-# A scenario is a set of factor values (research/taxonomy_proposal.md §3). It lives in the engine
-# because work/generation imports vep_ai_demo, never the reverse. The scheme and priority table are
-# provisional config files, not yet mentor-validated.
+# A scenario is a set of factor values (docs/research/taxonomy_proposal.md §3, private working
+# repository). It lives in the engine because generation/ (private working repository) imports
+# vep_ai_demo, never the reverse. The scheme and priority table are provisional config files, not yet
+# mentor-validated.
 
 def load_factors():
     """Return factors.json: values, kinds, hard gates, exclusions, conditional rules."""
@@ -66,7 +67,7 @@ def load_factors():
 
 # --- The importance table ---
 # `priority_by_factor.json` is authored by hand: one block per option, factor -> value -> priority.
-# Rationale and mentor quotes are in work/generation/generation_config/priority_by_factor_NOTES.md.
+# Rationale and mentor quotes are in data/priority_by_factor_NOTES.md (private working repository).
 # Only the species gate is computed, at load, from each option's `species` list.
 
 # Two tiers; `critical` is not in the scheme.
@@ -642,7 +643,8 @@ def infer_factors(client, model, user_query, think=False, apply_defaults=True,
 
 # --- Unstated factors: assume and say so, or ask ---
 # An unstated factor contributes no options, so each factor has a policy. Guess where one answer is
-# clearly safer; ask where none is. Evidence: research/underspecification_proposal.md.
+# clearly safer; ask where none is. Evidence: docs/research/underspecification_proposal.md (private
+# working repository).
 UNDERSPECIFIED_POLICY = {
     # Asked (David, 2026-10-01): the answer moves the RECOMMENDED set on 114 of 126 factor combinations.
     # Not answered (no terminal, --no-ask, enter) falls back to human, disclosed: withholding the
@@ -661,7 +663,7 @@ UNDERSPECIFIED_POLICY = {
     # Somatic. The `somatic => frequency not_applicable` hard rule fires only on an explicit somatic,
     # so leaving origin open behaves like germline and lets the common-variant filter through.
     # `frequency` is an add-on (David, 2026-09-14), so this guess changes no enabled option on any
-    # tuple; work/harness/suites/defaults_evidence.py asserts it.
+    # tuple; tests/defaults_evidence.py (private working repository) asserts it.
     "origin": {
         "assume": "somatic",
         "why": "you didn't say germline or somatic, so the safer reading is taken — it keeps the "
@@ -729,15 +731,15 @@ def apply_user_context(rec, context):
 
 
 # Priorities that justify interrupting the user: the RECOMMENDED bucket the user sees.
-# A module constant so work/harness/suites/ask_rate.py can test a wider bar.
+# A module constant so tests/ask_rate.py (private working repository) can test a wider bar.
 ASK_BAR_PRIORITIES = ("recommended",)
 
 
-# Values of the form's single "Restrict results" drop-down. Each collapses the output (a leaked
-# per_gene cut 334 transcript rows to 19; work/results/leak_rate_README.md). The priority table
-# prices none of them for any tuple, but the model can propose them. Other unpriced options only add
-# columns, so the gate covers this family alone. The eval harnesses score the raw parse and never
-# see this gate.
+# Values of the form's single "Restrict results" drop-down. Each collapses the output (a leaked per_gene
+# cut 334 transcript rows to 19; evidence/legacy_decisions/output_effects/results/leak_rate_README.md).
+# The priority table prices none of them for any tuple, but the model can propose them. Other unpriced
+# options only add columns, so the gate covers this family alone. The eval harnesses score the raw
+# parse and never see this gate.
 RESTRICT_RESULTS_FAMILY = ("pick", "pick_allele", "per_gene", "most_severe", "summary")
 
 
@@ -1016,7 +1018,7 @@ def _ask_species():
 
 # --- Assembly: not a factor, resolved the same way ---
 # It describes the input data, so it stays out of factors.json. MANE, EVE, gnomAD-SV and MaveDB exist
-# only for GRCh38; geno2mp only for GRCh37. The checker removes what the build cannot support.
+# only for GRCh38; no option is GRCh37 only. The checker removes what the build cannot support.
 _ASSEMBLY_VALUES = ("GRCh37", "GRCh38")
 
 
@@ -1124,10 +1126,6 @@ def resolve_underspecified(rec, vep_options, mode="state", user_query=None, asse
                       f"use --assembly GRCh37 if the data is on GRCh37)"))
                 continue
             print(_paint(f"  Assumed {factor} = {shown}"))
-        for factor, why, at_stake in questions:
-            names = ", ".join(at_stake) if at_stake else "part of the configuration"
-            how = "run in a terminal to be prompted" if mode == "ask" else "--ask to be prompted"
-            print(f"  Left open: {why} (decides {names}; {how}).")
 
     # Factors filled in rather than read. The `_` prefix makes active_values and the decision trace
     # skip it, like _request_type.
@@ -1532,7 +1530,7 @@ _ASSEMBLY_ALIASES = {
 
 
 # Requests the form cannot express: restricting to named genes or to a consequence class. Ensembl's
-# results page does this after the run (research/ensembl_docs_116/vep_online_results.html, "Filtering
+# results page does this after the run (reference/ensembl_docs_116/vep_online_results.html, "Filtering
 # results"); the input form's pre-filters are frequency, coding-only and Restrict results only
 # (vep_online_input.html, "Filtering options"). Wording rules, not the classifier, so the factor
 # prompt is untouched. Gene names are HGNC approved symbols (hgnc_symbols.json), human only.
@@ -1577,7 +1575,8 @@ def _reads_as_gene(query, symbol):
 def load_gene_symbols():
     """HGNC approved human gene symbols as a set, cached; empty if the file is missing.
 
-    Built by `work/harness/build/build_hgnc_symbols.py` from HGNC's non_alt_loci_set.txt."""
+    Built by `data/build/build_hgnc_symbols.py` (private working repository) from HGNC's
+    non_alt_loci_set.txt."""
     global _HGNC_SYMBOLS
     if _HGNC_SYMBOLS is None:
         try:
@@ -1989,9 +1988,8 @@ _ENSEMBL_PAGE = None
 def ensembl_says(oid, vep_options):
     """One line of what the Ensembl docs say the option does, for --explain; None if nothing to say.
 
-    Reads the parsed release-116 options and plugins pages in `ensembl_docs/`.
-    Prefers the page's "Output fields" cell. With no page record it falls back to our catalogue
-    description, labelled "our catalogue"."""
+    Prints the catalogue description with its provenance source, plus the Output fields from the parsed
+    pages in `ensembl_docs/`; uses the page text only when the description is not verbatim Ensembl."""
     global _ENSEMBL_PAGE
     if _ENSEMBL_PAGE is None:
         _ENSEMBL_PAGE = {}
@@ -2228,7 +2226,7 @@ def _paint(text):
 def form_location(opt):
     """Where an option sits on the web form, in the form's own words.
 
-    Source: research/ensembl_docs_116/form_layout_live.json (live release-116 form).
+    Source: reference/ensembl_docs_116/form_layout_live.json (live release-116 form).
 
         MANE          -> "Additional annotations › Transcript annotation"
         HGVS          -> "Identifiers section"
@@ -2463,12 +2461,12 @@ def _first_sentence(text: str, limit: int = 240) -> str:
 def print_decision_trace(user_query, vep_options, factor_tuple=None):
     """Print, for --explain, why each option is recommended, offered, gated or unpriced."""
     print("=" * 60)
-    print("  DECISION TRACE (--explain mode)")
+    print("  DECISION TRACE")
     print("=" * 60)
     print(f"Query: \"{user_query}\"")
     print("--- Layer 2: Why each option is where it is ---")
     if factor_tuple is None:
-        print("  (needs the query's factor tuple; run without --explain-only, or pass one in)\n")
+        print("  (needs the query's factor tuple; pass factor_tuple=)\n")
         print("=" * 60)
         return
     # `_`-prefixed keys are metadata (e.g. _request_type), not factors.
@@ -2553,15 +2551,6 @@ def save_result(query, response, mode="recommend", warnings="", reasoning=""):
 # One budget covers reasoning plus answer (measured ~1300-1700 + ~1100 tokens), with headroom because
 # reasoning length varies run to run.
 _STREAM_MAX_TOKENS = 8192
-
-
-def _delta_reasoning(delta):
-    """Return the reasoning fragment in a stream delta, across the field names different servers use."""
-    for attr in ("reasoning", "reasoning_content"):
-        val = getattr(delta, attr, None)
-        if val:
-            return val
-    return None
 
 
 # --- Draft path (legacy/two_pass.py) ---
@@ -2915,7 +2904,7 @@ def run_recommend(client, model, vep_options, training_examples, user_query,
         for d in diagnostics:
             print(d)
     # Out of scope, said once: the form has no gene or consequence-class filter, so the user sets it
-    # on the results page (research/ensembl_docs_116/vep_online_results.html, "Filtering results").
+    # on the results page (reference/ensembl_docs_116/vep_online_results.html, "Filtering results").
     _filters = mentions_result_filter(user_query)
     if _filters:
         how = []
